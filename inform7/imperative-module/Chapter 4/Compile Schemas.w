@@ -82,7 +82,7 @@ void CompileSchemas::sch_emit_inner(i6_schema *sch, pcalc_term *pt1, pcalc_term 
 	EmitInterSchemas::emit(Emit::tree(), &VH, sch->compiled,
 		IdentifierFinders::common_names_only(),
 		&CompileSchemas::from_schema_token, NULL, &ems);
-	InterSchemas::internal_error_on_schema_errors(sch->compiled);
+	I6Errors::internal_error_on_schema_errors(sch->compiled);
 }
 
 @ So, then, this is called on each token in turn from the original schema. Note
@@ -177,7 +177,7 @@ void CompileSchemas::compile_term_of_token(pcalc_term *pt, int m, kind *cast_to,
 @<Compile comparison function for the kind@> =
 	inter_name *cr;
 	if (pt->term_checked_as_kind)
-		cr = RTKindConstructors::get_comparison_fn_iname(pt->term_checked_as_kind->construct);
+		cr = RTKindConstructors::comparison_fn_iname(pt->term_checked_as_kind);
 	else
 		cr = Hierarchy::find(SIGNEDCOMPARE_HL);
 	EmitCode::val_iname(K_value, cr);

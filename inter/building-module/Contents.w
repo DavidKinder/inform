@@ -11,6 +11,7 @@ Chapter 1: Architecture
 	Building Module
 	Large-Scale Structure
 	Inter Primitives
+	Origins
 	Hierarchy Locations
 	Location Requirements
 	Translation
@@ -26,6 +27,7 @@ Chapter 2: Blueprints
 	Emitting Inter Schemas
 	Identifier Finders
 	Inform 6 Annotations
+	Inform 6 Syntax Errors
 
 Chapter 3: Masonry
 	Produce

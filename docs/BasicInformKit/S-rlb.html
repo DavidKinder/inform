@@ -65,7 +65,7 @@ MathJax = {
     <ul class="crumbs"><li><a href="../index.html">Home</a></li><li><a href="../extensions.html">Kits</a></li><li><a href="index.html">BasicInformKit</a></li><li><b>Rulebooks Template</b></li></ul></div>
 <p class="purpose">To work through the rules in a rulebook until a decision is made.</p>
 
-<ul class="toc"><li><a href="S-rlb.html#SP1">&#167;1. Latest Rule Result</a></li><li><a href="S-rlb.html#SP2">&#167;2. Following</a></li><li><a href="S-rlb.html#SP3">&#167;3. Specifying Outcomes</a></li><li><a href="S-rlb.html#SP4">&#167;4. Discovering Outcomes</a></li><li><a href="S-rlb.html#SP5">&#167;5. Printing Rule Names</a></li><li><a href="S-rlb.html#SP6">&#167;6. Casting</a></li><li><a href="S-rlb.html#SP7">&#167;7. Debugging</a></li><li><a href="S-rlb.html#SP8">&#167;8. The Default Rule and Rulebook</a></li></ul><hr class="tocbar">
+<ul class="toc"><li><a href="S-rlb.html#SP1">&#167;1. Latest Rule Result</a></li><li><a href="S-rlb.html#SP2">&#167;2. Following</a></li><li><a href="S-rlb.html#SP3">&#167;3. Specifying Outcomes</a></li><li><a href="S-rlb.html#SP4">&#167;4. Discovering Outcomes</a></li><li><a href="S-rlb.html#SP5">&#167;5. Casting</a></li><li><a href="S-rlb.html#SP6">&#167;6. Debugging</a></li><li><a href="S-rlb.html#SP7">&#167;7. The Default Rule and Rulebook</a></li></ul><hr class="tocbar">
 
 <p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Latest Rule Result. </b>This used to be a large data structure which kept track of the effect of
 procedural rules, but in January 2011 procedurals were abolished. It retains
@@ -156,6 +156,7 @@ or failed if &mdash;
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">process_rulebook_count</span><span class="plain-syntax">; </span><span class="comment-syntax">Depth of processing recursion</span>
 <span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">debugging_rules</span><span class="plain-syntax"> = </span><span class="reserved-syntax">false</span><span class="plain-syntax">; </span><span class="comment-syntax">Are we tracing rule invocations?</span>
+<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">rulebook_without_variables</span><span class="plain-syntax"> = -1; </span><span class="comment-syntax">WorldModelKit sets this to ACTION_PROCESSING_RB</span>
 
 <span class="plain-syntax">[ </span><span class="identifier-syntax">FollowRulebook</span><span class="plain-syntax"> </span><span class="identifier-syntax">rulebook</span><span class="plain-syntax"> </span><span class="identifier-syntax">parameter</span><span class="plain-syntax"> </span><span class="identifier-syntax">no_paragraph_skips</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">rv</span><span class="plain-syntax"> </span><span class="identifier-syntax">ss</span><span class="plain-syntax"> </span><span class="identifier-syntax">spv</span><span class="plain-syntax">;</span>
@@ -175,10 +176,10 @@ or failed if &mdash;
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">rulebook</span><span class="plain-syntax"> &gt;= </span><span class="constant-syntax">0</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">rulebook</span><span class="plain-syntax"> &lt; </span><span class="identifier-syntax">NUMBER_RULEBOOKS_CREATED</span><span class="plain-syntax">)) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">rv</span><span class="plain-syntax"> = </span><span class="identifier-syntax">rulebooks_array</span><span class="plain-syntax">--&gt;</span><span class="identifier-syntax">rulebook</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">rv</span><span class="plain-syntax"> ~= </span><span class="identifier-syntax">EMPTY_RULEBOOK</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">rulebook</span><span class="plain-syntax"> ~= </span><span class="identifier-syntax">ACTION_PROCESSING_RB</span><span class="plain-syntax">) </span><span class="identifier-syntax">MStack_CreateRBVars</span><span class="plain-syntax">(</span><span class="identifier-syntax">rulebook</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">rulebook</span><span class="plain-syntax"> ~= </span><span class="identifier-syntax">rulebook_without_variables</span><span class="plain-syntax">) </span><span class="identifier-syntax">MStack_CreateRBVars</span><span class="plain-syntax">(</span><span class="identifier-syntax">rulebook</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">say__p</span><span class="plain-syntax">) </span><span class="identifier-syntax">RulebookParBreak</span><span class="plain-syntax">(</span><span class="identifier-syntax">no_paragraph_skips</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">rv</span><span class="plain-syntax"> = </span><span class="identifier-syntax">rv</span><span class="plain-syntax">(</span><span class="identifier-syntax">no_paragraph_skips</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">rulebook</span><span class="plain-syntax"> ~= </span><span class="identifier-syntax">ACTION_PROCESSING_RB</span><span class="plain-syntax">) </span><span class="identifier-syntax">MStack_DestroyRBVars</span><span class="plain-syntax">(</span><span class="identifier-syntax">rulebook</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">rulebook</span><span class="plain-syntax"> ~= </span><span class="identifier-syntax">rulebook_without_variables</span><span class="plain-syntax">) </span><span class="identifier-syntax">MStack_DestroyRBVars</span><span class="plain-syntax">(</span><span class="identifier-syntax">rulebook</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        } </span><span class="reserved-syntax">else</span><span class="plain-syntax"> {</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">rv</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        }</span>
@@ -276,20 +277,13 @@ call it.)
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">K</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">DefaultValueOfKOV</span><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
+
+<span class="plain-syntax">[ </span><span class="identifier-syntax">RulebookOutcomePrintingRule</span><span class="plain-syntax"> </span><span class="identifier-syntax">nro</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">nro</span><span class="plain-syntax"> == </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">print</span><span class="plain-syntax"> </span><span class="string-syntax">"(no outcome)"</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="reserved-syntax">print</span><span class="plain-syntax"> (</span><span class="reserved-syntax">string</span><span class="plain-syntax">) </span><span class="identifier-syntax">nro</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Printing Rule Names. </b>This is the I6 printing rule used for a value of kind "rule", which as
-noted above can either be rulebook ID numbers in the range 0 to \(N-1\) or
-are addresses of individual rules.
-</p>
-
-<p class="commentary">Names of rules and rulebooks take up a fair amount of space, and one of the
-main memory economies enforced by the "Use memory economy" option is to
-omit the necessary arrays. (It's not the text which is the problem so
-much as the table of addresses pointing to that text, which has to live in
-precious readable memory on the Z-machine.)
-</p>
-
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Casting. </b>Nothing needs to be done to a rulebook value to make it a rule value.
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Casting. </b>Nothing needs to be done to a rulebook value to make it a rule value.
 </p>
 
 <pre class="displayed-code all-displayed-code code-font">
@@ -297,7 +291,7 @@ precious readable memory on the Z-machine.)
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">r</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Debugging. </b>Two modest routines to print out the names of rules and rulebooks when they
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Debugging. </b>Two modest routines to print out the names of rules and rulebooks when they
 occur, in so far as memory economy allows this.
 </p>
 
@@ -312,7 +306,7 @@ occur, in so far as memory economy allows this.
 <span class="plain-syntax">[ </span><span class="identifier-syntax">DB_Rule</span><span class="plain-syntax"> </span><span class="identifier-syntax">R</span><span class="plain-syntax"> </span><span class="identifier-syntax">N</span><span class="plain-syntax"> </span><span class="identifier-syntax">blocked</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">R</span><span class="plain-syntax">==0) </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">print</span><span class="plain-syntax"> </span><span class="string-syntax">"[Rule ~"</span><span class="plain-syntax">, (</span><span class="identifier-syntax">RulePrintingRule</span><span class="plain-syntax">) </span><span class="identifier-syntax">R</span><span class="plain-syntax">, </span><span class="string-syntax">"~ "</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    #</span><span class="identifier-syntax">ifdef</span><span class="plain-syntax"> </span><span class="identifier-syntax">NUMBERED_RULES</span><span class="plain-syntax">; </span><span class="reserved-syntax">print</span><span class="plain-syntax"> </span><span class="string-syntax">"("</span><span class="plain-syntax">, </span><span class="identifier-syntax">N</span><span class="plain-syntax">, </span><span class="string-syntax">") "</span><span class="plain-syntax">; #</span><span class="identifier-syntax">endif</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">BasicInformKit</span><span class="plain-syntax">`</span><span class="identifier-syntax">NUMBERED_RULES_CFGF</span><span class="plain-syntax">) </span><span class="reserved-syntax">print</span><span class="plain-syntax"> </span><span class="string-syntax">"("</span><span class="plain-syntax">, </span><span class="identifier-syntax">N</span><span class="plain-syntax">, </span><span class="string-syntax">") "</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">blocked</span><span class="plain-syntax"> == </span><span class="reserved-syntax">false</span><span class="plain-syntax">) </span><span class="string-syntax">"applies.]"</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">print</span><span class="plain-syntax"> </span><span class="string-syntax">"does not apply (wrong "</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">blocked</span><span class="plain-syntax"> == </span><span class="constant-syntax">1</span><span class="plain-syntax">) </span><span class="reserved-syntax">print</span><span class="plain-syntax"> </span><span class="string-syntax">"scene"</span><span class="plain-syntax">;</span>
@@ -322,7 +316,7 @@ occur, in so far as memory economy allows this.
 <span class="plain-syntax">    </span><span class="reserved-syntax">print</span><span class="plain-syntax"> </span><span class="string-syntax">").]^"</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. The Default Rule and Rulebook. </b></p>
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. The Default Rule and Rulebook. </b></p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">LITTLE_USED_DO_NOTHING_R</span><span class="plain-syntax">; </span><span class="reserved-syntax">rfalse</span><span class="plain-syntax">; ];</span>
@@ -330,7 +324,7 @@ occur, in so far as memory economy allows this.
 <span class="plain-syntax">[ </span><span class="identifier-syntax">EMPTY_RULEBOOK</span><span class="plain-syntax"> </span><span class="identifier-syntax">forbid_breaks</span><span class="plain-syntax">; </span><span class="reserved-syntax">rfalse</span><span class="plain-syntax">; ];</span>
 </pre>
 <nav role="progress"><div class="progresscontainer">
-    <ul class="progressbar"><li class="progressprev"><a href="S-mst.html">&#10094;</a></li><li class="progresssection"><a href="S-dfn.html">dfn</a></li><li class="progresssection"><a href="S-utl.html">utl</a></li><li class="progresssection"><a href="S-gll.html">gll</a></li><li class="progresssection"><a href="S-zmc.html">zmc</a></li><li class="progresssection"><a href="S-prg.html">prg</a></li><li class="progresssection"><a href="S-mth.html">mth</a></li><li class="progresssection"><a href="S-fl.html">fl</a></li><li class="progresssection"><a href="S-srt.html">srt</a></li><li class="progresssection"><a href="S-tbl.html">tbl</a></li><li class="progresssection"><a href="S-mst.html">mst</a></li><li class="progresscurrent">rlb</li><li class="progresssection"><a href="S-flx.html">flx</a></li><li class="progresssection"><a href="S-blc.html">blc</a></li><li class="progresssection"><a href="S-txt.html">txt</a></li><li class="progresssection"><a href="S-unc.html">unc</a></li><li class="progresssection"><a href="S-chr.html">chr</a></li><li class="progresssection"><a href="S-rgx.html">rgx</a></li><li class="progresssection"><a href="S-lst.html">lst</a></li><li class="progresssection"><a href="S-cmb.html">cmb</a></li><li class="progresssection"><a href="S-rlt.html">rlt</a></li><li class="progresssection"><a href="S-rlt2.html">rlt2</a></li><li class="progresssection"><a href="S-rtp.html">rtp</a></li><li class="progressnext"><a href="S-flx.html">&#10095;</a></li></ul></div>
+    <ul class="progressbar"><li class="progressprev"><a href="S-mst.html">&#10094;</a></li><li class="progresssection"><a href="S-dfn.html">dfn</a></li><li class="progresssection"><a href="S-str.html">str</a></li><li class="progresssection"><a href="S-utl.html">utl</a></li><li class="progresssection"><a href="S-prg.html">prg</a></li><li class="progresssection"><a href="S-mth.html">mth</a></li><li class="progresssection"><a href="S-srt.html">srt</a></li><li class="progresssection"><a href="S-tbl.html">tbl</a></li><li class="progresssection"><a href="S-mst.html">mst</a></li><li class="progresscurrent">rlb</li><li class="progresssection"><a href="S-act.html">act</a></li><li class="progresssection"><a href="S-prn.html">prn</a></li><li class="progresssection"><a href="S-flx.html">flx</a></li><li class="progresssection"><a href="S-blc.html">blc</a></li><li class="progresssection"><a href="S-txt.html">txt</a></li><li class="progresssection"><a href="S-chr.html">chr</a></li><li class="progresssection"><a href="S-rgx.html">rgx</a></li><li class="progresssection"><a href="S-lst.html">lst</a></li><li class="progresssection"><a href="S-cmb.html">cmb</a></li><li class="progresssection"><a href="S-rlt.html">rlt</a></li><li class="progresssection"><a href="S-rlt2.html">rlt2</a></li><li class="progresssection"><a href="S-rtp.html">rtp</a></li><li class="progressnext"><a href="S-act.html">&#10095;</a></li></ul></div>
 </nav><!--End of weave-->
 
 		</main>

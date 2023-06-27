@@ -118,13 +118,13 @@ void Emit::kind(inter_name *iname, inter_name *super,
 @h Pragmas.
 The Inter language allows pragmas, or code-generation hints, to be passed
 through. These are specific to the target of compilation, and can be ignored
-by all other targets. Here we generate only I6-target pragmas, which are commands
-in I6's "Inform Control Language".
+by all other targets.
 
 =
-void Emit::pragma(text_stream *text) {
+void Emit::pragma(text_stream *target, text_stream *text) {
 	inter_tree *I = Emit::tree();
-	LargeScale::emit_pragma(I, I"Inform6", text);
+	LargeScale::emit_pragma(I, target, text);
+	LOGIF(USE_OPTIONS, "Pragma set for target '%S': '%S'\n", target, text);
 }
 
 @h Constants.
@@ -259,10 +259,10 @@ void Emit::named_generic_constant(inter_name *con_iname, inter_pair val) {
 @h Instances.
 
 =
-void Emit::instance(inter_name *inst_iname, kind *K, int v) {
+void Emit::instance(inter_name *inst_iname, kind *K, inter_ti v, int has_value) {
 	packaging_state save = Packaging::enter_home_of(inst_iname);
 	inter_symbol *inst_s = InterNames::to_symbol(inst_iname);
-	inter_pair val = v ? InterValuePairs::number((inter_ti) v) : InterValuePairs::undef();
+	inter_pair val = has_value ? InterValuePairs::number(v) : InterValuePairs::undef();
 	Produce::guard(InstanceInstruction::new(Emit::at(), inst_s,
 		Produce::kind_to_symbol(K), val, Emit::baseline(), NULL));
 	Packaging::exit(Emit::tree(), save);

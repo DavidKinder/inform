@@ -144,3 +144,12 @@ void VanillaCode::assembly(code_generation *gen, inter_tree_node *P) {
 	inter_ti which = AssemblyInstruction::which_marker(P);
 	Generators::assembly_marker(gen, which);
 }
+
+@ Provenance instructions are passed through to the generator.
+
+=
+void VanillaCode::place_provenance(code_generation *gen, inter_tree_node *P) {
+	text_provenance prov = ProvenanceInstruction::provenance(P);
+	Generators::place_provenance(gen, &prov);
+}
+

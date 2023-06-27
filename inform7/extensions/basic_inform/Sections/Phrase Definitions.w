@@ -820,7 +820,7 @@ To repeat with (loopvar - nonexisting K variable)
 To repeat with (loopvar - nonexisting K variable)
 	running from (v - enumerated value of kind K) to (w - K) begin -- end loop
 	(documented at ph_repeat):
-		(- for ({loopvar}={v}: {loopvar}<={w}: {loopvar}++)  -).
+		(- for ({loopvar}={v}: {loopvar}<={w}: {loopvar}={-next-routine:K}({loopvar}))  -).
 To repeat with (loopvar - nonexisting K variable)
 	running through (OS - description of values of kind K) begin -- end loop
 	(documented at ph_runthrough):
@@ -915,6 +915,9 @@ Section 1 - Enumerations
 To decide which number is number of (S - description of values)
 	(documented at ph_numberof):
 	(- {-primitive-definition:number-of} -).
+To decide what number is the numerical value of (X - enumerated value): (- {X} -).
+To decide what number is the sequence number of (X - enumerated value of kind K):
+	(- {-indexing-routine:K}({X}) -).
 To decide which K is (name of kind of enumerated value K) after (X - K)
 	(documented at ph_enumafter):
 	(- {-next-routine:K}({X}) -).
@@ -1751,3 +1754,13 @@ To mark (filename - external file) as ready to read
 To mark (filename - external file) as not ready to read
 	(documented at ph_markfilenotready):
 	(- FileIO_MarkReady({filename}, false); -).
+
+@h Use Options.
+
+=
+Chapter 10 - Use Options
+
+Section 1 - Numerical Value
+
+To decide what number is the numerical value of (U - a use option):
+	(- USE_OPTION_VALUES-->({U}) -).

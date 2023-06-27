@@ -157,16 +157,12 @@ text_stream *SplatInstruction::namespace(inter_tree_node *P) {
 	return Inode::ID_to_text(P, P->W.instruction[NAMESPACE_SPLAT_IFLD]);
 }
 
-text_stream *SplatInstruction::file_provenance(inter_tree_node *P) {
-	if (P == NULL) return NULL;
-	if (Inode::isnt(P, SPLAT_IST)) return NULL;
-	return Inode::ID_to_text(P, P->W.instruction[PROVENANCEFILE_SPLAT_IFLD]);
-}
-
-inter_ti SplatInstruction::line_provenance(inter_tree_node *P) {
-	if (P == NULL) return 0;
-	if (Inode::isnt(P, SPLAT_IST)) return 0;
-	return P->W.instruction[PROVENANCELINE_SPLAT_IFLD];
+text_provenance SplatInstruction::provenance(inter_tree_node *P) {
+	if (P == NULL) return Provenance::nowhere();
+	if (Inode::isnt(P, SPLAT_IST)) return Provenance::nowhere();
+	return Provenance::at_file_and_line(
+		Inode::ID_to_text(P, P->W.instruction[PROVENANCEFILE_SPLAT_IFLD]),
+		(int) P->W.instruction[PROVENANCELINE_SPLAT_IFLD]);
 }
 
 @h PLMs.
@@ -184,6 +180,7 @@ The other names here are taken from their corresponding I6 directives.
 @e IFNOT_PLM
 @e ENDIF_PLM
 @e IFTRUE_PLM
+@e ORIGSOURCE_PLM
 @e CONSTANT_PLM
 @e ARRAY_PLM
 @e GLOBAL_PLM

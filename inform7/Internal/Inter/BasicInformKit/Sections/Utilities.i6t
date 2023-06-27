@@ -5,10 +5,10 @@ Miscellaneous utility routines for some fundamental I6 needs.
 @h Miscellany.
 
 =
-#ifdef TARGET_ZCODE;
+#Iftrue WORDSIZE == 2;
 Constant BLOCKV_STACK_SIZE = 224;
 #ifnot;
-Constant BLOCKV_STACK_SIZE = DynamicMemoryAllocation/4;
+Constant BLOCKV_STACK_SIZE = BasicInformKit`STACK_FRAME_CAPACITY_CFGV / 4;
 #endif;
 
 Array blockv_stack --> BLOCKV_STACK_SIZE;
@@ -168,6 +168,55 @@ allows us to divide the paragraph or not accordingly.
 	return kind-->(2+n);
 ];
 
+@h Non-standard enumerations.
+This is for enumerations whose values are scattered: say, for a kind where
+the valid runtime values are 3, 15 and 421. Next after 3 is 15; previous
+is 421, and so on.
+
+The instances array supplied has the extent in word 0, which is in effect
+the number of valid instances. This is guaranteed to be at least 1.
+
+=
+[ NextEnumVal inst instances i count;
+	count = instances-->0;
+	for (i=1: i<=count: i++)
+		if (instances-->i == inst)
+			return instances-->(i%count + 1);
+	return instances-->1; ! Should not ever happen
+];
+
+[ PrevEnumVal inst instances i count;
+	count = instances-->0;
+	for (i=1: i<=count: i++)
+		if (instances-->i == inst)
+			return instances-->((i+count-2)%count + 1);
+	return instances-->1; ! Should not ever happen
+];
+
+[ RandomEnumVal instances a b count a_index b_index c;
+	count = instances-->0;
+	if (a == b) {
+		if (a == 0) return instances-->(random(count));
+		return a;
+	}
+	for (c = 1: c <= count: c++) {
+		if (instances-->c == a)
+			a_index = c;
+		if (instances-->c == b)
+			b_index = c;
+	}
+	if (a_index > b_index) { c = a_index; a_index = b_index; b_index = c; }
+	return instances-->(a_index + random(b_index - a_index + 1) - 1);
+];
+
+[ IndexOfEnumVal instances a count c;
+	count = instances-->0;
+	for (c = 1: c <= count: c++)
+		if (instances-->c == a)
+			return c;
+	return 0;
+];
+
 @h GenerateRandomNumber.
 The following uses the virtual machine's RNG (via the I6 built-in function
 |random|) to produce a uniformly random integer in the range $n$ to $m$
@@ -235,21 +284,8 @@ following shows. (The name is from "region of the Z-machine".)
     }
 ];
 
-@h Memcpy.
-This is equivalent to C's memcpy function, in good ways and bad.
-
-=
-[ Memcpy to_addr from_addr size  n;
-#Ifdef TARGET_ZCODE;
-	for (n = size/WORDSIZE: (n--) > 0: ) to_addr-->n = from_addr-->n;
-	for (n = size: ((n--) % WORDSIZE ~= 0): ) to_addr->n = from_addr->n;
-#Ifnot; ! TARGET_GLULX
-    @mcopy size from_addr to_addr;
-#Endif; ! TARGET_
-];
-
 @h Arrcpy.
-This is not quite so efficient, but not terrible.
+This is not quite so efficient as Memcpy, but not terrible.
 
 =
 [ Arrcpy to_array to_entry_size from_array from_entry_size no_entries  n val;
@@ -303,33 +339,10 @@ of course, in a state of sin" (von Neumann).
 	rfalse;
 ];
 
-@h Extracting Verb Numbers.
-A long tale of woe lies behind the following. Infocom games stored verb numbers
-in a single byte in dictionary entries, but they did so counting downwards, so
-that verb number 0 was stored as 255, 1 as 254, and so on. Inform followed
-suit so that debugging of Inform 1 could be aided by using the then-available
-tools for dumping dictionaries from Infocom story files; by using the Infocom
-format for dictionary tables, Inform's life was easier.
-
-But there was an implicit restriction there of 255 distinct verbs (not 256
-since not all words were verbs). When Glulx raised almost all of the Z-machine
-limits, it made space for 65535 verbs instead of 255, but it appears that
-nobody remembered to implement this in I6-for-Glulx and the Glulx form of
-the I6 library. This was only put right in March 2009, and the following
-routine was added to concentrate lookups of this field in one place.
+@h Regarding.
+These are used with adaptive text.
 
 =
-[ DictionaryWordToVerbNum dword verbnum i;
-#Ifdef TARGET_ZCODE;
-	verbnum = $ff-(dword->#dict_par2);
-#Ifnot; ! GLULX
-	dword = dword + #dict_par2 - 1;
-    @aloads dword 0 verbnum;
-    verbnum = $ffff-verbnum;
-#Endif;
-	return verbnum;
-];
-
 [ RegardingSingleObject obj;
 	prior_named_list = 1;
 	prior_named_list_gender = -1;

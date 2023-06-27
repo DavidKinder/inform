@@ -24,6 +24,7 @@ typedef struct site_structure_data {
 
 	struct inter_bookmark pragmas_bookmark;
 	struct inter_bookmark package_types_bookmark;
+	struct inter_bookmark origins_bookmark;
 
 	struct dictionary *modules_indexed_by_name; /* of |module_request| */
 	
@@ -45,6 +46,7 @@ void LargeScale::clear_site_data(inter_tree *I) {
 	B->strdata.architecture_bookmark = InterBookmark::at_start_of_this_repository(I);
 
 	B->strdata.pragmas_bookmark = InterBookmark::at_start_of_this_repository(I);
+	B->strdata.origins_bookmark = InterBookmark::at_start_of_this_repository(I);
 	B->strdata.package_types_bookmark = InterBookmark::at_start_of_this_repository(I);
 
 	B->strdata.modules_indexed_by_name = Dictionaries::new(32, FALSE);
@@ -258,6 +260,7 @@ void LargeScale::make_architectural_definitions(inter_tree *I,
 	if (current_architecture == NULL) internal_error("no architecture set");
 	inter_type type = InterTypes::unchecked();
 	if (Architectures::is_16_bit(current_architecture)) {
+		LargeScale::arch_constant_dec(I,    I"CHARSIZE", type,                      1);
 		LargeScale::arch_constant_dec(I,    I"WORDSIZE", type,                      2);
 		LargeScale::arch_constant_hex(I,    I"NULL", type,                     0xffff);
 		LargeScale::arch_constant_hex(I,    I"WORD_HIGHBIT", type,             0x8000);
@@ -267,6 +270,7 @@ void LargeScale::make_architectural_definitions(inter_tree *I,
 		LargeScale::arch_constant_signed(I, I"MIN_NEGATIVE_NUMBER", type,      -32768);
 		LargeScale::arch_constant_dec(I,    I"TARGET_ZCODE", type,                  1);
 	} else {
+		LargeScale::arch_constant_dec(I,    I"CHARSIZE", type,                      4);
 		LargeScale::arch_constant_dec(I,    I"WORDSIZE", type,                      4);
 		LargeScale::arch_constant_hex(I,    I"NULL", type,                 0xffffffff);
 		LargeScale::arch_constant_hex(I,    I"WORD_HIGHBIT", type,         0x80000000);
@@ -434,6 +438,15 @@ void LargeScale::emit_pragma(inter_tree *I, text_stream *target, text_stream *co
 		target, content, 0, NULL));
 }
 
+@h Origins.
+Or here:
+
+=
+void LargeScale::emit_origin(inter_tree *I, inter_symbol *origin, text_stream *fn) {
+	Produce::guard(OriginInstruction::new(&(I->site.strdata.origins_bookmark),
+		origin, fn, 0, NULL));
+}
+
 @h Package types.
 Or indeed here. Package types are created on request; looking for |_octopus|
 would create it if it didn't already exist. So although the Inform tools do
@@ -480,6 +493,9 @@ void LargeScale::begin_new_tree(inter_tree *I) {
 
 	Produce::comment(I, I"Package types:");
 	I->site.strdata.package_types_bookmark = Packaging::bubble(I);
+
+	Produce::comment(I, I"Origins:");
+	I->site.strdata.origins_bookmark = Packaging::bubble(I);
 
 	Produce::comment(I, I"Pragmas:");
 	I->site.strdata.pragmas_bookmark = Packaging::bubble(I);

@@ -38,8 +38,7 @@ higher up, but kinds with priority 0 do not appear in the index at all.
 	for (int priority = 1; priority <= LOWEST_INDEX_PRIORITY; priority++) {
 		inter_package *pack;
 		LOOP_OVER_INVENTORY_PACKAGES(pack, i, inv->kind_nodes)
-			if ((Metadata::read_optional_numeric(pack, I"^is_base")) &&
-				(Metadata::read_optional_numeric(pack, I"^is_subkind_of_object") == 0) &&
+			if ((Metadata::read_optional_numeric(pack, I"^is_subkind_of_object") == 0) &&
 				(priority == (int) Metadata::read_optional_numeric(pack, I"^index_priority"))) {
 				if ((priority == 8) || (Metadata::read_optional_numeric(pack, I"^is_definite"))) {
 					@<Index this kind package@>;
@@ -165,7 +164,7 @@ or as paragraph of text in pass 2:
 	if (Str::len(variance) > 0) {
 		HTML::open_indented_p(OUT, 1, "tight");
 		WRITE("<i>%S&nbsp;", variance);
-		HTML_OPEN_WITH("a", "href=#contra>");
+		HTML_OPEN_WITH("a", "href=#contra");
 		HTML_TAG_WITH("img", "border=0 src=inform:/doc_images/shelp.png");
 		HTML_CLOSE("a");
 		WRITE("</i>");
@@ -299,8 +298,7 @@ void ChartElement::index_subkinds(OUTPUT_STREAM, tree_inventory *inv, inter_pack
 	int depth, int pass, index_session *session) {
 	inter_package *subkind_pack;
 	LOOP_OVER_INVENTORY_PACKAGES(subkind_pack, i, inv->kind_nodes)
-		if ((Metadata::read_optional_numeric(subkind_pack, I"^is_base")) &&
-			(Metadata::read_optional_numeric(subkind_pack, I"^is_subkind_of_object"))) {
+		if (Metadata::read_optional_numeric(subkind_pack, I"^is_subkind_of_object")) {
 			inter_symbol *super_weak = Metadata::optional_symbol(subkind_pack, I"^superkind");
 			if ((super_weak) && (InterPackage::container(super_weak->definition) == pack))
 				ChartElement::index_object_kind(OUT, inv, subkind_pack, depth, pass, session);

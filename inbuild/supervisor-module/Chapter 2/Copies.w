@@ -78,6 +78,11 @@ void Copies::set_metadata(inbuild_copy *C, general_pointer ref) {
 	C->metadata = ref;
 }
 
+inbuild_nest *Copies::origin(inbuild_copy *C) {
+	if (C == NULL) return NULL;
+	return C->nest_of_origin;
+}
+
 @h List of errors.
 When copies are found to be malformed, error messages are attached to them
 for later reporting. These are stored in a list.
@@ -160,8 +165,7 @@ such newcomers are graphed too.
 
 =
 build_vertex *Copies::construct_project_graph(inbuild_copy *C) {
-	build_vertex *V = C->vertex;
-	VOID_METHOD_CALL(C->edition->work->genre, GENRE_BUILDING_SOON_MTID, C, &V);
+	build_vertex *V = Copies::building_soon(C);
 	Copies::graph_everything();
 	return V;
 }
@@ -169,6 +173,12 @@ build_vertex *Copies::construct_project_graph(inbuild_copy *C) {
 void Copies::graph_everything(void) {
 	inbuild_copy *C;
 	LOOP_OVER(C, inbuild_copy) Copies::construct_graph(C);
+}
+
+build_vertex *Copies::building_soon(inbuild_copy *C) {
+	build_vertex *V = C->vertex;
+	VOID_METHOD_CALL(C->edition->work->genre, GENRE_BUILDING_SOON_MTID, C, &V);
+	return V;
 }
 
 @h Sorting.

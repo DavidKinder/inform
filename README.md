@@ -1,6 +1,6 @@
 # Inform 7
 
-[Version](notes/versioning.md): 10.2.0-beta+6W37 'Krypton' (25 April 2023)
+[Version](notes/versioning.md): 10.2.0-beta+6W67 'Krypton' (26 June 2023)
 
 ## About Inform
 
@@ -125,18 +125,19 @@ following command-line tools:
 The following webs are the source for kits of Inter code shipped with Inform (at the subtree inform7/Internal/Inter). Kits are libraries of code needed at run-time, and whose source is written in Inform 6 notation:
 
 * BasicInformKit - Support for Inform as a programming language - [&#9733;&nbsp;Web](https://ganelson.github.io/inform/BasicInformKit/index.html)
+* Architecture16Kit - Support for running on 16-bit platforms - [&#9733;&nbsp;Web](https://ganelson.github.io/inform/Architecture16Kit/index.html)
+* Architecture32Kit - Support for running on 32-bit platforms - [&#9733;&nbsp;Web](https://ganelson.github.io/inform/Architecture32Kit/index.html)
 * WorldModelKit - Support for modelling space, time and actions in interactive fiction - [&#9733;&nbsp;Web](https://ganelson.github.io/inform/WorldModelKit/index.html)
 * EnglishLanguageKit - Support for English as the natural language used - [&#9733;&nbsp;Web](https://ganelson.github.io/inform/EnglishLanguageKit/index.html)
 * CommandParserKit - Support for parsing turn-by-turn commands in interactive fiction - [&#9733;&nbsp;Web](https://ganelson.github.io/inform/CommandParserKit/index.html)
-* BasicInformExtrasKit - Additional support needed only if the Standard Rules are not used - [&#9733;&nbsp;Web](https://ganelson.github.io/inform/BasicInformExtrasKit/index.html)
 * DialogueKit - Additional support for dialogue (under construction) - [&#9733;&nbsp;Web](https://ganelson.github.io/inform/DialogueKit/index.html)
 
 ### Extensions shipped with Inform
 
 The following webs are the source for the two most important extensions shipped with Inform:
 
-* [Basic Inform by Graham Nelson](inform7/extensions/basic_inform) - __v1__ - [&#9733;&nbsp;Web](https://ganelson.github.io/inform/basic_inform/index.html)
-* [Standard Rules by Graham Nelson](inform7/extensions/standard_rules) - __v6__ - [&#9733;&nbsp;Web](https://ganelson.github.io/inform/standard_rules/index.html)
+* [Basic Inform by Graham Nelson](inform7/extensions/basic_inform) - __v2__ - [&#9733;&nbsp;Web](https://ganelson.github.io/inform/basic_inform/index.html)
+* [Standard Rules by Graham Nelson](inform7/extensions/standard_rules) - __v7__ - [&#9733;&nbsp;Web](https://ganelson.github.io/inform/standard_rules/index.html)
 
 Other extensions shipped with Inform are not presented as webs, but as single files:
 
@@ -145,14 +146,14 @@ Other extensions shipped with Inform are not presented as webs, but as single fi
 * [Complex Listing by Emily Short](<inform7/Internal/Extensions/Emily Short/Complex Listing.i7x>) - __v9__
 * [Glulx Image Centering by Emily Short](<inform7/Internal/Extensions/Emily Short/Glulx Image Centering.i7x>) - __v4__
 * [Glulx Text Effects by Emily Short](<inform7/Internal/Extensions/Emily Short/Glulx Text Effects.i7x>) - __v6__
-* [Inanimate Listeners by Emily Short](<inform7/Internal/Extensions/Emily Short/Inanimate Listeners.i7x>) - __v1__
-* [Locksmith by Emily Short](<inform7/Internal/Extensions/Emily Short/Locksmith.i7x>) - __v13__
+* [Inanimate Listeners by Emily Short](<inform7/Internal/Extensions/Emily Short/Inanimate Listeners.i7x>) - __v2__
+* [Locksmith by Emily Short](<inform7/Internal/Extensions/Emily Short/Locksmith.i7x>) - __v14__
 * [Menus by Emily Short](<inform7/Internal/Extensions/Emily Short/Menus.i7x>) - __v3__
-* [Punctuation Removal by Emily Short](<inform7/Internal/Extensions/Emily Short/Punctuation Removal.i7x>) - __v5__
+* [Punctuation Removal by Emily Short](<inform7/Internal/Extensions/Emily Short/Punctuation Removal.i7x>) - __v6__
 * [Skeleton Keys by Emily Short](<inform7/Internal/Extensions/Emily Short/Skeleton Keys.i7x>) - __v1__
 * [Epistemology by Eric Eve](<inform7/Internal/Extensions/Eric Eve/Epistemology.i7x>) - __v9__
 * [Approximate Metric Units by Graham Nelson](<inform7/Internal/Extensions/Graham Nelson/Approximate Metric Units.i7x>) - __v1__
-* [English Language by Graham Nelson](<inform7/Internal/Extensions/Graham Nelson/English Language.i7x>) - __v1__
+* [English Language by Graham Nelson](<inform7/Internal/Extensions/Graham Nelson/English Language.i7x>) - __v2__
 * [Metric Units by Graham Nelson](<inform7/Internal/Extensions/Graham Nelson/Metric Units.i7x>) - __v2__
 * [Rideable Vehicles by Graham Nelson](<inform7/Internal/Extensions/Graham Nelson/Rideable Vehicles.i7x>) - __v3__
 

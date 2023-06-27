@@ -70,6 +70,13 @@ void EmitCode::comment(text_stream *text) {
 		(inter_ti) EmitCode::level()));
 }
 
+@h Provenance markers.
+
+=
+void EmitCode::provenance(text_provenance from) {
+	Produce::provenance(Emit::tree(), from);
+}
+
 @h In value context.
 These functions all generate a |val| opcode:
 
