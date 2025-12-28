@@ -15,9 +15,9 @@ inserts declarations of the corresponding variables into the "tangled" form
 of the source code sent to a C compiler to make the actual program. (This is
 a feature of //inweb// available only for programs written in InC.)
 
-In particular, the tangler of |inweb| replaces the |[[nonterminals]]| below with
-invocations of the |REGISTER_NONTERMINAL| and |INTERNAL_NONTERMINAL| macros.
-For example, it inserts the C line:
+In particular, the tangler compiles the function |Inweb_InC_register_nonterminals|,
+called from below, with invocations of the |REGISTER_NONTERMINAL| and
+|INTERNAL_NONTERMINAL| macros. For example, the function includes the C line:
 = (text as C)
 	INTERNAL_NONTERMINAL(U"<any-integer>", any_integer_NTM, 1, 1);
 =
@@ -27,7 +27,7 @@ to code which sets up |any_integer_NTM| -- see below.
 =
 void Nonterminals::register(void) {
 	/* The following is not valid C, but causes Inweb to insert lines which are */
-	[[nonterminals]];
+	Inweb_InC_register_nonterminals();
 	/* Back to regular C now */
 	nonterminal *nt;
 	LOOP_OVER(nt, nonterminal)

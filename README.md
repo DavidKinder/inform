@@ -113,15 +113,14 @@ following command-line tools:
 * inform7 - __version 10.2.0__ - [&#9733;&nbsp;Web](https://ganelson.github.io/inform/inform7/index.html) - [&#9654;&nbsp;Documentation](https://ganelson.github.io/inform/inform7/M-cu.html)<br>The core compiler in a natural-language design system for interactive fiction.
 * inter - __version 10.2.0__ - [&#9733;&nbsp;Web](https://ganelson.github.io/inform/inter/index.html) - [&#9654;&nbsp;Documentation](https://ganelson.github.io/inform/inter/M-ui.html)<br>For handling intermediate Inform code.
 * inblorb - __version 4.1__ - [&#9733;&nbsp;Web](https://ganelson.github.io/inform/inblorb/index.html) - [&#9654;&nbsp;Documentation](https://ganelson.github.io/inform/inblorb/M-ui.html)<br>The packaging stage of the Inform 7 system, which releases a story file in the blorbed format.
-* indoc - __version __ - [&#9733;&nbsp;Web](https://ganelson.github.io/inform/indoc/index.html) - [&#9654;&nbsp;Documentation](https://ganelson.github.io/inform/indoc/M-iti.html)<br>
 * inpolicy - __version 1__ - [&#9733;&nbsp;Web](https://ganelson.github.io/inform/inpolicy/index.html) - [&#9654;&nbsp;Documentation](https://ganelson.github.io/inform/inpolicy/M-ui.html)<br>A lint-like tool to check up on various policies used in Inform source code.
 
 ### Extensions shipped with Inform
 
 The following webs are the source for the two most important extensions shipped with Inform:
 
-* [Basic Inform by Graham Nelson](inform7/extensions/basic_inform) - __v__ - [&#9733;&nbsp;Web](https://ganelson.github.io/inform/basic_inform/index.html)
-* [Standard Rules by Graham Nelson](inform7/extensions/standard_rules) - __v__ - [&#9733;&nbsp;Web](https://ganelson.github.io/inform/standard_rules/index.html)
+* [Basic Inform by Graham Nelson](inform7/extensions/basic_inform) - __v1__ - [&#9733;&nbsp;Web](https://ganelson.github.io/inform/basic_inform/index.html)
+* [Standard Rules by Graham Nelson](inform7/extensions/standard_rules) - __v1__ - [&#9733;&nbsp;Web](https://ganelson.github.io/inform/standard_rules/index.html)
 
 ### Kits shipped with Inform
 
@@ -150,7 +149,7 @@ These are Javascript interpreters used to release such websites in a form which 
 
 ### Documentation shipped with Inform
 
-Two books come with the Inform apps. The source code for these books is in indoc format: the indoc tool makes those into ePubs, mini-websites, or the pseudo-websites inside the apps.
+Two books come with the Inform apps. The source code for these books is in Markdown format: the inbuild tool makes those into mini-websites, or the pseudo-websites inside the apps.
 
 * __Changes to Inform__ - A detailed change history of Inform 7. Ebook in Indoc format, stored at path resources/Changes.
 * __Writing with Inform and the Inform Recipe Book__ - The main Inform documentation, as seen in the apps, and in standalone Epubs. Ebook in Indoc format, stored at path resources/Documentation.
@@ -176,7 +175,7 @@ Stable versions of the following are periodically copied into this repository,
 but this is not where development on them is done, and no pull requests will
 be accepted. (Note that these are not git submodules.)
 
-* inform6 - The Inform 6 compiler (used by I7 as a code generator). - __1644__ - from [https://github.com/DavidKinder/Inform6], maintained by [David Kinder](https://github.com/DavidKinder)
+* inform6 - The Inform 6 compiler (used by I7 as a code generator). - __1__ - from [https://github.com/DavidKinder/Inform6], maintained by [David Kinder](https://github.com/DavidKinder)
 	* inform6/Tests/Assistants/dumb-frotz - A dumb-terminal Z-machine interpreter. - unversioned: modified from [Alembic Petrofsky's 1998 Teletype port of Frotz](https://github.com/sussman/ircbot-collection/tree/master/dumb-frotz)
 	* inform6/Tests/Assistants/dumb-glulx/glulxe - A dumb-terminal Glulx interpreter. - __0.6.1__ - [erkyrath/glulxe](https://github.com/erkyrath/glulxe), maintained by [Andrew Plotkin](https://github.com/erkyrath)
 	* inform6/Tests/Assistants/dumb-glulx/cheapglk - A basic Glk implementation to support dumb-glulxe. - __1.0.6.__ - [erkyrath/cheapglk](https://github.com/erkyrath/cheapglk), maintained by [Andrew Plotkin](https://github.com/erkyrath)

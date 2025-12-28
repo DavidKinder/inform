@@ -90,7 +90,7 @@ Colony {
 	external: "intest"          at "../intest"
 
 	Navigation {
-		[[Home "<Inform.png@72>" -> overview]]
+		[[Home "<Inform.png@72>" -> //overview//]]
 		[[Item "home" -> //overview//]]
 		[[Menu "Compiler"]]
 		[[Item "structure" -> //structure//]]

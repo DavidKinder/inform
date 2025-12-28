@@ -64,8 +64,6 @@ void Main::disallow(int id, text_stream *arg, void *state) {
 @
 
 @d RUNTEST(Routine)
-	path_to_inpolicy = Pathnames::installation_path("INPOLICY_PATH", I"inpolicy");
-	path_to_inpolicy_workspace = Pathnames::down(path_to_inpolicy, I"Workspace");
 	if (silence_mode) {
 		if (Routine(NULL) == FALSE) { return_happy = FALSE; Routine(STDERR); }
 	} else {
@@ -75,7 +73,11 @@ void Main::disallow(int id, text_stream *arg, void *state) {
 =
 void Main::respond(int id, int val, text_stream *arg, void *state) {
 	switch (id) {
-		case PROBLEMS_CLSW: RUNTEST(Coverage::check); break;
+		case PROBLEMS_CLSW:
+			path_to_inpolicy = Pathnames::installation_path("INPOLICY_PATH", I"inpolicy");
+			path_to_inpolicy_workspace = Pathnames::down(path_to_inpolicy, I"Workspace");
+			RUNTEST(Coverage::check);
+			break;
 		case KIT_VERSIONS_CLSW: KitVersioning::show_versions(); break;
 		case SYNC_KIT_VERSIONS_CLSW: KitVersioning::sync_versions(); break;
 		case EXTENSION_VERSIONS_CLSW: ExtensionVersioning::show_versions(); break;

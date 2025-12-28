@@ -1,14 +1,6 @@
-Notation "Inweb" {
-	legacy name "2"
-	
-	use key-value pairs
-	use purpose under heading
-	use syntax redeclaration
-	use explicit section headings
-	use paragraph tags
-	use footnotes with [ and ]
-	use named holons with @< and @>
-	use tangler commands with [[ and ]]
+Notation "InwebClassic" {
+	recognise .w
+	recognise .*.w
 	
 	classify {
 		[SECOND] MATERIAL.                          ==> sectiontitle if on first line
@@ -24,8 +16,10 @@ Notation "Inweb" {
 		@e MATERIAL                                 ==> enumeration
 		@enum MATERIAL                              ==> enumeration
 	
-		@<MATERIAL@>=                               ==> namedcodefragment
-		@<MATERIAL@> =                              ==> namedcodefragment
+		<OPENHOLON>MATERIAL<CLOSEHOLON>=            ==> namedcodefragment
+		<OPENHOLON>MATERIAL<CLOSEHOLON> =           ==> namedcodefragment
+		<OPENHOLON>MATERIAL<CLOSEHOLON>+=           ==> namedcodefragmentaddendum
+		<OPENHOLON>MATERIAL<CLOSEHOLON> +=          ==> namedcodefragmentaddendum
 	
 		@                                           ==> beginparagraph
 		@=                                          ==> codeextract in new paragraph
@@ -42,8 +36,8 @@ Notation "Inweb" {
 	}
 	
 	residue of beginparagraph {
-		RESIDUE ^"MATERIAL"                         ==> paragraphtag
-		^"MATERIAL"                                 ==> paragraphtag
+		RESIDUE <OPENTAG>MATERIAL<CLOSETAG>         ==> paragraphtag
+		<OPENTAG>MATERIAL<CLOSETAG>                 ==> paragraphtag
 	}
 	
 	classify {
@@ -54,6 +48,7 @@ Notation "Inweb" {
 		= (very early code)                         ==> veryearlycodeextract
 		= (audio MATERIAL)                          ==> audio
 		= (video MATERIAL)                          ==> video
+		= (figure MATERIAL "SECOND")                ==> figure
 		= (figure MATERIAL)                         ==> figure
 		= (html MATERIAL)                           ==> html
 		= (download MATERIAL "")                    ==> download
@@ -114,5 +109,83 @@ Notation "Inweb" {
 		MATERIAL                                    ==> extract if in extract context
 		MATERIAL                                    ==> definitioncontinued if in definition context
 		MATERIAL                                    ==> commentary
+	}
+	
+	Conventions {
+		commentary uses simplified markup
+		a summary under the title is read as the purpose
+		holon names are written between @< and @>
+		metadata in strings are written between [[ and ]]
+		paragraph tags are written between ^" and "
+	}
+}
+
+Notation "MarkdownCode" {
+	recognise .*.md
+	classify {
+		# "MATERIAL" by SECOND (vTHIRD)				==> titleandauthor if on first line of only file
+		# MATERIAL by SECOND (vTHIRD)				==> titleandauthor if on first line of only file
+		# MATERIAL (vTHIRD)							==> title if on first line of only file
+		# "MATERIAL" by SECOND						==> titleandauthor if on first line of only file
+		# "MATERIAL"								==> title if on first line
+		# MATERIAL by SECOND						==> titleandauthor if on first line of only file
+		# MATERIAL									==> title if on first line
+		## RESIDUE                                  ==> beginparagraph
+		## MATERIAL                                 ==> beginparagraph
+		<OPENHOLON>MATERIAL<CLOSEHOLON>=            ==> namedcodefragment
+		<OPENHOLON>MATERIAL<CLOSEHOLON> =           ==> namedcodefragment
+		<OPENHOLON>MATERIAL<CLOSEHOLON> (OPTIONS) = ==> namedcodefragment
+		<OPENHOLON>MATERIAL<CLOSEHOLON> (OPTIONS)=  ==> namedcodefragment
+		<OPENHOLON>MATERIAL<CLOSEHOLON>+=           ==> namedcodefragmentaddendum
+		<OPENHOLON>MATERIAL<CLOSEHOLON> +=          ==> namedcodefragmentaddendum
+		MATERIAL 	                                ==> code if in indented context
+		MATERIAL									==> commentary
+	}
+	
+	residue of beginparagraph {
+		RESIDUE <OPENTAG>MATERIAL<CLOSETAG>         ==> paragraphtag
+		<OPENTAG>MATERIAL<CLOSETAG>                 ==> paragraphtag
+		MATERIAL									==> paragraphtitling
+	}
+	
+	options of namedcodefragment {
+		webwide                                     ==> webwideholon
+		tangled very early                          ==> veryearlyholon
+		tangled early                               ==> earlyholon
+		tangled late                                ==> lateholon
+		tangled very late                           ==> verylateholon
+		webwide, OPTIONS                            ==> webwideholon
+		tangled very early, OPTIONS                 ==> veryearlyholon
+		tangled early, OPTIONS                      ==> earlyholon
+		tangled late, OPTIONS                       ==> lateholon
+		tangled very late, OPTIONS                  ==> verylateholon
+		webwide and OPTIONS                         ==> webwideholon
+		tangled very early and OPTIONS              ==> veryearlyholon
+		tangled early and OPTIONS                   ==> earlyholon
+		tangled late and OPTIONS                    ==> lateholon
+		tangled very late and OPTIONS               ==> verylateholon
+		MATERIAL                                    ==> error "unknown holon option(s)"
+	}
+	
+	Conventions {
+		commentary uses Markdown markup
+		an italicised summary under the title is read as the purpose
+		holon names are written between {{ and }}
+		metadata in strings are written between [[ and ]]
+		paragraph tags are written between ^" and "
+	}
+}
+
+Notation "Markdown" {
+	recognise .md
+	classify {
+		# MATERIAL									==> titleandpurpose if on first line
+		MATERIAL									==> commentary
+	}
+	
+	Conventions {
+		commentary uses Markdown markup
+		an italicised summary under the title is read as the purpose
+		paragraph numbers are invisible
 	}
 }

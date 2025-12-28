@@ -1,6 +1,6 @@
 # Inform 7
 
-[Version](notes/versioning.md): {bibliographic datum: Semantic Version Number of: inform7} '{bibliographic datum: Version Name of: inform7}' ({bibliographic datum: Build Date of: inform7})
+[Version](notes/versioning.md): {metadata: Semantic Version Number of: inform7} '{metadata: Version Name of: inform7}' ({metadata: Build Date of: inform7})
 
 ## About Inform
 
@@ -114,13 +114,12 @@ This most important contents of this repository are the source webs for the
 following command-line tools:
 
 {define: tool-with-manual name: PROGRAM version-from: VPROGRAM doc: DOCUMENTATION}
-* {PROGRAM} - __version {bibliographic datum: Version Number of: {VPROGRAM}}__ - [{WEBICON}&nbsp;Web]({GITHUBPAGESLINK}/{PROGRAM}/index.html) - [{DOCICON}&nbsp;Documentation]({GITHUBPAGESLINK}/{PROGRAM}/{DOCUMENTATION}.html)<br>{bibliographic datum: Purpose of: {PROGRAM}}
+* {PROGRAM} - __version {metadata: Version Number of: {VPROGRAM}}__ - [{WEBICON}&nbsp;Web]({GITHUBPAGESLINK}/{PROGRAM}/index.html) - [{DOCICON}&nbsp;Documentation]({GITHUBPAGESLINK}/{PROGRAM}/{DOCUMENTATION}.html)<br>{metadata: Purpose of: {PROGRAM}}
 {end-define}
 {tool-with-manual name: inbuild  version-from: inform7  doc: M-ui}
 {tool-with-manual name: inform7  version-from: inform7  doc: M-cu}
 {tool-with-manual name: inter    version-from: inform7  doc: M-ui}
 {tool-with-manual name: inblorb  version-from: inblorb  doc: M-ui}
-{tool-with-manual name: indoc    version-from: indoc    doc: M-iti}
 {tool-with-manual name: inpolicy version-from: inpolicy doc: M-ui}
 
 ### Extensions shipped with Inform
@@ -129,7 +128,7 @@ The following webs are the source for the two most important extensions shipped 
 
 {define: extension-web web: WEB author: AUTHOR title: TITLE}
 {set name: PATH value: inform7/Internal/Extensions/{AUTHOR}/{TITLE}.i7xd}
-* [{TITLE} by {AUTHOR}](inform7/extensions/{WEB}) - __v{bibliographic datum: Version Number of: {PATH}}__ - [{WEBICON}&nbsp;Web]({GITHUBPAGESLINK}/{WEB}/index.html)
+* [{TITLE} by {AUTHOR}](inform7/extensions/{WEB}) - __v{metadata: Version Number of: {WEB}}__ - [{WEBICON}&nbsp;Web]({GITHUBPAGESLINK}/{WEB}/index.html)
 {end-define}
 
 {extension-web web: basic_inform   author: Graham Nelson title: Basic Inform}
@@ -163,16 +162,16 @@ These are templates used by Inform to release story files within a website:
 
 These are Javascript interpreters used to release such websites in a form which can play the story files interactively online:
 
-{define: template program: PROGRAM purpose: PURPOSE maintainer: MAINTAINER username: USERNAME repository: REPOSITORY}
-* {PROGRAM} - {PURPOSE} - __{bibliographic datum: Version Number of: {PROGRAM}}__ - from [https://github.com/{USERNAME}/{REPOSITORY}], maintained by [{MAINTAINER}](https://github.com/{USERNAME})
+{define: template at: TEMPLATE purpose: PURPOSE maintainer: MAINTAINER username: USERNAME repository: REPOSITORY}
+* {TEMPLATE} - {PURPOSE} - __{version template: {TEMPLATE}}__ - from [https://github.com/{USERNAME}/{REPOSITORY}], maintained by [{MAINTAINER}](https://github.com/{USERNAME})
 {end-define}
 * inform7/Internal/Templates - Template websites for Inform 7's 'release as a website' feature
-{template program: inform7/Internal/Templates/Parchment purpose: Z-machine in Javascript maintainer: Dannii Willis username: curiousdannii repository: parchment}
-{template program: inform7/Internal/Templates/Quixe purpose: Glulx in Javascript maintainer: Andrew Plotkin username: erkyrath repository: quixe}
+{template at: inform7/Internal/Templates/Parchment purpose: Z-machine in Javascript maintainer: Dannii Willis username: curiousdannii repository: parchment}
+{template at: inform7/Internal/Templates/Quixe purpose: Glulx in Javascript maintainer: Andrew Plotkin username: erkyrath repository: quixe}
 
 ### Documentation shipped with Inform
 
-Two books come with the Inform apps. The source code for these books is in indoc format: the indoc tool makes those into ePubs, mini-websites, or the pseudo-websites inside the apps.
+Two books come with the Inform apps. The source code for these books is in Markdown format: the inbuild tool makes those into mini-websites, or the pseudo-websites inside the apps.
 
 {define: book title: TITLE path: PATH topic: TOPIC}
 * __{TITLE}__ - {TOPIC}. Ebook in Indoc format, stored at path {PATH}.
@@ -201,10 +200,10 @@ Stable versions of the following are periodically copied into this repository,
 but this is not where development on them is done, and no pull requests will
 be accepted. (Note that these are not git submodules.)
 
-* inform6 - The Inform 6 compiler (used by I7 as a code generator). - __{bibliographic datum: Version Number of: inform6}__ - from [https://github.com/DavidKinder/Inform6], maintained by [David Kinder](https://github.com/DavidKinder)
+* inform6 - The Inform 6 compiler (used by I7 as a code generator). - __{metadata: Version Number of: inform6}__ - from [https://github.com/DavidKinder/Inform6], maintained by [David Kinder](https://github.com/DavidKinder)
 	* inform6/Tests/Assistants/dumb-frotz - A dumb-terminal Z-machine interpreter. - unversioned: modified from [Alembic Petrofsky's 1998 Teletype port of Frotz](https://github.com/sussman/ircbot-collection/tree/master/dumb-frotz)
-	* inform6/Tests/Assistants/dumb-glulx/glulxe - A dumb-terminal Glulx interpreter. - __{bibliographic datum: Version Number of: inform6/Tests/Assistants/dumb-glulx/glulxe}__ - [erkyrath/glulxe](https://github.com/erkyrath/glulxe), maintained by [Andrew Plotkin](https://github.com/erkyrath)
-	* inform6/Tests/Assistants/dumb-glulx/cheapglk - A basic Glk implementation to support dumb-glulxe. - __{bibliographic datum: Version Number of: inform6/Tests/Assistants/dumb-glulx/cheapglk}__ - [erkyrath/cheapglk](https://github.com/erkyrath/cheapglk), maintained by [Andrew Plotkin](https://github.com/erkyrath)
+	* inform6/Tests/Assistants/dumb-glulx/glulxe - A dumb-terminal Glulx interpreter. - __{version program: inform6/Tests/Assistants/dumb-glulx/glulxe}__ - [erkyrath/glulxe](https://github.com/erkyrath/glulxe), maintained by [Andrew Plotkin](https://github.com/erkyrath)
+	* inform6/Tests/Assistants/dumb-glulx/cheapglk - A basic Glk implementation to support dumb-glulxe. - __{version program: inform6/Tests/Assistants/dumb-glulx/cheapglk}__ - [erkyrath/cheapglk](https://github.com/erkyrath/cheapglk), maintained by [Andrew Plotkin](https://github.com/erkyrath)
 
 * inblorb/Tests/Assistants/blorblib - Code for examining blorb files, including blorbscan, used here for validating inblorb's output in tests. - version 1.0.2 - by [Andrew Plotkin](https://github.com/erkyrath), but not currently elsewhere on Github
 

@@ -50,7 +50,7 @@ force:
 	$(call make-me)
 
 define make-me
-	$(INWEB) tangle $(ME) -import-from modules
+	$(INWEB) tangle $(ME)
 	{compile from: $(ME)/Tangled/$(ME).c to: $(ME)/Tangled/$(ME).o}
 	{link from:    $(ME)/Tangled/$(ME).o to: $(ME)/Tangled/$(ME)$(EXEEXTENSION)}
 endef
