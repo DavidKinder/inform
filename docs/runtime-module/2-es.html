@@ -12,6 +12,11 @@
 <link href="../docs-assets/Navigation.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Fonts.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -46,32 +51,28 @@
     <ul class="crumbs"><li><a href="../index.html">Home</a></li><li><a href="../inform7n.html">Inform7</a></li><li><a href="index.html">runtime</a></li><li><a href="index.html#2">Chapter 2: Emission</a></li><li><b>Equality Schemas</b></li></ul></div>
 <p class="purpose">To define how to compile a comparison of two values.</p>
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>For most word-value kinds, it's easy to compare two values to see if they are
-equal: all we need is the <span class="extract"><span class="extract-syntax">==</span></span> operator. But for pointer-value kinds, that
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  For most word-value kinds, it's easy to compare two values to see if they are
+equal: all we need is the <code>==</code> operator. But for pointer-value kinds, that
 would simply tell us whether they point to the same block of data on the
 heap, whereas we need in fact to compare the blocks they point to. So the
 kind system makes it possible for each individual kind to decide how values
-should be compared, returning an I6 schema prototype to compare <span class="extract"><span class="extract-syntax">*1</span></span> and <span class="extract"><span class="extract-syntax">*2</span></span>.
-</p>
-
-<p class="commentary">What happens at run-time when we test to see if value V equals value W,
+should be compared, returning an I6 schema prototype to compare <code>*1</code> and <code>*2</code>.</p>
+<p>What happens at run-time when we test to see if value V equals value W,
 or change storage object S so that it now contains value T, depends on the
 kind of values we are discussing. If there were only word-based values in
 Inform (as was the case until September 2007), there would be little to
-do here, as the comparison would simply compile to <span class="extract"><span class="extract-syntax">V == W</span></span>, while the
-storage would be a matter of either <span class="extract"><span class="extract-syntax">S = W;</span></span> or some more exotic case
-along the lines of <span class="extract"><span class="extract-syntax">StorageRoutineWrite(S, W);</span></span>.
-</p>
-
-<p class="commentary">But once pointers to blocks are allowed, this becomes more interesting.
+do here, as the comparison would simply compile to <code>V == W</code>, while the
+storage would be a matter of either <code>S = W;</code> or some more exotic case
+along the lines of <code>StorageRoutineWrite(S, W);</code>.</p>
+<p>But once pointers to blocks are allowed, this becomes more interesting.
 Now the comparison needs to be a deep one, that is, we want to test whether
-two texts (say) have the same textual content &mdash; not whether we are
+two texts (say) have the same textual content -- not whether we are
 holding two pointers to the same blocks in memory, which is what a simple
-comparison would achieve. Such a test is called "deep comparison", and
+comparison would achieve. Such a test is called &quot;deep comparison&quot;, and
 similarly, we must assign by transferring the contents of the blocks of
-data, not merely the pointer to them, which is a "deep copy".
-</p>
-
+data, not merely the pointer to them, which is a &quot;deep copy&quot;.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="function-syntax">EqualitySchemas::interpret_equality</span><span class="plain-syntax">(</span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">left</span><span class="plain-syntax">, </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">right</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOGIF</span><span class="plain-syntax">(</span><span class="identifier-syntax">KIND_CHECKING</span><span class="plain-syntax">, </span><span class="string-syntax">"Interpreting equality test of kinds %u, %u\n"</span><span class="plain-syntax">, </span><span class="identifier-syntax">left</span><span class="plain-syntax">, </span><span class="identifier-syntax">right</span><span class="plain-syntax">);</span>

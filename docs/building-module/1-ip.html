@@ -20,6 +20,11 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -56,151 +61,244 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="1-ip.html#SP1">&#167;1. The standard Inform 7 instruction set</a></li><li><a href="1-ip.html#SP9">&#167;9. About the terms</a></li><li><a href="1-ip.html#SP12">&#167;12. Primitives within a specific tree</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. The standard Inform 7 instruction set.</b>Metadata on the primitives used by Inter in the Inform tool-set is stored as
-an array <span class="extract"><span class="extract-syntax">standard_inform7_primitives</span></span> of the following records:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. The standard Inform 7 instruction set.</b>  Metadata on the primitives used by Inter in the Inform tool-set is stored as
+an array <code>standard_inform7_primitives</code> of the following records:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">inform7_primitive</span><span class="plain-syntax"> {</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inform7_primitive</span><span class="plain-syntax"> {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">BIP</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">name_c</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">signature_c</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">name</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">signature</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">term_count</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">term_categories</span><span class="plain-syntax">[8];</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">takes_code_blocks</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">inform7_primitive</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">name_c</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">signature_c</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">name</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">signature</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">term_count</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">term_categories</span><span class="plain-syntax">[8];</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">takes_code_blocks</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">inform7_primitive</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>The structure inform7_primitive is accessed in 2/i6o and here.</li></ul>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>Each different primitive has a unique BIP number. (The origins of the term
-BIP are now lost, though the I and the P presumably once stood for "Inform"
-and "primitive".) BIPs count upwards contiguously from 1.
-</p>
-
-<p class="commentary">The point of BIPs is simply that it would be too slow to index primitives only
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  Each different primitive has a unique BIP number. (The origins of the term
+BIP are now lost, though the I and the P presumably once stood for &quot;Inform&quot;
+and &quot;primitive&quot;.) BIPs count upwards contiguously from 1.</p>
+<p>The point of BIPs is simply that it would be too slow to index primitives only
 by their instruction names, because even with all the hashing in the world,
-there would have to be string comparisons.
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">MAX_BIPS</span><span class="plain-syntax"> </span><span class="constant-syntax">100</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">PLUS_BIP</span><span class="plain-syntax"> </span><span class="identifier-syntax">from</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">MINUS_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">UNARYMINUS_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">TIMES_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">DIVIDE_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">MODULO_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">BITWISEAND_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">BITWISEOR_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">BITWISENOT_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">SEQUENTIAL_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">TERNARYSEQUENTIAL_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">RANDOM_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">STORE_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">PREINCREMENT_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">POSTINCREMENT_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">PREDECREMENT_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">POSTDECREMENT_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">SETBIT_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">CLEARBIT_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">PUSH_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">PULL_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">LOOKUP_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">LOOKUPBYTE_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">PROPERTYARRAY_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">PROPERTYLENGTH_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">PROPERTYEXISTS_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">PROPERTYVALUE_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">MOVE_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">REMOVE_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">CHILD_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">CHILDREN_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">SIBLING_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">PARENT_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">METACLASS_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">NOT_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">AND_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">OR_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">EQ_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">NE_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">GT_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">GE_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">LT_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">LE_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">OFCLASS_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">IN_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">NOTIN_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">ALTERNATIVE_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">ENABLEPRINTING_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">FONT_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">STYLE_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">PRINT_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">PRINTNL_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">PRINTCHAR_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">PRINTOBJ_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">PRINTNUMBER_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">PRINTDWORD_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">PRINTSTRING_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">BOX_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">SPACES_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">IF_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">IFDEBUG_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">IFSTRICT_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">IFELSE_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">WHILE_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">DO_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">FOR_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">OBJECTLOOP_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">OBJECTLOOPX_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">BREAK_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">CONTINUE_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">SWITCH_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">CASE_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">ALTERNATIVECASE_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">DEFAULT_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">RETURN_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">JUMP_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">QUIT_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">RESTORE_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">INDIRECT0V_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">INDIRECT1V_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">INDIRECT2V_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">INDIRECT3V_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">INDIRECT4V_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">INDIRECT5V_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">INDIRECT6V_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">INDIRECT0_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">INDIRECT1_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">INDIRECT2_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">INDIRECT3_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">INDIRECT4_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">INDIRECT5_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">INDIRECT6_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">MESSAGE0_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">MESSAGE1_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">MESSAGE2_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">MESSAGE3_BIP</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">EXTERNALCALL_BIP</span>
+there would have to be string comparisons.</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">100</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>And here is the array of metadata. It's tiresome to have to include the null
-fields here, which is done only because text_stream literals <span class="extract"><span class="extract-syntax">I"like this"</span></span>
-cannot be compiled in a constant context by the <span class="extract"><span class="extract-syntax">clang</span></span> C compiler. So the
-names and signatures of the primitives are compiled as <span class="extract"><span class="extract-syntax">char *</span></span> literals instead,
-and converted on first use at runtime.
-</p>
-
-<p class="commentary">It is essential that the sequence of rows below is the same as the sequence of
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="constant-syntax">1</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  And here is the array of metadata. It's tiresome to have to include the null
+fields here, which is done only because text_stream literals <code>I&quot;like this&quot;</code>
+cannot be compiled in a constant context by the <code>clang</code> C compiler. So the
+names and signatures of the primitives are compiled as <code>char *</code> literals instead,
+and converted on first use at runtime.</p>
+<p>It is essential that the sequence of rows below is the same as the sequence of
 enumerations above; but <a href="1-ip.html#SP4" class="internal">Primitives::prepare_standard_set_array</a> checks this
-at runtime and throws an error if not.
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">SIP_RECORD_END</span>
+at runtime and throws an error if not.</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> 
 <span class="plain-syntax">    </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">, </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">    { </span><span class="identifier-syntax">VAL_PRIM_CAT</span><span class="plain-syntax">, </span><span class="identifier-syntax">VAL_PRIM_CAT</span><span class="plain-syntax">, </span><span class="identifier-syntax">VAL_PRIM_CAT</span><span class="plain-syntax">, </span><span class="identifier-syntax">VAL_PRIM_CAT</span><span class="plain-syntax">, </span><span class="identifier-syntax">VAL_PRIM_CAT</span><span class="plain-syntax">, </span><span class="identifier-syntax">VAL_PRIM_CAT</span><span class="plain-syntax">, </span><span class="identifier-syntax">VAL_PRIM_CAT</span><span class="plain-syntax">, </span><span class="identifier-syntax">VAL_PRIM_CAT</span><span class="plain-syntax"> },</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">FALSE</span>
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">inform7_primitive</span><span class="plain-syntax"> </span><span class="identifier-syntax">standard_inform7_primitives</span><span class="plain-syntax">[] = {</span>
+<span class="identifier-syntax">inform7_primitive</span><span class="plain-syntax"> </span><span class="identifier-syntax">standard_inform7_primitives</span><span class="plain-syntax">[] = {</span>
 <span class="plain-syntax">    { </span><span class="constant-syntax">PLUS_BIP</span><span class="plain-syntax">,              </span><span class="string-syntax">"!plus"</span><span class="plain-syntax">,              </span><span class="string-syntax">"val val -&gt; val"</span><span class="plain-syntax">,                  </span><span class="constant-syntax">SIP_RECORD_END</span><span class="plain-syntax"> },</span>
 <span class="plain-syntax">    { </span><span class="constant-syntax">MINUS_BIP</span><span class="plain-syntax">,             </span><span class="string-syntax">"!minus"</span><span class="plain-syntax">,             </span><span class="string-syntax">"val val -&gt; val"</span><span class="plain-syntax">,                  </span><span class="constant-syntax">SIP_RECORD_END</span><span class="plain-syntax"> },</span>
 <span class="plain-syntax">    { </span><span class="constant-syntax">UNARYMINUS_BIP</span><span class="plain-syntax">,        </span><span class="string-syntax">"!unaryminus"</span><span class="plain-syntax">,        </span><span class="string-syntax">"val -&gt; val"</span><span class="plain-syntax">,                      </span><span class="constant-syntax">SIP_RECORD_END</span><span class="plain-syntax"> },</span>
@@ -309,16 +407,16 @@ at runtime and throws an error if not.
 <span class="plain-syntax">    { </span><span class="constant-syntax">0</span><span class="plain-syntax">,                     </span><span class="string-syntax">""</span><span class="plain-syntax">,                   </span><span class="string-syntax">""</span><span class="plain-syntax">,                                </span><span class="constant-syntax">SIP_RECORD_END</span><span class="plain-syntax"> }</span>
 <span class="plain-syntax">};</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>The following must be called before the above array can be used. It checks
-that the numbering is right, and converts the names and signatures from <span class="extract"><span class="extract-syntax">char *</span></span>
-to <span class="extract"><span class="extract-syntax">text_stream *</span></span>.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  The following must be called before the above array can be used. It checks
+that the numbering is right, and converts the names and signatures from <code>char *</code>
+to <code>text_stream *</code>.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">standard_inform7_primitives_prepared</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">standard_inform7_primitives_prepared</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">standard_inform7_primitives_extent</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::prepare_standard_set_array</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">Primitives::prepare_standard_set_array</span></span>:<br/><a href="1-ip.html#SP5">&#167;5</a>, <a href="1-ip.html#SP6">&#167;6</a>, <a href="1-ip.html#SP9">&#167;9</a>, <a href="1-ip.html#SP10">&#167;10</a>, <a href="1-ip.html#SP11">&#167;11</a>, <a href="1-ip.html#SP14">&#167;14</a>, <a href="1-ip.html#SP15">&#167;15</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::prepare_standard_set_array</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">Primitives::prepare_standard_set_array</span></span>:<br/><a href="1-ip.html#SP5">&#167;5</a>, <a href="1-ip.html#SP6">&#167;6</a>, <a href="1-ip.html#SP9">&#167;9</a>, <a href="1-ip.html#SP10">&#167;10</a>, <a href="1-ip.html#SP11">&#167;11</a>, <a href="1-ip.html#SP14">&#167;14</a>, <a href="1-ip.html#SP15">&#167;15</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">standard_inform7_primitives_prepared</span><span class="plain-syntax"> == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">standard_inform7_primitives_prepared</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; ; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) {</span>
@@ -332,23 +430,22 @@ to <span class="extract"><span class="extract-syntax">text_stream *</span></span
 <span class="plain-syntax">            </span><span class="identifier-syntax">standard_inform7_primitives</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">].</span><span class="element-syntax">signature</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Str::new</span><span class="plain-syntax">();</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">WRITE_TO</span><span class="plain-syntax">(</span><span class="identifier-syntax">standard_inform7_primitives</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">].</span><span class="element-syntax">signature</span><span class="plain-syntax">, </span><span class="string-syntax">"%s"</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">standard_inform7_primitives</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">].</span><span class="element-syntax">signature_c</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="1-ip.html#SP4_1" class="named-paragraph-link"><span class="named-paragraph">Parse and sanity-check the signature text</span><span class="named-paragraph-number">4.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="1-ip.html#SP4_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Parse and sanity-check the signature text</span></span><span class="named-paragraph-number">4.1</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">standard_inform7_primitives_extent</span><span class="plain-syntax">++;</span>
 <span class="plain-syntax">        }</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4_1" class="paragraph-anchor"></a><b>&#167;4.1. </b>We only care here abput the part of the signature before the <span class="extract"><span class="extract-syntax">-&gt;</span></span>, but we go
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4_1" class="paragraph-anchor"></a><b>&#167;4.1. </b>  We only care here abput the part of the signature before the <code>-&gt;</code>, but we go
 ahead and perform a full sanity check on it anyway, just in case somebody some day
 amends the above table but gets it wrong. The time consumed by these checks
-is trivial, since this happens only once per run.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Parse and sanity-check the signature text</span><span class="named-paragraph-number">4.1</span></span><span class="comment-syntax"> =</span>
-</p>
+is trivial, since this happens only once per run.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Parse and sanity-check the signature text</span><span class="named-paragraph-number">4.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">p</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="identifier-syntax">before_arrow</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">, </span><span class="identifier-syntax">pre_void</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">, </span><span class="identifier-syntax">inputs</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="identifier-syntax">outputs</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">p</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="identifier-syntax">before_arrow</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">, </span><span class="identifier-syntax">pre_void</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">, </span><span class="identifier-syntax">inputs</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="identifier-syntax">outputs</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">S</span><span class="plain-syntax"> = </span><span class="identifier-syntax">standard_inform7_primitives</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">].</span><span class="element-syntax">signature</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">TEMPORARY_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">term</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">while</span><span class="plain-syntax"> (</span><span class="identifier-syntax">p</span><span class="plain-syntax"> &lt;= </span><span class="identifier-syntax">Str::len</span><span class="plain-syntax">(</span><span class="identifier-syntax">S</span><span class="plain-syntax">)) {</span>
@@ -356,24 +453,24 @@ is trivial, since this happens only once per run.
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">Characters::is_whitespace</span><span class="plain-syntax">(</span><span class="identifier-syntax">c</span><span class="plain-syntax">)) || (</span><span class="identifier-syntax">c</span><span class="plain-syntax"> == </span><span class="constant-syntax">0</span><span class="plain-syntax">)) {</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">Str::eq</span><span class="plain-syntax">(</span><span class="identifier-syntax">term</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"-&gt;"</span><span class="plain-syntax">)) &amp;&amp; (</span><span class="identifier-syntax">before_arrow</span><span class="plain-syntax">)) </span><span class="identifier-syntax">before_arrow</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">else</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">                </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">this</span><span class="plain-syntax"> = -1;</span>
+<span class="plain-syntax">                </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">this</span><span class="plain-syntax"> = </span><span class="constant-syntax">-1</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">                </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Str::eq</span><span class="plain-syntax">(</span><span class="identifier-syntax">term</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"void"</span><span class="plain-syntax">)) {</span>
-<span class="plain-syntax">                    </span><span class="identifier-syntax">this</span><span class="plain-syntax"> = -2;</span>
+<span class="plain-syntax">                    </span><span class="identifier-syntax">this</span><span class="plain-syntax"> = </span><span class="constant-syntax">-2</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">                    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">before_arrow</span><span class="plain-syntax">) </span><span class="identifier-syntax">pre_void</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">                }</span>
 <span class="plain-syntax">                </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Str::eq</span><span class="plain-syntax">(</span><span class="identifier-syntax">term</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"val"</span><span class="plain-syntax">))  </span><span class="identifier-syntax">this</span><span class="plain-syntax"> = </span><span class="identifier-syntax">VAL_PRIM_CAT</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">                </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Str::eq</span><span class="plain-syntax">(</span><span class="identifier-syntax">term</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"ref"</span><span class="plain-syntax">))  </span><span class="identifier-syntax">this</span><span class="plain-syntax"> = </span><span class="identifier-syntax">REF_PRIM_CAT</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">                </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Str::eq</span><span class="plain-syntax">(</span><span class="identifier-syntax">term</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"lab"</span><span class="plain-syntax">))  </span><span class="identifier-syntax">this</span><span class="plain-syntax"> = </span><span class="identifier-syntax">LAB_PRIM_CAT</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">                </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Str::eq</span><span class="plain-syntax">(</span><span class="identifier-syntax">term</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"code"</span><span class="plain-syntax">)) </span><span class="identifier-syntax">this</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CODE_PRIM_CAT</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">                </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">this</span><span class="plain-syntax"> == -1) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"unknown term category in primitive"</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">                </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">this</span><span class="plain-syntax"> == </span><span class="constant-syntax">-1</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"unknown term category in primitive"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">                </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">before_arrow</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">                    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">this</span><span class="plain-syntax"> != -2) {</span>
+<span class="plain-syntax">                    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">this</span><span class="plain-syntax"> != </span><span class="constant-syntax">-2</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">                        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inputs</span><span class="plain-syntax"> &gt;= </span><span class="constant-syntax">8</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"too many terms in primitive"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">                        </span><span class="identifier-syntax">standard_inform7_primitives</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">].</span><span class="element-syntax">term_categories</span><span class="plain-syntax">[</span><span class="identifier-syntax">inputs</span><span class="plain-syntax">] = </span><span class="identifier-syntax">this</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">                        </span><span class="identifier-syntax">inputs</span><span class="plain-syntax">++;</span>
 <span class="plain-syntax">                    }</span>
 <span class="plain-syntax">                } </span><span class="reserved-syntax">else</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">                    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">this</span><span class="plain-syntax"> != -2) &amp;&amp; (</span><span class="identifier-syntax">this</span><span class="plain-syntax"> != </span><span class="identifier-syntax">VAL_PRIM_CAT</span><span class="plain-syntax">))</span>
+<span class="plain-syntax">                    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">this</span><span class="plain-syntax"> != </span><span class="constant-syntax">-2</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">this</span><span class="plain-syntax"> != </span><span class="identifier-syntax">VAL_PRIM_CAT</span><span class="plain-syntax">))</span>
 <span class="plain-syntax">                        </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"bad term after -&gt; in primitive"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">                    </span><span class="identifier-syntax">outputs</span><span class="plain-syntax">++;</span>
 <span class="plain-syntax">                }</span>
@@ -389,21 +486,21 @@ is trivial, since this happens only once per run.
 <span class="plain-syntax">        </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"malformed signature in primitive"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">standard_inform7_primitives</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">].</span><span class="element-syntax">term_count</span><span class="plain-syntax"> = </span><span class="identifier-syntax">inputs</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">standard_inform7_primitives</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">].</span><span class="element-syntax">takes_code_blocks</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">t</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">t</span><span class="plain-syntax">&lt;</span><span class="identifier-syntax">inputs</span><span class="plain-syntax">; </span><span class="identifier-syntax">t</span><span class="plain-syntax">++)</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">t</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">t</span><span class="plain-syntax">&lt;</span><span class="identifier-syntax">inputs</span><span class="plain-syntax">; </span><span class="identifier-syntax">t</span><span class="plain-syntax">++)</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">standard_inform7_primitives</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">].</span><span class="element-syntax">term_categories</span><span class="plain-syntax">[</span><span class="identifier-syntax">t</span><span class="plain-syntax">] == </span><span class="identifier-syntax">CODE_PRIM_CAT</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">standard_inform7_primitives</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">].</span><span class="element-syntax">takes_code_blocks</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="1-ip.html#SP4">&#167;4</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>We can now convert between BIP and name. Note that <a href="1-ip.html#SP5" class="internal">Primitives::name_to_BIP</a>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  We can now convert between BIP and name. Note that <a href="1-ip.html#SP5" class="internal">Primitives::name_to_BIP</a>
 is relatively slow: but this doesn't matter because we will always cache the
-results (see below).
-</p>
-
+results (see below).</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="function-syntax">Primitives::BIP_to_name</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">Primitives::BIP_to_name</span></span>:<br/>Inter Schemas - <a href="2-is.html#SP17">&#167;17</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">bip</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><a href="1-ip.html#SP4" class="function-link"><span class="function-syntax">Primitives::prepare_standard_set_array</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">bip</span><span class="plain-syntax"> &gt;= </span><span class="constant-syntax">1</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">bip</span><span class="plain-syntax"> &lt;= </span><span class="identifier-syntax">standard_inform7_primitives_extent</span><span class="plain-syntax">))</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">standard_inform7_primitives</span><span class="plain-syntax">[</span><span class="identifier-syntax">bip</span><span class="plain-syntax"> - </span><span class="constant-syntax">1</span><span class="plain-syntax">].</span><span class="element-syntax">name</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">standard_inform7_primitives</span><span class="plain-syntax">[</span><span class="identifier-syntax">bip</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span><span class="plain-syntax">].</span><span class="element-syntax">name</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">I</span><span class="string-syntax">"&lt;none&gt;"</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
@@ -415,38 +512,36 @@ results (see below).
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>This is printed when <a href="../inter/index.html" class="internal">inter</a> is run with the <span class="extract"><span class="extract-syntax">-primitives</span></span> switch.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  This is printed when <a href="../inter/index.html" class="internal">inter</a> is run with the <code>-primitives</code> switch.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::show_primitives</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::show_primitives</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"  Code     Primitive           Signature\n"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="1-ip.html#SP4" class="function-link"><span class="function-syntax">Primitives::prepare_standard_set_array</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;</span><span class="identifier-syntax">standard_inform7_primitives_extent</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) {</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">inform7_primitive</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prim</span><span class="plain-syntax"> = &amp;(</span><span class="identifier-syntax">standard_inform7_primitives</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">]);</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">inform7_primitive</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prim</span><span class="plain-syntax"> = &amp;(</span><span class="identifier-syntax">standard_inform7_primitives</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">]);</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"  %4x     %S"</span><span class="plain-syntax">, </span><span class="identifier-syntax">prim</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">BIP</span><span class="plain-syntax">, </span><span class="identifier-syntax">prim</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">name</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">j</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Str::len</span><span class="plain-syntax">(</span><span class="identifier-syntax">prim</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">name</span><span class="plain-syntax">); </span><span class="identifier-syntax">j</span><span class="plain-syntax">&lt;20; </span><span class="identifier-syntax">j</span><span class="plain-syntax">++) </span><span class="identifier-syntax">PUT</span><span class="plain-syntax">(</span><span class="character-syntax">' '</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">j</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Str::len</span><span class="plain-syntax">(</span><span class="identifier-syntax">prim</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">name</span><span class="plain-syntax">); </span><span class="identifier-syntax">j</span><span class="plain-syntax">&lt;20; </span><span class="identifier-syntax">j</span><span class="plain-syntax">++) </span><span class="identifier-syntax">PUT</span><span class="plain-syntax">(</span><span class="character-syntax">' '</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"%S\n"</span><span class="plain-syntax">, </span><span class="identifier-syntax">prim</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">signature</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>In general the standard set is a miscellany, but with one systematic family
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  In general the standard set is a miscellany, but with one systematic family
 of primitives for making indirect function calls (that is, calling a function
 whose identity is not known at compile time). These 12 primitives all do
 the same thing, but vary in their signatures, according to how many arguments
-the function call has, and whether its return value is to be used or discarded.
-</p>
-
-<p class="commentary">The following functions allow us to ask for the right primitive for the job:
-</p>
-
+the function call has, and whether its return value is to be used or discarded.</p>
+<p>The following functions allow us to ask for the right primitive for the job:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::arity_too_great_for_indirection</span><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">arity</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::arity_too_great_for_indirection</span><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">arity</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">arity</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">6</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::BIP_for_indirect_call_returning_value</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">Primitives::BIP_for_indirect_call_returning_value</span></span>:<br/>Emitting Inter Schemas - <a href="2-eis.html#SP3_1_2_2">&#167;3.1.2.2</a>, <a href="2-eis.html#SP3_1_3">&#167;3.1.3</a><br/>Produce - <a href="3-prd.html#SP28">&#167;28</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">arity</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::BIP_for_indirect_call_returning_value</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">Primitives::BIP_for_indirect_call_returning_value</span></span>:<br/>Emitting Inter Schemas - <a href="2-eis.html#SP3_1_2_2">&#167;3.1.2.2</a>, <a href="2-eis.html#SP3_1_3">&#167;3.1.3</a><br/>Produce - <a href="3-prd.html#SP28">&#167;28</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">arity</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="identifier-syntax">arity</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">: </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">INDIRECT0_BIP</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span><span class="plain-syntax">: </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">INDIRECT1_BIP</span><span class="plain-syntax">;</span>
@@ -460,7 +555,7 @@ the function call has, and whether its return value is to be used or discarded.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::BIP_for_void_indirect_call</span><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">arity</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::BIP_for_void_indirect_call</span><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">arity</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="identifier-syntax">arity</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">: </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">INDIRECT0V_BIP</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span><span class="plain-syntax">: </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">INDIRECT1V_BIP</span><span class="plain-syntax">;</span>
@@ -474,7 +569,7 @@ the function call has, and whether its return value is to be used or discarded.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::BIP_for_message_send</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">Primitives::BIP_for_message_send</span></span>:<br/>Emitting Inter Schemas - <a href="2-eis.html#SP3_1_9">&#167;3.1.9</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">arity</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::BIP_for_message_send</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">Primitives::BIP_for_message_send</span></span>:<br/>Emitting Inter Schemas - <a href="2-eis.html#SP3_1_9">&#167;3.1.9</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">arity</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="identifier-syntax">arity</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="constant-syntax">2</span><span class="plain-syntax">: </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">MESSAGE0_BIP</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="constant-syntax">3</span><span class="plain-syntax">: </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">MESSAGE1_BIP</span><span class="plain-syntax">;</span>
@@ -485,11 +580,11 @@ the function call has, and whether its return value is to be used or discarded.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>And these functions say whether or not a BIP belongs to the family:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>  And these functions say whether or not a BIP belongs to the family:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::is_BIP_for_indirect_call_returning_value</span><span class="plain-syntax">(</span><span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">s</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::is_BIP_for_indirect_call_returning_value</span><span class="plain-syntax">(</span><span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">s</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">s</span><span class="plain-syntax"> == </span><span class="constant-syntax">INDIRECT0_BIP</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">s</span><span class="plain-syntax"> == </span><span class="constant-syntax">INDIRECT1_BIP</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">s</span><span class="plain-syntax"> == </span><span class="constant-syntax">INDIRECT2_BIP</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
@@ -500,7 +595,7 @@ the function call has, and whether its return value is to be used or discarded.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::is_BIP_for_void_indirect_call</span><span class="plain-syntax">(</span><span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">s</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::is_BIP_for_void_indirect_call</span><span class="plain-syntax">(</span><span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">s</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">s</span><span class="plain-syntax"> == </span><span class="constant-syntax">INDIRECT0V_BIP</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">s</span><span class="plain-syntax"> == </span><span class="constant-syntax">INDIRECT1V_BIP</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">s</span><span class="plain-syntax"> == </span><span class="constant-syntax">INDIRECT2V_BIP</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
@@ -511,93 +606,89 @@ the function call has, and whether its return value is to be used or discarded.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. About the terms.</b>For example, 0 for the signature <span class="extract"><span class="extract-syntax">void -&gt; val</span></span>, or 2 for <span class="extract"><span class="extract-syntax">ref val -&gt; val</span></span>.
-</p>
-
-<p class="commentary">The <span class="extract"><span class="extract-syntax">*_XBIP</span></span> operations are treated as if they had the signature <span class="extract"><span class="extract-syntax">val val -&gt; void</span></span>.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. About the terms.</b>  For example, 0 for the signature <code>void -&gt; val</code>, or 2 for <code>ref val -&gt; val</code>.</p>
+<p>The <code>*_XBIP</code> operations are treated as if they had the signature <code>val val -&gt; void</code>.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::term_count</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">Primitives::term_count</span></span>:<br/>Emitting Inter Schemas - <a href="2-eis.html#SP3_1_11">&#167;3.1.11</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">BIP</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::term_count</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">Primitives::term_count</span></span>:<br/>Emitting Inter Schemas - <a href="2-eis.html#SP3_1_11">&#167;3.1.11</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">BIP</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><a href="1-ip.html#SP4" class="function-link"><span class="function-syntax">Primitives::prepare_standard_set_array</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">BIP</span><span class="plain-syntax"> &gt;= </span><span class="constant-syntax">LOWEST_XBIP_VALUE</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">2</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">standard_inform7_primitives</span><span class="plain-syntax">[</span><span class="identifier-syntax">BIP</span><span class="plain-syntax"> - </span><span class="constant-syntax">1</span><span class="plain-syntax">].</span><span class="element-syntax">term_count</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">standard_inform7_primitives</span><span class="plain-syntax">[</span><span class="identifier-syntax">BIP</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span><span class="plain-syntax">].</span><span class="element-syntax">term_count</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b>And this returns the primitive category for each term, counting from 0:
-this will be <span class="extract"><span class="extract-syntax">VAL_PRIM_CAT</span></span>, <span class="extract"><span class="extract-syntax">CODE_PRIM_CAT</span></span>, <span class="extract"><span class="extract-syntax">REF_PRIM_CAT</span></span> or <span class="extract"><span class="extract-syntax">LAB_PRIM_CAT</span></span>.
-</p>
-
-<p class="commentary">Again, the <span class="extract"><span class="extract-syntax">*_XBIP</span></span> operations are treated as if <span class="extract"><span class="extract-syntax">val val -&gt; void</span></span>.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b>  And this returns the primitive category for each term, counting from 0:
+this will be <code>VAL_PRIM_CAT</code>, <code>CODE_PRIM_CAT</code>, <code>REF_PRIM_CAT</code> or <code>LAB_PRIM_CAT</code>.</p>
+<p>Again, the <code>*_XBIP</code> operations are treated as if <code>val val -&gt; void</code>.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::term_category</span><button class="popup" onclick="togglePopup('usagePopup7')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup7">Usage of <span class="code-font"><span class="function-syntax">Primitives::term_category</span></span>:<br/>Emitting Inter Schemas - <a href="2-eis.html#SP3_1_10_2">&#167;3.1.10.2</a>, <a href="2-eis.html#SP3_1_11">&#167;3.1.11</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">BIP</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::term_category</span><button class="popup" onclick="togglePopup('usagePopup7')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup7">Usage of <span class="code-font"><span class="function-syntax">Primitives::term_category</span></span>:<br/>Emitting Inter Schemas - <a href="2-eis.html#SP3_1_10_2">&#167;3.1.10.2</a>, <a href="2-eis.html#SP3_1_11">&#167;3.1.11</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">BIP</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><a href="1-ip.html#SP4" class="function-link"><span class="function-syntax">Primitives::prepare_standard_set_array</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">i</span><span class="plain-syntax"> &lt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) || (</span><span class="identifier-syntax">i</span><span class="plain-syntax"> &gt;= </span><span class="constant-syntax">8</span><span class="plain-syntax">)) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"term out of range"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">BIP</span><span class="plain-syntax"> &gt;= </span><span class="constant-syntax">LOWEST_XBIP_VALUE</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">VAL_PRIM_CAT</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">standard_inform7_primitives</span><span class="plain-syntax">[</span><span class="identifier-syntax">BIP</span><span class="plain-syntax"> - </span><span class="constant-syntax">1</span><span class="plain-syntax">].</span><span class="element-syntax">term_categories</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">];</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">standard_inform7_primitives</span><span class="plain-syntax">[</span><span class="identifier-syntax">BIP</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span><span class="plain-syntax">].</span><span class="element-syntax">term_categories</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">];</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. </b>Returns <span class="extract"><span class="extract-syntax">TRUE</span></span> if any of those categories is a <span class="extract"><span class="extract-syntax">CODE_PRIM_CAT</span></span>; note that
-this is cached for speed.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. </b>  Returns <code>TRUE</code> if any of those categories is a <code>CODE_PRIM_CAT</code>; note that
+this is cached for speed.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::takes_code_blocks</span><button class="popup" onclick="togglePopup('usagePopup8')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup8">Usage of <span class="code-font"><span class="function-syntax">Primitives::takes_code_blocks</span></span>:<br/>Produce - <a href="3-prd.html#SP24">&#167;24</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">BIP</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::takes_code_blocks</span><button class="popup" onclick="togglePopup('usagePopup8')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup8">Usage of <span class="code-font"><span class="function-syntax">Primitives::takes_code_blocks</span></span>:<br/>Produce - <a href="3-prd.html#SP24">&#167;24</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">BIP</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><a href="1-ip.html#SP4" class="function-link"><span class="function-syntax">Primitives::prepare_standard_set_array</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">BIP</span><span class="plain-syntax"> &gt;= </span><span class="constant-syntax">LOWEST_XBIP_VALUE</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">standard_inform7_primitives</span><span class="plain-syntax">[</span><span class="identifier-syntax">BIP</span><span class="plain-syntax"> - </span><span class="constant-syntax">1</span><span class="plain-syntax">].</span><span class="element-syntax">takes_code_blocks</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">standard_inform7_primitives</span><span class="plain-syntax">[</span><span class="identifier-syntax">BIP</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span><span class="plain-syntax">].</span><span class="element-syntax">takes_code_blocks</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. Primitives within a specific tree.</b>So much for discussing the instruction set in the abstract: now we need code
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. Primitives within a specific tree.</b>  So much for discussing the instruction set in the abstract: now we need code
 to handle its declaration in each Inter tree we make. Note that, for speed,
-each <span class="extract"><span class="extract-syntax">inter_tree</span></span> structure contains the following index array inside it:
-</p>
-
+each <code>inter_tree</code> structure contains the following index array inside it:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">site_primitives_data</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">primitives_by_BIP</span><span class="plain-syntax">[</span><span class="constant-syntax">MAX_BIPS</span><span class="plain-syntax">];</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">site_primitives_data</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">site_primitives_data</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">primitives_by_BIP</span><span class="plain-syntax">[</span><span class="constant-syntax">MAX_BIPS</span><span class="plain-syntax">];</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">site_primitives_data</span><span class="plain-syntax">;</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::clear_site_data</span><button class="popup" onclick="togglePopup('usagePopup9')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup9">Usage of <span class="code-font"><span class="function-syntax">Primitives::clear_site_data</span></span>:<br/>Building Module - <a href="1-bm.html#SP4">&#167;4</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">building_site</span><span class="plain-syntax"> *</span><span class="identifier-syntax">B</span><span class="plain-syntax"> = &amp;(</span><span class="identifier-syntax">I</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">site</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;</span><span class="constant-syntax">MAX_BIPS</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) </span><span class="identifier-syntax">B</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">spridata</span><span class="plain-syntax">.</span><span class="element-syntax">primitives_by_BIP</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">] = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::clear_site_data</span><button class="popup" onclick="togglePopup('usagePopup9')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup9">Usage of <span class="code-font"><span class="function-syntax">Primitives::clear_site_data</span></span>:<br/>Building Module - <a href="1-bm.html#SP4">&#167;4</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">building_site</span><span class="plain-syntax"> *</span><span class="identifier-syntax">B</span><span class="plain-syntax"> = &amp;(</span><span class="identifier-syntax">I</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">site</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;</span><span class="constant-syntax">MAX_BIPS</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) </span><span class="identifier-syntax">B</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">spridata</span><span class="plain-syntax">.</span><span class="element-syntax">primitives_by_BIP</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">] = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
 <ul class="endnotetexts"><li>The structure site_primitives_data is private to this section.</li></ul>
-<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. </b>That array will allow us to obtain almost instantly the Inter symbol for
-the primitive in <span class="extract"><span class="extract-syntax">I</span></span> having any given BIP. We need to remember that primitives
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. </b>  That array will allow us to obtain almost instantly the Inter symbol for
+the primitive in <code>I</code> having any given BIP. We need to remember that primitives
 can come into being in two ways, though: either by us creating them here (see
 below), or by Inter code being read in from an external file. If the latter,
-the following function must be run to make sure the index is built:
-</p>
-
+the following function must be run to make sure the index is built:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::index_primitives_in_tree</span><span class="plain-syntax">(</span><span class="identifier-syntax">inter_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::index_primitives_in_tree</span><span class="plain-syntax">(</span><span class="identifier-syntax">inter_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">InterTree::traverse_root_only</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><a href="1-ip.html#SP13" class="function-link"><span class="function-syntax">Primitives::scan_visitor</span></a><span class="plain-syntax">, </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">, </span><span class="identifier-syntax">PRIMITIVE_IST</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::scan_visitor</span><span class="plain-syntax">(</span><span class="identifier-syntax">inter_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">inter_tree_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P</span><span class="plain-syntax">, </span><span class="reserved-syntax">void</span><span class="plain-syntax"> *</span><span class="identifier-syntax">v_state</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::scan_visitor</span><span class="plain-syntax">(</span><span class="identifier-syntax">inter_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">inter_tree_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P</span><span class="plain-syntax">, </span><span class="identifier-syntax">void</span><span class="plain-syntax"> *</span><span class="identifier-syntax">v_state</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prim</span><span class="plain-syntax"> = </span><span class="identifier-syntax">PrimitiveInstruction::primitive</span><span class="plain-syntax">(</span><span class="identifier-syntax">P</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">bip</span><span class="plain-syntax"> = </span><a href="1-ip.html#SP16" class="function-link"><span class="function-syntax">Primitives::to_BIP</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">prim</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">bip</span><span class="plain-syntax">) </span><span class="identifier-syntax">I</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">site</span><span class="plain-syntax">.</span><span class="element-syntax">spridata</span><span class="plain-syntax">.</span><span class="element-syntax">primitives_by_BIP</span><span class="plain-syntax">[</span><span class="identifier-syntax">bip</span><span class="plain-syntax">] = </span><span class="identifier-syntax">prim</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. </b>Here is where we declare primitives. Since there are only around 100 of these,
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. </b>  Here is where we declare primitives. Since there are only around 100 of these,
 it's fine for the actual primitive declarations to be made a little slowly: so
 we do it by writing the declarations out in textual Inter and then parsing them.
-We then make various paranoid consistency checks.
-</p>
-
+We then make various paranoid consistency checks.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::declare_standard_set</span><button class="popup" onclick="togglePopup('usagePopup10')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup10">Usage of <span class="code-font"><span class="function-syntax">Primitives::declare_standard_set</span></span>:<br/>Large-Scale Structure - <a href="1-ls.html#SP20">&#167;20</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">inter_bookmark</span><span class="plain-syntax"> *</span><span class="identifier-syntax">IBM</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Primitives::declare_standard_set</span><button class="popup" onclick="togglePopup('usagePopup10')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup10">Usage of <span class="code-font"><span class="function-syntax">Primitives::declare_standard_set</span></span>:<br/>Large-Scale Structure - <a href="1-ls.html#SP20">&#167;20</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">inter_bookmark</span><span class="plain-syntax"> *</span><span class="identifier-syntax">IBM</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><a href="1-ip.html#SP4" class="function-link"><span class="function-syntax">Primitives::prepare_standard_set_array</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;</span><span class="identifier-syntax">standard_inform7_primitives_extent</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++)</span>
 <span class="plain-syntax">        </span><a href="1-ip.html#SP14" class="function-link"><span class="function-syntax">Primitives::declare_one</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">IBM</span><span class="plain-syntax">, &amp;(</span><span class="identifier-syntax">standard_inform7_primitives</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">]));</span>
 <span class="plain-syntax">}</span>
 
-<span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="function-syntax">Primitives::declare_one</span><button class="popup" onclick="togglePopup('usagePopup11')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup11">Usage of <span class="code-font"><span class="function-syntax">Primitives::declare_one</span></span>:<br/><a href="1-ip.html#SP15">&#167;15</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">inter_bookmark</span><span class="plain-syntax"> *</span><span class="identifier-syntax">IBM</span><span class="plain-syntax">, </span><span class="reserved-syntax">inform7_primitive</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prim</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="function-syntax">Primitives::declare_one</span><button class="popup" onclick="togglePopup('usagePopup11')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup11">Usage of <span class="code-font"><span class="function-syntax">Primitives::declare_one</span></span>:<br/><a href="1-ip.html#SP15">&#167;15</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">inter_bookmark</span><span class="plain-syntax"> *</span><span class="identifier-syntax">IBM</span><span class="plain-syntax">, </span><span class="identifier-syntax">inform7_primitive</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prim</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">name</span><span class="plain-syntax"> = </span><span class="identifier-syntax">prim</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">name</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">signature</span><span class="plain-syntax"> = </span><span class="identifier-syntax">prim</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">signature</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">TEMPORARY_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">prim_command</span><span class="plain-syntax">)</span>
@@ -615,24 +706,24 @@ We then make various paranoid consistency checks.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">S</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. </b>Used when parsing textual Inter:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. </b>  Used when parsing textual Inter:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="function-syntax">Primitives::declare_one_named</span><span class="plain-syntax">(</span><span class="identifier-syntax">inter_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">inter_bookmark</span><span class="plain-syntax"> *</span><span class="identifier-syntax">IBM</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">name</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><a href="1-ip.html#SP4" class="function-link"><span class="function-syntax">Primitives::prepare_standard_set_array</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;</span><span class="identifier-syntax">standard_inform7_primitives_extent</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) {</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">inform7_primitive</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prim</span><span class="plain-syntax"> = &amp;(</span><span class="identifier-syntax">standard_inform7_primitives</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">]);</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">inform7_primitive</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prim</span><span class="plain-syntax"> = &amp;(</span><span class="identifier-syntax">standard_inform7_primitives</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">]);</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Str::eq</span><span class="plain-syntax">(</span><span class="identifier-syntax">prim</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">name</span><span class="plain-syntax">, </span><span class="identifier-syntax">name</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><a href="1-ip.html#SP14" class="function-link"><span class="function-syntax">Primitives::declare_one</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">IBM</span><span class="plain-syntax">, </span><span class="identifier-syntax">prim</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. </b>Finally, then, we provide functions to convert between BIPs and local primitive
-symbols.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. </b>  Finally, then, we provide functions to convert between BIPs and local primitive
+symbols.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="function-syntax">Primitives::from_BIP</span><button class="popup" onclick="togglePopup('usagePopup12')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup12">Usage of <span class="code-font"><span class="function-syntax">Primitives::from_BIP</span></span>:<br/>Produce - <a href="3-prd.html#SP24">&#167;24</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">bip</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">I</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"no tree"</span><span class="plain-syntax">);</span>

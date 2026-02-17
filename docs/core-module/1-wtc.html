@@ -20,6 +20,11 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -56,67 +61,65 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="1-wtc.html#SP1">&#167;1. Timers</a></li><li><a href="1-wtc.html#SP2">&#167;2. The task</a></li><li><a href="1-wtc.html#SP12">&#167;12. Project-related files and file paths</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Timers.</b>We keep track of about how long the compiler spends on each task, for the
-sake of better diagnostics.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Timers.</b>  We keep track of about how long the compiler spends on each task, for the
+sake of better diagnostics.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">stopwatch_timer</span><span class="plain-syntax"> *</span><span class="identifier-syntax">inform7_timer</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">, *</span><span class="identifier-syntax">supervisor_timer</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::start_timers</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::start_timers</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inform7_timer</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Time::start_stopwatch</span><span class="plain-syntax">(</span><span class="identifier-syntax">NULL</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"inform7 run"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">supervisor_timer</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Time::start_stopwatch</span><span class="plain-syntax">(</span><span class="identifier-syntax">inform7_timer</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"supervisor"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::stop_timers</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::stop_timers</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">Time::stop_stopwatch</span><span class="plain-syntax">(</span><span class="identifier-syntax">inform7_timer</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::log_stopwatch</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::log_stopwatch</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">Time::log_timing</span><span class="plain-syntax">(</span><span class="identifier-syntax">inform7_timer</span><span class="plain-syntax">, </span><span class="identifier-syntax">inform7_timer</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">time_taken</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. The task.</b>When Inbuild (a copy of which is included in the Inform 7 executable) decides
-that an Inform source text must be compiled, it calls <span class="extract"><span class="extract-syntax">Task::carry_out</span></span>. By
-this point Inbuild will have set up an <span class="extract"><span class="extract-syntax">inform_project</span></span> structure to
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. The task.</b>  When Inbuild (a copy of which is included in the Inform 7 executable) decides
+that an Inform source text must be compiled, it calls <code>Task::carry_out</code>. By
+this point Inbuild will have set up an <code>inform_project</code> structure to
 represent the program we have to compile; but we will need additional data
-about that compilation, and it's stored in the following.
-</p>
-
+about that compilation, and it's stored in the following.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">compile_task_data</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">build_step</span><span class="plain-syntax"> *</span><span class="identifier-syntax">task</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inform_project</span><span class="plain-syntax"> *</span><span class="identifier-syntax">project</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">compile_task_data</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">build_step</span><span class="plain-syntax"> *</span><span class="identifier-syntax">task</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inform_project</span><span class="plain-syntax"> *</span><span class="identifier-syntax">project</span><span class="plain-syntax">;</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="identifier-syntax">path</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="identifier-syntax">materials</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="identifier-syntax">build</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="identifier-syntax">existing_storyfile</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="identifier-syntax">path</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="identifier-syntax">materials</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="identifier-syntax">build</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="identifier-syntax">existing_storyfile</span><span class="plain-syntax">;</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">stage_of_compilation</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">next_resource_number</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">stage_of_compilation</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">next_resource_number</span><span class="plain-syntax">;</span>
 
 <span class="plain-syntax">    </span><span class="identifier-syntax">CLASS_DEFINITION</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">compile_task_data</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">compile_task_data</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>The structure compile_task_data is accessed in 2/up, 2/pwst and here.</li></ul>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>An early and perhaps arguable design decision for inform7 was that it would
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  An early and perhaps arguable design decision for inform7 was that it would
 compile just one source text in its lifetime as a process: and because of that,
-<span class="extract"><span class="extract-syntax">Task::carry_out</span></span> can only in fact be called once, and Inbuild only does so
+<code>Task::carry_out</code> can only in fact be called once, and Inbuild only does so
 once. But the following function allows in principle for multiple calls,
-against the day when we change our minds about all this.
-</p>
-
-<p class="commentary">Something we will never do is attempt to make <span class="extract"><span class="extract-syntax">inform7</span></span> thread-safe in the
+against the day when we change our minds about all this.</p>
+<p>Something we will never do is attempt to make <code>inform7</code> thread-safe in the
 sense of being able to compile two source texts simultaneously. The global
-<span class="extract"><span class="extract-syntax">inform7_task</span></span> is null when nothing is being compiled, or set to the unique
-thing which is being compiled when it is.
-</p>
-
+<code>inform7_task</code> is null when nothing is being compiled, or set to the unique
+thing which is being compiled when it is.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">compile_task_data</span><span class="plain-syntax"> *</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">compile_task_data</span><span class="plain-syntax"> *</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">latest_syntax_tree</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Task::carry_out</span><span class="plain-syntax">(</span><span class="identifier-syntax">build_step</span><span class="plain-syntax"> *</span><span class="identifier-syntax">S</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">project_bundle_exists</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Task::carry_out</span><span class="plain-syntax">(</span><span class="identifier-syntax">build_step</span><span class="plain-syntax"> *</span><span class="identifier-syntax">S</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">project_bundle_exists</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">Time::stop_stopwatch</span><span class="plain-syntax">(</span><span class="identifier-syntax">supervisor_timer</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inform_project</span><span class="plain-syntax"> *</span><span class="identifier-syntax">project</span><span class="plain-syntax"> = </span><span class="identifier-syntax">ProjectBundleManager::from_copy</span><span class="plain-syntax">(</span><span class="identifier-syntax">S</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">associated_copy</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">project</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) {</span>
@@ -134,45 +137,45 @@ thing which is being compiled when it is.
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">problem_count</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"cannot re-enter with new task"</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="reserved-syntax">compile_task_data</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="identifier-syntax">compile_task_data</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">task</span><span class="plain-syntax"> = </span><span class="identifier-syntax">S</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">project</span><span class="plain-syntax"> = </span><span class="identifier-syntax">project</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">path</span><span class="plain-syntax"> = </span><span class="identifier-syntax">S</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">associated_copy</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">location_if_path</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">build</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Projects::build_path</span><span class="plain-syntax">(</span><span class="identifier-syntax">project</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">materials</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Projects::materials_path</span><span class="plain-syntax">(</span><span class="identifier-syntax">project</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">existing_storyfile</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">stage_of_compilation</span><span class="plain-syntax"> = -1;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">stage_of_compilation</span><span class="plain-syntax"> = </span><span class="constant-syntax">-1</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next_resource_number</span><span class="plain-syntax"> = </span><span class="constant-syntax">3</span><span class="plain-syntax">;</span>
 
 <span class="plain-syntax">    </span><span class="identifier-syntax">DefaultLanguage::set</span><span class="plain-syntax">(</span><span class="identifier-syntax">Projects::get_language_of_syntax</span><span class="plain-syntax">(</span><span class="identifier-syntax">project</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">project_bundle_exists</span><span class="plain-syntax">) </span><a href="1-gtg.html#SP1" class="function-link"><span class="function-syntax">Gitignoring::automatic</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">project</span><span class="plain-syntax">);</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">rv</span><span class="plain-syntax"> = </span><a href="1-htc.html#SP2" class="function-link"><span class="function-syntax">Sequence::carry_out</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">TargetVMs::debug_enabled</span><span class="plain-syntax">(</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">task</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">for_vm</span><span class="plain-syntax">));</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">rv</span><span class="plain-syntax"> = </span><a href="1-htc.html#SP2" class="function-link"><span class="function-syntax">Sequence::carry_out</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">TargetVMs::debug_enabled</span><span class="plain-syntax">(</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">task</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">for_vm</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">rv</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>We don't want to create the Build folder unless it's actually needed, and
-in some cases it may not be.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  We don't want to create the Build folder unless it's actually needed, and
+in some cases it may not be.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::build_folder</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">Task::build_folder</span></span>:<br/><a href="1-wtc.html#SP13">&#167;13</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::build_folder</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">Task::build_folder</span></span>:<br/><a href="1-wtc.html#SP13">&#167;13</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">build</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Pathnames::create_in_file_system</span><span class="plain-syntax">(</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">build</span><span class="plain-syntax">) == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">build</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>All manner of low-level problems emerge when reading in the text of the
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  All manner of low-level problems emerge when reading in the text of the
 project, or any extensions it uses: these have already been found by inbuild
 and are attached to the relevant nodes in the build graph. We issue them
 here as Inform problem messages. (Inbuild wasn't able to do that for us
 because the Inform problems file wasn't open back then; and besides, it can
-only issue stubby Unix-like command line errors.)
-</p>
-
+only issue stubby Unix-like command line errors.)</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::issue_problems_arising</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">Task::issue_problems_arising</span></span>:<br/><a href="1-wtc.html#SP3">&#167;3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">build_vertex</span><span class="plain-syntax"> *</span><span class="identifier-syntax">V</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::issue_problems_arising</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">Task::issue_problems_arising</span></span>:<br/><a href="1-wtc.html#SP3">&#167;3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">build_vertex</span><span class="plain-syntax"> *</span><span class="identifier-syntax">V</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">V</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">type</span><span class="plain-syntax"> == </span><span class="identifier-syntax">COPY_VERTEX</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><a href="2-pwst.html#SP1" class="function-link"><span class="function-syntax">SourceProblems::issue_problems_arising</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">V</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">as_copy</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">build_vertex</span><span class="plain-syntax"> *</span><span class="identifier-syntax">W</span><span class="plain-syntax">;</span>
@@ -182,19 +185,19 @@ only issue stubby Unix-like command line errors.)
 <span class="plain-syntax">        </span><a href="1-wtc.html#SP5" class="function-link"><span class="function-syntax">Task::issue_problems_arising</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">W</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>We will keep track of how far along the process has advanced, in very
-rough stages. Twenty is plenty.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  We will keep track of how far along the process has advanced, in very
+rough stages. Twenty is plenty.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::advance_stage_to</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">Task::advance_stage_to</span></span>:<br/>How To Compile - <a href="1-htc.html#SP2">&#167;2</a>, <a href="1-htc.html#SP2_1">&#167;2.1</a>, <a href="1-htc.html#SP2_2">&#167;2.2</a>, <a href="1-htc.html#SP2_3">&#167;2.3</a>, <a href="1-htc.html#SP2_4">&#167;2.4</a>, <a href="1-htc.html#SP2_5">&#167;2.5</a>, <a href="1-htc.html#SP2_6">&#167;2.6</a>, <a href="1-htc.html#SP2_7">&#167;2.7</a>, <a href="1-htc.html#SP2_9">&#167;2.9</a>, <a href="1-htc.html#SP2_10">&#167;2.10</a>, <a href="1-htc.html#SP2_11">&#167;2.11</a>, <a href="1-htc.html#SP2_12">&#167;2.12</a>, <a href="1-htc.html#SP2_13">&#167;2.13</a>, <a href="1-htc.html#SP2_14">&#167;2.14</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">stage</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">name</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">X</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">debugging</span><span class="plain-syntax">,</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::advance_stage_to</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">Task::advance_stage_to</span></span>:<br/>How To Compile - <a href="1-htc.html#SP2">&#167;2</a>, <a href="1-htc.html#SP2_1">&#167;2.1</a>, <a href="1-htc.html#SP2_2">&#167;2.2</a>, <a href="1-htc.html#SP2_3">&#167;2.3</a>, <a href="1-htc.html#SP2_4">&#167;2.4</a>, <a href="1-htc.html#SP2_5">&#167;2.5</a>, <a href="1-htc.html#SP2_6">&#167;2.6</a>, <a href="1-htc.html#SP2_7">&#167;2.7</a>, <a href="1-htc.html#SP2_9">&#167;2.9</a>, <a href="1-htc.html#SP2_10">&#167;2.10</a>, <a href="1-htc.html#SP2_11">&#167;2.11</a>, <a href="1-htc.html#SP2_12">&#167;2.12</a>, <a href="1-htc.html#SP2_13">&#167;2.13</a>, <a href="1-htc.html#SP2_14">&#167;2.14</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">stage</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">name</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">X</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">debugging</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">stopwatch_timer</span><span class="plain-syntax"> *</span><span class="identifier-syntax">timer</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"there is no current task"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">stage</span><span class="plain-syntax"> &lt;= </span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">stage_of_compilation</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"not an advance"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">stage</span><span class="plain-syntax"> &gt;= </span><span class="constant-syntax">20</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"went too far"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">stage_of_compilation</span><span class="plain-syntax"> &gt;= </span><span class="constant-syntax">0</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">problem_count</span><span class="plain-syntax"> == </span><span class="constant-syntax">0</span><span class="plain-syntax">))</span>
 <span class="plain-syntax">        </span><a href="3-pc.html#SP5" class="function-link"><span class="function-syntax">PluginCalls::production_line</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">stage_of_compilation</span><span class="plain-syntax">, </span><span class="identifier-syntax">debugging</span><span class="plain-syntax">, </span><span class="identifier-syntax">timer</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">roman</span><span class="plain-syntax">[] = {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">roman</span><span class="plain-syntax">[] = {</span>
 <span class="plain-syntax">        </span><span class="string-syntax">"I"</span><span class="plain-syntax">, </span><span class="string-syntax">"II"</span><span class="plain-syntax">, </span><span class="string-syntax">"III"</span><span class="plain-syntax">, </span><span class="string-syntax">"IV"</span><span class="plain-syntax">, </span><span class="string-syntax">"V"</span><span class="plain-syntax">, </span><span class="string-syntax">"VI"</span><span class="plain-syntax">, </span><span class="string-syntax">"VII"</span><span class="plain-syntax">, </span><span class="string-syntax">"VIII"</span><span class="plain-syntax">, </span><span class="string-syntax">"IX"</span><span class="plain-syntax">, </span><span class="string-syntax">"X"</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">        </span><span class="string-syntax">"XI"</span><span class="plain-syntax">, </span><span class="string-syntax">"XII"</span><span class="plain-syntax">, </span><span class="string-syntax">"XIII"</span><span class="plain-syntax">, </span><span class="string-syntax">"XIV"</span><span class="plain-syntax">, </span><span class="string-syntax">"XV"</span><span class="plain-syntax">, </span><span class="string-syntax">"XVI"</span><span class="plain-syntax">, </span><span class="string-syntax">"XVII"</span><span class="plain-syntax">, </span><span class="string-syntax">"XVIII"</span><span class="plain-syntax">, </span><span class="string-syntax">"XIX"</span><span class="plain-syntax">, </span><span class="string-syntax">"XX"</span><span class="plain-syntax"> };</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">problem_count</span><span class="plain-syntax"> == </span><span class="constant-syntax">0</span><span class="plain-syntax">) {</span>
@@ -203,38 +206,38 @@ rough stages. Twenty is plenty.
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">stage_of_compilation</span><span class="plain-syntax"> = </span><span class="identifier-syntax">stage</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Task::is_before_stage</span><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">stage</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Task::is_before_stage</span><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">stage</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"there is no current task"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">stage_of_compilation</span><span class="plain-syntax"> &lt; </span><span class="identifier-syntax">stage</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Task::is_during_stage</span><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">stage</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Task::is_during_stage</span><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">stage</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"there is no current task"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">stage_of_compilation</span><span class="plain-syntax"> == </span><span class="identifier-syntax">stage</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Task::is_after_stage</span><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">stage</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Task::is_after_stage</span><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">stage</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"there is no current task"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">stage_of_compilation</span><span class="plain-syntax"> &gt; </span><span class="identifier-syntax">stage</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>The current project and the virtual machine we want to compile it for:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  The current project and the virtual machine we want to compile it for:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">inform_project</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::project</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">Task::project</span></span>:<br/><a href="1-wtc.html#SP8">&#167;8</a><br/>Internal Test Cases - <a href="1-itc.html#SP8">&#167;8</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">inform_project</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::project</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">Task::project</span></span>:<br/><a href="1-wtc.html#SP8">&#167;8</a><br/>Internal Test Cases - <a href="1-itc.html#SP8">&#167;8</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"there is no current task"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">project</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="identifier-syntax">target_vm</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::vm</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">Task::vm</span></span>:<br/><a href="1-wtc.html#SP17">&#167;17</a><br/>Compilation Settings - <a href="1-cs.html#SP4">&#167;4</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">target_vm</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::vm</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">Task::vm</span></span>:<br/><a href="1-wtc.html#SP17">&#167;17</a><br/>Compilation Settings - <a href="1-cs.html#SP4">&#167;4</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"there is no current task"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">task</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">for_vm</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Task::veto_number</span><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">X</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (((</span><span class="identifier-syntax">X</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">32767</span><span class="plain-syntax">) || (</span><span class="identifier-syntax">X</span><span class="plain-syntax"> &lt; -32768)) &amp;&amp;</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Task::veto_number</span><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">X</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (((</span><span class="identifier-syntax">X</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">32767</span><span class="plain-syntax">) || (</span><span class="identifier-syntax">X</span><span class="plain-syntax"> &lt; </span><span class="constant-syntax">-32768</span><span class="plain-syntax">)) &amp;&amp;</span>
 <span class="plain-syntax">        (</span><span class="identifier-syntax">TargetVMs::is_16_bit</span><span class="plain-syntax">(</span><a href="1-wtc.html#SP7" class="function-link"><span class="function-syntax">Task::vm</span></a><span class="plain-syntax">()))) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">StandardProblems::sentence_problem</span><span class="plain-syntax">(</span><a href="1-wtc.html#SP7" class="function-link"><span class="function-syntax">Task::syntax_tree</span></a><span class="plain-syntax">(), </span><span class="identifier-syntax">_p_</span><span class="plain-syntax">(</span><span class="identifier-syntax">PM_LiteralOverflow</span><span class="plain-syntax">),</span>
 <span class="plain-syntax">            </span><span class="string-syntax">"you use a number which is too large"</span><span class="plain-syntax">,</span>
@@ -245,34 +248,34 @@ rough stages. Twenty is plenty.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="identifier-syntax">inbuild_edition</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::edition</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">inbuild_edition</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::edition</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"there is no current task"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">project</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">as_copy</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">edition</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::syntax_tree</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">Task::syntax_tree</span></span>:<br/><a href="1-wtc.html#SP8">&#167;8</a>, <a href="1-wtc.html#SP16">&#167;16</a><br/>Core Preform - <a href="1-cp2.html#SP2">&#167;2</a>, <a href="1-cp2.html#SP3">&#167;3</a><br/>Using Problems - <a href="2-up.html#SP3">&#167;3</a>, <a href="2-up.html#SP3_3">&#167;3.3</a><br/>Supplementary Issues - <a href="2-si.html#SP1">&#167;1</a>, <a href="2-si.html#SP2">&#167;2</a>, <a href="2-si.html#SP3">&#167;3</a>, <a href="2-si.html#SP4">&#167;4</a>, <a href="2-si.html#SP5">&#167;5</a>, <a href="2-si.html#SP6">&#167;6</a>, <a href="2-si.html#SP7">&#167;7</a>, <a href="2-si.html#SP8">&#167;8</a>, <a href="2-si.html#SP9">&#167;9</a>, <a href="2-si.html#SP10">&#167;10</a>, <a href="2-si.html#SP11">&#167;11</a>, <a href="2-si.html#SP12">&#167;12</a>, <a href="2-si.html#SP13">&#167;13</a><br/>Problems With Source Text - <a href="2-pwst.html#SP1">&#167;1</a>, <a href="2-pwst.html#SP2">&#167;2</a>, <a href="2-pwst.html#SP3">&#167;3</a><br/>Calculus Problems - <a href="2-cp.html#SP1">&#167;1</a><br/>Kinds Problems - <a href="2-kp.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::syntax_tree</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">Task::syntax_tree</span></span>:<br/><a href="1-wtc.html#SP8">&#167;8</a>, <a href="1-wtc.html#SP16">&#167;16</a><br/>Core Preform - <a href="1-cp2.html#SP2">&#167;2</a>, <a href="1-cp2.html#SP3">&#167;3</a><br/>Using Problems - <a href="2-up.html#SP3">&#167;3</a>, <a href="2-up.html#SP3_3">&#167;3.3</a><br/>Supplementary Issues - <a href="2-si.html#SP1">&#167;1</a>, <a href="2-si.html#SP2">&#167;2</a>, <a href="2-si.html#SP3">&#167;3</a>, <a href="2-si.html#SP4">&#167;4</a>, <a href="2-si.html#SP5">&#167;5</a>, <a href="2-si.html#SP6">&#167;6</a>, <a href="2-si.html#SP7">&#167;7</a>, <a href="2-si.html#SP8">&#167;8</a>, <a href="2-si.html#SP9">&#167;9</a>, <a href="2-si.html#SP10">&#167;10</a>, <a href="2-si.html#SP11">&#167;11</a>, <a href="2-si.html#SP12">&#167;12</a>, <a href="2-si.html#SP13">&#167;13</a><br/>Problems With Source Text - <a href="2-pwst.html#SP1">&#167;1</a>, <a href="2-pwst.html#SP2">&#167;2</a>, <a href="2-pwst.html#SP3">&#167;3</a><br/>Calculus Problems - <a href="2-cp.html#SP1">&#167;1</a><br/>Kinds Problems - <a href="2-kp.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">latest_syntax_tree</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="identifier-syntax">inform_language</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::language_of_syntax</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">inform_language</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::language_of_syntax</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">Projects::get_language_of_syntax</span><span class="plain-syntax">(</span><a href="1-wtc.html#SP7" class="function-link"><span class="function-syntax">Task::project</span></a><span class="plain-syntax">());</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::add_kind_inventions</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::add_kind_inventions</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">StarTemplates::transcribe_all</span><span class="plain-syntax">(</span><a href="1-wtc.html#SP7" class="function-link"><span class="function-syntax">Task::syntax_tree</span></a><span class="plain-syntax">());</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::verify</span><button class="popup" onclick="togglePopup('usagePopup7')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup7">Usage of <span class="code-font"><span class="function-syntax">Task::verify</span></span>:<br/>How To Compile - <a href="1-htc.html#SP2_3">&#167;2.3</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::verify</span><button class="popup" onclick="togglePopup('usagePopup7')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup7">Usage of <span class="code-font"><span class="function-syntax">Task::verify</span></span>:<br/>How To Compile - <a href="1-htc.html#SP2_3">&#167;2.3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">VerifyTree::verify_integrity</span><span class="plain-syntax">(</span><a href="1-wtc.html#SP7" class="function-link"><span class="function-syntax">Task::syntax_tree</span></a><span class="plain-syntax">());</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">VerifyTree::verify_structure</span><span class="plain-syntax">(</span><a href="1-wtc.html#SP7" class="function-link"><span class="function-syntax">Task::syntax_tree</span></a><span class="plain-syntax">());</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>This is part of a scheme to wean authors off of use of an external extensions
-area.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>  This is part of a scheme to wean authors off of use of an external extensions
+area.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::warn_about_deprecated_nests</span><button class="popup" onclick="togglePopup('usagePopup8')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup8">Usage of <span class="code-font"><span class="function-syntax">Task::warn_about_deprecated_nests</span></span>:<br/>How To Compile - <a href="1-htc.html#SP2_1">&#167;2.1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::warn_about_deprecated_nests</span><button class="popup" onclick="togglePopup('usagePopup8')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup8">Usage of <span class="code-font"><span class="function-syntax">Task::warn_about_deprecated_nests</span></span>:<br/>How To Compile - <a href="1-htc.html#SP2_1">&#167;2.1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inform_project</span><span class="plain-syntax"> *</span><span class="identifier-syntax">project</span><span class="plain-syntax"> = </span><a href="1-wtc.html#SP7" class="function-link"><span class="function-syntax">Task::project</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inform_extension</span><span class="plain-syntax"> *</span><span class="identifier-syntax">ext</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER_LINKED_LIST</span><span class="plain-syntax">(</span><span class="identifier-syntax">ext</span><span class="plain-syntax">, </span><span class="identifier-syntax">inform_extension</span><span class="plain-syntax">, </span><span class="identifier-syntax">project</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">extensions_included</span><span class="plain-syntax">) {</span>
@@ -294,195 +297,176 @@ area.
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>Resources in a Blorb file have unique ID numbers which are positive integers,
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>  Resources in a Blorb file have unique ID numbers which are positive integers,
 but these are not required to start from 1, nor to be contiguous. For Inform,
 ID number 1 is reserved for the cover image (whether or not any cover image
 is provided: it is legal for there to be figures but no cover, and vice versa).
 Other figures, and sound effects, then mix freely as needed from ID number 3
 on upwards. We skip 2 so that it can be guaranteed that no sound resource
 has ID 1 or 2: this is to help people trying to play sounds in the Z-machine,
-where operand 1 or 2 in the <span class="extract"><span class="extract-syntax">@sound</span></span> opcode signifies not a sound resource
+where operand 1 or 2 in the <code>@sound</code> opcode signifies not a sound resource
 number but a long or short beep. If a genuine sound effect had resource ID
-1 or 2, therefore, it would be unplayable on the Z-machine.
-</p>
-
+1 or 2, therefore, it would be unplayable on the Z-machine.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Task::get_next_free_blorb_resource_ID</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Task::get_next_free_blorb_resource_ID</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"there is no current task"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next_resource_number</span><span class="plain-syntax">++;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b>This seed is ordinarily 0, causing no fix to occur, but can be set to
-a non-zero value to make testing Inform easier.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b>  This seed is ordinarily 0, causing no fix to occur, but can be set to
+a non-zero value to make testing Inform easier.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Task::rng_seed</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Task::rng_seed</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"there is no current task"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">project</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">fix_rng</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. </b>These functions are for steps on the production line which involve
-referring something back up to Inbuild.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. </b>  These functions are for steps on the production line which involve
+referring something back up to Inbuild.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::make_built_in_kind_constructors</span><button class="popup" onclick="togglePopup('usagePopup9')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup9">Usage of <span class="code-font"><span class="function-syntax">Task::make_built_in_kind_constructors</span></span>:<br/>How To Compile - <a href="1-htc.html#SP2_2">&#167;2.2</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::make_built_in_kind_constructors</span><button class="popup" onclick="togglePopup('usagePopup9')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup9">Usage of <span class="code-font"><span class="function-syntax">Task::make_built_in_kind_constructors</span></span>:<br/>How To Compile - <a href="1-htc.html#SP2_2">&#167;2.2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"there is no current task"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">Projects::load_built_in_kind_constructors</span><span class="plain-syntax">(</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">project</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Task::begin_execution_at_to_begin</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Task::begin_execution_at_to_begin</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"there is no current task"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Projects::Main_defined</span><span class="plain-syntax">(</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">project</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. Project-related files and file paths.</b>An Inform compilation can touch dozens of different files, and the rest
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. Project-related files and file paths.</b>  An Inform compilation can touch dozens of different files, and the rest
 of this section is a tour through the ones which are associated with the
 project itself. (Common resources, used for all compilations, or optional
-add-ins such as extensions are the business of Inbuild.)
-</p>
-
-<p class="commentary">If a project is called, say, Wuthering Heights, and is a "bundle" as created
-and compiled by the Inform app, then:
-</p>
-
-<ul class="items"><li>(a) The project path will be <span class="extract"><span class="extract-syntax">Wuthering Heights.inform</span></span>. This looks opaque
+add-ins such as extensions are the business of Inbuild.)</p>
+<p>If a project is called, say, Wuthering Heights, and is a &quot;bundle&quot; as created
+and compiled by the Inform app, then:</p>
+<p>(a) The project path will be <code>Wuthering Heights.inform</code>. This looks opaque
 on MacOS, as if a file, but on all platforms it is in fact a directory.
-</li><li>(b) Within it is <span class="extract"><span class="extract-syntax">Wuthering Heights.inform/Build</span></span>, the "build folder".
-</li><li>(c) Alongside it is <span class="extract"><span class="extract-syntax">Wuthering Heights.materials</span></span>. This is also a directory,
-but is openly accessible even on MacOS.
-</li></ul>
-<p class="commentary">If Inform is working on a single source text file, not a bundle, then the
+(b) Within it is <code>Wuthering Heights.inform/Build</code>, the &quot;build folder&quot;.
+(c) Alongside it is <code>Wuthering Heights.materials</code>. This is also a directory,
+but is openly accessible even on MacOS.</p>
+<p>If Inform is working on a single source text file, not a bundle, then the
 project will be the current working directory, but now the build folder will
-be the folder <span class="extract"><span class="extract-syntax">Build</span></span> in the same directory as the source file, and materials
-(if present) will again be alongside.
-</p>
-
-<p class="commentary">To begin: what's in the project area? <span class="extract"><span class="extract-syntax">story.ni</span></span> and <span class="extract"><span class="extract-syntax">auto.inf</span></span>, neither
+be the folder <code>Build</code> in the same directory as the source file, and materials
+(if present) will again be alongside.</p>
+<p>To begin: what's in the project area? <code>story.ni</code> and <code>auto.inf</code>, neither
 one very helpfully named, are defined in Inbuild rather than here: these
 are the I7 source text and its compilation down to I6, respectively.
-In addition we have:
-</p>
-
-<p class="commentary">The UUID file records an ISBN-like identifying number for the project. This
-is read-only for us.
-</p>
-
-<p class="commentary">The iFiction record, manifest and blurb file are all files that we generate
+In addition we have:</p>
+<p>The UUID file records an ISBN-like identifying number for the project. This
+is read-only for us.</p>
+<p>The iFiction record, manifest and blurb file are all files that we generate
 to give instructions to the releasing agent Inblorb. This means that they
-have no purpose unless Inform is in a release run (with <span class="extract"><span class="extract-syntax">-release</span></span> set on
-the command line), but they take no time to generate so we make them anyway.
-</p>
-
+have no purpose unless Inform is in a release run (with <code>-release</code> set on
+the command line), but they take no time to generate so we make them anyway.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::uuid_file</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::uuid_file</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"there is no current task"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">Filenames::in</span><span class="plain-syntax">(</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">path</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"uuid.txt"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
-<span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::ifiction_record_file</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::ifiction_record_file</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"there is no current task"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">Filenames::in</span><span class="plain-syntax">(</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">path</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"Metadata.iFiction"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
-<span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::licenses_file</span><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">as_HTML</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::licenses_file</span><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">as_HTML</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"there is no current task"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">as_HTML</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">Filenames::in</span><span class="plain-syntax">(</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">path</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"Licenses.html"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">Filenames::in</span><span class="plain-syntax">(</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">path</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"Licenses.txt"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
-<span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::manifest_file</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::manifest_file</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"there is no current task"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">Filenames::in</span><span class="plain-syntax">(</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">path</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"manifest.plist"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
-<span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::blurb_file</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::blurb_file</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"there is no current task"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">Filenames::in</span><span class="plain-syntax">(</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">path</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"Release.blurb"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. </b>The build folder for a project contains all of the working files created
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. </b>  The build folder for a project contains all of the working files created
 during the compilation process. The debugging log and Inform problems report
 (its HTML file of error messages) are both written there: see the Main Routine
-section for details. In addition we have:
-</p>
-
+section for details. In addition we have:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::cblorb_report_file</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::cblorb_report_file</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"there is no current task"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">Filenames::in</span><span class="plain-syntax">(</span><a href="1-wtc.html#SP4" class="function-link"><span class="function-syntax">Task::build_folder</span></a><span class="plain-syntax">(), </span><span class="identifier-syntax">I</span><span class="string-syntax">"StatusCblorb.html"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
-<span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::parse_tree_file</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::parse_tree_file</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"there is no current task"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">Filenames::in</span><span class="plain-syntax">(</span><a href="1-wtc.html#SP4" class="function-link"><span class="function-syntax">Task::build_folder</span></a><span class="plain-syntax">(), </span><span class="identifier-syntax">I</span><span class="string-syntax">"Parse tree.txt"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. </b>The name of the unblorbed story file is chosen for us by Inbuild, so
-we have to extract it from the build graph.
-</p>
-
-<p class="commentary">Note that this will return <span class="extract"><span class="extract-syntax">NULL</span></span> if the current run of Inform is to
-produce, say, a C program rather than a Glulx or Z-machine story file.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. </b>  The name of the unblorbed story file is chosen for us by Inbuild, so
+we have to extract it from the build graph.</p>
+<p>Note that this will return <code>NULL</code> if the current run of Inform is to
+produce, say, a C program rather than a Glulx or Z-machine story file.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::storyfile_file</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::storyfile_file</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"there is no current task"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">build_vertex</span><span class="plain-syntax"> *</span><span class="identifier-syntax">V</span><span class="plain-syntax"> = </span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">project</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">unblorbed_vertex</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">V</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">V</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">as_file</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. </b>Deeper inside the<span class="extract"><span class="extract-syntax">Build</span></span> subfolder is an (also ephemeral) <span class="extract"><span class="extract-syntax">Index</span></span> subfolder,
-which holds the mini-website of the Index for a project.
-</p>
-
-<p class="commentary">The main index files (<span class="extract"><span class="extract-syntax">Phrasebook.html</span></span> and so on) live at the top level,
-details on actions live in the subfolder <span class="extract"><span class="extract-syntax">Details</span></span>: see below.
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">PATH_INDEX_CALLBACK</span><span class="plain-syntax"> </span><a href="1-wtc.html#SP15" class="function-link"><span class="function-syntax">Task::index_path</span></a>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. </b>  Deeper inside the<code>Build</code> subfolder is an (also ephemeral) <code>Index</code> subfolder,
+which holds the mini-website of the Index for a project.</p>
+<p>The main index files (<code>Phrasebook.html</code> and so on) live at the top level,
+details on actions live in the subfolder <code>Details</code>: see below.</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <a href="1-wtc.html#SP15" class="function-link"><span class="function-syntax">Task::index_path</span></a>
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::index_path</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::index_path</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"there is no current task"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Pathnames::down</span><span class="plain-syntax">(</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">path</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"Index"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Pathnames::create_in_file_system</span><span class="plain-syntax">(</span><span class="identifier-syntax">P</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">P</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. </b>The XML file of headings is written by the supervisor, but only if we ask
-it to, and this is where:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. </b>  The XML file of headings is written by the supervisor, but only if we ask
+it to, and this is where:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::write_XML_headings_file</span><button class="popup" onclick="togglePopup('usagePopup10')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup10">Usage of <span class="code-font"><span class="function-syntax">Task::write_XML_headings_file</span></span>:<br/>How To Compile - <a href="1-htc.html#SP2_1">&#167;2.1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::write_XML_headings_file</span><button class="popup" onclick="togglePopup('usagePopup10')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup10">Usage of <span class="code-font"><span class="function-syntax">Task::write_XML_headings_file</span></span>:<br/>How To Compile - <a href="1-htc.html#SP2_1">&#167;2.1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"there is no current task"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">project</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">stand_alone</span><span class="plain-syntax"> == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">Headings::write_as_XML</span><span class="plain-syntax">(</span><a href="1-wtc.html#SP7" class="function-link"><span class="function-syntax">Task::syntax_tree</span></a><span class="plain-syntax">(), </span><span class="identifier-syntax">IndexLocations::xml_headings_filename</span><span class="plain-syntax">());</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. </b>That's it for the project folder, but other project-related stuff is in
-the materials folder, which we turn to next.
-</p>
-
-<p class="commentary">Inform is occasionally run in a mode where it performs a release on an
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. </b>  That's it for the project folder, but other project-related stuff is in
+the materials folder, which we turn to next.</p>
+<p>Inform is occasionally run in a mode where it performs a release on an
 existing story file (for example a 1980s Infocom one) rather than on one
 that it has newly generated. This is the filename such a story file would
-have by default, if so.
-</p>
-
-<p class="commentary">By default the story file will be called something like <span class="extract"><span class="extract-syntax">story.z8</span></span>, but
+have by default, if so.</p>
+<p>By default the story file will be called something like <code>story.z8</code>, but
 its leafname is actually declared from the source text of the Inform
 project created to do this wrapping-up. So we need a way to set as well
 as read this filename. Whatever the leafname, though, it lives in the top
-level of materials.
-</p>
-
+level of materials.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Task::wraps_existing_storyfile</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Task::wraps_existing_storyfile</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"there is no current task"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">existing_storyfile</span><span class="plain-syntax"> != </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">)?</span><span class="identifier-syntax">TRUE:FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::set_existing_storyfile</span><span class="plain-syntax">(</span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">name</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::set_existing_storyfile</span><span class="plain-syntax">(</span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">name</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"there is no current task"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">name</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">TEMPORARY_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">leaf</span><span class="plain-syntax">)</span>
@@ -493,102 +477,102 @@ level of materials.
 <span class="plain-syntax">        </span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">existing_storyfile</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Filenames::in</span><span class="plain-syntax">(</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">materials</span><span class="plain-syntax">, </span><span class="identifier-syntax">name</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
-<span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::existing_storyfile_file</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::existing_storyfile_file</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"there is no current task"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">existing_storyfile</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP18" class="paragraph-anchor"></a><b>&#167;18. </b>Materials is also where cover art lives: it could have either the file
-extension <span class="extract"><span class="extract-syntax">.jpg</span></span> or <span class="extract"><span class="extract-syntax">.png</span></span>, and we generate both sets of filenames, even
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP18" class="paragraph-anchor"></a><b>&#167;18. </b>  Materials is also where cover art lives: it could have either the file
+extension <code>.jpg</code> or <code>.png</code>, and we generate both sets of filenames, even
 though at most one will actually work. This is also where we generate the EPS
 file of the map, if so requested; a bit anomalously, it's the only file in
-Materials but outside Release which we write to.
-</p>
-
+Materials but outside Release which we write to.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::large_cover_art_file</span><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">JPEG</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::large_cover_art_file</span><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">JPEG</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"there is no current task"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">JPEG</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">Filenames::in</span><span class="plain-syntax">(</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">materials</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"Cover.jpg"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">Filenames::in</span><span class="plain-syntax">(</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">materials</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"Cover.png"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
-<span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::epsmap_file</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::epsmap_file</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"there is no current task"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">Filenames::in</span><span class="plain-syntax">(</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">materials</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"Inform Map.eps"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP19" class="paragraph-anchor"></a><b>&#167;19. </b>This is also where the originals (not the released copies) of the Figures
-and Sounds, if any, live: in their own subfolders, or "departments".
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP19" class="paragraph-anchor"></a><b>&#167;19. </b>  This is also where the originals (not the released copies) of the Figures
+and Sounds, if any, live: in their own subfolders, or &quot;departments&quot;.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::resources_path</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::resources_path</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"there is no current task"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">materials</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::figures_department</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::figures_department</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">I</span><span class="string-syntax">"Figures"</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
-<span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::sounds_department</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::sounds_department</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">I</span><span class="string-syntax">"Sounds"</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
-<span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::data_department</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::data_department</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">I</span><span class="string-syntax">"Data"</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP20" class="paragraph-anchor"></a><b>&#167;20. </b>On a release run, Inblorb will populate the Release subfolder of Materials;
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP20" class="paragraph-anchor"></a><b>&#167;20. </b>  On a release run, Inblorb will populate the Release subfolder of Materials;
 figures and sounds will be copied into the relevant subfolders. The principle
 is that everything in Release can always be thrown away without loss, because
-it can all be generated again.
-</p>
-
+it can all be generated again.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::release_path</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::release_path</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"there is no current task"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">Pathnames::down</span><span class="plain-syntax">(</span><span class="identifier-syntax">inform7_task</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">materials</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"Release"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
-<span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::released_figures_path</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::released_figures_path</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">Pathnames::down</span><span class="plain-syntax">(</span><a href="1-wtc.html#SP20" class="function-link"><span class="function-syntax">Task::release_path</span></a><span class="plain-syntax">(), </span><span class="identifier-syntax">I</span><span class="string-syntax">"Figures"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
-<span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::released_sounds_path</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::released_sounds_path</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">Pathnames::down</span><span class="plain-syntax">(</span><a href="1-wtc.html#SP20" class="function-link"><span class="function-syntax">Task::release_path</span></a><span class="plain-syntax">(), </span><span class="identifier-syntax">I</span><span class="string-syntax">"Sounds"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
-<span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::released_interpreter_path</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="function-syntax">Task::released_interpreter_path</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">Pathnames::down</span><span class="plain-syntax">(</span><a href="1-wtc.html#SP20" class="function-link"><span class="function-syntax">Task::release_path</span></a><span class="plain-syntax">(), </span><span class="identifier-syntax">I</span><span class="string-syntax">"interpreter"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP21" class="paragraph-anchor"></a><b>&#167;21. </b>EPS-format files are vector art, rather than raster art, and are produced
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP21" class="paragraph-anchor"></a><b>&#167;21. </b>  EPS-format files are vector art, rather than raster art, and are produced
 with the intention that authors can tidy them up afterwards using programs
 like Adobe Illustrator. By default they aren't produced, so that the following
-flag stays <span class="extract"><span class="extract-syntax">FALSE</span></span>:
-</p>
-
+flag stays <code>FALSE</code>:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">write_EPS_format_map</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">write_EPS_format_map</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">do_not_generate_index</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">; </span><span class="comment-syntax"> Set by the </span><span class="extract"><span class="extract-syntax">-no-index</span></span><span class="comment-syntax"> command line option</span>
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::disable_or_enable_index</span><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">which</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">do_not_generate_index</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">; </span><span class="comment-syntax">/* Set by the |-no-index| command line option */</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::disable_or_enable_index</span><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">which</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">do_not_generate_index</span><span class="plain-syntax"> = </span><span class="identifier-syntax">which</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">do_not_generate_problems</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">; </span><span class="comment-syntax"> Set by the </span><span class="extract"><span class="extract-syntax">-no-problems</span></span><span class="comment-syntax"> command line option</span>
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::disable_or_enable_problems</span><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">which</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">do_not_generate_problems</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">; </span><span class="comment-syntax">/* Set by the |-no-problems| command line option */</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::disable_or_enable_problems</span><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">which</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">do_not_generate_problems</span><span class="plain-syntax"> = </span><span class="identifier-syntax">which</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">do_not_update_extensions_index</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">; </span><span class="comment-syntax"> Also set by the </span><span class="extract"><span class="extract-syntax">-no-index</span></span><span class="comment-syntax"> command line option</span>
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::disable_or_enable_extensions_update</span><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">which</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">do_not_update_extensions_index</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">; </span><span class="comment-syntax">/* Also set by the |-no-index| command line option */</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::disable_or_enable_extensions_update</span><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">which</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">do_not_update_extensions_index</span><span class="plain-syntax"> = </span><span class="identifier-syntax">which</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Task::problems_enabled</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Task::problems_enabled</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">do_not_generate_problems</span><span class="plain-syntax">?</span><span class="identifier-syntax">FALSE:TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP22" class="paragraph-anchor"></a><b>&#167;22. </b>And so, finally, the following triggers the indexing process.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP22" class="paragraph-anchor"></a><b>&#167;22. </b>  And so, finally, the following triggers the indexing process.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">inform7_index_requirements</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::specify_index_requirements</span><button class="popup" onclick="togglePopup('usagePopup11')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup11">Usage of <span class="code-font"><span class="function-syntax">Task::specify_index_requirements</span></span>:<br/>How To Compile - <a href="1-htc.html#SP2_14">&#167;2.14</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">inform7_index_requirements</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Task::specify_index_requirements</span><button class="popup" onclick="togglePopup('usagePopup11')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup11">Usage of <span class="code-font"><span class="function-syntax">Task::specify_index_requirements</span></span>:<br/>How To Compile - <a href="1-htc.html#SP2_14">&#167;2.14</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inform7_index_requirements</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">do_not_generate_index</span><span class="plain-syntax"> == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">inform7_index_requirements</span><span class="plain-syntax"> |= </span><span class="identifier-syntax">INDEX_REQUIRED_BIT</span><span class="plain-syntax">;</span>
@@ -598,7 +582,7 @@ flag stays <span class="extract"><span class="extract-syntax">FALSE</span></span
 <span class="plain-syntax">        </span><span class="identifier-syntax">inform7_index_requirements</span><span class="plain-syntax"> |= </span><span class="identifier-syntax">EPS_MAP_REQUIRED_BIT</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Task::get_index_requirements</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Task::get_index_requirements</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">inform7_index_requirements</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>

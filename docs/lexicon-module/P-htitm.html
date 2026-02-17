@@ -12,6 +12,11 @@
 <link href="../docs-assets/Navigation.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Fonts.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -48,89 +53,78 @@
 
 <ul class="toc"><li><a href="P-htitm.html#SP1">&#167;1. Status</a></li><li><a href="P-htitm.html#SP2">&#167;2. Importing the module</a></li><li><a href="P-htitm.html#SP3">&#167;3. Defining parsing methods</a></li><li><a href="P-htitm.html#SP4">&#167;4. Using callbacks</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Status.</b>The lexicon module is provided as one of the "services" suite of modules,
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Status.</b>  The lexicon module is provided as one of the &quot;services&quot; suite of modules,
 which means that it was built with a view to potential incorporation in
 multiple tools. It can be found, for example, in <a href="../inform7/index.html" class="internal">inform7</a> and
-<a href="../linguistics-test/index.html" class="internal">linguistics-test</a>.
-</p>
-
-<p class="commentary">By convention, the modules considered as "services" have no dependencies on
-other modules except for <a href="../foundation/index.html" class="internal">foundation</a> and other "services" modules.
-</p>
-
-<p class="commentary">A tool can import <a href="index.html" class="internal">lexicon</a> only if it also imports <a href="../foundation/index.html" class="internal">foundation</a>,
-<a href="../words-module/index.html" class="internal">words</a>, <a href="../syntax-module/index.html" class="internal">syntax</a> and <a href="../inflections-module/index.html" class="internal">inflections</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Importing the module.</b>We'll use the term "parent" to mean the tool which is importing <a href="index.html" class="internal">lexicon</a>,
+<a href="../linguistics-test/index.html" class="internal">linguistics-test</a>.</p>
+<p>By convention, the modules considered as &quot;services&quot; have no dependencies on
+other modules except for <a href="../foundation/index.html" class="internal">foundation</a> and other &quot;services&quot; modules.</p>
+<p>A tool can import <a href="index.html" class="internal">lexicon</a> only if it also imports <a href="../foundation/index.html" class="internal">foundation</a>,
+<a href="../words-module/index.html" class="internal">words</a>, <a href="../syntax-module/index.html" class="internal">syntax</a> and <a href="../inflections-module/index.html" class="internal">inflections</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Importing the module.</b>  We'll use the term &quot;parent&quot; to mean the tool which is importing <a href="index.html" class="internal">lexicon</a>,
 that is, which will include its code and be able to use it. As with any
 imported module,
-</p>
-
-<ul class="items"><li>&#9679; The contents page of the parent's web must identify and locate the
-module:
-</li></ul>
+(*) The contents page of the parent's web must identify and locate the
+module:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="element-syntax">Import</span><span class="plain-syntax">:</span><span class="string-syntax"> somepath/lexicon</span>
+<span class="plain-syntax">Import: somepath/lexicon</span>
 </pre>
-<ul class="items"><li>&#9679; The parent must call <span class="extract"><span class="extract-syntax">LexiconModule::start()</span></span> just after it starts up, and
-<span class="extract"><span class="extract-syntax">LexiconModule::end()</span></span> just before it shuts down. (But just after, and just
-before, the corresponding calls to <a href="../foundation/index.html" class="internal">foundation</a>.)
-</li></ul>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Defining parsing methods.</b>When lexicon entries are registered (see <a href="1-lxc.html" class="internal">Lexicon (in lexicon)</a>), they are
-assigned "meaning codes", and these affect the way that parsing is done.
-The user should define <span class="extract"><span class="extract-syntax">EXACT_PARSING_BITMAP</span></span>, <span class="extract"><span class="extract-syntax">SUBSET_PARSING_BITMAP</span></span>
-and <span class="extract"><span class="extract-syntax">PARAMETRISED_PARSING_BITMAP</span></span> to be sums of the meaning codes for
-which these methods are used &mdash; see <a href="2-pe.html" class="internal">Parse Excerpts</a>.
-</p>
-
-<p class="commentary">For example, the parent could define <span class="extract"><span class="extract-syntax">INGREDIENTS_MC</span></span> and <span class="extract"><span class="extract-syntax">RECIPES_MC</span></span> to
-have two different namespaces, and then define <span class="extract"><span class="extract-syntax">EXACT_PARSING_BITMAP</span></span> to
-be <span class="extract"><span class="extract-syntax">INGREDIENTS_MC + RECIPES_MC</span></span> to make both of them parsed exactly.
-</p>
-
-<p class="commentary">Minimal default settings are made if the parent doesn't create these
-constants.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Using callbacks.</b>Shared modules like this one are tweaked in behaviour by defining "callback
-functions". This means that the parent might provide a function of its own
+<div class="lsmarkdown">
+<p>(*) The parent must call <code>LexiconModule::start()</code> just after it starts up, and
+<code>LexiconModule::end()</code> just before it shuts down. (But just after, and just
+before, the corresponding calls to <a href="../foundation/index.html" class="internal">foundation</a>.)</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Defining parsing methods.</b>  When lexicon entries are registered (see <a href="1-lxc.html" class="internal">Lexicon (in lexicon)</a>), they are
+assigned &quot;meaning codes&quot;, and these affect the way that parsing is done.
+The user should define <code>EXACT_PARSING_BITMAP</code>, <code>SUBSET_PARSING_BITMAP</code>
+and <code>PARAMETRISED_PARSING_BITMAP</code> to be sums of the meaning codes for
+which these methods are used -- see <a href="2-pe.html" class="internal">Parse Excerpts</a>.</p>
+<p>For example, the parent could define <code>INGREDIENTS_MC</code> and <code>RECIPES_MC</code> to
+have two different namespaces, and then define <code>EXACT_PARSING_BITMAP</code> to
+be <code>INGREDIENTS_MC + RECIPES_MC</code> to make both of them parsed exactly.</p>
+<p>Minimal default settings are made if the parent doesn't create these
+constants.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Using callbacks.</b>  Shared modules like this one are tweaked in behaviour by defining &quot;callback
+functions&quot;. This means that the parent might provide a function of its own
 which would answer a question put to it by the module, or take some action
 on behalf of the module: it's a callback in the sense that the parent is
 normally calling the module, but then the module calls the parent back to
-ask for data or action.
-</p>
-
-<p class="commentary">The parent must indicate which function to use by defining a constant with
+ask for data or action.</p>
+<p>The parent must indicate which function to use by defining a constant with
 a specific name as being equal to that function's name. A fictional example
-would be
-</p>
-
+would be</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="function-syntax">@d</span><span class="plain-syntax"> EXPRESS_SURPRISE_LEXICON_CALLBACK Emotions::gosh</span>
+<span class="plain-syntax">    @d EXPRESS_SURPRISE_LEXICON_CALLBACK Emotions::gosh</span>
 
 <span class="plain-syntax">    =</span>
-<span class="plain-syntax">    </span><span class="element-syntax">void Emotions:</span><span class="plain-syntax">:</span><span class="string-syntax">gosh(text_stream *OUT) {</span>
+<span class="plain-syntax">    void Emotions::gosh(text_stream *OUT) {</span>
 <span class="plain-syntax">        WRITE("Zowie!\n");</span>
 <span class="plain-syntax">    }</span>
 </pre>
-<p class="commentary">The lexicon module has many callbacks, but they are all optional. The
-following alphabetical list has references to fuller explanations:
-</p>
-
-<ul class="items"><li>&#9679; <span class="extract"><span class="extract-syntax">EM_CASE_SENSITIVITY_TEST_LEXICON_CALLBACK</span></span>, <span class="extract"><span class="extract-syntax">EM_ALLOW_BLANK_TEST_LEXICON_CALLBACK</span></span>
-and <span class="extract"><span class="extract-syntax">EM_IGNORE_DEFINITE_ARTICLE_TEST_LEXICON_CALLBACK</span></span> can all make excerpts
-parse in slightly different ways. <a href="../core-module/index.html" class="internal">core</a> sets all of these to return <span class="extract"><span class="extract-syntax">TRUE</span></span>
-for say phrases, and <span class="extract"><span class="extract-syntax">FALSE</span></span> for everything else. See <a href="1-lxc.html#SP3" class="internal">Lexicon::retrieve</a>
-and <a href="1-lxc.html#SP1" class="internal">Lexicon::register</a>.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">PARSE_EXACTLY_LEXICON_CALLBACK</span></span> is called when an excerpt is about to be
-parsed in "subset mode" &mdash; allowing just a subset of its words to be used,
+<div class="lsmarkdown">
+<p>The lexicon module has many callbacks, but they are all optional. The
+following alphabetical list has references to fuller explanations:</p>
+<p>(*) <code>EM_CASE_SENSITIVITY_TEST_LEXICON_CALLBACK</code>, <code>EM_ALLOW_BLANK_TEST_LEXICON_CALLBACK</code>
+and <code>EM_IGNORE_DEFINITE_ARTICLE_TEST_LEXICON_CALLBACK</code> can all make excerpts
+parse in slightly different ways. <a href="../core-module/index.html" class="internal">core</a> sets all of these to return <code>TRUE</code>
+for say phrases, and <code>FALSE</code> for everything else. See <a href="1-lxc.html#SP3" class="internal">Lexicon::retrieve</a>
+and <a href="1-lxc.html#SP1" class="internal">Lexicon::register</a>.</p>
+<p>(*) <code>PARSE_EXACTLY_LEXICON_CALLBACK</code> is called when an excerpt is about to be
+parsed in &quot;subset mode&quot; -- allowing just a subset of its words to be used,
 i.e., not requiring exact wording. This function can refuse to allow that in
-certain cases. See <a href="1-lxc.html#SP3" class="internal">Lexicon::retrieve</a>.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">PROBLEM_LEXICON_CALLBACK</span></span> is called when an error is found, and can
+certain cases. See <a href="1-lxc.html#SP3" class="internal">Lexicon::retrieve</a>.</p>
+<p>(*) <code>PROBLEM_LEXICON_CALLBACK</code> is called when an error is found, and can
 prevent this from being issued to the terminal as an error message: see
-<a href="2-em.html#SP14" class="internal">ExcerptMeanings::problem_handler</a>.
-</li></ul>
+<a href="2-em.html#SP14" class="internal">ExcerptMeanings::problem_handler</a>.</p>
+</div>
 <nav role="progress"><div class="progresscontainer">
     <ul class="progressbar"><li class="progressprev"><a href="P-wtmd.html">&#10094;</a></li><li class="progresscurrentchapter">P</li><li class="progresssection"><a href="P-wtmd.html">wtmd</a></li><li class="progresscurrent">htitm</li><li class="progresschapter"><a href="1-lm.html">1</a></li><li class="progresschapter"><a href="2-em.html">2</a></li><li class="progressnext"><a href="1-lm.html">&#10095;</a></li></ul></div>
 </nav><!-- End of weave -->

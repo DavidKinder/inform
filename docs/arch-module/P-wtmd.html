@@ -12,6 +12,11 @@
 <link href="../docs-assets/Navigation.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Fonts.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -48,67 +53,55 @@
 
 <ul class="toc"><li><a href="P-wtmd.html#SP1">&#167;1. Prerequisites</a></li><li><a href="P-wtmd.html#SP2">&#167;2. Architecture versus VM</a></li><li><a href="P-wtmd.html#SP4">&#167;4. Compatibility</a></li><li><a href="P-wtmd.html#SP5">&#167;5. Features</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Prerequisites.</b>The arch module is a part of the Inform compiler toolset. It is
-presented as a literate program or "web". Before diving in:
-</p>
-
-<ul class="items"><li>(a) It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.
-</li><li>(b) The module is written in C, in fact ANSI C99, but this is disguised by the
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Prerequisites.</b>  The arch module is a part of the Inform compiler toolset. It is
+presented as a literate program or &quot;web&quot;. Before diving in:
+(a) It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.
+(b) The module is written in C, in fact ANSI C99, but this is disguised by the
 fact that it uses some extension syntaxes provided by the <a href="../inweb/index.html" class="internal">inweb</a> literate
 programming tool, making it a dialect of C called InC. See <a href="../inweb/index.html" class="internal">inweb</a> for
 full details, but essentially: it's C without predeclarations or header files,
-and where functions have names like <span class="extract"><span class="extract-syntax">Tags::add_by_name</span></span> rather than <span class="extract"><span class="extract-syntax">add_by_name</span></span>.
-</li><li>(c) This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
+and where functions have names like <code>Tags::add_by_name</code> rather than <code>add_by_name</code>.
+(c) This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
 uses a module of utility functions called <a href="../foundation/index.html" class="internal">foundation</a>.
-For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.
-</li></ul>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Architecture versus VM.</b>The Inform 7 build process works in two stages: first it generates abstract
-Inter code, then it further generates "final code" from that.
-</p>
-
-<p class="commentary">It's an appealing notion that this first stage might be universal: that
+For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Architecture versus VM.</b>  The Inform 7 build process works in two stages: first it generates abstract
+Inter code, then it further generates &quot;final code&quot; from that.</p>
+<p>It's an appealing notion that this first stage might be universal: that
 is, that Inform 7 could generate the same Inter code regardless of the
 eventual build product needed, and that only the second stage would vary
-according to this.
-</p>
-
-<p class="commentary">Which is very nearly true, but not quite. Here's why not:
-</p>
-
-<ul class="items"><li>(a) Inform 7 has to generate different code if integers are 16 rather
+according to this.</p>
+<p>Which is very nearly true, but not quite. Here's why not:
+(a) Inform 7 has to generate different code if integers are 16 rather
 than 32 bits wide, and
-</li><li>(b) kits of Inter code normally used in compilation make certain other
+(b) kits of Inter code normally used in compilation make certain other
 architectural assumptions based on the integer size (for example, the
 assembly-language syntax and semantics are different in these cases);
-</li><li>(c) it also generates different code with debugging enabled than without.
-</li></ul>
-<p class="commentary">Reason (c) could be avoided, at some cost in complexity, but reasons (a) and (b)
+(c) it also generates different code with debugging enabled than without.</p>
+<p>Reason (c) could be avoided, at some cost in complexity, but reasons (a) and (b)
 are something we cannot sensibly avoid without making Inter a much higher-level
-form of bytecode. Instead, we have "architectures" for Inter: for example,
-32-bit with debugging enabled is the <span class="extract"><span class="extract-syntax">32d</span></span> architecture. See <a href="2-arc.html" class="internal">Architectures</a>;
+form of bytecode. Instead, we have &quot;architectures&quot; for Inter: for example,
+32-bit with debugging enabled is the <code>32d</code> architecture. See <a href="2-arc.html" class="internal">Architectures</a>;
 if ever we introduce a 64-bit VM, that will need new architectures, and
-this is where they would go.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>A <a href="2-tvm.html#SP2" class="internal">target_vm</a> object, on the other hand, expresses the choices made at
-the second stage too. The term "VM" is traditional here, and stands for
-"virtual machine", because until 2021, Inform could only generate code which
+this is where they would go.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  A <a href="2-tvm.html#SP2" class="internal">target_vm</a> object, on the other hand, expresses the choices made at
+the second stage too. The term &quot;VM&quot; is traditional here, and stands for
+&quot;virtual machine&quot;, because until 2021, Inform could only generate code which
 would ultimately run on virtual machines called Glulx and the Z-machine. But it
-can now, for example, also generate C.
-</p>
-
-<p class="commentary">As a result, "VM" now has a more general meaning, and really means "form of
-final code generation". The Glulx format used to be specified by supplying the
-command-line option <span class="extract"><span class="extract-syntax">-format=ulx</span></span> to Inform 7 or Inter: that still works,
-though it is deprecated, and <span class="extract"><span class="extract-syntax">-format=Inform6/32d</span></span> is better. But equally
-possible now would be <span class="extract"><span class="extract-syntax">-format=C/32d</span></span>. Here the target is a native executable
-to be compiled with a C compiler.
-</p>
-
-<p class="commentary">As these new-style <span class="extract"><span class="extract-syntax">-format</span></span> options suggest, the compilation process thus
-involves a combination of both architecture and target:
-</p>
-
+can now, for example, also generate C.</p>
+<p>As a result, &quot;VM&quot; now has a more general meaning, and really means &quot;form of
+final code generation&quot;. The Glulx format used to be specified by supplying the
+command-line option <code>-format=ulx</code> to Inform 7 or Inter: that still works,
+though it is deprecated, and <code>-format=Inform6/32d</code> is better. But equally
+possible now would be <code>-format=C/32d</code>. Here the target is a native executable
+to be compiled with a C compiler.</p>
+<p>As these new-style <code>-format</code> options suggest, the compilation process thus
+involves a combination of both architecture and target:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">                             </span><span class="element-syntax">depends</span><span class="plain-syntax"> </span><span class="element-syntax">on</span><span class="plain-syntax"> </span><span class="element-syntax">architecture</span><span class="plain-syntax">:           </span><span class="element-syntax">depends</span><span class="plain-syntax"> </span><span class="element-syntax">on</span><span class="plain-syntax"> </span><span class="element-syntax">target</span><span class="plain-syntax">:</span>
 <span class="plain-syntax">    </span><span class="element-syntax">Source</span><span class="plain-syntax"> </span><span class="element-syntax">text</span><span class="plain-syntax"> -----------&gt; </span><span class="element-syntax">Inter</span><span class="plain-syntax"> </span><span class="element-syntax">code</span><span class="plain-syntax">       ----------------&gt; </span><span class="element-syntax">Bytecode</span><span class="plain-syntax"> </span><span class="element-syntax">for</span>
@@ -117,38 +110,34 @@ involves a combination of both architecture and target:
 <span class="plain-syntax">                                                </span><span class="element-syntax">via</span><span class="plain-syntax"> </span><span class="function-syntax">CLANG</span><span class="plain-syntax">/</span><span class="function-syntax">GCC</span>
 <span class="plain-syntax">                                              ...</span>
 </pre>
-<p class="commentary">Note that a single <a href="2-tvm.html#SP2" class="internal">target_vm</a> object can be used with just one architecture:
+<div class="lsmarkdown">
+<p>Note that a single <a href="2-tvm.html#SP2" class="internal">target_vm</a> object can be used with just one architecture:
 use the function <a href="2-tvm.html#SP13" class="internal">TargetVMs::get_architecture</a> to obtain this. If a target supports
 multiple architectures, then there will be multiple <a href="2-tvm.html#SP2" class="internal">target_vm</a> objects for it,
 one for each architecture it supports. For example, the Glulx VM can be reached
-by <span class="extract"><span class="extract-syntax">Inform6/32</span></span> or <span class="extract"><span class="extract-syntax">Inform6/32d</span></span>. There can also be multiple versions: for example,
-<span class="extract"><span class="extract-syntax">Inform6/16/v8</span></span> is a valid target. The function <a href="2-tvm.html#SP6" class="internal">TargetVMs::find</a> finds the
-<a href="2-tvm.html#SP2" class="internal">target_vm</a> object associated with a given textual form like <span class="extract"><span class="extract-syntax">"C/32d"</span></span>, if
-the toolchain supports this.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Compatibility.</b>Not all software in the Inform stack &mdash; source text from the user, extensions,
-kits of Inter code &mdash; will be compatible with every architecture, or with
+by <code>Inform6/32</code> or <code>Inform6/32d</code>. There can also be multiple versions: for example,
+<code>Inform6/16/v8</code> is a valid target. The function <a href="2-tvm.html#SP6" class="internal">TargetVMs::find</a> finds the
+<a href="2-tvm.html#SP2" class="internal">target_vm</a> object associated with a given textual form like <code>&quot;C/32d&quot;</code>, if
+the toolchain supports this.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Compatibility.</b>  Not all software in the Inform stack -- source text from the user, extensions,
+kits of Inter code -- will be compatible with every architecture, or with
 every VM. We represent that by giving something a <a href="2-cmp.html#SP1" class="internal">compatibility_specification</a>
 object to say what it can work with: the function <a href="2-cmp.html#SP11" class="internal">Compatibility::test</a>
-determines whether any given VM is allowed with this specification.
-</p>
-
-<p class="commentary">A specification can be converted to or from text: see <a href="2-cmp.html#SP5" class="internal">Compatibility::write</a>
-and <a href="2-cmp.html#SP6" class="internal">Compatibility::from_text</a>. Typically, such text might read "for 32d only".
-</p>
-
-<p class="commentary">Lastly, <a href="2-cmp.html#SP2" class="internal">Compatibility::all</a> returns a specification meaning "works with
-anything". This should be the default; <a href="2-cmp.html#SP11" class="internal">Compatibility::test_universal</a> tests
-whether a specification is equivalent to this.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Features.</b>The last service provided by this module is to manage which named features of
+determines whether any given VM is allowed with this specification.</p>
+<p>A specification can be converted to or from text: see <a href="2-cmp.html#SP5" class="internal">Compatibility::write</a>
+and <a href="2-cmp.html#SP6" class="internal">Compatibility::from_text</a>. Typically, such text might read &quot;for 32d only&quot;.</p>
+<p>Lastly, <a href="2-cmp.html#SP2" class="internal">Compatibility::all</a> returns a specification meaning &quot;works with
+anything&quot;. This should be the default; <a href="2-cmp.html#SP11" class="internal">Compatibility::test_universal</a> tests
+whether a specification is equivalent to this.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Features.</b>  The last service provided by this module is to manage which named features of
 the compiler are switched on or off: see <a href="3-fm.html" class="internal">Feature Manager</a>. At one time
 this functionality was part of the core Inform compiler, but having it here
-means that all of the compiler tools can make use of it.
-</p>
-
+means that all of the compiler tools can make use of it.</p>
+</div>
 <nav role="progress"><div class="progresscontainer">
     <ul class="progressbar"><li class="progressprevoff">&#10094;</li><li class="progresscurrentchapter">P</li><li class="progresscurrent">wtmd</li><li class="progresssection"><a href="P-htitm.html">htitm</a></li><li class="progresschapter"><a href="1-am.html">1</a></li><li class="progresschapter"><a href="2-arc.html">2</a></li><li class="progresschapter"><a href="3-fm.html">3</a></li><li class="progressnext"><a href="P-htitm.html">&#10095;</a></li></ul></div>
 </nav><!-- End of weave -->

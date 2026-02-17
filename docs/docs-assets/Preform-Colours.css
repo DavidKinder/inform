@@ -7,6 +7,7 @@ span.Preform-element-syntax     { color: #40407f; }
 span.Preform-reserved-syntax    { color: #600000; }
 span.Preform-string-syntax      { color: #408040; }
 span.Preform-character-syntax   { color: #204020; }
+span.Preform-type-syntax        { color: #208020; }
 span.Preform-constant-syntax    { color: #804020; }
 span.Preform-plain-syntax       { color: #000000; }
 span.Preform-extract-syntax     { color: #444444; }

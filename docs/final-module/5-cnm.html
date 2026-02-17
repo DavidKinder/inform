@@ -20,6 +20,11 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -54,44 +59,42 @@ function togglePopup(material_id) {
     <ul class="crumbs"><li><a href="../index.html">Home</a></li><li><a href="../intern.html">Inter Modules</a></li><li><a href="index.html">final</a></li><li><a href="index.html#5">Chapter 5: C</a></li><li><b>C Namespace</b></li></ul></div>
 <p class="purpose">How identifiers are used in the C code we generate.</p>
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b></p>
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CNamespace::initialise</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">CNamespace::initialise</span></span>:<br/>Final C - <a href="5-fnc.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">code_generator</span><span class="plain-syntax"> *</span><span class="identifier-syntax">gtr</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CNamespace::initialise</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">CNamespace::initialise</span></span>:<br/>Final C - <a href="5-fnc.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">code_generator</span><span class="plain-syntax"> *</span><span class="identifier-syntax">gtr</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">METHOD_ADD</span><span class="plain-syntax">(</span><span class="identifier-syntax">gtr</span><span class="plain-syntax">, </span><span class="constant-syntax">MANGLE_IDENTIFIER_MTID</span><span class="plain-syntax">, </span><a href="5-cnm.html#SP3" class="function-link"><span class="function-syntax">CNamespace::mangle</span></a><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">METHOD_ADD</span><span class="plain-syntax">(</span><span class="identifier-syntax">gtr</span><span class="plain-syntax">, </span><span class="constant-syntax">DECLARE_CONSTANT_MTID</span><span class="plain-syntax">, </span><a href="5-cnm.html#SP7" class="function-link"><span class="function-syntax">CNamespace::declare_constant</span></a><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>A fundamental decision we have to make here is what namespace of identifiers
-we will use in the code we generate. If an Inter function is called <span class="extract"><span class="extract-syntax">example</span></span>,
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  A fundamental decision we have to make here is what namespace of identifiers
+we will use in the code we generate. If an Inter function is called <code>example</code>,
 we are going to need to compile that to some C function: what should this be
-called?
-</p>
-
-<p class="commentary">It seems unwise to call it just <span class="extract"><span class="extract-syntax">example</span></span>, that is, to compile Inter identifiers
-directly into C ones. What if the Inter code used the identifier <span class="extract"><span class="extract-syntax">printf</span></span> for
-something, for example, or indeed the identifiers <span class="extract"><span class="extract-syntax">struct</span></span> or <span class="extract"><span class="extract-syntax">unsigned</span></span>? Moreover,
+called?</p>
+<p>It seems unwise to call it just <code>example</code>, that is, to compile Inter identifiers
+directly into C ones. What if the Inter code used the identifier <code>printf</code> for
+something, for example, or indeed the identifiers <code>struct</code> or <code>unsigned</code>? Moreover,
 unlike the Inform 6 generator, this one is expecting the compile code which will
 only be part of a larger program. We want to avoid hogging the entire namespace;
-in fact, we want our code to use only names beginning <span class="extract"><span class="extract-syntax">i7_</span></span> or <span class="extract"><span class="extract-syntax">glulx_</span></span>, with
-the single exception of <span class="extract"><span class="extract-syntax">main</span></span>, and even that only when <span class="extract"><span class="extract-syntax">main</span></span> is compiled.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>To that end, we "mangle" identifier names, and this is how. Examples:
-</p>
-
+in fact, we want our code to use only names beginning <code>i7_</code> or <code>glulx_</code>, with
+the single exception of <code>main</code>, and even that only when <code>main</code> is compiled.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  To that end, we &quot;mangle&quot; identifier names, and this is how. Examples:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">example</span><span class="plain-syntax">         </span><span class="identifier-syntax">i7_mgl_example</span>
 <span class="plain-syntax">    ##</span><span class="identifier-syntax">Attack</span><span class="plain-syntax">        </span><span class="identifier-syntax">i7_ss_Attack</span>
 <span class="plain-syntax">    #</span><span class="identifier-syntax">g</span><span class="plain-syntax">$</span><span class="identifier-syntax">self</span><span class="plain-syntax">         </span><span class="identifier-syntax">i7_ss_gself</span>
 </pre>
-<p class="commentary">This is not quite a faithful scheme because, say, <span class="extract"><span class="extract-syntax">#a#a</span></span> and <span class="extract"><span class="extract-syntax">#aa</span></span> both mangle
-to the same result, <span class="extract"><span class="extract-syntax">i7_ss_aa</span></span>. But <span class="extract"><span class="extract-syntax">#</span></span> and <span class="extract"><span class="extract-syntax">$</span></span> characters are used extremely
-sparingly in Inter, and these can never arise.
-</p>
-
+<div class="lsmarkdown">
+<p>This is not quite a faithful scheme because, say, <code>#a#a</code> and <code>#aa</code> both mangle
+to the same result, <code>i7_ss_aa</code>. But <code>#</code> and <code>$</code> characters are used extremely
+sparingly in Inter, and these can never arise.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CNamespace::mangle</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">CNamespace::mangle</span></span>:<br/><a href="5-cnm.html#SP1">&#167;1</a>, <a href="5-cnm.html#SP7">&#167;7</a><br/>Final C - <a href="5-fnc.html#SP5_4">&#167;5.4</a><br/>C Memory Model - <a href="5-cmm.html#SP4_2_2">&#167;4.2.2</a>, <a href="5-cmm.html#SP4_2_3">&#167;4.2.3</a>, <a href="5-cmm.html#SP6">&#167;6</a><br/>C Literals - <a href="5-clt.html#SP8">&#167;8</a>, <a href="5-clt.html#SP10">&#167;10</a><br/>C Function Model - <a href="5-cfm.html#SP4">&#167;4</a>, <a href="5-cfm.html#SP6">&#167;6</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">code_generator</span><span class="plain-syntax"> *</span><span class="identifier-syntax">gtr</span><span class="plain-syntax">, </span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CNamespace::mangle</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">CNamespace::mangle</span></span>:<br/><a href="5-cnm.html#SP1">&#167;1</a>, <a href="5-cnm.html#SP7">&#167;7</a><br/>Final C - <a href="5-fnc.html#SP5_4">&#167;5.4</a><br/>C Memory Model - <a href="5-cmm.html#SP4_2_2">&#167;4.2.2</a>, <a href="5-cmm.html#SP4_2_3">&#167;4.2.3</a>, <a href="5-cmm.html#SP6">&#167;6</a><br/>C Literals - <a href="5-clt.html#SP8">&#167;8</a>, <a href="5-clt.html#SP10">&#167;10</a><br/>C Function Model - <a href="5-cfm.html#SP4">&#167;4</a>, <a href="5-cfm.html#SP6">&#167;6</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">code_generator</span><span class="plain-syntax"> *</span><span class="identifier-syntax">gtr</span><span class="plain-syntax">, </span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Str::get_first_char</span><span class="plain-syntax">(</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">) == </span><span class="character-syntax">'#'</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"i7_ss_"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">LOOP_THROUGH_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">pos</span><span class="plain-syntax">, </span><span class="identifier-syntax">identifier</span><span class="plain-syntax">)</span>
@@ -100,89 +103,85 @@ sparingly in Inter, and these can never arise.
 <span class="plain-syntax">    } </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"i7_mgl_%S"</span><span class="plain-syntax">, </span><span class="identifier-syntax">identifier</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CNamespace::mangle_with</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">CNamespace::mangle_with</span></span>:<br/>C Function Model - <a href="5-cfm.html#SP3">&#167;3</a>, <a href="5-cfm.html#SP7">&#167;7</a>, <a href="5-cfm.html#SP13">&#167;13</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">code_generator</span><span class="plain-syntax"> *</span><span class="identifier-syntax">gtr</span><span class="plain-syntax">, </span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">,</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CNamespace::mangle_with</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">CNamespace::mangle_with</span></span>:<br/>C Function Model - <a href="5-cfm.html#SP3">&#167;3</a>, <a href="5-cfm.html#SP7">&#167;7</a>, <a href="5-cfm.html#SP13">&#167;13</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">code_generator</span><span class="plain-syntax"> *</span><span class="identifier-syntax">gtr</span><span class="plain-syntax">, </span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">modifier</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"i7_%S_%S"</span><span class="plain-syntax">, </span><span class="identifier-syntax">modifier</span><span class="plain-syntax">, </span><span class="identifier-syntax">identifier</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>Opcode names are also mangled. Each assembly language opcode will use a
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  Opcode names are also mangled. Each assembly language opcode will use a
 corresponding C function, whose name is mangled from that of the opcode. For
-example:
-</p>
-
+example:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    @</span><span class="identifier-syntax">jz</span><span class="plain-syntax">             </span><span class="identifier-syntax">i7_opcode_jz</span>
 <span class="plain-syntax">    @</span><span class="identifier-syntax">streamnum</span><span class="plain-syntax">      </span><span class="identifier-syntax">i7_opcode_streamnum</span>
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CNamespace::mangle_opcode</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">CNamespace::mangle_opcode</span></span>:<br/>C Assembly - <a href="5-cas.html#SP5_2">&#167;5.2</a>, <a href="5-cas.html#SP6_3">&#167;6.3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">opcode</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CNamespace::mangle_opcode</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">CNamespace::mangle_opcode</span></span>:<br/>C Assembly - <a href="5-cas.html#SP5_2">&#167;5.2</a>, <a href="5-cas.html#SP6_3">&#167;6.3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">opcode</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"i7_opcode_"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_THROUGH_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">pos</span><span class="plain-syntax">, </span><span class="identifier-syntax">opcode</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Str::get</span><span class="plain-syntax">(</span><span class="identifier-syntax">pos</span><span class="plain-syntax">) != </span><span class="character-syntax">'@'</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">PUT</span><span class="plain-syntax">(</span><span class="identifier-syntax">Str::get</span><span class="plain-syntax">(</span><span class="identifier-syntax">pos</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>Global variable names are similarly mangled:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  Global variable names are similarly mangled:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">howmayyou</span><span class="plain-syntax">       </span><span class="identifier-syntax">i7_var_howmayyou</span>
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CNamespace::mangle_variable</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">CNamespace::mangle_variable</span></span>:<br/>C Global Variables - <a href="5-cgv.html#SP3_1">&#167;3.1</a>, <a href="5-cgv.html#SP3_2">&#167;3.2</a>, <a href="5-cgv.html#SP5">&#167;5</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">var</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CNamespace::mangle_variable</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">CNamespace::mangle_variable</span></span>:<br/>C Global Variables - <a href="5-cgv.html#SP3_1">&#167;3.1</a>, <a href="5-cgv.html#SP3_2">&#167;3.2</a>, <a href="5-cgv.html#SP5">&#167;5</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">var</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"i7_var_%S"</span><span class="plain-syntax">, </span><span class="identifier-syntax">var</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>Local variable names have to be handled slightly differently. This is because
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  Local variable names have to be handled slightly differently. This is because
 Inter frequently makes use of local variables whose identifiers are also used
-for some global construct. Of course, C also allows for this: for example &mdash;
-</p>
-
+for some global construct. Of course, C also allows for this: for example --</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">xerxes</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="identifier-syntax">govern_Sophene</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">xerxes</span><span class="plain-syntax"> = </span><span class="constant-syntax">2</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">xerxes</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="identifier-syntax">govern_Sophene</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">xerxes</span><span class="plain-syntax"> = </span><span class="constant-syntax">2</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">printf</span><span class="plain-syntax">(</span><span class="string-syntax">"%d\n"</span><span class="plain-syntax">, </span><span class="identifier-syntax">xerxes</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    }</span>
 </pre>
-<p class="commentary">...is legal, and prints 2 when the function is called. So at first sight, there's
-no problem giving a local variable the same name as some global construct.
-</p>
-
-<p class="commentary">But that does not work if the global definition is made by the C preprocessor
-rather than its syntax analyser. Consider:
-</p>
-
+<div class="lsmarkdown">
+<p>...is legal, and prints 2 when the function is called. So at first sight, there's
+no problem giving a local variable the same name as some global construct.</p>
+<p>But that does not work if the global definition is made by the C preprocessor
+rather than its syntax analyser. Consider:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    #</span><span class="identifier-syntax">define</span><span class="plain-syntax"> </span><span class="identifier-syntax">xerxes</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="identifier-syntax">govern_Sophene</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">xerxes</span><span class="plain-syntax"> = </span><span class="constant-syntax">2</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="identifier-syntax">govern_Sophene</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">xerxes</span><span class="plain-syntax"> = </span><span class="constant-syntax">2</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">printf</span><span class="plain-syntax">(</span><span class="string-syntax">"%d\n"</span><span class="plain-syntax">, </span><span class="identifier-syntax">xerxes</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    }</span>
 </pre>
-<p class="commentary">This throws an error message: <span class="extract"><span class="extract-syntax">int xerxes = 2;</span></span> then reads as <span class="extract"><span class="extract-syntax">int 1 = 2;</span></span>. And
-since some of our Inter constructs will indeed result in <span class="extract"><span class="extract-syntax">#define</span></span>d values
+<div class="lsmarkdown">
+<p>This throws an error message: <code>int xerxes = 2;</code> then reads as <code>int 1 = 2;</code>. And
+since some of our Inter constructs will indeed result in <code>#define</code>d values
 rather than named C variables, we cannot allow a local variable name to coincide
-with the name of anything else (after mangling).
-</p>
-
-<p class="commentary">We avoid this by changing the pre-mangled identifiers for all local variables
-to begin with <span class="extract"><span class="extract-syntax">local_</span></span>:
-</p>
-
+with the name of anything else (after mangling).</p>
+<p>We avoid this by changing the pre-mangled identifiers for all local variables
+to begin with <code>local_</code>:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">original</span><span class="plain-syntax">        </span><span class="identifier-syntax">translation</span><span class="plain-syntax">         </span><span class="identifier-syntax">mangled</span><span class="plain-syntax"> </span><span class="identifier-syntax">translation</span>
 <span class="plain-syntax">    </span><span class="string-syntax">"xerxes"</span><span class="plain-syntax">        </span><span class="string-syntax">"local_xerxes"</span><span class="plain-syntax">      </span><span class="string-syntax">"i7_mgl_local_xerxes"</span>
 </pre>
-<p class="commentary">This is not an elegant trick, but it works nicely enough.
-</p>
-
+<div class="lsmarkdown">
+<p>This is not an elegant trick, but it works nicely enough.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CNamespace::fix_locals</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">CNamespace::fix_locals</span></span>:<br/>Final C - <a href="5-fnc.html#SP5">&#167;5</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">code_generation</span><span class="plain-syntax"> *</span><span class="identifier-syntax">gen</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CNamespace::fix_locals</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">CNamespace::fix_locals</span></span>:<br/>Final C - <a href="5-fnc.html#SP5">&#167;5</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">code_generation</span><span class="plain-syntax"> *</span><span class="identifier-syntax">gen</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">InterTree::traverse</span><span class="plain-syntax">(</span><span class="identifier-syntax">gen</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">from</span><span class="plain-syntax">, </span><a href="5-cnm.html#SP6" class="function-link"><span class="function-syntax">CNamespace::sweep_for_locals</span></a><span class="plain-syntax">, </span><span class="identifier-syntax">gen</span><span class="plain-syntax">, </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">, </span><span class="identifier-syntax">LOCAL_IST</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CNamespace::sweep_for_locals</span><span class="plain-syntax">(</span><span class="identifier-syntax">inter_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">inter_tree_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P</span><span class="plain-syntax">, </span><span class="reserved-syntax">void</span><span class="plain-syntax"> *</span><span class="identifier-syntax">state</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CNamespace::sweep_for_locals</span><span class="plain-syntax">(</span><span class="identifier-syntax">inter_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">inter_tree_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P</span><span class="plain-syntax">, </span><span class="identifier-syntax">void</span><span class="plain-syntax"> *</span><span class="identifier-syntax">state</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">var_name</span><span class="plain-syntax"> = </span><span class="identifier-syntax">LocalInstruction::variable</span><span class="plain-syntax">(</span><span class="identifier-syntax">P</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">TEMPORARY_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">T</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE_TO</span><span class="plain-syntax">(</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="string-syntax">"local_%S"</span><span class="plain-syntax">, </span><span class="identifier-syntax">InterSymbol::identifier</span><span class="plain-syntax">(</span><span class="identifier-syntax">var_name</span><span class="plain-syntax">));</span>
@@ -190,24 +189,22 @@ to begin with <span class="extract"><span class="extract-syntax">local_</span></
 <span class="plain-syntax">    </span><span class="identifier-syntax">DISCARD_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">T</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>Constants in Inter are indeed directly converted to <span class="extract"><span class="extract-syntax">#define</span></span>d constants in C,
-but with their names of course mangled.
-</p>
-
-<p class="commentary">For the reason why <span class="extract"><span class="extract-syntax">Serial</span></span> and <span class="extract"><span class="extract-syntax">Release</span></span> are placed higher-up in the file, see
-<a href="5-cmm.html" class="internal">C Memory Model</a>.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  Constants in Inter are indeed directly converted to <code>#define</code>d constants in C,
+but with their names of course mangled.</p>
+<p>For the reason why <code>Serial</code> and <code>Release</code> are placed higher-up in the file, see
+<a href="5-cmm.html" class="internal">C Memory Model</a>.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CNamespace::declare_constant</span><button class="popup" onclick="togglePopup('usagePopup7')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup7">Usage of <span class="code-font"><span class="function-syntax">CNamespace::declare_constant</span></span>:<br/><a href="5-cnm.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">code_generator</span><span class="plain-syntax"> *</span><span class="identifier-syntax">gtr</span><span class="plain-syntax">, </span><span class="reserved-syntax">code_generation</span><span class="plain-syntax"> *</span><span class="identifier-syntax">gen</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">const_s</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">form</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">val</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CNamespace::declare_constant</span><button class="popup" onclick="togglePopup('usagePopup7')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup7">Usage of <span class="code-font"><span class="function-syntax">CNamespace::declare_constant</span></span>:<br/><a href="5-cnm.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">code_generator</span><span class="plain-syntax"> *</span><span class="identifier-syntax">gtr</span><span class="plain-syntax">, </span><span class="identifier-syntax">code_generation</span><span class="plain-syntax"> *</span><span class="identifier-syntax">gen</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">const_s</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">form</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">val</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">name</span><span class="plain-syntax"> = </span><span class="identifier-syntax">InterSymbol::trans</span><span class="plain-syntax">(</span><span class="identifier-syntax">const_s</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">seg</span><span class="plain-syntax"> = </span><span class="constant-syntax">c_constants_I7CGS</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">seg</span><span class="plain-syntax"> = </span><span class="constant-syntax">c_constants_I7CGS</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Str::eq</span><span class="plain-syntax">(</span><span class="identifier-syntax">name</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"Serial"</span><span class="plain-syntax">)) </span><span class="identifier-syntax">seg</span><span class="plain-syntax"> = </span><span class="constant-syntax">c_ids_and_maxima_I7CGS</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Str::eq</span><span class="plain-syntax">(</span><span class="identifier-syntax">name</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"Release"</span><span class="plain-syntax">)) </span><span class="identifier-syntax">seg</span><span class="plain-syntax"> = </span><span class="constant-syntax">c_ids_and_maxima_I7CGS</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Str::eq</span><span class="plain-syntax">(</span><span class="identifier-syntax">name</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"BASICINFORMKIT"</span><span class="plain-syntax">)) </span><span class="identifier-syntax">seg</span><span class="plain-syntax"> = </span><span class="constant-syntax">c_ids_and_maxima_I7CGS</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Str::eq</span><span class="plain-syntax">(</span><span class="identifier-syntax">name</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"DICT_WORD_SIZE"</span><span class="plain-syntax">)) </span><span class="identifier-syntax">seg</span><span class="plain-syntax"> = </span><span class="constant-syntax">c_ids_and_maxima_I7CGS</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">segmentation_pos</span><span class="plain-syntax"> </span><span class="identifier-syntax">saved</span><span class="plain-syntax"> = </span><a href="2-cg.html#SP12" class="function-link"><span class="function-syntax">CodeGen::select_layered</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">gen</span><span class="plain-syntax">, </span><span class="identifier-syntax">seg</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">segmentation_pos</span><span class="plain-syntax"> </span><span class="identifier-syntax">saved</span><span class="plain-syntax"> = </span><a href="2-cg.html#SP12" class="function-link"><span class="function-syntax">CodeGen::select_layered</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">gen</span><span class="plain-syntax">, </span><span class="identifier-syntax">seg</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">ConstantInstruction::constant_depth</span><span class="plain-syntax">(</span><span class="identifier-syntax">const_s</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">OUT</span><span class="plain-syntax"> = </span><a href="2-cg.html#SP14" class="function-link"><span class="function-syntax">CodeGen::current</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">gen</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"#define "</span><span class="plain-syntax">);</span>

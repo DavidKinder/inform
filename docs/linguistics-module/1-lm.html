@@ -12,6 +12,11 @@
 <link href="../docs-assets/Navigation.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Fonts.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -46,89 +51,112 @@
     <ul class="crumbs"><li><a href="../index.html">Home</a></li><li><a href="../services.html">Services</a></li><li><a href="index.html">linguistics</a></li><li><a href="index.html#1">Chapter 1: Setting Up</a></li><li><b>Linguistics Module</b></li></ul></div>
 <p class="purpose">Setting up the use of this module.</p>
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>This section simply sets up the module in ways expected by <a href="../foundation/index.html" class="internal">foundation</a>, and
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  This section simply sets up the module in ways expected by <a href="../foundation/index.html" class="internal">foundation</a>, and
 contains no code of interest. The following constant exists only in tools
-which use this module:
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">LINGUISTICS_MODULE</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span>
+which use this module:</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">TRUE</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>This module defines the following classes:
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">enum</span> <span class="constant-syntax">adjective_CLASS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">article_CLASS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">article_usage_CLASS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">quantifier_CLASS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">determiner_CLASS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">grammatical_category_CLASS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">linguistic_stock_item_CLASS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">grammatical_usage_CLASS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">verb_CLASS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">verb_form_CLASS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">verb_meaning_CLASS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">verb_sense_CLASS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">verb_usage_CLASS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">verb_usage_tier_CLASS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">preposition_CLASS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">noun_CLASS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">noun_usage_CLASS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">pronoun_CLASS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">pronoun_usage_CLASS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">small_word_set_CLASS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">special_meaning_holder_CLASS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">time_period_CLASS</span>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  This module defines the following classes:</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
 </pre>
-<pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="reserved-syntax">adjective</span><span class="plain-syntax">)</span>
-<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="reserved-syntax">article</span><span class="plain-syntax">)</span>
-<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="reserved-syntax">article_usage</span><span class="plain-syntax">)</span>
-<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="reserved-syntax">quantifier</span><span class="plain-syntax">)</span>
-<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="reserved-syntax">determiner</span><span class="plain-syntax">)</span>
-<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="reserved-syntax">grammatical_category</span><span class="plain-syntax">)</span>
-<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="reserved-syntax">linguistic_stock_item</span><span class="plain-syntax">)</span>
-<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="reserved-syntax">grammatical_usage</span><span class="plain-syntax">)</span>
-<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="reserved-syntax">verb</span><span class="plain-syntax">)</span>
-<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="reserved-syntax">verb_form</span><span class="plain-syntax">)</span>
-<span class="identifier-syntax">DECLARE_CLASS_ALLOCATED_IN_ARRAYS</span><span class="plain-syntax">(</span><span class="reserved-syntax">verb_meaning</span><span class="plain-syntax">, </span><span class="constant-syntax">100</span><span class="plain-syntax">)</span>
-<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="reserved-syntax">verb_sense</span><span class="plain-syntax">)</span>
-<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="reserved-syntax">verb_usage</span><span class="plain-syntax">)</span>
-<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="reserved-syntax">verb_usage_tier</span><span class="plain-syntax">)</span>
-<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="reserved-syntax">preposition</span><span class="plain-syntax">)</span>
-<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="reserved-syntax">time_period</span><span class="plain-syntax">)</span>
-<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="reserved-syntax">noun</span><span class="plain-syntax">)</span>
-<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="reserved-syntax">noun_usage</span><span class="plain-syntax">)</span>
-<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="reserved-syntax">pronoun</span><span class="plain-syntax">)</span>
-<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="reserved-syntax">pronoun_usage</span><span class="plain-syntax">)</span>
-<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="reserved-syntax">special_meaning_holder</span><span class="plain-syntax">)</span>
-<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="reserved-syntax">small_word_set</span><span class="plain-syntax">)</span>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>Like all modules, this one must define a <span class="extract"><span class="extract-syntax">start</span></span> and <span class="extract"><span class="extract-syntax">end</span></span> function:
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">enum</span> <span class="constant-syntax">LINGUISTIC_STOCK_DA</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">TIME_PERIODS_DA</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">VERB_USAGES_DA</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">VERB_FORMS_DA</span>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">COMPILE_WRITER</span><span class="plain-syntax">(</span><span class="reserved-syntax">noun</span><span class="plain-syntax"> *, </span><a href="2-nns.html#SP10" class="function-link"><span class="function-syntax">Nouns::log</span></a><span class="plain-syntax">)</span>
+<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="identifier-syntax">adjective</span><span class="plain-syntax">)</span>
+<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="identifier-syntax">article</span><span class="plain-syntax">)</span>
+<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="identifier-syntax">article_usage</span><span class="plain-syntax">)</span>
+<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="identifier-syntax">quantifier</span><span class="plain-syntax">)</span>
+<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="identifier-syntax">determiner</span><span class="plain-syntax">)</span>
+<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="identifier-syntax">grammatical_category</span><span class="plain-syntax">)</span>
+<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="identifier-syntax">linguistic_stock_item</span><span class="plain-syntax">)</span>
+<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="identifier-syntax">grammatical_usage</span><span class="plain-syntax">)</span>
+<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="identifier-syntax">verb</span><span class="plain-syntax">)</span>
+<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="identifier-syntax">verb_form</span><span class="plain-syntax">)</span>
+<span class="identifier-syntax">DECLARE_CLASS_ALLOCATED_IN_ARRAYS</span><span class="plain-syntax">(</span><span class="identifier-syntax">verb_meaning</span><span class="plain-syntax">, </span><span class="constant-syntax">100</span><span class="plain-syntax">)</span>
+<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="identifier-syntax">verb_sense</span><span class="plain-syntax">)</span>
+<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="identifier-syntax">verb_usage</span><span class="plain-syntax">)</span>
+<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="identifier-syntax">verb_usage_tier</span><span class="plain-syntax">)</span>
+<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="identifier-syntax">preposition</span><span class="plain-syntax">)</span>
+<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="identifier-syntax">time_period</span><span class="plain-syntax">)</span>
+<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="identifier-syntax">noun</span><span class="plain-syntax">)</span>
+<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="identifier-syntax">noun_usage</span><span class="plain-syntax">)</span>
+<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="identifier-syntax">pronoun</span><span class="plain-syntax">)</span>
+<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="identifier-syntax">pronoun_usage</span><span class="plain-syntax">)</span>
+<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="identifier-syntax">special_meaning_holder</span><span class="plain-syntax">)</span>
+<span class="identifier-syntax">DECLARE_CLASS</span><span class="plain-syntax">(</span><span class="identifier-syntax">small_word_set</span><span class="plain-syntax">)</span>
+</pre>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  Like all modules, this one must define a <code>start</code> and <code>end</code> function:</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="displayed-code all-displayed-code code-font">
+<span class="identifier-syntax">COMPILE_WRITER</span><span class="plain-syntax">(</span><span class="identifier-syntax">noun</span><span class="plain-syntax"> *, </span><a href="2-nns.html#SP10" class="function-link"><span class="function-syntax">Nouns::log</span></a><span class="plain-syntax">)</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">LinguisticsModule::start</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="1-lm.html#SP3_1" class="named-paragraph-link"><span class="named-paragraph">Register this module's debugging log aspects</span><span class="named-paragraph-number">3.1</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="1-lm.html#SP3_2" class="named-paragraph-link"><span class="named-paragraph">Register this module's debugging log writers</span><span class="named-paragraph-number">3.2</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="1-lm.html#SP3_3" class="named-paragraph-link"><span class="named-paragraph">Declare new memory allocation reasons</span><span class="named-paragraph-number">3.3</span></a></span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">LinguisticsModule::start</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="1-lm.html#SP3_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Register this module's debugging log aspects</span></span><span class="named-paragraph-number">3.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="1-lm.html#SP3_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Register this module's debugging log writers</span></span><span class="named-paragraph-number">3.2</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="1-lm.html#SP3_3" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Declare new memory allocation reasons</span></span><span class="named-paragraph-number">3.3</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><a href="1-sc.html#SP2" class="function-link"><span class="function-syntax">Stock::create_categories</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><a href="1-cao.html#SP3" class="function-link"><span class="function-syntax">Cardinals::enable_in_word_form</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><a href="2-art.html#SP6" class="function-link"><span class="function-syntax">Articles::mark_for_preform</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><a href="3-prp.html#SP12" class="function-link"><span class="function-syntax">Prepositions::mark_for_preform</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><a href="1-dgr.html#SP3" class="function-link"><span class="function-syntax">Diagrams::declare_annotations</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">}</span>
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">LinguisticsModule::end</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">LinguisticsModule::end</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3_1" class="paragraph-anchor"></a><b>&#167;3.1. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Register this module's debugging log aspects</span><span class="named-paragraph-number">3.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP3_1" class="paragraph-anchor"></a><b>&#167;3.1. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Register this module's debugging log aspects</span><span class="named-paragraph-number">3.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">Log::declare_aspect</span><span class="plain-syntax">(</span><span class="constant-syntax">LINGUISTIC_STOCK_DA</span><span class="plain-syntax">, </span><span class="identifier-syntax">U</span><span class="string-syntax">"linguistic stock"</span><span class="plain-syntax">, </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">, </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">);</span>
@@ -137,8 +165,7 @@ which use this module:
 <span class="plain-syntax">    </span><span class="identifier-syntax">Log::declare_aspect</span><span class="plain-syntax">(</span><span class="constant-syntax">VERB_FORMS_DA</span><span class="plain-syntax">, </span><span class="identifier-syntax">U</span><span class="string-syntax">"verb forms"</span><span class="plain-syntax">, </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">, </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="1-lm.html#SP3">&#167;3</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP3_2" class="paragraph-anchor"></a><b>&#167;3.2. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Register this module's debugging log writers</span><span class="named-paragraph-number">3.2</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP3_2" class="paragraph-anchor"></a><b>&#167;3.2. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Register this module's debugging log writers</span><span class="named-paragraph-number">3.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">Writers::register_logger</span><span class="plain-syntax">(</span><span class="character-syntax">'t'</span><span class="plain-syntax">, </span><a href="3-apoo.html#SP4" class="function-link"><span class="function-syntax">Occurrence::log</span></a><span class="plain-syntax">);</span>
@@ -148,30 +175,30 @@ which use this module:
 <span class="plain-syntax">    </span><span class="identifier-syntax">REGISTER_WRITER</span><span class="plain-syntax">(</span><span class="character-syntax">'z'</span><span class="plain-syntax">, </span><a href="2-nns.html#SP10" class="function-link"><span class="function-syntax">Nouns::log</span></a><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="1-lm.html#SP3">&#167;3</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP3_3" class="paragraph-anchor"></a><b>&#167;3.3. </b>Not all of our memory will be claimed in the form of structures: now and then
-we need to use the equivalent of traditional <span class="extract"><span class="extract-syntax">malloc</span></span> and <span class="extract"><span class="extract-syntax">calloc</span></span> routines.
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">enum</span> <span class="constant-syntax">STOCK_MREASON</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">SWS_MREASON</span>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3_3" class="paragraph-anchor"></a><b>&#167;3.3. </b>  Not all of our memory will be claimed in the form of structures: now and then
+we need to use the equivalent of traditional <code>malloc</code> and <code>calloc</code> routines.</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
 </pre>
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Declare new memory allocation reasons</span><span class="named-paragraph-number">3.3</span></span><span class="comment-syntax"> =</span>
-</p>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Declare new memory allocation reasons</span><span class="named-paragraph-number">3.3</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">Memory::reason_name</span><span class="plain-syntax">(</span><span class="constant-syntax">STOCK_MREASON</span><span class="plain-syntax">, </span><span class="string-syntax">"linguistic stock array"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">Memory::reason_name</span><span class="plain-syntax">(</span><span class="constant-syntax">SWS_MREASON</span><span class="plain-syntax">, </span><span class="string-syntax">"small word set array"</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="1-lm.html#SP3">&#167;3</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>This module requires <a href="../words-module/index.html" class="internal">words</a>, which contains the Preform parser. When that
-initialises, it calls the following routine to improve its performance.
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">PREFORM_OPTIMISER_WORDS_CALLBACK</span><span class="plain-syntax"> </span><a href="1-lm.html#SP4" class="function-link"><span class="function-syntax">LinguisticsModule::preform_optimiser</span></a>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  This module requires <a href="../words-module/index.html" class="internal">words</a>, which contains the Preform parser. When that
+initialises, it calls the following routine to improve its performance.</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <a href="1-lm.html#SP4" class="function-link"><span class="function-syntax">LinguisticsModule::preform_optimiser</span></a>
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">first_round_of_nt_optimisation_made</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">LinguisticsModule::preform_optimiser</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">first_round_of_nt_optimisation_made</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">LinguisticsModule::preform_optimiser</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><a href="1-cao.html#SP3" class="function-link"><span class="function-syntax">Cardinals::preform_optimiser</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><a href="3-vu.html#SP23" class="function-link"><span class="function-syntax">VerbUsages::preform_optimiser</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><a href="3-prp.html#SP12" class="function-link"><span class="function-syntax">Prepositions::preform_optimiser</span></a><span class="plain-syntax">();</span>

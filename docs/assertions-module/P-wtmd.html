@@ -14,17 +14,22 @@
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <script>
 MathJax = {
-	tex: {
-		inlineMath: '$', '$'], ['\\(', '\\)'
+    options: {
+    	skipHtmlTags: {'[-]': ['pre']},
+    	processHtmlClass: 'mathjax_process'
+    },
+	loader: {load: ['[tex]/texhtml']},
+  	tex: {
+		inlineMath: [ ['\\INWEBMATH(', '\\INWEBMATH)'] ],
+    	packages: {'[+]': ['texhtml']},
+    	allowTexHTML: true
 	},
 	svg: {
 		fontCache: 'global'
 	}
 };
 </script>
-<script type="text/javascript" id="MathJax-script" async
-	src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
-</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-svg.js"></script>
 
 <script src="http://code.jquery.com/jquery-1.12.4.min.js"
 	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
@@ -67,76 +72,67 @@ MathJax = {
 
 <ul class="toc"><li><a href="P-wtmd.html#SP1">&#167;1. Prerequisites</a></li><li><a href="P-wtmd.html#SP2">&#167;2. Assertions</a></li><li><a href="P-wtmd.html#SP4">&#167;4. Special meanings</a></li><li><a href="P-wtmd.html#SP5">&#167;5. Regular meanings</a></li><li><a href="P-wtmd.html#SP6">&#167;6. Imperative definitions</a></li><li><a href="P-wtmd.html#SP7">&#167;7. Other gadgets</a></li><li><a href="P-wtmd.html#SP8">&#167;8. Making use of the calculus module</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Prerequisites.</b>The assertions module is a part of the Inform compiler toolset. It is
-presented as a literate program or "web". Before diving in:
-</p>
-
-<ul class="items"><li>(a) It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.
-</li><li>(b) The module is written in C, in fact ANSI C99, but this is disguised by the
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Prerequisites.</b>  The assertions module is a part of the Inform compiler toolset. It is
+presented as a literate program or &quot;web&quot;. Before diving in:
+(a) It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.
+(b) The module is written in C, in fact ANSI C99, but this is disguised by the
 fact that it uses some extension syntaxes provided by the <a href="../inweb/index.html" class="internal">inweb</a> literate
 programming tool, making it a dialect of C called InC. See <a href="../inweb/index.html" class="internal">inweb</a> for
 full details, but essentially: it's C without predeclarations or header files,
-and where functions have names like <span class="extract"><span class="extract-syntax">Tags::add_by_name</span></span> rather than just <span class="extract"><span class="extract-syntax">add_by_name</span></span>.
-</li><li>(c) This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
+and where functions have names like <code>Tags::add_by_name</code> rather than just <code>add_by_name</code>.
+(c) This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
 uses a module of utility functions called <a href="../foundation/index.html" class="internal">foundation</a>.
-For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.
-</li></ul>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Assertions.</b>This module's task is to read the declarative sentences in the source text,
-such as "Mrs Jones is wearing a trilby hat" or "Brightness is a kind of value",
+For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Assertions.</b>  This module's task is to read the declarative sentences in the source text,
+such as &quot;Mrs Jones is wearing a trilby hat&quot; or &quot;Brightness is a kind of value&quot;,
 which assert that something is true. These are converted into propositions
 in predicate calculus, which are sent in a stream to the <a href="../knowledge-module/index.html" class="internal">knowledge</a> module.
 Those propositions may be mutually inconsistent, or not even be self-consistent
 or meaningful: but that is for <a href="../knowledge-module/index.html" class="internal">knowledge</a> to worry about. Our task is just
-to provide a list of supposedly true statements.
-</p>
-
-<p class="commentary">Between the <a href="../linguistics-module/index.html" class="internal">linguistics</a> and <a href="../calculus-module/index.html" class="internal">calculus</a> modules we have extensive
+to provide a list of supposedly true statements.</p>
+<p>Between the <a href="../linguistics-module/index.html" class="internal">linguistics</a> and <a href="../calculus-module/index.html" class="internal">calculus</a> modules we have extensive
 equipment for parsing regular sentences already, so it would seem simple
-to act on a sentence like "Mr Herries knows Howarth." And so it would be if
-people called "Mr Herries" and "Howarth" were already known to exist.
+to act on a sentence like &quot;Mr Herries knows Howarth.&quot; And so it would be if
+people called &quot;Mr Herries&quot; and &quot;Howarth&quot; were already known to exist.
 Unfortunately, this may be the first mention of them, and that makes things
-much more complicated.
-</p>
-
-<p class="commentary">Even if they do exist, they may be referred to ambiguously. If there are
-two different people both called Kassava, who is meant by "Carter knows
-Kassava"? This depends on context: see <a href="4-nr.html" class="internal">Name Resolution</a>.
-</p>
-
-<p class="commentary">Though it is rather under-developed at present, Inform also has minimal
-support for "anaphora", that is, for cross-references between sentences using
-pronouns such as "it". See <a href="2-ar.html" class="internal">Anaphoric References</a>, but don't expect much.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>So, then, top-level declarations are dealt with like so:
-</p>
-
-<ul class="items"><li>&#9679; The tree is subdivided into <a href="../runtime-module/2-cu.html" class="internal">Compilation Units (in runtime)</a>. The project's own
+much more complicated.</p>
+<p>Even if they do exist, they may be referred to ambiguously. If there are
+two different people both called Kassava, who is meant by &quot;Carter knows
+Kassava&quot;? This depends on context: see <a href="4-nr.html" class="internal">Name Resolution</a>.</p>
+<p>Though it is rather under-developed at present, Inform also has minimal
+support for &quot;anaphora&quot;, that is, for cross-references between sentences using
+pronouns such as &quot;it&quot;. See <a href="2-ar.html" class="internal">Anaphoric References</a>, but don't expect much.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  So, then, top-level declarations are dealt with like so:
+(<em>) The tree is subdivided into <a href="../runtime-module/2-cu.html" class="internal">Compilation Units (in runtime)</a>. The project's own
 source text is one unit, as is each extension used.
-</li><li>&#9679; A minimal set of kinds, such as "number", verbs, such as "to mean", relations,
-such as "meaning", and so on, is created. See in particular <a href="2-bv.html" class="internal">Booting Verbs (in assertions)</a>.
-</li><li>&#9679; Three passes are made through the "major nodes" of the parse tree, meaning,
+(</em>) A minimal set of kinds, such as &quot;number&quot;, verbs, such as &quot;to mean&quot;, relations,
+such as &quot;meaning&quot;, and so on, is created. See in particular <a href="2-bv.html" class="internal">Booting Verbs (in assertions)</a>.
+(*) Three passes are made through the &quot;major nodes&quot; of the parse tree, meaning,
 assertion sentences and top-level declarations of structures such as tables,
 equations and rules. See <a href="2-ptmn.html" class="internal">Passes through Major Nodes</a>.
-<ul class="items"><li>(0) During the "pre-pass" names of tables and other top-level structures are
+(-0) During the &quot;pre-pass&quot; names of tables and other top-level structures are
 recorded, and sentences are classified by <a href="2-cs.html#SP3" class="internal">Classifying::sentence</a>. This is
 done by asking the <a href="../linguistics-module/index.html" class="internal">linguistics</a> module to diagram them and determine whether
-the meaning is "regular" &mdash; a typical sentence asserting some relationship,
-such as "the ball is on the table" &mdash; or "special" &mdash; a sentence with some
-other purpose, such as "Test ... with ...", often but not always written in
+the meaning is &quot;regular&quot; -- a typical sentence asserting some relationship,
+such as &quot;the ball is on the table&quot; -- or &quot;special&quot; -- a sentence with some
+other purpose, such as &quot;Test ... with ...&quot;, often but not always written in
 the imperative.
-</li><li>(1) During "pass 1", noun phrases in these assertion sentences are understood,
+(-1) During &quot;pass 1&quot;, noun phrases in these assertion sentences are understood,
 which may involve creating new instances or other values. For example, the
-sentence "The fedora hat is on the can of Ubuntu cola" may cause new instances
-"fedora hat" and "can of Ubuntu cola" to be created. This process is called
-"refinement": see <a href="4-rpt.html" class="internal">Refine Parse Tree</a>, which calls <a href="4-tc.html" class="internal">The Creator</a> to bring
-things into being.<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> The function <a href="4-ass.html#SP6" class="internal">Assertions::make_coupling</a> is then
+sentence &quot;The fedora hat is on the can of Ubuntu cola&quot; may cause new instances
+&quot;fedora hat&quot; and &quot;can of Ubuntu cola&quot; to be created. This process is called
+&quot;refinement&quot;: see <a href="4-rpt.html" class="internal">Refine Parse Tree</a>, which calls <a href="4-tc.html" class="internal">The Creator</a> to bring
+things into being.<sup id="fnred:1"><a href="#fn:1" rel="footnote">1</a></sup> The function <a href="4-ass.html#SP6" class="internal">Assertions::make_coupling</a> is then
 called to draw out information from this pairing of values.
-</li><li>(2) During "pass 2", <a href="4-ass.html#SP6" class="internal">Assertions::make_coupling</a> is again called, and this
+(-2) During &quot;pass 2&quot;, <a href="4-ass.html#SP6" class="internal">Assertions::make_coupling</a> is again called, and this
 time is able to draw out relationships between values: for example, that the
-hat is indeed spatially on top of the can.
-</li></ul>
-</li></ul>
+hat is indeed spatially on top of the can.</p>
+</div>
 <pre class="undisplayed-code all-displayed-code code-font">
 <span class="constant-syntax">1</span><span class="plain-syntax">. </span><span class="identifier-syntax">Jane</span><span class="plain-syntax"> </span><span class="identifier-syntax">is</span><span class="plain-syntax"> </span><span class="identifier-syntax">a</span><span class="plain-syntax"> </span><span class="identifier-syntax">woman</span>
 <span class="identifier-syntax">Classification:</span>
@@ -153,56 +149,53 @@ hat is indeed spatially on top of the can.
 <span class="plain-syntax">    </span><span class="identifier-syntax">PROPER_NOUN_NT</span><span class="character-syntax">'jane'</span><span class="plain-syntax"> {</span><span class="identifier-syntax">refined</span><span class="plain-syntax">} {</span><span class="identifier-syntax">refers:</span><span class="plain-syntax"> </span><span class="identifier-syntax">infs</span><span class="character-syntax">'jane'</span><span class="plain-syntax">} {</span><span class="identifier-syntax">eval:</span><span class="plain-syntax"> </span><span class="identifier-syntax">CONSTANT_NT</span><span class="character-syntax">'jane'</span><span class="plain-syntax"> {</span><span class="identifier-syntax">kind:</span><span class="plain-syntax"> </span><span class="identifier-syntax">object</span><span class="plain-syntax">} {</span><span class="identifier-syntax">instance:</span><span class="plain-syntax"> </span><span class="character-syntax">'jane'</span><span class="plain-syntax">} {</span><span class="identifier-syntax">enumeration:</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">}} {</span><span class="identifier-syntax">created</span><span class="plain-syntax"> </span><span class="identifier-syntax">here</span><span class="plain-syntax">}</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">COMMON_NOUN_NT</span><span class="character-syntax">'woman'</span><span class="plain-syntax"> {</span><span class="identifier-syntax">indefinite</span><span class="plain-syntax"> </span><span class="character-syntax">'a'</span><span class="plain-syntax"> </span><span class="identifier-syntax">n</span><span class="plain-syntax">/</span><span class="identifier-syntax">m</span><span class="plain-syntax">/</span><span class="identifier-syntax">f</span><span class="plain-syntax"> </span><span class="identifier-syntax">nom</span><span class="plain-syntax">/</span><span class="identifier-syntax">acc</span><span class="plain-syntax"> </span><span class="identifier-syntax">s</span><span class="plain-syntax">} {</span><span class="identifier-syntax">refined</span><span class="plain-syntax">} {</span><span class="identifier-syntax">refers:</span><span class="plain-syntax"> </span><span class="identifier-syntax">infs</span><span class="character-syntax">'woman'</span><span class="plain-syntax">} {</span><span class="identifier-syntax">creation:</span><span class="plain-syntax"> &lt;&lt; </span><span class="identifier-syntax">woman</span><span class="plain-syntax">(</span><span class="identifier-syntax">x</span><span class="plain-syntax">) &gt;&gt;} {</span><span class="identifier-syntax">eval:</span><span class="plain-syntax"> </span><span class="identifier-syntax">TEST_VALUE_NT</span><span class="plain-syntax">}</span>
 </pre>
-<ul class="footnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> There really is an Ubuntu cola; it's a fair-trade product which it amuses my
-more Linux-aware students to drink.
-<a href="#fnref:1" title="return to text"> &#x21A9;</a></p></li></ul>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Special meanings.</b>In the same way that programming languages have a few "reserved words" which
+<div class="lsmarkdown">
+<ul class="inwebfootnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>
+There really is an Ubuntu cola; it's a fair-trade product which it amuses my
+more Linux-aware students to drink.<a href="#fnref:1" title="return to text"> &#x21A9;</a></p>
+</li></ul>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Special meanings.</b>  In the same way that programming languages have a few &quot;reserved words&quot; which
 cue up built-in language features, even though they may look like user-defined
-functions or variables, Inform has a few verbs with "special meanings", which
+functions or variables, Inform has a few verbs with &quot;special meanings&quot;, which
 make requests directly to the compiler. These occupy <a href="3-dlr.html" class="internal">Chapter 3: Requests</a>, which is
-really just a catalogue of ways to ask for things.
-</p>
-
-<p class="commentary">All that we do is parse such sentences and then make a call to some
+really just a catalogue of ways to ask for things.</p>
+<p>All that we do is parse such sentences and then make a call to some
 appropriate function, usually in one of the other modules. For example, the
-section <a href="3-nar.html" class="internal">New Activity Requests</a> dismantles sentences like "Counting is an
-activity on numbers", but calls the <a href="../knowledge-module/index.html" class="internal">knowledge</a> module to do the actual
-making of the new activity.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Regular meanings.</b>As noted above, <a href="4-ass.html#SP6" class="internal">Assertions::make_coupling</a> is called on each regular
+section <a href="3-nar.html" class="internal">New Activity Requests</a> dismantles sentences like &quot;Counting is an
+activity on numbers&quot;, but calls the <a href="../knowledge-module/index.html" class="internal">knowledge</a> module to do the actual
+making of the new activity.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Regular meanings.</b>  As noted above, <a href="4-ass.html#SP6" class="internal">Assertions::make_coupling</a> is called on each regular
 assertion: coupling being a linguistic term for placing subject and object into
 a relationship with each other. What it does is to split into cases according to
 the subject and object phrases of a sentence. These can take 12 different forms,
-so there are \(12\times 12 = 144\) possible combinations of subject with object,
-and a \(12\times 12\) matrix is used to determine which of 42 cases the sentence
-falls into.
-</p>
-
-<p class="commentary">Each case then leads either to a proposition being formed, or to
+so there are \INWEBMATH(12\times 12 = 144\INWEBMATH) possible combinations of subject with object,
+and a \INWEBMATH(12\times 12\INWEBMATH) matrix is used to determine which of 42 cases the sentence
+falls into.</p>
+<p>Each case then leads either to a proposition being formed, or to
 a problem message being issued. Most of the easier cases are dealt with in
 the (admittedly quite long) <a href="index.html" class="internal">assertions</a> section, but harder ones are
-delegated to the remaining sections in <a href="4-nr.html" class="internal">Chapter 4: Assertions</a>.
-</p>
-
-<p class="commentary">The brief story above implied that each sentence is turned into a single
+delegated to the remaining sections in <a href="4-nr.html" class="internal">Chapter 4: Assertions</a>.</p>
+<p>The brief story above implied that each sentence is turned into a single
 proposition, as if this part of Inform can act as a sort of pipeline: text
 in, proposition out. But it is not quite so simple, and for the hardest
 sentences we must store notes on what to add later. For example, in
-<a href="4-ass2.html" class="internal">Assemblies</a>, a sentence like "In every container is a coin" cannot
+<a href="4-ass2.html" class="internal">Assemblies</a>, a sentence like &quot;In every container is a coin&quot; cannot
 take immediate effect. It clearly creates a whole lot of coin instances,
 but we don't yet know what is a container and what is not. That will
 depend on conclusions to be drawn by the <a href="../knowledge-module/index.html" class="internal">knowledge</a> module later on.
-Similarly, though a little easier, <a href="4-imp.html" class="internal">Implications</a> like "Something worn is
-usually wearable" do not immediately lead to propositions being drawn up.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Imperative definitions.</b>At the top level, Inform source text consists of more than just assertion
+Similarly, though a little easier, <a href="4-imp.html" class="internal">Implications</a> like &quot;Something worn is
+usually wearable&quot; do not immediately lead to propositions being drawn up.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Imperative definitions.</b>  At the top level, Inform source text consists of more than just assertion
 sentences: other constructions are made with different syntaxes. The most
-obvious of these are "imperative definitions", which are lists of instructions
-for what to do in different circumstances. They take the form
-</p>
-
+obvious of these are &quot;imperative definitions&quot;, which are lists of instructions
+for what to do in different circumstances. They take the form</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">a</span><span class="plain-syntax"> </span><span class="identifier-syntax">preamble</span><span class="plain-syntax"> </span><span class="identifier-syntax">text</span><span class="plain-syntax">:</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">first</span><span class="plain-syntax"> </span><span class="identifier-syntax">instruction</span><span class="plain-syntax">;</span>
@@ -210,35 +203,31 @@ for what to do in different circumstances. They take the form
 <span class="plain-syntax">    ...</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">last</span><span class="plain-syntax"> </span><span class="identifier-syntax">instruction</span><span class="plain-syntax">.</span>
 </pre>
-<p class="commentary">The preamble is parsed into an <a href="5-id.html#SP1" class="internal">imperative_defn</a>, which falls into one of
+<div class="lsmarkdown">
+<p>The preamble is parsed into an <a href="5-id.html#SP1" class="internal">imperative_defn</a>, which falls into one of
 a small range of <a href="5-idf.html" class="internal">Imperative Definition Families</a>: the most important being
 the <a href="5-rf.html" class="internal">Rule Family</a>, for interactive-fiction-style rules, and <a href="5-tpf.html" class="internal">To Phrase Family</a>,
-for declaring new "To..." phrases. Each definition is eventually joined to an
+for declaring new &quot;To...&quot; phrases. Each definition is eventually joined to an
 <a href="5-id.html#SP6" class="internal">id_body</a> representing the list of what to do, and this may be compiled to
-one or more functions in the final output.
-</p>
-
-<p class="commentary"><a href="6-rls.html" class="internal">Rules</a> need more infrastructure, since they must live inside <a href="6-rlb.html" class="internal">Rulebooks</a>
+one or more functions in the final output.</p>
+<p><a href="6-rls.html" class="internal">Rules</a> need more infrastructure, since they must live inside <a href="6-rlb.html" class="internal">Rulebooks</a>
 to take effect. Rulebooks contain <a href="6-bl.html" class="internal">Booking Lists</a> of <a href="6-rb.html" class="internal">Rule Bookings</a> to
 hold these; it all takes some juggling because of the features Inform has to
 allow authors to move rules around or customise their applicability. Finally,
-we introduce <a href="6-act.html" class="internal">Activities</a>, which are really just triplets of related rulebooks.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Other gadgets.</b>And there are a few other constructions, too. Actions are left to <a href="../if-module/4-ap.html" class="internal">Actions Plugin (in if)</a>,
+we introduce <a href="6-act.html" class="internal">Activities</a>, which are really just triplets of related rulebooks.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Other gadgets.</b>  And there are a few other constructions, too. Actions are left to <a href="../if-module/4-ap.html" class="internal">Actions Plugin (in if)</a>,
 but even Basic Inform has <a href="7-tbl.html" class="internal">Tables</a> (and their <a href="7-tc.html" class="internal">Table Columns</a>), along with
-the quirkier inclusion of <a href="7-eqt.html" class="internal">Equations</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Making use of the calculus module.</b><a href="8-kpr.html" class="internal">Chapter 8: Predicates</a> simply stocks up our predicate calculus system with some
+the quirkier inclusion of <a href="7-eqt.html" class="internal">Equations</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Making use of the calculus module.</b>  <a href="8-kpr.html" class="internal">Chapter 8: Predicates</a> simply stocks up our predicate calculus system with some
 basic unary and binary predicates, and provides a few shorthand functions
-to make commonly-needed propositions (see <a href="8-cu.html" class="internal">Calculus Utilities</a>).
-</p>
-
-<p class="commentary">More specialised predicates will also be added by other modules, so the
-roster here is not complete, but these are the essentials.
-</p>
-
+to make commonly-needed propositions (see <a href="8-cu.html" class="internal">Calculus Utilities</a>).</p>
+<p>More specialised predicates will also be added by other modules, so the
+roster here is not complete, but these are the essentials.</p>
+</div>
 <nav role="progress"><div class="progresscontainer">
     <ul class="progressbar"><li class="progressprevoff">&#10094;</li><li class="progresscurrentchapter">P</li><li class="progresscurrent">wtmd</li><li class="progresschapter"><a href="1-am.html">1</a></li><li class="progresschapter"><a href="2-bv.html">2</a></li><li class="progresschapter"><a href="3-dlr.html">3</a></li><li class="progresschapter"><a href="4-nr.html">4</a></li><li class="progresschapter"><a href="5-id.html">5</a></li><li class="progresschapter"><a href="6-rls.html">6</a></li><li class="progresschapter"><a href="7-tc.html">7</a></li><li class="progresschapter"><a href="8-kpr.html">8</a></li><li class="progressnext"><a href="1-am.html">&#10095;</a></li></ul></div>
 </nav><!-- End of weave -->

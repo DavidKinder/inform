@@ -12,6 +12,11 @@
 <link href="../docs-assets/Navigation.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Fonts.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -48,114 +53,105 @@
 
 <ul class="toc"><li><a href="P-htitm.html#SP1">&#167;1. Status</a></li><li><a href="P-htitm.html#SP2">&#167;2. Importing the module</a></li><li><a href="P-htitm.html#SP3">&#167;3. Meaning types</a></li><li><a href="P-htitm.html#SP4">&#167;4. Using callbacks</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Status.</b>The linguistics module is provided as one of the "services" suite of modules,
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Status.</b>  The linguistics module is provided as one of the &quot;services&quot; suite of modules,
 which means that it was built with a view to potential incorporation in
 multiple tools. It can be found, for example, in <a href="../inform7/index.html" class="internal">inform7</a> and
-<a href="../linguistics-test/index.html" class="internal">linguistics-test</a>.
-</p>
-
-<p class="commentary">By convention, the modules considered as "services" have no dependencies on
-other modules except for <a href="../foundation/index.html" class="internal">foundation</a> and other "services" modules.
-</p>
-
-<p class="commentary">A tool can import <a href="index.html" class="internal">linguistics</a> only if it also imports <a href="../foundation/index.html" class="internal">foundation</a>,
-<a href="../words-module/index.html" class="internal">words</a>, <a href="../syntax-module/index.html" class="internal">syntax</a>, <a href="../inflections-module/index.html" class="internal">inflections</a> and <a href="../lexicon-module/index.html" class="internal">lexicon</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Importing the module.</b>We'll use the term "parent" to mean the tool which is importing <a href="index.html" class="internal">linguistics</a>,
+<a href="../linguistics-test/index.html" class="internal">linguistics-test</a>.</p>
+<p>By convention, the modules considered as &quot;services&quot; have no dependencies on
+other modules except for <a href="../foundation/index.html" class="internal">foundation</a> and other &quot;services&quot; modules.</p>
+<p>A tool can import <a href="index.html" class="internal">linguistics</a> only if it also imports <a href="../foundation/index.html" class="internal">foundation</a>,
+<a href="../words-module/index.html" class="internal">words</a>, <a href="../syntax-module/index.html" class="internal">syntax</a>, <a href="../inflections-module/index.html" class="internal">inflections</a> and <a href="../lexicon-module/index.html" class="internal">lexicon</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Importing the module.</b>  We'll use the term &quot;parent&quot; to mean the tool which is importing <a href="index.html" class="internal">linguistics</a>,
 that is, which will include its code and be able to use it. As with any
 imported module,
-</p>
-
-<ul class="items"><li>&#9679; The contents page of the parent's web must identify and locate the
-module:
-</li></ul>
+(*) The contents page of the parent's web must identify and locate the
+module:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="element-syntax">Import</span><span class="plain-syntax">:</span><span class="string-syntax"> somepath/linguistics</span>
+<span class="plain-syntax">Import: somepath/linguistics</span>
 </pre>
-<ul class="items"><li>&#9679; The parent must call <span class="extract"><span class="extract-syntax">InflectionsModule::start()</span></span> just after it starts up, and
-<span class="extract"><span class="extract-syntax">InflectionsModule::end()</span></span> just before it shuts down. (But just after, and just
-before, the corresponding calls to <a href="../foundation/index.html" class="internal">foundation</a>.)
-</li></ul>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Meaning types.</b>This module tries to be agnostic about the actual meanings of words: it knows
+<div class="lsmarkdown">
+<p>(*) The parent must call <code>InflectionsModule::start()</code> just after it starts up, and
+<code>InflectionsModule::end()</code> just before it shuts down. (But just after, and just
+before, the corresponding calls to <a href="../foundation/index.html" class="internal">foundation</a>.)</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Meaning types.</b>  This module tries to be agnostic about the actual meanings of words: it knows
 about verbs, but not about what any specific verb means. The idea is that the
 parent tool specifies that, with some type of its own. The constant
-<span class="extract"><span class="extract-syntax">VERB_MEANING_LINGUISTICS_TYPE</span></span> should be defined to what this actually is;
+<code>VERB_MEANING_LINGUISTICS_TYPE</code> should be defined to what this actually is;
 it should be the name of a class of objects. (If it isn't defined, then no
-meaning is attached to verbs at all.)
-</p>
-
-<p class="commentary">For example, the <a href="../core-module/index.html" class="internal">core</a> module sets:
-</p>
-
+meaning is attached to verbs at all.)</p>
+<p>For example, the <a href="../core-module/index.html" class="internal">core</a> module sets:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="function-syntax">@d</span><span class="plain-syntax"> VERB_MEANING_LINGUISTICS_TYPE struct binary_predicate</span>
+<span class="plain-syntax">    @d VERB_MEANING_LINGUISTICS_TYPE struct binary_predicate</span>
 </pre>
-<p class="commentary">The parent may also want to define <span class="extract"><span class="extract-syntax">VERB_MEANING_UNIVERSAL_CALCULUS_RELATION</span></span>,
-which should be a value of this type, and represents the "to relate" verb which
-can assert any verb meaning &mdash; for example, "X relates to Y by R". See <a href="3-vu.html" class="internal">Verb Usages</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Using callbacks.</b>Shared modules like this one are tweaked in behaviour by defining "callback
-functions". This means that the parent might provide a function of its own
+<div class="lsmarkdown">
+<p>The parent may also want to define <code>VERB_MEANING_UNIVERSAL_CALCULUS_RELATION</code>,
+which should be a value of this type, and represents the &quot;to relate&quot; verb which
+can assert any verb meaning -- for example, &quot;X relates to Y by R&quot;. See <a href="3-vu.html" class="internal">Verb Usages</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Using callbacks.</b>  Shared modules like this one are tweaked in behaviour by defining &quot;callback
+functions&quot;. This means that the parent might provide a function of its own
 which would answer a question put to it by the module, or take some action
 on behalf of the module: it's a callback in the sense that the parent is
 normally calling the module, but then the module calls the parent back to
-ask for data or action.
-</p>
-
-<p class="commentary">The parent must indicate which function to use by defining a constant with
+ask for data or action.</p>
+<p>The parent must indicate which function to use by defining a constant with
 a specific name as being equal to that function's name. A fictional example
-would be
-</p>
-
+would be</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="function-syntax">@d</span><span class="plain-syntax"> EXPRESS_SURPRISE_LINGUISTICS_CALLBACK Emotions::gosh</span>
+<span class="plain-syntax">    @d EXPRESS_SURPRISE_LINGUISTICS_CALLBACK Emotions::gosh</span>
 
 <span class="plain-syntax">    =</span>
-<span class="plain-syntax">    </span><span class="element-syntax">void Emotions:</span><span class="plain-syntax">:</span><span class="string-syntax">gosh(text_stream *OUT) {</span>
+<span class="plain-syntax">    void Emotions::gosh(text_stream *OUT) {</span>
 <span class="plain-syntax">        WRITE("Good gracious!\n");</span>
 <span class="plain-syntax">    }</span>
 </pre>
-<p class="commentary">The linguistics module has many callbacks, but they are all optional. The
-following alphabetical list has references to fuller explanations:
-</p>
-
-<ul class="items"><li>&#9679; <span class="extract"><span class="extract-syntax">ADAPTIVE_PERSON_LINGUISTICS_CALLBACK</span></span> returns the default person for adaptive
+<div class="lsmarkdown">
+<p>The linguistics module has many callbacks, but they are all optional. The
+following alphabetical list has references to fuller explanations:</p>
+<p>(*) <code>ADAPTIVE_PERSON_LINGUISTICS_CALLBACK</code> returns the default person for adaptive
 text generation; in Inform, this tends to be the value of the adaptive text viewpoint
-property for the natural language of play. Similarly, <span class="extract"><span class="extract-syntax">ADAPTIVE_NUMBER_LINGUISTICS_CALLBACK</span></span>
-returns the number (singular or plural). See <a href="3-vu.html#SP24" class="internal">VerbUsages::adaptive_person</a>.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">ADJECTIVE_NAME_VETTING_LINGUISTICS_CALLBACK</span></span> should return <span class="extract"><span class="extract-syntax">TRUE</span></span> if the given
+property for the natural language of play. Similarly, <code>ADAPTIVE_NUMBER_LINGUISTICS_CALLBACK</code>
+returns the number (singular or plural). See <a href="3-vu.html#SP24" class="internal">VerbUsages::adaptive_person</a>.</p>
+<p>(*) <code>ADJECTIVE_NAME_VETTING_LINGUISTICS_CALLBACK</code> should return <code>TRUE</code> if the given
 name is acceptable as an adjective, and should otherwise print some sort of
-error message and return <span class="extract"><span class="extract-syntax">FALSE</span></span>. If this callback is not provided, all non-empty
-names are acceptable. See <a href="2-adj.html#SP3" class="internal">Adjectives::declare</a>.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">ALLOW_VERB_IN_ASSERTIONS_LINGUISTICS_CALLBACK</span></span> and <span class="extract"><span class="extract-syntax">ALLOW_VERB_LINGUISTICS_CALLBACK</span></span>
+error message and return <code>FALSE</code>. If this callback is not provided, all non-empty
+names are acceptable. See <a href="2-adj.html#SP3" class="internal">Adjectives::declare</a>.</p>
+<p>(*) <code>ALLOW_VERB_IN_ASSERTIONS_LINGUISTICS_CALLBACK</code> and <code>ALLOW_VERB_LINGUISTICS_CALLBACK</code>
 give the parent control over which forms of verbs are allowed: for example, <a href="../core-module/index.html" class="internal">core</a>
 allows them in assertions only in the third person (singular or plural), whereas
 it allows them in any form in non-assertion contexts. See
-<a href="3-vu.html#SP7" class="internal">VerbUsages::register_voices_of_verb</a>.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">ADJECTIVE_COMPILATION_LINGUISTICS_CALLBACK</span></span>, if provided, should accompany a
-declaration of a structure called <span class="extract"><span class="extract-syntax">adjecttve_compilation_data</span></span>; this function should
-then set up that data for the given adjective &mdash; see <a href="2-adj.html#SP3" class="internal">Adjectives::declare</a>.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">ADJECTIVE_MEANING_LINGUISTICS_CALLBACK</span></span>, if provided, should accompany a
-declaration of a structure called <span class="extract"><span class="extract-syntax">adjective_meaning_data</span></span>; this function should
-then set up that data for the given adjective &mdash; see <a href="2-adj.html#SP3" class="internal">Adjectives::declare</a>.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">NOUN_COMPILATION_LINGUISTICS_CALLBACK</span></span>, if provided, should accompany a
-declaration of a structure called <span class="extract"><span class="extract-syntax">name_compilation_data</span></span>; this function should
-then set up that data for the given noun &mdash; see <a href="2-nns.html#SP8" class="internal">Nouns::new_inner</a>.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">NOUN_DISAMBIGUATION_LINGUISTICS_CALLBACK</span></span>, if provided, should accompany a
-declaration of a structure called <span class="extract"><span class="extract-syntax">name_resolution_data</span></span>; this function should
+<a href="3-vu.html#SP7" class="internal">VerbUsages::register_voices_of_verb</a>.</p>
+<p>(*) <code>ADJECTIVE_COMPILATION_LINGUISTICS_CALLBACK</code>, if provided, should accompany a
+declaration of a structure called <code>adjecttve_compilation_data</code>; this function should
+then set up that data for the given adjective -- see <a href="2-adj.html#SP3" class="internal">Adjectives::declare</a>.</p>
+<p>(*) <code>ADJECTIVE_MEANING_LINGUISTICS_CALLBACK</code>, if provided, should accompany a
+declaration of a structure called <code>adjective_meaning_data</code>; this function should
+then set up that data for the given adjective -- see <a href="2-adj.html#SP3" class="internal">Adjectives::declare</a>.</p>
+<p>(*) <code>NOUN_COMPILATION_LINGUISTICS_CALLBACK</code>, if provided, should accompany a
+declaration of a structure called <code>name_compilation_data</code>; this function should
+then set up that data for the given noun -- see <a href="2-nns.html#SP8" class="internal">Nouns::new_inner</a>.</p>
+<p>(*) <code>NOUN_DISAMBIGUATION_LINGUISTICS_CALLBACK</code>, if provided, should accompany a
+declaration of a structure called <code>name_resolution_data</code>; this function should
 decide which possible reading of the meaning of a noun makes the best sense in
-context &mdash; see <a href="2-nns.html#SP14" class="internal">Nouns::disambiguate</a>.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">TRACING_LINGUISTICS_CALLBACK</span></span>, if provided, can return <span class="extract"><span class="extract-syntax">TRUE</span></span> to allow
+context -- see <a href="2-nns.html#SP14" class="internal">Nouns::disambiguate</a>.</p>
+<p>(*) <code>TRACING_LINGUISTICS_CALLBACK</code>, if provided, can return <code>TRUE</code> to allow
 extensive details of verb parsing to be copied to the debugging log. See
-<a href="4-vp.html#SP3" class="internal">VerbPhrases::tracing</a>.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">VERB_COMPILATION_LINGUISTICS_CALLBACK</span></span>, if provided, allows the <span class="extract"><span class="extract-syntax">compilation_data</span></span>
-part of a <span class="extract"><span class="extract-syntax">verb</span></span> to be initialised. See <a href="3-vrb.html#SP3" class="internal">Verbs::new_verb</a>.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">VERB_MEANING_REVERSAL_LINGUISTICS_CALLBACK</span></span> reverses the meaning of a verb:
-in the sense that the reversal of "A knows B" would be "A is known by B",
-or in other words "B knows A". See <a href="3-vm.html#SP2" class="internal">VerbMeanings::reverse_VMT</a>.
-</li></ul>
+<a href="4-vp.html#SP3" class="internal">VerbPhrases::tracing</a>.</p>
+<p>(*) <code>VERB_COMPILATION_LINGUISTICS_CALLBACK</code>, if provided, allows the <code>compilation_data</code>
+part of a <code>verb</code> to be initialised. See <a href="3-vrb.html#SP3" class="internal">Verbs::new_verb</a>.</p>
+<p>(*) <code>VERB_MEANING_REVERSAL_LINGUISTICS_CALLBACK</code> reverses the meaning of a verb:
+in the sense that the reversal of &quot;A knows B&quot; would be &quot;A is known by B&quot;,
+or in other words &quot;B knows A&quot;. See <a href="3-vm.html#SP2" class="internal">VerbMeanings::reverse_VMT</a>.</p>
+</div>
 <nav role="progress"><div class="progresscontainer">
     <ul class="progressbar"><li class="progressprev"><a href="P-asd.html">&#10094;</a></li><li class="progresscurrentchapter">P</li><li class="progresssection"><a href="P-wtmd.html">wtmd</a></li><li class="progresssection"><a href="P-asd.html">asd</a></li><li class="progresscurrent">htitm</li><li class="progresschapter"><a href="1-lm.html">1</a></li><li class="progresschapter"><a href="2-adj.html">2</a></li><li class="progresschapter"><a href="3-vrb.html">3</a></li><li class="progresschapter"><a href="4-np.html">4</a></li><li class="progressnext"><a href="1-lm.html">&#10095;</a></li></ul></div>
 </nav><!-- End of weave -->

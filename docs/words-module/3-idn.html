@@ -20,6 +20,11 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -56,15 +61,15 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="3-idn.html#SP1">&#167;1. Validity of identifiers</a></li><li><a href="3-idn.html#SP3">&#167;3. Automatically composed identifiers</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Validity of identifiers.</b>In code compiled by I7, a valid identifier is a sequence of 1 to 31 characters,
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Validity of identifiers.</b>  In code compiled by I7, a valid identifier is a sequence of 1 to 31 characters,
 which must be alphanumeric or else underscores, except that the leading
-character must not be a 0:
-</p>
-
+character must not be a 0:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Identifiers::valid</span><span class="plain-syntax">(</span><span class="identifier-syntax">inchar32_t</span><span class="plain-syntax"> *</span><span class="identifier-syntax">p</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Identifiers::valid</span><span class="plain-syntax">(</span><span class="identifier-syntax">inchar32_t</span><span class="plain-syntax"> *</span><span class="identifier-syntax">p</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">Wide::len</span><span class="plain-syntax">(</span><span class="identifier-syntax">p</span><span class="plain-syntax">) == </span><span class="constant-syntax">0</span><span class="plain-syntax">) || (</span><span class="identifier-syntax">Wide::len</span><span class="plain-syntax">(</span><span class="identifier-syntax">p</span><span class="plain-syntax">) &gt; </span><span class="constant-syntax">31</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">p</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">]; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++)</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">p</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">]; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++)</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">Characters::isdigit</span><span class="plain-syntax">(</span><span class="identifier-syntax">p</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">]) == </span><span class="constant-syntax">0</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">Characters::isalpha</span><span class="plain-syntax">(</span><span class="identifier-syntax">p</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">]) == </span><span class="constant-syntax">0</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">            &amp;&amp; (</span><span class="identifier-syntax">p</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">] != </span><span class="character-syntax">'_'</span><span class="plain-syntax">))</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
@@ -72,11 +77,11 @@ character must not be a 0:
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>The following flattens characters into shape:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  The following flattens characters into shape:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Identifiers::purify</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">Identifiers::purify</span></span>:<br/><a href="3-idn.html#SP3">&#167;3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Identifiers::purify</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">Identifiers::purify</span></span>:<br/><a href="3-idn.html#SP3">&#167;3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_THROUGH_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">pos</span><span class="plain-syntax">, </span><span class="identifier-syntax">identifier</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">inchar32_t</span><span class="plain-syntax"> </span><span class="identifier-syntax">x</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Str::get</span><span class="plain-syntax">(</span><span class="identifier-syntax">pos</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (!(((</span><span class="identifier-syntax">x</span><span class="plain-syntax"> &gt;= </span><span class="character-syntax">'0'</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">x</span><span class="plain-syntax"> &lt;= </span><span class="character-syntax">'9'</span><span class="plain-syntax">)) ||</span>
@@ -85,60 +90,54 @@ character must not be a 0:
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Automatically composed identifiers.</b>The following routines are no longer used by Inform, but retained in case
-useful for other projects.
-</p>
-
-<p class="commentary">The idea here is that we want an identifier based on a natural language
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Automatically composed identifiers.</b>  The following routines are no longer used by Inform, but retained in case
+useful for other projects.</p>
+<p>The idea here is that we want an identifier based on a natural language
 wording, but which passed the above validity tests, and which does not lead
 to namespace collisions. Such identifiers are composed in a pattern which
 uses an identifying letter (e.g., A for Action), a unique ID number
 (preventing name-clashes) and then a truncated alphanumeric-safe form of
 the words used in the textual description, if any. For example, an object
-called "apple crumble" might have identifier <span class="extract"><span class="extract-syntax">O100_apple_crumble</span></span>. Any
-other object also called "apple crumble" would have a different identifier
-since the number parts would be different.
-</p>
-
-<p class="commentary">Beginning with the identifying letter ensures that we do not open with
-a 0 digit.
-</p>
-
-<p class="commentary">We truncate to 28 characters in length so that other routines can
-concatenate our identifier with up to 3 further characters, if they choose.
-</p>
-
+called &quot;apple crumble&quot; might have identifier <code>O100_apple_crumble</code>. Any
+other object also called &quot;apple crumble&quot; would have a different identifier
+since the number parts would be different.</p>
+<p>Beginning with the identifying letter ensures that we do not open with
+a 0 digit.</p>
+<p>We truncate to 28 characters in length so that other routines can
+concatenate our identifier with up to 3 further characters, if they choose.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Identifiers::compose</span><span class="plain-syntax">(</span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">nature_character</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">id_number</span><span class="plain-syntax">, </span><span class="reserved-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Identifiers::compose</span><span class="plain-syntax">(</span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">nature_character</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">id_number</span><span class="plain-syntax">, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">Str::clear</span><span class="plain-syntax">(</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE_TO</span><span class="plain-syntax">(</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">, </span><span class="string-syntax">"%c%d"</span><span class="plain-syntax">, </span><span class="identifier-syntax">nature_character</span><span class="plain-syntax">, </span><span class="identifier-syntax">id_number</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="3-wrd.html#SP11" class="function-link"><span class="function-syntax">Wordings::nonempty</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">W</span><span class="plain-syntax">)) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">LOOP_THROUGH_WORDING</span><span class="plain-syntax">(</span><span class="identifier-syntax">j</span><span class="plain-syntax">, </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">            </span><span class="comment-syntax"> identifier is at this point 32 chars or fewer in length: add at most 30 more</span>
+<span class="plain-syntax">            </span><span class="comment-syntax">/* identifier is at this point 32 chars or fewer in length: add at most 30 more */</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Wide::len</span><span class="plain-syntax">(</span><a href="3-lxr.html#SP19" class="function-link"><span class="function-syntax">Lexer::word_text</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">j</span><span class="plain-syntax">)) &gt; </span><span class="constant-syntax">30</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">WRITE_TO</span><span class="plain-syntax">(</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">, </span><span class="string-syntax">" etc"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="identifier-syntax">WRITE_TO</span><span class="plain-syntax">(</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">, </span><span class="string-syntax">" %N"</span><span class="plain-syntax">, </span><span class="identifier-syntax">j</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Str::len</span><span class="plain-syntax">(</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">) &gt; </span><span class="constant-syntax">32</span><span class="plain-syntax">) </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        }</span>
 <span class="plain-syntax">    }</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">Str::truncate</span><span class="plain-syntax">(</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">, </span><span class="constant-syntax">28</span><span class="plain-syntax">); </span><span class="comment-syntax"> it was at worst 62 chars in size, but is now truncated to 28</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">Str::truncate</span><span class="plain-syntax">(</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">, </span><span class="constant-syntax">28</span><span class="plain-syntax">); </span><span class="comment-syntax">/* it was at worst 62 chars in size, but is now truncated to 28 */</span>
 <span class="plain-syntax">    </span><a href="3-idn.html#SP2" class="function-link"><span class="function-syntax">Identifiers::purify</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Identifiers::compose_numberless</span><span class="plain-syntax">(</span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prefix</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Identifiers::compose_numberless</span><span class="plain-syntax">(</span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prefix</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">Str::copy</span><span class="plain-syntax">(</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">, </span><span class="identifier-syntax">prefix</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="3-wrd.html#SP11" class="function-link"><span class="function-syntax">Wordings::nonempty</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">W</span><span class="plain-syntax">)) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">LOOP_THROUGH_WORDING</span><span class="plain-syntax">(</span><span class="identifier-syntax">j</span><span class="plain-syntax">, </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">            </span><span class="comment-syntax"> identifier is at this point 32 chars or fewer in length: add at most 30 more</span>
+<span class="plain-syntax">            </span><span class="comment-syntax">/* identifier is at this point 32 chars or fewer in length: add at most 30 more */</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Wide::len</span><span class="plain-syntax">(</span><a href="3-lxr.html#SP19" class="function-link"><span class="function-syntax">Lexer::word_text</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">j</span><span class="plain-syntax">)) &gt; </span><span class="constant-syntax">30</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">WRITE_TO</span><span class="plain-syntax">(</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">, </span><span class="string-syntax">" etc"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="identifier-syntax">WRITE_TO</span><span class="plain-syntax">(</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">, </span><span class="string-syntax">" %N"</span><span class="plain-syntax">, </span><span class="identifier-syntax">j</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Str::len</span><span class="plain-syntax">(</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">) &gt; </span><span class="constant-syntax">32</span><span class="plain-syntax">) </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        }</span>
 <span class="plain-syntax">    }</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">Str::truncate</span><span class="plain-syntax">(</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">, </span><span class="constant-syntax">28</span><span class="plain-syntax">); </span><span class="comment-syntax"> it was at worst 62 chars in size, but is now truncated to 28</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">Str::truncate</span><span class="plain-syntax">(</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">, </span><span class="constant-syntax">28</span><span class="plain-syntax">); </span><span class="comment-syntax">/* it was at worst 62 chars in size, but is now truncated to 28 */</span>
 <span class="plain-syntax">    </span><a href="3-idn.html#SP2" class="function-link"><span class="function-syntax">Identifiers::purify</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>

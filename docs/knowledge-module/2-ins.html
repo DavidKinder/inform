@@ -61,78 +61,81 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="2-ins.html#SP5">&#167;5. Name and number</a></li><li><a href="2-ins.html#SP6">&#167;6. Subject and source references</a></li><li><a href="2-ins.html#SP7">&#167;7. Coincidence with property names</a></li><li><a href="2-ins.html#SP10">&#167;10. The kind of an instance</a></li><li><a href="2-ins.html#SP13">&#167;13. Iterating through instances of a kind</a></li><li><a href="2-ins.html#SP14">&#167;14. Instances of grammatical gender</a></li><li><a href="2-ins.html#SP15">&#167;15. Instances specified in Neptune files</a></li><li><a href="2-ins.html#SP16">&#167;16. Logging</a></li><li><a href="2-ins.html#SP17">&#167;17. Writer</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>Instances are named constants giving a finite range of possible values of
-a kind,<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> where these are chosen by the author.<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup> Instances are can have
-properties, and can have inferences drawn about them: see <a href="4-is2.html" class="internal">Instance Subjects</a>.
-</p>
-
-<p class="commentary">Most instances are created by assertions in the source text. For example:
-</p>
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b> </p>
 
 <blockquote>
     <p>Colour is a kind of value. The colours are red, blue and green.</p>
 </blockquote>
 
-<p class="commentary">creates three instances: "red", "blue" and "green", which enumerate the
-possible range of "colour". Objects are instances too:
-</p>
-
 <blockquote>
     <p>Peter carries a blue ball.</p>
 </blockquote>
 
-<p class="commentary">"Peter" and "blue ball" are initially created as instances of the kind "object",
-but will later be deduced to be of kind "person" and "thing" respectively.
+<div class="lsmarkdown">
+<p>Instances are named constants giving a finite range of possible values of
+a kind,<sup id="fnred:1"><a href="#fn:1" rel="footnote">1</a></sup> where these are chosen by the author.<sup id="fnred:2"><a href="#fn:2" rel="footnote">2</a></sup> Instances are can have
+properties, and can have inferences drawn about them: see <a href="4-is2.html" class="internal">Instance Subjects</a>.</p>
+<p>Most instances are created by assertions in the source text. For example:</p>
+</div>
+<div class="lsmarkdown">
+<p>creates three instances: &quot;red&quot;, &quot;blue&quot; and &quot;green&quot;, which enumerate the
+possible range of &quot;colour&quot;. Objects are instances too:</p>
+</div>
+<div class="lsmarkdown">
+<p>&quot;Peter&quot; and &quot;blue ball&quot; are initially created as instances of the kind &quot;object&quot;,
+but will later be deduced to be of kind &quot;person&quot; and &quot;thing&quot; respectively.
 As this demonstrates, an instance can have its kind specialised (that is,
-changed to a subkind of its current kind) after creation: see <a href="2-ins.html#SP11" class="internal">Instances::set_kind</a>.
-</p>
-
-<ul class="footnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> So there are no instances of "number" or "text", for example.
-<a href="#fnref:1" title="return to text"> &#x21A9;</a></p></li><li class="footnote" id="fn:2"><p class="inwebfootnote"><sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup> The values "true" and "false" do exhaust the possibilities for "truth state",
-but these are hard-wired into Inform and are not instances, because "truth state"
-is not an enumeration.
-<a href="#fnref:2" title="return to text"> &#x21A9;</a></p></li></ul>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>Note that the kind is not explicitly stored in the <span class="extract"><span class="extract-syntax">instance</span></span> structure: it
+changed to a subkind of its current kind) after creation: see <a href="2-ins.html#SP11" class="internal">Instances::set_kind</a>.</p>
+<ul class="inwebfootnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>
+So there are no instances of &quot;number&quot; or &quot;text&quot;, for example.<a href="#fnref:1" title="return to text"> &#x21A9;</a></p>
+</li>
+<li class="footnote" id="fn:2"><p class="inwebfootnote"><sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup>
+The values &quot;true&quot; and &quot;false&quot; do exhaust the possibilities for &quot;truth state&quot;,
+but these are hard-wired into Inform and are not instances, because &quot;truth state&quot;
+is not an enumeration.<a href="#fnref:2" title="return to text"> &#x21A9;</a></p>
+</li></ul>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  Note that the kind is not explicitly stored in the <code>instance</code> structure: it
 has to be deduced from the position of the instance's subject in the subjects
-hierarchy. See <a href="2-ins.html#SP10" class="internal">Instances::to_kind</a>.
-</p>
-
+hierarchy. See <a href="2-ins.html#SP10" class="internal">Instances::to_kind</a>.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">instance</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">noun</span><span class="plain-syntax"> *</span><span class="identifier-syntax">as_noun</span><span class="plain-syntax">; </span><span class="comment-syntax"> the name of the instance</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">adjective</span><span class="plain-syntax"> *</span><span class="identifier-syntax">as_adjective</span><span class="plain-syntax">; </span><span class="comment-syntax"> if this is a noun used adjectivally, like "red"</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">as_subject</span><span class="plain-syntax">; </span><span class="comment-syntax"> from which the kind can be deduced</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">noun</span><span class="plain-syntax"> *</span><span class="identifier-syntax">as_noun</span><span class="plain-syntax">; </span><span class="comment-syntax">/* the name of the instance */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">adjective</span><span class="plain-syntax"> *</span><span class="identifier-syntax">as_adjective</span><span class="plain-syntax">; </span><span class="comment-syntax">/* if this is a noun used adjectivally, like "red" */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">as_subject</span><span class="plain-syntax">; </span><span class="comment-syntax">/* from which the kind can be deduced */</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">creating_sentence</span><span class="plain-syntax">; </span><span class="comment-syntax"> sentence creating the instance</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">where_kind_is_set</span><span class="plain-syntax">; </span><span class="comment-syntax"> sentence identifying its kind</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">creating_sentence</span><span class="plain-syntax">; </span><span class="comment-syntax">/* sentence creating the instance */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">where_kind_is_set</span><span class="plain-syntax">; </span><span class="comment-syntax">/* sentence identifying its kind */</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">enumeration_index</span><span class="plain-syntax">; </span><span class="comment-syntax"> within each non-object kind, instances are counted from 1</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">enumeration_index</span><span class="plain-syntax">; </span><span class="comment-syntax">/* within each non-object kind, instances are counted from 1 */</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance_compilation_data</span><span class="plain-syntax"> </span><span class="identifier-syntax">compilation_data</span><span class="plain-syntax">; </span><span class="comment-syntax"> see </span><a href="../runtime-module/5-ins.html" class="internal">Instances (in runtime)</a>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance_compilation_data</span><span class="plain-syntax"> </span><span class="identifier-syntax">compilation_data</span><span class="plain-syntax">; </span><span class="comment-syntax">/* see //runtime: Instances// */</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">CLASS_DEFINITION</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">instance</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">instance</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>The structure instance is accessed in 2/iaa, 2/pfi, 2/nv, 3/prp, 3/ep, 3/epa, 3/msr, 4/pp and here.</li></ul>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>We record the one most recently made:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  We record the one most recently made:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">latest_instance</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">latest_instance</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 
-<span class="reserved-syntax">instance</span><span class="plain-syntax"> *</span><span class="function-syntax">Instances::latest</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">Instances::latest</span></span>:<br/><a href="2-ins.html#SP15">&#167;15</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="function-syntax">Instances::latest</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">Instances::latest</span></span>:<br/><a href="2-ins.html#SP15">&#167;15</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">latest_instance</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>And this is where they are made:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  And this is where they are made:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">instance</span><span class="plain-syntax"> *</span><span class="function-syntax">Instances::new</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">Instances::new</span></span>:<br/>Assert Propositions - <a href="1-ap.html#SP6_5_2">&#167;6.5.2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">, </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="function-syntax">Instances::new</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">Instances::new</span></span>:<br/>Assert Propositions - <a href="1-ap.html#SP6_5_2">&#167;6.5.2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">, </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="constant-syntax">PROTECTED_MODEL_PROCEDURE</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-ins.html#SP4_1" class="named-paragraph-link"><span class="named-paragraph">Simplify the initial kind of the instance</span><span class="named-paragraph-number">4.1</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="reserved-syntax">instance</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-ins.html#SP4_2" class="named-paragraph-link"><span class="named-paragraph">Initialise the instance</span><span class="named-paragraph-number">4.2</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-ins.html#SP4_3" class="named-paragraph-link"><span class="named-paragraph">Add the new instance to its enumeration</span><span class="named-paragraph-number">4.3</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-ins.html#SP4_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Simplify the initial kind of the instance</span></span><span class="named-paragraph-number">4.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-ins.html#SP4_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Initialise the instance</span></span><span class="named-paragraph-number">4.2</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-ins.html#SP4_3" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Add the new instance to its enumeration</span></span><span class="named-paragraph-number">4.3</span></a></span><span class="plain-syntax">;</span>
 
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOGIF</span><span class="plain-syntax">(</span><span class="identifier-syntax">OBJECT_CREATIONS</span><span class="plain-syntax">, </span><span class="string-syntax">"Created instance: $O (kind %u) (inter %n)\n"</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">K</span><span class="plain-syntax">, </span><span class="identifier-syntax">RTInstances::value_iname</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">));</span>
@@ -145,21 +148,19 @@ hierarchy. See <a href="2-ins.html#SP10" class="internal">Instances::to_kind</a>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">I</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4_1" class="paragraph-anchor"></a><b>&#167;4.1. </b>If we don't know the kind, we assume "object"; if we're asked for a kind
-more specific than "object", we nevertheless make it just "object" for now.
-(It will be specialised later on.)
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Simplify the initial kind of the instance</span><span class="named-paragraph-number">4.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4_1" class="paragraph-anchor"></a><b>&#167;4.1. </b>  If we don't know the kind, we assume &quot;object&quot;; if we're asked for a kind
+more specific than &quot;object&quot;, we nevertheless make it just &quot;object&quot; for now.
+(It will be specialised later on.)</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Simplify the initial kind of the instance</span><span class="named-paragraph-number">4.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">K</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">K</span><span class="plain-syntax"> = </span><span class="identifier-syntax">K_object</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">K</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Kinds::weaken</span><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_object</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-ins.html#SP4">&#167;4</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP4_2" class="paragraph-anchor"></a><b>&#167;4.2. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Initialise the instance</span><span class="named-paragraph-number">4.2</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP4_2" class="paragraph-anchor"></a><b>&#167;4.2. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Initialise the instance</span><span class="named-paragraph-number">4.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">I</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">creating_sentence</span><span class="plain-syntax"> = </span><span class="identifier-syntax">current_sentence</span><span class="plain-syntax">;</span>
@@ -172,57 +173,54 @@ more specific than "object", we nevertheless make it just "object" for now.
 <span class="plain-syntax">    </span><span class="identifier-syntax">I</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">compilation_data</span><span class="plain-syntax"> = </span><span class="identifier-syntax">RTInstances::new_compilation_data</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-ins.html#SP4">&#167;4</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP4_3" class="paragraph-anchor"></a><b>&#167;4.3. </b>The values in an enumerated kind such as our perpetual "colour" example
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4_3" class="paragraph-anchor"></a><b>&#167;4.3. </b>  The values in an enumerated kind such as our perpetual &quot;colour&quot; example
 are numbered 1, 2, 3, ..., in order of creation. This is where we assign
 those numbers, and also where we give corresponding adjectival meanings
-in the kind in question is also a property.
-</p>
-
-<p class="commentary">There are two reasons why we don't do the same for objects: firstly, because
-"object" has a whole hierarchy of subkinds, there's no unique numbering &mdash;
-the same object may be thing number 17 but vehicle number 3 &mdash; and secondly,
+in the kind in question is also a property.</p>
+<p>There are two reasons why we don't do the same for objects: firstly, because
+&quot;object&quot; has a whole hierarchy of subkinds, there's no unique numbering --
+the same object may be thing number 17 but vehicle number 3 -- and secondly,
 because we won't know the exact kind of objects until much later on; for now
 the only thing we are sure of is that they are indeed objects. Enumeration
 for objects within kinds is certainly useful, but it's harder to do and will
-be done later on: see <a href="../runtime-module/2-ic.html" class="internal">Instance Counting (in runtime)</a>.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Add the new instance to its enumeration</span><span class="named-paragraph-number">4.3</span></span><span class="comment-syntax"> =</span>
-</p>
+be done later on: see <a href="../runtime-module/2-ic.html" class="internal">Instance Counting (in runtime)</a>.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Add the new instance to its enumeration</span><span class="named-paragraph-number">4.3</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (!(</span><span class="identifier-syntax">Kinds::Behaviour::is_object</span><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">))) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Kinds::Behaviour::has_named_constant_values</span><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">) == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"tried to make an instance value for impossible kind"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">I</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">enumeration_index</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Kinds::Behaviour::new_enumerated_value</span><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cp</span><span class="plain-syntax"> = </span><a href="3-prp.html#SP22" class="function-link"><span class="function-syntax">Properties::property_with_same_name_as</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cp</span><span class="plain-syntax"> = </span><a href="3-prp.html#SP22" class="function-link"><span class="function-syntax">Properties::property_with_same_name_as</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">cp</span><span class="plain-syntax">) </span><a href="2-ins.html#SP9" class="function-link"><span class="function-syntax">Instances::register_as_adjectival_constant</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">cp</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-ins.html#SP4">&#167;4</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Name and number.</b></p>
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Name and number.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::get_name</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">Instances::get_name</span></span>:<br/><a href="2-ins.html#SP17_1">&#167;17.1</a>, <a href="2-ins.html#SP17_2">&#167;17.2</a><br/>Instances as Adjectives - <a href="2-iaa.html#SP2_2">&#167;2.2</a><br/>Instance Subjects - <a href="4-is2.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">plural</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::get_name</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">Instances::get_name</span></span>:<br/><a href="2-ins.html#SP17_1">&#167;17.1</a>, <a href="2-ins.html#SP17_2">&#167;17.2</a><br/>Instances as Adjectives - <a href="2-iaa.html#SP2_2">&#167;2.2</a><br/>Instance Subjects - <a href="4-is2.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">plural</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">I</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) || (</span><span class="identifier-syntax">I</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">as_noun</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">EMPTY_WORDING</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">Nouns::nominative</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">as_noun</span><span class="plain-syntax">, </span><span class="identifier-syntax">plural</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::get_name_in_play</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">Instances::get_name_in_play</span></span>:<br/>The Naming Thicket - <a href="5-tnt.html#SP9_1">&#167;9.1</a>, <a href="5-tnt.html#SP9_1_2">&#167;9.1.2</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">plural</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::get_name_in_play</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">Instances::get_name_in_play</span></span>:<br/>The Naming Thicket - <a href="5-tnt.html#SP9_1">&#167;9.1</a>, <a href="5-tnt.html#SP9_1_2">&#167;9.1.2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">plural</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">I</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) || (</span><span class="identifier-syntax">I</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">as_noun</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">EMPTY_WORDING</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">Nouns::nominative_in_language</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">as_noun</span><span class="plain-syntax">, </span><span class="identifier-syntax">plural</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">Projects::get_language_of_play</span><span class="plain-syntax">(</span><span class="identifier-syntax">Task::project</span><span class="plain-syntax">()));</span>
 <span class="plain-syntax">}</span>
 
-<span class="identifier-syntax">noun</span><span class="plain-syntax"> *</span><span class="function-syntax">Instances::get_noun</span><span class="plain-syntax">(</span><span class="reserved-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">noun</span><span class="plain-syntax"> *</span><span class="function-syntax">Instances::get_noun</span><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">I</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">as_noun</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::get_numerical_value</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">Instances::get_numerical_value</span></span>:<br/>The Naming Thicket - <a href="5-tnt.html#SP12">&#167;12</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::get_numerical_value</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">Instances::get_numerical_value</span></span>:<br/>The Naming Thicket - <a href="5-tnt.html#SP12">&#167;12</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">I</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">enumeration_index</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::write_name</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="reserved-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::write_name</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax"> = </span><a href="2-ins.html#SP5" class="function-link"><span class="function-syntax">Instances::get_name_in_play</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Wordings::nonempty</span><span class="plain-syntax">(</span><span class="identifier-syntax">W</span><span class="plain-syntax">)) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"%+W"</span><span class="plain-syntax">, </span><span class="identifier-syntax">W</span><span class="plain-syntax">);</span>
@@ -235,136 +233,142 @@ be done later on: see <a href="../runtime-module/2-ic.html" class="internal">Ins
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Subject and source references.</b></p>
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Subject and source references.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="function-syntax">Instances::as_subject</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">Instances::as_subject</span></span>:<br/>Assert Propositions - <a href="1-ap.html#SP6_5_2">&#167;6.5.2</a>, <a href="1-ap.html#SP9">&#167;9</a><br/>Inference Subjects - <a href="4-is.html#SP8">&#167;8</a>, <a href="4-is.html#SP14">&#167;14</a>, <a href="4-is.html#SP29">&#167;29</a><br/>The Naming Thicket - <a href="5-tnt.html#SP5">&#167;5</a>, <a href="5-tnt.html#SP7">&#167;7</a>, <a href="5-tnt.html#SP8">&#167;8</a>, <a href="5-tnt.html#SP9_1">&#167;9.1</a>, <a href="5-tnt.html#SP12">&#167;12</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="function-syntax">Instances::as_subject</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">Instances::as_subject</span></span>:<br/>Assert Propositions - <a href="1-ap.html#SP6_5_2">&#167;6.5.2</a>, <a href="1-ap.html#SP9">&#167;9</a><br/>Inference Subjects - <a href="4-is.html#SP8">&#167;8</a>, <a href="4-is.html#SP14">&#167;14</a>, <a href="4-is.html#SP29">&#167;29</a><br/>The Naming Thicket - <a href="5-tnt.html#SP5">&#167;5</a>, <a href="5-tnt.html#SP7">&#167;7</a>, <a href="5-tnt.html#SP8">&#167;8</a>, <a href="5-tnt.html#SP9_1">&#167;9.1</a>, <a href="5-tnt.html#SP12">&#167;12</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">I</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">I</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">as_subject</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="identifier-syntax">adjective</span><span class="plain-syntax"> *</span><span class="function-syntax">Instances::as_adjective</span><span class="plain-syntax">(</span><span class="reserved-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">adjective</span><span class="plain-syntax"> *</span><span class="function-syntax">Instances::as_adjective</span><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">I</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">I</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">as_adjective</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="function-syntax">Instances::get_creating_sentence</span><span class="plain-syntax">(</span><span class="reserved-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="function-syntax">Instances::get_creating_sentence</span><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">I</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">I</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">creating_sentence</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="identifier-syntax">source_file</span><span class="plain-syntax"> *</span><span class="function-syntax">Instances::get_creating_file</span><span class="plain-syntax">(</span><span class="reserved-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">source_file</span><span class="plain-syntax"> *</span><span class="function-syntax">Instances::get_creating_file</span><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">I</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">Lexer::file_of_origin</span><span class="plain-syntax">(</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">Wordings::first_wn</span><span class="plain-syntax">(</span><span class="identifier-syntax">Node::get_text</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">creating_sentence</span><span class="plain-syntax">)));</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Coincidence with property names.</b>Suppose, as always, we have:
-</p>
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Coincidence with property names.</b> </p>
 
 <blockquote>
     <p>Colour is a kind of value. The colours are red, white and blue. A door has a colour.</p>
 </blockquote>
 
-<p class="commentary">The third sentence causes the following to be called, for the kind "colour"
-and the property "colour", whose names coincide:
-</p>
-
+<div class="lsmarkdown">
+<p>Suppose, as always, we have:</p>
+</div>
+<div class="lsmarkdown">
+<p>The third sentence causes the following to be called, for the kind &quot;colour&quot;
+and the property &quot;colour&quot;, whose names coincide:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::make_kind_coincident</span><button class="popup" onclick="togglePopup('usagePopup7')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup7">Usage of <span class="code-font"><span class="function-syntax">Instances::make_kind_coincident</span></span>:<br/>Valued Properties - <a href="3-vp.html#SP7">&#167;7</a><br/>Kind Subjects - <a href="4-ks.html#SP11">&#167;11</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K</span><span class="plain-syntax">, </span><span class="reserved-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::make_kind_coincident</span><button class="popup" onclick="togglePopup('usagePopup7')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup7">Usage of <span class="code-font"><span class="function-syntax">Instances::make_kind_coincident</span></span>:<br/>Valued Properties - <a href="3-vp.html#SP7">&#167;7</a><br/>Kind Subjects - <a href="4-ks.html#SP11">&#167;11</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K</span><span class="plain-syntax">, </span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><a href="3-prp.html#SP22" class="function-link"><span class="function-syntax">Properties::mark_kind_as_having_same_name_as</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">, </span><span class="identifier-syntax">P</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="2-ins.html#SP8" class="function-link"><span class="function-syntax">Instances::update_adjectival_forms</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">P</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Kinds::eq</span><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_grammatical_gender</span><span class="plain-syntax">)) </span><span class="identifier-syntax">P_grammatical_gender</span><span class="plain-syntax"> = </span><span class="identifier-syntax">P</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>That causes us to "update adjectival forms" for the property "colour",
-a sort of general round-up to make sure that all of its possible applications
-are covered by suitable adjectives. For instance, "red" must be registered
-as an adjectival constant to cover doors. We will call this again if a further
-use of colour turns up subsequently, e.g., in response to:
-</p>
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b> </p>
 
 <blockquote>
     <p>A vehicle has a colour.</p>
 </blockquote>
 
+<div class="lsmarkdown">
+<p>That causes us to &quot;update adjectival forms&quot; for the property &quot;colour&quot;,
+a sort of general round-up to make sure that all of its possible applications
+are covered by suitable adjectives. For instance, &quot;red&quot; must be registered
+as an adjectival constant to cover doors. We will call this again if a further
+use of colour turns up subsequently, e.g., in response to:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::update_adjectival_forms</span><button class="popup" onclick="togglePopup('usagePopup8')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup8">Usage of <span class="code-font"><span class="function-syntax">Instances::update_adjectival_forms</span></span>:<br/><a href="2-ins.html#SP7">&#167;7</a><br/>The Provision Relation - <a href="3-tpr.html#SP5">&#167;5</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::update_adjectival_forms</span><button class="popup" onclick="togglePopup('usagePopup8')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup8">Usage of <span class="code-font"><span class="function-syntax">Instances::update_adjectival_forms</span></span>:<br/><a href="2-ins.html#SP7">&#167;7</a><br/>The Provision Relation - <a href="3-tpr.html#SP5">&#167;5</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="3-prp.html#SP16" class="function-link"><span class="function-syntax">Properties::is_either_or</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">P</span><span class="plain-syntax">) == </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K</span><span class="plain-syntax"> = </span><a href="3-vp.html#SP6" class="function-link"><span class="function-syntax">ValueProperties::kind</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">P</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">P</span><span class="plain-syntax"> == </span><a href="3-prp.html#SP22" class="function-link"><span class="function-syntax">Properties::property_with_same_name_as</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">)) {</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">LOOP_OVER_INSTANCES</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">K</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">            </span><a href="2-ins.html#SP9" class="function-link"><span class="function-syntax">Instances::register_as_adjectival_constant</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">P</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>So here is where we need to make "red", "white" or "blue" adjectives
-specifying colour. And we will also call this if a further instance of colour
-turns up subsequently, e.g., in response to
-</p>
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b> </p>
 
 <blockquote>
     <p>Mauve is a colour.</p>
 </blockquote>
 
+<div class="lsmarkdown">
+<p>So here is where we need to make &quot;red&quot;, &quot;white&quot; or &quot;blue&quot; adjectives
+specifying colour. And we will also call this if a further instance of colour
+turns up subsequently, e.g., in response to</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::register_as_adjectival_constant</span><button class="popup" onclick="togglePopup('usagePopup9')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup9">Usage of <span class="code-font"><span class="function-syntax">Instances::register_as_adjectival_constant</span></span>:<br/><a href="2-ins.html#SP4_3">&#167;4.3</a>, <a href="2-ins.html#SP8">&#167;8</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="reserved-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">property_permission</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pp</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::register_as_adjectival_constant</span><button class="popup" onclick="togglePopup('usagePopup9')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup9">Usage of <span class="code-font"><span class="function-syntax">Instances::register_as_adjectival_constant</span></span>:<br/><a href="2-ins.html#SP4_3">&#167;4.3</a>, <a href="2-ins.html#SP8">&#167;8</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">property_permission</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pp</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER_PERMISSIONS_FOR_PROPERTY</span><span class="plain-syntax">(</span><span class="identifier-syntax">pp</span><span class="plain-syntax">, </span><span class="identifier-syntax">P</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">infs</span><span class="plain-syntax"> = </span><a href="4-pp.html#SP5" class="function-link"><span class="function-syntax">PropertyPermissions::get_subject</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">pp</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">infs</span><span class="plain-syntax"> = </span><a href="4-pp.html#SP5" class="function-link"><span class="function-syntax">PropertyPermissions::get_subject</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">pp</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><a href="4-is.html#SP22" class="function-link"><span class="function-syntax">InferenceSubjects::make_adj_const_domain</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">infs</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">P</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. The kind of an instance.</b>By this of course we mean the most specific kind to which an instance
-belongs: if we write
-</p>
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. The kind of an instance.</b> </p>
 
 <blockquote>
     <p>Kathy is a woman.</p>
 </blockquote>
 
-<p class="commentary">then the Kathy instance is also a person, a thing, an object and a value,
-but when we talk about the kind of Kathy, we mean "woman".
-</p>
-
-<p class="commentary">Note that this is not stored as a field in the instance structure, because
+<div class="lsmarkdown">
+<p>By this of course we mean the most specific kind to which an instance
+belongs: if we write</p>
+</div>
+<div class="lsmarkdown">
+<p>then the Kathy instance is also a person, a thing, an object and a value,
+but when we talk about the kind of Kathy, we mean &quot;woman&quot;.</p>
+<p>Note that this is not stored as a field in the instance structure, because
 that would be redundant. Inform already knows which subjects are more
-specialised than which other ones, and by making a call, we can find out.
-</p>
-
+specialised than which other ones, and by making a call, we can find out.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="function-syntax">Instances::to_kind</span><button class="popup" onclick="togglePopup('usagePopup10')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup10">Usage of <span class="code-font"><span class="function-syntax">Instances::to_kind</span></span>:<br/><a href="2-ins.html#SP5">&#167;5</a>, <a href="2-ins.html#SP11">&#167;11</a>, <a href="2-ins.html#SP16">&#167;16</a>, <a href="2-ins.html#SP17_1">&#167;17.1</a>, <a href="2-ins.html#SP17_2">&#167;17.2</a><br/>Instances as Adjectives - <a href="2-iaa.html#SP2_1">&#167;2.1</a>, <a href="2-iaa.html#SP3">&#167;3</a><br/>Instance Subjects - <a href="4-is2.html#SP1">&#167;1</a><br/>Conditions of Subjects - <a href="4-cos.html#SP3_1">&#167;3.1</a><br/>The Model World - <a href="5-tmw.html#SP4_3">&#167;4.3</a><br/>The Naming Thicket - <a href="5-tnt.html#SP9_1_2">&#167;9.1.2</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="function-syntax">Instances::to_kind</span><button class="popup" onclick="togglePopup('usagePopup10')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup10">Usage of <span class="code-font"><span class="function-syntax">Instances::to_kind</span></span>:<br/><a href="2-ins.html#SP5">&#167;5</a>, <a href="2-ins.html#SP11">&#167;11</a>, <a href="2-ins.html#SP16">&#167;16</a>, <a href="2-ins.html#SP17_1">&#167;17.1</a>, <a href="2-ins.html#SP17_2">&#167;17.2</a><br/>Instances as Adjectives - <a href="2-iaa.html#SP2_1">&#167;2.1</a>, <a href="2-iaa.html#SP3">&#167;3</a><br/>Instance Subjects - <a href="4-is2.html#SP1">&#167;1</a><br/>Conditions of Subjects - <a href="4-cos.html#SP3_1">&#167;3.1</a><br/>The Model World - <a href="5-tmw.html#SP4_3">&#167;4.3</a><br/>The Naming Thicket - <a href="5-tnt.html#SP9_1_2">&#167;9.1.2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">I</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">inherits_from</span><span class="plain-syntax"> = </span><a href="4-is.html#SP11" class="function-link"><span class="function-syntax">InferenceSubjects::narrowest_broader_subject</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">as_subject</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">inherits_from</span><span class="plain-syntax"> = </span><a href="4-is.html#SP11" class="function-link"><span class="function-syntax">InferenceSubjects::narrowest_broader_subject</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">as_subject</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><a href="4-ks.html#SP3" class="function-link"><span class="function-syntax">KindSubjects::to_kind</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">inherits_from</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::of_kind</span><button class="popup" onclick="togglePopup('usagePopup11')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup11">Usage of <span class="code-font"><span class="function-syntax">Instances::of_kind</span></span>:<br/><a href="2-ins.html#SP13">&#167;13</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">match</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::of_kind</span><button class="popup" onclick="togglePopup('usagePopup11')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup11">Usage of <span class="code-font"><span class="function-syntax">Instances::of_kind</span></span>:<br/><a href="2-ins.html#SP13">&#167;13</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">match</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">I</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) || (</span><span class="identifier-syntax">match</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">Kinds::conforms_to</span><span class="plain-syntax">(</span><a href="2-ins.html#SP10" class="function-link"><span class="function-syntax">Instances::to_kind</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">), </span><span class="identifier-syntax">match</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. </b>Ordinarily, instances never change their kind, but instances of "object"
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. </b>  Ordinarily, instances never change their kind, but instances of &quot;object&quot;
 are allowed to refine it. Such revisions are allowed to specialise the kind
-(e.g., by changing a "person" to a "man") but not to contradict it
-(e.g., by changing a "supporter" to a "container").
-</p>
-
+(e.g., by changing a &quot;person&quot; to a &quot;man&quot;) but not to contradict it
+(e.g., by changing a &quot;supporter&quot; to a &quot;container&quot;).</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::set_kind</span><button class="popup" onclick="togglePopup('usagePopup12')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup12">Usage of <span class="code-font"><span class="function-syntax">Instances::set_kind</span></span>:<br/><a href="2-ins.html#SP4_2">&#167;4.2</a><br/>Assert Propositions - <a href="1-ap.html#SP7">&#167;7</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">new</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::set_kind</span><button class="popup" onclick="togglePopup('usagePopup12')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup12">Usage of <span class="code-font"><span class="function-syntax">Instances::set_kind</span></span>:<br/><a href="2-ins.html#SP4_2">&#167;4.2</a><br/>Assert Propositions - <a href="1-ap.html#SP7">&#167;7</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">new</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="constant-syntax">PROTECTED_MODEL_PROCEDURE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">I</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"Tried to set kind to %u\n"</span><span class="plain-syntax">, </span><span class="identifier-syntax">new</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"Tried to set the kind of a null object"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">existing</span><span class="plain-syntax"> = </span><a href="2-ins.html#SP10" class="function-link"><span class="function-syntax">Instances::to_kind</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">m</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Kinds::compatible</span><span class="plain-syntax">(</span><span class="identifier-syntax">existing</span><span class="plain-syntax">, </span><span class="identifier-syntax">new</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">m</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Kinds::compatible</span><span class="plain-syntax">(</span><span class="identifier-syntax">existing</span><span class="plain-syntax">, </span><span class="identifier-syntax">new</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">m</span><span class="plain-syntax"> == </span><span class="identifier-syntax">ALWAYS_MATCH</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">m</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NEVER_MATCH</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"Tried to set kind of $O (existing %u) to %u\n"</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">existing</span><span class="plain-syntax">, </span><span class="identifier-syntax">new</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="2-ins.html#SP11_1" class="named-paragraph-link"><span class="named-paragraph">Issue a problem message for a contradictory change of kind</span><span class="named-paragraph-number">11.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="2-ins.html#SP11_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Issue a problem message for a contradictory change of kind</span></span><span class="named-paragraph-number">11.1</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">PluginCalls::set_kind_notify</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">new</span><span class="plain-syntax">);</span>
@@ -374,8 +378,7 @@ are allowed to refine it. Such revisions are allowed to specialise the kind
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOGIF</span><span class="plain-syntax">(</span><span class="identifier-syntax">KIND_CHANGES</span><span class="plain-syntax">, </span><span class="string-syntax">"Setting kind of $O to %u\n"</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">new</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP11_1" class="paragraph-anchor"></a><b>&#167;11.1. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Issue a problem message for a contradictory change of kind</span><span class="named-paragraph-number">11.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP11_1" class="paragraph-anchor"></a><b>&#167;11.1. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Issue a problem message for a contradictory change of kind</span><span class="named-paragraph-number">11.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">current_sentence</span><span class="plain-syntax"> != </span><span class="identifier-syntax">I</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">where_kind_is_set</span><span class="plain-syntax">) {</span>
@@ -404,60 +407,60 @@ are allowed to refine it. Such revisions are allowed to specialise the kind
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-ins.html#SP11">&#167;11</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. </b></p>
+<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="function-syntax">Instances::get_kind_set_sentence</span><span class="plain-syntax">(</span><span class="reserved-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="function-syntax">Instances::get_kind_set_sentence</span><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">I</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">where_kind_is_set</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. Iterating through instances of a kind.</b>The number of instances of a given kind makes a neat example of a commonly
-needed loop.
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">LOOP_OVER_INSTANCES</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">K</span><span class="plain-syntax">)</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="reserved-syntax">instance</span><span class="plain-syntax">)</span>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. Iterating through instances of a kind.</b>  The number of instances of a given kind makes a neat example of a commonly
+needed loop.</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">K</span><span class="plain-syntax">)</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">instance</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-ins.html#SP10" class="function-link"><span class="function-syntax">Instances::of_kind</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, (</span><span class="identifier-syntax">K</span><span class="plain-syntax">)))</span>
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::count</span><span class="plain-syntax">(</span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">c</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::count</span><span class="plain-syntax">(</span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">c</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER_INSTANCES</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">K</span><span class="plain-syntax">) </span><span class="identifier-syntax">c</span><span class="plain-syntax">++;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">c</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. Instances of grammatical gender.</b><a href="../assertions-module/4-tc.html" class="internal">The Creator (in assertions)</a> needs to know the names of the grammatical genders,
-so we keep track of them here.
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">NO_GRAMMATICAL_GENDERS</span><span class="plain-syntax"> </span><span class="constant-syntax">3</span>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. Instances of grammatical gender.</b>  <a href="../assertions-module/4-tc.html" class="internal">The Creator (in assertions)</a> needs to know the names of the grammatical genders,
+so we keep track of them here.</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">3</span>
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">no_ggs_recorded</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
-<span class="reserved-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">grammatical_genders</span><span class="plain-syntax">[</span><span class="constant-syntax">NO_GRAMMATICAL_GENDERS</span><span class="plain-syntax">];</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">no_ggs_recorded</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">grammatical_genders</span><span class="plain-syntax">[</span><span class="constant-syntax">NO_GRAMMATICAL_GENDERS</span><span class="plain-syntax">];</span>
 
-<span class="reserved-syntax">instance</span><span class="plain-syntax"> *</span><span class="function-syntax">Instances::grammatical</span><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">g</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="function-syntax">Instances::grammatical</span><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">g</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">no_ggs_recorded</span><span class="plain-syntax"> != </span><span class="constant-syntax">NO_GRAMMATICAL_GENDERS</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">grammatical_genders</span><span class="plain-syntax">[</span><span class="identifier-syntax">g</span><span class="plain-syntax">-1];</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::new_grammatical</span><button class="popup" onclick="togglePopup('usagePopup13')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup13">Usage of <span class="code-font"><span class="function-syntax">Instances::new_grammatical</span></span>:<br/><a href="2-ins.html#SP4">&#167;4</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::new_grammatical</span><button class="popup" onclick="togglePopup('usagePopup13')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup13">Usage of <span class="code-font"><span class="function-syntax">Instances::new_grammatical</span></span>:<br/><a href="2-ins.html#SP4">&#167;4</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">no_ggs_recorded</span><span class="plain-syntax"> &lt; </span><span class="constant-syntax">NO_GRAMMATICAL_GENDERS</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">grammatical_genders</span><span class="plain-syntax">[</span><span class="identifier-syntax">no_ggs_recorded</span><span class="plain-syntax">++] = </span><span class="identifier-syntax">I</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. Instances specified in Neptune files.</b></p>
+<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. Instances specified in Neptune files.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::make_instances_from_Neptune</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::make_instances_from_Neptune</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">kind_constructor</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kc</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">kc</span><span class="plain-syntax">, </span><span class="identifier-syntax">kind_constructor</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">linked_list</span><span class="plain-syntax"> *</span><span class="identifier-syntax">L</span><span class="plain-syntax"> = </span><span class="identifier-syntax">KindConstructors::instances</span><span class="plain-syntax">(</span><span class="identifier-syntax">kc</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">kind_constructor_instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kci</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">current_val</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">highest_val</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="identifier-syntax">highest_set</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">        </span><span class="comment-syntax"> First loop to determine the highest specified value</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">current_val</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">highest_val</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="identifier-syntax">highest_set</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="comment-syntax">// First loop to determine the highest specified value</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">LOOP_OVER_LINKED_LIST</span><span class="plain-syntax">(</span><span class="identifier-syntax">kci</span><span class="plain-syntax">, </span><span class="identifier-syntax">kind_constructor_instance</span><span class="plain-syntax">, </span><span class="identifier-syntax">L</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">kci</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">value_specified</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">current_val</span><span class="plain-syntax"> = </span><span class="identifier-syntax">kci</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">value</span><span class="plain-syntax">;</span>
@@ -466,13 +469,13 @@ so we keep track of them here.
 <span class="plain-syntax">                }</span>
 <span class="plain-syntax">            }</span>
 <span class="plain-syntax">        }</span>
-<span class="plain-syntax">        </span><span class="comment-syntax"> Then loop to add the values and work out the non-specified ones</span>
+<span class="plain-syntax">        </span><span class="comment-syntax">// Then loop to add the values and work out the non-specified ones</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">LOOP_OVER_LINKED_LIST</span><span class="plain-syntax">(</span><span class="identifier-syntax">kci</span><span class="plain-syntax">, </span><span class="identifier-syntax">kind_constructor_instance</span><span class="plain-syntax">, </span><span class="identifier-syntax">L</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Feeds::feed_text</span><span class="plain-syntax">(</span><span class="identifier-syntax">kci</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">natural_language_name</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Kinds::base_construction</span><span class="plain-syntax">(</span><span class="identifier-syntax">kc</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">pcalc_prop</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prop</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Propositions::Abstract::to_create_something</span><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">, </span><span class="identifier-syntax">W</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><a href="1-ap.html#SP2" class="function-link"><span class="function-syntax">Assert::true</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">prop</span><span class="plain-syntax">, </span><span class="identifier-syntax">CERTAIN_CE</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax"> = </span><a href="2-ins.html#SP3" class="function-link"><span class="function-syntax">Instances::latest</span></a><span class="plain-syntax">();</span>
+<span class="plain-syntax">            </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax"> = </span><a href="2-ins.html#SP3" class="function-link"><span class="function-syntax">Instances::latest</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">kci</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">value_specified</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">current_val</span><span class="plain-syntax"> = </span><span class="identifier-syntax">kci</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">value</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            } </span><span class="reserved-syntax">else</span><span class="plain-syntax"> {</span>
@@ -481,19 +484,19 @@ so we keep track of them here.
 <span class="plain-syntax">            }</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">RTKindConstructors::set_explicit_runtime_instance_value</span><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="plain-syntax">, (</span><span class="identifier-syntax">inter_ti</span><span class="plain-syntax">) </span><span class="identifier-syntax">current_val</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">RTInstances::set_translation</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">kci</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">            </span><span class="comment-syntax"> LOG("From kit: %W = %S = %d -&gt; $O\n", W, kci-&gt;identifier, current_val, I);</span>
+<span class="plain-syntax">            </span><span class="comment-syntax">// LOG("From kit: %W = %S = %d -&gt; $O\n", W, kci-&gt;identifier, current_val, I);</span>
 <span class="plain-syntax">        }</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. Logging.</b></p>
+<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. Logging.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::log</span><span class="plain-syntax">(</span><span class="reserved-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::log</span><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><a href="2-ins.html#SP16" class="function-link"><span class="function-syntax">Instances::write</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">DL</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::write</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="reserved-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::write</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">I</span><span class="plain-syntax">== </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) { </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"&lt;null instance&gt;"</span><span class="plain-syntax">); </span><span class="reserved-syntax">return</span><span class="plain-syntax">; }</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Streams::I6_escapes_enabled</span><span class="plain-syntax">(</span><span class="identifier-syntax">DL</span><span class="plain-syntax">) == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">) </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"I%d"</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">allocation_id</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">Nouns::write</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUT</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">as_noun</span><span class="plain-syntax">);</span>
@@ -504,16 +507,16 @@ so we keep track of them here.
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. Writer.</b></p>
+<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. Writer.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::writer</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">format_string</span><span class="plain-syntax">, </span><span class="reserved-syntax">void</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vI</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax"> = (</span><span class="reserved-syntax">instance</span><span class="plain-syntax"> *) </span><span class="identifier-syntax">vI</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::writer</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">format_string</span><span class="plain-syntax">, </span><span class="identifier-syntax">void</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vI</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax"> = (</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *) </span><span class="identifier-syntax">vI</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">I</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"nothing"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="identifier-syntax">format_string</span><span class="plain-syntax">[0]) {</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="character-syntax">'I'</span><span class="plain-syntax">: </span><span class="comment-syntax"> bare </span><span class="extract"><span class="extract-syntax">%I</span></span><span class="comment-syntax"> means the same as </span><span class="extract"><span class="extract-syntax">%+I</span></span><span class="comment-syntax">, so fall through to...</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="character-syntax">'+'</span><span class="plain-syntax">: </span><span class="named-paragraph-container code-font"><a href="2-ins.html#SP17_1" class="named-paragraph-link"><span class="named-paragraph">Write the instance raw</span><span class="named-paragraph-number">17.1</span></a></span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="character-syntax">'-'</span><span class="plain-syntax">: </span><span class="named-paragraph-container code-font"><a href="2-ins.html#SP17_2" class="named-paragraph-link"><span class="named-paragraph">Write the instance with normalised casing</span><span class="named-paragraph-number">17.2</span></a></span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="character-syntax">'I'</span><span class="plain-syntax">: </span><span class="comment-syntax">/* bare |%I| means the same as |%+I|, so fall through to... */</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="character-syntax">'+'</span><span class="plain-syntax">: </span><span class="named-paragraph-container code-font"><a href="2-ins.html#SP17_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Write the instance raw</span></span><span class="named-paragraph-number">17.1</span></a></span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="character-syntax">'-'</span><span class="plain-syntax">: </span><span class="named-paragraph-container code-font"><a href="2-ins.html#SP17_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Write the instance with normalised casing</span></span><span class="named-paragraph-number">17.2</span></a></span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="character-syntax">'~'</span><span class="plain-syntax">: {</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">N</span><span class="plain-syntax"> = </span><span class="identifier-syntax">RTInstances::value_iname</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Str::len</span><span class="plain-syntax">(</span><span class="identifier-syntax">NounIdentifiers::identifier</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">as_noun</span><span class="plain-syntax">)) &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">)</span>
@@ -525,8 +528,7 @@ so we keep track of them here.
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP17_1" class="paragraph-anchor"></a><b>&#167;17.1. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Write the instance raw</span><span class="named-paragraph-number">17.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP17_1" class="paragraph-anchor"></a><b>&#167;17.1. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Write the instance raw</span><span class="named-paragraph-number">17.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax"> = </span><a href="2-ins.html#SP5" class="function-link"><span class="function-syntax">Instances::get_name</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">);</span>
@@ -539,8 +541,7 @@ so we keep track of them here.
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-ins.html#SP17">&#167;17</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP17_2" class="paragraph-anchor"></a><b>&#167;17.2. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Write the instance with normalised casing</span><span class="named-paragraph-number">17.2</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP17_2" class="paragraph-anchor"></a><b>&#167;17.2. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Write the instance with normalised casing</span><span class="named-paragraph-number">17.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax"> = </span><a href="2-ins.html#SP5" class="function-link"><span class="function-syntax">Instances::get_name</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">);</span>

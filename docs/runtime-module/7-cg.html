@@ -20,6 +20,11 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -56,13 +61,13 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="7-cg.html#SP1">&#167;1. Generic constants</a></li><li><a href="7-cg.html#SP4">&#167;4. Compilation data</a></li><li><a href="7-cg.html#SP9">&#167;9. Queued compilation</a></li><li><a href="7-cg.html#SP10">&#167;10. Compiling CG_IS_TOKEN grammars</a></li><li><a href="7-cg.html#SP11">&#167;11. Compiling CG_IS_COMMAND grammars</a></li><li><a href="7-cg.html#SP12">&#167;12. Compiling CG_IS_CONSULT grammars</a></li><li><a href="7-cg.html#SP13">&#167;13. Compiling CG_IS_PROPERTY grammars</a></li><li><a href="7-cg.html#SP14">&#167;14. Compiling CG_IS_VALUE grammars</a></li><li><a href="7-cg.html#SP15">&#167;15. Compiling CG_IS_SUBJECT grammars</a></li><li><a href="7-cg.html#SP16">&#167;16. Compiling all grammars</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Generic constants.</b>Here, <span class="extract"><span class="extract-syntax">REPARSE_CODE</span></span> is a magic value used in <a href="../CommandParserKit/index.html" class="internal">CommandParserKit</a> to
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Generic constants.</b>  Here, <code>REPARSE_CODE</code> is a magic value used in <a href="../CommandParserKit/index.html" class="internal">CommandParserKit</a> to
 signal that some code which ought to have been parsing a command has in
-fact rewritten it, so that the whole command must be re-parsed afresh.
-</p>
-
+fact rewritten it, so that the whole command must be re-parsed afresh.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">RTCommandGrammars::compile_generic_constants</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">RTCommandGrammars::compile_generic_constants</span></span>:<br/>Generic Module - <a href="3-gm.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">RTCommandGrammars::compile_generic_constants</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">RTCommandGrammars::compile_generic_constants</span></span>:<br/>Generic Module - <a href="3-gm.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">target_vm</span><span class="plain-syntax"> *</span><span class="identifier-syntax">VM</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Task::vm</span><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">TargetVMs::is_16_bit</span><span class="plain-syntax">(</span><span class="identifier-syntax">VM</span><span class="plain-syntax">)) {</span>
 <span class="plain-syntax">        </span><a href="7-cg.html#SP3" class="function-link"><span class="function-syntax">RTCommandGrammars::grammar_constant</span></a><span class="plain-syntax">(</span><span class="constant-syntax">REPARSE_CODE_HL</span><span class="plain-syntax">, </span><span class="constant-syntax">10000</span><span class="plain-syntax">);</span>
@@ -88,18 +93,18 @@ fact rewritten it, so that the whole command must be re-parsed afresh.
 <span class="plain-syntax">    </span><a href="7-cg.html#SP3" class="function-link"><span class="function-syntax">RTCommandGrammars::grammar_constant</span></a><span class="plain-syntax">(</span><span class="constant-syntax">VERB_DIRECTIVE_MULTIEXCEPT_HL</span><span class="plain-syntax">, </span><span class="constant-syntax">12</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>This one is compiled later, since it depends (potentially) on a use option:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  This one is compiled later, since it depends (potentially) on a use option:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">RTCommandGrammars::compile_non_generic_constants</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">RTCommandGrammars::compile_non_generic_constants</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><a href="7-cg.html#SP3" class="function-link"><span class="function-syntax">RTCommandGrammars::grammar_constant</span></a><span class="plain-syntax">(</span><span class="constant-syntax">DICT_WORD_SIZE_HL</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">global_compilation_settings</span><span class="plain-syntax">.</span><span class="identifier-syntax">dictionary_resolution</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">TargetVMs::is_16_bit</span><span class="plain-syntax">(</span><span class="identifier-syntax">Task::vm</span><span class="plain-syntax">()))</span>
 <span class="plain-syntax">        </span><a href="7-cg.html#SP3" class="function-link"><span class="function-syntax">RTCommandGrammars::grammar_constant</span></a><span class="plain-syntax">(</span><span class="constant-syntax">DICT_ENTRY_BYTES_HL</span><span class="plain-syntax">, </span><span class="constant-syntax">8</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b></p>
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="function-syntax">RTCommandGrammars::iname_for_I6_parser_token</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">RTCommandGrammars::iname_for_I6_parser_token</span></span>:<br/>Command Grammar Tokens - <a href="7-cgt.html#SP1_3">&#167;1.3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">) {</span>
@@ -114,33 +119,33 @@ fact rewritten it, so that the whole command must be re-parsed afresh.
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">MULTIEXCEPT_TOKEN_GTC:</span><span class="plain-syntax"> </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><a href="2-hrr.html#SP11" class="function-link"><span class="function-syntax">Hierarchy::find</span></a><span class="plain-syntax">(</span><span class="constant-syntax">VERB_DIRECTIVE_MULTIEXCEPT_HL</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">default:</span><span class="plain-syntax"> </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"tried to find inter name for invalid GTC"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    }</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax"> to prevent a compiler error: never reached</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax">/* to prevent a compiler error: never reached */</span>
 <span class="plain-syntax">}</span>
 
-<span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="function-syntax">RTCommandGrammars::grammar_constant</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">RTCommandGrammars::grammar_constant</span></span>:<br/><a href="7-cg.html#SP1">&#167;1</a>, <a href="7-cg.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">N</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">V</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="function-syntax">RTCommandGrammars::grammar_constant</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">RTCommandGrammars::grammar_constant</span></span>:<br/><a href="7-cg.html#SP1">&#167;1</a>, <a href="7-cg.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">N</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">V</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">iname</span><span class="plain-syntax"> = </span><a href="2-hrr.html#SP11" class="function-link"><span class="function-syntax">Hierarchy::find</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">N</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="2-emt.html#SP6" class="function-link"><span class="function-syntax">Emit::numeric_constant</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">iname</span><span class="plain-syntax">, (</span><span class="identifier-syntax">inter_ti</span><span class="plain-syntax">) </span><span class="identifier-syntax">V</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="2-hrr.html#SP17" class="function-link"><span class="function-syntax">Hierarchy::make_available</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">iname</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">iname</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Compilation data.</b>Each <span class="extract"><span class="extract-syntax">command_grammar</span></span> object contains this data:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Compilation data.</b>  Each <code>command_grammar</code> object contains this data:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">cg_compilation_data</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">package_request</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cg_package</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">cg_compilation_data</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">package_request</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cg_package</span><span class="plain-syntax">;</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cg_token_iname</span><span class="plain-syntax">; </span><span class="comment-syntax"> </span><span class="extract"><span class="extract-syntax">CG_IS_TOKEN</span></span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cg_token_iname</span><span class="plain-syntax">; </span><span class="comment-syntax">/* |CG_IS_TOKEN| */</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">property_GPR_fn_iname</span><span class="plain-syntax">; </span><span class="comment-syntax"> CG_IS_PROPERTY_NAME</span><span class="extract"></span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">CG_IS_TOKEN_identifier</span><span class="plain-syntax">; </span><span class="comment-syntax"> CG_IS_PROPERTY_NAME</span><span class="extract"></span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">property_GPR_fn_iname</span><span class="plain-syntax">; </span><span class="comment-syntax">/* CG_IS_PROPERTY_NAME| */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">CG_IS_TOKEN_identifier</span><span class="plain-syntax">; </span><span class="comment-syntax">/* CG_IS_PROPERTY_NAME| */</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">consult_fn_iname</span><span class="plain-syntax">; </span><span class="comment-syntax"> CG_IS_CONSULT</span><span class="extract"></span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">cg_compilation_data</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">consult_fn_iname</span><span class="plain-syntax">; </span><span class="comment-syntax">/* CG_IS_CONSULT| */</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">cg_compilation_data</span><span class="plain-syntax">;</span>
 
-<span class="reserved-syntax">cg_compilation_data</span><span class="plain-syntax"> </span><span class="function-syntax">RTCommandGrammars::new_compilation_data</span><span class="plain-syntax">(</span><span class="identifier-syntax">command_grammar</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cg</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">cg_compilation_data</span><span class="plain-syntax"> </span><span class="identifier-syntax">cgcd</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">cg_compilation_data</span><span class="plain-syntax"> </span><span class="function-syntax">RTCommandGrammars::new_compilation_data</span><span class="plain-syntax">(</span><span class="identifier-syntax">command_grammar</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cg</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">cg_compilation_data</span><span class="plain-syntax"> </span><span class="identifier-syntax">cgcd</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">cgcd</span><span class="plain-syntax">.</span><span class="element-syntax">cg_package</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">cgcd</span><span class="plain-syntax">.</span><span class="element-syntax">consult_fn_iname</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">cgcd</span><span class="plain-syntax">.</span><span class="element-syntax">property_GPR_fn_iname</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
@@ -150,10 +155,10 @@ fact rewritten it, so that the whole command must be re-parsed afresh.
 <span class="plain-syntax">}</span>
 </pre>
 <ul class="endnotetexts"><li>The structure cg_compilation_data is private to this section.</li></ul>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>In fact, however, only four of the six CG types live in their own packages,
-so the following is not used for <span class="extract"><span class="extract-syntax">CG_IS_VALUE</span></span> or <span class="extract"><span class="extract-syntax">CG_IS_SUBJECT</span></span> grammars.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  In fact, however, only four of the six CG types live in their own packages,
+so the following is not used for <code>CG_IS_VALUE</code> or <code>CG_IS_SUBJECT</code> grammars.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">package_request</span><span class="plain-syntax"> *</span><span class="function-syntax">RTCommandGrammars::package</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">RTCommandGrammars::package</span></span>:<br/><a href="7-cg.html#SP6">&#167;6</a>, <a href="7-cg.html#SP7">&#167;7</a>, <a href="7-cg.html#SP8">&#167;8</a>, <a href="7-cg.html#SP16">&#167;16</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">command_grammar</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cg</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">cg</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">compilation_data</span><span class="plain-syntax">.</span><span class="element-syntax">cg_package</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">)</span>
@@ -162,10 +167,10 @@ so the following is not used for <span class="extract"><span class="extract-synt
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">cg</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">compilation_data</span><span class="plain-syntax">.</span><span class="element-syntax">cg_package</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b><span class="extract"><span class="extract-syntax">CG_IS_PROPERTY_NAME</span></span> packages contain a function to match the value of
-that property:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  <code>CG_IS_PROPERTY_NAME</code> packages contain a function to match the value of
+that property:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="function-syntax">RTCommandGrammars::get_property_GPR_fn_iname</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">RTCommandGrammars::get_property_GPR_fn_iname</span></span>:<br/><a href="7-cg.html#SP13">&#167;13</a><br/>Parse Name Properties - <a href="7-pnp.html#SP10">&#167;10</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">command_grammar</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cg</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">cg</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) || (</span><span class="identifier-syntax">cg</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">cg_is</span><span class="plain-syntax"> != </span><span class="identifier-syntax">CG_IS_PROPERTY_NAME</span><span class="plain-syntax">))</span>
@@ -177,10 +182,10 @@ that property:
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">cg</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">compilation_data</span><span class="plain-syntax">.</span><span class="element-syntax">property_GPR_fn_iname</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b><span class="extract"><span class="extract-syntax">CG_IS_TOKEN</span></span> packages contain a function to match that token. Note that these
-can be translated in order to have a particular identifier.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  <code>CG_IS_TOKEN</code> packages contain a function to match that token. Note that these
+can be translated in order to have a particular identifier.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="function-syntax">RTCommandGrammars::get_cg_token_iname</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">RTCommandGrammars::get_cg_token_iname</span></span>:<br/><a href="7-cg.html#SP10">&#167;10</a><br/>Command Grammar Tokens - <a href="7-cgt.html#SP1_5">&#167;1.5</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">command_grammar</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cg</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">cg</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) || (</span><span class="identifier-syntax">cg</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">cg_is</span><span class="plain-syntax"> != </span><span class="identifier-syntax">CG_IS_TOKEN</span><span class="plain-syntax">))</span>
@@ -198,14 +203,14 @@ can be translated in order to have a particular identifier.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">cg</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">compilation_data</span><span class="plain-syntax">.</span><span class="element-syntax">cg_token_iname</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">RTCommandGrammars::set_CG_IS_TOKEN_identifier</span><span class="plain-syntax">(</span><span class="identifier-syntax">command_grammar</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cg</span><span class="plain-syntax">, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">RTCommandGrammars::set_CG_IS_TOKEN_identifier</span><span class="plain-syntax">(</span><span class="identifier-syntax">command_grammar</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cg</span><span class="plain-syntax">, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">cg</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">compilation_data</span><span class="plain-syntax">.</span><span class="element-syntax">cg_token_iname</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"too late to translate"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE_TO</span><span class="plain-syntax">(</span><span class="identifier-syntax">cg</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">compilation_data</span><span class="plain-syntax">.</span><span class="element-syntax">CG_IS_TOKEN_identifier</span><span class="plain-syntax">, </span><span class="string-syntax">"%N"</span><span class="plain-syntax">, </span><span class="identifier-syntax">Wordings::first_wn</span><span class="plain-syntax">(</span><span class="identifier-syntax">W</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b><span class="extract"><span class="extract-syntax">CG_IS_CONSULT</span></span> packages contain a function which matches a snippet:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>  <code>CG_IS_CONSULT</code> packages contain a function which matches a snippet:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="function-syntax">RTCommandGrammars::get_consult_fn_iname</span><button class="popup" onclick="togglePopup('usagePopup7')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup7">Usage of <span class="code-font"><span class="function-syntax">RTCommandGrammars::get_consult_fn_iname</span></span>:<br/><a href="7-cg.html#SP12">&#167;12</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">command_grammar</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cg</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">cg</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) || (</span><span class="identifier-syntax">cg</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">cg_is</span><span class="plain-syntax"> != </span><span class="identifier-syntax">CG_IS_CONSULT</span><span class="plain-syntax">))</span>
@@ -216,12 +221,12 @@ can be translated in order to have a particular identifier.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">cg</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">compilation_data</span><span class="plain-syntax">.</span><span class="element-syntax">consult_fn_iname</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. Queued compilation.</b>As noted above, not all types of command grammar have their own packages. For
-those which do, we queue compilation requests with suitable agents.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. Queued compilation.</b>  As noted above, not all types of command grammar have their own packages. For
+those which do, we queue compilation requests with suitable agents.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">RTCommandGrammars::compile_all</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">RTCommandGrammars::compile_all</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">command_grammar</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cg</span><span class="plain-syntax">;</span>
 
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">cg</span><span class="plain-syntax">, </span><span class="identifier-syntax">command_grammar</span><span class="plain-syntax">)</span>
@@ -259,15 +264,15 @@ those which do, we queue compilation requests with suitable agents.
 <span class="plain-syntax">        }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. Compiling CG_IS_TOKEN grammars.</b></p>
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. Compiling CG_IS_TOKEN grammars.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">RTCommandGrammars::token_agent</span><button class="popup" onclick="togglePopup('usagePopup8')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup8">Usage of <span class="code-font"><span class="function-syntax">RTCommandGrammars::token_agent</span></span>:<br/><a href="7-cg.html#SP9">&#167;9</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">compilation_subtask</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">RTCommandGrammars::token_agent</span><button class="popup" onclick="togglePopup('usagePopup8')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup8">Usage of <span class="code-font"><span class="function-syntax">RTCommandGrammars::token_agent</span></span>:<br/><a href="7-cg.html#SP9">&#167;9</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">compilation_subtask</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">command_grammar</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cg</span><span class="plain-syntax"> = </span><span class="identifier-syntax">RETRIEVE_POINTER_command_grammar</span><span class="plain-syntax">(</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">data</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">CGLines::list_length</span><span class="plain-syntax">(</span><span class="identifier-syntax">cg</span><span class="plain-syntax">) == </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOGIF</span><span class="plain-syntax">(</span><span class="identifier-syntax">GRAMMAR</span><span class="plain-syntax">, </span><span class="string-syntax">"Compiling command grammar $G\n"</span><span class="plain-syntax">, </span><span class="identifier-syntax">cg</span><span class="plain-syntax">);</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">gpr_kit</span><span class="plain-syntax"> </span><span class="identifier-syntax">kit</span><span class="plain-syntax"> = </span><a href="2-gpr.html#SP3" class="function-link"><span class="function-syntax">GPRs::new_kit</span></a><span class="plain-syntax">();</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">gpr_kit</span><span class="plain-syntax"> </span><span class="identifier-syntax">kit</span><span class="plain-syntax"> = </span><a href="2-gpr.html#SP3" class="function-link"><span class="function-syntax">GPRs::new_kit</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">iname</span><span class="plain-syntax"> = </span><a href="7-cg.html#SP7" class="function-link"><span class="function-syntax">RTCommandGrammars::get_cg_token_iname</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">cg</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">packaging_state</span><span class="plain-syntax"> </span><span class="identifier-syntax">save</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Functions::begin</span><span class="plain-syntax">(</span><span class="identifier-syntax">iname</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="2-gpr.html#SP4" class="function-link"><span class="function-syntax">GPRs::add_original_var</span></a><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">kit</span><span class="plain-syntax">);</span>
@@ -290,10 +295,10 @@ those which do, we queue compilation requests with suitable agents.
 <span class="plain-syntax">    </span><span class="identifier-syntax">Functions::end</span><span class="plain-syntax">(</span><span class="identifier-syntax">save</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. Compiling CG_IS_COMMAND grammars.</b></p>
+<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. Compiling CG_IS_COMMAND grammars.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">RTCommandGrammars::command_agent</span><button class="popup" onclick="togglePopup('usagePopup9')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup9">Usage of <span class="code-font"><span class="function-syntax">RTCommandGrammars::command_agent</span></span>:<br/><a href="7-cg.html#SP9">&#167;9</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">compilation_subtask</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">RTCommandGrammars::command_agent</span><button class="popup" onclick="togglePopup('usagePopup9')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup9">Usage of <span class="code-font"><span class="function-syntax">RTCommandGrammars::command_agent</span></span>:<br/><a href="7-cg.html#SP9">&#167;9</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">compilation_subtask</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">command_grammar</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cg</span><span class="plain-syntax"> = </span><span class="identifier-syntax">RETRIEVE_POINTER_command_grammar</span><span class="plain-syntax">(</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">data</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">CGLines::list_length</span><span class="plain-syntax">(</span><span class="identifier-syntax">cg</span><span class="plain-syntax">) == </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOGIF</span><span class="plain-syntax">(</span><span class="identifier-syntax">GRAMMAR</span><span class="plain-syntax">, </span><span class="string-syntax">"Compiling command grammar $G\n"</span><span class="plain-syntax">, </span><span class="identifier-syntax">cg</span><span class="plain-syntax">);</span>
@@ -308,7 +313,7 @@ those which do, we queue compilation requests with suitable agents.
 <span class="plain-syntax">        </span><span class="identifier-syntax">WRITE_TO</span><span class="plain-syntax">(</span><span class="identifier-syntax">WD</span><span class="plain-syntax">, </span><span class="string-syntax">"%N"</span><span class="plain-syntax">, </span><span class="identifier-syntax">Wordings::first_wn</span><span class="plain-syntax">(</span><span class="identifier-syntax">cg</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">command</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">        </span><a href="2-ea.html#SP4" class="function-link"><span class="function-syntax">EmitArrays::dword_entry</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">WD</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">DISCARD_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">WD</span><span class="plain-syntax">)</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="function-syntax">&lt;cg-&gt;</span><span class="identifier-syntax">no_aliased_commands</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) {</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="function-syntax">&lt;cg-&gt;</span><span class="identifier-syntax">no_aliased_commands</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) {</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">TEMPORARY_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">WD</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">WRITE_TO</span><span class="plain-syntax">(</span><span class="identifier-syntax">WD</span><span class="plain-syntax">, </span><span class="string-syntax">"%N"</span><span class="plain-syntax">, </span><span class="identifier-syntax">Wordings::first_wn</span><span class="plain-syntax">(</span><span class="identifier-syntax">cg</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">aliased_command</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">]));</span>
 <span class="plain-syntax">            </span><a href="2-ea.html#SP4" class="function-link"><span class="function-syntax">EmitArrays::dword_entry</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">WD</span><span class="plain-syntax">);</span>
@@ -324,15 +329,15 @@ those which do, we queue compilation requests with suitable agents.
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. Compiling CG_IS_CONSULT grammars.</b></p>
+<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. Compiling CG_IS_CONSULT grammars.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">RTCommandGrammars::consult_agent</span><button class="popup" onclick="togglePopup('usagePopup10')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup10">Usage of <span class="code-font"><span class="function-syntax">RTCommandGrammars::consult_agent</span></span>:<br/><a href="7-cg.html#SP9">&#167;9</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">compilation_subtask</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">RTCommandGrammars::consult_agent</span><button class="popup" onclick="togglePopup('usagePopup10')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup10">Usage of <span class="code-font"><span class="function-syntax">RTCommandGrammars::consult_agent</span></span>:<br/><a href="7-cg.html#SP9">&#167;9</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">compilation_subtask</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">command_grammar</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cg</span><span class="plain-syntax"> = </span><span class="identifier-syntax">RETRIEVE_POINTER_command_grammar</span><span class="plain-syntax">(</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">data</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">CGLines::list_length</span><span class="plain-syntax">(</span><span class="identifier-syntax">cg</span><span class="plain-syntax">) == </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOGIF</span><span class="plain-syntax">(</span><span class="identifier-syntax">GRAMMAR</span><span class="plain-syntax">, </span><span class="string-syntax">"Compiling command grammar $G\n"</span><span class="plain-syntax">, </span><span class="identifier-syntax">cg</span><span class="plain-syntax">);</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">gpr_kit</span><span class="plain-syntax"> </span><span class="identifier-syntax">kit</span><span class="plain-syntax"> = </span><a href="2-gpr.html#SP3" class="function-link"><span class="function-syntax">GPRs::new_kit</span></a><span class="plain-syntax">();</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">gpr_kit</span><span class="plain-syntax"> </span><span class="identifier-syntax">kit</span><span class="plain-syntax"> = </span><a href="2-gpr.html#SP3" class="function-link"><span class="function-syntax">GPRs::new_kit</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">iname</span><span class="plain-syntax"> = </span><a href="7-cg.html#SP8" class="function-link"><span class="function-syntax">RTCommandGrammars::get_consult_fn_iname</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">cg</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">packaging_state</span><span class="plain-syntax"> </span><span class="identifier-syntax">save</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Functions::begin</span><span class="plain-syntax">(</span><span class="identifier-syntax">iname</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="2-gpr.html#SP4" class="function-link"><span class="function-syntax">GPRs::add_range_vars</span></a><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">kit</span><span class="plain-syntax">);</span>
@@ -361,15 +366,15 @@ those which do, we queue compilation requests with suitable agents.
 <span class="plain-syntax">    </span><span class="identifier-syntax">Functions::end</span><span class="plain-syntax">(</span><span class="identifier-syntax">save</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. Compiling CG_IS_PROPERTY grammars.</b></p>
+<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. Compiling CG_IS_PROPERTY grammars.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">RTCommandGrammars::property_agent</span><button class="popup" onclick="togglePopup('usagePopup11')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup11">Usage of <span class="code-font"><span class="function-syntax">RTCommandGrammars::property_agent</span></span>:<br/><a href="7-cg.html#SP9">&#167;9</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">compilation_subtask</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">RTCommandGrammars::property_agent</span><button class="popup" onclick="togglePopup('usagePopup11')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup11">Usage of <span class="code-font"><span class="function-syntax">RTCommandGrammars::property_agent</span></span>:<br/><a href="7-cg.html#SP9">&#167;9</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">compilation_subtask</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">command_grammar</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cg</span><span class="plain-syntax"> = </span><span class="identifier-syntax">RETRIEVE_POINTER_command_grammar</span><span class="plain-syntax">(</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">data</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">CGLines::list_length</span><span class="plain-syntax">(</span><span class="identifier-syntax">cg</span><span class="plain-syntax">) == </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOGIF</span><span class="plain-syntax">(</span><span class="identifier-syntax">GRAMMAR</span><span class="plain-syntax">, </span><span class="string-syntax">"Compiling command grammar $G\n"</span><span class="plain-syntax">, </span><span class="identifier-syntax">cg</span><span class="plain-syntax">);</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">gpr_kit</span><span class="plain-syntax"> </span><span class="identifier-syntax">kit</span><span class="plain-syntax"> = </span><a href="2-gpr.html#SP3" class="function-link"><span class="function-syntax">GPRs::new_kit</span></a><span class="plain-syntax">();</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">gpr_kit</span><span class="plain-syntax"> </span><span class="identifier-syntax">kit</span><span class="plain-syntax"> = </span><a href="2-gpr.html#SP3" class="function-link"><span class="function-syntax">GPRs::new_kit</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">iname</span><span class="plain-syntax"> = </span><a href="7-cg.html#SP6" class="function-link"><span class="function-syntax">RTCommandGrammars::get_property_GPR_fn_iname</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">cg</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">packaging_state</span><span class="plain-syntax"> </span><span class="identifier-syntax">save</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Functions::begin</span><span class="plain-syntax">(</span><span class="identifier-syntax">iname</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="2-gpr.html#SP4" class="function-link"><span class="function-syntax">GPRs::add_original_var</span></a><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">kit</span><span class="plain-syntax">);</span>
@@ -392,13 +397,13 @@ those which do, we queue compilation requests with suitable agents.
 <span class="plain-syntax">    </span><span class="identifier-syntax">Functions::end</span><span class="plain-syntax">(</span><span class="identifier-syntax">save</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. Compiling CG_IS_VALUE grammars.</b>These are not compiled into their own packages, but into the body of GPRs
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. Compiling CG_IS_VALUE grammars.</b>  These are not compiled into their own packages, but into the body of GPRs
 to parse values of given kinds. So the following assumes that we are already
-in the middle of a GPR being compiled.
-</p>
-
+in the middle of a GPR being compiled.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">RTCommandGrammars::compile_for_value_GPR</span><button class="popup" onclick="togglePopup('usagePopup12')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup12">Usage of <span class="code-font"><span class="function-syntax">RTCommandGrammars::compile_for_value_GPR</span></span>:<br/>Kind GPRs - <a href="7-kg.html#SP1_1">&#167;1.1</a>, <a href="7-kg.html#SP4_2">&#167;4.2</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">gpr_kit</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kit</span><span class="plain-syntax">, </span><span class="identifier-syntax">command_grammar</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cg</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">RTCommandGrammars::compile_for_value_GPR</span><button class="popup" onclick="togglePopup('usagePopup12')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup12">Usage of <span class="code-font"><span class="function-syntax">RTCommandGrammars::compile_for_value_GPR</span></span>:<br/>Kind GPRs - <a href="7-kg.html#SP1_1">&#167;1.1</a>, <a href="7-kg.html#SP4_2">&#167;4.2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">gpr_kit</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kit</span><span class="plain-syntax">, </span><span class="identifier-syntax">command_grammar</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cg</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">cg</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">cg_is</span><span class="plain-syntax"> != </span><span class="identifier-syntax">CG_IS_VALUE</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"not CG_IS_VALUE"</span><span class="plain-syntax">);</span>
 
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">CGLines::list_length</span><span class="plain-syntax">(</span><span class="identifier-syntax">cg</span><span class="plain-syntax">) &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) {</span>
@@ -408,24 +413,20 @@ in the middle of a GPR being compiled.
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. Compiling CG_IS_SUBJECT grammars.</b>Again, these are not compiled into their own packages, but into the body of
-GPRs: in fact, they will be functions used as <span class="extract"><span class="extract-syntax">parse_name</span></span> property values.
-</p>
-
-<p class="commentary">Each CG_IS_SUBJECT grammar is attached to an inference subject, and when we
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. Compiling CG_IS_SUBJECT grammars.</b>  Again, these are not compiled into their own packages, but into the body of
+GPRs: in fact, they will be functions used as <code>parse_name</code> property values.</p>
+<p>Each CG_IS_SUBJECT grammar is attached to an inference subject, and when we
 compile them we recurse up the subject hierarchy: thus if the red ball is of
-kind ball which is of kind thing, then the <span class="extract"><span class="extract-syntax">parse_name</span></span> for the red ball
+kind ball which is of kind thing, then the <code>parse_name</code> for the red ball
 consists of grammar lines specified for the red ball, then those specified for
-all balls, and lastly those specified for all things.
-</p>
-
-<p class="commentary">The order of these is important: by getting in first, grammar for the instance
+all balls, and lastly those specified for all things.</p>
+<p>The order of these is important: by getting in first, grammar for the instance
 takes priority; its immediate kind has next priority, and so on up the
-hierarchy.
-</p>
-
+hierarchy.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">RTCommandGrammars::compile_for_subject_GPR</span><button class="popup" onclick="togglePopup('usagePopup13')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup13">Usage of <span class="code-font"><span class="function-syntax">RTCommandGrammars::compile_for_subject_GPR</span></span>:<br/>Parse Name Properties - <a href="7-pnp.html#SP3">&#167;3</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">gpr_kit</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kit</span><span class="plain-syntax">, </span><span class="identifier-syntax">command_grammar</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cg</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">RTCommandGrammars::compile_for_subject_GPR</span><button class="popup" onclick="togglePopup('usagePopup13')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup13">Usage of <span class="code-font"><span class="function-syntax">RTCommandGrammars::compile_for_subject_GPR</span></span>:<br/>Parse Name Properties - <a href="7-pnp.html#SP3">&#167;3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">gpr_kit</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kit</span><span class="plain-syntax">, </span><span class="identifier-syntax">command_grammar</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cg</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">cg</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">cg_is</span><span class="plain-syntax"> != </span><span class="identifier-syntax">CG_IS_SUBJECT</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"not CG_IS_SUBJECT"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">subj</span><span class="plain-syntax"> = </span><span class="identifier-syntax">cg</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">subj_understood</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">PARSING_DATA_FOR_SUBJ</span><span class="plain-syntax">(</span><span class="identifier-syntax">subj</span><span class="plain-syntax">)-&gt;</span><span class="identifier-syntax">understand_as_this_subject</span><span class="plain-syntax"> != </span><span class="identifier-syntax">cg</span><span class="plain-syntax">)</span>
@@ -447,25 +448,21 @@ hierarchy.
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. Compiling all grammars.</b>And so all of the above functions ultimately funnel down to this one.
-</p>
-
-<p class="commentary">At this level we compile the list of CGLs in sorted order: this is what the
-sorting was all for. In certain cases, we skip any CGLs marked as "one word":
-these are cases arising from, e.g., "Understand "frog" as the toad.",
-where we noticed that the CGL was a single word and included it in the <span class="extract"><span class="extract-syntax">name</span></span>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. Compiling all grammars.</b>  And so all of the above functions ultimately funnel down to this one.</p>
+<p>At this level we compile the list of CGLs in sorted order: this is what the
+sorting was all for. In certain cases, we skip any CGLs marked as &quot;one word&quot;:
+these are cases arising from, e.g., &quot;Understand &quot;frog&quot; as the toad.&quot;,
+where we noticed that the CGL was a single word and included it in the <code>name</code>
 property instead. This is faster and more flexible, besides writing tidier
-code.
-</p>
-
-<p class="commentary">The need for this is not immediately obvious. After all, shouldn't we have
+code.</p>
+<p>The need for this is not immediately obvious. After all, shouldn't we have
 simply deleted the CGL in the first place, rather than leaving it in but
 marking it? The answer is no, because of the way inheritance works differently
-for the <span class="extract"><span class="extract-syntax">name</span></span> property as opposed to <span class="extract"><span class="extract-syntax">parse_name</span></span> functions.
-</p>
-
+for the <code>name</code> property as opposed to <code>parse_name</code> functions.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">RTCommandGrammars::compile_general</span><button class="popup" onclick="togglePopup('usagePopup14')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup14">Usage of <span class="code-font"><span class="function-syntax">RTCommandGrammars::compile_general</span></span>:<br/><a href="7-cg.html#SP10">&#167;10</a>, <a href="7-cg.html#SP11">&#167;11</a>, <a href="7-cg.html#SP12">&#167;12</a>, <a href="7-cg.html#SP13">&#167;13</a>, <a href="7-cg.html#SP14">&#167;14</a>, <a href="7-cg.html#SP15">&#167;15</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">gpr_kit</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kit</span><span class="plain-syntax">, </span><span class="identifier-syntax">command_grammar</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cg</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">RTCommandGrammars::compile_general</span><button class="popup" onclick="togglePopup('usagePopup14')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup14">Usage of <span class="code-font"><span class="function-syntax">RTCommandGrammars::compile_general</span></span>:<br/><a href="7-cg.html#SP10">&#167;10</a>, <a href="7-cg.html#SP11">&#167;11</a>, <a href="7-cg.html#SP12">&#167;12</a>, <a href="7-cg.html#SP13">&#167;13</a>, <a href="7-cg.html#SP14">&#167;14</a>, <a href="7-cg.html#SP15">&#167;15</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">gpr_kit</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kit</span><span class="plain-syntax">, </span><span class="identifier-syntax">command_grammar</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cg</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><a href="7-cgl.html#SP4" class="function-link"><span class="function-syntax">RTCommandGrammarLines::list_assert_ownership</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">cg</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">CommandGrammars::sort_command_grammar</span><span class="plain-syntax">(</span><span class="identifier-syntax">cg</span><span class="plain-syntax">);</span>
 
@@ -477,7 +474,7 @@ for the <span class="extract"><span class="extract-syntax">name</span></span> pr
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOG_OUTDENT</span><span class="plain-syntax">;</span>
 
 <span class="plain-syntax">    </span><span class="identifier-syntax">package_request</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pack</span><span class="plain-syntax"> = </span><a href="7-cg.html#SP5" class="function-link"><span class="function-syntax">RTCommandGrammars::package</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">cg</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">hl</span><span class="plain-syntax"> = -1;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">hl</span><span class="plain-syntax"> = </span><span class="constant-syntax">-1</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">cg</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">cg_is</span><span class="plain-syntax"> == </span><span class="identifier-syntax">CG_IS_COMMAND</span><span class="plain-syntax">) </span><span class="identifier-syntax">hl</span><span class="plain-syntax"> = </span><span class="constant-syntax">CG_IS_COMMAND_MD_HL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">cg</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">cg_is</span><span class="plain-syntax"> == </span><span class="identifier-syntax">CG_IS_TOKEN</span><span class="plain-syntax">) </span><span class="identifier-syntax">hl</span><span class="plain-syntax"> = </span><span class="constant-syntax">CG_IS_TOKEN_MD_HL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">cg</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">cg_is</span><span class="plain-syntax"> == </span><span class="identifier-syntax">CG_IS_SUBJECT</span><span class="plain-syntax">) </span><span class="identifier-syntax">hl</span><span class="plain-syntax"> = </span><span class="constant-syntax">CG_IS_SUBJECT_MD_HL</span><span class="plain-syntax">;</span>
@@ -492,7 +489,7 @@ for the <span class="extract"><span class="extract-syntax">name</span></span> pr
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">cg</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">cg_is</span><span class="plain-syntax"> == </span><span class="identifier-syntax">CG_IS_COMMAND</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Wordings::nonempty</span><span class="plain-syntax">(</span><span class="identifier-syntax">cg</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">command</span><span class="plain-syntax">))</span>
 <span class="plain-syntax">            </span><a href="2-hrr.html#SP23" class="function-link"><span class="function-syntax">Hierarchy::apply_metadata_from_wording</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">pack</span><span class="plain-syntax">, </span><span class="constant-syntax">CG_COMMAND_MD_HL</span><span class="plain-syntax">, </span><span class="identifier-syntax">cg</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">command</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="function-syntax">&lt;cg-&gt;</span><span class="identifier-syntax">no_aliased_commands</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) {</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="function-syntax">&lt;cg-&gt;</span><span class="identifier-syntax">no_aliased_commands</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) {</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">package_request</span><span class="plain-syntax"> *</span><span class="identifier-syntax">alias</span><span class="plain-syntax"> = </span><a href="2-hrr.html#SP21" class="function-link"><span class="function-syntax">Hierarchy::package_within</span></a><span class="plain-syntax">(</span><span class="constant-syntax">CG_COMMAND_ALIASES_HAP</span><span class="plain-syntax">, </span><span class="identifier-syntax">pack</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><a href="2-hrr.html#SP23" class="function-link"><span class="function-syntax">Hierarchy::apply_metadata_from_wording</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">alias</span><span class="plain-syntax">, </span><span class="constant-syntax">CG_ALIAS_MD_HL</span><span class="plain-syntax">, </span><span class="identifier-syntax">cg</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">aliased_command</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">]);</span>
 <span class="plain-syntax">        }</span>

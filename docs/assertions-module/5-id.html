@@ -26,6 +26,7 @@ function togglePopup(material_id) {
 <script src="../docs-assets/Bigfoot.js"></script>
 <link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<link href="../docs-assets/Preform-Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
 	<body class="commentary-font">
@@ -61,56 +62,50 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="5-id.html#SP1">&#167;1. The head</a></li><li><a href="5-id.html#SP6">&#167;6. The body</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. The head.</b>Inform has several features &mdash; most obviously rules and "To ..." phrases &mdash;
-where something is created with top-level syntax with a shape like so:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. The head.</b>  Inform has several features -- most obviously rules and &quot;To ...&quot; phrases --
+where something is created with top-level syntax with a shape like so:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">Some</span><span class="plain-syntax"> </span><span class="identifier-syntax">preamble</span><span class="plain-syntax"> </span><span class="identifier-syntax">text</span><span class="plain-syntax"> </span><span class="identifier-syntax">ending</span><span class="plain-syntax"> </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">a</span><span class="plain-syntax"> </span><span class="identifier-syntax">colon</span><span class="plain-syntax">:</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">a</span><span class="plain-syntax"> </span><span class="identifier-syntax">body</span><span class="plain-syntax"> </span><span class="identifier-syntax">of</span><span class="plain-syntax"> </span><span class="identifier-syntax">instructions</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">like</span><span class="plain-syntax"> </span><span class="identifier-syntax">so</span><span class="plain-syntax">;</span>
 </pre>
-<p class="commentary">These are called "imperative definitions", and each one in the source text
-is given its own <a href="5-id.html#SP1" class="internal">imperative_defn</a>: see <a href="5-id.html#SP2" class="internal">ImperativeDefinitions::new</a> below.
-</p>
-
-<p class="commentary">The body has to be a standard chunk of Inform 7 code, which, roughly speaking,
+<div class="lsmarkdown">
+<p>These are called &quot;imperative definitions&quot;, and each one in the source text
+is given its own <a href="5-id.html#SP1" class="internal">imperative_defn</a>: see <a href="5-id.html#SP2" class="internal">ImperativeDefinitions::new</a> below.</p>
+<p>The body has to be a standard chunk of Inform 7 code, which, roughly speaking,
 is in the same format whatever is being defined here. This in due course becomes
-its <span class="extract"><span class="extract-syntax">body_of_defn</span></span>. But the preamble text can be very varied, and no syntactic
-marker tells us directly what sort of language feature is being defined.
-</p>
-
-<p class="commentary">To deal with this, each such language feature has its own <a href="5-idf.html#SP2" class="internal">imperative_defn_family</a>;
+its <code>body_of_defn</code>. But the preamble text can be very varied, and no syntactic
+marker tells us directly what sort of language feature is being defined.</p>
+<p>To deal with this, each such language feature has its own <a href="5-idf.html#SP2" class="internal">imperative_defn_family</a>;
 and every <a href="5-id.html#SP1" class="internal">imperative_defn</a> belongs to just one family. So, for example, a
-definition makes a "To..." phrase if its family is the one looked after by
-<a href="5-tpf.html" class="internal">To Phrase Family</a>.
-</p>
-
+definition makes a &quot;To...&quot; phrase if its family is the one looked after by
+<a href="5-tpf.html" class="internal">To Phrase Family</a>.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">imperative_defn</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">imperative_defn_family</span><span class="plain-syntax"> *</span><span class="identifier-syntax">family</span><span class="plain-syntax">; </span><span class="comment-syntax"> what manner of thing is defined</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">general_pointer</span><span class="plain-syntax"> </span><span class="identifier-syntax">family_specific_data</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">at</span><span class="plain-syntax">; </span><span class="comment-syntax"> where this occurs in the syntax tree</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">id_body</span><span class="plain-syntax"> *</span><span class="identifier-syntax">body_of_defn</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">log_text</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">imperative_defn</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">imperative_defn_family</span><span class="plain-syntax"> *</span><span class="identifier-syntax">family</span><span class="plain-syntax">; </span><span class="comment-syntax">/* what manner of thing is defined */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">general_pointer</span><span class="plain-syntax"> </span><span class="identifier-syntax">family_specific_data</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">at</span><span class="plain-syntax">; </span><span class="comment-syntax">/* where this occurs in the syntax tree */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">id_body</span><span class="plain-syntax"> *</span><span class="identifier-syntax">body_of_defn</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">log_text</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">CLASS_DEFINITION</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">imperative_defn</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">imperative_defn</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>The structure imperative_defn is accessed in 5/idf, 5/adf, 5/tpf, 5/rf, 5/rcd, 6/rls, 6/rb, 6/bl, 8/tap, 8/tcp, 8/aa, 8/am, 8/abp, 8/abif and here.</li></ul>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>This creator function is called on each <span class="extract"><span class="extract-syntax">IMPERATIVE_NT</span></span> node in the syntax
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  This creator function is called on each <code>IMPERATIVE_NT</code> node in the syntax
 tree, which is to say, at each place where the punctuation looks like the
-shape shown above.
-</p>
-
-<p class="commentary">At this point, <span class="extract"><span class="extract-syntax">p</span></span> has a number of <span class="extract"><span class="extract-syntax">INVOCATION_LIST_NT</span></span> nodes hanging from it,
+shape shown above.</p>
+<p>At this point, <code>p</code> has a number of <code>INVOCATION_LIST_NT</code> nodes hanging from it,
 and those have been checked through for any early signs of trouble (see <a href="2-is.html" class="internal">Imperative Subtrees</a>).
 But nobody has looked at the preamble text at all, and our first task is to
-find out which family the definition belongs to, on the basis of that text.
-</p>
-
+find out which family the definition belongs to, on the basis of that text.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">imperative_defn</span><span class="plain-syntax"> *</span><span class="function-syntax">ImperativeDefinitions::new</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">ImperativeDefinitions::new</span></span>:<br/>Imperative Subtrees - <a href="2-is.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">p</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">imperative_defn</span><span class="plain-syntax"> *</span><span class="identifier-syntax">id</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="reserved-syntax">imperative_defn</span><span class="plain-syntax">);</span>
+<span class="identifier-syntax">imperative_defn</span><span class="plain-syntax"> *</span><span class="function-syntax">ImperativeDefinitions::new</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">ImperativeDefinitions::new</span></span>:<br/>Imperative Subtrees - <a href="2-is.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">p</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">imperative_defn</span><span class="plain-syntax"> *</span><span class="identifier-syntax">id</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="identifier-syntax">imperative_defn</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">id</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">at</span><span class="plain-syntax"> = </span><span class="identifier-syntax">p</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">id</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">body_of_defn</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">id</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">family</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
@@ -122,43 +117,42 @@ find out which family the definition belongs to, on the basis of that text.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">id</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>In our compiled code, it's useful to label functions with Inter comments:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  In our compiled code, it's useful to label functions with Inter comments:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">ImperativeDefinitions::write_comment_describing</span><span class="plain-syntax">(</span><span class="reserved-syntax">imperative_defn</span><span class="plain-syntax"> *</span><span class="identifier-syntax">id</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">ImperativeDefinitions::write_comment_describing</span><span class="plain-syntax">(</span><span class="identifier-syntax">imperative_defn</span><span class="plain-syntax"> *</span><span class="identifier-syntax">id</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">TEMPORARY_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">C</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE_TO</span><span class="plain-syntax">(</span><span class="identifier-syntax">C</span><span class="plain-syntax">, </span><span class="string-syntax">"%~W:"</span><span class="plain-syntax">, </span><span class="identifier-syntax">id</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">log_text</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">EmitCode::comment</span><span class="plain-syntax">(</span><span class="identifier-syntax">C</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">DISCARD_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">C</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>IDs are happened early on in Inform's run, at a time when many nouns have
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  IDs are happened early on in Inform's run, at a time when many nouns have
 not been created, so no very detailed parsing of the preamble is possible.
-This second stage, called "assessment", takes place later and makes a more
-detailed look possible.
-</p>
-
+This second stage, called &quot;assessment&quot;, takes place later and makes a more
+detailed look possible.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">ImperativeDefinitions::assess_all</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">initial_problem_count</span><span class="plain-syntax"> = </span><span class="identifier-syntax">problem_count</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="5-id.html#SP4_1" class="named-paragraph-link"><span class="named-paragraph">Step 1 - Assess</span><span class="named-paragraph-number">4.1</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="5-id.html#SP4_2" class="named-paragraph-link"><span class="named-paragraph">Step 2 - Register</span><span class="named-paragraph-number">4.2</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="5-id.html#SP4_3" class="named-paragraph-link"><span class="named-paragraph">Step 3 - Make the runtime context data</span><span class="named-paragraph-number">4.3</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="5-id.html#SP4_4" class="named-paragraph-link"><span class="named-paragraph">Step 4 - Complete</span><span class="named-paragraph-number">4.4</span></a></span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">ImperativeDefinitions::assess_all</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">initial_problem_count</span><span class="plain-syntax"> = </span><span class="identifier-syntax">problem_count</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="5-id.html#SP4_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Step 1 - Assess</span></span><span class="named-paragraph-number">4.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="5-id.html#SP4_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Step 2 - Register</span></span><span class="named-paragraph-number">4.2</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="5-id.html#SP4_3" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Step 3 - Make the runtime context data</span></span><span class="named-paragraph-number">4.3</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="5-id.html#SP4_4" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Step 4 - Complete</span></span><span class="named-paragraph-number">4.4</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4_1" class="paragraph-anchor"></a><b>&#167;4.1. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Step 1 - Assess</span><span class="named-paragraph-number">4.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP4_1" class="paragraph-anchor"></a><b>&#167;4.1. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Step 1 - Assess</span><span class="named-paragraph-number">4.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">total</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NUMBER_CREATED</span><span class="plain-syntax">(</span><span class="reserved-syntax">imperative_defn</span><span class="plain-syntax">), </span><span class="identifier-syntax">created</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">imperative_defn</span><span class="plain-syntax"> *</span><span class="identifier-syntax">id</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">id</span><span class="plain-syntax">, </span><span class="reserved-syntax">imperative_defn</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">total</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NUMBER_CREATED</span><span class="plain-syntax">(</span><span class="identifier-syntax">imperative_defn</span><span class="plain-syntax">), </span><span class="identifier-syntax">created</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">imperative_defn</span><span class="plain-syntax"> *</span><span class="identifier-syntax">id</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">id</span><span class="plain-syntax">, </span><span class="identifier-syntax">imperative_defn</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">created</span><span class="plain-syntax">++;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">created</span><span class="plain-syntax"> % </span><span class="constant-syntax">10</span><span class="plain-syntax">) == </span><span class="constant-syntax">0</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">ProgressBar::update</span><span class="plain-syntax">(3,</span>
-<span class="plain-syntax">                ((</span><span class="reserved-syntax">float</span><span class="plain-syntax">) (</span><span class="identifier-syntax">created</span><span class="plain-syntax">))/((</span><span class="reserved-syntax">float</span><span class="plain-syntax">) (</span><span class="identifier-syntax">total</span><span class="plain-syntax">)));</span>
+<span class="plain-syntax">                ((</span><span class="identifier-syntax">float</span><span class="plain-syntax">) (</span><span class="identifier-syntax">created</span><span class="plain-syntax">))/((</span><span class="identifier-syntax">float</span><span class="plain-syntax">) (</span><span class="identifier-syntax">total</span><span class="plain-syntax">)));</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">current_sentence</span><span class="plain-syntax"> = </span><span class="identifier-syntax">id</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">at</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><a href="5-idf.html#SP4" class="function-link"><span class="function-syntax">ImperativeDefinitionFamilies::assess</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">id</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">Node::is</span><span class="plain-syntax">(</span><span class="identifier-syntax">id</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">at</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax">, </span><span class="identifier-syntax">DEFN_CONT_NT</span><span class="plain-syntax">) == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">id</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">at</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">down</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) &amp;&amp;</span>
@@ -176,87 +170,83 @@ detailed look possible.
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">initial_problem_count</span><span class="plain-syntax"> &lt; </span><span class="identifier-syntax">problem_count</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-id.html#SP4">&#167;4</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP4_2" class="paragraph-anchor"></a><b>&#167;4.2. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Step 2 - Register</span><span class="named-paragraph-number">4.2</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP4_2" class="paragraph-anchor"></a><b>&#167;4.2. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Step 2 - Register</span><span class="named-paragraph-number">4.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">imperative_defn_family</span><span class="plain-syntax"> *</span><span class="identifier-syntax">idf</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">idf</span><span class="plain-syntax">, </span><span class="reserved-syntax">imperative_defn_family</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">imperative_defn_family</span><span class="plain-syntax"> *</span><span class="identifier-syntax">idf</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">idf</span><span class="plain-syntax">, </span><span class="identifier-syntax">imperative_defn_family</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><a href="5-idf.html#SP6" class="function-link"><span class="function-syntax">ImperativeDefinitionFamilies::register</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">idf</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">initial_problem_count</span><span class="plain-syntax"> &lt; </span><span class="identifier-syntax">problem_count</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-id.html#SP4">&#167;4</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP4_3" class="paragraph-anchor"></a><b>&#167;4.3. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Step 3 - Make the runtime context data</span><span class="named-paragraph-number">4.3</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP4_3" class="paragraph-anchor"></a><b>&#167;4.3. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Step 3 - Make the runtime context data</span><span class="named-paragraph-number">4.3</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">imperative_defn</span><span class="plain-syntax"> *</span><span class="identifier-syntax">id</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">id</span><span class="plain-syntax">, </span><span class="reserved-syntax">imperative_defn</span><span class="plain-syntax">)</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">imperative_defn</span><span class="plain-syntax"> *</span><span class="identifier-syntax">id</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">id</span><span class="plain-syntax">, </span><span class="identifier-syntax">imperative_defn</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">id</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">body_of_defn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">runtime_context_data</span><span class="plain-syntax"> =</span>
 <span class="plain-syntax">            </span><a href="5-idf.html#SP7" class="function-link"><span class="function-syntax">ImperativeDefinitionFamilies::to_phrcd</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">id</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">initial_problem_count</span><span class="plain-syntax"> &lt; </span><span class="identifier-syntax">problem_count</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-id.html#SP4">&#167;4</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP4_4" class="paragraph-anchor"></a><b>&#167;4.4. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Step 4 - Complete</span><span class="named-paragraph-number">4.4</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP4_4" class="paragraph-anchor"></a><b>&#167;4.4. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Step 4 - Complete</span><span class="named-paragraph-number">4.4</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">imperative_defn_family</span><span class="plain-syntax"> *</span><span class="identifier-syntax">idf</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">idf</span><span class="plain-syntax">, </span><span class="reserved-syntax">imperative_defn_family</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">imperative_defn_family</span><span class="plain-syntax"> *</span><span class="identifier-syntax">idf</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">idf</span><span class="plain-syntax">, </span><span class="identifier-syntax">imperative_defn_family</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><a href="5-idf.html#SP8" class="function-link"><span class="function-syntax">ImperativeDefinitionFamilies::assessment_complete</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">idf</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">initial_problem_count</span><span class="plain-syntax"> &lt; </span><span class="identifier-syntax">problem_count</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-id.html#SP4">&#167;4</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>Whatever is defined probably wants to compile the body of the definition
-into at least one (and perhaps more than one) Inter function:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  Whatever is defined probably wants to compile the body of the definition
+into at least one (and perhaps more than one) Inter function:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">total_phrases_to_compile</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">total_phrases_compiled</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">ImperativeDefinitions::compile_first_block</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="5-id.html#SP5_1" class="named-paragraph-link"><span class="named-paragraph">Count up the scale of the task</span><span class="named-paragraph-number">5.1</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">imperative_defn_family</span><span class="plain-syntax"> *</span><span class="identifier-syntax">idf</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">idf</span><span class="plain-syntax">, </span><span class="reserved-syntax">imperative_defn_family</span><span class="plain-syntax">)</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">total_phrases_to_compile</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">total_phrases_compiled</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">ImperativeDefinitions::compile_first_block</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="5-id.html#SP5_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Count up the scale of the task</span></span><span class="named-paragraph-number">5.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">imperative_defn_family</span><span class="plain-syntax"> *</span><span class="identifier-syntax">idf</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">idf</span><span class="plain-syntax">, </span><span class="identifier-syntax">imperative_defn_family</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">idf</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">compile_last</span><span class="plain-syntax"> == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">            </span><a href="5-idf.html#SP12" class="function-link"><span class="function-syntax">ImperativeDefinitionFamilies::compile</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">idf</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">                &amp;</span><span class="identifier-syntax">total_phrases_compiled</span><span class="plain-syntax">, </span><span class="identifier-syntax">total_phrases_to_compile</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">idf</span><span class="plain-syntax">, </span><span class="reserved-syntax">imperative_defn_family</span><span class="plain-syntax">)</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">idf</span><span class="plain-syntax">, </span><span class="identifier-syntax">imperative_defn_family</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">idf</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">compile_last</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">            </span><a href="5-idf.html#SP12" class="function-link"><span class="function-syntax">ImperativeDefinitionFamilies::compile</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">idf</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">                &amp;</span><span class="identifier-syntax">total_phrases_compiled</span><span class="plain-syntax">, </span><span class="identifier-syntax">total_phrases_to_compile</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5_1" class="paragraph-anchor"></a><b>&#167;5.1. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Count up the scale of the task</span><span class="named-paragraph-number">5.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP5_1" class="paragraph-anchor"></a><b>&#167;5.1. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Count up the scale of the task</span><span class="named-paragraph-number">5.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">total_phrases_compiled</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">id_body</span><span class="plain-syntax"> *</span><span class="identifier-syntax">idb</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">idb</span><span class="plain-syntax">, </span><span class="reserved-syntax">id_body</span><span class="plain-syntax">)</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">id_body</span><span class="plain-syntax"> *</span><span class="identifier-syntax">idb</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">idb</span><span class="plain-syntax">, </span><span class="identifier-syntax">id_body</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">idb</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">compilation_data</span><span class="plain-syntax">.</span><span class="identifier-syntax">at_least_one_compiled_form_needed</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">total_phrases_to_compile</span><span class="plain-syntax">++;</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-id.html#SP5">&#167;5</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. The body.</b>During assessment, then, each <a href="5-id.html#SP1" class="internal">imperative_defn</a> is given a body, which
-is one of these. It represents the body of the definition &mdash; that is, the
-Inform 7 source text written underneath the heading.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. The body.</b>  During assessment, then, each <a href="5-id.html#SP1" class="internal">imperative_defn</a> is given a body, which
+is one of these. It represents the body of the definition -- that is, the
+Inform 7 source text written underneath the heading.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">id_body</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">imperative_defn</span><span class="plain-syntax"> *</span><span class="identifier-syntax">head_of_defn</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">id_type_data</span><span class="plain-syntax"> </span><span class="identifier-syntax">type_data</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">id_runtime_context_data</span><span class="plain-syntax"> </span><span class="identifier-syntax">runtime_context_data</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">id_compilation_data</span><span class="plain-syntax"> </span><span class="identifier-syntax">compilation_data</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">id_body</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">imperative_defn</span><span class="plain-syntax"> *</span><span class="identifier-syntax">head_of_defn</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">id_type_data</span><span class="plain-syntax"> </span><span class="identifier-syntax">type_data</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">id_runtime_context_data</span><span class="plain-syntax"> </span><span class="identifier-syntax">runtime_context_data</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">id_compilation_data</span><span class="plain-syntax"> </span><span class="identifier-syntax">compilation_data</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">CLASS_DEFINITION</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">id_body</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">id_body</span><span class="plain-syntax">;</span>
 
-<span class="reserved-syntax">id_body</span><span class="plain-syntax"> *</span><span class="function-syntax">ImperativeDefinitions::new_body</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">ImperativeDefinitions::new_body</span></span>:<br/><a href="5-id.html#SP4_1">&#167;4.1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">imperative_defn</span><span class="plain-syntax"> *</span><span class="identifier-syntax">id</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">id_body</span><span class="plain-syntax"> *</span><span class="function-syntax">ImperativeDefinitions::new_body</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">ImperativeDefinitions::new_body</span></span>:<br/><a href="5-id.html#SP4_1">&#167;4.1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">imperative_defn</span><span class="plain-syntax"> *</span><span class="identifier-syntax">id</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOGIF</span><span class="plain-syntax">(</span><span class="identifier-syntax">PHRASE_CREATIONS</span><span class="plain-syntax">, </span><span class="string-syntax">"Creating body: &lt;%W&gt;\n"</span><span class="plain-syntax">, </span><span class="identifier-syntax">id</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">log_text</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">id_body</span><span class="plain-syntax"> *</span><span class="identifier-syntax">body</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="reserved-syntax">id_body</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">id_body</span><span class="plain-syntax"> *</span><span class="identifier-syntax">body</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="identifier-syntax">id_body</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">body</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">head_of_defn</span><span class="plain-syntax"> = </span><span class="identifier-syntax">id</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">body</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">runtime_context_data</span><span class="plain-syntax"> = </span><a href="5-rcd.html#SP1" class="function-link"><span class="function-syntax">RuntimeContextData::new</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">body</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">type_data</span><span class="plain-syntax"> = </span><a href="5-ptd.html#SP2" class="function-link"><span class="function-syntax">IDTypeData::new</span></a><span class="plain-syntax">();</span>
@@ -265,72 +255,69 @@ Inform 7 source text written underneath the heading.
 <span class="plain-syntax">}</span>
 </pre>
 <ul class="endnotetexts"><li>The structure id_body is accessed in 3/nuor, 5/idf, 5/adf, 5/tpf, 5/ptd, 5/po, 5/rf, 5/rcd, 6/rls, 6/rb, 6/rlb, 6/fao, 6/act, 7/tc, 7/tbl, 7/eqt and here.</li></ul>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>Definition bodies can be written in two different ways. In one way, the
-body is a list of instructions to follow. For example:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  Definition bodies can be written in two different ways. In one way, the
+body is a list of instructions to follow. For example:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">To</span><span class="plain-syntax"> </span><span class="identifier-syntax">decide</span><span class="plain-syntax"> </span><span class="identifier-syntax">which</span><span class="plain-syntax"> </span><span class="identifier-syntax">real</span><span class="plain-syntax"> </span><span class="identifier-syntax">number</span><span class="plain-syntax"> </span><span class="identifier-syntax">is</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">hyperbolic</span><span class="plain-syntax"> </span><span class="identifier-syntax">arccosine</span><span class="plain-syntax"> </span><span class="identifier-syntax">of</span><span class="plain-syntax"> (</span><span class="identifier-syntax">R</span><span class="plain-syntax"> - </span><span class="identifier-syntax">a</span><span class="plain-syntax"> </span><span class="identifier-syntax">real</span><span class="plain-syntax"> </span><span class="identifier-syntax">number</span><span class="plain-syntax">):</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">let</span><span class="plain-syntax"> </span><span class="identifier-syntax">x</span><span class="plain-syntax"> </span><span class="identifier-syntax">be</span><span class="plain-syntax"> </span><span class="identifier-syntax">given</span><span class="plain-syntax"> </span><span class="identifier-syntax">by</span><span class="plain-syntax"> </span><span class="identifier-syntax">x</span><span class="plain-syntax"> = </span><span class="identifier-syntax">log</span><span class="plain-syntax">(</span><span class="identifier-syntax">R</span><span class="plain-syntax"> + </span><span class="identifier-syntax">root</span><span class="plain-syntax">(</span><span class="identifier-syntax">R</span><span class="plain-syntax">^2 - </span><span class="constant-syntax">1</span><span class="plain-syntax">)) </span><span class="identifier-syntax">where</span><span class="plain-syntax"> </span><span class="identifier-syntax">x</span><span class="plain-syntax"> </span><span class="identifier-syntax">is</span><span class="plain-syntax"> </span><span class="identifier-syntax">a</span><span class="plain-syntax"> </span><span class="identifier-syntax">real</span><span class="plain-syntax"> </span><span class="identifier-syntax">number</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">decide</span><span class="plain-syntax"> </span><span class="identifier-syntax">on</span><span class="plain-syntax"> </span><span class="identifier-syntax">x</span><span class="plain-syntax">.</span>
 </pre>
-<p class="commentary">Here there are two instructions. Each is an "invocation" of a "To..." phrase;
-and the whole definition will ultimately be compiled to an Inter function.<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>
-Invoking this phrase with source text like "hyperbolic arccosine of pi" then
-compiles to a call to that function.
-</p>
-
-<p class="commentary">In the other way, the body has just one entry, written in <span class="extract"><span class="extract-syntax">(-</span></span> and <span class="extract"><span class="extract-syntax">-)</span></span>
+<div class="lsmarkdown">
+<p>Here there are two instructions. Each is an &quot;invocation&quot; of a &quot;To...&quot; phrase;
+and the whole definition will ultimately be compiled to an Inter function.<sup id="fnred:1"><a href="#fn:1" rel="footnote">1</a></sup>
+Invoking this phrase with source text like &quot;hyperbolic arccosine of pi&quot; then
+compiles to a call to that function.</p>
+<p>In the other way, the body has just one entry, written in <code>(-</code> and <code>-)</code>
 markers, showing directly what Inter code the definition would create if
-it were invoked. For example:
-</p>
-
+it were invoked. For example:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">To</span><span class="plain-syntax"> </span><span class="identifier-syntax">decide</span><span class="plain-syntax"> </span><span class="identifier-syntax">which</span><span class="plain-syntax"> </span><span class="identifier-syntax">real</span><span class="plain-syntax"> </span><span class="identifier-syntax">number</span><span class="plain-syntax"> </span><span class="identifier-syntax">is</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">hyperbolic</span><span class="plain-syntax"> </span><span class="identifier-syntax">sine</span><span class="plain-syntax"> </span><span class="identifier-syntax">of</span><span class="plain-syntax"> (</span><span class="identifier-syntax">R</span><span class="plain-syntax"> - </span><span class="identifier-syntax">a</span><span class="plain-syntax"> </span><span class="identifier-syntax">real</span><span class="plain-syntax"> </span><span class="identifier-syntax">number</span><span class="plain-syntax">):</span>
 <span class="plain-syntax">    (- </span><span class="identifier-syntax">REAL_NUMBER_TY_Sinh</span><span class="plain-syntax">({</span><span class="identifier-syntax">R</span><span class="plain-syntax">}) -).</span>
 </pre>
-<p class="commentary">Here the definition itself compiles nothing: there is no Inter function at
-run-time to perform "hyperbolic sine". Instead, an invocation such as
-"hyperbolic sine of pi" results in Inter code being compiled which follows
-the pattern in the <span class="extract"><span class="extract-syntax">(-</span></span> and <span class="extract"><span class="extract-syntax">-)</span></span> markers. See <a href="../imperative-module/index.html" class="internal">imperative</a> for how this is done.
-</p>
-
-<p class="commentary">The second sort of definition is called "inline", because an invocation of it
-results in code being compiled inline &mdash; i.e., within the current function,
+<div class="lsmarkdown">
+<p>Here the definition itself compiles nothing: there is no Inter function at
+run-time to perform &quot;hyperbolic sine&quot;. Instead, an invocation such as
+&quot;hyperbolic sine of pi&quot; results in Inter code being compiled which follows
+the pattern in the <code>(-</code> and <code>-)</code> markers. See <a href="../imperative-module/index.html" class="internal">imperative</a> for how this is done.</p>
+<p>The second sort of definition is called &quot;inline&quot;, because an invocation of it
+results in code being compiled inline -- i.e., within the current function,
 rather than calling out to an another function. Inline definitions can do
-things which regular definitions can't. For example:
-</p>
-
+things which regular definitions can't. For example:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">To</span><span class="plain-syntax"> </span><span class="identifier-syntax">decide</span><span class="plain-syntax"> </span><span class="identifier-syntax">yes</span>
 <span class="plain-syntax">    (- </span><span class="identifier-syntax">rtrue</span><span class="plain-syntax">; -) - </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">to</span><span class="plain-syntax"> </span><span class="identifier-syntax">decide</span><span class="plain-syntax"> </span><span class="identifier-syntax">if</span><span class="plain-syntax"> </span><span class="identifier-syntax">only</span><span class="plain-syntax">.</span>
 </pre>
-<p class="commentary">Invoking this compiles to a single instruction, returning <span class="extract"><span class="extract-syntax">true</span></span> from the
+<div class="lsmarkdown">
+<p>Invoking this compiles to a single instruction, returning <code>true</code> from the
 current Inter function. But it would make no sense to do that if the function
 were required to return, say, an object. So this particular inline definition
-is marked "in to decide if only", meaning that it can only be used in the
-bodies of "To decide if..." phrases. This is the <span class="extract"><span class="extract-syntax">DECIDES_CONDITION_MOR</span></span>
-("manner of return").
-</p>
-
-<ul class="footnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> Or perhaps to more than one, if the kinds are given indefinitely, so
-that the definition is a prototype rather than a specific function.
-<a href="#fnref:1" title="return to text"> &#x21A9;</a></p></li></ul>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>The following Preform detects an inline body. Note that the lexer takes
-text like <span class="extract"><span class="extract-syntax">(- rtrue; -)</span></span> and converts it into just two words, the marker
-<span class="extract"><span class="extract-syntax">(-</span></span> and then the inline matter all as a single word: here, <span class="extract"><span class="extract-syntax">rtrue; </span></span>.
-</p>
-
-<pre class="displayed-code all-displayed-code code-font">
-<span class="function-syntax">&lt;inline-phrase-definition&gt;</span>
-<span class="plain-syntax">    (- ### - </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">to</span><span class="plain-syntax"> </span><span class="identifier-syntax">only</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    (- ### - </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">to</span><span class="plain-syntax"> </span><span class="identifier-syntax">decide</span><span class="plain-syntax"> </span><span class="reserved-syntax">if</span><span class="plain-syntax"> </span><span class="identifier-syntax">only</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    (- ### - </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">to</span><span class="plain-syntax"> </span><span class="identifier-syntax">decide</span><span class="plain-syntax"> </span><span class="identifier-syntax">only</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    (- ### |</span>
-<span class="plain-syntax">    (- ### ...</span>
+is marked &quot;in to decide if only&quot;, meaning that it can only be used in the
+bodies of &quot;To decide if...&quot; phrases. This is the <code>DECIDES_CONDITION_MOR</code>
+(&quot;manner of return&quot;).</p>
+<ul class="inwebfootnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>
+Or perhaps to more than one, if the kinds are given indefinitely, so
+that the definition is a prototype rather than a specific function.<a href="#fnref:1" title="return to text"> &#x21A9;</a></p>
+</li></ul>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>  The following Preform detects an inline body. Note that the lexer takes
+text like <code>(- rtrue; -)</code> and converts it into just two words, the marker
+<code>(-</code> and then the inline matter all as a single word: here, <code>rtrue; </code>.</p>
+</div>
+<pre class="Preform-displayed-code all-displayed-code code-font">
+<span class="Preform-function-syntax">&lt;inline-phrase-definition&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">(-</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">###</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">-</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">in</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">to</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">only</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">            </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { DECIDES_NOTHING_MOR, - }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">(-</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">###</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">-</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">in</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">to</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">decide</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">if</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">only</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">  </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { DECIDES_CONDITION_MOR, - }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">(-</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">###</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">-</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">in</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">to</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">decide</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">only</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">     </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { DECIDES_VALUE_MOR, - }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">(-</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">###</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">                         </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { DONT_KNOW_MOR, - }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">(-</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">###</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">...</span><span class="Preform-plain-syntax">                       </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="5-id.html#SP8_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Issue PM_TailAfterInline problem</span></span><span class="named-paragraph-number">8.1</span></a></span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP8_1" class="paragraph-anchor"></a><b>&#167;8.1. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Issue PM_TailAfterInline problem</span><span class="named-paragraph-number">8.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
+<p class="commentary firstcommentary"><a id="SP8_1" class="paragraph-anchor"></a><b>&#167;8.1. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Issue PM_TailAfterInline problem</span><span class="named-paragraph-number">8.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">StandardProblems::sentence_problem</span><span class="plain-syntax">(</span><span class="identifier-syntax">Task::syntax_tree</span><span class="plain-syntax">(), </span><span class="identifier-syntax">_p_</span><span class="plain-syntax">(</span><span class="identifier-syntax">PM_TailAfterInline</span><span class="plain-syntax">),</span>
@@ -340,12 +327,12 @@ text like <span class="extract"><span class="extract-syntax">(- rtrue; -)</span>
 <span class="plain-syntax">    ==&gt; { </span><span class="identifier-syntax">fail</span><span class="plain-syntax"> </span><span class="identifier-syntax">nonterminal</span><span class="plain-syntax"> };</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-id.html#SP8">&#167;8</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b></p>
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">ImperativeDefinitions::detect_inline</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">ImperativeDefinitions::detect_inline</span></span>:<br/><a href="5-id.html#SP4_1">&#167;4.1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">imperative_defn</span><span class="plain-syntax"> *</span><span class="identifier-syntax">id</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">ImperativeDefinitions::detect_inline</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">ImperativeDefinitions::detect_inline</span></span>:<br/><a href="5-id.html#SP4_1">&#167;4.1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">imperative_defn</span><span class="plain-syntax"> *</span><span class="identifier-syntax">id</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">p</span><span class="plain-syntax"> = </span><span class="identifier-syntax">id</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">at</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">inline_wn</span><span class="plain-syntax"> = -1, </span><span class="identifier-syntax">mor</span><span class="plain-syntax"> = </span><span class="constant-syntax">DONT_KNOW_MOR</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">inline_wn</span><span class="plain-syntax"> = </span><span class="constant-syntax">-1</span><span class="plain-syntax">, </span><span class="identifier-syntax">mor</span><span class="plain-syntax"> = </span><span class="constant-syntax">DONT_KNOW_MOR</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">p</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">down</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">p</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">down</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">down</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">p</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">down</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">down</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) &amp;&amp;</span>
 <span class="plain-syntax">        (</span><span class="function-syntax">&lt;inline-phrase-definition&gt;(Node::get_text(p-&gt;down-&gt;</span><span class="identifier-syntax">down</span><span class="plain-syntax">)))) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">inline_wn</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Wordings::first_wn</span><span class="plain-syntax">(</span><span class="identifier-syntax">GET_RW</span><span class="plain-syntax">(</span><span class="function-syntax">&lt;inline-phrase-definition&gt;</span><span class="plain-syntax">, </span><span class="constant-syntax">1</span><span class="plain-syntax">));</span>
@@ -353,17 +340,16 @@ text like <span class="extract"><span class="extract-syntax">(- rtrue; -)</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inline_wn</span><span class="plain-syntax"> &gt;= </span><span class="constant-syntax">0</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Wide::len</span><span class="plain-syntax">(</span><span class="identifier-syntax">Lexer::word_text</span><span class="plain-syntax">(</span><span class="identifier-syntax">inline_wn</span><span class="plain-syntax">)) &gt;= </span><span class="constant-syntax">MAX_INLINE_DEFN_LENGTH</span><span class="plain-syntax">)</span>
-<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="5-id.html#SP9_2" class="named-paragraph-link"><span class="named-paragraph">Forbid overly long inline definitions</span><span class="named-paragraph-number">9.2</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="5-id.html#SP9_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Forbid overly long inline definitions</span></span><span class="named-paragraph-number">9.2</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="5-idf.html#SP11" class="function-link"><span class="function-syntax">ImperativeDefinitionFamilies::allows_inline</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">id</span><span class="plain-syntax">) == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">)</span>
-<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="5-id.html#SP9_1" class="named-paragraph-link"><span class="named-paragraph">Inline is for To... phrases only</span><span class="named-paragraph-number">9.1</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">id_body</span><span class="plain-syntax"> *</span><span class="identifier-syntax">idb</span><span class="plain-syntax"> = </span><span class="identifier-syntax">id</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">body_of_defn</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="5-id.html#SP9_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Inline is for To... phrases only</span></span><span class="named-paragraph-number">9.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">id_body</span><span class="plain-syntax"> *</span><span class="identifier-syntax">idb</span><span class="plain-syntax"> = </span><span class="identifier-syntax">id</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">body_of_defn</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><a href="5-ptd.html#SP23" class="function-link"><span class="function-syntax">IDTypeData::make_inline</span></a><span class="plain-syntax">(&amp;(</span><span class="identifier-syntax">idb</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">type_data</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">CompileImperativeDefn::make_inline</span><span class="plain-syntax">(</span><span class="identifier-syntax">idb</span><span class="plain-syntax">, </span><span class="identifier-syntax">inline_wn</span><span class="plain-syntax">, </span><span class="identifier-syntax">mor</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP9_1" class="paragraph-anchor"></a><b>&#167;9.1. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Inline is for To... phrases only</span><span class="named-paragraph-number">9.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP9_1" class="paragraph-anchor"></a><b>&#167;9.1. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Inline is for To... phrases only</span><span class="named-paragraph-number">9.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">StandardProblems::sentence_problem</span><span class="plain-syntax">(</span><span class="identifier-syntax">Task::syntax_tree</span><span class="plain-syntax">(), </span><span class="identifier-syntax">_p_</span><span class="plain-syntax">(</span><span class="identifier-syntax">PM_InlineRule</span><span class="plain-syntax">),</span>
@@ -371,16 +357,15 @@ text like <span class="extract"><span class="extract-syntax">(- rtrue; -)</span>
 <span class="plain-syntax">        </span><span class="string-syntax">"and in particular rules and adjective definitions can't."</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-id.html#SP9">&#167;9</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP9_2" class="paragraph-anchor"></a><b>&#167;9.2. </b>It is not clear that this restriction is needed any longer &mdash; the compiler
-works fine if it is removed &mdash; but it keeps us on the side of sanity. Long
-inline definitions would be very inefficient &mdash; those should use code in an
-Inter kit instead.
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">MAX_INLINE_DEFN_LENGTH</span><span class="plain-syntax"> </span><span class="constant-syntax">1024</span>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9_2" class="paragraph-anchor"></a><b>&#167;9.2. </b>  It is not clear that this restriction is needed any longer -- the compiler
+works fine if it is removed -- but it keeps us on the side of sanity. Long
+inline definitions would be very inefficient -- those should use code in an
+Inter kit instead.</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">1024</span>
 </pre>
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Forbid overly long inline definitions</span><span class="named-paragraph-number">9.2</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Forbid overly long inline definitions</span><span class="named-paragraph-number">9.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">StandardProblems::sentence_problem</span><span class="plain-syntax">(</span><span class="identifier-syntax">Task::syntax_tree</span><span class="plain-syntax">(), </span><span class="identifier-syntax">_p_</span><span class="plain-syntax">(</span><span class="identifier-syntax">PM_InlineTooLong</span><span class="plain-syntax">),</span>
@@ -390,29 +375,29 @@ Inter kit instead.
 <span class="plain-syntax">        </span><span class="string-syntax">"which you define elsewhere with an 'Include ...'."</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-id.html#SP9">&#167;9</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b>That completes the process of creation. Here's how we log them:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b>  That completes the process of creation. Here's how we log them:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">ImperativeDefinitions::log_body</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">ImperativeDefinitions::log_body</span></span>:<br/>To Phrase Family - <a href="5-tpf.html#SP11">&#167;11</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">id_body</span><span class="plain-syntax"> *</span><span class="identifier-syntax">idb</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">ImperativeDefinitions::log_body</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">ImperativeDefinitions::log_body</span></span>:<br/>To Phrase Family - <a href="5-tpf.html#SP11">&#167;11</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">id_body</span><span class="plain-syntax"> *</span><span class="identifier-syntax">idb</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">idb</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) { </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"RULE:NULL"</span><span class="plain-syntax">); </span><span class="reserved-syntax">return</span><span class="plain-syntax">; }</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"%n"</span><span class="plain-syntax">, </span><span class="identifier-syntax">CompileImperativeDefn::iname</span><span class="plain-syntax">(</span><span class="identifier-syntax">idb</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">ImperativeDefinitions::log_body_fuller</span><span class="plain-syntax">(</span><span class="reserved-syntax">id_body</span><span class="plain-syntax"> *</span><span class="identifier-syntax">idb</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">ImperativeDefinitions::log_body_fuller</span><span class="plain-syntax">(</span><span class="identifier-syntax">id_body</span><span class="plain-syntax"> *</span><span class="identifier-syntax">idb</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><a href="5-ptd.html#SP27" class="function-link"><span class="function-syntax">IDTypeData::log_briefly</span></a><span class="plain-syntax">(&amp;(</span><span class="identifier-syntax">idb</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">type_data</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">ImperativeDefinitions::write_HTML_representation</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">ImperativeDefinitions::write_HTML_representation</span></span>:<br/>To Phrase Family - <a href="5-tpf.html#SP8">&#167;8</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="reserved-syntax">id_body</span><span class="plain-syntax"> *</span><span class="identifier-syntax">idb</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">format</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">ImperativeDefinitions::write_HTML_representation</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">ImperativeDefinitions::write_HTML_representation</span></span>:<br/>To Phrase Family - <a href="5-tpf.html#SP8">&#167;8</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="identifier-syntax">id_body</span><span class="plain-syntax"> *</span><span class="identifier-syntax">idb</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">format</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><a href="5-ptd.html#SP28" class="function-link"><span class="function-syntax">IDTypeData::write_HTML_representation</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">OUT</span><span class="plain-syntax">, &amp;(</span><span class="identifier-syntax">idb</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">type_data</span><span class="plain-syntax">), </span><span class="identifier-syntax">format</span><span class="plain-syntax">, </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="function-syntax">ImperativeDefinitions::header_at</span><span class="plain-syntax">(</span><span class="reserved-syntax">imperative_defn</span><span class="plain-syntax"> *</span><span class="identifier-syntax">id</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="function-syntax">ImperativeDefinitions::header_at</span><span class="plain-syntax">(</span><span class="identifier-syntax">imperative_defn</span><span class="plain-syntax"> *</span><span class="identifier-syntax">id</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">id</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">id</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">at</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="function-syntax">ImperativeDefinitions::body_at</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">ImperativeDefinitions::body_at</span></span>:<br/>To Phrase Family - <a href="5-tpf.html#SP6_1">&#167;6.1</a>, <a href="5-tpf.html#SP8">&#167;8</a>, <a href="5-tpf.html#SP10_2">&#167;10.2</a>, <a href="5-tpf.html#SP10_3">&#167;10.3</a><br/>Phrase Type Data - <a href="5-ptd.html#SP29">&#167;29</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">id_body</span><span class="plain-syntax"> *</span><span class="identifier-syntax">idb</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="function-syntax">ImperativeDefinitions::body_at</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">ImperativeDefinitions::body_at</span></span>:<br/>To Phrase Family - <a href="5-tpf.html#SP6_1">&#167;6.1</a>, <a href="5-tpf.html#SP8">&#167;8</a>, <a href="5-tpf.html#SP10_2">&#167;10.2</a>, <a href="5-tpf.html#SP10_3">&#167;10.3</a><br/>Phrase Type Data - <a href="5-ptd.html#SP29">&#167;29</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">id_body</span><span class="plain-syntax"> *</span><span class="identifier-syntax">idb</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">idb</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">head_of_defn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">at</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>

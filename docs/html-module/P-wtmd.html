@@ -12,6 +12,11 @@
 <link href="../docs-assets/Navigation.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Fonts.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -48,89 +53,77 @@
 
 <ul class="toc"><li><a href="P-wtmd.html#SP1">&#167;1. Prerequisites</a></li><li><a href="P-wtmd.html#SP2">&#167;2. Purpose</a></li><li><a href="P-wtmd.html#SP3">&#167;3. Custom HTML link protocols</a></li><li><a href="P-wtmd.html#SP5">&#167;5. Localisation</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Prerequisites.</b>The html module is a part of the Inform compiler toolset. It is
-presented as a literate program or "web". Before diving in:
-</p>
-
-<ul class="items"><li>(a) It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.
-</li><li>(b) The module is written in C, in fact ANSI C99, but this is disguised by the
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Prerequisites.</b>  The html module is a part of the Inform compiler toolset. It is
+presented as a literate program or &quot;web&quot;. Before diving in:
+(a) It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.
+(b) The module is written in C, in fact ANSI C99, but this is disguised by the
 fact that it uses some extension syntaxes provided by the <a href="../inweb/index.html" class="internal">inweb</a> literate
 programming tool, making it a dialect of C called InC. See <a href="../inweb/index.html" class="internal">inweb</a> for
 full details, but essentially: it's C without predeclarations or header files,
-and where functions have names like <span class="extract"><span class="extract-syntax">Tags::add_by_name</span></span> rather than <span class="extract"><span class="extract-syntax">add_by_name</span></span>.
-</li><li>(c) This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
+and where functions have names like <code>Tags::add_by_name</code> rather than <code>add_by_name</code>.
+(c) This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
 uses a module of utility functions called <a href="../foundation/index.html" class="internal">foundation</a>.
-For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.
-</li></ul>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Purpose.</b>Many functions of the Inform toolset involve the generation of HTML in some
+For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Purpose.</b>  Many functions of the Inform toolset involve the generation of HTML in some
 way, but almost all of that work is actually done by the <a href="../foundation/index.html" class="internal">foundation</a> module.
 If you're interested in how HTML pages are made, how tags are opened and closed,
 and such, see <a href="../foundation/5-htm.html" class="internal">HTML (in foundation)</a> and <a href="../foundation/5-ee.html" class="internal">Epub Ebooks (in foundation)</a>. All of that
-code is general-purpose.
-</p>
-
-<p class="commentary">By contrast, the <a href="index.html" class="internal">html</a> module is very much a part of the Inform compiler
+code is general-purpose.</p>
+<p>By contrast, the <a href="index.html" class="internal">html</a> module is very much a part of the Inform compiler
 and provides highly Inform-specific functions needed to make the intranet-like
-miniature websites it generates on the fly &mdash; problem pages, the Index, the
-extensions documentation. In particular, it offers:
-</p>
-
-<ul class="items"><li>(a) clickable links to positions in source text, opening the Source panel
-in the Inform GUI apps as needed &mdash; see <a href="2-sl.html#SP2" class="internal">SourceLinks::link</a>;
-</li><li>(b) paste buttons which, when clicked, insert text into the Source panel,
-or which open certain files or folders &mdash; see <a href="2-pb.html" class="internal">Paste Buttons</a>;
-</li></ul>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Custom HTML link protocols.</b>This seems a useful place to document something which the Inform GUI apps
+miniature websites it generates on the fly -- problem pages, the Index, the
+extensions documentation. In particular, it offers:</p>
+<p>(a) clickable links to positions in source text, opening the Source panel
+in the Inform GUI apps as needed -- see <a href="2-sl.html#SP2" class="internal">SourceLinks::link</a>;
+(b) paste buttons which, when clicked, insert text into the Source panel,
+or which open certain files or folders -- see <a href="2-pb.html" class="internal">Paste Buttons</a>;</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Custom HTML link protocols.</b>  This seems a useful place to document something which the Inform GUI apps
 must provide. These render index, problem and extension mini-website pages
 in embedded web browser views: for example, Inform on MacOS is essentially
 running a copy of Safari (or rather, its underlying engine WebKit) under
 the hood to display these. The material displayed consists of standard web
-pages, except that there are two custom "transport protocols" or "URL schemas".
-</p>
-
-<p class="commentary">Protocols like this go under a number of names, partly because there are many
+pages, except that there are two custom &quot;transport protocols&quot; or &quot;URL schemas&quot;.</p>
+<p>Protocols like this go under a number of names, partly because there are many
 subtly different ideas here which only experts can distinguish (see
 <a href="https://en.wikipedia.org/wiki/Application_layer" class="external">https://en.wikipedia.org/wiki/Application_layer</a> for the entrance to the
 rabbit-hole). To us, anyway, protocols are the prefixes of URLs which end
-with a colon &mdash; all browsers recognise a standard set of these, of which <span class="extract"><span class="extract-syntax">http:</span></span>
-<span class="extract"><span class="extract-syntax">https:</span></span> and <span class="extract"><span class="extract-syntax">file:</span></span> are by far the most commonly used.
-</p>
-
-<p class="commentary">Inform uses two non-standard ones in these internal pages, and so the GUI app
+with a colon -- all browsers recognise a standard set of these, of which <code>http:</code>
+<code>https:</code> and <code>file:</code> are by far the most commonly used.</p>
+<p>Inform uses two non-standard ones in these internal pages, and so the GUI app
 must implement them for its embedded web engine:
-</p>
-
-<ul class="items"><li>(a) <span class="extract"><span class="extract-syntax">source:</span></span> is used in link <span class="extract"><span class="extract-syntax">href</span></span>s to make source text references &mdash; see <a href="2-sl.html" class="internal">Source Links</a>;
-</li><li>(b) <span class="extract"><span class="extract-syntax">inform:</span></span> is used both for links to internal or external pages generated
-by Inform, and also for image <span class="extract"><span class="extract-syntax">src</span></span>s. It behaves just like <span class="extract"><span class="extract-syntax">http:</span></span>, except
-that it derives the location of a file from the given URL in a different way.
-</li></ul>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>The reason <span class="extract"><span class="extract-syntax">inform:</span></span> is needed is that HTML files generated by Inform have
+(a) <code>source:</code> is used in link <code>href</code>s to make source text references -- see <a href="2-sl.html" class="internal">Source Links</a>;
+(b) <code>inform:</code> is used both for links to internal or external pages generated
+by Inform, and also for image <code>src</code>s. It behaves just like <code>http:</code>, except
+that it derives the location of a file from the given URL in a different way.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  The reason <code>inform:</code> is needed is that HTML files generated by Inform have
 no way to know the relative URLs necessary to access e.g. icon images for
 the World index, which will be in different places in the file system on
-different Inform apps. More formally, the specification of <span class="extract"><span class="extract-syntax">inform:</span></span> is that &mdash;
-</p>
-
-<ul class="items"><li>(a) <span class="extract"><span class="extract-syntax">inform://...</span></span> is interpreted as a reference to one of the built-in images,
+different Inform apps. More formally, the specification of <code>inform:</code> is that --</p>
+<p>(a) <code>inform://...</code> is interpreted as a reference to one of the built-in images,
 i.e., to wherever the app has internally stashed the Inform distribution's
-directory <span class="extract"><span class="extract-syntax">resources/Imagery</span></span>. Barring errors in Inform, or in the app, this
-should never 404.
-</li><li>(b) For any path <span class="extract"><span class="extract-syntax">*</span></span>, <span class="extract"><span class="extract-syntax">inform://Extensions/*</span></span> should be fetched as <span class="extract"><span class="extract-syntax">*</span></span> in the
-external resources area &mdash; that is, the place to which the app is installing
+directory <code>resources/Imagery</code>. Barring errors in Inform, or in the app, this
+should never 404.</p>
+<p>(b) For any path <code>*</code>, <code>inform://Extensions/*</code> should be fetched as <code>*</code> in the
+external resources area -- that is, the place to which the app is installing
 new extensions. If no file was found, the link should simply do nothing:
 the application is required not to produce a 404 error page, or to
-blank out the page currently showing.
-</li></ul>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Localisation.</b>This module also contains a very simple system for "localisation" of text,
+blank out the page currently showing.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Localisation.</b>  This module also contains a very simple system for &quot;localisation&quot; of text,
 that is, enabling the user to output text in multiple human languages. (Inform
 makes heavy use of this in the Index.) This may not appear at first to have
 anything to do with HTML, but in fact we will mainly use it when generating
-web pages in the Index, so it has some conveniences for stylistic markup as well.
-</p>
-
-<p class="commentary">See <a href="2-lcl.html" class="internal">Localisation</a> for details.
-</p>
-
+web pages in the Index, so it has some conveniences for stylistic markup as well.</p>
+<p>See <a href="2-lcl.html" class="internal">Localisation</a> for details.</p>
+</div>
 <nav role="progress"><div class="progresscontainer">
     <ul class="progressbar"><li class="progressprevoff">&#10094;</li><li class="progresscurrentchapter">P</li><li class="progresscurrent">wtmd</li><li class="progresssection"><a href="P-htitm.html">htitm</a></li><li class="progresschapter"><a href="1-hm.html">1</a></li><li class="progresschapter"><a href="2-ip.html">2</a></li><li class="progressnext"><a href="P-htitm.html">&#10095;</a></li></ul></div>
 </nav><!-- End of weave -->

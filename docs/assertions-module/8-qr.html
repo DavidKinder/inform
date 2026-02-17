@@ -14,17 +14,22 @@
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <script>
 MathJax = {
-	tex: {
-		inlineMath: '$', '$'], ['\\(', '\\)'
+    options: {
+    	skipHtmlTags: {'[-]': ['pre']},
+    	processHtmlClass: 'mathjax_process'
+    },
+	loader: {load: ['[tex]/texhtml']},
+  	tex: {
+		inlineMath: [ ['\\INWEBMATH(', '\\INWEBMATH)'] ],
+    	packages: {'[+]': ['texhtml']},
+    	allowTexHTML: true
 	},
 	svg: {
 		fontCache: 'global'
 	}
 };
 </script>
-<script type="text/javascript" id="MathJax-script" async
-	src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
-</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-svg.js"></script>
 
 <script>
 function togglePopup(material_id) {
@@ -34,6 +39,11 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -70,33 +80,29 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="8-qr.html#SP2">&#167;2. Family</a></li><li><a href="8-qr.html#SP3">&#167;3. Initial stock</a></li><li><a href="8-qr.html#SP4">&#167;4. Typechecking</a></li><li><a href="8-qr.html#SP5">&#167;5. Assertion</a></li><li><a href="8-qr.html#SP6">&#167;6. Compilation</a></li><li><a href="8-qr.html#SP7">&#167;7. Problem message text</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>The inequality relations \(&lt;\), \(&gt;\), \(\leq\), and \(\geq\), which can be
-applied not only to numbers but also to units (height, length and so on).
-</p>
-
-<p class="commentary">It might seem redundant to define both <span class="extract"><span class="extract-syntax">R_numerically_greater_than</span></span> (which makes the
-numerical test \(a&gt;b\)) and also <span class="extract"><span class="extract-syntax">R_numerically_less_than</span></span> (which tests \(a&lt;b\)). Why
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  The inequality relations \INWEBMATH(&lt;\INWEBMATH), \INWEBMATH(&gt;\INWEBMATH), \INWEBMATH(\leq\INWEBMATH), and \INWEBMATH(\geq\INWEBMATH), which can be
+applied not only to numbers but also to units (height, length and so on).</p>
+<p>It might seem redundant to define both <code>R_numerically_greater_than</code> (which makes the
+numerical test \INWEBMATH(a&gt;b\INWEBMATH)) and also <code>R_numerically_less_than</code> (which tests \INWEBMATH(a&lt;b\INWEBMATH)). Why
 not define only one, and get the other meaning free as its reversal? The
 answer is that is more convenient not to, because it allows us to give both
-of them names.
-</p>
-
-<p class="commentary">There is no numerical equality relation \(=\) as such: numbers use the same
-equality BP as everything else.
-</p>
-
+of them names.</p>
+<p>There is no numerical equality relation \INWEBMATH(=\INWEBMATH) as such: numbers use the same
+equality BP as everything else.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">binary_predicate</span><span class="plain-syntax"> *</span><span class="identifier-syntax">R_numerically_greater_than</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">binary_predicate</span><span class="plain-syntax"> *</span><span class="identifier-syntax">R_numerically_less_than</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">binary_predicate</span><span class="plain-syntax"> *</span><span class="identifier-syntax">R_numerically_greater_than_or_equal_to</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">binary_predicate</span><span class="plain-syntax"> *</span><span class="identifier-syntax">R_numerically_less_than_or_equal_to</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Family.</b></p>
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Family.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">bp_family</span><span class="plain-syntax"> *</span><span class="identifier-syntax">quasinumeric_bp_family</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Calculus::QuasinumericRelations::start</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">Calculus::QuasinumericRelations::start</span></span>:<br/>Assertions Module - <a href="1-am.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Calculus::QuasinumericRelations::start</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">Calculus::QuasinumericRelations::start</span></span>:<br/>Assertions Module - <a href="1-am.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">quasinumeric_bp_family</span><span class="plain-syntax"> = </span><span class="identifier-syntax">BinaryPredicateFamilies::new</span><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">METHOD_ADD</span><span class="plain-syntax">(</span><span class="identifier-syntax">quasinumeric_bp_family</span><span class="plain-syntax">, </span><span class="identifier-syntax">STOCK_BPF_MTID</span><span class="plain-syntax">, </span><a href="8-qr.html#SP3" class="function-link"><span class="function-syntax">Calculus::QuasinumericRelations::stock</span></a><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">METHOD_ADD</span><span class="plain-syntax">(</span><span class="identifier-syntax">quasinumeric_bp_family</span><span class="plain-syntax">, </span><span class="identifier-syntax">TYPECHECK_BPF_MTID</span><span class="plain-syntax">, </span><a href="8-qr.html#SP4" class="function-link"><span class="function-syntax">Calculus::QuasinumericRelations::typecheck</span></a><span class="plain-syntax">);</span>
@@ -106,11 +112,11 @@ equality BP as everything else.
 <span class="plain-syntax">    </span><span class="identifier-syntax">METHOD_ADD</span><span class="plain-syntax">(</span><span class="identifier-syntax">quasinumeric_bp_family</span><span class="plain-syntax">, </span><span class="identifier-syntax">DESCRIBE_FOR_INDEX_BPF_MTID</span><span class="plain-syntax">, </span><a href="8-qr.html#SP7" class="function-link"><span class="function-syntax">Calculus::QuasinumericRelations::describe_for_index</span></a><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Initial stock.</b>These relations are all hard-wired in.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Initial stock.</b>  These relations are all hard-wired in.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Calculus::QuasinumericRelations::stock</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">Calculus::QuasinumericRelations::stock</span></span>:<br/><a href="8-qr.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">bp_family</span><span class="plain-syntax"> *</span><span class="identifier-syntax">self</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">n</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Calculus::QuasinumericRelations::stock</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">Calculus::QuasinumericRelations::stock</span></span>:<br/><a href="8-qr.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">bp_family</span><span class="plain-syntax"> *</span><span class="identifier-syntax">self</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">n</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">n</span><span class="plain-syntax"> == </span><span class="constant-syntax">1</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">bp_term_details</span><span class="plain-syntax"> </span><span class="identifier-syntax">number_term</span><span class="plain-syntax"> = </span><span class="identifier-syntax">BPTerms::new</span><span class="plain-syntax">(</span><span class="identifier-syntax">KindSubjects::from_kind</span><span class="plain-syntax">(</span><span class="identifier-syntax">K_number</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">R_numerically_greater_than</span><span class="plain-syntax"> =</span>
@@ -144,10 +150,10 @@ equality BP as everything else.
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Typechecking.</b></p>
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Typechecking.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Calculus::QuasinumericRelations::typecheck</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">Calculus::QuasinumericRelations::typecheck</span></span>:<br/><a href="8-qr.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">bp_family</span><span class="plain-syntax"> *</span><span class="identifier-syntax">self</span><span class="plain-syntax">, </span><span class="identifier-syntax">binary_predicate</span><span class="plain-syntax"> *</span><span class="identifier-syntax">bp</span><span class="plain-syntax">,</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Calculus::QuasinumericRelations::typecheck</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">Calculus::QuasinumericRelations::typecheck</span></span>:<br/><a href="8-qr.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">bp_family</span><span class="plain-syntax"> *</span><span class="identifier-syntax">self</span><span class="plain-syntax">, </span><span class="identifier-syntax">binary_predicate</span><span class="plain-syntax"> *</span><span class="identifier-syntax">bp</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> **</span><span class="identifier-syntax">kinds_of_terms</span><span class="plain-syntax">, </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> **</span><span class="identifier-syntax">kinds_required</span><span class="plain-syntax">, </span><span class="identifier-syntax">tc_problem_kit</span><span class="plain-syntax"> *</span><span class="identifier-syntax">tck</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">Kinds::compatible</span><span class="plain-syntax">(</span><span class="identifier-syntax">kinds_of_terms</span><span class="plain-syntax">[0], </span><span class="identifier-syntax">kinds_of_terms</span><span class="plain-syntax">[1]) == </span><span class="identifier-syntax">NEVER_MATCH</span><span class="plain-syntax">) &amp;&amp;</span>
 <span class="plain-syntax">        (</span><span class="identifier-syntax">Kinds::compatible</span><span class="plain-syntax">(</span><span class="identifier-syntax">kinds_of_terms</span><span class="plain-syntax">[1], </span><span class="identifier-syntax">kinds_of_terms</span><span class="plain-syntax">[0]) == </span><span class="identifier-syntax">NEVER_MATCH</span><span class="plain-syntax">)) {</span>
@@ -163,23 +169,23 @@ equality BP as everything else.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">ALWAYS_MATCH</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Assertion.</b>These relations cannot be asserted.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Assertion.</b>  These relations cannot be asserted.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Calculus::QuasinumericRelations::assert</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">Calculus::QuasinumericRelations::assert</span></span>:<br/><a href="8-qr.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">bp_family</span><span class="plain-syntax"> *</span><span class="identifier-syntax">self</span><span class="plain-syntax">, </span><span class="identifier-syntax">binary_predicate</span><span class="plain-syntax"> *</span><span class="identifier-syntax">bp</span><span class="plain-syntax">,</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Calculus::QuasinumericRelations::assert</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">Calculus::QuasinumericRelations::assert</span></span>:<br/><a href="8-qr.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">bp_family</span><span class="plain-syntax"> *</span><span class="identifier-syntax">self</span><span class="plain-syntax">, </span><span class="identifier-syntax">binary_predicate</span><span class="plain-syntax"> *</span><span class="identifier-syntax">bp</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">infs0</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">spec0</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">infs1</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">spec1</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Compilation.</b>For integer arithmetic, we need do nothing special: these relations can be
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Compilation.</b>  For integer arithmetic, we need do nothing special: these relations can be
 compiled from their schemas. But real numbers have to be handled by a function
-call in I6.
-</p>
-
+call in I6.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Calculus::QuasinumericRelations::schema</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">Calculus::QuasinumericRelations::schema</span></span>:<br/><a href="8-qr.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">bp_family</span><span class="plain-syntax"> *</span><span class="identifier-syntax">self</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">task</span><span class="plain-syntax">, </span><span class="identifier-syntax">binary_predicate</span><span class="plain-syntax"> *</span><span class="identifier-syntax">bp</span><span class="plain-syntax">, </span><span class="identifier-syntax">annotated_i6_schema</span><span class="plain-syntax"> *</span><span class="identifier-syntax">asch</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Calculus::QuasinumericRelations::schema</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">Calculus::QuasinumericRelations::schema</span></span>:<br/><a href="8-qr.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">bp_family</span><span class="plain-syntax"> *</span><span class="identifier-syntax">self</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">task</span><span class="plain-syntax">, </span><span class="identifier-syntax">binary_predicate</span><span class="plain-syntax"> *</span><span class="identifier-syntax">bp</span><span class="plain-syntax">, </span><span class="identifier-syntax">annotated_i6_schema</span><span class="plain-syntax"> *</span><span class="identifier-syntax">asch</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">st</span><span class="plain-syntax">[2];</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">st</span><span class="plain-syntax">[0] = </span><span class="identifier-syntax">Cinders::kind_of_term</span><span class="plain-syntax">(</span><span class="identifier-syntax">asch</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">pt0</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">st</span><span class="plain-syntax">[1] = </span><span class="identifier-syntax">Cinders::kind_of_term</span><span class="plain-syntax">(</span><span class="identifier-syntax">asch</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">pt1</span><span class="plain-syntax">);</span>
@@ -187,7 +193,7 @@ call in I6.
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">TEST_ATOM_TASK:</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">st</span><span class="plain-syntax">[0]) &amp;&amp; (</span><span class="identifier-syntax">st</span><span class="plain-syntax">[1])) {</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cr</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">                </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">promote_left</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">, </span><span class="identifier-syntax">promote_right</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">                </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">promote_left</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">, </span><span class="identifier-syntax">promote_right</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">                </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">Kinds::FloatingPoint::uses_floating_point</span><span class="plain-syntax">(</span><span class="identifier-syntax">st</span><span class="plain-syntax">[0])) ||</span>
 <span class="plain-syntax">                    (</span><span class="identifier-syntax">Kinds::FloatingPoint::uses_floating_point</span><span class="plain-syntax">(</span><span class="identifier-syntax">st</span><span class="plain-syntax">[1]))) {</span>
 <span class="plain-syntax">                    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Kinds::FloatingPoint::uses_floating_point</span><span class="plain-syntax">(</span><span class="identifier-syntax">st</span><span class="plain-syntax">[0]) == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">)</span>
@@ -236,13 +242,13 @@ call in I6.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Problem message text.</b></p>
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Problem message text.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Calculus::QuasinumericRelations::describe_for_problems</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">Calculus::QuasinumericRelations::describe_for_problems</span></span>:<br/><a href="8-qr.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">bp_family</span><span class="plain-syntax"> *</span><span class="identifier-syntax">self</span><span class="plain-syntax">, </span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="identifier-syntax">binary_predicate</span><span class="plain-syntax"> *</span><span class="identifier-syntax">bp</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Calculus::QuasinumericRelations::describe_for_problems</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">Calculus::QuasinumericRelations::describe_for_problems</span></span>:<br/><a href="8-qr.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">bp_family</span><span class="plain-syntax"> *</span><span class="identifier-syntax">self</span><span class="plain-syntax">, </span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="identifier-syntax">binary_predicate</span><span class="plain-syntax"> *</span><span class="identifier-syntax">bp</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Calculus::QuasinumericRelations::describe_for_index</span><button class="popup" onclick="togglePopup('usagePopup7')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup7">Usage of <span class="code-font"><span class="function-syntax">Calculus::QuasinumericRelations::describe_for_index</span></span>:<br/><a href="8-qr.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">bp_family</span><span class="plain-syntax"> *</span><span class="identifier-syntax">self</span><span class="plain-syntax">, </span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="identifier-syntax">binary_predicate</span><span class="plain-syntax"> *</span><span class="identifier-syntax">bp</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Calculus::QuasinumericRelations::describe_for_index</span><button class="popup" onclick="togglePopup('usagePopup7')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup7">Usage of <span class="code-font"><span class="function-syntax">Calculus::QuasinumericRelations::describe_for_index</span></span>:<br/><a href="8-qr.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">bp_family</span><span class="plain-syntax"> *</span><span class="identifier-syntax">self</span><span class="plain-syntax">, </span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="identifier-syntax">binary_predicate</span><span class="plain-syntax"> *</span><span class="identifier-syntax">bp</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"numeric"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>

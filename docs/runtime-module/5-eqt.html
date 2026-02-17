@@ -12,6 +12,11 @@
 <link href="../docs-assets/Navigation.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Fonts.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -46,24 +51,22 @@
     <ul class="crumbs"><li><a href="../index.html">Home</a></li><li><a href="../inform7n.html">Inform7</a></li><li><a href="index.html">runtime</a></li><li><a href="index.html#5">Chapter 5: Provision Submodules</a></li><li><b>Equations</b></li></ul></div>
 <p class="purpose">To compile the equations submodule for a compilation unit, which contains _equation packages.</p>
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>Each equation has a distinct runtime identifier, which in fact is a stub
-function returning <span class="extract"><span class="extract-syntax">false</span></span>; but because these functions are all different,
-they provide values different from each other and from all other functions.
-</p>
-
-<p class="commentary">There is otherwise nothing to see except metadata used in indexing. Equations
-are solved using inline code, not here; see <a href="../imperative-module/5-cste.html" class="internal">Compile Solutions to Equations (in imperative)</a>.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  Each equation has a distinct runtime identifier, which in fact is a stub
+function returning <code>false</code>; but because these functions are all different,
+they provide values different from each other and from all other functions.</p>
+<p>There is otherwise nothing to see except metadata used in indexing. Equations
+are solved using inline code, not here; see <a href="../imperative-module/5-cste.html" class="internal">Compile Solutions to Equations (in imperative)</a>.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">equation_compilation_data</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">eqn_created_at</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">package_request</span><span class="plain-syntax"> *</span><span class="identifier-syntax">eqn_package</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">eqn_iname</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">equation_compilation_data</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">equation_compilation_data</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">eqn_created_at</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">package_request</span><span class="plain-syntax"> *</span><span class="identifier-syntax">eqn_package</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">eqn_iname</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">equation_compilation_data</span><span class="plain-syntax">;</span>
 
-<span class="reserved-syntax">equation_compilation_data</span><span class="plain-syntax"> </span><span class="function-syntax">RTEquations::new_compilation_data</span><span class="plain-syntax">(</span><span class="identifier-syntax">equation</span><span class="plain-syntax"> *</span><span class="identifier-syntax">eqn</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">equation_compilation_data</span><span class="plain-syntax"> </span><span class="identifier-syntax">ecd</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">equation_compilation_data</span><span class="plain-syntax"> </span><span class="function-syntax">RTEquations::new_compilation_data</span><span class="plain-syntax">(</span><span class="identifier-syntax">equation</span><span class="plain-syntax"> *</span><span class="identifier-syntax">eqn</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">equation_compilation_data</span><span class="plain-syntax"> </span><span class="identifier-syntax">ecd</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">ecd</span><span class="plain-syntax">.</span><span class="element-syntax">eqn_created_at</span><span class="plain-syntax"> = </span><span class="identifier-syntax">current_sentence</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">ecd</span><span class="plain-syntax">.</span><span class="element-syntax">eqn_package</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">ecd</span><span class="plain-syntax">.</span><span class="element-syntax">eqn_iname</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
@@ -85,14 +88,14 @@ are solved using inline code, not here; see <a href="../imperative-module/5-cste
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">eqn</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">compilation_data</span><span class="plain-syntax">.</span><span class="element-syntax">eqn_iname</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">RTEquations::compile</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">RTEquations::compile</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">equation</span><span class="plain-syntax"> *</span><span class="identifier-syntax">eqn</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">eqn</span><span class="plain-syntax">, </span><span class="identifier-syntax">equation</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">packaging_state</span><span class="plain-syntax"> </span><span class="identifier-syntax">save</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Functions::begin</span><span class="plain-syntax">(</span><a href="5-eqt.html#SP1" class="function-link"><span class="function-syntax">RTEquations::identifier</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">eqn</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">        </span><a href="2-ec.html#SP15" class="function-link"><span class="function-syntax">EmitCode::rfalse</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">Functions::end</span><span class="plain-syntax">(</span><span class="identifier-syntax">save</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">package_request</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pack</span><span class="plain-syntax"> = </span><a href="5-eqt.html#SP1" class="function-link"><span class="function-syntax">RTEquations::package</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">eqn</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">mw</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Wordings::last_wn</span><span class="plain-syntax">(</span><span class="identifier-syntax">eqn</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">equation_no_text</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">mw</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Wordings::last_wn</span><span class="plain-syntax">(</span><span class="identifier-syntax">eqn</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">equation_no_text</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Wordings::last_wn</span><span class="plain-syntax">(</span><span class="identifier-syntax">eqn</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">equation_name_text</span><span class="plain-syntax">) &gt; </span><span class="identifier-syntax">mw</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">mw</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Wordings::last_wn</span><span class="plain-syntax">(</span><span class="identifier-syntax">eqn</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">equation_name_text</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">mw</span><span class="plain-syntax"> &gt;= </span><span class="constant-syntax">0</span><span class="plain-syntax">) {</span>

@@ -20,6 +20,11 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -56,51 +61,40 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="2-gpr.html#SP1">&#167;1. Introduction</a></li><li><a href="2-gpr.html#SP2">&#167;2. GPR kits</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Introduction.</b>At runtime, the command parser handles noun phrases in two ways. Simple
-nouns for an object are handled by giving it a <span class="extract"><span class="extract-syntax">name</span></span> property listing
-some dictionary words which could refer to it &mdash; see <a href="7-np.html" class="internal">Name Properties</a>.
-</p>
-
-<p class="commentary">More complex nouns are handled with Inter functions called "general parsing
-routines", or GPRs: the term is traditional and goes back to Inform 1 to 6.
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Introduction.</b>  At runtime, the command parser handles noun phrases in two ways. Simple
+nouns for an object are handled by giving it a <code>name</code> property listing
+some dictionary words which could refer to it -- see <a href="7-np.html" class="internal">Name Properties</a>.</p>
+<p>More complex nouns are handled with Inter functions called &quot;general parsing
+routines&quot;, or GPRs: the term is traditional and goes back to Inform 1 to 6.
 GPRs are used for parsing values of kinds other than objects, too; in
-particular, each notation for a literal value needs its own GPR &mdash; see
-<a href="5-lp.html" class="internal">Literal Patterns</a>.
-</p>
-
-<p class="commentary">The GPRs compiled automatically by today's Inform follow the same conventions
+particular, each notation for a literal value needs its own GPR -- see
+<a href="5-lp.html" class="internal">Literal Patterns</a>.</p>
+<p>The GPRs compiled automatically by today's Inform follow the same conventions
 and specification, so the tutorials in the Inform 6 manual, the DM4, may help
 tp explain what we do in this section of code. No tutorials are needed today
 because in Inform 7 all of the many GPRs in a typical story file are compiled
-automatically, so that the story's author is not really aware of them at all.
-</p>
-
-<p class="commentary">To compile a GPR, Inform has to:
-</p>
-
-<ul class="items"><li>&#9679; work out where to put it, i.e., choose an <span class="extract"><span class="extract-syntax">inter_name</span></span>;
-</li><li>&#9679; open a function body there;
-</li><li>&#9679; use a <a href="2-gpr.html#SP2" class="internal">gpr_kit</a> to give it local variables as needed;
-</li><li>&#9679; compile a "GPR head";
-</li><li>&#9679; compile code which actually looks at the stream of command words;
-</li><li>&#9679; compile a "GPR tail";
-</li><li>&#9679; and close the function body.
-</li></ul>
-<p class="commentary">The "head" and "tail" parts of a GPR come in several sorts, compiled by functions
-below, and they need to match each other.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. GPR kits.</b>Since GPRs are needed for several different purposes, we provide a general
-API for compiling them, based around the idea of a "GPR kit" &mdash; slogan, it's
-everything you need to compile your own GPR.
-</p>
-
-<p class="commentary">This is not an elegant structure. It mainly keeps track of the many local
-variables needed inside GPRs, which tend to be large, wrangly functions:
-</p>
-
+automatically, so that the story's author is not really aware of them at all.</p>
+<p>To compile a GPR, Inform has to:
+(*) work out where to put it, i.e., choose an <code>inter_name</code>;
+(<em>) open a function body there;
+(<em>) use a <a href="2-gpr.html#SP2" class="internal">gpr_kit</a> to give it local variables as needed;
+(</em>) compile a &quot;GPR head&quot;;
+(</em>) compile code which actually looks at the stream of command words;
+(<em>) compile a &quot;GPR tail&quot;;
+(</em>) and close the function body.</p>
+<p>The &quot;head&quot; and &quot;tail&quot; parts of a GPR come in several sorts, compiled by functions
+below, and they need to match each other.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. GPR kits.</b>  Since GPRs are needed for several different purposes, we provide a general
+API for compiling them, based around the idea of a &quot;GPR kit&quot; -- slogan, it's
+everything you need to compile your own GPR.</p>
+<p>This is not an elegant structure. It mainly keeps track of the many local
+variables needed inside GPRs, which tend to be large, wrangly functions:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">gpr_kit</span><span class="plain-syntax"> {</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">gpr_kit</span><span class="plain-syntax"> {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cur_addr_s</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cur_len_s</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cur_word_s</span><span class="plain-syntax">;</span>
@@ -130,18 +124,18 @@ variables needed inside GPRs, which tend to be large, wrangly functions:
 <span class="plain-syntax">    </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">x_s</span><span class="plain-syntax">;</span>
 
 <span class="plain-syntax">    </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">fail_label</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">label_count</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">current_grammar_block</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">GV_IS_VALUE_instance_mode</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">gpr_kit</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">label_count</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">current_grammar_block</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">GV_IS_VALUE_instance_mode</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">gpr_kit</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>The structure gpr_kit is accessed in 5/lp, 7/cg, 7/cgl, 7/cgt, 7/kg, 7/pnp and here.</li></ul>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>The idea is to create a new kit which is initially empty:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  The idea is to create a new kit which is initially empty:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">gpr_kit</span><span class="plain-syntax"> </span><span class="function-syntax">GPRs::new_kit</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">GPRs::new_kit</span></span>:<br/>Literal Patterns - <a href="5-lp.html#SP4_2">&#167;4.2</a><br/>Command Grammars - <a href="7-cg.html#SP10">&#167;10</a>, <a href="7-cg.html#SP12">&#167;12</a>, <a href="7-cg.html#SP13">&#167;13</a><br/>Command Grammar Lines - <a href="7-cgl.html#SP13">&#167;13</a><br/>Kind GPRs - <a href="7-kg.html#SP1">&#167;1</a>, <a href="7-kg.html#SP2">&#167;2</a>, <a href="7-kg.html#SP3">&#167;3</a>, <a href="7-kg.html#SP4">&#167;4</a>, <a href="7-kg.html#SP5_1">&#167;5.1</a>, <a href="7-kg.html#SP5_2">&#167;5.2</a><br/>Parse Name Properties - <a href="7-pnp.html#SP2">&#167;2</a>, <a href="7-pnp.html#SP3">&#167;3</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">gpr_kit</span><span class="plain-syntax"> </span><span class="identifier-syntax">kit</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">gpr_kit</span><span class="plain-syntax"> </span><span class="function-syntax">GPRs::new_kit</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">GPRs::new_kit</span></span>:<br/>Literal Patterns - <a href="5-lp.html#SP4_2">&#167;4.2</a><br/>Command Grammars - <a href="7-cg.html#SP10">&#167;10</a>, <a href="7-cg.html#SP12">&#167;12</a>, <a href="7-cg.html#SP13">&#167;13</a><br/>Command Grammar Lines - <a href="7-cgl.html#SP13">&#167;13</a><br/>Kind GPRs - <a href="7-kg.html#SP1">&#167;1</a>, <a href="7-kg.html#SP2">&#167;2</a>, <a href="7-kg.html#SP3">&#167;3</a>, <a href="7-kg.html#SP4">&#167;4</a>, <a href="7-kg.html#SP5_1">&#167;5.1</a>, <a href="7-kg.html#SP5_2">&#167;5.2</a><br/>Parse Name Properties - <a href="7-pnp.html#SP2">&#167;2</a>, <a href="7-pnp.html#SP3">&#167;3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">gpr_kit</span><span class="plain-syntax"> </span><span class="identifier-syntax">kit</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">kit</span><span class="plain-syntax">.</span><span class="element-syntax">cur_addr_s</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">kit</span><span class="plain-syntax">.</span><span class="element-syntax">cur_len_s</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">kit</span><span class="plain-syntax">.</span><span class="element-syntax">cur_word_s</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
@@ -177,13 +171,13 @@ variables needed inside GPRs, which tend to be large, wrangly functions:
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">kit</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>Then, if you then need a local variable in the GPR you're making, declare it
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  Then, if you then need a local variable in the GPR you're making, declare it
 and write its symbol to the appropriate field. But this is best done with the
-following convenience functions.
-</p>
-
+following convenience functions.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">GPRs::add_standard_vars</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">GPRs::add_standard_vars</span></span>:<br/>Literal Patterns - <a href="5-lp.html#SP4_2">&#167;4.2</a><br/>Command Grammars - <a href="7-cg.html#SP10">&#167;10</a>, <a href="7-cg.html#SP12">&#167;12</a>, <a href="7-cg.html#SP13">&#167;13</a><br/>Command Grammar Lines - <a href="7-cgl.html#SP13">&#167;13</a><br/>Kind GPRs - <a href="7-kg.html#SP1_1">&#167;1.1</a>, <a href="7-kg.html#SP4">&#167;4</a>, <a href="7-kg.html#SP5_1">&#167;5.1</a>, <a href="7-kg.html#SP5_2">&#167;5.2</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">gpr_kit</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kit</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">GPRs::add_standard_vars</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">GPRs::add_standard_vars</span></span>:<br/>Literal Patterns - <a href="5-lp.html#SP4_2">&#167;4.2</a><br/>Command Grammars - <a href="7-cg.html#SP10">&#167;10</a>, <a href="7-cg.html#SP12">&#167;12</a>, <a href="7-cg.html#SP13">&#167;13</a><br/>Command Grammar Lines - <a href="7-cgl.html#SP13">&#167;13</a><br/>Kind GPRs - <a href="7-kg.html#SP1_1">&#167;1.1</a>, <a href="7-kg.html#SP4">&#167;4</a>, <a href="7-kg.html#SP5_1">&#167;5.1</a>, <a href="7-kg.html#SP5_2">&#167;5.2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">gpr_kit</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kit</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">kit</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">group_wn_s</span><span class="plain-syntax"> = </span><span class="identifier-syntax">LocalVariables::new_internal_as_symbol</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="string-syntax">"group_wn"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">kit</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">v_s</span><span class="plain-syntax"> = </span><span class="identifier-syntax">LocalVariables::new_internal_as_symbol</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="string-syntax">"v"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">kit</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">w_s</span><span class="plain-syntax"> = </span><span class="identifier-syntax">LocalVariables::new_internal_as_symbol</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="string-syntax">"w"</span><span class="plain-syntax">);</span>
@@ -191,22 +185,22 @@ following convenience functions.
 <span class="plain-syntax">    </span><span class="identifier-syntax">kit</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">rv_s</span><span class="plain-syntax"> = </span><span class="identifier-syntax">LocalVariables::declare</span><span class="plain-syntax">(</span><span class="identifier-syntax">kit</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">rv_lv</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">GPRs::add_instance_var</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">GPRs::add_instance_var</span></span>:<br/>Kind GPRs - <a href="7-kg.html#SP5_2">&#167;5.2</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">gpr_kit</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kit</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">GPRs::add_instance_var</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">GPRs::add_instance_var</span></span>:<br/>Kind GPRs - <a href="7-kg.html#SP5_2">&#167;5.2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">gpr_kit</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kit</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">kit</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">instance_s</span><span class="plain-syntax"> = </span><span class="identifier-syntax">LocalVariables::new_other_as_symbol</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="string-syntax">"instance"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">GPRs::add_range_vars</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">GPRs::add_range_vars</span></span>:<br/>Command Grammars - <a href="7-cg.html#SP12">&#167;12</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">gpr_kit</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kit</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">GPRs::add_range_vars</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">GPRs::add_range_vars</span></span>:<br/>Command Grammars - <a href="7-cg.html#SP12">&#167;12</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">gpr_kit</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kit</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">kit</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">range_from_s</span><span class="plain-syntax"> = </span><span class="identifier-syntax">LocalVariables::new_internal_commented_as_symbol</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="string-syntax">"range_from"</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">I</span><span class="string-syntax">"call parameter: word number of snippet start"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">kit</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">range_words_s</span><span class="plain-syntax"> = </span><span class="identifier-syntax">LocalVariables::new_internal_commented_as_symbol</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="string-syntax">"range_words"</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">I</span><span class="string-syntax">"call parameter: snippet length"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">GPRs::add_original_var</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">GPRs::add_original_var</span></span>:<br/>Literal Patterns - <a href="5-lp.html#SP4_2">&#167;4.2</a><br/>Command Grammars - <a href="7-cg.html#SP10">&#167;10</a>, <a href="7-cg.html#SP12">&#167;12</a>, <a href="7-cg.html#SP13">&#167;13</a><br/>Command Grammar Lines - <a href="7-cgl.html#SP13">&#167;13</a><br/>Kind GPRs - <a href="7-kg.html#SP1">&#167;1</a>, <a href="7-kg.html#SP2">&#167;2</a>, <a href="7-kg.html#SP3">&#167;3</a>, <a href="7-kg.html#SP4">&#167;4</a>, <a href="7-kg.html#SP5_1">&#167;5.1</a>, <a href="7-kg.html#SP5_2">&#167;5.2</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">gpr_kit</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kit</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">GPRs::add_original_var</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">GPRs::add_original_var</span></span>:<br/>Literal Patterns - <a href="5-lp.html#SP4_2">&#167;4.2</a><br/>Command Grammars - <a href="7-cg.html#SP10">&#167;10</a>, <a href="7-cg.html#SP12">&#167;12</a>, <a href="7-cg.html#SP13">&#167;13</a><br/>Command Grammar Lines - <a href="7-cgl.html#SP13">&#167;13</a><br/>Kind GPRs - <a href="7-kg.html#SP1">&#167;1</a>, <a href="7-kg.html#SP2">&#167;2</a>, <a href="7-kg.html#SP3">&#167;3</a>, <a href="7-kg.html#SP4">&#167;4</a>, <a href="7-kg.html#SP5_1">&#167;5.1</a>, <a href="7-kg.html#SP5_2">&#167;5.2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">gpr_kit</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kit</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">kit</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">original_wn_s</span><span class="plain-syntax"> = </span><span class="identifier-syntax">LocalVariables::new_internal_as_symbol</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="string-syntax">"original_wn"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">GPRs::add_LP_vars</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">GPRs::add_LP_vars</span></span>:<br/>Literal Patterns - <a href="5-lp.html#SP4_2">&#167;4.2</a><br/>Kind GPRs - <a href="7-kg.html#SP4">&#167;4</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">gpr_kit</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kit</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">GPRs::add_LP_vars</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">GPRs::add_LP_vars</span></span>:<br/>Literal Patterns - <a href="5-lp.html#SP4_2">&#167;4.2</a><br/>Kind GPRs - <a href="7-kg.html#SP4">&#167;4</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">gpr_kit</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kit</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">kit</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">wpos_s</span><span class="plain-syntax"> = </span><span class="identifier-syntax">LocalVariables::new_internal_as_symbol</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="string-syntax">"wpos"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">kit</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">mid_word_s</span><span class="plain-syntax"> = </span><span class="identifier-syntax">LocalVariables::new_internal_as_symbol</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="string-syntax">"mid_word"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">kit</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">matched_number_s</span><span class="plain-syntax"> = </span><span class="identifier-syntax">LocalVariables::new_internal_as_symbol</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="string-syntax">"matched_number"</span><span class="plain-syntax">);</span>
@@ -219,7 +213,7 @@ following convenience functions.
 <span class="plain-syntax">    </span><span class="identifier-syntax">kit</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">x_s</span><span class="plain-syntax"> = </span><span class="identifier-syntax">LocalVariables::new_internal_as_symbol</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="string-syntax">"x"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">GPRs::add_parse_name_vars</span><button class="popup" onclick="togglePopup('usagePopup7')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup7">Usage of <span class="code-font"><span class="function-syntax">GPRs::add_parse_name_vars</span></span>:<br/>Parse Name Properties - <a href="7-pnp.html#SP4">&#167;4</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">gpr_kit</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kit</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">GPRs::add_parse_name_vars</span><button class="popup" onclick="togglePopup('usagePopup7')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup7">Usage of <span class="code-font"><span class="function-syntax">GPRs::add_parse_name_vars</span></span>:<br/>Parse Name Properties - <a href="7-pnp.html#SP4">&#167;4</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">gpr_kit</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kit</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">kit</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">original_wn_s</span><span class="plain-syntax"> = </span><span class="identifier-syntax">LocalVariables::new_internal_commented_as_symbol</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="string-syntax">"original_wn"</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">I</span><span class="string-syntax">"first word of text parsed"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">kit</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">group_wn_s</span><span class="plain-syntax"> = </span><span class="identifier-syntax">LocalVariables::new_internal_commented_as_symbol</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="string-syntax">"group_wn"</span><span class="plain-syntax">,</span>
@@ -248,7 +242,7 @@ following convenience functions.
 <span class="plain-syntax">        </span><span class="identifier-syntax">I</span><span class="string-syntax">"value of n recorded during pass 2"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">GPRs::begin_line</span><button class="popup" onclick="togglePopup('usagePopup8')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup8">Usage of <span class="code-font"><span class="function-syntax">GPRs::begin_line</span></span>:<br/>Command Grammar Lines - <a href="7-cgl.html#SP6">&#167;6</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">gpr_kit</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kit</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">GPRs::begin_line</span><button class="popup" onclick="togglePopup('usagePopup8')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup8">Usage of <span class="code-font"><span class="function-syntax">GPRs::begin_line</span></span>:<br/>Command Grammar Lines - <a href="7-cgl.html#SP6">&#167;6</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">gpr_kit</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kit</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">kit</span><span class="plain-syntax">) </span><span class="identifier-syntax">kit</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">label_count</span><span class="plain-syntax">++;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">kit</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">TEMPORARY_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">L</span><span class="plain-syntax">)</span>

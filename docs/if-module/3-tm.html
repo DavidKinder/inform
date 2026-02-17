@@ -22,19 +22,30 @@ function togglePopup(material_id) {
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <script>
 MathJax = {
-	tex: {
-		inlineMath: '$', '$'], ['\\(', '\\)'
+    options: {
+    	skipHtmlTags: {'[-]': ['pre']},
+    	processHtmlClass: 'mathjax_process'
+    },
+	loader: {load: ['[tex]/texhtml']},
+  	tex: {
+		inlineMath: [ ['\\INWEBMATH(', '\\INWEBMATH)'] ],
+    	packages: {'[+]': ['texhtml']},
+    	allowTexHTML: true
 	},
 	svg: {
 		fontCache: 'global'
 	}
 };
 </script>
-<script type="text/javascript" id="MathJax-script" async
-	src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
-</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-svg.js"></script>
 
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<link href="../docs-assets/Preform-Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
 	<body class="commentary-font">
@@ -70,16 +81,16 @@ MathJax = {
 
 <ul class="toc"><li><a href="3-tm.html#SP1">&#167;1. Introduction</a></li><li><a href="3-tm.html#SP4">&#167;4. The direction inference</a></li><li><a href="3-tm.html#SP7">&#167;7. Special kinds</a></li><li><a href="3-tm.html#SP12">&#167;12. Spotting directions and doors</a></li><li><a href="3-tm.html#SP14">&#167;14. Directions and their numbers</a></li><li><a href="3-tm.html#SP19">&#167;19. Map data on instances</a></li><li><a href="3-tm.html#SP26">&#167;26. The exits array</a></li><li><a href="3-tm.html#SP27">&#167;27. Door connectivity</a></li><li><a href="3-tm.html#SP28">&#167;28. Linguistic extras</a></li><li><a href="3-tm.html#SP31">&#167;31. The map-connector</a></li><li><a href="3-tm.html#SP33">&#167;33. Model completion</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Introduction.</b>The map is a complicated data structure, both because it amounts to a
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Introduction.</b>  The map is a complicated data structure, both because it amounts to a
 ternary relation (though being implemented by many binary ones) and because
 of an ambiguity: a map connection from a room R can lead to another room S,
 to a door, or to nothing. Doors come in two sorts, one and two-sided, and
 checking the physical realism of all this means we need to produce many
-quite specific problem messages.
-</p>
-
+quite specific problem messages.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Map::start</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">Map::start</span></span>:<br/>IF Module - <a href="1-im.html#SP5">&#167;5</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Map::start</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">Map::start</span></span>:<br/>IF Module - <a href="1-im.html#SP5">&#167;5</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><a href="3-tm.html#SP5" class="function-link"><span class="function-syntax">Map::create_inference</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">#</span><span class="identifier-syntax">pragma</span><span class="plain-syntax"> </span><span class="identifier-syntax">clang</span><span class="plain-syntax"> </span><span class="identifier-syntax">diagnostic</span><span class="plain-syntax"> </span><span class="identifier-syntax">push</span>
 <span class="plain-syntax">#</span><span class="identifier-syntax">pragma</span><span class="plain-syntax"> </span><span class="identifier-syntax">clang</span><span class="plain-syntax"> </span><span class="identifier-syntax">diagnostic</span><span class="plain-syntax"> </span><span class="identifier-syntax">ignored</span><span class="plain-syntax"> </span><span class="string-syntax">"-Wincompatible-function-pointer-types-strict"</span>
@@ -98,40 +109,40 @@ quite specific problem messages.
 <span class="plain-syntax">#</span><span class="identifier-syntax">pragma</span><span class="plain-syntax"> </span><span class="identifier-syntax">clang</span><span class="plain-syntax"> </span><span class="identifier-syntax">diagnostic</span><span class="plain-syntax"> </span><span class="identifier-syntax">pop</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::production_line</span><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">stage</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">debugging</span><span class="plain-syntax">, </span><span class="identifier-syntax">stopwatch_timer</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sequence_timer</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::production_line</span><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">stage</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">debugging</span><span class="plain-syntax">, </span><span class="identifier-syntax">stopwatch_timer</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sequence_timer</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">stage</span><span class="plain-syntax"> == </span><span class="identifier-syntax">INTER1_CSEQ</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">BENCH</span><span class="plain-syntax">(</span><span class="identifier-syntax">RTMap::compile_model_tables</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>This special sentence is used as a hint in making map documents; it has no
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  This special sentence is used as a hint in making map documents; it has no
 effect on the world model itself, and so is dealt with elsewhere, in
-<a href="../index-module/4-mc.html" class="internal">Map Configuration (in index)</a>.
-</p>
-
+<a href="../index-module/4-mc.html" class="internal">Map Configuration (in index)</a>.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::make_special_meanings</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">Map::make_special_meanings</span></span>:<br/><a href="3-tm.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::make_special_meanings</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">Map::make_special_meanings</span></span>:<br/><a href="3-tm.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">SpecialMeanings::declare</span><span class="plain-syntax">(</span><a href="3-mhr.html#SP2" class="function-link"><span class="function-syntax">MappingHints::index_map_with_SMF</span></a><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"index-map-with"</span><span class="plain-syntax">, </span><span class="constant-syntax">4</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>Though it isn't implemented as a special meaning, we do look by hand early
-in Inform's run for sentences in the form "X is a direction", so that they can
-be "noticed". We need to do that in order to make sense of subsequent sentences
-using directions to imply relations, as in "East of Eden is the Land of Nod."
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  Though it isn't implemented as a special meaning, we do look by hand early
+in Inform's run for sentences in the form &quot;X is a direction&quot;, so that they can
+be &quot;noticed&quot;. We need to do that in order to make sense of subsequent sentences
+using directions to imply relations, as in &quot;East of Eden is the Land of Nod.&quot;</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">directions_noticed</span><span class="plain-syntax">[</span><span class="identifier-syntax">MAX_DIRECTIONS</span><span class="plain-syntax">];</span>
 <span class="identifier-syntax">binary_predicate</span><span class="plain-syntax"> *</span><span class="identifier-syntax">direction_relations_noticed</span><span class="plain-syntax">[</span><span class="identifier-syntax">MAX_DIRECTIONS</span><span class="plain-syntax">];</span>
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">no_directions_noticed</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">no_directions_noticed</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::no_directions</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::no_directions</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">no_directions_noticed</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::look_for_direction_creation</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">Map::look_for_direction_creation</span></span>:<br/><a href="3-tm.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pn</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::look_for_direction_creation</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">Map::look_for_direction_creation</span></span>:<br/><a href="3-tm.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pn</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Node::get_type</span><span class="plain-syntax">(</span><span class="identifier-syntax">pn</span><span class="plain-syntax">) != </span><span class="identifier-syntax">SENTENCE_NT</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">pn</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">down</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) || (</span><span class="identifier-syntax">pn</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">down</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) || (</span><span class="identifier-syntax">pn</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">down</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">))</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
@@ -152,98 +163,99 @@ using directions to imply relations, as in "East of Eden is the Land of Nod."
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. The direction inference.</b>While we could probably represent map knowledge using relation inferences
-in connection with the "mapped D of" relations, it's altogether easier and
-makes for more legible code if we use a special inference family of our own:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. The direction inference.</b>  While we could probably represent map knowledge using relation inferences
+in connection with the &quot;mapped D of&quot; relations, it's altogether easier and
+makes for more legible code if we use a special inference family of our own:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">inference_family</span><span class="plain-syntax"> *</span><span class="identifier-syntax">direction_inf</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax"> where do map connections from O lead?</span>
+<span class="identifier-syntax">inference_family</span><span class="plain-syntax"> *</span><span class="identifier-syntax">direction_inf</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax">/* where do map connections from O lead? */</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b></p>
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Map::create_inference</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">Map::create_inference</span></span>:<br/><a href="3-tm.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Map::create_inference</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">Map::create_inference</span></span>:<br/><a href="3-tm.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">direction_inf</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Inferences::new_family</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="string-syntax">"direction_inf"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">METHOD_ADD</span><span class="plain-syntax">(</span><span class="identifier-syntax">direction_inf</span><span class="plain-syntax">, </span><span class="identifier-syntax">LOG_DETAILS_INF_MTID</span><span class="plain-syntax">, </span><a href="3-tm.html#SP5" class="function-link"><span class="function-syntax">Map::log_direction_inf</span></a><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">METHOD_ADD</span><span class="plain-syntax">(</span><span class="identifier-syntax">direction_inf</span><span class="plain-syntax">, </span><span class="identifier-syntax">COMPARE_INF_MTID</span><span class="plain-syntax">, </span><a href="3-tm.html#SP6" class="function-link"><span class="function-syntax">Map::cmp_direction_inf</span></a><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">direction_inference_data</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">to</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">dir</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">direction_inference_data</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">to</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">dir</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">CLASS_DEFINITION</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">direction_inference_data</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">direction_inference_data</span><span class="plain-syntax">;</span>
 
 <span class="identifier-syntax">inference</span><span class="plain-syntax"> *</span><span class="function-syntax">Map::new_direction_inference</span><span class="plain-syntax">(</span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">infs_from</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">infs_to</span><span class="plain-syntax">, </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">o_dir</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">PROTECTED_MODEL_PROCEDURE</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">direction_inference_data</span><span class="plain-syntax"> *</span><span class="identifier-syntax">data</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="reserved-syntax">direction_inference_data</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">direction_inference_data</span><span class="plain-syntax"> *</span><span class="identifier-syntax">data</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="identifier-syntax">direction_inference_data</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">data</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">to</span><span class="plain-syntax"> = </span><span class="identifier-syntax">infs_to</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">data</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">dir</span><span class="plain-syntax"> = (</span><span class="identifier-syntax">o_dir</span><span class="plain-syntax">)?(</span><span class="identifier-syntax">Instances::as_subject</span><span class="plain-syntax">(</span><span class="identifier-syntax">o_dir</span><span class="plain-syntax">)):</span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">Inferences::create_inference</span><span class="plain-syntax">(</span><span class="identifier-syntax">direction_inf</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">STORE_POINTER_direction_inference_data</span><span class="plain-syntax">(</span><span class="identifier-syntax">data</span><span class="plain-syntax">), </span><span class="identifier-syntax">prevailing_mood</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Map::infer_direction</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">Map::infer_direction</span></span>:<br/>Map Connection Relations - <a href="3-mcr.html#SP7">&#167;7</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">infs_from</span><span class="plain-syntax">, </span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">infs_to</span><span class="plain-syntax">,</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Map::infer_direction</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">Map::infer_direction</span></span>:<br/>Map Connection Relations - <a href="3-mcr.html#SP7">&#167;7</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">infs_from</span><span class="plain-syntax">, </span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">infs_to</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">o_dir</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inference</span><span class="plain-syntax"> *</span><span class="identifier-syntax">i</span><span class="plain-syntax"> = </span><a href="3-tm.html#SP5" class="function-link"><span class="function-syntax">Map::new_direction_inference</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">infs_from</span><span class="plain-syntax">, </span><span class="identifier-syntax">infs_to</span><span class="plain-syntax">, </span><span class="identifier-syntax">o_dir</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">Inferences::join_inference</span><span class="plain-syntax">(</span><span class="identifier-syntax">i</span><span class="plain-syntax">, </span><span class="identifier-syntax">infs_from</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Map::log_direction_inf</span><span class="plain-syntax">(</span><span class="identifier-syntax">inference_family</span><span class="plain-syntax"> *</span><span class="identifier-syntax">f</span><span class="plain-syntax">, </span><span class="identifier-syntax">inference</span><span class="plain-syntax"> *</span><span class="identifier-syntax">inf</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">direction_inference_data</span><span class="plain-syntax"> *</span><span class="identifier-syntax">data</span><span class="plain-syntax"> = </span><span class="identifier-syntax">RETRIEVE_POINTER_direction_inference_data</span><span class="plain-syntax">(</span><span class="identifier-syntax">inf</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">data</span><span class="plain-syntax">);</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Map::log_direction_inf</span><span class="plain-syntax">(</span><span class="identifier-syntax">inference_family</span><span class="plain-syntax"> *</span><span class="identifier-syntax">f</span><span class="plain-syntax">, </span><span class="identifier-syntax">inference</span><span class="plain-syntax"> *</span><span class="identifier-syntax">inf</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">direction_inference_data</span><span class="plain-syntax"> *</span><span class="identifier-syntax">data</span><span class="plain-syntax"> = </span><span class="identifier-syntax">RETRIEVE_POINTER_direction_inference_data</span><span class="plain-syntax">(</span><span class="identifier-syntax">inf</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">data</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"-to:$j -dir:$j"</span><span class="plain-syntax">, </span><span class="identifier-syntax">data</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">to</span><span class="plain-syntax">, </span><span class="identifier-syntax">data</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">dir</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
 <ul class="endnotetexts"><li>The structure direction_inference_data is accessed in 3/mhr and here.</li></ul>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>Inferences about different directions from a location are different topics;
-but different destinations in the same direction are different in content.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  Inferences about different directions from a location are different topics;
+but different destinations in the same direction are different in content.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::cmp_direction_inf</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">Map::cmp_direction_inf</span></span>:<br/><a href="3-tm.html#SP5">&#167;5</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inference_family</span><span class="plain-syntax"> *</span><span class="identifier-syntax">f</span><span class="plain-syntax">, </span><span class="identifier-syntax">inference</span><span class="plain-syntax"> *</span><span class="identifier-syntax">i1</span><span class="plain-syntax">, </span><span class="identifier-syntax">inference</span><span class="plain-syntax"> *</span><span class="identifier-syntax">i2</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">direction_inference_data</span><span class="plain-syntax"> *</span><span class="identifier-syntax">data1</span><span class="plain-syntax"> = </span><span class="identifier-syntax">RETRIEVE_POINTER_direction_inference_data</span><span class="plain-syntax">(</span><span class="identifier-syntax">i1</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">data</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">direction_inference_data</span><span class="plain-syntax"> *</span><span class="identifier-syntax">data2</span><span class="plain-syntax"> = </span><span class="identifier-syntax">RETRIEVE_POINTER_direction_inference_data</span><span class="plain-syntax">(</span><span class="identifier-syntax">i2</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">data</span><span class="plain-syntax">);</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::cmp_direction_inf</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">Map::cmp_direction_inf</span></span>:<br/><a href="3-tm.html#SP5">&#167;5</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inference_family</span><span class="plain-syntax"> *</span><span class="identifier-syntax">f</span><span class="plain-syntax">, </span><span class="identifier-syntax">inference</span><span class="plain-syntax"> *</span><span class="identifier-syntax">i1</span><span class="plain-syntax">, </span><span class="identifier-syntax">inference</span><span class="plain-syntax"> *</span><span class="identifier-syntax">i2</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">direction_inference_data</span><span class="plain-syntax"> *</span><span class="identifier-syntax">data1</span><span class="plain-syntax"> = </span><span class="identifier-syntax">RETRIEVE_POINTER_direction_inference_data</span><span class="plain-syntax">(</span><span class="identifier-syntax">i1</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">data</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">direction_inference_data</span><span class="plain-syntax"> *</span><span class="identifier-syntax">data2</span><span class="plain-syntax"> = </span><span class="identifier-syntax">RETRIEVE_POINTER_direction_inference_data</span><span class="plain-syntax">(</span><span class="identifier-syntax">i2</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">data</span><span class="plain-syntax">);</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">c</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Inferences::measure_infs</span><span class="plain-syntax">(</span><span class="identifier-syntax">data1</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">dir</span><span class="plain-syntax">) - </span><span class="identifier-syntax">Inferences::measure_infs</span><span class="plain-syntax">(</span><span class="identifier-syntax">data2</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">dir</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">c</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">CI_DIFFER_IN_TOPIC</span><span class="plain-syntax">; </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">c</span><span class="plain-syntax"> &lt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> -</span><span class="identifier-syntax">CI_DIFFER_IN_TOPIC</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">c</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Inferences::measure_infs</span><span class="plain-syntax">(</span><span class="identifier-syntax">data1</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">to</span><span class="plain-syntax">) - </span><span class="identifier-syntax">Inferences::measure_infs</span><span class="plain-syntax">(</span><span class="identifier-syntax">data2</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">to</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">c</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">CI_DIFFER_IN_CONTENT</span><span class="plain-syntax">; </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">c</span><span class="plain-syntax"> &lt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> -</span><span class="identifier-syntax">CI_DIFFER_IN_CONTENT</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">c</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Inferences::measure_infs</span><span class="plain-syntax">(</span><span class="identifier-syntax">data1</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">dir</span><span class="plain-syntax">) </span><span class="constant-syntax">-</span><span class="plain-syntax"> </span><span class="identifier-syntax">Inferences::measure_infs</span><span class="plain-syntax">(</span><span class="identifier-syntax">data2</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">dir</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">c</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">CI_DIFFER_IN_TOPIC</span><span class="plain-syntax">; </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">c</span><span class="plain-syntax"> &lt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="identifier-syntax">CI_DIFFER_IN_TOPIC</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">c</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Inferences::measure_infs</span><span class="plain-syntax">(</span><span class="identifier-syntax">data1</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">to</span><span class="plain-syntax">) </span><span class="constant-syntax">-</span><span class="plain-syntax"> </span><span class="identifier-syntax">Inferences::measure_infs</span><span class="plain-syntax">(</span><span class="identifier-syntax">data2</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">to</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">c</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">CI_DIFFER_IN_CONTENT</span><span class="plain-syntax">; </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">c</span><span class="plain-syntax"> &lt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="identifier-syntax">CI_DIFFER_IN_CONTENT</span><span class="plain-syntax">;</span>
 
-<span class="plain-syntax">    </span><span class="identifier-syntax">c</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Inferences::measure_inf</span><span class="plain-syntax">(</span><span class="identifier-syntax">i1</span><span class="plain-syntax">) - </span><span class="identifier-syntax">Inferences::measure_inf</span><span class="plain-syntax">(</span><span class="identifier-syntax">i2</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">c</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">CI_DIFFER_IN_COPY_ONLY</span><span class="plain-syntax">; </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">c</span><span class="plain-syntax"> &lt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> -</span><span class="identifier-syntax">CI_DIFFER_IN_COPY_ONLY</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">c</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Inferences::measure_inf</span><span class="plain-syntax">(</span><span class="identifier-syntax">i1</span><span class="plain-syntax">) </span><span class="constant-syntax">-</span><span class="plain-syntax"> </span><span class="identifier-syntax">Inferences::measure_inf</span><span class="plain-syntax">(</span><span class="identifier-syntax">i2</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">c</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">CI_DIFFER_IN_COPY_ONLY</span><span class="plain-syntax">; </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">c</span><span class="plain-syntax"> &lt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="identifier-syntax">CI_DIFFER_IN_COPY_ONLY</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">CI_IDENTICAL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Map::get_map_references</span><button class="popup" onclick="togglePopup('usagePopup7')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup7">Usage of <span class="code-font"><span class="function-syntax">Map::get_map_references</span></span>:<br/><a href="3-tm.html#SP26">&#167;26</a>, <a href="3-tm.html#SP33_2">&#167;33.2</a>, <a href="3-tm.html#SP33_3">&#167;33.3</a>, <a href="3-tm.html#SP33_4">&#167;33.4</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inference</span><span class="plain-syntax"> *</span><span class="identifier-syntax">i</span><span class="plain-syntax">,</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Map::get_map_references</span><button class="popup" onclick="togglePopup('usagePopup7')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup7">Usage of <span class="code-font"><span class="function-syntax">Map::get_map_references</span></span>:<br/><a href="3-tm.html#SP26">&#167;26</a>, <a href="3-tm.html#SP33_2">&#167;33.2</a>, <a href="3-tm.html#SP33_3">&#167;33.3</a>, <a href="3-tm.html#SP33_4">&#167;33.4</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inference</span><span class="plain-syntax"> *</span><span class="identifier-syntax">i</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> **</span><span class="identifier-syntax">infs1</span><span class="plain-syntax">, </span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> **</span><span class="identifier-syntax">infs2</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">i</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) || (</span><span class="identifier-syntax">i</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">family</span><span class="plain-syntax"> != </span><span class="identifier-syntax">direction_inf</span><span class="plain-syntax">))</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"not a direction inf"</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">direction_inference_data</span><span class="plain-syntax"> *</span><span class="identifier-syntax">data</span><span class="plain-syntax"> = </span><span class="identifier-syntax">RETRIEVE_POINTER_direction_inference_data</span><span class="plain-syntax">(</span><span class="identifier-syntax">i</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">data</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">direction_inference_data</span><span class="plain-syntax"> *</span><span class="identifier-syntax">data</span><span class="plain-syntax"> = </span><span class="identifier-syntax">RETRIEVE_POINTER_direction_inference_data</span><span class="plain-syntax">(</span><span class="identifier-syntax">i</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">data</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">infs1</span><span class="plain-syntax">) *</span><span class="identifier-syntax">infs1</span><span class="plain-syntax"> = </span><span class="identifier-syntax">data</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">to</span><span class="plain-syntax">; </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">infs2</span><span class="plain-syntax">) *</span><span class="identifier-syntax">infs2</span><span class="plain-syntax"> = </span><span class="identifier-syntax">data</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">dir</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Special kinds.</b>It's obvious why the kinds direction and door are special.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Special kinds.</b>  It's obvious why the kinds direction and door are special.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K_direction</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K_door</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>These are recognised by the English name when defined by the Standard
-Rules. (So there is no need to translate this to other languages.)
-</p>
-
-<pre class="displayed-code all-displayed-code code-font">
-<span class="function-syntax">&lt;notable-map-kinds&gt;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">direction</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">door</span>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>  These are recognised by the English name when defined by the Standard
+Rules. (So there is no need to translate this to other languages.)</p>
+</div>
+<pre class="Preform-displayed-code all-displayed-code code-font">
+<span class="Preform-function-syntax">&lt;notable-map-kinds&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">direction</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">door</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b></p>
+<ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::new_base_kind_notify</span><button class="popup" onclick="togglePopup('usagePopup8')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup8">Usage of <span class="code-font"><span class="function-syntax">Map::new_base_kind_notify</span></span>:<br/><a href="3-tm.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">new_base</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">name</span><span class="plain-syntax">, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::new_base_kind_notify</span><button class="popup" onclick="togglePopup('usagePopup8')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup8">Usage of <span class="code-font"><span class="function-syntax">Map::new_base_kind_notify</span></span>:<br/><a href="3-tm.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">new_base</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">name</span><span class="plain-syntax">, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="function-syntax">&lt;notable-map-kinds&gt;</span><span class="plain-syntax">(</span><span class="identifier-syntax">W</span><span class="plain-syntax">)) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="function-syntax">&lt;&lt;r&gt;&gt;</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">: </span><span class="identifier-syntax">K_direction</span><span class="plain-syntax"> = </span><span class="identifier-syntax">new_base</span><span class="plain-syntax">; </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
@@ -253,19 +265,19 @@ Rules. (So there is no need to translate this to other languages.)
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b></p>
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::object_is_a_direction</span><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::object_is_a_direction</span><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">K_direction</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">I</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">Instances::of_kind</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_direction</span><span class="plain-syntax">))) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. </b>Direction needs to be an abstract object, not a thing or a room, so:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. </b>  Direction needs to be an abstract object, not a thing or a room, so:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::set_subkind_notify</span><button class="popup" onclick="togglePopup('usagePopup9')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup9">Usage of <span class="code-font"><span class="function-syntax">Map::set_subkind_notify</span></span>:<br/><a href="3-tm.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sub</span><span class="plain-syntax">, </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">super</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::set_subkind_notify</span><button class="popup" onclick="togglePopup('usagePopup9')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup9">Usage of <span class="code-font"><span class="function-syntax">Map::set_subkind_notify</span></span>:<br/><a href="3-tm.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sub</span><span class="plain-syntax">, </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">super</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">sub</span><span class="plain-syntax"> == </span><span class="identifier-syntax">K_direction</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">super</span><span class="plain-syntax"> != </span><span class="identifier-syntax">K_object</span><span class="plain-syntax">)) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">problem_count</span><span class="plain-syntax"> == </span><span class="constant-syntax">0</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">StandardProblems::sentence_problem</span><span class="plain-syntax">(</span><span class="identifier-syntax">Task::syntax_tree</span><span class="plain-syntax">(),</span>
@@ -306,88 +318,87 @@ Rules. (So there is no need to translate this to other languages.)
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. Spotting directions and doors.</b></p>
+<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. Spotting directions and doors.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::subject_is_a_direction</span><button class="popup" onclick="togglePopup('usagePopup10')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup10">Usage of <span class="code-font"><span class="function-syntax">Map::subject_is_a_direction</span></span>:<br/><a href="3-tm.html#SP30">&#167;30</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">infs</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">K_direction</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">; </span><span class="comment-syntax"> in particular, if feature inactive</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::subject_is_a_direction</span><button class="popup" onclick="togglePopup('usagePopup10')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup10">Usage of <span class="code-font"><span class="function-syntax">Map::subject_is_a_direction</span></span>:<br/><a href="3-tm.html#SP30">&#167;30</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">infs</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">K_direction</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">; </span><span class="comment-syntax">/* in particular, if feature inactive */</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">InferenceSubjects::is_within</span><span class="plain-syntax">(</span><span class="identifier-syntax">infs</span><span class="plain-syntax">, </span><span class="identifier-syntax">KindSubjects::from_kind</span><span class="plain-syntax">(</span><span class="identifier-syntax">K_direction</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::instance_is_a_direction</span><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::instance_is_a_direction</span><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">FEATURE_ACTIVE</span><span class="plain-syntax">(</span><span class="identifier-syntax">map</span><span class="plain-syntax">)) &amp;&amp; (</span><span class="identifier-syntax">K_direction</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">I</span><span class="plain-syntax">) &amp;&amp;</span>
 <span class="plain-syntax">        (</span><span class="identifier-syntax">Instances::of_kind</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_direction</span><span class="plain-syntax">)))</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. </b></p>
+<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::subject_is_a_door</span><span class="plain-syntax">(</span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">infs</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::subject_is_a_door</span><span class="plain-syntax">(</span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">infs</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><a href="3-tm.html#SP13" class="function-link"><span class="function-syntax">Map::instance_is_a_door</span></a><span class="plain-syntax">(</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">InstanceSubjects::to_object_instance</span><span class="plain-syntax">(</span><span class="identifier-syntax">infs</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::instance_is_a_door</span><button class="popup" onclick="togglePopup('usagePopup11')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup11">Usage of <span class="code-font"><span class="function-syntax">Map::instance_is_a_door</span></span>:<br/><a href="3-tm.html#SP33_2">&#167;33.2</a>, <a href="3-tm.html#SP33_3">&#167;33.3</a>, <a href="3-tm.html#SP33_4">&#167;33.4</a>, <a href="3-tm.html#SP33_5">&#167;33.5</a>, <a href="3-tm.html#SP33_6">&#167;33.6</a>, <a href="3-tm.html#SP33_7">&#167;33.7</a>, <a href="3-tm.html#SP33_8">&#167;33.8</a><br/>Spatial Model - <a href="3-sm.html#SP31_3_3">&#167;31.3.3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::instance_is_a_door</span><button class="popup" onclick="togglePopup('usagePopup11')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup11">Usage of <span class="code-font"><span class="function-syntax">Map::instance_is_a_door</span></span>:<br/><a href="3-tm.html#SP33_2">&#167;33.2</a>, <a href="3-tm.html#SP33_3">&#167;33.3</a>, <a href="3-tm.html#SP33_4">&#167;33.4</a>, <a href="3-tm.html#SP33_5">&#167;33.5</a>, <a href="3-tm.html#SP33_6">&#167;33.6</a>, <a href="3-tm.html#SP33_7">&#167;33.7</a>, <a href="3-tm.html#SP33_8">&#167;33.8</a><br/>Spatial Model - <a href="3-sm.html#SP31_3_3">&#167;31.3.3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">FEATURE_ACTIVE</span><span class="plain-syntax">(</span><span class="identifier-syntax">map</span><span class="plain-syntax">)) &amp;&amp; (</span><span class="identifier-syntax">K_door</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">I</span><span class="plain-syntax">) &amp;&amp;</span>
 <span class="plain-syntax">        (</span><span class="identifier-syntax">Instances::of_kind</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_door</span><span class="plain-syntax">)))</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. Directions and their numbers.</b>Directions play a special role because sentences like "east of the treehouse
-is the garden" are parsed differently from sentences like "the nearby place
-property of the treehouse is the garden".
-</p>
-
-<p class="commentary">For reasons to do with creating direction mapping relations, the lengths of
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. Directions and their numbers.</b>  Directions play a special role because sentences like &quot;east of the treehouse
+is the garden&quot; are parsed differently from sentences like &quot;the nearby place
+property of the treehouse is the garden&quot;.</p>
+<p>For reasons to do with creating direction mapping relations, the lengths of
 direction names are capped, though very, very few Inform users have ever
-realised this:
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">MAX_WORDS_IN_DIRECTION</span><span class="plain-syntax"> (</span><span class="identifier-syntax">MAX_WORDS_IN_ASSEMBLAGE</span><span class="plain-syntax"> - </span><span class="constant-syntax">4</span><span class="plain-syntax">)</span>
+realised this:</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="plain-syntax">(</span><span class="identifier-syntax">MAX_WORDS_IN_ASSEMBLAGE</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax"> </span><span class="constant-syntax">4</span><span class="plain-syntax">)</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. </b>When a new direction comes into existence (i.e., not when the underlying
-instance <span class="extract"><span class="extract-syntax">I</span></span> is created, but when its kind is realised to be "direction"),
-we will assign it a number:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. </b>  When a new direction comes into existence (i.e., not when the underlying
+instance <code>I</code> is created, but when its kind is realised to be &quot;direction&quot;),
+we will assign it a number:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">registered_directions</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">; </span><span class="comment-syntax"> next direction number to be free</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">registered_directions</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">; </span><span class="comment-syntax">/* next direction number to be free */</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::number_of_directions</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::number_of_directions</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">registered_directions</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. </b>"Up" and "down" are not really special among possible direction instances, but
-they have linguistic features not shared by lateral directions. "Above the
-garden is the treehouse", for instance, does not directly refer to either
-direction, but implies both.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. </b>  &quot;Up&quot; and &quot;down&quot; are not really special among possible direction instances, but
+they have linguistic features not shared by lateral directions. &quot;Above the
+garden is the treehouse&quot;, for instance, does not directly refer to either
+direction, but implies both.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I_up</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I_down</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. </b>These are recognised by their English names when defined by the Standard Rules.
-(So there is no need to translate this to other languages.)
-</p>
-
-<pre class="displayed-code all-displayed-code code-font">
-<span class="function-syntax">&lt;notable-map-directions&gt;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">up</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">down</span>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. </b>  These are recognised by their English names when defined by the Standard Rules.
+(So there is no need to translate this to other languages.)</p>
+</div>
+<pre class="Preform-displayed-code all-displayed-code code-font">
+<span class="Preform-function-syntax">&lt;notable-map-directions&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">up</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">down</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP18" class="paragraph-anchor"></a><b>&#167;18. </b></p>
+<ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
+<p class="commentary firstcommentary"><a id="SP18" class="paragraph-anchor"></a><b>&#167;18. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::set_kind_notify</span><button class="popup" onclick="togglePopup('usagePopup12')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup12">Usage of <span class="code-font"><span class="function-syntax">Map::set_kind_notify</span></span>:<br/><a href="3-tm.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">k</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::set_kind_notify</span><button class="popup" onclick="togglePopup('usagePopup12')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup12">Usage of <span class="code-font"><span class="function-syntax">Map::set_kind_notify</span></span>:<br/><a href="3-tm.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">k</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kw</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Instances::to_kind</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((!(</span><span class="identifier-syntax">Kinds::Behaviour::is_object_of_kind</span><span class="plain-syntax">(</span><span class="identifier-syntax">kw</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_direction</span><span class="plain-syntax">))) &amp;&amp;</span>
 <span class="plain-syntax">        (</span><span class="identifier-syntax">Kinds::Behaviour::is_object_of_kind</span><span class="plain-syntax">(</span><span class="identifier-syntax">k</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_direction</span><span class="plain-syntax">))) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">IW</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Instances::get_name</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP18_1" class="named-paragraph-link"><span class="named-paragraph">Vet the direction name for acceptability</span><span class="named-paragraph-number">18.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP18_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Vet the direction name for acceptability</span></span><span class="named-paragraph-number">18.1</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="function-syntax">&lt;notable-map-directions&gt;</span><span class="plain-syntax">(</span><span class="identifier-syntax">IW</span><span class="plain-syntax">)) {</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="function-syntax">&lt;&lt;r&gt;&gt;</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">                </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">: </span><span class="identifier-syntax">I_up</span><span class="plain-syntax"> = </span><span class="identifier-syntax">I</span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
@@ -395,13 +406,12 @@ direction, but implies both.
 <span class="plain-syntax">            }</span>
 <span class="plain-syntax">        }</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">Naming::object_takes_definite_article</span><span class="plain-syntax">(</span><span class="identifier-syntax">Instances::as_subject</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">));</span>
-<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP18_2" class="named-paragraph-link"><span class="named-paragraph">Assign the object a direction number and a mapped-D-of relation</span><span class="named-paragraph-number">18.2</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP18_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Assign the object a direction number and a mapped-D-of relation</span></span><span class="named-paragraph-number">18.2</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP18_1" class="paragraph-anchor"></a><b>&#167;18.1. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Vet the direction name for acceptability</span><span class="named-paragraph-number">18.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP18_1" class="paragraph-anchor"></a><b>&#167;18.1. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Vet the direction name for acceptability</span><span class="named-paragraph-number">18.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Wordings::empty</span><span class="plain-syntax">(</span><span class="identifier-syntax">IW</span><span class="plain-syntax">)) {</span>
@@ -418,56 +428,56 @@ direction, but implies both.
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-tm.html#SP18">&#167;18</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP18_2" class="paragraph-anchor"></a><b>&#167;18.2. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Assign the object a direction number and a mapped-D-of relation</span><span class="named-paragraph-number">18.2</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP18_2" class="paragraph-anchor"></a><b>&#167;18.2. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Assign the object a direction number and a mapped-D-of relation</span><span class="named-paragraph-number">18.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">registered_directions</span><span class="plain-syntax">++;</span>
 <span class="plain-syntax">    </span><a href="3-mcr.html#SP5" class="function-link"><span class="function-syntax">MapRelations::make_mapped_predicate</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-tm.html#SP18">&#167;18</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP19" class="paragraph-anchor"></a><b>&#167;19. Map data on instances.</b>The following structure weighs several hundred bytes. If we expected very
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP19" class="paragraph-anchor"></a><b>&#167;19. Map data on instances.</b>  The following structure weighs several hundred bytes. If we expected very
 large numbers of instances then it might be worth economising here, but
-profiling suggests that it really isn't.
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">MAP_DATA</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">) </span><span class="identifier-syntax">FEATURE_DATA_ON_INSTANCE</span><span class="plain-syntax">(</span><span class="identifier-syntax">map</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="plain-syntax">)</span>
-<span class="definition-keyword">define</span> <span class="identifier-syntax">MAP_EXIT</span><span class="plain-syntax">(</span><span class="identifier-syntax">X</span><span class="plain-syntax">, </span><span class="identifier-syntax">Y</span><span class="plain-syntax">) </span><span class="identifier-syntax">MAP_DATA</span><span class="plain-syntax">(</span><span class="identifier-syntax">X</span><span class="plain-syntax">)-&gt;</span><span class="element-syntax">exits</span><span class="plain-syntax">[</span><span class="identifier-syntax">Y</span><span class="plain-syntax">]</span>
+profiling suggests that it really isn't.</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">FEATURE_DATA_ON_INSTANCE</span><span class="plain-syntax">(</span><span class="identifier-syntax">map</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="plain-syntax">)</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">Y</span><span class="plain-syntax">) </span><span class="identifier-syntax">MAP_DATA</span><span class="plain-syntax">(</span><span class="identifier-syntax">X</span><span class="plain-syntax">)-&gt;</span><span class="element-syntax">exits</span><span class="plain-syntax">[</span><span class="identifier-syntax">Y</span><span class="plain-syntax">]</span>
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">map_data</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="comment-syntax"> these are meaningful for doors only</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">map_connection_a</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">map_connection_b</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">map_direction_a</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">map_direction_b</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">map_data</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="comment-syntax">/* these are meaningful for doors only */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">map_connection_a</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">map_connection_b</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">map_direction_a</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">map_direction_b</span><span class="plain-syntax">;</span>
 
-<span class="plain-syntax">    </span><span class="comment-syntax"> these are meaningful for directions only</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">direction_index</span><span class="plain-syntax">; </span><span class="comment-syntax"> counts 0, 1, 2, ..., in order of creation</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">direction_iname</span><span class="plain-syntax">; </span><span class="comment-syntax"> for the constant instance ref</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">binary_predicate</span><span class="plain-syntax"> *</span><span class="identifier-syntax">direction_relation</span><span class="plain-syntax">; </span><span class="comment-syntax"> the corresponding "mapped D of" relation</span>
+<span class="plain-syntax">    </span><span class="comment-syntax">/* these are meaningful for directions only */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">direction_index</span><span class="plain-syntax">; </span><span class="comment-syntax">/* counts 0, 1, 2, ..., in order of creation */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">direction_iname</span><span class="plain-syntax">; </span><span class="comment-syntax">/* for the constant instance ref */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">binary_predicate</span><span class="plain-syntax"> *</span><span class="identifier-syntax">direction_relation</span><span class="plain-syntax">; </span><span class="comment-syntax">/* the corresponding "mapped D of" relation */</span>
 
-<span class="plain-syntax">    </span><span class="comment-syntax"> these are meaningful for rooms only</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">exits</span><span class="plain-syntax">[</span><span class="identifier-syntax">MAX_DIRECTIONS</span><span class="plain-syntax">];</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">exits_set_at</span><span class="plain-syntax">[</span><span class="identifier-syntax">MAX_DIRECTIONS</span><span class="plain-syntax">];</span>
+<span class="plain-syntax">    </span><span class="comment-syntax">/* these are meaningful for rooms only */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">exits</span><span class="plain-syntax">[</span><span class="identifier-syntax">MAX_DIRECTIONS</span><span class="plain-syntax">];</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">exits_set_at</span><span class="plain-syntax">[</span><span class="identifier-syntax">MAX_DIRECTIONS</span><span class="plain-syntax">];</span>
 
 <span class="plain-syntax">    </span><span class="identifier-syntax">CLASS_DEFINITION</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">map_data</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">map_data</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>The structure map_data is accessed in 3/mcr, 3/mhr and here.</li></ul>
-<p class="commentary firstcommentary"><a id="SP20" class="paragraph-anchor"></a><b>&#167;20. </b></p>
+<p class="commentary firstcommentary"><a id="SP20" class="paragraph-anchor"></a><b>&#167;20. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::new_subject_notify</span><button class="popup" onclick="togglePopup('usagePopup13')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup13">Usage of <span class="code-font"><span class="function-syntax">Map::new_subject_notify</span></span>:<br/><a href="3-tm.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">subj</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">map_data</span><span class="plain-syntax"> *</span><span class="identifier-syntax">md</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="reserved-syntax">map_data</span><span class="plain-syntax">);</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::new_subject_notify</span><button class="popup" onclick="togglePopup('usagePopup13')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup13">Usage of <span class="code-font"><span class="function-syntax">Map::new_subject_notify</span></span>:<br/><a href="3-tm.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">subj</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">map_data</span><span class="plain-syntax"> *</span><span class="identifier-syntax">md</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="identifier-syntax">map_data</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">md</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">map_connection_a</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="identifier-syntax">md</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">map_connection_b</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">md</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">map_direction_a</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="identifier-syntax">md</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">map_direction_b</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 
-<span class="plain-syntax">    </span><span class="identifier-syntax">md</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">direction_index</span><span class="plain-syntax"> = -1;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">md</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">direction_index</span><span class="plain-syntax"> = </span><span class="constant-syntax">-1</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">md</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">direction_relation</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">md</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">direction_iname</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;</span><span class="identifier-syntax">MAX_DIRECTIONS</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) {</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;</span><span class="identifier-syntax">MAX_DIRECTIONS</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">md</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">exits_set_at</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">] = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">md</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">exits</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">] = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    }</span>
@@ -476,35 +486,36 @@ profiling suggests that it really isn't.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP21" class="paragraph-anchor"></a><b>&#167;21. </b>Special properties.
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP21" class="paragraph-anchor"></a><b>&#167;21. </b>  Special properties.
 These are property names to do with mapping which Inform provides special
 support for. Two are visible to I7 authors, and the others are low-level
-properties needed for the run-time implementation.
-</p>
-
+properties needed for the run-time implementation.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P_other_side</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax"> a value property for the other side of a door</span>
-<span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P_opposite</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax"> a value property for the reverse of a direction</span>
+<span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P_other_side</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax">/* a value property for the other side of a door */</span>
+<span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P_opposite</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax">/* a value property for the reverse of a direction */</span>
 
-<span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P_door</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax"> Inter only</span>
-<span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P_door_dir</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax"> Inter only</span>
-<span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P_door_to</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax"> Inter only</span>
-<span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P_room_index</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax"> Inter only: workspace for path-finding through the map</span>
-<span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P_found_in</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax"> Inter only: needed for multiply-present objects</span>
+<span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P_door</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax">/* Inter only */</span>
+<span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P_door_dir</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax">/* Inter only */</span>
+<span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P_door_to</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax">/* Inter only */</span>
+<span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P_room_index</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax">/* Inter only: workspace for path-finding through the map */</span>
+<span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P_found_in</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax">/* Inter only: needed for multiply-present objects */</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP22" class="paragraph-anchor"></a><b>&#167;22. </b>We recognise these by their English names when they are defined by the
-Standard Rules. (So there is no need to translate this to other languages.)
-</p>
-
-<pre class="displayed-code all-displayed-code code-font">
-<span class="function-syntax">&lt;notable-map-properties&gt;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">opposite</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">leading</span><span class="plain-syntax">-</span><span class="identifier-syntax">through</span><span class="plain-syntax"> </span><span class="identifier-syntax">destination</span>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP22" class="paragraph-anchor"></a><b>&#167;22. </b>  We recognise these by their English names when they are defined by the
+Standard Rules. (So there is no need to translate this to other languages.)</p>
+</div>
+<pre class="Preform-displayed-code all-displayed-code code-font">
+<span class="Preform-function-syntax">&lt;notable-map-properties&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">opposite</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">leading-through</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">destination</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP23" class="paragraph-anchor"></a><b>&#167;23. </b></p>
+<ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
+<p class="commentary firstcommentary"><a id="SP23" class="paragraph-anchor"></a><b>&#167;23. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::new_property_notify</span><button class="popup" onclick="togglePopup('usagePopup14')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup14">Usage of <span class="code-font"><span class="function-syntax">Map::new_property_notify</span></span>:<br/><a href="3-tm.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prn</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::new_property_notify</span><button class="popup" onclick="togglePopup('usagePopup14')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup14">Usage of <span class="code-font"><span class="function-syntax">Map::new_property_notify</span></span>:<br/><a href="3-tm.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prn</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="function-syntax">&lt;notable-map-properties&gt;(prn-&gt;</span><span class="element-syntax">name</span><span class="plain-syntax">)) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="function-syntax">&lt;&lt;r&gt;&gt;</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">: </span><span class="identifier-syntax">P_opposite</span><span class="plain-syntax"> = </span><span class="identifier-syntax">prn</span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
@@ -514,13 +525,13 @@ Standard Rules. (So there is no need to translate this to other languages.)
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP24" class="paragraph-anchor"></a><b>&#167;24. </b>The following is used also by <a href="3-bck.html" class="internal">Backdrops</a>, since both features use a
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP24" class="paragraph-anchor"></a><b>&#167;24. </b>  The following is used also by <a href="3-bck.html" class="internal">Backdrops</a>, since both features use a
 shared Inter-level property at run-time. But this function will work even if
-the map feature is inactive; so you can still have backdrops without a map.
-</p>
-
+the map feature is inactive; so you can still have backdrops without a map.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Map::set_found_in</span><button class="popup" onclick="togglePopup('usagePopup15')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup15">Usage of <span class="code-font"><span class="function-syntax">Map::set_found_in</span></span>:<br/><a href="3-tm.html#SP33_8_1">&#167;33.8.1</a><br/>Backdrops - <a href="3-bck.html#SP11">&#167;11</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">val</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Map::set_found_in</span><button class="popup" onclick="togglePopup('usagePopup15')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup15">Usage of <span class="code-font"><span class="function-syntax">Map::set_found_in</span></span>:<br/><a href="3-tm.html#SP33_8_1">&#167;33.8.1</a><br/>Backdrops - <a href="3-bck.html#SP11">&#167;11</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">val</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">P_found_in</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">P_found_in</span><span class="plain-syntax"> = </span><span class="identifier-syntax">ValueProperties::new_nameless</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="string-syntax">"found_in"</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">K_value</span><span class="plain-syntax">);</span>
@@ -530,10 +541,10 @@ the map feature is inactive; so you can still have backdrops without a map.
 <span class="plain-syntax">    </span><span class="identifier-syntax">ValueProperties::assert</span><span class="plain-syntax">(</span><span class="identifier-syntax">P_found_in</span><span class="plain-syntax">, </span><span class="identifier-syntax">Instances::as_subject</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">), </span><span class="identifier-syntax">val</span><span class="plain-syntax">, </span><span class="identifier-syntax">CERTAIN_CE</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP25" class="paragraph-anchor"></a><b>&#167;25. </b>This utility returns the "opposite" property for a direction, which is
-always another direction: for example, the opposite of northwest is southeast.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP25" class="paragraph-anchor"></a><b>&#167;25. </b>  This utility returns the &quot;opposite&quot; property for a direction, which is
+always another direction: for example, the opposite of northwest is southeast.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="function-syntax">Map::get_value_of_opposite_property</span><button class="popup" onclick="togglePopup('usagePopup16')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup16">Usage of <span class="code-font"><span class="function-syntax">Map::get_value_of_opposite_property</span></span>:<br/><a href="3-tm.html#SP32">&#167;32</a>, <a href="3-tm.html#SP33_8_4">&#167;33.8.4</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">val</span><span class="plain-syntax"> = </span><span class="identifier-syntax">PropertyInferences::value_of</span><span class="plain-syntax">(</span>
@@ -542,21 +553,19 @@ always another direction: for example, the opposite of northwest is southeast.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP26" class="paragraph-anchor"></a><b>&#167;26. The exits array.</b>The bulk of the map is stored in the arrays called <span class="extract"><span class="extract-syntax">exits</span></span>, which hold the
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP26" class="paragraph-anchor"></a><b>&#167;26. The exits array.</b>  The bulk of the map is stored in the arrays called <code>exits</code>, which hold the
 map connections fanning out from each room. The direction numbers carefully
-noted above are keys into these arrays.
-</p>
-
-<p class="commentary">It might look a little wasteful of I7's memory to expand the direction
+noted above are keys into these arrays.</p>
+<p>It might look a little wasteful of I7's memory to expand the direction
 inferences, a nicely compact representation, into large and sparse arrays.
 But it's convenient, and profiling suggests that the memory overhead is not
-significant.
-</p>
-
+significant.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Map::build_exits_array</span><button class="popup" onclick="togglePopup('usagePopup17')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup17">Usage of <span class="code-font"><span class="function-syntax">Map::build_exits_array</span></span>:<br/><a href="3-tm.html#SP33">&#167;33</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Map::build_exits_array</span><button class="popup" onclick="togglePopup('usagePopup17')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup17">Usage of <span class="code-font"><span class="function-syntax">Map::build_exits_array</span></span>:<br/><a href="3-tm.html#SP33">&#167;33</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">d</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">d</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER_INSTANCES</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_object</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Kinds::Behaviour::is_object_of_kind</span><span class="plain-syntax">(</span><span class="identifier-syntax">Instances::to_kind</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">), </span><span class="identifier-syntax">K_direction</span><span class="plain-syntax">)) {</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">MAP_DATA</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">)-&gt;</span><span class="element-syntax">direction_index</span><span class="plain-syntax"> = </span><span class="identifier-syntax">d</span><span class="plain-syntax">++;</span>
@@ -571,7 +580,7 @@ significant.
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">infs1</span><span class="plain-syntax">) </span><span class="identifier-syntax">to</span><span class="plain-syntax"> = </span><span class="identifier-syntax">InstanceSubjects::to_object_instance</span><span class="plain-syntax">(</span><span class="identifier-syntax">infs1</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">infs2</span><span class="plain-syntax">) </span><span class="identifier-syntax">dir</span><span class="plain-syntax"> = </span><span class="identifier-syntax">InstanceSubjects::to_object_instance</span><span class="plain-syntax">(</span><span class="identifier-syntax">infs2</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">to</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">dir</span><span class="plain-syntax">)) {</span>
-<span class="plain-syntax">                </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">dn</span><span class="plain-syntax"> = </span><span class="identifier-syntax">MAP_DATA</span><span class="plain-syntax">(</span><span class="identifier-syntax">dir</span><span class="plain-syntax">)-&gt;</span><span class="element-syntax">direction_index</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">                </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">dn</span><span class="plain-syntax"> = </span><span class="identifier-syntax">MAP_DATA</span><span class="plain-syntax">(</span><span class="identifier-syntax">dir</span><span class="plain-syntax">)-&gt;</span><span class="element-syntax">direction_index</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">                </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">dn</span><span class="plain-syntax"> &gt;= </span><span class="constant-syntax">0</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">dn</span><span class="plain-syntax"> &lt; </span><span class="identifier-syntax">MAX_DIRECTIONS</span><span class="plain-syntax">)) {</span>
 <span class="plain-syntax">                    </span><span class="identifier-syntax">MAP_EXIT</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">dn</span><span class="plain-syntax">) = </span><span class="identifier-syntax">to</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">                    </span><span class="identifier-syntax">MAP_DATA</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">)-&gt;</span><span class="element-syntax">exits_set_at</span><span class="plain-syntax">[</span><span class="identifier-syntax">dn</span><span class="plain-syntax">] = </span><span class="identifier-syntax">Inferences::where_inferred</span><span class="plain-syntax">(</span><span class="identifier-syntax">inf</span><span class="plain-syntax">);</span>
@@ -581,27 +590,27 @@ significant.
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP27" class="paragraph-anchor"></a><b>&#167;27. Door connectivity.</b>We've seen how most of the map is represented, in the <span class="extract"><span class="extract-syntax">exits</span></span> arrays. The
-missing information has to do with doors. If east of the Carousel Room is
-the oak door, then <span class="extract"><span class="extract-syntax">Map_Storage</span></span> reveals only that fact, and not what's on
-the other side of the door. This will eventually be compiled into the
-<span class="extract"><span class="extract-syntax">door_to</span></span> property for the oak door object.
-</p>
-
-<p class="commentary">We would like to deduce from a sentence like
-</p>
+<p class="commentary firstcommentary"><a id="SP27" class="paragraph-anchor"></a><b>&#167;27. Door connectivity.</b> </p>
 
 <blockquote>
     <p>The other side of the iron door is the Black Holding Area.</p>
 </blockquote>
 
-<p class="commentary">that the "Black Holding Area" is a room; otherwise, if it has no map
+<div class="lsmarkdown">
+<p>We've seen how most of the map is represented, in the <code>exits</code> arrays. The
+missing information has to do with doors. If east of the Carousel Room is
+the oak door, then <code>Map_Storage</code> reveals only that fact, and not what's on
+the other side of the door. This will eventually be compiled into the
+<code>door_to</code> property for the oak door object.</p>
+<p>We would like to deduce from a sentence like</p>
+</div>
+<div class="lsmarkdown">
+<p>that the &quot;Black Holding Area&quot; is a room; otherwise, if it has no map
 connections, Inform may well think it's just a thing. This is where that
-deduction is made:
-</p>
-
+deduction is made:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::inference_drawn</span><button class="popup" onclick="togglePopup('usagePopup18')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup18">Usage of <span class="code-font"><span class="function-syntax">Map::inference_drawn</span></span>:<br/><a href="3-tm.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inference</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">subj</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::inference_drawn</span><button class="popup" onclick="togglePopup('usagePopup18')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup18">Usage of <span class="code-font"><span class="function-syntax">Map::inference_drawn</span></span>:<br/><a href="3-tm.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inference</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">subj</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prn</span><span class="plain-syntax"> = </span><span class="identifier-syntax">PropertyInferences::get_property</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">prn</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">prn</span><span class="plain-syntax"> == </span><span class="identifier-syntax">P_other_side</span><span class="plain-syntax">)) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">val</span><span class="plain-syntax"> = </span><span class="identifier-syntax">PropertyInferences::get_value</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">);</span>
@@ -611,18 +620,19 @@ deduction is made:
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP28" class="paragraph-anchor"></a><b>&#167;28. Linguistic extras.</b>These NPs allow us to refer to the special directions "up" and "down":
-</p>
-
-<pre class="displayed-code all-displayed-code code-font">
-<span class="function-syntax">&lt;notable-map-noun-phrases&gt;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">below</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">above</span>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP28" class="paragraph-anchor"></a><b>&#167;28. Linguistic extras.</b>  These NPs allow us to refer to the special directions &quot;up&quot; and &quot;down&quot;:</p>
+</div>
+<pre class="Preform-displayed-code all-displayed-code code-font">
+<span class="Preform-function-syntax">&lt;notable-map-noun-phrases&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">below</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">above</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP29" class="paragraph-anchor"></a><b>&#167;29. </b></p>
+<ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
+<p class="commentary firstcommentary"><a id="SP29" class="paragraph-anchor"></a><b>&#167;29. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::act_on_special_NPs</span><button class="popup" onclick="togglePopup('usagePopup19')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup19">Usage of <span class="code-font"><span class="function-syntax">Map::act_on_special_NPs</span></span>:<br/><a href="3-tm.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">p</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::act_on_special_NPs</span><button class="popup" onclick="togglePopup('usagePopup19')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup19">Usage of <span class="code-font"><span class="function-syntax">Map::act_on_special_NPs</span></span>:<br/><a href="3-tm.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">p</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="function-syntax">&lt;notable-map-noun-phrases&gt;</span><span class="plain-syntax">(</span><span class="identifier-syntax">Node::get_text</span><span class="plain-syntax">(</span><span class="identifier-syntax">p</span><span class="plain-syntax">))) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="function-syntax">&lt;&lt;r&gt;&gt;</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">:</span>
@@ -642,34 +652,32 @@ deduction is made:
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP30" class="paragraph-anchor"></a><b>&#167;30. </b>Consider the sentences:
-</p>
+<p class="commentary firstcommentary"><a id="SP30" class="paragraph-anchor"></a><b>&#167;30. </b> </p>
 
 <blockquote>
     <p>A dead end is a kind of room. The Pitch is a room. East is a dead end.</p>
 </blockquote>
 
-<p class="commentary">Inform would ordinarily read the third sentence as saying that the "east"
-object (a direction) has kind "dead end", and would throw a problem message.
-</p>
-
-<p class="commentary">What was actually meant, of course, is that a new instance of "dead end"
-exists to the east of the Pitch; in effect, we read it as:
-</p>
-
 <blockquote>
     <p>Z is a dead end. East is Z.</p>
 </blockquote>
 
-<p class="commentary">where Z is a newly created and nameless object.
-</p>
-
-<p class="commentary">But we must be careful not to catch "East is a direction" in the same net
-because, of course, that does set its kind.
-</p>
-
+<div class="lsmarkdown">
+<p>Consider the sentences:</p>
+</div>
+<div class="lsmarkdown">
+<p>Inform would ordinarily read the third sentence as saying that the &quot;east&quot;
+object (a direction) has kind &quot;dead end&quot;, and would throw a problem message.</p>
+<p>What was actually meant, of course, is that a new instance of &quot;dead end&quot;
+exists to the east of the Pitch; in effect, we read it as:</p>
+</div>
+<div class="lsmarkdown">
+<p>where Z is a newly created and nameless object.</p>
+<p>But we must be careful not to catch &quot;East is a direction&quot; in the same net
+because, of course, that does set its kind.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::intervene_in_assertion</span><button class="popup" onclick="togglePopup('usagePopup20')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup20">Usage of <span class="code-font"><span class="function-syntax">Map::intervene_in_assertion</span></span>:<br/><a href="3-tm.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">px</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">py</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::intervene_in_assertion</span><button class="popup" onclick="togglePopup('usagePopup20')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup20">Usage of <span class="code-font"><span class="function-syntax">Map::intervene_in_assertion</span></span>:<br/><a href="3-tm.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">px</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">py</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">Node::get_type</span><span class="plain-syntax">(</span><span class="identifier-syntax">px</span><span class="plain-syntax">) == </span><span class="identifier-syntax">PROPER_NOUN_NT</span><span class="plain-syntax">) &amp;&amp;</span>
 <span class="plain-syntax">        (</span><span class="identifier-syntax">Node::get_type</span><span class="plain-syntax">(</span><span class="identifier-syntax">py</span><span class="plain-syntax">) == </span><span class="identifier-syntax">COMMON_NOUN_NT</span><span class="plain-syntax">)) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">left_object</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Node::get_subject</span><span class="plain-syntax">(</span><span class="identifier-syntax">px</span><span class="plain-syntax">);</span>
@@ -690,30 +698,28 @@ because, of course, that does set its kind.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP31" class="paragraph-anchor"></a><b>&#167;31. The map-connector.</b>Now we come to the code which creates map connections. This needs special
-treatment only so that asserting \(M(X, Y)\) also asserts \(M'(Y, X)\), where
-\(M'\) is the predicate for the opposite direction to \(M\); but since this
-is only a guess, it drops from <span class="extract"><span class="extract-syntax">CERTAIN_CE</span></span> to merely <span class="extract"><span class="extract-syntax">LIKELY_CE</span></span>.
-</p>
-
-<p class="commentary">However, the map-connector can also run in one-way mode, where it doesn't
-make this guess; so we begin with switching in and out.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP31" class="paragraph-anchor"></a><b>&#167;31. The map-connector.</b>  Now we come to the code which creates map connections. This needs special
+treatment only so that asserting \INWEBMATH(M(X, Y)\INWEBMATH) also asserts \INWEBMATH(M'(Y, X)\INWEBMATH), where
+\INWEBMATH(M'\INWEBMATH) is the predicate for the opposite direction to \INWEBMATH(M\INWEBMATH); but since this
+is only a guess, it drops from <code>CERTAIN_CE</code> to merely <code>LIKELY_CE</code>.</p>
+<p>However, the map-connector can also run in one-way mode, where it doesn't
+make this guess; so we begin with switching in and out.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">oneway_map_connections_only</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Map::enter_one_way_mode</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) { </span><span class="identifier-syntax">oneway_map_connections_only</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">; }</span>
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Map::exit_one_way_mode</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) { </span><span class="identifier-syntax">oneway_map_connections_only</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">; }</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">oneway_map_connections_only</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Map::enter_one_way_mode</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) { </span><span class="identifier-syntax">oneway_map_connections_only</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">; }</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Map::exit_one_way_mode</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) { </span><span class="identifier-syntax">oneway_map_connections_only</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">; }</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP32" class="paragraph-anchor"></a><b>&#167;32. </b>Note that, in order to make the conjectural reverse map direction, we need
-to look up the "opposite" property of the forward one. This relies on all
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP32" class="paragraph-anchor"></a><b>&#167;32. </b>  Note that, in order to make the conjectural reverse map direction, we need
+to look up the &quot;opposite&quot; property of the forward one. This relies on all
 directions having their opposites defined before any map is built, and is the
 reason for Inform's insistence that directions are always created in matched
-pairs.
-</p>
-
+pairs.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Map::connect</span><span class="plain-syntax">(</span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">i_from</span><span class="plain-syntax">, </span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">i_to</span><span class="plain-syntax">,</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Map::connect</span><span class="plain-syntax">(</span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">i_from</span><span class="plain-syntax">, </span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">i_to</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">i_dir</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">go_from</span><span class="plain-syntax"> = </span><span class="identifier-syntax">InstanceSubjects::to_object_instance</span><span class="plain-syntax">(</span><span class="identifier-syntax">i_from</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">go_to</span><span class="plain-syntax"> = </span><span class="identifier-syntax">InstanceSubjects::to_object_instance</span><span class="plain-syntax">(</span><span class="identifier-syntax">i_to</span><span class="plain-syntax">);</span>
@@ -751,11 +757,11 @@ pairs.
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Map::oneway_map_connection</span><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">go_from</span><span class="plain-syntax">, </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">go_to</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">forwards_dir</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">certainty_level</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Map::oneway_map_connection</span><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">go_from</span><span class="plain-syntax">, </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">go_to</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">forwards_dir</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">certainty_level</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">binary_predicate</span><span class="plain-syntax"> *</span><span class="identifier-syntax">bp</span><span class="plain-syntax"> = </span><a href="3-mcr.html#SP9" class="function-link"><span class="function-syntax">MapRelations::get_mapping_relation</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">forwards_dir</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">bp</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"map connection in non-direction"</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">x</span><span class="plain-syntax"> = </span><span class="identifier-syntax">prevailing_mood</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">x</span><span class="plain-syntax"> = </span><span class="identifier-syntax">prevailing_mood</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">prevailing_mood</span><span class="plain-syntax"> = </span><span class="identifier-syntax">certainty_level</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">go_to</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">Assert::true_about</span><span class="plain-syntax">(</span>
@@ -768,42 +774,41 @@ pairs.
 <span class="plain-syntax">    </span><span class="identifier-syntax">prevailing_mood</span><span class="plain-syntax"> = </span><span class="identifier-syntax">x</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP33" class="paragraph-anchor"></a><b>&#167;33. Model completion.</b>And here begins the fun. It's not as easy to write down the requirements for
-the map as might be thought.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP33" class="paragraph-anchor"></a><b>&#167;33. Model completion.</b>  And here begins the fun. It's not as easy to write down the requirements for
+the map as might be thought.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::complete_model</span><button class="popup" onclick="togglePopup('usagePopup21')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup21">Usage of <span class="code-font"><span class="function-syntax">Map::complete_model</span></span>:<br/><a href="3-tm.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">stage</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Map::complete_model</span><button class="popup" onclick="togglePopup('usagePopup21')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup21">Usage of <span class="code-font"><span class="function-syntax">Map::complete_model</span></span>:<br/><a href="3-tm.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">stage</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="identifier-syntax">stage</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="constant-syntax">2</span><span class="plain-syntax">:</span>
-<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP33_1" class="named-paragraph-link"><span class="named-paragraph">Give each room a room-index property as workspace for route finding</span><span class="named-paragraph-number">33.1</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP33_2" class="named-paragraph-link"><span class="named-paragraph">Ensure that map connections are room-to-room, room-to-door or door-to-room</span><span class="named-paragraph-number">33.2</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP33_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Give each room a room-index property as workspace for route finding</span></span><span class="named-paragraph-number">33.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP33_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Ensure that map connections are room-to-room, room-to-door or door-to-room</span></span><span class="named-paragraph-number">33.2</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">problem_count</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP33_3" class="named-paragraph-link"><span class="named-paragraph">Ensure that every door has either one or two connections from it</span><span class="named-paragraph-number">33.3</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP33_3" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Ensure that every door has either one or two connections from it</span></span><span class="named-paragraph-number">33.3</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">problem_count</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP33_4" class="named-paragraph-link"><span class="named-paragraph">Ensure that no door has spurious other connections to it</span><span class="named-paragraph-number">33.4</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP33_4" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Ensure that no door has spurious other connections to it</span></span><span class="named-paragraph-number">33.4</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">problem_count</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP33_5" class="named-paragraph-link"><span class="named-paragraph">Ensure that no door uses both map connections and other side</span><span class="named-paragraph-number">33.5</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP33_5" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Ensure that no door uses both map connections and other side</span></span><span class="named-paragraph-number">33.5</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">problem_count</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP33_6" class="named-paragraph-link"><span class="named-paragraph">Ensure that no door is present in a room to which it does not connect</span><span class="named-paragraph-number">33.6</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP33_6" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Ensure that no door is present in a room to which it does not connect</span></span><span class="named-paragraph-number">33.6</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">problem_count</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP33_7" class="named-paragraph-link"><span class="named-paragraph">Place any one-sided door inside the room which connects to it</span><span class="named-paragraph-number">33.7</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP33_8" class="named-paragraph-link"><span class="named-paragraph">Assert found-in, door-to and door-dir properties for doors</span><span class="named-paragraph-number">33.8</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP33_7" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Place any one-sided door inside the room which connects to it</span></span><span class="named-paragraph-number">33.7</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP33_8" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Assert found-in, door-to and door-dir properties for doors</span></span><span class="named-paragraph-number">33.8</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="constant-syntax">4</span><span class="plain-syntax">: </span><a href="3-tm.html#SP26" class="function-link"><span class="function-syntax">Map::build_exits_array</span></a><span class="plain-syntax">(); </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP33_1" class="paragraph-anchor"></a><b>&#167;33.1. </b>Every room has a <span class="extract"><span class="extract-syntax">room_index</span></span> property. It has no meaningful contents at
-the start of play, and we initialise to \(-1\) since this marks the route-finding
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP33_1" class="paragraph-anchor"></a><b>&#167;33.1. </b>  Every room has a <code>room_index</code> property. It has no meaningful contents at
+the start of play, and we initialise to \INWEBMATH(-1\INWEBMATH) since this marks the route-finding
 cache as being broken. (Route-finding is one of the few really time-critical
 tasks at run-time, which is why we keep complicating the I7 code to
-accommodate it.)
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Give each room a room-index property as workspace for route finding</span><span class="named-paragraph-number">33.1</span></span><span class="comment-syntax"> =</span>
-</p>
+accommodate it.)</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Give each room a room-index property as workspace for route finding</span><span class="named-paragraph-number">33.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">P_room_index</span><span class="plain-syntax"> = </span><span class="identifier-syntax">ValueProperties::new_nameless</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="string-syntax">"room_index"</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_number</span><span class="plain-syntax">);</span>
@@ -816,12 +821,11 @@ accommodate it.)
 <span class="plain-syntax">                </span><span class="identifier-syntax">Instances::as_subject</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">), </span><span class="identifier-syntax">minus_one</span><span class="plain-syntax">, </span><span class="identifier-syntax">CERTAIN_CE</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-tm.html#SP33">&#167;33</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP33_2" class="paragraph-anchor"></a><b>&#167;33.2. </b>The following code does little if the source is correct: it mostly
-checks that various mapping impossibilities do not occur.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Ensure that map connections are room-to-room, room-to-door or door-to-room</span><span class="named-paragraph-number">33.2</span></span><span class="comment-syntax"> =</span>
-</p>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP33_2" class="paragraph-anchor"></a><b>&#167;33.2. </b>  The following code does little if the source is correct: it mostly
+checks that various mapping impossibilities do not occur.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Ensure that map connections are room-to-room, room-to-door or door-to-room</span><span class="named-paragraph-number">33.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">;</span>
@@ -851,17 +855,16 @@ checks that various mapping impossibilities do not occur.
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-tm.html#SP33">&#167;33</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP33_3" class="paragraph-anchor"></a><b>&#167;33.3. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Ensure that every door has either one or two connections from it</span><span class="named-paragraph-number">33.3</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP33_3" class="paragraph-anchor"></a><b>&#167;33.3. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Ensure that every door has either one or two connections from it</span><span class="named-paragraph-number">33.3</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER_INSTANCES</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_object</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="3-tm.html#SP13" class="function-link"><span class="function-syntax">Map::instance_is_a_door</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">)) {</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">connections_in</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">connections_in</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">inference</span><span class="plain-syntax"> *</span><span class="identifier-syntax">inf</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">where</span><span class="plain-syntax">[3];</span>
-<span class="plain-syntax">            </span><span class="identifier-syntax">where</span><span class="plain-syntax">[0] = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="identifier-syntax">where</span><span class="plain-syntax">[1] = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="identifier-syntax">where</span><span class="plain-syntax">[2] = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax"> to placate </span><span class="extract"><span class="extract-syntax">gcc</span></span>
+<span class="plain-syntax">            </span><span class="identifier-syntax">where</span><span class="plain-syntax">[0] = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="identifier-syntax">where</span><span class="plain-syntax">[1] = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="identifier-syntax">where</span><span class="plain-syntax">[2] = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax">/* to placate |gcc| */</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">inference</span><span class="plain-syntax"> *</span><span class="identifier-syntax">front_side_inf</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">, *</span><span class="identifier-syntax">back_side_inf</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">POSITIVE_KNOWLEDGE_LOOP</span><span class="plain-syntax">(</span><span class="identifier-syntax">inf</span><span class="plain-syntax">, </span><span class="identifier-syntax">Instances::as_subject</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">), </span><span class="identifier-syntax">direction_inf</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">infs1</span><span class="plain-syntax">, *</span><span class="identifier-syntax">infs2</span><span class="plain-syntax">;</span>
@@ -898,13 +901,12 @@ checks that various mapping impossibilities do not occur.
 <span class="plain-syntax">                    </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">PX</span><span class="plain-syntax"> = </span><span class="identifier-syntax">where</span><span class="plain-syntax">[0]; </span><span class="identifier-syntax">where</span><span class="plain-syntax">[0] = </span><span class="identifier-syntax">where</span><span class="plain-syntax">[1]; </span><span class="identifier-syntax">where</span><span class="plain-syntax">[1] = </span><span class="identifier-syntax">PX</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">                }</span>
 <span class="plain-syntax">            }</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">connections_in</span><span class="plain-syntax"> == </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP33_3_1" class="named-paragraph-link"><span class="named-paragraph">Issue a problem message for a stranded door</span><span class="named-paragraph-number">33.3.1</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">connections_in</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">2</span><span class="plain-syntax">) </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP33_3_2" class="named-paragraph-link"><span class="named-paragraph">Issue a problem message for an overactive door</span><span class="named-paragraph-number">33.3.2</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">connections_in</span><span class="plain-syntax"> == </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP33_3_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Issue a problem message for a stranded door</span></span><span class="named-paragraph-number">33.3.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">connections_in</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">2</span><span class="plain-syntax">) </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP33_3_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Issue a problem message for an overactive door</span></span><span class="named-paragraph-number">33.3.2</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-tm.html#SP33">&#167;33</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP33_3_1" class="paragraph-anchor"></a><b>&#167;33.3.1. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Issue a problem message for a stranded door</span><span class="named-paragraph-number">33.3.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP33_3_1" class="paragraph-anchor"></a><b>&#167;33.3.1. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Issue a problem message for a stranded door</span><span class="named-paragraph-number">33.3.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">StandardProblems::object_problem</span><span class="plain-syntax">(</span><span class="identifier-syntax">_p_</span><span class="plain-syntax">(</span><span class="identifier-syntax">PM_DoorUnconnected</span><span class="plain-syntax">),</span>
@@ -915,8 +917,7 @@ checks that various mapping impossibilities do not occur.
 <span class="plain-syntax">        </span><span class="string-syntax">"east of the Library and west of the Conservatory'."</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-tm.html#SP33_3">&#167;33.3</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP33_3_2" class="paragraph-anchor"></a><b>&#167;33.3.2. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Issue a problem message for an overactive door</span><span class="named-paragraph-number">33.3.2</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP33_3_2" class="paragraph-anchor"></a><b>&#167;33.3.2. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Issue a problem message for an overactive door</span><span class="named-paragraph-number">33.3.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">Problems::quote_object</span><span class="plain-syntax">(1, </span><span class="identifier-syntax">I</span><span class="plain-syntax">);</span>
@@ -933,15 +934,14 @@ checks that various mapping impossibilities do not occur.
 <span class="plain-syntax">    </span><span class="identifier-syntax">Problems::issue_problem_end</span><span class="plain-syntax">();</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-tm.html#SP33_3">&#167;33.3</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP33_4" class="paragraph-anchor"></a><b>&#167;33.4. </b>Since map connections are not always reversible (only most of the time), we
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP33_4" class="paragraph-anchor"></a><b>&#167;33.4. </b>  Since map connections are not always reversible (only most of the time), we
 can't assume that having at most two ways out means there are at most two ways
 in. So we check here that any way in to a door corresponds to one of its ways
 out. (The reverse need not be true: it's possible for a door to lead to a room
-from which there's no way back.)
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Ensure that no door has spurious other connections to it</span><span class="named-paragraph-number">33.4</span></span><span class="comment-syntax"> =</span>
-</p>
+from which there's no way back.)</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Ensure that no door has spurious other connections to it</span><span class="named-paragraph-number">33.4</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">;</span>
@@ -986,8 +986,7 @@ from which there's no way back.)
 <span class="plain-syntax">        }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-tm.html#SP33">&#167;33</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP33_5" class="paragraph-anchor"></a><b>&#167;33.5. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Ensure that no door uses both map connections and other side</span><span class="named-paragraph-number">33.5</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP33_5" class="paragraph-anchor"></a><b>&#167;33.5. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Ensure that no door uses both map connections and other side</span><span class="named-paragraph-number">33.5</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">;</span>
@@ -1006,16 +1005,15 @@ from which there's no way back.)
 <span class="plain-syntax">                    </span><span class="string-syntax">"two-sided at once, I'm going to object to this."</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-tm.html#SP33">&#167;33</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP33_6" class="paragraph-anchor"></a><b>&#167;33.6. </b>The Spatial model requires that rooms are free-standing, that is, not in, on
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP33_6" class="paragraph-anchor"></a><b>&#167;33.6. </b>  The Spatial model requires that rooms are free-standing, that is, not in, on
 or part of anything else; but it knows nothing of doors. So if we are not
 careful, the source text could put a door on a shelf, or make it part of a
 robot, or something like that. (Testing showed, in fact, that some authors
 actually wanted to do this, though the result was a horribly inconsistent
-model at run-time.) This is where we apply the kill-joy rule in question:
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Ensure that no door is present in a room to which it does not connect</span><span class="named-paragraph-number">33.6</span></span><span class="comment-syntax"> =</span>
-</p>
+model at run-time.) This is where we apply the kill-joy rule in question:</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Ensure that no door is present in a room to which it does not connect</span><span class="named-paragraph-number">33.6</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">;</span>
@@ -1030,13 +1028,12 @@ model at run-time.) This is where we apply the kill-joy rule in question:
 <span class="plain-syntax">                </span><span class="string-syntax">"between, but not in a third place altogether."</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-tm.html#SP33">&#167;33</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP33_7" class="paragraph-anchor"></a><b>&#167;33.7. </b>We don't need to do the following for two-sided doors since they will bypass
-the object tree and use I6's <span class="extract"><span class="extract-syntax">found_in</span></span> to be present in both rooms connecting
-to them.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Place any one-sided door inside the room which connects to it</span><span class="named-paragraph-number">33.7</span></span><span class="comment-syntax"> =</span>
-</p>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP33_7" class="paragraph-anchor"></a><b>&#167;33.7. </b>  We don't need to do the following for two-sided doors since they will bypass
+the object tree and use I6's <code>found_in</code> to be present in both rooms connecting
+to them.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Place any one-sided door inside the room which connects to it</span><span class="named-paragraph-number">33.7</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">;</span>
@@ -1047,14 +1044,13 @@ to them.
 <span class="plain-syntax">            </span><a href="3-sm.html#SP29" class="function-link"><span class="function-syntax">Spatial::set_progenitor</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">MAP_DATA</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">)-&gt;</span><span class="element-syntax">map_connection_a</span><span class="plain-syntax">, </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-tm.html#SP33">&#167;33</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP33_8" class="paragraph-anchor"></a><b>&#167;33.8. </b>At this point we know that the doors are correctly plumbed in, and all we
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP33_8" class="paragraph-anchor"></a><b>&#167;33.8. </b>  At this point we know that the doors are correctly plumbed in, and all we
 need to do is compile properties to implement them. See the DM4 for details
 of how to compile one and two-sided doors in I6. Alternatively, take it on
-trust that there is nothing surprising here.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Assert found-in, door-to and door-dir properties for doors</span><span class="named-paragraph-number">33.8</span></span><span class="comment-syntax"> =</span>
-</p>
+trust that there is nothing surprising here.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Assert found-in, door-to and door-dir properties for doors</span><span class="named-paragraph-number">33.8</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">P_door</span><span class="plain-syntax"> = </span><span class="identifier-syntax">EitherOrProperties::new_nameless</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="string-syntax">"door"</span><span class="plain-syntax">);</span>
@@ -1071,65 +1067,59 @@ trust that there is nothing surprising here.
 <span class="plain-syntax">            </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">D1</span><span class="plain-syntax"> = </span><span class="identifier-syntax">MAP_DATA</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">)-&gt;</span><span class="element-syntax">map_direction_a</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">D2</span><span class="plain-syntax"> = </span><span class="identifier-syntax">MAP_DATA</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">)-&gt;</span><span class="element-syntax">map_direction_b</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">R1</span><span class="plain-syntax"> &amp;&amp; </span><span class="identifier-syntax">R2</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">                </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP33_8_1" class="named-paragraph-link"><span class="named-paragraph">Assert found-in for a two-sided door</span><span class="named-paragraph-number">33.8.1</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">                </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP33_8_2" class="named-paragraph-link"><span class="named-paragraph">Assert door-dir for a two-sided door</span><span class="named-paragraph-number">33.8.2</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">                </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP33_8_3" class="named-paragraph-link"><span class="named-paragraph">Assert door-to for a two-sided door</span><span class="named-paragraph-number">33.8.3</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">                </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP33_8_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Assert found-in for a two-sided door</span></span><span class="named-paragraph-number">33.8.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">                </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP33_8_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Assert door-dir for a two-sided door</span></span><span class="named-paragraph-number">33.8.2</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">                </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP33_8_3" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Assert door-to for a two-sided door</span></span><span class="named-paragraph-number">33.8.3</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            } </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">R1</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">                </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP33_8_4" class="named-paragraph-link"><span class="named-paragraph">Assert door-dir for a one-sided door</span><span class="named-paragraph-number">33.8.4</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">                </span><span class="named-paragraph-container code-font"><a href="3-tm.html#SP33_8_4" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Assert door-dir for a one-sided door</span></span><span class="named-paragraph-number">33.8.4</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            }</span>
 <span class="plain-syntax">        }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-tm.html#SP33">&#167;33</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP33_8_1" class="paragraph-anchor"></a><b>&#167;33.8.1. </b>Here <span class="extract"><span class="extract-syntax">found_in</span></span> is a two-entry list.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Assert found-in for a two-sided door</span><span class="named-paragraph-number">33.8.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP33_8_1" class="paragraph-anchor"></a><b>&#167;33.8.1. </b>  Here <code>found_in</code> is a two-entry list.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Assert found-in for a two-sided door</span><span class="named-paragraph-number">33.8.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">val</span><span class="plain-syntax"> = </span><span class="identifier-syntax">RTDoors::found_in_for_2_sided</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">R1</span><span class="plain-syntax">, </span><span class="identifier-syntax">R2</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="3-tm.html#SP24" class="function-link"><span class="function-syntax">Map::set_found_in</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">val</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-tm.html#SP33_8">&#167;33.8</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP33_8_2" class="paragraph-anchor"></a><b>&#167;33.8.2. </b>Here <span class="extract"><span class="extract-syntax">door_dir</span></span> is a routine looking at the current location and returning
-always the way to the other room &mdash; the one we are not in.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Assert door-dir for a two-sided door</span><span class="named-paragraph-number">33.8.2</span></span><span class="comment-syntax"> =</span>
-</p>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP33_8_2" class="paragraph-anchor"></a><b>&#167;33.8.2. </b>  Here <code>door_dir</code> is a routine looking at the current location and returning
+always the way to the other room -- the one we are not in.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Assert door-dir for a two-sided door</span><span class="named-paragraph-number">33.8.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">val</span><span class="plain-syntax"> = </span><span class="identifier-syntax">RTDoors::door_dir_for_2_sided</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">R1</span><span class="plain-syntax">, </span><span class="identifier-syntax">D1</span><span class="plain-syntax">, </span><span class="identifier-syntax">D2</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">ValueProperties::assert</span><span class="plain-syntax">(</span><span class="identifier-syntax">P_door_dir</span><span class="plain-syntax">, </span><span class="identifier-syntax">Instances::as_subject</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">), </span><span class="identifier-syntax">val</span><span class="plain-syntax">, </span><span class="identifier-syntax">CERTAIN_CE</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-tm.html#SP33_8">&#167;33.8</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP33_8_3" class="paragraph-anchor"></a><b>&#167;33.8.3. </b>Here <span class="extract"><span class="extract-syntax">door_to</span></span> is a routine looking at the current location and returning
-always the other room &mdash; the one we are not in.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Assert door-to for a two-sided door</span><span class="named-paragraph-number">33.8.3</span></span><span class="comment-syntax"> =</span>
-</p>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP33_8_3" class="paragraph-anchor"></a><b>&#167;33.8.3. </b>  Here <code>door_to</code> is a routine looking at the current location and returning
+always the other room -- the one we are not in.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Assert door-to for a two-sided door</span><span class="named-paragraph-number">33.8.3</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">val</span><span class="plain-syntax"> = </span><span class="identifier-syntax">RTDoors::door_to_for_2_sided</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">R1</span><span class="plain-syntax">, </span><span class="identifier-syntax">R2</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">ValueProperties::assert</span><span class="plain-syntax">(</span><span class="identifier-syntax">P_door_to</span><span class="plain-syntax">, </span><span class="identifier-syntax">Instances::as_subject</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">), </span><span class="identifier-syntax">val</span><span class="plain-syntax">, </span><span class="identifier-syntax">CERTAIN_CE</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-tm.html#SP33_8">&#167;33.8</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP33_8_4" class="paragraph-anchor"></a><b>&#167;33.8.4. </b>The reversal of direction here looks peculiar, but is correct. Suppose
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP33_8_4" class="paragraph-anchor"></a><b>&#167;33.8.4. </b>  The reversal of direction here looks peculiar, but is correct. Suppose
 the Drainage Room contains a one-sided door called the iron grating, and
 the iron grating is east of the Drainage Room. To get through, the player
 will type EAST. But that means the iron grating has one exit, west to the
 Drainage Room; so Inform looks at this exit, reverses west to east, and
-compiles east into the <span class="extract"><span class="extract-syntax">door_dir</span></span> property.
-</p>
-
-<p class="commentary">As for what lies beyond the iron grating, that's stored in the "other side"
-property for the door; "other side" is an alias for <span class="extract"><span class="extract-syntax">door_to</span></span>, which is
-why we don't need to compile <span class="extract"><span class="extract-syntax">door_to</span></span> here.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Assert door-dir for a one-sided door</span><span class="named-paragraph-number">33.8.4</span></span><span class="comment-syntax"> =</span>
-</p>
+compiles east into the <code>door_dir</code> property.</p>
+<p>As for what lies beyond the iron grating, that's stored in the &quot;other side&quot;
+property for the door; &quot;other side&quot; is an alias for <code>door_to</code>, which is
+why we don't need to compile <code>door_to</code> here.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Assert door-dir for a one-sided door</span><span class="named-paragraph-number">33.8.4</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">backwards</span><span class="plain-syntax"> = </span><a href="3-tm.html#SP25" class="function-link"><span class="function-syntax">Map::get_value_of_opposite_property</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">D1</span><span class="plain-syntax">);</span>

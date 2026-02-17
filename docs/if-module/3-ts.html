@@ -20,7 +20,13 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<link href="../docs-assets/Preform-Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
 	<body class="commentary-font">
@@ -54,14 +60,14 @@ function togglePopup(material_id) {
     <ul class="crumbs"><li><a href="../index.html">Home</a></li><li><a href="../inform7n.html">Inform7</a></li><li><a href="index.html">if</a></li><li><a href="index.html#3">Chapter 3: Space and Time</a></li><li><b>The Score</b></li></ul></div>
 <p class="purpose">A feature to support the score variables.</p>
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>At one time, all interactive fiction had a scoring system, because that's
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  At one time, all interactive fiction had a scoring system, because that's
 what computers did for our entertainment: they rewarded us with points. Having
 its distant roots in that period, Inform handles a numerical score with just
-a little compiler support, and this is where.
-</p>
-
+a little compiler support, and this is where.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">TheScore::start</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">TheScore::start</span></span>:<br/>IF Module - <a href="1-im.html#SP5">&#167;5</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">TheScore::start</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">TheScore::start</span></span>:<br/>IF Module - <a href="1-im.html#SP5">&#167;5</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">#</span><span class="identifier-syntax">pragma</span><span class="plain-syntax"> </span><span class="identifier-syntax">clang</span><span class="plain-syntax"> </span><span class="identifier-syntax">diagnostic</span><span class="plain-syntax"> </span><span class="identifier-syntax">push</span>
 <span class="plain-syntax">#</span><span class="identifier-syntax">pragma</span><span class="plain-syntax"> </span><span class="identifier-syntax">clang</span><span class="plain-syntax"> </span><span class="identifier-syntax">diagnostic</span><span class="plain-syntax"> </span><span class="identifier-syntax">ignored</span><span class="plain-syntax"> </span><span class="string-syntax">"-Wincompatible-function-pointer-types-strict"</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">PluginCalls::plug</span><span class="plain-syntax">(</span><span class="identifier-syntax">PRODUCTION_LINE_PLUG</span><span class="plain-syntax">, </span><a href="3-ts.html#SP1" class="function-link"><span class="function-syntax">TheScore::production_line</span></a><span class="plain-syntax">);</span>
@@ -69,37 +75,38 @@ a little compiler support, and this is where.
 <span class="plain-syntax">#</span><span class="identifier-syntax">pragma</span><span class="plain-syntax"> </span><span class="identifier-syntax">clang</span><span class="plain-syntax"> </span><span class="identifier-syntax">diagnostic</span><span class="plain-syntax"> </span><span class="identifier-syntax">pop</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">TheScore::production_line</span><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">stage</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">debugging</span><span class="plain-syntax">, </span><span class="identifier-syntax">stopwatch_timer</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sequence_timer</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">TheScore::production_line</span><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">stage</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">debugging</span><span class="plain-syntax">, </span><span class="identifier-syntax">stopwatch_timer</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sequence_timer</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">stage</span><span class="plain-syntax"> == </span><span class="identifier-syntax">MODEL_CSEQ</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">BENCH</span><span class="plain-syntax">(</span><a href="3-ts.html#SP6" class="function-link"><span class="function-syntax">TheScore::max_score_and_ranking_table</span></a><span class="plain-syntax">);</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>For many years "maximum score" was compiled to a constant, but then people sent
-in bug reports asking why it wouldn't change in play. "Score", of course, is
-more evidently variable.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  For many years &quot;maximum score&quot; was compiled to a constant, but then people sent
+in bug reports asking why it wouldn't change in play. &quot;Score&quot;, of course, is
+more evidently variable.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">nonlocal_variable</span><span class="plain-syntax"> *</span><span class="identifier-syntax">score_VAR</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">nonlocal_variable</span><span class="plain-syntax"> *</span><span class="identifier-syntax">max_score_VAR</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b></p>
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b> </p>
 
-<pre class="displayed-code all-displayed-code code-font">
-<span class="function-syntax">&lt;notable-scoring-variables&gt;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">score</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">maximum</span><span class="plain-syntax"> </span><span class="identifier-syntax">score</span>
+<pre class="Preform-displayed-code all-displayed-code code-font">
+<span class="Preform-function-syntax">&lt;notable-scoring-variables&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">score</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">maximum</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">score</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>These are marked "initialisable" because of the way they are implemented at
+<ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  These are marked &quot;initialisable&quot; because of the way they are implemented at
 run-time, using special variables in <a href="../WorldModelKit/index.html" class="internal">WorldModelKit</a> rather than being
 storage allocated by I7. Variables stored that way would not ordinarily be
-possible to give values to in I7 assertions; but these are.
-</p>
-
+possible to give values to in I7 assertions; but these are.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">TheScore::new_variable_notify</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">TheScore::new_variable_notify</span></span>:<br/><a href="3-ts.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">nonlocal_variable</span><span class="plain-syntax"> *</span><span class="identifier-syntax">var</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">TheScore::new_variable_notify</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">TheScore::new_variable_notify</span></span>:<br/><a href="3-ts.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">nonlocal_variable</span><span class="plain-syntax"> *</span><span class="identifier-syntax">var</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="function-syntax">&lt;notable-scoring-variables&gt;(var-&gt;</span><span class="element-syntax">name</span><span class="plain-syntax">)) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">switch</span><span class="plain-syntax">(</span><span class="function-syntax">&lt;&lt;r&gt;&gt;</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">:</span>
@@ -115,29 +122,28 @@ possible to give values to in I7 assertions; but these are.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>A special rule is that if a table is called "Rankings" and contains a column
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  A special rule is that if a table is called &quot;Rankings&quot; and contains a column
 of numbers followed by a column of text, then it is used by the run-time
 scoring system. In retrospect, Inform really shouldn't support this at the
-compiler level (not that it does much), but it does little harm.
-</p>
-
-<pre class="displayed-code all-displayed-code code-font">
-<span class="function-syntax">&lt;rankings-table-name&gt;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">rankings</span>
+compiler level (not that it does much), but it does little harm.</p>
+</div>
+<pre class="Preform-displayed-code all-displayed-code code-font">
+<span class="Preform-function-syntax">&lt;rankings-table-name&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">rankings</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>Nothing will happen unless a table has both this magic name, and also the
+<ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  Nothing will happen unless a table has both this magic name, and also the
 right shape: two columns, number then text. If so, the maximum score is
 initialised to the number in the final row of the table, which is assumed to
-be the score corresponding to successful completion and the highest rank.
-</p>
-
-<p class="commentary">The test case <span class="extract"><span class="extract-syntax">Cooking</span></span>, an example from the documentation, tests this.
-</p>
-
+be the score corresponding to successful completion and the highest rank.</p>
+<p>The test case <code>Cooking</code>, an example from the documentation, tests this.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">table</span><span class="plain-syntax"> *</span><span class="identifier-syntax">the_ranking_table</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">TheScore::max_score_and_ranking_table</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">TheScore::max_score_and_ranking_table</span></span>:<br/><a href="3-ts.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">TheScore::max_score_and_ranking_table</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">TheScore::max_score_and_ranking_table</span></span>:<br/><a href="3-ts.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">table</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">t</span><span class="plain-syntax">, </span><span class="identifier-syntax">table</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="function-syntax">&lt;rankings-table-name&gt;(t-&gt;</span><span class="identifier-syntax">table_name_text</span><span class="plain-syntax">)) &amp;&amp;</span>
@@ -156,7 +162,7 @@ be the score corresponding to successful completion and the highest rank.
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 
-<span class="identifier-syntax">table</span><span class="plain-syntax"> *</span><span class="function-syntax">TheScore::ranking_table</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">table</span><span class="plain-syntax"> *</span><span class="function-syntax">TheScore::ranking_table</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">the_ranking_table</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>

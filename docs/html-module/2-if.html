@@ -20,6 +20,11 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -54,34 +59,51 @@ function togglePopup(material_id) {
     <ul class="crumbs"><li><a href="../index.html">Home</a></li><li><a href="../services.html">Services</a></li><li><a href="index.html">html</a></li><li><a href="index.html#2">Chapter 2: Intranet</a></li><li><b>Installed Files</b></li></ul></div>
 <p class="purpose">Filenames for a few unmanaged files included in a standard Inform installation.</p>
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>Inform needs a whole pile of files to have been installed on the host computer
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  Inform needs a whole pile of files to have been installed on the host computer
 before it can run: everything from the Standard Rules to a PDF file explaining
 what interactive fiction is. They're never written to, only read. They are
-stored in subdirectories called <span class="extract"><span class="extract-syntax">Miscellany</span></span> or <span class="extract"><span class="extract-syntax">HTML</span></span> of the internal nest;
-but they're just plain old files, and are not managed by Inbuild as "copies".
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">enum</span> <span class="constant-syntax">CBLORB_REPORT_MODEL_IRES</span><span class="plain-syntax"> </span><span class="identifier-syntax">from</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">DOCUMENTATION_SNIPPETS_IRES</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">INTRO_BOOKLET_IRES</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">INTRO_POSTCARD_IRES</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">LARGE_DEFAULT_COVER_ART_IRES</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">SMALL_DEFAULT_COVER_ART_IRES</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">DOCUMENTATION_XREFS_IRES</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">JAVASCRIPT_FOR_STANDARD_PAGES_IRES</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">JAVASCRIPT_FOR_EXTENSIONS_IRES</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">JAVASCRIPT_FOR_ONE_EXTENSION_IRES</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">CSS_SET_BY_PLATFORM_IRES</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">CSS_FOR_STANDARD_PAGES_IRES</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">RESOURCE_JSON_REQS_IRES</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">REGISTRY_JSON_REQS_IRES</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">INBUILD_JSON_REQS_IRES</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">UNICODE_DATA_IRES</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">MIT_LICENSE_IRES</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">MIT_0_LICENSE_IRES</span>
+stored in subdirectories called <code>Miscellany</code> or <code>HTML</code> of the internal nest;
+but they're just plain old files, and are not managed by Inbuild as &quot;copies&quot;.</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="constant-syntax">1</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="function-syntax">InstalledFiles::filename</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">InstalledFiles::filename</span></span>:<br/><a href="2-if.html#SP3">&#167;3</a><br/>Inform Pages - <a href="2-ip.html#SP1">&#167;1</a><br/>Documentation References - <a href="2-dr.html#SP3">&#167;3</a>, <a href="2-dr.html#SP11_1">&#167;11.1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">ires</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="function-syntax">InstalledFiles::filename</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">InstalledFiles::filename</span></span>:<br/><a href="2-if.html#SP3">&#167;3</a><br/>Inform Pages - <a href="2-ip.html#SP1">&#167;1</a><br/>Documentation References - <a href="2-dr.html#SP3">&#167;3</a>, <a href="2-dr.html#SP11_1">&#167;11.1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">ires</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="identifier-syntax">internal</span><span class="plain-syntax"> = </span><span class="identifier-syntax">INSTALLED_FILES_HTML_CALLBACK</span><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="identifier-syntax">misc</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Pathnames::down</span><span class="plain-syntax">(</span><span class="identifier-syntax">internal</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"Miscellany"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="identifier-syntax">models</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Pathnames::down</span><span class="plain-syntax">(</span><span class="identifier-syntax">internal</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"HTML"</span><span class="plain-syntax">);</span>
@@ -128,26 +150,26 @@ but they're just plain old files, and are not managed by Inbuild as "copies".
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>This enables each platform to provide its own CSS and Javascript definitions,
-if they would prefer that:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  This enables each platform to provide its own CSS and Javascript definitions,
+if they would prefer that:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="function-syntax">InstalledFiles::varied_by_platform</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">InstalledFiles::varied_by_platform</span></span>:<br/><a href="2-if.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="identifier-syntax">models</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">leafname</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">TEMPORARY_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">variation</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE_TO</span><span class="plain-syntax">(</span><span class="identifier-syntax">variation</span><span class="plain-syntax">, </span><span class="string-syntax">"%s-%S"</span><span class="plain-syntax">, </span><span class="identifier-syntax">PLATFORM_STRING</span><span class="plain-syntax">, </span><span class="identifier-syntax">leafname</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="comment-syntax"> NB: PLATFORM_STRING is a C string, so that %s is correct</span>
+<span class="plain-syntax">    </span><span class="comment-syntax">/* NB: PLATFORM_STRING is a C string, so that %s is correct */</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="identifier-syntax">F</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Filenames::in</span><span class="plain-syntax">(</span><span class="identifier-syntax">models</span><span class="plain-syntax">, </span><span class="identifier-syntax">variation</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">TextFiles::exists</span><span class="plain-syntax">(</span><span class="identifier-syntax">F</span><span class="plain-syntax">) == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">) </span><span class="identifier-syntax">F</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Filenames::in</span><span class="plain-syntax">(</span><span class="identifier-syntax">models</span><span class="plain-syntax">, </span><span class="identifier-syntax">leafname</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">DISCARD_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">variation</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">F</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>Or even for a different platform than the one we're running on:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  Or even for a different platform than the one we're running on:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="function-syntax">InstalledFiles::filename_for_platform</span><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">ires</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">platform</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="function-syntax">InstalledFiles::filename_for_platform</span><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">ires</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">platform</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Str::len</span><span class="plain-syntax">(</span><span class="identifier-syntax">platform</span><span class="plain-syntax">) == </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><a href="2-if.html#SP1" class="function-link"><span class="function-syntax">InstalledFiles::filename</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">ires</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="identifier-syntax">internal</span><span class="plain-syntax"> = </span><span class="identifier-syntax">INSTALLED_FILES_HTML_CALLBACK</span><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="identifier-syntax">models</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Pathnames::down</span><span class="plain-syntax">(</span><span class="identifier-syntax">internal</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"HTML"</span><span class="plain-syntax">);</span>
@@ -187,10 +209,10 @@ if they would prefer that:
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">F</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>This directory also holds the <span class="extract"><span class="extract-syntax">Basic.indext</span></span> and <span class="extract"><span class="extract-syntax">Standard.indext</span></span> index
-structure files, but in principle we allow a wider range of these to exist, so:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  This directory also holds the <code>Basic.indext</code> and <code>Standard.indext</code> index
+structure files, but in principle we allow a wider range of these to exist, so:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="function-syntax">InstalledFiles::index_structure_file</span><span class="plain-syntax">(</span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">leaf</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="identifier-syntax">internal</span><span class="plain-syntax"> = </span><span class="identifier-syntax">INSTALLED_FILES_HTML_CALLBACK</span><span class="plain-syntax">();</span>

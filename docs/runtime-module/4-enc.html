@@ -59,61 +59,58 @@ function togglePopup(material_id) {
     <ul class="crumbs"><li><a href="../index.html">Home</a></li><li><a href="../inform7n.html">Inform7</a></li><li><a href="index.html">runtime</a></li><li><a href="index.html#4">Chapter 4: Enclosed Resources</a></li><li><b>Enclosures</b></li></ul></div>
 <p class="purpose">Packages which contain all the resources any of their subpackages will need are called "enclosures".</p>
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>The idea of "enclosure" lets us create something "nearby". We are generally
-creating bytecode at a particular position in the hierarchy &mdash; say, in the
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  The idea of &quot;enclosure&quot; lets us create something &quot;nearby&quot;. We are generally
+creating bytecode at a particular position in the hierarchy -- say, in the
 current function being compiled. We then want to create some associated local
 resource, which can't be at that exact position, but which we want to keep
 nearby. (For example, a constant list mentioned in the function will need an
-associated array.)
-</p>
-
-<p class="commentary">The following creates a package in the enclosure surrounding the current
-emission position:
-</p>
-
+associated array.)</p>
+<p>The following creates a package in the enclosure surrounding the current
+emission position:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="function-syntax">Enclosures::new_iname</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">Enclosures::new_iname</span></span>:<br/><a href="4-enc.html#SP2">&#167;2</a><br/>List Literals - <a href="4-ll.html#SP4">&#167;4</a><br/>Text Literals - <a href="4-tl.html#SP4">&#167;4</a><br/>Box Quotations - <a href="4-bq.html#SP1">&#167;1</a><br/>Group Together - <a href="4-gt.html#SP2">&#167;2</a><br/>Looping Over Scope - <a href="4-los.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">hap</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">hl</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="function-syntax">Enclosures::new_iname</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">Enclosures::new_iname</span></span>:<br/><a href="4-enc.html#SP2">&#167;2</a><br/>List Literals - <a href="4-ll.html#SP4">&#167;4</a><br/>Text Literals - <a href="4-tl.html#SP4">&#167;4</a><br/>Box Quotations - <a href="4-bq.html#SP1">&#167;1</a><br/>Group Together - <a href="4-gt.html#SP2">&#167;2</a><br/>Looping Over Scope - <a href="4-los.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">hap</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">hl</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">package_request</span><span class="plain-syntax"> *</span><span class="identifier-syntax">PR</span><span class="plain-syntax"> = </span><span class="identifier-syntax">HierarchyLocations::attach_new_package</span><span class="plain-syntax">(</span>
 <span class="plain-syntax">        </span><a href="2-emt.html#SP1" class="function-link"><span class="function-syntax">Emit::tree</span></a><span class="plain-syntax">(), </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">, </span><a href="2-emt.html#SP1" class="function-link"><span class="function-syntax">Emit::current_enclosure</span></a><span class="plain-syntax">(), </span><span class="identifier-syntax">hap</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><a href="2-hrr.html#SP12" class="function-link"><span class="function-syntax">Hierarchy::make_iname_in</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">hl</span><span class="plain-syntax">, </span><span class="identifier-syntax">PR</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>As noted above, literal values for constants which cannot be stored in a
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  As noted above, literal values for constants which cannot be stored in a
 single word are a case in point. In general, these are represented in memory
-like so:
-</p>
-
+like so:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">                        </span><span class="identifier-syntax">small</span><span class="plain-syntax"> </span><span class="identifier-syntax">block:</span>
-<span class="plain-syntax">      ----------------&gt; </span><span class="identifier-syntax">data</span>
+<span class="plain-syntax">      </span><span class="constant-syntax">-</span><span class="plain-syntax">---------------&gt; </span><span class="identifier-syntax">data</span>
 <span class="plain-syntax">                        </span><span class="identifier-syntax">data</span>
 <span class="plain-syntax">                        ...</span>
 </pre>
-<p class="commentary">The size of the small block varies from kind to kind,<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> but for any given
-kind this size is fixed. For example, a text has a small block of 2 words.
-</p>
-
-<p class="commentary">Often, but not always, the small block points to a larger and flexibly-sized
-block of data elsewhere:
-</p>
-
+<div class="lsmarkdown">
+<p>The size of the small block varies from kind to kind,<sup id="fnred:1"><a href="#fn:1" rel="footnote">1</a></sup> but for any given
+kind this size is fixed. For example, a text has a small block of 2 words.</p>
+<p>Often, but not always, the small block points to a larger and flexibly-sized
+block of data elsewhere:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">                        </span><span class="identifier-syntax">small</span><span class="plain-syntax"> </span><span class="identifier-syntax">block:</span><span class="plain-syntax">              </span><span class="identifier-syntax">large</span><span class="plain-syntax"> </span><span class="identifier-syntax">block:</span>
-<span class="plain-syntax">      ----------------&gt; </span><span class="identifier-syntax">metadata</span>
+<span class="plain-syntax">      </span><span class="constant-syntax">-</span><span class="plain-syntax">---------------&gt; </span><span class="identifier-syntax">metadata</span>
 <span class="plain-syntax">                        ...</span>
-<span class="plain-syntax">                        </span><span class="identifier-syntax">pointer</span><span class="plain-syntax"> ----------------&gt; </span><span class="identifier-syntax">block</span><span class="plain-syntax"> </span><span class="identifier-syntax">value</span><span class="plain-syntax"> </span><span class="identifier-syntax">header</span>
+<span class="plain-syntax">                        </span><span class="identifier-syntax">pointer</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">---------------&gt; </span><span class="identifier-syntax">block</span><span class="plain-syntax"> </span><span class="identifier-syntax">value</span><span class="plain-syntax"> </span><span class="identifier-syntax">header</span>
 <span class="plain-syntax">                        ...                       </span><span class="identifier-syntax">data</span>
 <span class="plain-syntax">                                                  ...</span>
 </pre>
-<p class="commentary">The size of the large block, and the format of the small block and the "actual
-data", vary from kind to kind.
-</p>
-
-<ul class="footnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> Properly speaking, from constructor to constructor. All lists have the
-same size of small block.
-<a href="#fnref:1" title="return to text"> &#x21A9;</a></p></li></ul>
+<div class="lsmarkdown">
+<p>The size of the large block, and the format of the small block and the &quot;actual
+data&quot;, vary from kind to kind.</p>
+<ul class="inwebfootnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>
+Properly speaking, from constructor to constructor. All lists have the
+same size of small block.<a href="#fnref:1" title="return to text"> &#x21A9;</a></p>
+</li></ul>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="function-syntax">Enclosures::new_small_block_for_constant</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">Enclosures::new_small_block_for_constant</span></span>:<br/>Default Values - <a href="2-dv.html#SP2_8">&#167;2.8</a><br/>List Literals - <a href="4-ll.html#SP2">&#167;2</a><br/>Text Literals - <a href="4-tl.html#SP1">&#167;1</a><br/>Relation Literals - <a href="4-rl.html#SP1">&#167;1</a><br/>Stored Action Literals - <a href="4-sal.html#SP1">&#167;1</a><br/>Version Number Literals - <a href="4-vnl.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="function-syntax">Enclosures::new_small_block_for_constant</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">Enclosures::new_small_block_for_constant</span></span>:<br/>Default Values - <a href="2-dv.html#SP2_8">&#167;2.8</a><br/>List Literals - <a href="4-ll.html#SP2">&#167;2</a><br/>Text Literals - <a href="4-tl.html#SP1">&#167;1</a><br/>Relation Literals - <a href="4-rl.html#SP1">&#167;1</a><br/>Stored Action Literals - <a href="4-sal.html#SP1">&#167;1</a><br/>Version Number Literals - <a href="4-vnl.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><a href="4-enc.html#SP1" class="function-link"><span class="function-syntax">Enclosures::new_iname</span></a><span class="plain-syntax">(</span><span class="constant-syntax">BLOCK_CONSTANTS_HAP</span><span class="plain-syntax">, </span><span class="constant-syntax">BLOCK_CONSTANT_HL</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>

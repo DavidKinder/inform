@@ -12,6 +12,11 @@
 <link href="../docs-assets/Navigation.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Fonts.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -48,138 +53,120 @@
 
 <ul class="toc"><li><a href="P-wtmd.html#SP1">&#167;1. Prerequisites</a></li><li><a href="P-wtmd.html#SP2">&#167;2. About this layer of Inform</a></li><li><a href="P-wtmd.html#SP3">&#167;3. The Inter hierarchy</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Prerequisites.</b>The runtime module is a part of the Inform compiler toolset. It is
-presented as a literate program or "web". Before diving in:
-</p>
-
-<ul class="items"><li>(a) It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.
-</li><li>(b) The module is written in C, in fact ANSI C99, but this is disguised by the
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Prerequisites.</b>  The runtime module is a part of the Inform compiler toolset. It is
+presented as a literate program or &quot;web&quot;. Before diving in:
+(a) It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.
+(b) The module is written in C, in fact ANSI C99, but this is disguised by the
 fact that it uses some extension syntaxes provided by the <a href="../inweb/index.html" class="internal">inweb</a> literate
 programming tool, making it a dialect of C called InC. See <a href="../inweb/index.html" class="internal">inweb</a> for
 full details, but essentially: it's C without predeclarations or header files,
-and where functions have names like <span class="extract"><span class="extract-syntax">Tags::add_by_name</span></span> rather than just <span class="extract"><span class="extract-syntax">add_by_name</span></span>.
-</li><li>(c) This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
+and where functions have names like <code>Tags::add_by_name</code> rather than just <code>add_by_name</code>.
+(c) This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
 uses a module of utility functions called <a href="../foundation/index.html" class="internal">foundation</a>.
-For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.
-</li></ul>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. About this layer of Inform.</b>The <a href="index.html" class="internal">runtime</a> and <a href="../imperative-module/index.html" class="internal">imperative</a> modules (see <a href="../imperative-module/P-wtmd.html" class="internal">What This Module Does (in imperative)</a>)
+For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. About this layer of Inform.</b>  The <a href="index.html" class="internal">runtime</a> and <a href="../imperative-module/index.html" class="internal">imperative</a> modules (see <a href="../imperative-module/P-wtmd.html" class="internal">What This Module Does (in imperative)</a>)
 jointly make up a layer of Inform whose task is to take the conceptual structures
-now build up &mdash; rules, phrases, tables, the world model &mdash; and turn them into
-Inter code. For the bigger picture, see <a href="../structure.html" class="internal">structure</a>.
-</p>
-
-<p class="commentary">Neither module is in charge of the other. <a href="index.html" class="internal">runtime</a> makes extensive use of
+now build up -- rules, phrases, tables, the world model -- and turn them into
+Inter code. For the bigger picture, see <a href="../structure.html" class="internal">structure</a>.</p>
+<p>Neither module is in charge of the other. <a href="index.html" class="internal">runtime</a> makes extensive use of
 <a href="../imperative-module/3-fnc.html" class="internal">Functions (in imperative)</a>, while <a href="../imperative-module/index.html" class="internal">imperative</a> uses <a href="2-emt.html" class="internal">Emit (in runtime)</a> and
-<a href="2-hrr.html" class="internal">Hierarchy (in runtime)</a>. The demarcation line is that:
-</p>
-
-<ul class="items"><li>&#9679; <a href="../imperative-module/index.html" class="internal">imperative</a> provides general mechanisms for compiling Inter functions,
+<a href="2-hrr.html" class="internal">Hierarchy (in runtime)</a>. The demarcation line is that:</p>
+<p>(<em>) <a href="../imperative-module/index.html" class="internal">imperative</a> provides general mechanisms for compiling Inter functions,
 and uses them to construct the functions needed for rules and phrases.
-</li><li>&#9679; <a href="index.html" class="internal">runtime</a> organises the hierarchical structure of the Inter code being
+(</em>) <a href="index.html" class="internal">runtime</a> organises the hierarchical structure of the Inter code being
 made, and compiles the Inter representations of data structures like rulebooks
-or tables, and any Inter functions needed to manage them at runtime.
-</li></ul>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. The Inter hierarchy.</b>Inter code is an intermediate-level representation of the program we are to
+or tables, and any Inter functions needed to manage them at runtime.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. The Inter hierarchy.</b>  Inter code is an intermediate-level representation of the program we are to
 compile. Inter can exist in binary or textual forms: see <a href="../inter/M-ui.html" class="internal">Manual (in inter)</a> for
 a general introduction to programming it in textual form. We will compile
-binary Inter for speed, but they are really very similar.
-</p>
-
-<p class="commentary">You can get a rough idea of what the Inter hierarchy looks like by compiling
-an Inform project with:
-</p>
-
+binary Inter for speed, but they are really very similar.</p>
+<p>You can get a rough idea of what the Inter hierarchy looks like by compiling
+an Inform project with:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">Include</span><span class="plain-syntax"> </span><span class="identifier-syntax">Inter</span><span class="plain-syntax"> </span><span class="identifier-syntax">hierarchy</span><span class="plain-syntax"> </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">debugging</span><span class="plain-syntax"> </span><span class="identifier-syntax">log</span><span class="plain-syntax">.</span>
 </pre>
-<p class="commentary">...and then looking at the log file. This will give an inventory, a summarised
+<div class="lsmarkdown">
+<p>...and then looking at the log file. This will give an inventory, a summarised
 listing, at two stages: first when the main Inform compiler has completed, and
-second when linking with kits is all done, and we've reached the final state.
-</p>
-
-<p class="commentary">Inter code is not a linear stream, like the assembly language produced by a
-conventional compiler: rather, it is a hierarchy of nested "packages". Each
+second when linking with kits is all done, and we've reached the final state.</p>
+<p>Inter code is not a linear stream, like the assembly language produced by a
+conventional compiler: rather, it is a hierarchy of nested &quot;packages&quot;. Each
 package can contain some symbols, some other packages, and some actual code
 or data. This makes it possible for Inter code to be heavily structured, with
-similar resources grouped appropriately together. A package also has a "type",
+similar resources grouped appropriately together. A package also has a &quot;type&quot;,
 and this can be used to find resources of different sorts, or to regulate where
 they are placed. Types are written with an initial underscore: for example,
-one package type we will create is <span class="extract"><span class="extract-syntax">_module</span></span>.
-</p>
-
-<p class="commentary">The top of the final hierarchy might look like this:
-</p>
-
+one package type we will create is <code>_module</code>.</p>
+<p>The top of the final hierarchy might look like this:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">version</span><span class="plain-syntax"> </span><span class="identifier-syntax">number</span><span class="plain-syntax"> --&gt;              </span><span class="identifier-syntax">version</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span>
-<span class="identifier-syntax">package</span><span class="plain-syntax"> </span><span class="identifier-syntax">type</span><span class="plain-syntax"> </span><span class="identifier-syntax">declarations</span><span class="plain-syntax"> --&gt;   </span><span class="identifier-syntax">packagetype</span><span class="plain-syntax"> </span><span class="identifier-syntax">_plain</span>
+<span class="identifier-syntax">version</span><span class="plain-syntax"> </span><span class="identifier-syntax">number</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">-&gt;              </span><span class="identifier-syntax">version</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span>
+<span class="identifier-syntax">package</span><span class="plain-syntax"> </span><span class="identifier-syntax">type</span><span class="plain-syntax"> </span><span class="identifier-syntax">declarations</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">-&gt;   </span><span class="identifier-syntax">packagetype</span><span class="plain-syntax"> </span><span class="identifier-syntax">_plain</span>
 <span class="plain-syntax">                                </span><span class="identifier-syntax">packagetype</span><span class="plain-syntax"> </span><span class="identifier-syntax">_code</span>
 <span class="plain-syntax">                                ...</span>
-<span class="identifier-syntax">pragmas</span><span class="plain-syntax"> --&gt;                     </span><span class="identifier-syntax">pragma</span><span class="plain-syntax"> </span><span class="identifier-syntax">Inform6</span><span class="plain-syntax"> </span><span class="string-syntax">"$ALLOC_CHUNK_SIZE=32000"</span>
+<span class="identifier-syntax">pragmas</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">-&gt;                     </span><span class="identifier-syntax">pragma</span><span class="plain-syntax"> </span><span class="identifier-syntax">Inform6</span><span class="plain-syntax"> </span><span class="string-syntax">"$ALLOC_CHUNK_SIZE=32000"</span>
 <span class="plain-syntax">                                ...</span>
-<span class="identifier-syntax">primitive</span><span class="plain-syntax"> </span><span class="identifier-syntax">declarations</span><span class="plain-syntax"> --&gt;      </span><span class="identifier-syntax">primitive</span><span class="plain-syntax"> !</span><span class="identifier-syntax">font</span><span class="plain-syntax"> </span><span class="identifier-syntax">val</span><span class="plain-syntax"> -&gt; </span><span class="reserved-syntax">void</span>
+<span class="identifier-syntax">primitive</span><span class="plain-syntax"> </span><span class="identifier-syntax">declarations</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">-&gt;      </span><span class="identifier-syntax">primitive</span><span class="plain-syntax"> !</span><span class="identifier-syntax">font</span><span class="plain-syntax"> </span><span class="identifier-syntax">val</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">void</span>
 <span class="plain-syntax">                                ...</span>
-<span class="identifier-syntax">main</span><span class="plain-syntax"> --&gt;                        </span><span class="identifier-syntax">package</span><span class="plain-syntax"> </span><span class="identifier-syntax">main</span><span class="plain-syntax"> </span><span class="identifier-syntax">_plain</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">general</span><span class="plain-syntax"> </span><span class="identifier-syntax">material</span><span class="plain-syntax"> --&gt;            </span><span class="identifier-syntax">package</span><span class="plain-syntax"> </span><span class="identifier-syntax">veneer</span><span class="plain-syntax"> </span><span class="identifier-syntax">_module</span>
+<span class="identifier-syntax">main</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">-&gt;                        </span><span class="identifier-syntax">package</span><span class="plain-syntax"> </span><span class="identifier-syntax">main</span><span class="plain-syntax"> </span><span class="identifier-syntax">_plain</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">general</span><span class="plain-syntax"> </span><span class="identifier-syntax">material</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">-&gt;            </span><span class="identifier-syntax">package</span><span class="plain-syntax"> </span><span class="identifier-syntax">veneer</span><span class="plain-syntax"> </span><span class="identifier-syntax">_module</span>
 <span class="plain-syntax">                                    </span><span class="identifier-syntax">package</span><span class="plain-syntax"> </span><span class="identifier-syntax">generic</span><span class="plain-syntax"> </span><span class="identifier-syntax">_module</span>
 <span class="plain-syntax">                                    </span><span class="identifier-syntax">package</span><span class="plain-syntax"> </span><span class="identifier-syntax">synoptic</span><span class="plain-syntax"> </span><span class="identifier-syntax">_module</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">from</span><span class="plain-syntax"> </span><span class="identifier-syntax">compilation</span><span class="plain-syntax"> </span><span class="identifier-syntax">units</span><span class="plain-syntax"> --&gt;      </span><span class="identifier-syntax">package</span><span class="plain-syntax"> </span><span class="identifier-syntax">basic_inform_by_graham_nelson</span><span class="plain-syntax"> </span><span class="identifier-syntax">_module</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">from</span><span class="plain-syntax"> </span><span class="identifier-syntax">compilation</span><span class="plain-syntax"> </span><span class="identifier-syntax">units</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">-&gt;      </span><span class="identifier-syntax">package</span><span class="plain-syntax"> </span><span class="identifier-syntax">basic_inform_by_graham_nelson</span><span class="plain-syntax"> </span><span class="identifier-syntax">_module</span>
 <span class="plain-syntax">                                    </span><span class="identifier-syntax">package</span><span class="plain-syntax"> </span><span class="identifier-syntax">english_language_by_graham_nelson</span><span class="plain-syntax"> </span><span class="identifier-syntax">_module</span>
 <span class="plain-syntax">                                    </span><span class="identifier-syntax">package</span><span class="plain-syntax"> </span><span class="identifier-syntax">standard_rules_by_graham_nelson</span><span class="plain-syntax"> </span><span class="identifier-syntax">_module</span>
 <span class="plain-syntax">                                    </span><span class="identifier-syntax">package</span><span class="plain-syntax"> </span><span class="identifier-syntax">source_text</span><span class="plain-syntax"> </span><span class="identifier-syntax">_module</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">from</span><span class="plain-syntax"> </span><span class="identifier-syntax">kits</span><span class="plain-syntax"> --&gt;                   </span><span class="identifier-syntax">package</span><span class="plain-syntax"> </span><span class="identifier-syntax">BasicInformKit</span><span class="plain-syntax"> </span><span class="identifier-syntax">_module</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">from</span><span class="plain-syntax"> </span><span class="identifier-syntax">kits</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">-&gt;                   </span><span class="identifier-syntax">package</span><span class="plain-syntax"> </span><span class="identifier-syntax">BasicInformKit</span><span class="plain-syntax"> </span><span class="identifier-syntax">_module</span>
 <span class="plain-syntax">                                    </span><span class="identifier-syntax">package</span><span class="plain-syntax"> </span><span class="identifier-syntax">EnglishLanguageKit</span><span class="plain-syntax"> </span><span class="identifier-syntax">_module</span>
 <span class="plain-syntax">                                    </span><span class="identifier-syntax">package</span><span class="plain-syntax"> </span><span class="identifier-syntax">WorldModelKit</span><span class="plain-syntax"> </span><span class="identifier-syntax">_module</span>
 <span class="plain-syntax">                                    </span><span class="identifier-syntax">package</span><span class="plain-syntax"> </span><span class="identifier-syntax">CommandParserKit</span><span class="plain-syntax"> </span><span class="identifier-syntax">_module</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">to</span><span class="plain-syntax"> </span><span class="reserved-syntax">do</span><span class="plain-syntax"> </span><span class="identifier-syntax">with</span><span class="plain-syntax"> </span><span class="identifier-syntax">linking</span><span class="plain-syntax"> --&gt;          </span><span class="identifier-syntax">package</span><span class="plain-syntax"> </span><span class="identifier-syntax">connectors</span><span class="plain-syntax"> </span><span class="identifier-syntax">_linkage</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">to</span><span class="plain-syntax"> </span><span class="reserved-syntax">do</span><span class="plain-syntax"> </span><span class="identifier-syntax">with</span><span class="plain-syntax"> </span><span class="identifier-syntax">linking</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">-&gt;          </span><span class="identifier-syntax">package</span><span class="plain-syntax"> </span><span class="identifier-syntax">connectors</span><span class="plain-syntax"> </span><span class="identifier-syntax">_linkage</span>
 <span class="plain-syntax">                                    </span><span class="identifier-syntax">package</span><span class="plain-syntax"> </span><span class="identifier-syntax">template</span><span class="plain-syntax"> </span><span class="identifier-syntax">_plain</span>
 </pre>
-<p class="commentary">The modest amount of global material is the same on every compilation, and just
-sets up our conventions. Inter also requires the top-level package to be <span class="extract"><span class="extract-syntax">main</span></span>.
-But it's our decision to then subdivide <span class="extract"><span class="extract-syntax">main</span></span> up into packages called "modules",
-which have the package type <span class="extract"><span class="extract-syntax">_module</span></span>. These come from several sources:
-</p>
-
-<ul class="items"><li>&#9679; The <span class="extract"><span class="extract-syntax">veneer</span></span> module is named after the veneer system in Inform 6, and provides
+<div class="lsmarkdown">
+<p>The modest amount of global material is the same on every compilation, and just
+sets up our conventions. Inter also requires the top-level package to be <code>main</code>.
+But it's our decision to then subdivide <code>main</code> up into packages called &quot;modules&quot;,
+which have the package type <code>_module</code>. These come from several sources:</p>
+<p>(<em>) The <code>veneer</code> module is named after the veneer system in Inform 6, and provides
 access to its (very modest) facilities.
-</li><li>&#9679; The <span class="extract"><span class="extract-syntax">generic</span></span> module contains definitions which are built-in to the language:
-for example, kinds like <span class="extract"><span class="extract-syntax">K_number</span></span>.
-</li><li>&#9679; Each compilation unit of Inform 7 source text produces one module. See
+(<em>) The <code>generic</code> module contains definitions which are built-in to the language:
+for example, kinds like <code>K_number</code>.
+(</em>) Each compilation unit of Inform 7 source text produces one module. See
 <a href="2-cu.html" class="internal">Compilation Units</a>; in particular, each included extension is a compilation unit,
-and the main source text puts material into <span class="extract"><span class="extract-syntax">source_text</span></span>.
-</li><li>&#9679; Each included kit of Inter code is a module.
-</li><li>&#9679; The <span class="extract"><span class="extract-syntax">synoptic</span></span> module contains material which gathers up references from all
-of the other modules.
-</li></ul>
-<p class="commentary">The role of <a href="index.html" class="internal">runtime</a> and <a href="../imperative-module/index.html" class="internal">imperative</a> is to build the generic, synoptic
+and the main source text puts material into <code>source_text</code>.
+(</em>) Each included kit of Inter code is a module.
+(*) The <code>synoptic</code> module contains material which gathers up references from all
+of the other modules.</p>
+<p>The role of <a href="index.html" class="internal">runtime</a> and <a href="../imperative-module/index.html" class="internal">imperative</a> is to build the generic, synoptic
 and compilation-unit modules; the modules from kits will come later in the
-linking stage (see <a href="../pipeline-module/index.html" class="internal">pipeline</a>).
-</p>
-
-<p class="commentary">Modules then have sub-departments called submodules, which are packages of type
-<span class="extract"><span class="extract-syntax">_submodule</span></span>. For example, the rules created in any given compilation unit live
-in the <span class="extract"><span class="extract-syntax">rules</span></span> submodule of its module; the properties in <span class="extract"><span class="extract-syntax">properties</span></span>; and
+linking stage (see <a href="../pipeline-module/index.html" class="internal">pipeline</a>).</p>
+<p>Modules then have sub-departments called submodules, which are packages of type
+<code>_submodule</code>. For example, the rules created in any given compilation unit live
+in the <code>rules</code> submodule of its module; the properties in <code>properties</code>; and
 so on. This is all very orderly, but there are a great many different structures
 to compile for a large number of different reasons. The <a href="2-hrr.html" class="internal">Hierarchy</a> section
-of code provides a detailed specification of exactly where everything goes.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b><a href="index.html" class="internal">runtime</a> and <a href="../imperative-module/index.html" class="internal">imperative</a> should not make raw Inter code directly, but
-through a three-level process:
-</p>
-
-<ul class="items"><li>&#9679; <a href="index.html" class="internal">runtime</a> and <a href="../imperative-module/index.html" class="internal">imperative</a> call the functions in <a href="2-hrr.html" class="internal">Chapter 2: Emission</a>
-to "emit" code and find out where to put it.
-</li><li>&#9679; Those functions in turn call the <a href="../building-module/index.html" class="internal">building</a> module, which gives
+of code provides a detailed specification of exactly where everything goes.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  <a href="index.html" class="internal">runtime</a> and <a href="../imperative-module/index.html" class="internal">imperative</a> should not make raw Inter code directly, but
+through a three-level process:</p>
+<p>(<em>) <a href="index.html" class="internal">runtime</a> and <a href="../imperative-module/index.html" class="internal">imperative</a> call the functions in <a href="2-hrr.html" class="internal">Chapter 2: Emission</a>
+to &quot;emit&quot; code and find out where to put it.
+(</em>) Those functions in turn call the <a href="../building-module/index.html" class="internal">building</a> module, which gives
 general code (not tied to the Inform compiler) for constructing Inter.
-</li><li>&#9679; The <a href="../building-module/index.html" class="internal">building</a> module then calls down to <a href="../bytecode-module/index.html" class="internal">bytecode</a> to put the actual
-bytes in memory.
-</li></ul>
-<p class="commentary">In effect, then, <a href="2-hrr.html" class="internal">Chapter 2: Emission</a> is the bridge (or the shaft?) between the upper
+(*) The <a href="../building-module/index.html" class="internal">building</a> module then calls down to <a href="../bytecode-module/index.html" class="internal">bytecode</a> to put the actual
+bytes in memory.</p>
+<p>In effect, then, <a href="2-hrr.html" class="internal">Chapter 2: Emission</a> is the bridge (or the shaft?) between the upper
 levels of Inform and the lower, and it provides an API for the rest of <a href="index.html" class="internal">runtime</a>
-and <a href="../imperative-module/index.html" class="internal">imperative</a> to use.
-</p>
-
+and <a href="../imperative-module/index.html" class="internal">imperative</a> to use.</p>
+</div>
 <nav role="progress"><div class="progresscontainer">
     <ul class="progressbar"><li class="progressprevoff">&#10094;</li><li class="progresscurrentchapter">P</li><li class="progresscurrent">wtmd</li><li class="progresschapter"><a href="1-rm.html">1</a></li><li class="progresschapter"><a href="2-hrr.html">2</a></li><li class="progresschapter"><a href="3-gm.html">3</a></li><li class="progresschapter"><a href="4-enc.html">4</a></li><li class="progresschapter"><a href="5-act.html">5</a></li><li class="progresschapter"><a href="6-bd.html">6</a></li><li class="progresschapter"><a href="7-cg.html">7</a></li><li class="progressnext"><a href="1-rm.html">&#10095;</a></li></ul></div>
 </nav><!-- End of weave -->

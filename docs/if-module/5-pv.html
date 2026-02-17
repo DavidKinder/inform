@@ -20,6 +20,11 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -54,54 +59,54 @@ function togglePopup(material_id) {
     <ul class="crumbs"><li><a href="../index.html">Home</a></li><li><a href="../inform7n.html">Inform7</a></li><li><a href="index.html">if</a></li><li><a href="index.html#5">Chapter 5: Command Parser</a></li><li><b>Property Visibility</b></li></ul></div>
 <p class="purpose">Some properties can be referred to in the player's commands.</p>
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>"Visible" properties can be used to describe an object: for example, if
-colour is a visible property of a car, then an individual instance of <span class="extract"><span class="extract-syntax">K_car</span></span>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  &quot;Visible&quot; properties can be used to describe an object: for example, if
+colour is a visible property of a car, then an individual instance of <code>K_car</code>
 can be referred to by the player as GREEN CAR if and only if that instance has
-the colour value "green".
-</p>
-
-<p class="commentary">Properly speaking it is not the property itself which is visible, but the
+the colour value &quot;green&quot;.</p>
+<p>Properly speaking it is not the property itself which is visible, but the
 combination of property and its owner. So we record visibility by attaching
-the following blob of data to a <span class="extract"><span class="extract-syntax">property_permission</span></span>:
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">NO_VISIBILITY_LEVEL</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span>
-<span class="definition-keyword">define</span> <span class="constant-syntax">REFERRING_TO_VISIBILITY_LEVEL</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span>
-<span class="definition-keyword">define</span> <span class="constant-syntax">DESCRIBING_VISIBILITY_LEVEL</span><span class="plain-syntax"> </span><span class="constant-syntax">2</span>
+the following blob of data to a <code>property_permission</code>:</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">0</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">1</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">2</span>
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">parsing_pp_data</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">visibility_level_in_parser</span><span class="plain-syntax">; </span><span class="comment-syntax"> one of the </span><span class="extract"><span class="extract-syntax">*_VISIBILITY_LEVEL</span></span><span class="comment-syntax"> values above</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">visibility_condition</span><span class="plain-syntax">; </span><span class="comment-syntax"> (at least if...?)</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">visibility_sentence</span><span class="plain-syntax">; </span><span class="comment-syntax"> where this is specified</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parsing_pp_data</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">visibility_level_in_parser</span><span class="plain-syntax">; </span><span class="comment-syntax">/* one of the |*_VISIBILITY_LEVEL| values above */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">visibility_condition</span><span class="plain-syntax">; </span><span class="comment-syntax">/* (at least if...?) */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">visibility_sentence</span><span class="plain-syntax">; </span><span class="comment-syntax">/* where this is specified */</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">CLASS_DEFINITION</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">parsing_pp_data</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">parsing_pp_data</span><span class="plain-syntax">;</span>
 
-<span class="reserved-syntax">parsing_pp_data</span><span class="plain-syntax"> *</span><span class="function-syntax">Visibility::new_pp_data</span><span class="plain-syntax">(</span><span class="identifier-syntax">property_permission</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pp</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">parsing_pp_data</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pd</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="reserved-syntax">parsing_pp_data</span><span class="plain-syntax">);</span>
+<span class="identifier-syntax">parsing_pp_data</span><span class="plain-syntax"> *</span><span class="function-syntax">Visibility::new_pp_data</span><span class="plain-syntax">(</span><span class="identifier-syntax">property_permission</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pp</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">parsing_pp_data</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pd</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="identifier-syntax">parsing_pp_data</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">pd</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">visibility_level_in_parser</span><span class="plain-syntax"> = </span><span class="constant-syntax">NO_VISIBILITY_LEVEL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">pd</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">visibility_condition</span><span class="plain-syntax"> = </span><span class="identifier-syntax">EMPTY_WORDING</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">pd</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">visibility_sentence</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">pd</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Visibility::new_permission_notify</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">Visibility::new_permission_notify</span></span>:<br/>Parsing Plugin - <a href="5-pp.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">property_permission</span><span class="plain-syntax"> *</span><span class="identifier-syntax">new_pp</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Visibility::new_permission_notify</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">Visibility::new_permission_notify</span></span>:<br/>Parsing Plugin - <a href="5-pp.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">property_permission</span><span class="plain-syntax"> *</span><span class="identifier-syntax">new_pp</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">CREATE_PP_FEATURE_DATA</span><span class="plain-syntax">(</span><span class="identifier-syntax">parsing</span><span class="plain-syntax">, </span><span class="identifier-syntax">new_pp</span><span class="plain-syntax">, </span><a href="5-pv.html#SP1" class="function-link"><span class="function-syntax">Visibility::new_pp_data</span></a><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
 <ul class="endnotetexts"><li>The structure parsing_pp_data is private to this section.</li></ul>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>The following function sets the visibility level and condition for a given
-property and owner, returning <span class="extract"><span class="extract-syntax">FALSE</span></span> if the owner cannot in fact have that
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  The following function sets the visibility level and condition for a given
+property and owner, returning <code>FALSE</code> if the owner cannot in fact have that
 property. There's a little dance here because perhaps we want to set visibility
-for "open" when its negation "closed" has the permission, or vice versa.
-</p>
-
+for &quot;open&quot; when its negation &quot;closed&quot; has the permission, or vice versa.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Visibility::set</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">Visibility::set</span></span>:<br/>Understand Sentences - <a href="5-us.html#SP16">&#167;16</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pr</span><span class="plain-syntax">, </span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">subj</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">level</span><span class="plain-syntax">, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">WHENW</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">upto</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Visibility::set</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">Visibility::set</span></span>:<br/>Understand Sentences - <a href="5-us.html#SP16">&#167;16</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pr</span><span class="plain-syntax">, </span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">subj</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">level</span><span class="plain-syntax">, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">WHENW</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">upto</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Properties::is_either_or</span><span class="plain-syntax">(</span><span class="identifier-syntax">pr</span><span class="plain-syntax">) == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">) </span><span class="identifier-syntax">upto</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">parity</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">; </span><span class="identifier-syntax">parity</span><span class="plain-syntax"> &lt;= </span><span class="identifier-syntax">upto</span><span class="plain-syntax">; </span><span class="identifier-syntax">parity</span><span class="plain-syntax">++) {</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">parity</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">; </span><span class="identifier-syntax">parity</span><span class="plain-syntax"> &lt;= </span><span class="identifier-syntax">upto</span><span class="plain-syntax">; </span><span class="identifier-syntax">parity</span><span class="plain-syntax">++) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">seek_prn</span><span class="plain-syntax"> = (</span><span class="identifier-syntax">parity</span><span class="plain-syntax"> == </span><span class="constant-syntax">0</span><span class="plain-syntax">)?</span><span class="identifier-syntax">pr:</span><span class="plain-syntax">(</span><span class="identifier-syntax">EitherOrProperties::get_negation</span><span class="plain-syntax">(</span><span class="identifier-syntax">pr</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">seek_prn</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">PropertyPermissions::find</span><span class="plain-syntax">(</span><span class="identifier-syntax">subj</span><span class="plain-syntax">, </span><span class="identifier-syntax">seek_prn</span><span class="plain-syntax">, </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">))) {</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">property_permission</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pp</span><span class="plain-syntax"> = </span><span class="identifier-syntax">PropertyPermissions::grant</span><span class="plain-syntax">(</span><span class="identifier-syntax">subj</span><span class="plain-syntax">, </span><span class="identifier-syntax">seek_prn</span><span class="plain-syntax">, </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">);</span>
@@ -114,12 +119,12 @@ for "open" when its negation "closed" has the permission, or vice versa.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>Does the property owner <span class="extract"><span class="extract-syntax">subj</span></span> have any visible properties?
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  Does the property owner <code>subj</code> have any visible properties?</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Visibility::any_property_visible_to_subject</span><span class="plain-syntax">(</span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">subj</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">allow_inheritance</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Visibility::any_property_visible_to_subject</span><span class="plain-syntax">(</span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">subj</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">allow_inheritance</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pr</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">pr</span><span class="plain-syntax">, </span><span class="identifier-syntax">property</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">property_permission</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pp</span><span class="plain-syntax"> = </span><span class="identifier-syntax">PropertyPermissions::find</span><span class="plain-syntax">(</span><span class="identifier-syntax">subj</span><span class="plain-syntax">, </span><span class="identifier-syntax">pr</span><span class="plain-syntax">, </span><span class="identifier-syntax">allow_inheritance</span><span class="plain-syntax">);</span>
@@ -129,23 +134,21 @@ for "open" when its negation "closed" has the permission, or vice versa.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>For what these levels actually mean, see the code for the run-time command parser
-at <a href="../CommandParserKit/prsr.html" class="internal">Parser (in CommandParserKit)</a>.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  For what these levels actually mean, see the code for the run-time command parser
+at <a href="../CommandParserKit/prsr.html" class="internal">Parser (in CommandParserKit)</a>.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Visibility::get_level</span><span class="plain-syntax">(</span><span class="identifier-syntax">property_permission</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pp</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Visibility::get_level</span><span class="plain-syntax">(</span><span class="identifier-syntax">property_permission</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pp</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">PP_FEATURE_DATA</span><span class="plain-syntax">(</span><span class="identifier-syntax">parsing</span><span class="plain-syntax">, </span><span class="identifier-syntax">pp</span><span class="plain-syntax">)-&gt;</span><span class="element-syntax">visibility_level_in_parser</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>The condition text, if supplied, says that the property is only visible
-if some condition holds.
-</p>
-
-<p class="commentary">For timing reasons, we don't parse this when it is first declared, but only
-when we need it, which is now:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  The condition text, if supplied, says that the property is only visible
+if some condition holds.</p>
+<p>For timing reasons, we don't parse this when it is first declared, but only
+when we need it, which is now:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="function-syntax">Visibility::get_condition</span><span class="plain-syntax">(</span><span class="identifier-syntax">property_permission</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pp</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax"> = </span><span class="identifier-syntax">PP_FEATURE_DATA</span><span class="plain-syntax">(</span><span class="identifier-syntax">parsing</span><span class="plain-syntax">, </span><span class="identifier-syntax">pp</span><span class="plain-syntax">)-&gt;</span><span class="element-syntax">visibility_condition</span><span class="plain-syntax">;</span>
@@ -165,11 +168,11 @@ when we need it, which is now:
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">spec</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>Though currently unused, this function may be useful for debugging:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  Though currently unused, this function may be useful for debugging:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Visibility::log_parsing_visibility</span><span class="plain-syntax">(</span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">infs</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Visibility::log_parsing_visibility</span><span class="plain-syntax">(</span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">infs</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"Permissions for $j:\n"</span><span class="plain-syntax">, </span><span class="identifier-syntax">infs</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">property_permission</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pp</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER_PERMISSIONS_FOR_INFS</span><span class="plain-syntax">(</span><span class="identifier-syntax">pp</span><span class="plain-syntax">, </span><span class="identifier-syntax">infs</span><span class="plain-syntax">) {</span>

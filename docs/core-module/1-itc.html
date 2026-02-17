@@ -20,6 +20,11 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -56,51 +61,45 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="1-itc.html#SP8">&#167;8. Some internal tests for services modules</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>Partly because it is not written in a class-oriented programming language,
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  Partly because it is not written in a class-oriented programming language,
 and partly because it is a complex and very interconnected program, Inform
 does not really have unit tests in the usual sense of that term. It's hard
 to test individual components with fake data, other than in the course of a
 full run of the compiler, in which case you may as well carry out an
-end-to-end test anyway.
-</p>
-
-<p class="commentary">But Inform does have a mechanism for "internal tests". These involve running
+end-to-end test anyway.</p>
+<p>But Inform does have a mechanism for &quot;internal tests&quot;. These involve running
 the top half of the compiler more or less as normal, and then making a sharp
-turn to perform some test, printing the output to a file, and &mdash; since there
-is no point continuing &mdash; stopping the compiler there.
-</p>
-
-<p class="commentary">Such internal tests are performed only if the source text instructs it, which is
+turn to perform some test, printing the output to a file, and -- since there
+is no point continuing -- stopping the compiler there.</p>
+<p>Such internal tests are performed only if the source text instructs it, which is
 done with a special, intentionally undocumented, and subject-to-change-without-notice,
-syntax like so:
-</p>
-
+syntax like so:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">Test</span><span class="plain-syntax"> </span><span class="identifier-syntax">pattern</span><span class="plain-syntax"> (</span><span class="identifier-syntax">internal</span><span class="plain-syntax">) </span><span class="identifier-syntax">with</span><span class="plain-syntax"> </span><span class="identifier-syntax">putting</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">counter</span><span class="plain-syntax"> </span><span class="identifier-syntax">on</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">bench</span><span class="plain-syntax">.</span>
 </pre>
-<p class="commentary">Internal tests are identified by name &mdash; here, "pattern" &mdash; and are marked
-<span class="extract"><span class="extract-syntax">(internal)</span></span>. Optionally, they can supply some text to give them variation, as
-here: "putting the counter on the bench".
-</p>
-
-<p class="commentary">The Inform test group <span class="extract"><span class="extract-syntax">:internal</span></span> runs a set of these.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>Each request of the "Test X (internal)" sort generates an <a href="1-itc.html#SP2" class="internal">internal_test_case</a>
+<div class="lsmarkdown">
+<p>Internal tests are identified by name -- here, &quot;pattern&quot; -- and are marked
+<code>(internal)</code>. Optionally, they can supply some text to give them variation, as
+here: &quot;putting the counter on the bench&quot;.</p>
+<p>The Inform test group <code>:internal</code> runs a set of these.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  Each request of the &quot;Test X (internal)&quot; sort generates an <a href="1-itc.html#SP2" class="internal">internal_test_case</a>
 object. See <a href="../assertions-module/3-tr.html" class="internal">Test Requests (in assertions)</a> for how sentences like the above are
-parsed; that's the code which calls us here.
-</p>
-
+parsed; that's the code which calls us here.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">internal_test_case</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">internal_test</span><span class="plain-syntax"> *</span><span class="identifier-syntax">which_method</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_supplying_the_case</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">itc_defined_at</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">internal_test_case</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">internal_test</span><span class="plain-syntax"> *</span><span class="identifier-syntax">which_method</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_supplying_the_case</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">itc_defined_at</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">CLASS_DEFINITION</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">internal_test_case</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">internal_test_case</span><span class="plain-syntax">;</span>
 
-<span class="reserved-syntax">internal_test_case</span><span class="plain-syntax"> *</span><span class="function-syntax">InternalTests::new</span><span class="plain-syntax">(</span><span class="reserved-syntax">internal_test</span><span class="plain-syntax"> *</span><span class="identifier-syntax">it</span><span class="plain-syntax">, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">internal_test_case</span><span class="plain-syntax"> *</span><span class="identifier-syntax">itc</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="reserved-syntax">internal_test_case</span><span class="plain-syntax">);</span>
+<span class="identifier-syntax">internal_test_case</span><span class="plain-syntax"> *</span><span class="function-syntax">InternalTests::new</span><span class="plain-syntax">(</span><span class="identifier-syntax">internal_test</span><span class="plain-syntax"> *</span><span class="identifier-syntax">it</span><span class="plain-syntax">, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">internal_test_case</span><span class="plain-syntax"> *</span><span class="identifier-syntax">itc</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="identifier-syntax">internal_test_case</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">itc</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">which_method</span><span class="plain-syntax"> = </span><span class="identifier-syntax">it</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">itc</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">text_supplying_the_case</span><span class="plain-syntax"> = </span><span class="identifier-syntax">W</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">itc</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">itc_defined_at</span><span class="plain-syntax"> = </span><span class="identifier-syntax">current_sentence</span><span class="plain-syntax">;</span>
@@ -108,86 +107,84 @@ parsed; that's the code which calls us here.
 <span class="plain-syntax">}</span>
 </pre>
 <ul class="endnotetexts"><li>The structure internal_test_case is private to this section.</li></ul>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>Each differently-named test, such as "pattern", corresponds to one of these:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  Each differently-named test, such as &quot;pattern&quot;, corresponds to one of these:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">internal_test</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">test_name</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">void</span><span class="plain-syntax"> (*</span><span class="identifier-syntax">perform</span><span class="plain-syntax">)(</span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *, </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">internal_test_case</span><span class="plain-syntax"> *);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">via_log</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">at_stage</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">internal_test</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">test_name</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">void</span><span class="plain-syntax"> (*</span><span class="identifier-syntax">perform</span><span class="plain-syntax">)(</span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *, </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">internal_test_case</span><span class="plain-syntax"> *);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">via_log</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">at_stage</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">CLASS_DEFINITION</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">internal_test</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">internal_test</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>The structure internal_test is private to this section.</li></ul>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>Inform modules wanting to provide internal tests should call the following
-when they start up:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  Inform modules wanting to provide internal tests should call the following
+when they start up:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InternalTests::make_test_available</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">InternalTests::make_test_available</span></span>:<br/><a href="1-itc.html#SP8">&#167;8</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">name</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">void</span><span class="plain-syntax"> (*</span><span class="identifier-syntax">perform</span><span class="plain-syntax">)(</span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *, </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">internal_test_case</span><span class="plain-syntax"> *), </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">log</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">internal_test</span><span class="plain-syntax"> *</span><span class="identifier-syntax">it</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="reserved-syntax">internal_test</span><span class="plain-syntax">);</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InternalTests::make_test_available</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">InternalTests::make_test_available</span></span>:<br/><a href="1-itc.html#SP8">&#167;8</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">name</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">void</span><span class="plain-syntax"> (*</span><span class="identifier-syntax">perform</span><span class="plain-syntax">)(</span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *, </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">internal_test_case</span><span class="plain-syntax"> *), </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">log</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">internal_test</span><span class="plain-syntax"> *</span><span class="identifier-syntax">it</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="identifier-syntax">internal_test</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">it</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">test_name</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Feeds::feed_text</span><span class="plain-syntax">(</span><span class="identifier-syntax">name</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">it</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">perform</span><span class="plain-syntax"> = </span><span class="identifier-syntax">perform</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">it</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">via_log</span><span class="plain-syntax"> = </span><span class="identifier-syntax">log</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">it</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">at_stage</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InternalTests::make_late_test_available</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">InternalTests::make_late_test_available</span></span>:<br/><a href="1-itc.html#SP8">&#167;8</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">name</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">void</span><span class="plain-syntax"> (*</span><span class="identifier-syntax">perform</span><span class="plain-syntax">)(</span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *, </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">internal_test_case</span><span class="plain-syntax"> *), </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">log</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">internal_test</span><span class="plain-syntax"> *</span><span class="identifier-syntax">it</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="reserved-syntax">internal_test</span><span class="plain-syntax">);</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InternalTests::make_late_test_available</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">InternalTests::make_late_test_available</span></span>:<br/><a href="1-itc.html#SP8">&#167;8</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">name</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">void</span><span class="plain-syntax"> (*</span><span class="identifier-syntax">perform</span><span class="plain-syntax">)(</span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *, </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">internal_test_case</span><span class="plain-syntax"> *), </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">log</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">internal_test</span><span class="plain-syntax"> *</span><span class="identifier-syntax">it</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="identifier-syntax">internal_test</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">it</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">test_name</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Feeds::feed_text</span><span class="plain-syntax">(</span><span class="identifier-syntax">name</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">it</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">perform</span><span class="plain-syntax"> = </span><span class="identifier-syntax">perform</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">it</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">via_log</span><span class="plain-syntax"> = </span><span class="identifier-syntax">log</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">it</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">at_stage</span><span class="plain-syntax"> = </span><span class="constant-syntax">2</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>This is slow, but almost never used, so there is no point speeding it up:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  This is slow, but almost never used, so there is no point speeding it up:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">internal_test</span><span class="plain-syntax"> *</span><span class="function-syntax">InternalTests::by_name</span><span class="plain-syntax">(</span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">internal_test</span><span class="plain-syntax"> *</span><span class="identifier-syntax">it</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">it</span><span class="plain-syntax">, </span><span class="reserved-syntax">internal_test</span><span class="plain-syntax">)</span>
+<span class="identifier-syntax">internal_test</span><span class="plain-syntax"> *</span><span class="function-syntax">InternalTests::by_name</span><span class="plain-syntax">(</span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">internal_test</span><span class="plain-syntax"> *</span><span class="identifier-syntax">it</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">it</span><span class="plain-syntax">, </span><span class="identifier-syntax">internal_test</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Wordings::match</span><span class="plain-syntax">(</span><span class="identifier-syntax">W</span><span class="plain-syntax">, </span><span class="identifier-syntax">it</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">test_name</span><span class="plain-syntax">))</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">it</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>The output from a test is written to a file, and this is its filename, which
-is set at the command like with <span class="extract"><span class="extract-syntax">-test-output</span></span>. (The Intest script for testing
-<span class="extract"><span class="extract-syntax">inform7</span></span> shows how this works in practice.)
-</p>
-
-<p class="commentary">It's a deliberate policy choice to run internal texts this way &mdash; i.e., with
-the correct textual output stored in the Inform repository, and open to view &mdash;
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  The output from a test is written to a file, and this is its filename, which
+is set at the command like with <code>-test-output</code>. (The Intest script for testing
+<code>inform7</code> shows how this works in practice.)</p>
+<p>It's a deliberate policy choice to run internal texts this way -- i.e., with
+the correct textual output stored in the Inform repository, and open to view --
 rather than just as code which is either silent (for a pass) or fails assertions
 (for a fail). It's much harder to check that such tests are themselves correctly
-written.
-</p>
-
+written.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="identifier-syntax">internal_test_output_file</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InternalTests::set_file</span><span class="plain-syntax">(</span><span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="identifier-syntax">F</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InternalTests::set_file</span><span class="plain-syntax">(</span><span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="identifier-syntax">F</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">     </span><span class="identifier-syntax">internal_test_output_file</span><span class="plain-syntax"> = </span><span class="identifier-syntax">F</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>And now we run the tests, returning the number actually run &mdash; which for
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  And now we run the tests, returning the number actually run -- which for
 end users of Inform, not concerned with compiler maintenance, will always be 0.
 Output from the tests is spooled together, and divided up with textual labels
-for convenience of reading.
-</p>
-
+for convenience of reading.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">InternalTests::run</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">InternalTests::run</span></span>:<br/>How To Compile - <a href="1-htc.html#SP2_8">&#167;2.8</a>, <a href="1-htc.html#SP2_14">&#167;2.14</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">stage</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">linked_list</span><span class="plain-syntax"> *</span><span class="identifier-syntax">L</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NEW_LINKED_LIST</span><span class="plain-syntax">(</span><span class="reserved-syntax">internal_test_case</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">internal_test_case</span><span class="plain-syntax"> *</span><span class="identifier-syntax">itc</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">itc</span><span class="plain-syntax">, </span><span class="reserved-syntax">internal_test_case</span><span class="plain-syntax">)</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">InternalTests::run</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">InternalTests::run</span></span>:<br/>How To Compile - <a href="1-htc.html#SP2_8">&#167;2.8</a>, <a href="1-htc.html#SP2_14">&#167;2.14</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">stage</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">linked_list</span><span class="plain-syntax"> *</span><span class="identifier-syntax">L</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NEW_LINKED_LIST</span><span class="plain-syntax">(</span><span class="identifier-syntax">internal_test_case</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">internal_test_case</span><span class="plain-syntax"> *</span><span class="identifier-syntax">itc</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">itc</span><span class="plain-syntax">, </span><span class="identifier-syntax">internal_test_case</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (((</span><span class="identifier-syntax">itc</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">which_method</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">stage</span><span class="plain-syntax"> == </span><span class="constant-syntax">1</span><span class="plain-syntax">)) ||</span>
 <span class="plain-syntax">            ((</span><span class="identifier-syntax">itc</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">which_method</span><span class="plain-syntax"> != </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) &amp;&amp; ((</span><span class="identifier-syntax">itc</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">which_method</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">at_stage</span><span class="plain-syntax"> == </span><span class="identifier-syntax">stage</span><span class="plain-syntax">))))</span>
-<span class="plain-syntax">            </span><span class="identifier-syntax">ADD_TO_LINKED_LIST</span><span class="plain-syntax">(</span><span class="identifier-syntax">itc</span><span class="plain-syntax">, </span><span class="reserved-syntax">internal_test_case</span><span class="plain-syntax">, </span><span class="identifier-syntax">L</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">            </span><span class="identifier-syntax">ADD_TO_LINKED_LIST</span><span class="plain-syntax">(</span><span class="identifier-syntax">itc</span><span class="plain-syntax">, </span><span class="identifier-syntax">internal_test_case</span><span class="plain-syntax">, </span><span class="identifier-syntax">L</span><span class="plain-syntax">);</span>
 
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">LinkedLists::len</span><span class="plain-syntax">(</span><span class="identifier-syntax">L</span><span class="plain-syntax">) == </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> </span><span class="identifier-syntax">OUTFILE_struct</span><span class="plain-syntax">;</span>
@@ -200,15 +197,15 @@ for convenience of reading.
 <span class="plain-syntax">        </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"internal test cases can only be used with -test-output set"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    }</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">no_in_group</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="identifier-syntax">no_run</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER_LINKED_LIST</span><span class="plain-syntax">(</span><span class="identifier-syntax">itc</span><span class="plain-syntax">, </span><span class="reserved-syntax">internal_test_case</span><span class="plain-syntax">, </span><span class="identifier-syntax">L</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">no_in_group</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="identifier-syntax">no_run</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER_LINKED_LIST</span><span class="plain-syntax">(</span><span class="identifier-syntax">itc</span><span class="plain-syntax">, </span><span class="identifier-syntax">internal_test_case</span><span class="plain-syntax">, </span><span class="identifier-syntax">L</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">no_in_group</span><span class="plain-syntax">++;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">itc</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">which_method</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">no_in_group</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"\n%+W\n"</span><span class="plain-syntax">, </span><span class="identifier-syntax">itc</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">text_supplying_the_case</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        } </span><span class="reserved-syntax">else</span><span class="plain-syntax"> {</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"%d. %+W\n"</span><span class="plain-syntax">, </span><span class="identifier-syntax">no_in_group</span><span class="plain-syntax">, </span><span class="identifier-syntax">itc</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">text_supplying_the_case</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="1-itc.html#SP7_1" class="named-paragraph-link"><span class="named-paragraph">Run the individual test case</span><span class="named-paragraph-number">7.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="1-itc.html#SP7_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Run the individual test case</span></span><span class="named-paragraph-number">7.1</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"\n"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        }</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">no_run</span><span class="plain-syntax">++;</span>
@@ -217,15 +214,14 @@ for convenience of reading.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">no_run</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7_1" class="paragraph-anchor"></a><b>&#167;7.1. </b>Some tests find it more convenient to write their output to the debugging
-log, not to an arbitrary file like <span class="extract"><span class="extract-syntax">OUT</span></span>. For those (identified as <span class="extract"><span class="extract-syntax">via_log</span></span>),
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7_1" class="paragraph-anchor"></a><b>&#167;7.1. </b>  Some tests find it more convenient to write their output to the debugging
+log, not to an arbitrary file like <code>OUT</code>. For those (identified as <code>via_log</code>),
 we temporarily wire the two streams together, so that for a brief period
-<span class="extract"><span class="extract-syntax">OUT</span></span> actually is the debugging log. This is a hack, but it'll do fine for
-testing purposes.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Run the individual test case</span><span class="named-paragraph-number">7.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<code>OUT</code> actually is the debugging log. This is a hack, but it'll do fine for
+testing purposes.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Run the individual test case</span><span class="named-paragraph-number">7.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">itc_save_DL</span><span class="plain-syntax"> = </span><span class="identifier-syntax">DL</span><span class="plain-syntax">;</span>
@@ -246,14 +242,14 @@ testing purposes.
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="1-itc.html#SP7">&#167;7</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Some internal tests for services modules.</b>As noted above, each module of the main Inform compiler can register its own
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Some internal tests for services modules.</b>  As noted above, each module of the main Inform compiler can register its own
 internal tests. But service modules like <a href="../syntax-module/index.html" class="internal">syntax</a> or <a href="../linguistics-module/index.html" class="internal">linguistics</a> have
 no access to the function <a href="1-itc.html#SP4" class="internal">InternalTests::make_test_available</a>, so we will
-call it for them.
-</p>
-
+call it for them.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InternalTests::begin</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">InternalTests::begin</span></span>:<br/>Core Module - <a href="1-cm.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InternalTests::begin</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">InternalTests::begin</span></span>:<br/>Core Module - <a href="1-cm.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><a href="1-itc.html#SP4" class="function-link"><span class="function-syntax">InternalTests::make_test_available</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="string-syntax">"adjective"</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">        &amp;</span><a href="1-itc.html#SP8" class="function-link"><span class="function-syntax">InternalTests::perform_adjective_internal_test</span></a><span class="plain-syntax">, </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="1-itc.html#SP4" class="function-link"><span class="function-syntax">InternalTests::make_test_available</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="string-syntax">"dimensions"</span><span class="plain-syntax">,</span>
@@ -270,53 +266,53 @@ call it for them.
 <span class="plain-syntax">        &amp;</span><a href="1-itc.html#SP8" class="function-link"><span class="function-syntax">InternalTests::perform_EPS_map_internal_test</span></a><span class="plain-syntax">, </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InternalTests::perform_dimensions_internal_test</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">internal_test_case</span><span class="plain-syntax"> *</span><span class="identifier-syntax">itc</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InternalTests::perform_dimensions_internal_test</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">internal_test_case</span><span class="plain-syntax"> *</span><span class="identifier-syntax">itc</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">Kinds::Dimensions::log_unit_analysis</span><span class="plain-syntax">();</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InternalTests::perform_verb_internal_test</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">internal_test_case</span><span class="plain-syntax"> *</span><span class="identifier-syntax">itc</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InternalTests::perform_verb_internal_test</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">internal_test_case</span><span class="plain-syntax"> *</span><span class="identifier-syntax">itc</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">Conjugation::test</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUT</span><span class="plain-syntax">, </span><span class="identifier-syntax">itc</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">text_supplying_the_case</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">Projects::get_language_of_play</span><span class="plain-syntax">(</span><a href="1-wtc.html#SP7" class="function-link"><span class="function-syntax">Task::project</span></a><span class="plain-syntax">()));</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InternalTests::perform_adjective_internal_test</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">internal_test_case</span><span class="plain-syntax"> *</span><span class="identifier-syntax">itc</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InternalTests::perform_adjective_internal_test</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">internal_test_case</span><span class="plain-syntax"> *</span><span class="identifier-syntax">itc</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">Adjectives::test_adjective</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUT</span><span class="plain-syntax">, </span><span class="identifier-syntax">itc</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">text_supplying_the_case</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InternalTests::perform_ing_internal_test</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">internal_test_case</span><span class="plain-syntax"> *</span><span class="identifier-syntax">itc</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InternalTests::perform_ing_internal_test</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">internal_test_case</span><span class="plain-syntax"> *</span><span class="identifier-syntax">itc</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">Conjugation::test_participle</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUT</span><span class="plain-syntax">, </span><span class="identifier-syntax">itc</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">text_supplying_the_case</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InternalTests::perform_index_internal_test</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">internal_test_case</span><span class="plain-syntax"> *</span><span class="identifier-syntax">itc</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InternalTests::perform_index_internal_test</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">internal_test_case</span><span class="plain-syntax"> *</span><span class="identifier-syntax">itc</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">index_session</span><span class="plain-syntax"> *</span><span class="identifier-syntax">session</span><span class="plain-syntax"> = </span><span class="identifier-syntax">IndexStage::index_session_for</span><span class="plain-syntax">(</span><span class="identifier-syntax">Emit::tree</span><span class="plain-syntax">(), </span><a href="1-wtc.html#SP7" class="function-link"><span class="function-syntax">Task::project</span></a><span class="plain-syntax">());</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">Indexing::generate_one_element</span><span class="plain-syntax">(</span><span class="identifier-syntax">session</span><span class="plain-syntax">, </span><span class="identifier-syntax">OUT</span><span class="plain-syntax">, </span><span class="identifier-syntax">itc</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">text_supplying_the_case</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">Indexing::close_session</span><span class="plain-syntax">(</span><span class="identifier-syntax">session</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InternalTests::perform_EPS_map_internal_test</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">internal_test_case</span><span class="plain-syntax"> *</span><span class="identifier-syntax">itc</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InternalTests::perform_EPS_map_internal_test</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">internal_test_case</span><span class="plain-syntax"> *</span><span class="identifier-syntax">itc</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">index_session</span><span class="plain-syntax"> *</span><span class="identifier-syntax">session</span><span class="plain-syntax"> = </span><span class="identifier-syntax">IndexStage::index_session_for</span><span class="plain-syntax">(</span><span class="identifier-syntax">Emit::tree</span><span class="plain-syntax">(), </span><a href="1-wtc.html#SP7" class="function-link"><span class="function-syntax">Task::project</span></a><span class="plain-syntax">());</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">Indexing::generate_EPS_map</span><span class="plain-syntax">(</span><span class="identifier-syntax">session</span><span class="plain-syntax">, </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">, </span><span class="identifier-syntax">OUT</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">Indexing::close_session</span><span class="plain-syntax">(</span><span class="identifier-syntax">session</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>And here's a set of six tests of the kinds system. This is quite old code,
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>  And here's a set of six tests of the kinds system. This is quite old code,
 written before the <a href="../kinds-test/index.html" class="internal">kinds-test</a> tool was created, which performs much fuller
 unit-testing of the <a href="../kinds-module/index.html" class="internal">kinds</a> module. So we probably don't need these tests any
 longer, but they are still in the test suite and do no harm there. They do tend
-to be brittle tests in the sense that they will "fail" if a new built-in base
+to be brittle tests in the sense that they will &quot;fail&quot; if a new built-in base
 kind is added to <a href="../BasicInformKit/index.html" class="internal">BasicInformKit</a>, say: but if so, just rebless the new output
-and carry on regardless.
-</p>
-
+and carry on regardless.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InternalTests::perform_kind_internal_test</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">InternalTests::perform_kind_internal_test</span></span>:<br/><a href="1-itc.html#SP8">&#167;8</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">internal_test_case</span><span class="plain-syntax"> *</span><span class="identifier-syntax">itc</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InternalTests::perform_kind_internal_test</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">InternalTests::perform_kind_internal_test</span></span>:<br/><a href="1-itc.html#SP8">&#167;8</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">internal_test_case</span><span class="plain-syntax"> *</span><span class="identifier-syntax">itc</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><a href="1-itc.html#SP9" class="function-link"><span class="function-syntax">InternalTests::log_poset</span></a><span class="plain-syntax">(</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">Vocabulary::get_literal_number_value</span><span class="plain-syntax">(</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">Lexer::word</span><span class="plain-syntax">(</span>
@@ -324,25 +320,24 @@ and carry on regardless.
 <span class="plain-syntax">                    </span><span class="identifier-syntax">itc</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">text_supplying_the_case</span><span class="plain-syntax">))));</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InternalTests::log_poset</span><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">n</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InternalTests::log_poset</span><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">n</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="identifier-syntax">n</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span><span class="plain-syntax">: </span><span class="named-paragraph-container code-font"><a href="1-itc.html#SP9_1" class="named-paragraph-link"><span class="named-paragraph">Display the subkind relation of base kinds</span><span class="named-paragraph-number">9.1</span></a></span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="constant-syntax">2</span><span class="plain-syntax">: </span><span class="named-paragraph-container code-font"><a href="1-itc.html#SP9_2" class="named-paragraph-link"><span class="named-paragraph">Display the compatibility relation of base kinds</span><span class="named-paragraph-number">9.2</span></a></span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="constant-syntax">3</span><span class="plain-syntax">: </span><span class="named-paragraph-container code-font"><a href="1-itc.html#SP9_3" class="named-paragraph-link"><span class="named-paragraph">Display the results of the superkind function</span><span class="named-paragraph-number">9.3</span></a></span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="constant-syntax">4</span><span class="plain-syntax">: </span><span class="named-paragraph-container code-font"><a href="1-itc.html#SP9_4" class="named-paragraph-link"><span class="named-paragraph">Check for poset violations</span><span class="named-paragraph-number">9.4</span></a></span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="constant-syntax">5</span><span class="plain-syntax">: </span><span class="named-paragraph-container code-font"><a href="1-itc.html#SP9_5" class="named-paragraph-link"><span class="named-paragraph">Check the maximum function</span><span class="named-paragraph-number">9.5</span></a></span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="constant-syntax">6</span><span class="plain-syntax">: </span><span class="named-paragraph-container code-font"><a href="1-itc.html#SP9_6" class="named-paragraph-link"><span class="named-paragraph">Some miscellaneous tests with a grab bag of kinds</span><span class="named-paragraph-number">9.6</span></a></span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span><span class="plain-syntax">: </span><span class="named-paragraph-container code-font"><a href="1-itc.html#SP9_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Display the subkind relation of base kinds</span></span><span class="named-paragraph-number">9.1</span></a></span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="constant-syntax">2</span><span class="plain-syntax">: </span><span class="named-paragraph-container code-font"><a href="1-itc.html#SP9_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Display the compatibility relation of base kinds</span></span><span class="named-paragraph-number">9.2</span></a></span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="constant-syntax">3</span><span class="plain-syntax">: </span><span class="named-paragraph-container code-font"><a href="1-itc.html#SP9_3" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Display the results of the superkind function</span></span><span class="named-paragraph-number">9.3</span></a></span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="constant-syntax">4</span><span class="plain-syntax">: </span><span class="named-paragraph-container code-font"><a href="1-itc.html#SP9_4" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Check for poset violations</span></span><span class="named-paragraph-number">9.4</span></a></span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="constant-syntax">5</span><span class="plain-syntax">: </span><span class="named-paragraph-container code-font"><a href="1-itc.html#SP9_5" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Check the maximum function</span></span><span class="named-paragraph-number">9.5</span></a></span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="constant-syntax">6</span><span class="plain-syntax">: </span><span class="named-paragraph-container code-font"><a href="1-itc.html#SP9_6" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Some miscellaneous tests with a grab bag of kinds</span></span><span class="named-paragraph-number">9.6</span></a></span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP9_1" class="paragraph-anchor"></a><b>&#167;9.1. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Display the subkind relation of base kinds</span><span class="named-paragraph-number">9.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP9_1" class="paragraph-anchor"></a><b>&#167;9.1. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Display the subkind relation of base kinds</span><span class="named-paragraph-number">9.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"The subkind relation on (base) kinds:\n"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">A</span><span class="plain-syntax">, *</span><span class="identifier-syntax">B</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER_BASE_KINDS</span><span class="plain-syntax">(</span><span class="identifier-syntax">A</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">c</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">c</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">LOOP_OVER_BASE_KINDS</span><span class="plain-syntax">(</span><span class="identifier-syntax">B</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">Kinds::conforms_to</span><span class="plain-syntax">(</span><span class="identifier-syntax">A</span><span class="plain-syntax">, </span><span class="identifier-syntax">B</span><span class="plain-syntax">)) &amp;&amp; (</span><span class="identifier-syntax">Kinds::eq</span><span class="plain-syntax">(</span><span class="identifier-syntax">A</span><span class="plain-syntax">, </span><span class="identifier-syntax">B</span><span class="plain-syntax">) == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">)) {</span>
 <span class="plain-syntax">                </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">c</span><span class="plain-syntax">++ == </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"%u &lt;= "</span><span class="plain-syntax">, </span><span class="identifier-syntax">A</span><span class="plain-syntax">); </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">", "</span><span class="plain-syntax">);</span>
@@ -353,14 +348,13 @@ and carry on regardless.
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="1-itc.html#SP9">&#167;9</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP9_2" class="paragraph-anchor"></a><b>&#167;9.2. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Display the compatibility relation of base kinds</span><span class="named-paragraph-number">9.2</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP9_2" class="paragraph-anchor"></a><b>&#167;9.2. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Display the compatibility relation of base kinds</span><span class="named-paragraph-number">9.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"The (always) compatibility relation on (base) kinds, where it differs from &lt;=:\n"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">A</span><span class="plain-syntax">, *</span><span class="identifier-syntax">B</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER_BASE_KINDS</span><span class="plain-syntax">(</span><span class="identifier-syntax">A</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">c</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">c</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">LOOP_OVER_BASE_KINDS</span><span class="plain-syntax">(</span><span class="identifier-syntax">B</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">Kinds::compatible</span><span class="plain-syntax">(</span><span class="identifier-syntax">A</span><span class="plain-syntax">, </span><span class="identifier-syntax">B</span><span class="plain-syntax">) == </span><span class="identifier-syntax">ALWAYS_MATCH</span><span class="plain-syntax">) &amp;&amp;</span>
 <span class="plain-syntax">                (</span><span class="identifier-syntax">Kinds::conforms_to</span><span class="plain-syntax">(</span><span class="identifier-syntax">A</span><span class="plain-syntax">, </span><span class="identifier-syntax">B</span><span class="plain-syntax">) == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">) &amp;&amp;</span>
@@ -373,8 +367,7 @@ and carry on regardless.
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="1-itc.html#SP9">&#167;9</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP9_3" class="paragraph-anchor"></a><b>&#167;9.3. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Display the results of the superkind function</span><span class="named-paragraph-number">9.3</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP9_3" class="paragraph-anchor"></a><b>&#167;9.3. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Display the results of the superkind function</span><span class="named-paragraph-number">9.3</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"The superkind function applied to base kinds:\n"</span><span class="plain-syntax">);</span>
@@ -386,8 +379,7 @@ and carry on regardless.
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="1-itc.html#SP9">&#167;9</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP9_4" class="paragraph-anchor"></a><b>&#167;9.4. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Check for poset violations</span><span class="named-paragraph-number">9.4</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP9_4" class="paragraph-anchor"></a><b>&#167;9.4. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Check for poset violations</span><span class="named-paragraph-number">9.4</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"Looking for partially ordered set violations.\n"</span><span class="plain-syntax">);</span>
@@ -408,8 +400,7 @@ and carry on regardless.
 <span class="plain-syntax">                    </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"Transitivity violated: %u, %u, %u\n"</span><span class="plain-syntax">, </span><span class="identifier-syntax">A</span><span class="plain-syntax">, </span><span class="identifier-syntax">B</span><span class="plain-syntax">, </span><span class="identifier-syntax">C</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="1-itc.html#SP9">&#167;9</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP9_5" class="paragraph-anchor"></a><b>&#167;9.5. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Check the maximum function</span><span class="named-paragraph-number">9.5</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP9_5" class="paragraph-anchor"></a><b>&#167;9.5. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Check the maximum function</span><span class="named-paragraph-number">9.5</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"Looking for maximum violations.\n"</span><span class="plain-syntax">);</span>
@@ -433,12 +424,11 @@ and carry on regardless.
 <span class="plain-syntax">                    </span><span class="identifier-syntax">A</span><span class="plain-syntax">, </span><span class="identifier-syntax">A</span><span class="plain-syntax">, </span><span class="identifier-syntax">Latticework::join</span><span class="plain-syntax">(</span><span class="identifier-syntax">A</span><span class="plain-syntax">, </span><span class="identifier-syntax">A</span><span class="plain-syntax">));</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="1-itc.html#SP9">&#167;9</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP9_6" class="paragraph-anchor"></a><b>&#167;9.6. </b></p>
+<p class="commentary firstcommentary"><a id="SP9_6" class="paragraph-anchor"></a><b>&#167;9.6. </b> </p>
 
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">SIZE_OF_GRAB_BAG</span><span class="plain-syntax"> </span><span class="constant-syntax">11</span>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">11</span>
 </pre>
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Some miscellaneous tests with a grab bag of kinds</span><span class="named-paragraph-number">9.6</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Some miscellaneous tests with a grab bag of kinds</span><span class="named-paragraph-number">9.6</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">tests</span><span class="plain-syntax">[</span><span class="constant-syntax">SIZE_OF_GRAB_BAG</span><span class="plain-syntax">];</span>
@@ -456,7 +446,7 @@ and carry on regardless.
 <span class="plain-syntax">        </span><span class="identifier-syntax">Kinds::binary_con</span><span class="plain-syntax">(</span><span class="identifier-syntax">CON_TUPLE_ENTRY</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_object</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_void</span><span class="plain-syntax">), </span><span class="identifier-syntax">K_door</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">tests</span><span class="plain-syntax">[10] = </span><span class="identifier-syntax">Kinds::binary_con</span><span class="plain-syntax">(</span><span class="identifier-syntax">CON_phrase</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">Kinds::binary_con</span><span class="plain-syntax">(</span><span class="identifier-syntax">CON_TUPLE_ENTRY</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_object</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_void</span><span class="plain-syntax">), </span><span class="identifier-syntax">K_object</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;</span><span class="constant-syntax">SIZE_OF_GRAB_BAG</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">j</span><span class="plain-syntax">=</span><span class="identifier-syntax">i</span><span class="plain-syntax">+1; </span><span class="identifier-syntax">j</span><span class="plain-syntax">&lt;</span><span class="constant-syntax">SIZE_OF_GRAB_BAG</span><span class="plain-syntax">; </span><span class="identifier-syntax">j</span><span class="plain-syntax">++) {</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;</span><span class="constant-syntax">SIZE_OF_GRAB_BAG</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">j</span><span class="plain-syntax">=</span><span class="identifier-syntax">i</span><span class="plain-syntax">+1; </span><span class="identifier-syntax">j</span><span class="plain-syntax">&lt;</span><span class="constant-syntax">SIZE_OF_GRAB_BAG</span><span class="plain-syntax">; </span><span class="identifier-syntax">j</span><span class="plain-syntax">++) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Kinds::conforms_to</span><span class="plain-syntax">(</span><span class="identifier-syntax">tests</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">], </span><span class="identifier-syntax">tests</span><span class="plain-syntax">[</span><span class="identifier-syntax">j</span><span class="plain-syntax">])) </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"%u &lt;= %u\n"</span><span class="plain-syntax">, </span><span class="identifier-syntax">tests</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">], </span><span class="identifier-syntax">tests</span><span class="plain-syntax">[</span><span class="identifier-syntax">j</span><span class="plain-syntax">]);</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Kinds::conforms_to</span><span class="plain-syntax">(</span><span class="identifier-syntax">tests</span><span class="plain-syntax">[</span><span class="identifier-syntax">j</span><span class="plain-syntax">], </span><span class="identifier-syntax">tests</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">])) </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"%u &lt;= %u\n"</span><span class="plain-syntax">, </span><span class="identifier-syntax">tests</span><span class="plain-syntax">[</span><span class="identifier-syntax">j</span><span class="plain-syntax">], </span><span class="identifier-syntax">tests</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">]);</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">M</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Latticework::join</span><span class="plain-syntax">(</span><span class="identifier-syntax">tests</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">], </span><span class="identifier-syntax">tests</span><span class="plain-syntax">[</span><span class="identifier-syntax">j</span><span class="plain-syntax">]);</span>

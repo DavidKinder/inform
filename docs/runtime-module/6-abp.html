@@ -12,6 +12,11 @@
 <link href="../docs-assets/Navigation.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Fonts.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -46,12 +51,12 @@
     <ul class="crumbs"><li><a href="../index.html">Home</a></li><li><a href="../inform7n.html">Inform7</a></li><li><a href="index.html">runtime</a></li><li><a href="index.html#6">Chapter 6: Completion Resources</a></li><li><b>Action Bitmap Property</b></li></ul></div>
 <p class="purpose">To compile tiny arrays as values of the action_bitmap property.</p>
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>This is all in service of a feature I would quite like to lose: recording,
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  This is all in service of a feature I would quite like to lose: recording,
 with a flag, which actions have happened to which objects. We store this bitmap
 in 16-bit fields inside an array of words; on a 32-bit VM, that wastes the
-remaining bits, but then on a 32-bit VN memory is not scarce in quite that way.
-</p>
-
+remaining bits, but then on a 32-bit VN memory is not scarce in quite that way.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="function-syntax">RTActionBitmaps::compile_action_bitmap_property</span><span class="plain-syntax">(</span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">subj</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">package_request</span><span class="plain-syntax"> *</span><span class="identifier-syntax">R</span><span class="plain-syntax"> = </span><a href="6-pp.html#SP1" class="function-link"><span class="function-syntax">RTPropertyPermissions::home</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">subj</span><span class="plain-syntax">);</span>
@@ -65,7 +70,7 @@ remaining bits, but then on a 32-bit VN memory is not scarce in quite that way.
 <span class="plain-syntax">        </span><span class="identifier-syntax">N</span><span class="plain-syntax"> = </span><a href="2-hrr.html#SP12" class="function-link"><span class="function-syntax">Hierarchy::make_iname_in</span></a><span class="plain-syntax">(</span><span class="constant-syntax">KIND_INLINE_PROPERTY_HL</span><span class="plain-syntax">, </span><span class="identifier-syntax">PR</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">packaging_state</span><span class="plain-syntax"> </span><span class="identifier-syntax">save</span><span class="plain-syntax"> = </span><a href="2-ea.html#SP2" class="function-link"><span class="function-syntax">EmitArrays::begin_inline</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">N</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_number</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;=((</span><span class="identifier-syntax">NUMBER_CREATED</span><span class="plain-syntax">(</span><span class="identifier-syntax">action_name</span><span class="plain-syntax">))/16); </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) </span><a href="2-ea.html#SP4" class="function-link"><span class="function-syntax">EmitArrays::numeric_entry</span></a><span class="plain-syntax">(0);</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;=((</span><span class="identifier-syntax">NUMBER_CREATED</span><span class="plain-syntax">(</span><span class="identifier-syntax">action_name</span><span class="plain-syntax">))/16); </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) </span><a href="2-ea.html#SP4" class="function-link"><span class="function-syntax">EmitArrays::numeric_entry</span></a><span class="plain-syntax">(0);</span>
 <span class="plain-syntax">    </span><a href="2-ea.html#SP5" class="function-link"><span class="function-syntax">EmitArrays::end</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">save</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">Rvalues::from_iname</span><span class="plain-syntax">(</span><span class="identifier-syntax">N</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>

@@ -20,6 +20,11 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -56,25 +61,23 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="3-vm.html#SP1">&#167;1. What we abstract</a></li><li><a href="3-vm.html#SP3">&#167;3. How this module stores verb meanings</a></li><li><a href="3-vm.html#SP8">&#167;8. Recording where assigned</a></li><li><a href="3-vm.html#SP9">&#167;9. The regular meaning</a></li><li><a href="3-vm.html#SP10">&#167;10. The special meaning</a></li><li><a href="3-vm.html#SP11">&#167;11. Logging</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. What we abstract.</b>Because this module is concerned with the structure of sentences and not
-their meanings, we don't really want to get into what verbs "mean". Instead,
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. What we abstract.</b>  Because this module is concerned with the structure of sentences and not
+their meanings, we don't really want to get into what verbs &quot;mean&quot;. Instead,
 we assume that the tool using this module will assign meanings in some way
 that it understands and we do not: the data for the meaning of a verb will
-be a pointer to <span class="extract"><span class="extract-syntax">VERB_MEANING_LINGUISTICS_TYPE</span></span>. (In Inform, this will be
-a binary predicate.)
-</p>
-
-<p class="commentary">By default, there's no meaning at all:
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">default</span> <span class="constant-syntax">VERB_MEANING_LINGUISTICS_TYPE</span><span class="plain-syntax"> </span><span class="reserved-syntax">void</span>
+be a pointer to <code>VERB_MEANING_LINGUISTICS_TYPE</code>. (In Inform, this will be
+a binary predicate.)</p>
+<p>By default, there's no meaning at all:</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">default</span> <span class="identifier-syntax">void</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>The "reversal" of a verb is the meaning which exchanges its object and
-subject. So the reverse meaning to "A likes B" is "A is liked by B", or
-equivalent, "B likes A". We use the <span class="extract"><span class="extract-syntax">VERB_MEANING_REVERSAL_LINGUISTICS_CALLBACK</span></span>
-to ask for a reversal to be performed when needed.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  The &quot;reversal&quot; of a verb is the meaning which exchanges its object and
+subject. So the reverse meaning to &quot;A likes B&quot; is &quot;A is liked by B&quot;, or
+equivalent, &quot;B likes A&quot;. We use the <code>VERB_MEANING_REVERSAL_LINGUISTICS_CALLBACK</code>
+to ask for a reversal to be performed when needed.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="constant-syntax">VERB_MEANING_LINGUISTICS_TYPE</span><span class="plain-syntax"> *</span><span class="function-syntax">VerbMeanings::reverse_VMT</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">VerbMeanings::reverse_VMT</span></span>:<br/><a href="3-vm.html#SP9">&#167;9</a><br/>Diagrams - <a href="1-dgr.html#SP7">&#167;7</a><br/>Verb Usages - <a href="3-vu.html#SP12">&#167;12</a><br/>Noun Phrases - <a href="4-np.html#SP15_1">&#167;15.1</a><br/>Verb Phrases - <a href="4-vp.html#SP8_1">&#167;8.1</a></span></button><span class="plain-syntax">(</span><span class="constant-syntax">VERB_MEANING_LINGUISTICS_TYPE</span><span class="plain-syntax"> *</span><span class="identifier-syntax">recto</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    #</span><span class="identifier-syntax">ifdef</span><span class="plain-syntax"> </span><span class="identifier-syntax">VERB_MEANING_REVERSAL_LINGUISTICS_CALLBACK</span>
@@ -85,26 +88,26 @@ to ask for a reversal to be performed when needed.
 <span class="plain-syntax">    #</span><span class="identifier-syntax">endif</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. How this module stores verb meanings.</b>We can now define an object to wrap up this abstracted idea of verb meaning:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. How this module stores verb meanings.</b>  We can now define an object to wrap up this abstracted idea of verb meaning:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">verb_meaning</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">take_meaning_reversed</span><span class="plain-syntax">; </span><span class="comment-syntax"> </span><span class="extract"><span class="extract-syntax">TRUE</span></span><span class="comment-syntax"> if this has been reversed</span>
-<span class="plain-syntax">    </span><span class="constant-syntax">VERB_MEANING_LINGUISTICS_TYPE</span><span class="plain-syntax"> *</span><span class="identifier-syntax">regular_meaning</span><span class="plain-syntax">; </span><span class="comment-syntax"> in I7, this will be a binary predicate</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">special_meaning_holder</span><span class="plain-syntax"> *</span><span class="identifier-syntax">special_meaning</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">verb</span><span class="plain-syntax"> *</span><span class="identifier-syntax">take_meaning_from</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">where_assigned</span><span class="plain-syntax">; </span><span class="comment-syntax"> at which sentence this is assigned to a form</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">verb_meaning</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">verb_meaning</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">take_meaning_reversed</span><span class="plain-syntax">; </span><span class="comment-syntax">/* |TRUE| if this has been reversed */</span>
+<span class="plain-syntax">    </span><span class="constant-syntax">VERB_MEANING_LINGUISTICS_TYPE</span><span class="plain-syntax"> *</span><span class="identifier-syntax">regular_meaning</span><span class="plain-syntax">; </span><span class="comment-syntax">/* in I7, this will be a binary predicate */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">special_meaning_holder</span><span class="plain-syntax"> *</span><span class="identifier-syntax">special_meaning</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">verb</span><span class="plain-syntax"> *</span><span class="identifier-syntax">take_meaning_from</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">where_assigned</span><span class="plain-syntax">; </span><span class="comment-syntax">/* at which sentence this is assigned to a form */</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">verb_meaning</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>The structure verb_meaning is private to this section.</li></ul>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>All VMs begin as meaningless, which indicates (e.g.) that no meaning
-has been specified.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  All VMs begin as meaningless, which indicates (e.g.) that no meaning
+has been specified.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">verb_meaning</span><span class="plain-syntax"> </span><span class="function-syntax">VerbMeanings::meaninglessness</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">VerbMeanings::meaninglessness</span></span>:<br/><a href="3-vm.html#SP5">&#167;5</a>, <a href="3-vm.html#SP6">&#167;6</a><br/>Verbs - <a href="3-vrb.html#SP3_1">&#167;3.1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">verb_meaning</span><span class="plain-syntax"> </span><span class="identifier-syntax">vm</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">verb_meaning</span><span class="plain-syntax"> </span><span class="function-syntax">VerbMeanings::meaninglessness</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">VerbMeanings::meaninglessness</span></span>:<br/><a href="3-vm.html#SP5">&#167;5</a>, <a href="3-vm.html#SP6">&#167;6</a><br/>Verbs - <a href="3-vrb.html#SP3_1">&#167;3.1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">verb_meaning</span><span class="plain-syntax"> </span><span class="identifier-syntax">vm</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">vm</span><span class="plain-syntax">.</span><span class="element-syntax">regular_meaning</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">vm</span><span class="plain-syntax">.</span><span class="element-syntax">special_meaning</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">vm</span><span class="plain-syntax">.</span><span class="element-syntax">take_meaning_reversed</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
@@ -113,59 +116,56 @@ has been specified.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">vm</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">VerbMeanings::is_meaningless</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">VerbMeanings::is_meaningless</span></span>:<br/>Verbs - <a href="3-vrb.html#SP12">&#167;12</a>, <a href="3-vrb.html#SP12_2">&#167;12.2</a><br/>Verb Usages - <a href="3-vu.html#SP15">&#167;15</a><br/>Prepositions - <a href="3-prp.html#SP10">&#167;10</a>, <a href="3-prp.html#SP11">&#167;11</a><br/>Verb Phrases - <a href="4-vp.html#SP5_3_1_1_1">&#167;5.3.1.1.1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">verb_meaning</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vm</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">VerbMeanings::is_meaningless</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">VerbMeanings::is_meaningless</span></span>:<br/>Verbs - <a href="3-vrb.html#SP12">&#167;12</a>, <a href="3-vrb.html#SP12_2">&#167;12.2</a><br/>Verb Usages - <a href="3-vu.html#SP15">&#167;15</a><br/>Prepositions - <a href="3-prp.html#SP10">&#167;10</a>, <a href="3-prp.html#SP11">&#167;11</a><br/>Verb Phrases - <a href="4-vp.html#SP5_3_1_1_1">&#167;5.3.1.1.1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">verb_meaning</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vm</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">vm</span><span class="plain-syntax"> = </span><a href="3-vm.html#SP7" class="function-link"><span class="function-syntax">VerbMeanings::follow_indirection</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">vm</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">vm</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">vm</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">regular_meaning</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">vm</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">special_meaning</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>In practice, we create VMs here. Note that regular and special meanings are
-alternatives to each other: you can't have both.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  In practice, we create VMs here. Note that regular and special meanings are
+alternatives to each other: you can't have both.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">verb_meaning</span><span class="plain-syntax"> </span><span class="function-syntax">VerbMeanings::regular</span><span class="plain-syntax">(</span><span class="constant-syntax">VERB_MEANING_LINGUISTICS_TYPE</span><span class="plain-syntax"> *</span><span class="identifier-syntax">rel</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">verb_meaning</span><span class="plain-syntax"> </span><span class="identifier-syntax">vm</span><span class="plain-syntax"> = </span><a href="3-vm.html#SP4" class="function-link"><span class="function-syntax">VerbMeanings::meaninglessness</span></a><span class="plain-syntax">();</span>
+<span class="identifier-syntax">verb_meaning</span><span class="plain-syntax"> </span><span class="function-syntax">VerbMeanings::regular</span><span class="plain-syntax">(</span><span class="constant-syntax">VERB_MEANING_LINGUISTICS_TYPE</span><span class="plain-syntax"> *</span><span class="identifier-syntax">rel</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">verb_meaning</span><span class="plain-syntax"> </span><span class="identifier-syntax">vm</span><span class="plain-syntax"> = </span><a href="3-vm.html#SP4" class="function-link"><span class="function-syntax">VerbMeanings::meaninglessness</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">vm</span><span class="plain-syntax">.</span><span class="element-syntax">regular_meaning</span><span class="plain-syntax"> = </span><span class="identifier-syntax">rel</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">vm</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">verb_meaning</span><span class="plain-syntax"> </span><span class="function-syntax">VerbMeanings::special</span><span class="plain-syntax">(</span><span class="reserved-syntax">special_meaning_holder</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sm</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">verb_meaning</span><span class="plain-syntax"> </span><span class="identifier-syntax">vm</span><span class="plain-syntax"> = </span><a href="3-vm.html#SP4" class="function-link"><span class="function-syntax">VerbMeanings::meaninglessness</span></a><span class="plain-syntax">();</span>
+<span class="identifier-syntax">verb_meaning</span><span class="plain-syntax"> </span><span class="function-syntax">VerbMeanings::special</span><span class="plain-syntax">(</span><span class="identifier-syntax">special_meaning_holder</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sm</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">verb_meaning</span><span class="plain-syntax"> </span><span class="identifier-syntax">vm</span><span class="plain-syntax"> = </span><a href="3-vm.html#SP4" class="function-link"><span class="function-syntax">VerbMeanings::meaninglessness</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">vm</span><span class="plain-syntax">.</span><span class="element-syntax">special_meaning</span><span class="plain-syntax"> = </span><span class="identifier-syntax">sm</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">vm</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>You can, however, have neither one, if you instead choose to "indirect" the
-meaning &mdash; this means saying "the same meaning as the regular sense of the base
-form of a given verb", possibly reversed. Note that
-</p>
-
-<ul class="items"><li>(a) An indirected VM must never be used as the meaning for the base form of a
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  You can, however, have neither one, if you instead choose to &quot;indirect&quot; the
+meaning -- this means saying &quot;the same meaning as the regular sense of the base
+form of a given verb&quot;, possibly reversed. Note that
+(a) An indirected VM must never be used as the meaning for the base form of a
 verb, and therefore
-</li><li>(b) We can never have a situation where a VM indirects to a verb whose meaning
-then indirects to something else.
-</li></ul>
-<p class="commentary">This might be used, for example, to set the meaning of "liked by" to be the
-same as the meaning of "likes", but with subject and object reversed. The
-indirection then ensures that if the meaning of "likes" changes, its associated
-usages "is liking" and "is liked by" automatically change with it.
-</p>
-
+(b) We can never have a situation where a VM indirects to a verb whose meaning
+then indirects to something else.</p>
+<p>This might be used, for example, to set the meaning of &quot;liked by&quot; to be the
+same as the meaning of &quot;likes&quot;, but with subject and object reversed. The
+indirection then ensures that if the meaning of &quot;likes&quot; changes, its associated
+usages &quot;is liking&quot; and &quot;is liked by&quot; automatically change with it.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">verb_meaning</span><span class="plain-syntax"> </span><span class="function-syntax">VerbMeanings::indirected</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">VerbMeanings::indirected</span></span>:<br/>Verb Usages - <a href="3-vu.html#SP6_1">&#167;6.1</a>, <a href="3-vu.html#SP7">&#167;7</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">verb</span><span class="plain-syntax"> *</span><span class="identifier-syntax">from</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">reversed</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">verb_meaning</span><span class="plain-syntax"> </span><span class="identifier-syntax">vm</span><span class="plain-syntax"> = </span><a href="3-vm.html#SP4" class="function-link"><span class="function-syntax">VerbMeanings::meaninglessness</span></a><span class="plain-syntax">();</span>
+<span class="identifier-syntax">verb_meaning</span><span class="plain-syntax"> </span><span class="function-syntax">VerbMeanings::indirected</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">VerbMeanings::indirected</span></span>:<br/>Verb Usages - <a href="3-vu.html#SP6_1">&#167;6.1</a>, <a href="3-vu.html#SP7">&#167;7</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">verb</span><span class="plain-syntax"> *</span><span class="identifier-syntax">from</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">reversed</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">verb_meaning</span><span class="plain-syntax"> </span><span class="identifier-syntax">vm</span><span class="plain-syntax"> = </span><a href="3-vm.html#SP4" class="function-link"><span class="function-syntax">VerbMeanings::meaninglessness</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">vm</span><span class="plain-syntax">.</span><span class="element-syntax">take_meaning_reversed</span><span class="plain-syntax"> = </span><span class="identifier-syntax">reversed</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">vm</span><span class="plain-syntax">.</span><span class="element-syntax">take_meaning_from</span><span class="plain-syntax"> = </span><span class="identifier-syntax">from</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">vm</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>So the following function only needs to be used once.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  So the following function only needs to be used once.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">verb_meaning</span><span class="plain-syntax"> *</span><span class="function-syntax">VerbMeanings::follow_indirection</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">VerbMeanings::follow_indirection</span></span>:<br/><a href="3-vm.html#SP4">&#167;4</a>, <a href="3-vm.html#SP9">&#167;9</a>, <a href="3-vm.html#SP10">&#167;10</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">verb_meaning</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vm</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">verb_meaning</span><span class="plain-syntax"> *</span><span class="function-syntax">VerbMeanings::follow_indirection</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">VerbMeanings::follow_indirection</span></span>:<br/><a href="3-vm.html#SP4">&#167;4</a>, <a href="3-vm.html#SP9">&#167;9</a>, <a href="3-vm.html#SP10">&#167;10</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">verb_meaning</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vm</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">vm</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">vm</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">take_meaning_from</span><span class="plain-syntax">))</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><a href="3-vrb.html#SP13" class="function-link"><span class="function-syntax">Verbs::first_unspecial_meaning_of_verb_form</span></a><span class="plain-syntax">(</span>
 <span class="plain-syntax">            </span><a href="3-vrb.html#SP11" class="function-link"><span class="function-syntax">Verbs::base_form</span></a><span class="plain-syntax">(</span>
@@ -173,28 +173,28 @@ usages "is liking" and "is liked by" automatically change with it.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">vm</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Recording where assigned.</b>This helps Inform with correctly locating problem messages.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Recording where assigned.</b>  This helps Inform with correctly locating problem messages.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="function-syntax">VerbMeanings::get_where_assigned</span><span class="plain-syntax">(</span><span class="reserved-syntax">verb_meaning</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vm</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="function-syntax">VerbMeanings::get_where_assigned</span><span class="plain-syntax">(</span><span class="identifier-syntax">verb_meaning</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vm</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">vm</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">vm</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">where_assigned</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">VerbMeanings::set_where_assigned</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">VerbMeanings::set_where_assigned</span></span>:<br/>Verbs - <a href="3-vrb.html#SP12">&#167;12</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">verb_meaning</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vm</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pn</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">VerbMeanings::set_where_assigned</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">VerbMeanings::set_where_assigned</span></span>:<br/>Verbs - <a href="3-vrb.html#SP12">&#167;12</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">verb_meaning</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vm</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pn</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">vm</span><span class="plain-syntax">) </span><span class="identifier-syntax">vm</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">where_assigned</span><span class="plain-syntax"> = </span><span class="identifier-syntax">pn</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"assigned location to null meaning"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. The regular meaning.</b>This is not as simple as returning the <span class="extract"><span class="extract-syntax">regular_meaning</span></span> field, because we
-have to follow any indirection, and reverse if necessary.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. The regular meaning.</b>  This is not as simple as returning the <code>regular_meaning</code> field, because we
+have to follow any indirection, and reverse if necessary.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="constant-syntax">VERB_MEANING_LINGUISTICS_TYPE</span><span class="plain-syntax"> *</span><span class="function-syntax">VerbMeanings::get_regular_meaning</span><button class="popup" onclick="togglePopup('usagePopup7')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup7">Usage of <span class="code-font"><span class="function-syntax">VerbMeanings::get_regular_meaning</span></span>:<br/><a href="3-vm.html#SP11">&#167;11</a><br/>Verb Phrases - <a href="4-vp.html#SP7">&#167;7</a>, <a href="4-vp.html#SP8_1">&#167;8.1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">verb_meaning</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vm</span><span class="plain-syntax">) {</span>
+<span class="constant-syntax">VERB_MEANING_LINGUISTICS_TYPE</span><span class="plain-syntax"> *</span><span class="function-syntax">VerbMeanings::get_regular_meaning</span><button class="popup" onclick="togglePopup('usagePopup7')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup7">Usage of <span class="code-font"><span class="function-syntax">VerbMeanings::get_regular_meaning</span></span>:<br/><a href="3-vm.html#SP11">&#167;11</a><br/>Verb Phrases - <a href="4-vp.html#SP7">&#167;7</a>, <a href="4-vp.html#SP8_1">&#167;8.1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">verb_meaning</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vm</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">vm</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">rev</span><span class="plain-syntax"> = </span><span class="identifier-syntax">vm</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">take_meaning_reversed</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">rev</span><span class="plain-syntax"> = </span><span class="identifier-syntax">vm</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">take_meaning_reversed</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">vm</span><span class="plain-syntax"> = </span><a href="3-vm.html#SP7" class="function-link"><span class="function-syntax">VerbMeanings::follow_indirection</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">vm</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">vm</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="constant-syntax">VERB_MEANING_LINGUISTICS_TYPE</span><span class="plain-syntax"> *</span><span class="identifier-syntax">rel</span><span class="plain-syntax"> = </span><span class="identifier-syntax">vm</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">regular_meaning</span><span class="plain-syntax">;</span>
@@ -202,34 +202,34 @@ have to follow any indirection, and reverse if necessary.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">rel</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="constant-syntax">VERB_MEANING_LINGUISTICS_TYPE</span><span class="plain-syntax"> *</span><span class="function-syntax">VerbMeanings::get_regular_meaning_of_form</span><button class="popup" onclick="togglePopup('usagePopup8')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup8">Usage of <span class="code-font"><span class="function-syntax">VerbMeanings::get_regular_meaning_of_form</span></span>:<br/>Verb Usages - <a href="3-vu.html#SP12">&#167;12</a><br/>Noun Phrases - <a href="4-np.html#SP15_1">&#167;15.1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">verb_form</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vf</span><span class="plain-syntax">) {</span>
+<span class="constant-syntax">VERB_MEANING_LINGUISTICS_TYPE</span><span class="plain-syntax"> *</span><span class="function-syntax">VerbMeanings::get_regular_meaning_of_form</span><button class="popup" onclick="togglePopup('usagePopup8')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup8">Usage of <span class="code-font"><span class="function-syntax">VerbMeanings::get_regular_meaning_of_form</span></span>:<br/>Verb Usages - <a href="3-vu.html#SP12">&#167;12</a><br/>Noun Phrases - <a href="4-np.html#SP15_1">&#167;15.1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">verb_form</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vf</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><a href="3-vm.html#SP9" class="function-link"><span class="function-syntax">VerbMeanings::get_regular_meaning</span></a><span class="plain-syntax">(</span>
 <span class="plain-syntax">        </span><a href="3-vrb.html#SP13" class="function-link"><span class="function-syntax">Verbs::first_unspecial_meaning_of_verb_form</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">vf</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. The special meaning.</b>This is also not as simple as returning the <span class="extract"><span class="extract-syntax">regular_meaning</span></span> field, because
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. The special meaning.</b>  This is also not as simple as returning the <code>regular_meaning</code> field, because
 again we have to follow any indirection. Since we have no good way to modify
 a special meaning function, we have to provide a function to tell the user
-whether to reverse what that function does.
-</p>
-
+whether to reverse what that function does.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">special_meaning_holder</span><span class="plain-syntax"> *</span><span class="function-syntax">VerbMeanings::get_special_meaning</span><button class="popup" onclick="togglePopup('usagePopup9')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup9">Usage of <span class="code-font"><span class="function-syntax">VerbMeanings::get_special_meaning</span></span>:<br/>Verbs - <a href="3-vrb.html#SP12_2">&#167;12.2</a>, <a href="3-vrb.html#SP13">&#167;13</a>, <a href="3-vrb.html#SP14">&#167;14</a><br/>Verb Phrases - <a href="4-vp.html#SP7">&#167;7</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">verb_meaning</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vm</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">special_meaning_holder</span><span class="plain-syntax"> *</span><span class="function-syntax">VerbMeanings::get_special_meaning</span><button class="popup" onclick="togglePopup('usagePopup9')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup9">Usage of <span class="code-font"><span class="function-syntax">VerbMeanings::get_special_meaning</span></span>:<br/>Verbs - <a href="3-vrb.html#SP12_2">&#167;12.2</a>, <a href="3-vrb.html#SP13">&#167;13</a>, <a href="3-vrb.html#SP14">&#167;14</a><br/>Verb Phrases - <a href="4-vp.html#SP7">&#167;7</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">verb_meaning</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vm</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">vm</span><span class="plain-syntax"> = </span><a href="3-vm.html#SP7" class="function-link"><span class="function-syntax">VerbMeanings::follow_indirection</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">vm</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">vm</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">vm</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">special_meaning</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">VerbMeanings::get_reversal_status_of_smf</span><button class="popup" onclick="togglePopup('usagePopup10')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup10">Usage of <span class="code-font"><span class="function-syntax">VerbMeanings::get_reversal_status_of_smf</span></span>:<br/>Verb Phrases - <a href="4-vp.html#SP7">&#167;7</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">verb_meaning</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vm</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">VerbMeanings::get_reversal_status_of_smf</span><button class="popup" onclick="togglePopup('usagePopup10')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup10">Usage of <span class="code-font"><span class="function-syntax">VerbMeanings::get_reversal_status_of_smf</span></span>:<br/>Verb Phrases - <a href="4-vp.html#SP7">&#167;7</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">verb_meaning</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vm</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">vm</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">vm</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">take_meaning_reversed</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. Logging.</b></p>
+<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. Logging.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">VerbMeanings::log</span><button class="popup" onclick="togglePopup('usagePopup11')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup11">Usage of <span class="code-font"><span class="function-syntax">VerbMeanings::log</span></span>:<br/>Linguistics Module - <a href="1-lm.html#SP3_2">&#167;3.2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="reserved-syntax">void</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vvm</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">verb_meaning</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vm</span><span class="plain-syntax"> = (</span><span class="reserved-syntax">verb_meaning</span><span class="plain-syntax"> *) </span><span class="identifier-syntax">vvm</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">VerbMeanings::log</span><button class="popup" onclick="togglePopup('usagePopup11')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup11">Usage of <span class="code-font"><span class="function-syntax">VerbMeanings::log</span></span>:<br/>Linguistics Module - <a href="1-lm.html#SP3_2">&#167;3.2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="identifier-syntax">void</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vvm</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">verb_meaning</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vm</span><span class="plain-syntax"> = (</span><span class="identifier-syntax">verb_meaning</span><span class="plain-syntax"> *) </span><span class="identifier-syntax">vvm</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">vm</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) { </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"&lt;none&gt;"</span><span class="plain-syntax">); </span><span class="reserved-syntax">return</span><span class="plain-syntax">; }</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">vm</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">take_meaning_reversed</span><span class="plain-syntax">) </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"reversed-"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">vm</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">take_meaning_from</span><span class="plain-syntax">) </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"&lt;$w&gt;="</span><span class="plain-syntax">, </span><span class="identifier-syntax">vm</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">take_meaning_from</span><span class="plain-syntax">);</span>

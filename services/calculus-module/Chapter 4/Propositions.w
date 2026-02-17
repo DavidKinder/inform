@@ -82,7 +82,7 @@ could be inserted into the word "rap": before the "r" (trap), between "r" and
 "a" (reap), between "a" and "p" (ramp), after the "p" (rapt). Though "rap" is
 a three-letter word, there are four possible insertion points -- so they can't
 exactly correspond to letters. The convention we use is that a position marker
-points to the //|pcalc_prop// structure for the atom before the position
+points to the //pcalc_prop// structure for the atom before the position
 meant: and a |NULL| pointer in this context means the front position, before
 the opening atom.
 

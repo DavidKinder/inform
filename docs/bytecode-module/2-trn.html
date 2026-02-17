@@ -20,6 +20,11 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -54,86 +59,78 @@ function togglePopup(material_id) {
     <ul class="crumbs"><li><a href="../index.html">Home</a></li><li><a href="../intern.html">Inter Modules</a></li><li><a href="index.html">bytecode</a></li><li><a href="index.html#2">Chapter 2: The Trees</a></li><li><b>Transmigration</b></li></ul></div>
 <p class="purpose">The act of moving a package from one Inter tree to another.</p>
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>The design of Inter has all been leading up to this: how to move a body of
-material in one tree, the <span class="extract"><span class="extract-syntax">migrant</span></span> package, into a different tree entirely,
-where it will become part of the <span class="extract"><span class="extract-syntax">destination</span></span> package. Transmigration is
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  The design of Inter has all been leading up to this: how to move a body of
+material in one tree, the <code>migrant</code> package, into a different tree entirely,
+where it will become part of the <code>destination</code> package. Transmigration is
 how Inter merges material compiled at different times together. For example,
-when a Basic Inform project is compiled:
-</p>
-
-<ul class="items"><li>&#9679; <a href="../inform7/index.html" class="internal">inform7</a> compiles source text into tree 1 of Inter code.
-</li><li>&#9679; <a href="../inter/index.html" class="internal">inter</a> loads a precompiled copy of BasicInformKit as tree 2.
-</li><li>&#9679; The package <span class="extract"><span class="extract-syntax">/main/BasicInformKit</span></span> in tree 2, really its entire substantive
-content, is transmigrated to <span class="extract"><span class="extract-syntax">/main</span></span> in tree 1; it has become <span class="extract"><span class="extract-syntax">/main/BasicInformKit</span></span>
+when a Basic Inform project is compiled:</p>
+<p>(<em>) <a href="../inform7/index.html" class="internal">inform7</a> compiles source text into tree 1 of Inter code.
+(</em>) <a href="../inter/index.html" class="internal">inter</a> loads a precompiled copy of BasicInformKit as tree 2.
+(*) The package <code>/main/BasicInformKit</code> in tree 2, really its entire substantive
+content, is transmigrated to <code>/main</code> in tree 1; it has become <code>/main/BasicInformKit</code>
 in tree 1. Tree 2 is left almost empty, and is discarded.
-</li><li>&#9679; <a href="../inter/index.html" class="internal">inter</a> loads a precompiled copy of BasicInformKitExtras as tree 3.
-</li><li>&#9679; A similar transmigration moves its content to become <span class="extract"><span class="extract-syntax">/main/BasicInformKitExtras</span></span>
-in tree 1, and the remains of tree 3 are discarded.
-</li></ul>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>Transmigration is a move, not a copy. The destination tree simply makes a node
-link to the subtree making up <span class="extract"><span class="extract-syntax">migrant</span></span>: so, in principle, this is a fast process,
-but the devil is in the detail. The <span class="extract"><span class="extract-syntax">migrant</span></span> matter may be full of references
+(<em>) <a href="../inter/index.html" class="internal">inter</a> loads a precompiled copy of BasicInformKitExtras as tree 3.
+(</em>) A similar transmigration moves its content to become <code>/main/BasicInformKitExtras</code>
+in tree 1, and the remains of tree 3 are discarded.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  Transmigration is a move, not a copy. The destination tree simply makes a node
+link to the subtree making up <code>migrant</code>: so, in principle, this is a fast process,
+but the devil is in the detail. The <code>migrant</code> matter may be full of references
 to other resources in the origin tree, and those have to be made good. Read
-<a href="2-tw2.html" class="internal">The Wiring</a> before tackling the algorithms below.
-</p>
-
-<p class="commentary">Because the operation is a move and not a copy, the origin tree will probably
+<a href="2-tw2.html" class="internal">The Wiring</a> before tackling the algorithms below.</p>
+<p>Because the operation is a move and not a copy, the origin tree will probably
 be left with a gaping hole in it: its symbols may be wired to resources which
 are no longer there. It may be that the origin tree is going to be discarded
-anyway, so that this doesn't matter. If not, setting <span class="extract"><span class="extract-syntax">tidy_origin</span></span> here will
-spend some time and effort making it valid again.
-</p>
-
-<p class="commentary">Note that the <span class="extract"><span class="extract-syntax">/main</span></span> and <span class="extract"><span class="extract-syntax">/main/connectors</span></span> packages of a tree cannot be
-transmigrated, and nor can the root package <span class="extract"><span class="extract-syntax">/</span></span>. Anything else is fair game
-to be a <span class="extract"><span class="extract-syntax">migrant</span></span> here.
-</p>
-
+anyway, so that this doesn't matter. If not, setting <code>tidy_origin</code> here will
+spend some time and effort making it valid again.</p>
+<p>Note that the <code>/main</code> and <code>/main/connectors</code> packages of a tree cannot be
+transmigrated, and nor can the root package <code>/</code>. Anything else is fair game
+to be a <code>migrant</code> here.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">transmigration_details</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_package</span><span class="plain-syntax"> *</span><span class="identifier-syntax">migrant</span><span class="plain-syntax">;           </span><span class="comment-syntax"> package which is to move between trees</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">origin_tree</span><span class="plain-syntax">;          </span><span class="comment-syntax"> tree it moves from</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">destination_tree</span><span class="plain-syntax">;     </span><span class="comment-syntax"> tree it moves to</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_package</span><span class="plain-syntax"> *</span><span class="identifier-syntax">origin</span><span class="plain-syntax">;            </span><span class="comment-syntax"> original parent package of the migrant</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_package</span><span class="plain-syntax"> *</span><span class="identifier-syntax">destination</span><span class="plain-syntax">;       </span><span class="comment-syntax"> eventual parent package of the migrant</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_bookmark</span><span class="plain-syntax"> </span><span class="identifier-syntax">deletion_point</span><span class="plain-syntax">;    </span><span class="comment-syntax"> where the migrant's head node starts</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_bookmark</span><span class="plain-syntax"> </span><span class="identifier-syntax">insertion_point</span><span class="plain-syntax">;   </span><span class="comment-syntax"> where the migrant's head node ends</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_bookmark</span><span class="plain-syntax"> </span><span class="identifier-syntax">primitives_point</span><span class="plain-syntax">;  </span><span class="comment-syntax"> where primitives are declared in destination tree</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_bookmark</span><span class="plain-syntax"> </span><span class="identifier-syntax">ptypes_point</span><span class="plain-syntax">;      </span><span class="comment-syntax"> where package types are declared in destination tree</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">transmigration_details</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">transmigration_details</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_package</span><span class="plain-syntax"> *</span><span class="identifier-syntax">migrant</span><span class="plain-syntax">;           </span><span class="comment-syntax">/* package which is to move between trees */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">origin_tree</span><span class="plain-syntax">;          </span><span class="comment-syntax">/* tree it moves from */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">destination_tree</span><span class="plain-syntax">;     </span><span class="comment-syntax">/* tree it moves to */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_package</span><span class="plain-syntax"> *</span><span class="identifier-syntax">origin</span><span class="plain-syntax">;            </span><span class="comment-syntax">/* original parent package of the migrant */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_package</span><span class="plain-syntax"> *</span><span class="identifier-syntax">destination</span><span class="plain-syntax">;       </span><span class="comment-syntax">/* eventual parent package of the migrant */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_bookmark</span><span class="plain-syntax"> </span><span class="identifier-syntax">deletion_point</span><span class="plain-syntax">;    </span><span class="comment-syntax">/* where the migrant's head node starts */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_bookmark</span><span class="plain-syntax"> </span><span class="identifier-syntax">insertion_point</span><span class="plain-syntax">;   </span><span class="comment-syntax">/* where the migrant's head node ends */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_bookmark</span><span class="plain-syntax"> </span><span class="identifier-syntax">primitives_point</span><span class="plain-syntax">;  </span><span class="comment-syntax">/* where primitives are declared in destination tree */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_bookmark</span><span class="plain-syntax"> </span><span class="identifier-syntax">ptypes_point</span><span class="plain-syntax">;      </span><span class="comment-syntax">/* where package types are declared in destination tree */</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">transmigration_details</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>The structure transmigration_details is private to this section.</li></ul>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b></p>
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Transmigration::move</span><span class="plain-syntax">(</span><span class="reserved-syntax">inter_package</span><span class="plain-syntax"> *</span><span class="identifier-syntax">migrant</span><span class="plain-syntax">, </span><span class="reserved-syntax">inter_package</span><span class="plain-syntax"> *</span><span class="identifier-syntax">destination</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">tidy_origin</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_package</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P</span><span class="plain-syntax"> = </span><span class="identifier-syntax">migrant</span><span class="plain-syntax">; </span><span class="reserved-syntax">while</span><span class="plain-syntax"> (</span><span class="identifier-syntax">P</span><span class="plain-syntax">) </span><span class="identifier-syntax">P</span><span class="plain-syntax"> = </span><a href="2-pck.html#SP5" class="function-link"><span class="function-syntax">InterPackage::parent</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">P</span><span class="plain-syntax">); </span><span class="comment-syntax"> make names exist</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Transmigration::move</span><span class="plain-syntax">(</span><span class="identifier-syntax">inter_package</span><span class="plain-syntax"> *</span><span class="identifier-syntax">migrant</span><span class="plain-syntax">, </span><span class="identifier-syntax">inter_package</span><span class="plain-syntax"> *</span><span class="identifier-syntax">destination</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">tidy_origin</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_package</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P</span><span class="plain-syntax"> = </span><span class="identifier-syntax">migrant</span><span class="plain-syntax">; </span><span class="reserved-syntax">while</span><span class="plain-syntax"> (</span><span class="identifier-syntax">P</span><span class="plain-syntax">) </span><span class="identifier-syntax">P</span><span class="plain-syntax"> = </span><a href="2-pck.html#SP5" class="function-link"><span class="function-syntax">InterPackage::parent</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">P</span><span class="plain-syntax">); </span><span class="comment-syntax">/* make names exist */</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">transmigration_details</span><span class="plain-syntax"> </span><span class="identifier-syntax">det</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP3_1" class="named-paragraph-link"><span class="named-paragraph">Initialise the transmigration details</span><span class="named-paragraph-number">3.1</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP3_2" class="named-paragraph-link"><span class="named-paragraph">Mark the insertion and deletion points with comments</span><span class="named-paragraph-number">3.2</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP3_3" class="named-paragraph-link"><span class="named-paragraph">Move the head node of the migrant to its new home</span><span class="named-paragraph-number">3.3</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP3_4" class="named-paragraph-link"><span class="named-paragraph">Correct cross-references between the migrant and the rest of the origin tree</span><span class="named-paragraph-number">3.4</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP3_5" class="named-paragraph-link"><span class="named-paragraph">Transfer any sockets wired to the migrant</span><span class="named-paragraph-number">3.5</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">transmigration_details</span><span class="plain-syntax"> </span><span class="identifier-syntax">det</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP3_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Initialise the transmigration details</span></span><span class="named-paragraph-number">3.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP3_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Mark the insertion and deletion points with comments</span></span><span class="named-paragraph-number">3.2</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP3_3" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Move the head node of the migrant to its new home</span></span><span class="named-paragraph-number">3.3</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP3_4" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Correct cross-references between the migrant and the rest of the origin tree</span></span><span class="named-paragraph-number">3.4</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP3_5" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Transfer any sockets wired to the migrant</span></span><span class="named-paragraph-number">3.5</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3_1" class="paragraph-anchor"></a><b>&#167;3.1. </b>Both trees will have, at the root level, declarations of the Inter primitives
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3_1" class="paragraph-anchor"></a><b>&#167;3.1. </b>  Both trees will have, at the root level, declarations of the Inter primitives
 and package types which they use. (See <a href="../building-module/1-ls.html" class="internal">Large-Scale Structure (in building)</a>.)
 Now, they will probably both declare exactly the same set of each: but just in
-case the <span class="extract"><span class="extract-syntax">migrant</span></span> package uses primitives or package types not declared at
-the root of the <span class="extract"><span class="extract-syntax">destination_tree</span></span>, we will need to declare those as extras,
-and we make the bookmarks <span class="extract"><span class="extract-syntax">primitives_point</span></span> and <span class="extract"><span class="extract-syntax">ptypes_point</span></span> to mark where
-such extra declarations would go.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">deletion_point</span></span> and <span class="extract"><span class="extract-syntax">insertion_point</span></span>, more straightforwardly, mark the
-position of the <span class="extract"><span class="extract-syntax">migrant</span></span>'s head node in the origin tree before transmigration
-and in the destination tree afterwards.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Initialise the transmigration details</span><span class="named-paragraph-number">3.1</span></span><span class="comment-syntax"> =</span>
-</p>
+case the <code>migrant</code> package uses primitives or package types not declared at
+the root of the <code>destination_tree</code>, we will need to declare those as extras,
+and we make the bookmarks <code>primitives_point</code> and <code>ptypes_point</code> to mark where
+such extra declarations would go.</p>
+<p><code>deletion_point</code> and <code>insertion_point</code>, more straightforwardly, mark the
+position of the <code>migrant</code>'s head node in the origin tree before transmigration
+and in the destination tree afterwards.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Initialise the transmigration details</span><span class="named-paragraph-number">3.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">det</span><span class="plain-syntax">.</span><span class="element-syntax">migrant</span><span class="plain-syntax"> = </span><span class="identifier-syntax">migrant</span><span class="plain-syntax">;</span>
@@ -144,13 +141,13 @@ and in the destination tree afterwards.
 
 <span class="plain-syntax">    </span><span class="identifier-syntax">det</span><span class="plain-syntax">.</span><span class="element-syntax">deletion_point</span><span class="plain-syntax"> = </span><a href="2-bkm.html#SP4" class="function-link"><span class="function-syntax">InterBookmark::after_this_node</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">migrant</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">package_head</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">det</span><span class="plain-syntax">.</span><span class="element-syntax">insertion_point</span><span class="plain-syntax"> = </span><a href="2-bkm.html#SP4" class="function-link"><span class="function-syntax">InterBookmark::at_end_of_this_package</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">destination</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_tree_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prims</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_tree_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prims</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_THROUGH_INTER_CHILDREN</span><span class="plain-syntax">(</span><span class="identifier-syntax">F</span><span class="plain-syntax">, </span><span class="identifier-syntax">destination</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">package_head</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">tree</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">root_node</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-in.html#SP13" class="function-link"><span class="function-syntax">Inode::is</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">F</span><span class="plain-syntax">, </span><span class="constant-syntax">PRIMITIVE_IST</span><span class="plain-syntax">))</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">prims</span><span class="plain-syntax"> = </span><span class="identifier-syntax">F</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">prims</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"destination has no primitives"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">det</span><span class="plain-syntax">.</span><span class="element-syntax">primitives_point</span><span class="plain-syntax"> = </span><a href="2-bkm.html#SP4" class="function-link"><span class="function-syntax">InterBookmark::after_this_node</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">prims</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_tree_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">ptypes</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_tree_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">ptypes</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_THROUGH_INTER_CHILDREN</span><span class="plain-syntax">(</span><span class="identifier-syntax">F</span><span class="plain-syntax">, </span><span class="identifier-syntax">destination</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">package_head</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">tree</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">root_node</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-in.html#SP13" class="function-link"><span class="function-syntax">Inode::is</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">F</span><span class="plain-syntax">, </span><span class="constant-syntax">PACKAGETYPE_IST</span><span class="plain-syntax">))</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">ptypes</span><span class="plain-syntax"> = </span><span class="identifier-syntax">F</span><span class="plain-syntax">;</span>
@@ -158,8 +155,7 @@ and in the destination tree afterwards.
 <span class="plain-syntax">    </span><span class="identifier-syntax">det</span><span class="plain-syntax">.</span><span class="element-syntax">ptypes_point</span><span class="plain-syntax"> = </span><a href="2-bkm.html#SP4" class="function-link"><span class="function-syntax">InterBookmark::after_this_node</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">ptypes</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-trn.html#SP3">&#167;3</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP3_2" class="paragraph-anchor"></a><b>&#167;3.2. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Mark the insertion and deletion points with comments</span><span class="named-paragraph-number">3.2</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP3_2" class="paragraph-anchor"></a><b>&#167;3.2. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Mark the insertion and deletion points with comments</span><span class="named-paragraph-number">3.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><a href="2-trn.html#SP4" class="function-link"><span class="function-syntax">Transmigration::comment</span></a><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">det</span><span class="plain-syntax">.</span><span class="element-syntax">deletion_point</span><span class="plain-syntax">, </span><a href="2-pck.html#SP6" class="function-link"><span class="function-syntax">InterPackage::baseline</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">migrant</span><span class="plain-syntax">),</span>
@@ -168,10 +164,10 @@ and in the destination tree afterwards.
 <span class="plain-syntax">        </span><span class="identifier-syntax">I</span><span class="string-syntax">"Transmigration inserted"</span><span class="plain-syntax">, </span><a href="2-pck.html#SP7" class="function-link"><span class="function-syntax">InterPackage::name</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">migrant</span><span class="plain-syntax">));</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-trn.html#SP3">&#167;3</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b></p>
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Transmigration::comment</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">Transmigration::comment</span></span>:<br/><a href="2-trn.html#SP3_2">&#167;3.2</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">inter_bookmark</span><span class="plain-syntax"> *</span><span class="identifier-syntax">IBM</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">level</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">action</span><span class="plain-syntax">,</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Transmigration::comment</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">Transmigration::comment</span></span>:<br/><a href="2-trn.html#SP3_2">&#167;3.2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_bookmark</span><span class="plain-syntax"> *</span><span class="identifier-syntax">IBM</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">level</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">action</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">content</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">TEMPORARY_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">C</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE_TO</span><span class="plain-syntax">(</span><span class="identifier-syntax">C</span><span class="plain-syntax">, </span><span class="string-syntax">"%S %S here"</span><span class="plain-syntax">, </span><span class="identifier-syntax">action</span><span class="plain-syntax">, </span><span class="identifier-syntax">content</span><span class="plain-syntax">);</span>
@@ -179,21 +175,20 @@ and in the destination tree afterwards.
 <span class="plain-syntax">    </span><span class="identifier-syntax">DISCARD_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">C</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3_3" class="paragraph-anchor"></a><b>&#167;3.3. </b>This is the only point anywhere in the Inform tool chain where a node is moved
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3_3" class="paragraph-anchor"></a><b>&#167;3.3. </b>  This is the only point anywhere in the Inform tool chain where a node is moved
 between packages. What makes it tricky is that the symbol giving the name of the
-<span class="extract"><span class="extract-syntax">migrant</span></span> package, which was in the original parent package's symbols table,
+<code>migrant</code> package, which was in the original parent package's symbols table,
 must be deleted. A new symbol with the same name must be created in the symbols
-table for the destination package, and the bytecode for the <span class="extract"><span class="extract-syntax">package</span></span> instruction
+table for the destination package, and the bytecode for the <code>package</code> instruction
 at the node must be altered to conform with this. But when we are done, all is
-consistent again.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Move the head node of the migrant to its new home</span><span class="named-paragraph-number">3.3</span></span><span class="comment-syntax"> =</span>
-</p>
+consistent again.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Move the head node of the migrant to its new home</span><span class="named-paragraph-number">3.3</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">migrant_name</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Str::duplicate</span><span class="plain-syntax">(</span><a href="2-pck.html#SP7" class="function-link"><span class="function-syntax">InterPackage::name</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">migrant</span><span class="plain-syntax">));</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">OS</span><span class="plain-syntax"> = </span><a href="2-st.html#SP8" class="function-link"><span class="function-syntax">InterSymbolsTable::symbol_from_name_not_following</span></a><span class="plain-syntax">(</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">OS</span><span class="plain-syntax"> = </span><a href="2-st.html#SP8" class="function-link"><span class="function-syntax">InterSymbolsTable::symbol_from_name_not_following</span></a><span class="plain-syntax">(</span>
 <span class="plain-syntax">        </span><a href="2-pck.html#SP5" class="function-link"><span class="function-syntax">InterPackage::parent</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">migrant</span><span class="plain-syntax">)-&gt;</span><span class="element-syntax">package_scope</span><span class="plain-syntax">, </span><span class="identifier-syntax">migrant_name</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">OS</span><span class="plain-syntax">) </span><a href="2-st.html#SP21" class="function-link"><span class="function-syntax">InterSymbolsTable::remove_symbol</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">OS</span><span class="plain-syntax">);</span>
 
@@ -201,29 +196,27 @@ consistent again.
 <span class="plain-syntax">    </span><span class="identifier-syntax">migrant</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">package_head</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">tree</span><span class="plain-syntax"> = </span><span class="identifier-syntax">det</span><span class="plain-syntax">.</span><span class="element-syntax">destination_tree</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">migrant</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">package_head</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">package</span><span class="plain-syntax"> = </span><span class="identifier-syntax">destination</span><span class="plain-syntax">;</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">NS</span><span class="plain-syntax"> = </span><a href="2-st.html#SP9" class="function-link"><span class="function-syntax">InterSymbolsTable::symbol_from_name_creating</span></a><span class="plain-syntax">(</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">NS</span><span class="plain-syntax"> = </span><a href="2-st.html#SP9" class="function-link"><span class="function-syntax">InterSymbolsTable::symbol_from_name_creating</span></a><span class="plain-syntax">(</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">destination</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">package_scope</span><span class="plain-syntax">, </span><span class="identifier-syntax">migrant_name</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="4-tpc.html#SP11" class="function-link"><span class="function-syntax">PackageInstruction::set_name_symbol</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">migrant</span><span class="plain-syntax">, </span><span class="identifier-syntax">NS</span><span class="plain-syntax">);</span>
 
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-pck.html#SP12" class="function-link"><span class="function-syntax">InterPackage::container</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">migrant</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">package_head</span><span class="plain-syntax">) != </span><span class="identifier-syntax">destination</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"transmigration did not take the migrant to the right place"</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">S</span><span class="plain-syntax"> = </span><a href="4-tpc.html#SP9" class="function-link"><span class="function-syntax">PackageInstruction::name_symbol</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">migrant</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">S</span><span class="plain-syntax"> = </span><a href="4-tpc.html#SP9" class="function-link"><span class="function-syntax">PackageInstruction::name_symbol</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">migrant</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">NS</span><span class="plain-syntax"> != </span><span class="identifier-syntax">S</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"transmigration of head node and symbol failed"</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-trn.html#SP3">&#167;3</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP3_4" class="paragraph-anchor"></a><b>&#167;3.4. </b>That was the easy part. The migrant package is now inside the destination tree.
-Unfortunately:
-</p>
-
-<ul class="items"><li>&#9679; <span class="extract"><span class="extract-syntax">migrant</span></span> may contain symbols <span class="extract"><span class="extract-syntax">S ~~&gt; O</span></span> wired to symbols <span class="extract"><span class="extract-syntax">O</span></span> still in the origin
-tree, because they lay outside <span class="extract"><span class="extract-syntax">migrant</span></span>. This means the destination tree is now
-incorrect.
-</li><li>&#9679; The origin tree may contain symbols <span class="extract"><span class="extract-syntax">O ~~&gt; S</span></span> wired to symbols <span class="extract"><span class="extract-syntax">S</span></span> in the
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3_4" class="paragraph-anchor"></a><b>&#167;3.4. </b>  That was the easy part. The migrant package is now inside the destination tree.
+Unfortunately:</p>
+<p>(*) <code>migrant</code> may contain symbols <code>S ~~&gt; O</code> wired to symbols <code>O</code> still in the origin
+tree, because they lay outside <code>migrant</code>. This means the destination tree is now
+incorrect.</p>
+<p>(*) The origin tree may contain symbols <code>O ~~&gt; S</code> wired to symbols <code>S</code> in the
 migrant, which are therefore not in the origin tree any more. This means the origin
-tree is now incorrect.
-</li></ul>
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Correct cross-references between the migrant and the rest of the origin tree</span><span class="named-paragraph-number">3.4</span></span><span class="comment-syntax"> =</span>
-</p>
+tree is now incorrect.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Correct cross-references between the migrant and the rest of the origin tree</span><span class="named-paragraph-number">3.4</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><a href="2-it.html#SP8" class="function-link"><span class="function-syntax">InterTree::traverse</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">det</span><span class="plain-syntax">.</span><span class="element-syntax">destination_tree</span><span class="plain-syntax">, </span><a href="2-trn.html#SP5" class="function-link"><span class="function-syntax">Transmigration::correct_migrant</span></a><span class="plain-syntax">, &amp;</span><span class="identifier-syntax">det</span><span class="plain-syntax">, </span><span class="identifier-syntax">migrant</span><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">);</span>
@@ -231,66 +224,60 @@ tree is now incorrect.
 <span class="plain-syntax">        </span><a href="2-it.html#SP8" class="function-link"><span class="function-syntax">InterTree::traverse</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">det</span><span class="plain-syntax">.</span><span class="element-syntax">origin_tree</span><span class="plain-syntax">, </span><a href="2-trn.html#SP6" class="function-link"><span class="function-syntax">Transmigration::correct_origin</span></a><span class="plain-syntax">, &amp;</span><span class="identifier-syntax">det</span><span class="plain-syntax">, </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-trn.html#SP3">&#167;3</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP3_5" class="paragraph-anchor"></a><b>&#167;3.5. </b>A further issue is that the original tree may have offered sockets for some
-of the definitions in <span class="extract"><span class="extract-syntax">migrant</span></span>. For example, <span class="extract"><span class="extract-syntax">migrant</span></span> might contain some
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3_5" class="paragraph-anchor"></a><b>&#167;3.5. </b>  A further issue is that the original tree may have offered sockets for some
+of the definitions in <code>migrant</code>. For example, <code>migrant</code> might contain some
 useful function, which the origin tree was offering for linking. We want to
-make an equivalent socket in the destination tree for the same function.
-</p>
-
-<p class="commentary">This is important for two reasons: firstly, because after transmigration, the
+make an equivalent socket in the destination tree for the same function.</p>
+<p>This is important for two reasons: firstly, because after transmigration, the
 caller will need to use those sockets (see <a href="2-tw2.html#SP16" class="internal">Wiring::connect_plugs_to_sockets</a>),
 and secondly, because this may be only one of a series of transmigrations of
 Inter kits. All those kits need to see each others' sockets. So we cannot assume
 that having transmigrated BasicInformKit (say), we no longer need its resources
-to be socketed.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Transfer any sockets wired to the migrant</span><span class="named-paragraph-number">3.5</span></span><span class="comment-syntax"> =</span>
-</p>
+to be socketed.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Transfer any sockets wired to the migrant</span><span class="named-paragraph-number">3.5</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_package</span><span class="plain-syntax"> *</span><span class="identifier-syntax">origin_connectors</span><span class="plain-syntax"> =</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_package</span><span class="plain-syntax"> *</span><span class="identifier-syntax">origin_connectors</span><span class="plain-syntax"> =</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">LargeScale::connectors_package_if_it_exists</span><span class="plain-syntax">(</span><span class="identifier-syntax">det</span><span class="plain-syntax">.</span><span class="element-syntax">origin_tree</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">origin_connectors</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">inter_symbols_table</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax"> = </span><a href="2-pck.html#SP10" class="function-link"><span class="function-syntax">InterPackage::scope</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">origin_connectors</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">inter_symbols_table</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax"> = </span><a href="2-pck.html#SP10" class="function-link"><span class="function-syntax">InterPackage::scope</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">origin_connectors</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">LOOP_OVER_SYMBOLS_TABLE</span><span class="plain-syntax">(</span><span class="identifier-syntax">S</span><span class="plain-syntax">, </span><span class="identifier-syntax">T</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-sym.html#SP13" class="function-link"><span class="function-syntax">InterSymbol::is_socket</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">S</span><span class="plain-syntax">)) {</span>
-<span class="plain-syntax">                </span><span class="reserved-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">target</span><span class="plain-syntax"> = </span><a href="2-tw2.html#SP3" class="function-link"><span class="function-syntax">Wiring::cable_end</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">S</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">                </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">target</span><span class="plain-syntax"> = </span><a href="2-tw2.html#SP3" class="function-link"><span class="function-syntax">Wiring::cable_end</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">S</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">                </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><a href="2-ann.html#SP7" class="function-link"><span class="function-syntax">SymbolAnnotation::get_b</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">target</span><span class="plain-syntax">, </span><span class="constant-syntax">PRIVATE_IANN</span><span class="plain-syntax">) == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">) &amp;&amp;</span>
 <span class="plain-syntax">                    (</span><a href="2-sym.html#SP3" class="function-link"><span class="function-syntax">InterSymbol::defined_inside</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">target</span><span class="plain-syntax">, </span><span class="identifier-syntax">migrant</span><span class="plain-syntax">)))</span>
-<span class="plain-syntax">                    </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP3_5_1" class="named-paragraph-link"><span class="named-paragraph">S is a socket wired to a definition in the migrant</span><span class="named-paragraph-number">3.5.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">                    </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP3_5_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">S is a socket wired to a definition in the migrant</span></span><span class="named-paragraph-number">3.5.1</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            }</span>
 <span class="plain-syntax">        }</span>
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-trn.html#SP3">&#167;3</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP3_5_1" class="paragraph-anchor"></a><b>&#167;3.5.1. </b>The difficult case here is where the destination already has a socket of
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3_5_1" class="paragraph-anchor"></a><b>&#167;3.5.1. </b>  The difficult case here is where the destination already has a socket of
 the same name. This would happen, for instance, if you transmigrated two kits
-in turn, and both of them provided a function called <span class="extract"><span class="extract-syntax">OverlyEagerFn()</span></span>: the
+in turn, and both of them provided a function called <code>OverlyEagerFn()</code>: the
 first time, a socket would be made in the destination tree; but the second
-time we would find that a socket already existed.
-</p>
-
-<p class="commentary">This is arguably just a linking error and we should halt. In fact we let it
+time we would find that a socket already existed.</p>
+<p>This is arguably just a linking error and we should halt. In fact we let it
 slide, and allow the destination's original socket to remain as it was. We do
 this because the issues involved in linking property/attribute declarations in
 WorldModelKit with their Inform 7 counterparts in the main tree are just too
 awkward to confront here. (Essentially, this is a situation where the same
 declaration is made twice, once in each tree, an issue to confront later. They
 will end up meaning the same thing, though, so it's fine to keep using the
-existing socket here.)
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">S is a socket wired to a definition in the migrant</span><span class="named-paragraph-number">3.5.1</span></span><span class="comment-syntax"> =</span>
-</p>
+existing socket here.)</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">S is a socket wired to a definition in the migrant</span><span class="named-paragraph-number">3.5.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">TEMPORARY_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE_TO</span><span class="plain-syntax">(</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">, </span><span class="string-syntax">"%S"</span><span class="plain-syntax">, </span><a href="2-sym.html#SP19" class="function-link"><span class="function-syntax">InterSymbol::identifier</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">S</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOGIF</span><span class="plain-syntax">(</span><span class="identifier-syntax">INTER_CONNECTORS</span><span class="plain-syntax">, </span><span class="string-syntax">"Origin offers socket $3 ~~&gt; $3 in migrant\n"</span><span class="plain-syntax">, </span><span class="identifier-syntax">S</span><span class="plain-syntax">, </span><span class="identifier-syntax">target</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">equivalent</span><span class="plain-syntax"> = </span><a href="2-tw2.html#SP11" class="function-link"><span class="function-syntax">Wiring::find_socket</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">det</span><span class="plain-syntax">.</span><span class="element-syntax">destination_tree</span><span class="plain-syntax">, </span><span class="identifier-syntax">identifier</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">equivalent</span><span class="plain-syntax"> = </span><a href="2-tw2.html#SP11" class="function-link"><span class="function-syntax">Wiring::find_socket</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">det</span><span class="plain-syntax">.</span><span class="element-syntax">destination_tree</span><span class="plain-syntax">, </span><span class="identifier-syntax">identifier</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">equivalent</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">e_target</span><span class="plain-syntax"> = </span><a href="2-tw2.html#SP3" class="function-link"><span class="function-syntax">Wiring::cable_end</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">equivalent</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">e_target</span><span class="plain-syntax"> = </span><a href="2-tw2.html#SP3" class="function-link"><span class="function-syntax">Wiring::cable_end</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">equivalent</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-sym.html#SP15" class="function-link"><span class="function-syntax">InterSymbol::is_defined</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">e_target</span><span class="plain-syntax">) == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">LOGIF</span><span class="plain-syntax">(</span><span class="identifier-syntax">INTER_CONNECTORS</span><span class="plain-syntax">, </span><span class="string-syntax">"Co-opted undefined socket $3 ~~&gt; $3\n"</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">equivalent</span><span class="plain-syntax">, </span><span class="identifier-syntax">e_target</span><span class="plain-syntax">);</span>
@@ -308,87 +295,77 @@ existing socket here.)
 <span class="plain-syntax">    </span><span class="identifier-syntax">DISCARD_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">identifier</span><span class="plain-syntax">)</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-trn.html#SP3_5">&#167;3.5</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>Okay, so now for the first cross-referencing fix. The following function traverses
-every node inside the <span class="extract"><span class="extract-syntax">migrant</span></span> tree.
-</p>
-
-<p class="commentary">First, we amend any source file origin references in provenance instructions. For
-that to work, we need the instruction to have its original <span class="extract"><span class="extract-syntax">P-&gt;tree</span></span> value,
-which records, for every node, the tree to which it belongs.
-</p>
-
-<p class="commentary">But then we correct <span class="extract"><span class="extract-syntax">P-&gt;tree</span></span>: the need to do this is why the traverse has to
-visit every node inside <span class="extract"><span class="extract-syntax">migrant</span></span> (including its own head node). But we
-need to work out the <span class="extract"><span class="extract-syntax">primitive</span></span> invoked first, because the interpretation of the
-bytecode in the invocation depends on <span class="extract"><span class="extract-syntax">P-&gt;tree</span></span>, and will give a meaningful
-answer only if <span class="extract"><span class="extract-syntax">P-&gt;tree</span></span> is still its original value.
-</p>
-
-<p class="commentary">But then there are only two cases of interest: primitive invocations, and package
-head nodes.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  Okay, so now for the first cross-referencing fix. The following function traverses
+every node inside the <code>migrant</code> tree.</p>
+<p>First, we amend any source file origin references in provenance instructions. For
+that to work, we need the instruction to have its original <code>P-&gt;tree</code> value,
+which records, for every node, the tree to which it belongs.</p>
+<p>But then we correct <code>P-&gt;tree</code>: the need to do this is why the traverse has to
+visit every node inside <code>migrant</code> (including its own head node). But we
+need to work out the <code>primitive</code> invoked first, because the interpretation of the
+bytecode in the invocation depends on <code>P-&gt;tree</code>, and will give a meaningful
+answer only if <code>P-&gt;tree</code> is still its original value.</p>
+<p>But then there are only two cases of interest: primitive invocations, and package
+head nodes.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Transmigration::correct_migrant</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">Transmigration::correct_migrant</span></span>:<br/><a href="2-trn.html#SP3_4">&#167;3.4</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">inter_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="reserved-syntax">inter_tree_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P</span><span class="plain-syntax">, </span><span class="reserved-syntax">void</span><span class="plain-syntax"> *</span><span class="identifier-syntax">state</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">transmigration_details</span><span class="plain-syntax"> *</span><span class="identifier-syntax">det</span><span class="plain-syntax"> = (</span><span class="reserved-syntax">transmigration_details</span><span class="plain-syntax"> *) </span><span class="identifier-syntax">state</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Transmigration::correct_migrant</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">Transmigration::correct_migrant</span></span>:<br/><a href="2-trn.html#SP3_4">&#167;3.4</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">inter_tree_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P</span><span class="plain-syntax">, </span><span class="identifier-syntax">void</span><span class="plain-syntax"> *</span><span class="identifier-syntax">state</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">transmigration_details</span><span class="plain-syntax"> *</span><span class="identifier-syntax">det</span><span class="plain-syntax"> = (</span><span class="identifier-syntax">transmigration_details</span><span class="plain-syntax"> *) </span><span class="identifier-syntax">state</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-in.html#SP13" class="function-link"><span class="function-syntax">Inode::is</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">P</span><span class="plain-syntax">, </span><span class="constant-syntax">PROVENANCE_IST</span><span class="plain-syntax">))</span>
 <span class="plain-syntax">        </span><a href="4-tpc8.html#SP3" class="function-link"><span class="function-syntax">ProvenanceInstruction::migrate</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">P</span><span class="plain-syntax">, </span><span class="identifier-syntax">det</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">destination_tree</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">primitive</span><span class="plain-syntax"> = </span><a href="5-tic.html#SP9" class="function-link"><span class="function-syntax">InvInstruction::primitive</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">P</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">primitive</span><span class="plain-syntax"> = </span><a href="5-tic.html#SP9" class="function-link"><span class="function-syntax">InvInstruction::primitive</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">P</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">P</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">tree</span><span class="plain-syntax"> = </span><span class="identifier-syntax">I</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">primitive</span><span class="plain-syntax">)</span>
-<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP5_1" class="named-paragraph-link"><span class="named-paragraph">Transfer from a primitive in the origin tree to one in the destination</span><span class="named-paragraph-number">5.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP5_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Transfer from a primitive in the origin tree to one in the destination</span></span><span class="named-paragraph-number">5.1</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-in.html#SP13" class="function-link"><span class="function-syntax">Inode::is</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">P</span><span class="plain-syntax">, </span><span class="constant-syntax">PACKAGE_IST</span><span class="plain-syntax">))</span>
-<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP5_2" class="named-paragraph-link"><span class="named-paragraph">This is the headnode of a subpackage of migrant</span><span class="named-paragraph-number">5.2</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP5_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">This is the headnode of a subpackage of migrant</span></span><span class="named-paragraph-number">5.2</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5_1" class="paragraph-anchor"></a><b>&#167;5.1. </b>Primitive invocations matter because, say, <span class="extract"><span class="extract-syntax">inv !printnumber</span></span> in the migrant
-will contain a reference to the origin tree's definition of <span class="extract"><span class="extract-syntax">!printnumber</span></span>; this
-must be converted to a reference to the destination's definition of the same thing.
-</p>
-
-<p class="commentary">Note that we expect to perform this operation frequently &mdash; there may be, say,
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5_1" class="paragraph-anchor"></a><b>&#167;5.1. </b>  Primitive invocations matter because, say, <code>inv !printnumber</code> in the migrant
+will contain a reference to the origin tree's definition of <code>!printnumber</code>; this
+must be converted to a reference to the destination's definition of the same thing.</p>
+<p>Note that we expect to perform this operation frequently -- there may be, say,
 10,000 primitive invocations in the migrant, but always of the same 50 or so
-primitives round and around &mdash; so we cache the results.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Transfer from a primitive in the origin tree to one in the destination</span><span class="named-paragraph-number">5.1</span></span><span class="comment-syntax"> =</span>
-</p>
+primitives round and around -- so we cache the results.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Transfer from a primitive in the origin tree to one in the destination</span><span class="named-paragraph-number">5.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">equivalent_primitive</span><span class="plain-syntax"> = </span><a href="2-trn.html#SP10" class="function-link"><span class="function-syntax">Transmigration::known_equivalent</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">primitive</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">equivalent_primitive</span><span class="plain-syntax"> = </span><a href="2-trn.html#SP10" class="function-link"><span class="function-syntax">Transmigration::known_equivalent</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">primitive</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">equivalent_primitive</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">equivalent_primitive</span><span class="plain-syntax"> = </span><a href="2-st.html#SP7" class="function-link"><span class="function-syntax">InterSymbolsTable::symbol_from_name</span></a><span class="plain-syntax">(</span>
 <span class="plain-syntax">            </span><a href="2-it.html#SP3" class="function-link"><span class="function-syntax">InterTree::global_scope</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">det</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">destination_tree</span><span class="plain-syntax">), </span><a href="2-sym.html#SP19" class="function-link"><span class="function-syntax">InterSymbol::identifier</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">primitive</span><span class="plain-syntax">));</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">equivalent_primitive</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP5_1_1" class="named-paragraph-link"><span class="named-paragraph">Duplicate this primitive</span><span class="named-paragraph-number">5.1.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">equivalent_primitive</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP5_1_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Duplicate this primitive</span></span><span class="named-paragraph-number">5.1.1</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><a href="2-trn.html#SP10" class="function-link"><span class="function-syntax">Transmigration::learn_equivalent</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">primitive</span><span class="plain-syntax">, </span><span class="identifier-syntax">equivalent_primitive</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">equivalent_primitive</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><a href="5-tic.html#SP10" class="function-link"><span class="function-syntax">InvInstruction::write_primitive</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">det</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">destination_tree</span><span class="plain-syntax">, </span><span class="identifier-syntax">P</span><span class="plain-syntax">, </span><span class="identifier-syntax">equivalent_primitive</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-trn.html#SP5">&#167;5</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP5_1_1" class="paragraph-anchor"></a><b>&#167;5.1.1. </b>In the worst-case scenario, the destination might not even have a declaration
-of <span class="extract"><span class="extract-syntax">!printnumber</span></span>. (Actually this is unlikely in practice, because we tend to make
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5_1_1" class="paragraph-anchor"></a><b>&#167;5.1.1. </b>  In the worst-case scenario, the destination might not even have a declaration
+of <code>!printnumber</code>. (Actually this is unlikely in practice, because we tend to make
 the same set of primitive declarations in every tree.) In this case, we write a
 new declaration in the root package of the destination, duplicating the one in
-the root package of the origin.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Duplicate this primitive</span><span class="named-paragraph-number">5.1.1</span></span><span class="comment-syntax"> =</span>
-</p>
+the root package of the origin.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Duplicate this primitive</span><span class="named-paragraph-number">5.1.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">equivalent_primitive</span><span class="plain-syntax"> = </span><a href="2-st.html#SP9" class="function-link"><span class="function-syntax">InterSymbolsTable::symbol_from_name_creating</span></a><span class="plain-syntax">(</span>
 <span class="plain-syntax">        </span><a href="2-it.html#SP3" class="function-link"><span class="function-syntax">InterTree::global_scope</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">det</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">destination_tree</span><span class="plain-syntax">), </span><a href="2-sym.html#SP19" class="function-link"><span class="function-syntax">InterSymbol::identifier</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">primitive</span><span class="plain-syntax">));</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_tree_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">old_D</span><span class="plain-syntax"> = </span><span class="identifier-syntax">primitive</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">definition</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_tree_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">D</span><span class="plain-syntax"> = </span><a href="2-in.html#SP5" class="function-link"><span class="function-syntax">Inode::new_with_2_data_fields</span></a><span class="plain-syntax">(&amp;(</span><span class="identifier-syntax">det</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">primitives_point</span><span class="plain-syntax">), </span><span class="constant-syntax">PRIMITIVE_IST</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_tree_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">old_D</span><span class="plain-syntax"> = </span><span class="identifier-syntax">primitive</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">definition</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_tree_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">D</span><span class="plain-syntax"> = </span><a href="2-in.html#SP5" class="function-link"><span class="function-syntax">Inode::new_with_2_data_fields</span></a><span class="plain-syntax">(&amp;(</span><span class="identifier-syntax">det</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">primitives_point</span><span class="plain-syntax">), </span><span class="constant-syntax">PRIMITIVE_IST</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">        </span><a href="2-st.html#SP16" class="function-link"><span class="function-syntax">InterSymbolsTable::id_from_symbol</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">det</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">destination_tree</span><span class="plain-syntax">, </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">, </span><span class="identifier-syntax">equivalent_primitive</span><span class="plain-syntax">),</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">old_D</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">W</span><span class="plain-syntax">.</span><span class="element-syntax">instruction</span><span class="plain-syntax">[</span><span class="constant-syntax">BIP_PRIM_IFLD</span><span class="plain-syntax">],</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=</span><span class="constant-syntax">SIGNATURE_PRIM_IFLD</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="function-syntax">&lt;old_D-&gt;</span><span class="element-syntax">W</span><span class="plain-syntax">.</span><span class="element-syntax">extent</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) {</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=</span><span class="constant-syntax">SIGNATURE_PRIM_IFLD</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="function-syntax">&lt;old_D-&gt;</span><span class="element-syntax">W</span><span class="plain-syntax">.</span><span class="element-syntax">extent</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) {</span>
 <span class="plain-syntax">        </span><a href="2-in.html#SP12" class="function-link"><span class="function-syntax">Inode::extend_instruction_by</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">D</span><span class="plain-syntax">, </span><span class="constant-syntax">1</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">D</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">W</span><span class="plain-syntax">.</span><span class="element-syntax">instruction</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">] = </span><span class="identifier-syntax">old_D</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">W</span><span class="plain-syntax">.</span><span class="element-syntax">instruction</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">];</span>
 <span class="plain-syntax">    }</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_error_message</span><span class="plain-syntax"> *</span><span class="identifier-syntax">E</span><span class="plain-syntax"> = </span><a href="3-vi.html#SP1" class="function-link"><span class="function-syntax">VerifyingInter::instruction</span></a><span class="plain-syntax">(</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_error_message</span><span class="plain-syntax"> *</span><span class="identifier-syntax">E</span><span class="plain-syntax"> = </span><a href="3-vi.html#SP1" class="function-link"><span class="function-syntax">VerifyingInter::instruction</span></a><span class="plain-syntax">(</span>
 <span class="plain-syntax">        </span><a href="2-bkm.html#SP6" class="function-link"><span class="function-syntax">InterBookmark::package</span></a><span class="plain-syntax">(&amp;(</span><span class="identifier-syntax">det</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">primitives_point</span><span class="plain-syntax">)), </span><span class="identifier-syntax">D</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">E</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><a href="3-ie.html#SP5" class="function-link"><span class="function-syntax">InterErrors::issue</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">E</span><span class="plain-syntax">);</span>
@@ -398,46 +375,43 @@ the root package of the origin.
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-trn.html#SP5_1">&#167;5.1</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP5_2" class="paragraph-anchor"></a><b>&#167;5.2. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">This is the headnode of a subpackage of migrant</span><span class="named-paragraph-number">5.2</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP5_2" class="paragraph-anchor"></a><b>&#167;5.2. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">This is the headnode of a subpackage of migrant</span><span class="named-paragraph-number">5.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_package</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pack</span><span class="plain-syntax"> = </span><a href="4-tpc.html#SP9" class="function-link"><span class="function-syntax">PackageInstruction::at_this_head</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">P</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_package</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pack</span><span class="plain-syntax"> = </span><a href="4-tpc.html#SP9" class="function-link"><span class="function-syntax">PackageInstruction::at_this_head</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">P</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-pck.html#SP17" class="function-link"><span class="function-syntax">InterPackage::is_a_linkage_package</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">pack</span><span class="plain-syntax">))</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"tried to transmigrate /main, /main/connectors or /"</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP5_2_1" class="named-paragraph-link"><span class="named-paragraph">Correct the reference to this package type</span><span class="named-paragraph-number">5.2.1</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP5_2_2" class="named-paragraph-link"><span class="named-paragraph">Correct outbound wiring from the package's symbols table</span><span class="named-paragraph-number">5.2.2</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP5_2_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Correct the reference to this package type</span></span><span class="named-paragraph-number">5.2.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP5_2_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Correct outbound wiring from the package's symbols table</span></span><span class="named-paragraph-number">5.2.2</span></a></span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-trn.html#SP5">&#167;5</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP5_2_1" class="paragraph-anchor"></a><b>&#167;5.2.1. </b>Package types present the exact same issue as primitive invocations: the types
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5_2_1" class="paragraph-anchor"></a><b>&#167;5.2.1. </b>  Package types present the exact same issue as primitive invocations: the types
 are given in terms of declarations in the origin tree, and have to be transferred
-to matching declarations in the destination.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Correct the reference to this package type</span><span class="named-paragraph-number">5.2.1</span></span><span class="comment-syntax"> =</span>
-</p>
+to matching declarations in the destination.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Correct the reference to this package type</span><span class="named-paragraph-number">5.2.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">original_ptype</span><span class="plain-syntax"> = </span><a href="4-tpc.html#SP10" class="function-link"><span class="function-syntax">PackageInstruction::get_type_of</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">det</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">origin_tree</span><span class="plain-syntax">, </span><span class="identifier-syntax">P</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">equivalent_ptype</span><span class="plain-syntax"> = </span><a href="2-trn.html#SP10" class="function-link"><span class="function-syntax">Transmigration::known_equivalent</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">original_ptype</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">original_ptype</span><span class="plain-syntax"> = </span><a href="4-tpc.html#SP10" class="function-link"><span class="function-syntax">PackageInstruction::get_type_of</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">det</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">origin_tree</span><span class="plain-syntax">, </span><span class="identifier-syntax">P</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">equivalent_ptype</span><span class="plain-syntax"> = </span><a href="2-trn.html#SP10" class="function-link"><span class="function-syntax">Transmigration::known_equivalent</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">original_ptype</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">equivalent_ptype</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">equivalent_ptype</span><span class="plain-syntax"> = </span><a href="2-st.html#SP7" class="function-link"><span class="function-syntax">InterSymbolsTable::symbol_from_name</span></a><span class="plain-syntax">(</span>
 <span class="plain-syntax">            </span><a href="2-it.html#SP3" class="function-link"><span class="function-syntax">InterTree::global_scope</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">det</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">destination_tree</span><span class="plain-syntax">), </span><a href="2-sym.html#SP19" class="function-link"><span class="function-syntax">InterSymbol::identifier</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">original_ptype</span><span class="plain-syntax">));</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">equivalent_ptype</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP5_2_1_1" class="named-paragraph-link"><span class="named-paragraph">Duplicate this package type</span><span class="named-paragraph-number">5.2.1.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">equivalent_ptype</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP5_2_1_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Duplicate this package type</span></span><span class="named-paragraph-number">5.2.1.1</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><a href="2-trn.html#SP10" class="function-link"><span class="function-syntax">Transmigration::learn_equivalent</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">original_ptype</span><span class="plain-syntax">, </span><span class="identifier-syntax">equivalent_ptype</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">    </span><a href="4-tpc.html#SP11" class="function-link"><span class="function-syntax">PackageInstruction::set_type</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">det</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">destination_tree</span><span class="plain-syntax">, </span><span class="identifier-syntax">P</span><span class="plain-syntax">, </span><span class="identifier-syntax">equivalent_ptype</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-trn.html#SP5_2">&#167;5.2</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP5_2_1_1" class="paragraph-anchor"></a><b>&#167;5.2.1.1. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Duplicate this package type</span><span class="named-paragraph-number">5.2.1.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP5_2_1_1" class="paragraph-anchor"></a><b>&#167;5.2.1.1. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Duplicate this package type</span><span class="named-paragraph-number">5.2.1.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">equivalent_ptype</span><span class="plain-syntax"> = </span><a href="2-st.html#SP9" class="function-link"><span class="function-syntax">InterSymbolsTable::symbol_from_name_creating</span></a><span class="plain-syntax">(</span>
 <span class="plain-syntax">        </span><a href="2-it.html#SP3" class="function-link"><span class="function-syntax">InterTree::global_scope</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">det</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">destination_tree</span><span class="plain-syntax">), </span><a href="2-sym.html#SP19" class="function-link"><span class="function-syntax">InterSymbol::identifier</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">original_ptype</span><span class="plain-syntax">));</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_tree_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">D</span><span class="plain-syntax"> = </span><a href="2-in.html#SP5" class="function-link"><span class="function-syntax">Inode::new_with_1_data_field</span></a><span class="plain-syntax">(&amp;(</span><span class="identifier-syntax">det</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">ptypes_point</span><span class="plain-syntax">), </span><span class="constant-syntax">PACKAGETYPE_IST</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_tree_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">D</span><span class="plain-syntax"> = </span><a href="2-in.html#SP5" class="function-link"><span class="function-syntax">Inode::new_with_1_data_field</span></a><span class="plain-syntax">(&amp;(</span><span class="identifier-syntax">det</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">ptypes_point</span><span class="plain-syntax">), </span><span class="constant-syntax">PACKAGETYPE_IST</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">        </span><a href="2-st.html#SP16" class="function-link"><span class="function-syntax">InterSymbolsTable::id_from_symbol</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">det</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">destination_tree</span><span class="plain-syntax">, </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">, </span><span class="identifier-syntax">equivalent_ptype</span><span class="plain-syntax">), </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_error_message</span><span class="plain-syntax"> *</span><span class="identifier-syntax">E</span><span class="plain-syntax"> = </span><a href="3-vi.html#SP1" class="function-link"><span class="function-syntax">VerifyingInter::instruction</span></a><span class="plain-syntax">(</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_error_message</span><span class="plain-syntax"> *</span><span class="identifier-syntax">E</span><span class="plain-syntax"> = </span><a href="3-vi.html#SP1" class="function-link"><span class="function-syntax">VerifyingInter::instruction</span></a><span class="plain-syntax">(</span>
 <span class="plain-syntax">        </span><a href="2-bkm.html#SP6" class="function-link"><span class="function-syntax">InterBookmark::package</span></a><span class="plain-syntax">(&amp;(</span><span class="identifier-syntax">det</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">ptypes_point</span><span class="plain-syntax">)), </span><span class="identifier-syntax">D</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">E</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><a href="3-ie.html#SP5" class="function-link"><span class="function-syntax">InterErrors::issue</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">E</span><span class="plain-syntax">);</span>
@@ -447,43 +421,41 @@ to matching declarations in the destination.
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-trn.html#SP5_2_1">&#167;5.2.1</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP5_2_2" class="paragraph-anchor"></a><b>&#167;5.2.2. </b>Here <span class="extract"><span class="extract-syntax">S</span></span> is some miscellaneous symbol in our subpackage of <span class="extract"><span class="extract-syntax">migrant</span></span> &mdash; it
-can't be either a plug or a socket, since the connectors never migrate &mdash; and
-there are three bad possibilities:
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Correct outbound wiring from the package's symbols table</span><span class="named-paragraph-number">5.2.2</span></span><span class="comment-syntax"> =</span>
-</p>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5_2_2" class="paragraph-anchor"></a><b>&#167;5.2.2. </b>  Here <code>S</code> is some miscellaneous symbol in our subpackage of <code>migrant</code> -- it
+can't be either a plug or a socket, since the connectors never migrate -- and
+there are three bad possibilities:</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Correct outbound wiring from the package's symbols table</span><span class="named-paragraph-number">5.2.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_symbols_table</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax"> = </span><a href="2-pck.html#SP10" class="function-link"><span class="function-syntax">InterPackage::scope</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">pack</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_symbols_table</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax"> = </span><a href="2-pck.html#SP10" class="function-link"><span class="function-syntax">InterPackage::scope</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">pack</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">T</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"package with no symbols"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER_SYMBOLS_TABLE</span><span class="plain-syntax">(</span><span class="identifier-syntax">S</span><span class="plain-syntax">, </span><span class="identifier-syntax">T</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-tw2.html#SP2" class="function-link"><span class="function-syntax">Wiring::is_wired</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">S</span><span class="plain-syntax">)) {</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">target</span><span class="plain-syntax"> = </span><a href="2-tw2.html#SP3" class="function-link"><span class="function-syntax">Wiring::cable_end</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">S</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">inter_package</span><span class="plain-syntax"> *</span><span class="identifier-syntax">target_package</span><span class="plain-syntax"> = </span><a href="2-sym.html#SP3" class="function-link"><span class="function-syntax">InterSymbol::package</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">target</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">            </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">target</span><span class="plain-syntax"> = </span><a href="2-tw2.html#SP3" class="function-link"><span class="function-syntax">Wiring::cable_end</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">S</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">            </span><span class="identifier-syntax">inter_package</span><span class="plain-syntax"> *</span><span class="identifier-syntax">target_package</span><span class="plain-syntax"> = </span><a href="2-sym.html#SP3" class="function-link"><span class="function-syntax">InterSymbol::package</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">target</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">target_package</span><span class="plain-syntax"> ==</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">LargeScale::architecture_package</span><span class="plain-syntax">(</span><a href="2-pck.html#SP4" class="function-link"><span class="function-syntax">InterPackage::tree</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">target_package</span><span class="plain-syntax">)))</span>
-<span class="plain-syntax">                </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP5_2_2_1" class="named-paragraph-link"><span class="named-paragraph">S is wired to an architectural symbol in the origin tree</span><span class="named-paragraph-number">5.2.2.1</span></a></span>
+<span class="plain-syntax">                </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP5_2_2_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">S is wired to an architectural symbol in the origin tree</span></span><span class="named-paragraph-number">5.2.2.1</span></a></span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-sym.html#SP13" class="function-link"><span class="function-syntax">InterSymbol::is_plug</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">target</span><span class="plain-syntax">))</span>
-<span class="plain-syntax">                </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP5_2_2_2" class="named-paragraph-link"><span class="named-paragraph">S is wired to a loose plug in the origin tree</span><span class="named-paragraph-number">5.2.2.2</span></a></span>
+<span class="plain-syntax">                </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP5_2_2_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">S is wired to a loose plug in the origin tree</span></span><span class="named-paragraph-number">5.2.2.2</span></a></span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-sym.html#SP3" class="function-link"><span class="function-syntax">InterSymbol::defined_inside</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">S</span><span class="plain-syntax">, </span><span class="identifier-syntax">det</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">migrant</span><span class="plain-syntax">) == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">)</span>
-<span class="plain-syntax">                </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP5_2_2_3" class="named-paragraph-link"><span class="named-paragraph">S is wired to a miscellaneous symbol still in the origin tree</span><span class="named-paragraph-number">5.2.2.3</span></a></span>
+<span class="plain-syntax">                </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP5_2_2_3" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">S is wired to a miscellaneous symbol still in the origin tree</span></span><span class="named-paragraph-number">5.2.2.3</span></a></span>
 <span class="plain-syntax">        }</span>
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-trn.html#SP5_2">&#167;5.2</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP5_2_2_1" class="paragraph-anchor"></a><b>&#167;5.2.2.1. </b>For example, <span class="extract"><span class="extract-syntax">S</span></span> is wired to <span class="extract"><span class="extract-syntax">WORDSIZE</span></span> in the origin tree, which is (let
-us say) a constant equal to 4. We wire it instead to <span class="extract"><span class="extract-syntax">WORDSIZE</span></span> in the destination
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5_2_2_1" class="paragraph-anchor"></a><b>&#167;5.2.2.1. </b>  For example, <code>S</code> is wired to <code>WORDSIZE</code> in the origin tree, which is (let
+us say) a constant equal to 4. We wire it instead to <code>WORDSIZE</code> in the destination
 tree, which will also be equal to 4 because we only ever transmigrate between
-trees with the same Inter architecture.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">S is wired to an architectural symbol in the origin tree</span><span class="named-paragraph-number">5.2.2.1</span></span><span class="comment-syntax"> =</span>
-</p>
+trees with the same Inter architecture.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">S is wired to an architectural symbol in the origin tree</span><span class="named-paragraph-number">5.2.2.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">equivalent</span><span class="plain-syntax"> = </span><a href="2-trn.html#SP10" class="function-link"><span class="function-syntax">Transmigration::known_equivalent</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">target</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">equivalent</span><span class="plain-syntax"> = </span><a href="2-trn.html#SP10" class="function-link"><span class="function-syntax">Transmigration::known_equivalent</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">target</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">equivalent</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">equivalent</span><span class="plain-syntax"> = </span><span class="identifier-syntax">LargeScale::find_architectural_symbol</span><span class="plain-syntax">(</span><span class="identifier-syntax">det</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">destination_tree</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">            </span><a href="2-sym.html#SP19" class="function-link"><span class="function-syntax">InterSymbol::identifier</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">target</span><span class="plain-syntax">));</span>
@@ -492,19 +464,18 @@ trees with the same Inter architecture.
 <span class="plain-syntax">    </span><a href="2-tw2.html#SP5" class="function-link"><span class="function-syntax">Wiring::wire_to</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">S</span><span class="plain-syntax">, </span><span class="identifier-syntax">equivalent</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-trn.html#SP5_2_2">&#167;5.2.2</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP5_2_2_2" class="paragraph-anchor"></a><b>&#167;5.2.2.2. </b>Here <span class="extract"><span class="extract-syntax">S</span></span> is wired to a plug, and it must be a loose plug because <span class="extract"><span class="extract-syntax">target</span></span> is
-the cable-end from <span class="extract"><span class="extract-syntax">S</span></span>: if that cable ends in a plug, clearly the plug is not
-wired to a socket. That means it is wired to a name, <span class="extract"><span class="extract-syntax">target ~~&gt; "some_name"</span></span>.
-We wire <span class="extract"><span class="extract-syntax">S</span></span> instead to a plug seeking <span class="extract"><span class="extract-syntax">some_name</span></span> in the destination tree;
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5_2_2_2" class="paragraph-anchor"></a><b>&#167;5.2.2.2. </b>  Here <code>S</code> is wired to a plug, and it must be a loose plug because <code>target</code> is
+the cable-end from <code>S</code>: if that cable ends in a plug, clearly the plug is not
+wired to a socket. That means it is wired to a name, <code>target ~~&gt; &quot;some_name&quot;</code>.
+We wire <code>S</code> instead to a plug seeking <code>some_name</code> in the destination tree;
 note that this may result in a new plug being made there, or may re-use an
-existing one already looking for (or indeed already having found) <span class="extract"><span class="extract-syntax">"some_name"</span></span>.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">S is wired to a loose plug in the origin tree</span><span class="named-paragraph-number">5.2.2.2</span></span><span class="comment-syntax"> =</span>
-</p>
+existing one already looking for (or indeed already having found) <code>&quot;some_name&quot;</code>.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">S is wired to a loose plug in the origin tree</span><span class="named-paragraph-number">5.2.2.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">equivalent</span><span class="plain-syntax"> = </span><a href="2-trn.html#SP10" class="function-link"><span class="function-syntax">Transmigration::known_equivalent</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">target</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">equivalent</span><span class="plain-syntax"> = </span><a href="2-trn.html#SP10" class="function-link"><span class="function-syntax">Transmigration::known_equivalent</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">target</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">equivalent</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">N</span><span class="plain-syntax"> = </span><a href="2-tw2.html#SP7" class="function-link"><span class="function-syntax">Wiring::wired_to_name</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">target</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">equivalent</span><span class="plain-syntax"> = </span><a href="2-tw2.html#SP14" class="function-link"><span class="function-syntax">Wiring::plug</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">det</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">destination_tree</span><span class="plain-syntax">, </span><span class="identifier-syntax">N</span><span class="plain-syntax">);</span>
@@ -513,16 +484,15 @@ existing one already looking for (or indeed already having found) <span class="e
 <span class="plain-syntax">    </span><a href="2-tw2.html#SP5" class="function-link"><span class="function-syntax">Wiring::wire_to</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">S</span><span class="plain-syntax">, </span><span class="identifier-syntax">equivalent</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-trn.html#SP5_2_2">&#167;5.2.2</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP5_2_2_3" class="paragraph-anchor"></a><b>&#167;5.2.2.3. </b>Finally <span class="extract"><span class="extract-syntax">S</span></span> may be wired to some ordinary symbol defined in the origin tree
-but outside of <span class="extract"><span class="extract-syntax">migrant</span></span>. Well, that resource is now outside of the destination
-tree: and this is exactly what plugs in the destination tree are for.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">S is wired to a miscellaneous symbol still in the origin tree</span><span class="named-paragraph-number">5.2.2.3</span></span><span class="comment-syntax"> =</span>
-</p>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5_2_2_3" class="paragraph-anchor"></a><b>&#167;5.2.2.3. </b>  Finally <code>S</code> may be wired to some ordinary symbol defined in the origin tree
+but outside of <code>migrant</code>. Well, that resource is now outside of the destination
+tree: and this is exactly what plugs in the destination tree are for.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">S is wired to a miscellaneous symbol still in the origin tree</span><span class="named-paragraph-number">5.2.2.3</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">equivalent</span><span class="plain-syntax"> = </span><a href="2-trn.html#SP10" class="function-link"><span class="function-syntax">Transmigration::known_equivalent</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">target</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">equivalent</span><span class="plain-syntax"> = </span><a href="2-trn.html#SP10" class="function-link"><span class="function-syntax">Transmigration::known_equivalent</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">target</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">equivalent</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">equivalent</span><span class="plain-syntax"> = </span><a href="2-tw2.html#SP14" class="function-link"><span class="function-syntax">Wiring::plug</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">det</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">destination_tree</span><span class="plain-syntax">, </span><a href="2-sym.html#SP19" class="function-link"><span class="function-syntax">InterSymbol::identifier</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">target</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">        </span><a href="2-trn.html#SP10" class="function-link"><span class="function-syntax">Transmigration::learn_equivalent</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">target</span><span class="plain-syntax">, </span><span class="identifier-syntax">equivalent</span><span class="plain-syntax">);</span>
@@ -530,44 +500,41 @@ tree: and this is exactly what plugs in the destination tree are for.
 <span class="plain-syntax">    </span><a href="2-tw2.html#SP5" class="function-link"><span class="function-syntax">Wiring::wire_to</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">S</span><span class="plain-syntax">, </span><span class="identifier-syntax">equivalent</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-trn.html#SP5_2_2">&#167;5.2.2</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>Now time for the second sort of correction: references from the origin tree
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  Now time for the second sort of correction: references from the origin tree
 into the migrant. If we care about those, then we traverse so that the following
 visits every node in the origin tree. Note that at this point the head node
-of <span class="extract"><span class="extract-syntax">migrant</span></span> has been removed from the origin tree &mdash; so this visitor can never
-visit anything inside <span class="extract"><span class="extract-syntax">migrant</span></span>.
-</p>
-
-<p class="commentary">Note that we do not correct references from the origin tree's <span class="extract"><span class="extract-syntax">/main/connectors</span></span>
-package, i.e., plugs and sockets wired to something in <span class="extract"><span class="extract-syntax">migrant</span></span>; we handle
-those separately (see above).
-</p>
-
+of <code>migrant</code> has been removed from the origin tree -- so this visitor can never
+visit anything inside <code>migrant</code>.</p>
+<p>Note that we do not correct references from the origin tree's <code>/main/connectors</code>
+package, i.e., plugs and sockets wired to something in <code>migrant</code>; we handle
+those separately (see above).</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Transmigration::correct_origin</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">Transmigration::correct_origin</span></span>:<br/><a href="2-trn.html#SP3_4">&#167;3.4</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">inter_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="reserved-syntax">inter_tree_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P</span><span class="plain-syntax">, </span><span class="reserved-syntax">void</span><span class="plain-syntax"> *</span><span class="identifier-syntax">state</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">transmigration_details</span><span class="plain-syntax"> *</span><span class="identifier-syntax">det</span><span class="plain-syntax"> = (</span><span class="reserved-syntax">transmigration_details</span><span class="plain-syntax"> *) </span><span class="identifier-syntax">state</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Transmigration::correct_origin</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">Transmigration::correct_origin</span></span>:<br/><a href="2-trn.html#SP3_4">&#167;3.4</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">inter_tree_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P</span><span class="plain-syntax">, </span><span class="identifier-syntax">void</span><span class="plain-syntax"> *</span><span class="identifier-syntax">state</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">transmigration_details</span><span class="plain-syntax"> *</span><span class="identifier-syntax">det</span><span class="plain-syntax"> = (</span><span class="identifier-syntax">transmigration_details</span><span class="plain-syntax"> *) </span><span class="identifier-syntax">state</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-in.html#SP13" class="function-link"><span class="function-syntax">Inode::is</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">P</span><span class="plain-syntax">, </span><span class="constant-syntax">PACKAGE_IST</span><span class="plain-syntax">)) {</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">inter_package</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pack</span><span class="plain-syntax"> = </span><a href="4-tpc.html#SP9" class="function-link"><span class="function-syntax">PackageInstruction::at_this_head</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">P</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">inter_package</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pack</span><span class="plain-syntax"> = </span><a href="4-tpc.html#SP9" class="function-link"><span class="function-syntax">PackageInstruction::at_this_head</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">P</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-pck.html#SP17" class="function-link"><span class="function-syntax">InterPackage::is_a_linkage_package</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">pack</span><span class="plain-syntax">) == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">inter_symbols_table</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax"> = </span><a href="2-pck.html#SP10" class="function-link"><span class="function-syntax">InterPackage::scope</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">pack</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">            </span><span class="identifier-syntax">inter_symbols_table</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax"> = </span><a href="2-pck.html#SP10" class="function-link"><span class="function-syntax">InterPackage::scope</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">pack</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">LOOP_OVER_SYMBOLS_TABLE</span><span class="plain-syntax">(</span><span class="identifier-syntax">S</span><span class="plain-syntax">, </span><span class="identifier-syntax">T</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">                </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-tw2.html#SP2" class="function-link"><span class="function-syntax">Wiring::is_wired</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">S</span><span class="plain-syntax">)) {</span>
-<span class="plain-syntax">                    </span><span class="reserved-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">target</span><span class="plain-syntax"> = </span><a href="2-tw2.html#SP3" class="function-link"><span class="function-syntax">Wiring::cable_end</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">S</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">                    </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">target</span><span class="plain-syntax"> = </span><a href="2-tw2.html#SP3" class="function-link"><span class="function-syntax">Wiring::cable_end</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">S</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">                    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-sym.html#SP3" class="function-link"><span class="function-syntax">InterSymbol::defined_inside</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">target</span><span class="plain-syntax">, </span><span class="identifier-syntax">det</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">migrant</span><span class="plain-syntax">))</span>
-<span class="plain-syntax">                        </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP6_1" class="named-paragraph-link"><span class="named-paragraph">S is wired to a symbol in the migrant</span><span class="named-paragraph-number">6.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">                        </span><span class="named-paragraph-container code-font"><a href="2-trn.html#SP6_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">S is wired to a symbol in the migrant</span></span><span class="named-paragraph-number">6.1</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">                }</span>
 <span class="plain-syntax">        }</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6_1" class="paragraph-anchor"></a><b>&#167;6.1. </b>This is now symmetrical to the case above. <span class="extract"><span class="extract-syntax">S</span></span> is wired to what is now a
-resource in a different tree, so it needs to be wired to a plug instead.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">S is wired to a symbol in the migrant</span><span class="named-paragraph-number">6.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6_1" class="paragraph-anchor"></a><b>&#167;6.1. </b>  This is now symmetrical to the case above. <code>S</code> is wired to what is now a
+resource in a different tree, so it needs to be wired to a plug instead.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">S is wired to a symbol in the migrant</span><span class="named-paragraph-number">6.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">equivalent</span><span class="plain-syntax"> = </span><a href="2-trn.html#SP10" class="function-link"><span class="function-syntax">Transmigration::known_equivalent</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">target</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">equivalent</span><span class="plain-syntax"> = </span><a href="2-trn.html#SP10" class="function-link"><span class="function-syntax">Transmigration::known_equivalent</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">target</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">equivalent</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">equivalent</span><span class="plain-syntax"> = </span><a href="2-tw2.html#SP14" class="function-link"><span class="function-syntax">Wiring::plug</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">det</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">origin_tree</span><span class="plain-syntax">, </span><a href="2-sym.html#SP19" class="function-link"><span class="function-syntax">InterSymbol::identifier</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">S</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">        </span><a href="2-trn.html#SP10" class="function-link"><span class="function-syntax">Transmigration::learn_equivalent</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">target</span><span class="plain-syntax">, </span><span class="identifier-syntax">equivalent</span><span class="plain-syntax">);</span>
@@ -575,52 +542,52 @@ resource in a different tree, so it needs to be wired to a plug instead.
 <span class="plain-syntax">    </span><a href="2-tw2.html#SP5" class="function-link"><span class="function-syntax">Wiring::wire_to</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">S</span><span class="plain-syntax">, </span><span class="identifier-syntax">equivalent</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-trn.html#SP6">&#167;6</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>That just leaves the cache. The idea is that for each different act of
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  That just leaves the cache. The idea is that for each different act of
 transmigration, we want to cache the symbol conversions made. The following
 is fast, but a little wasteful of memory, since it involves storing two fields
-in every <a href="2-sym.html#SP1" class="internal">inter_symbol</a>:
-</p>
-
+in every <a href="2-sym.html#SP1" class="internal">inter_symbol</a>:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">transmigration_data</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">valid_on_which_transmigration</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cached_equivalent</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">transmigration_data</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">transmigration_data</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">valid_on_which_transmigration</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cached_equivalent</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">transmigration_data</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>The structure transmigration_data is private to this section.</li></ul>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b></p>
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">transmigration_data</span><span class="plain-syntax"> </span><span class="function-syntax">Transmigration::new_transmigration_data</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">Transmigration::new_transmigration_data</span></span>:<br/>Symbols - <a href="2-sym.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">S</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">transmigration_data</span><span class="plain-syntax"> </span><span class="identifier-syntax">td</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">transmigration_data</span><span class="plain-syntax"> </span><span class="function-syntax">Transmigration::new_transmigration_data</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">Transmigration::new_transmigration_data</span></span>:<br/>Symbols - <a href="2-sym.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">S</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">transmigration_data</span><span class="plain-syntax"> </span><span class="identifier-syntax">td</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">td</span><span class="plain-syntax">.</span><span class="element-syntax">valid_on_which_transmigration</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">td</span><span class="plain-syntax">.</span><span class="element-syntax">cached_equivalent</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">td</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>The scheme is that each different act of transmigration has its own unique
-ID, counting upwards from 1.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>  The scheme is that each different act of transmigration has its own unique
+ID, counting upwards from 1.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">current_transmigration_count</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Transmigration::begin_cache_session</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">current_transmigration_count</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Transmigration::begin_cache_session</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    ++</span><span class="identifier-syntax">current_transmigration_count</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b>This count is used only to see if the <span class="extract"><span class="extract-syntax">cached_equivalent</span></span> symbol was set
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b>  This count is used only to see if the <code>cached_equivalent</code> symbol was set
 during the current transmigration (rather than some previous one). Using this
 count is quicker, since it saves the time needed to walk through all existing
-symbols resetting the <span class="extract"><span class="extract-syntax">cached_equivalent</span></span> fields to <span class="extract"><span class="extract-syntax">NULL</span></span>.
-</p>
-
+symbols resetting the <code>cached_equivalent</code> fields to <code>NULL</code>.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Transmigration::learn_equivalent</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">Transmigration::learn_equivalent</span></span>:<br/><a href="2-trn.html#SP5_1">&#167;5.1</a>, <a href="2-trn.html#SP5_2_1">&#167;5.2.1</a>, <a href="2-trn.html#SP5_2_2_1">&#167;5.2.2.1</a>, <a href="2-trn.html#SP5_2_2_2">&#167;5.2.2.2</a>, <a href="2-trn.html#SP5_2_2_3">&#167;5.2.2.3</a>, <a href="2-trn.html#SP6_1">&#167;6.1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">S</span><span class="plain-syntax">, </span><span class="reserved-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">V</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Transmigration::learn_equivalent</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">Transmigration::learn_equivalent</span></span>:<br/><a href="2-trn.html#SP5_1">&#167;5.1</a>, <a href="2-trn.html#SP5_2_1">&#167;5.2.1</a>, <a href="2-trn.html#SP5_2_2_1">&#167;5.2.2.1</a>, <a href="2-trn.html#SP5_2_2_2">&#167;5.2.2.2</a>, <a href="2-trn.html#SP5_2_2_3">&#167;5.2.2.3</a>, <a href="2-trn.html#SP6_1">&#167;6.1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">S</span><span class="plain-syntax">, </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">V</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">S</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">transmigration</span><span class="plain-syntax">.</span><span class="element-syntax">cached_equivalent</span><span class="plain-syntax"> = </span><span class="identifier-syntax">V</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">S</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">transmigration</span><span class="plain-syntax">.</span><span class="element-syntax">valid_on_which_transmigration</span><span class="plain-syntax"> = </span><span class="identifier-syntax">current_transmigration_count</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="function-syntax">Transmigration::known_equivalent</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">Transmigration::known_equivalent</span></span>:<br/><a href="2-trn.html#SP5_1">&#167;5.1</a>, <a href="2-trn.html#SP5_2_1">&#167;5.2.1</a>, <a href="2-trn.html#SP5_2_2_1">&#167;5.2.2.1</a>, <a href="2-trn.html#SP5_2_2_2">&#167;5.2.2.2</a>, <a href="2-trn.html#SP5_2_2_3">&#167;5.2.2.3</a>, <a href="2-trn.html#SP6_1">&#167;6.1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">S</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="function-syntax">Transmigration::known_equivalent</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">Transmigration::known_equivalent</span></span>:<br/><a href="2-trn.html#SP5_1">&#167;5.1</a>, <a href="2-trn.html#SP5_2_1">&#167;5.2.1</a>, <a href="2-trn.html#SP5_2_2_1">&#167;5.2.2.1</a>, <a href="2-trn.html#SP5_2_2_2">&#167;5.2.2.2</a>, <a href="2-trn.html#SP5_2_2_3">&#167;5.2.2.3</a>, <a href="2-trn.html#SP6_1">&#167;6.1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">S</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">S</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">transmigration</span><span class="plain-syntax">.</span><span class="element-syntax">valid_on_which_transmigration</span><span class="plain-syntax"> == </span><span class="identifier-syntax">current_transmigration_count</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">S</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">transmigration</span><span class="plain-syntax">.</span><span class="element-syntax">cached_equivalent</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>

@@ -20,6 +20,11 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -56,22 +61,20 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="4-tnc.html#SP1">&#167;1. Definition</a></li><li><a href="4-tnc.html#SP2">&#167;2. Instructions</a></li><li><a href="4-tnc.html#SP3">&#167;3. Writing to textual Inter syntax</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Definition.</b>This instruction does nothing at all, has no textual representation and is
-nevertheless useful when constructing Inter in memory.
-</p>
-
-<p class="commentary">It exists as a convenience used by Inform when it needs to write simultaneously to
-multiple positions within the same node's child list &mdash; the idea being that
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Definition.</b>  This instruction does nothing at all, has no textual representation and is
+nevertheless useful when constructing Inter in memory.</p>
+<p>It exists as a convenience used by Inform when it needs to write simultaneously to
+multiple positions within the same node's child list -- the idea being that
 a nop statement acts as a divider. For example, by placing the A write
 position just before a nop N, and the B write position just after, Inform
 will generate A1, A2, A3, ..., N, B1, B2, ..., rather than (say) A1, B1, A2,
 A3, B2, ... The extra N is simply ignored in code generation, so it causes
-no problems to have it.
-</p>
-
+no problems to have it.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">NopInstruction::define_construct</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">NopInstruction::define_construct</span></span>:<br/>Inter Constructs - <a href="3-ic.html#SP15">&#167;15</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_construct</span><span class="plain-syntax"> *</span><span class="identifier-syntax">IC</span><span class="plain-syntax"> = </span><a href="3-ic.html#SP1" class="function-link"><span class="function-syntax">InterInstruction::create_construct</span></a><span class="plain-syntax">(</span><span class="constant-syntax">NOP_IST</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"nop"</span><span class="plain-syntax">);</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">NopInstruction::define_construct</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">NopInstruction::define_construct</span></span>:<br/>Inter Constructs - <a href="3-ic.html#SP15">&#167;15</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_construct</span><span class="plain-syntax"> *</span><span class="identifier-syntax">IC</span><span class="plain-syntax"> = </span><a href="3-ic.html#SP1" class="function-link"><span class="function-syntax">InterInstruction::create_construct</span></a><span class="plain-syntax">(</span><span class="constant-syntax">NOP_IST</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"nop"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="3-ic.html#SP4" class="function-link"><span class="function-syntax">InterInstruction::data_extent_always</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">IC</span><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="3-ic.html#SP3" class="function-link"><span class="function-syntax">InterInstruction::allow_in_depth_range</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">IC</span><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="constant-syntax">INFINITELY_DEEP</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="3-ic.html#SP3" class="function-link"><span class="function-syntax">InterInstruction::permit</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">IC</span><span class="plain-syntax">, </span><span class="constant-syntax">OUTSIDE_OF_PACKAGES_ICUP</span><span class="plain-syntax">);</span>
@@ -80,27 +83,27 @@ no problems to have it.
 <span class="plain-syntax">    </span><span class="identifier-syntax">METHOD_ADD</span><span class="plain-syntax">(</span><span class="identifier-syntax">IC</span><span class="plain-syntax">, </span><span class="constant-syntax">CONSTRUCT_WRITE_MTID</span><span class="plain-syntax">, </span><a href="4-tnc.html#SP3" class="function-link"><span class="function-syntax">NopInstruction::write</span></a><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Instructions.</b>In bytecode, the frame of a <span class="extract"><span class="extract-syntax">nop</span></span> instruction consists only of the two
-compulsory words &mdash; see <a href="2-in.html" class="internal">Inter Nodes</a>.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Instructions.</b>  In bytecode, the frame of a <code>nop</code> instruction consists only of the two
+compulsory words -- see <a href="2-in.html" class="internal">Inter Nodes</a>.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">inter_error_message</span><span class="plain-syntax"> *</span><span class="function-syntax">NopInstruction::new</span><span class="plain-syntax">(</span><span class="reserved-syntax">inter_bookmark</span><span class="plain-syntax"> *</span><span class="identifier-syntax">IBM</span><span class="plain-syntax">, </span><span class="constant-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">level</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_error_location</span><span class="plain-syntax"> *</span><span class="identifier-syntax">eloc</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_tree_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P</span><span class="plain-syntax"> = </span><a href="2-in.html#SP5" class="function-link"><span class="function-syntax">Inode::new_with_0_data_fields</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">IBM</span><span class="plain-syntax">, </span><span class="constant-syntax">NOP_IST</span><span class="plain-syntax">,</span>
+<span class="identifier-syntax">inter_error_message</span><span class="plain-syntax"> *</span><span class="function-syntax">NopInstruction::new</span><span class="plain-syntax">(</span><span class="identifier-syntax">inter_bookmark</span><span class="plain-syntax"> *</span><span class="identifier-syntax">IBM</span><span class="plain-syntax">, </span><span class="constant-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">level</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_error_location</span><span class="plain-syntax"> *</span><span class="identifier-syntax">eloc</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_tree_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P</span><span class="plain-syntax"> = </span><a href="2-in.html#SP5" class="function-link"><span class="function-syntax">Inode::new_with_0_data_fields</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">IBM</span><span class="plain-syntax">, </span><span class="constant-syntax">NOP_IST</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">eloc</span><span class="plain-syntax">, </span><span class="identifier-syntax">level</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_error_message</span><span class="plain-syntax"> *</span><span class="identifier-syntax">E</span><span class="plain-syntax"> = </span><a href="3-vi.html#SP1" class="function-link"><span class="function-syntax">VerifyingInter::instruction</span></a><span class="plain-syntax">(</span><a href="2-bkm.html#SP6" class="function-link"><span class="function-syntax">InterBookmark::package</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">IBM</span><span class="plain-syntax">), </span><span class="identifier-syntax">P</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_error_message</span><span class="plain-syntax"> *</span><span class="identifier-syntax">E</span><span class="plain-syntax"> = </span><a href="3-vi.html#SP1" class="function-link"><span class="function-syntax">VerifyingInter::instruction</span></a><span class="plain-syntax">(</span><a href="2-bkm.html#SP6" class="function-link"><span class="function-syntax">InterBookmark::package</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">IBM</span><span class="plain-syntax">), </span><span class="identifier-syntax">P</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">E</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">E</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><a href="2-np.html#SP3" class="function-link"><span class="function-syntax">NodePlacement::move_to_moving_bookmark</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">P</span><span class="plain-syntax">, </span><span class="identifier-syntax">IBM</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Writing to textual Inter syntax.</b>The <span class="extract"><span class="extract-syntax">nop</span></span> construct is not expressible in textual Inter, but can be printed out
-all the same, purely so that a stack backtrace will show it.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Writing to textual Inter syntax.</b>  The <code>nop</code> construct is not expressible in textual Inter, but can be printed out
+all the same, purely so that a stack backtrace will show it.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">NopInstruction::write</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">NopInstruction::write</span></span>:<br/><a href="4-tnc.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">inter_construct</span><span class="plain-syntax"> *</span><span class="identifier-syntax">IC</span><span class="plain-syntax">, </span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="reserved-syntax">inter_tree_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">NopInstruction::write</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">NopInstruction::write</span></span>:<br/><a href="4-tnc.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_construct</span><span class="plain-syntax"> *</span><span class="identifier-syntax">IC</span><span class="plain-syntax">, </span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="identifier-syntax">inter_tree_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"nop"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>

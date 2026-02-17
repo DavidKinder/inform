@@ -53,236 +53,225 @@
 
 <ul class="toc"><li><a href="P-wtmd.html#SP1">&#167;1. Prerequisites</a></li><li><a href="P-wtmd.html#SP2">&#167;2. Goals and non-goals</a></li><li><a href="P-wtmd.html#SP5">&#167;5. Lcons</a></li><li><a href="P-wtmd.html#SP6">&#167;6. Cardinals and ordinals</a></li><li><a href="P-wtmd.html#SP7">&#167;7. Stock for noun phrases</a></li><li><a href="P-wtmd.html#SP13">&#167;13. Stock for verb phrases</a></li><li><a href="P-wtmd.html#SP17">&#167;17. Performance in practice</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Prerequisites.</b>The linguistics module is a part of the Inform compiler toolset. It is
-presented as a literate program or "web". Before diving in:
-</p>
-
-<ul class="items"><li>(a) It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.
-</li><li>(b) The module is written in C, in fact ANSI C99, but this is disguised by the
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Prerequisites.</b>  The linguistics module is a part of the Inform compiler toolset. It is
+presented as a literate program or &quot;web&quot;. Before diving in:
+(a) It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.
+(b) The module is written in C, in fact ANSI C99, but this is disguised by the
 fact that it uses some extension syntaxes provided by the <a href="../inweb/index.html" class="internal">inweb</a> literate
 programming tool, making it a dialect of C called InC. See <a href="../inweb/index.html" class="internal">inweb</a> for
 full details, but essentially: it's C without predeclarations or header files,
-and where functions have names like <span class="extract"><span class="extract-syntax">Tags::add_by_name</span></span> rather than <span class="extract"><span class="extract-syntax">add_by_name</span></span>.
-</li><li>(c) This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
+and where functions have names like <code>Tags::add_by_name</code> rather than <code>add_by_name</code>.
+(c) This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
 uses a module of utility functions called <a href="../foundation/index.html" class="internal">foundation</a>.
-For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.
-</li></ul>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Goals and non-goals.</b>The linguistics module aims to provide Preform grammar capable to taking a
-verb phrase of natural language and parsing it into a "diagram" somewhat like
-the ones students draw in school grammar classes. For example,
-</p>
+For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.</p>
+</div>
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Goals and non-goals.</b> </p>
 
 <blockquote>
     <p>most of the heavy bricks have been on top of the wall</p>
 </blockquote>
 
-<p class="commentary">becomes a "diagram" &mdash; a fragment of the tree provided by the <a href="../syntax-module/index.html" class="internal">syntax</a>
-module &mdash; showing the linguistic structure of the sentence.
-</p>
-
-<p class="commentary">This work is done by the nonterminal &lt;sentence&gt; &mdash; see <a href="4-vp.html" class="internal">Verb Phrases</a>.
+<div class="lsmarkdown">
+<p>The linguistics module aims to provide Preform grammar capable to taking a
+verb phrase of natural language and parsing it into a &quot;diagram&quot; somewhat like
+the ones students draw in school grammar classes. For example,</p>
+</div>
+<div class="lsmarkdown">
+<p>becomes a &quot;diagram&quot; -- a fragment of the tree provided by the <a href="../syntax-module/index.html" class="internal">syntax</a>
+module -- showing the linguistic structure of the sentence.</p>
+<p>This work is done by the nonterminal &lt;sentence&gt; -- see <a href="4-vp.html" class="internal">Verb Phrases</a>.
 Many examples of sentence diagrams can be seen in <a href="P-asd.html" class="internal">About Sentence Diagrams</a>;
-read that first.
-</p>
-
-<p class="commentary">To be in a position to parse like this, the module needs a way to accumulate
+read that first.</p>
+<p>To be in a position to parse like this, the module needs a way to accumulate
 knowledge about the possible nouns, verbs, adjectives, prepositions and so on
 which might appear in such sentences. Where sensible, a design goal here is
 for each of these grammatical categories to correspond closely to an object
-class of the same name &mdash; that is, <a href="2-nns.html#SP3" class="internal">noun</a>, <a href="3-vrb.html#SP1" class="internal">verb</a>, <a href="2-adj.html#SP1" class="internal">adjective</a> and so on.
-For example, "brick" and "wall" correspond to two different instances of <a href="2-nns.html#SP3" class="internal">noun</a>,
-and "to be" to <a href="3-vrb.html#SP1" class="internal">verb</a>. The instances of these grammatical classes, taken
-together, form what is called the "stock".
-</p>
-
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>To be clear, though:
-</p>
-
-<ul class="items"><li>(a) The stock is a range of possibilities and not a tally of what actually
+class of the same name -- that is, <a href="2-nns.html#SP3" class="internal">noun</a>, <a href="3-vrb.html#SP1" class="internal">verb</a>, <a href="2-adj.html#SP1" class="internal">adjective</a> and so on.
+For example, &quot;brick&quot; and &quot;wall&quot; correspond to two different instances of <a href="2-nns.html#SP3" class="internal">noun</a>,
+and &quot;to be&quot; to <a href="3-vrb.html#SP1" class="internal">verb</a>. The instances of these grammatical classes, taken
+together, form what is called the &quot;stock&quot;.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  To be clear, though:
+(a) The stock is a range of possibilities and not a tally of what actually
 appears in any given source text being looked at. When Inform compiles a
-source text, it may perhaps mention "brick" many times, but the stock would
-still just contain one <a href="2-nns.html#SP3" class="internal">noun</a> object for "brick"; equally, the text being
-compiled might not contain the verb "to provide", even though the stock has it.
-</li><li>(b) For the most part, it is for the user of this module to create an
+source text, it may perhaps mention &quot;brick&quot; many times, but the stock would
+still just contain one <a href="2-nns.html#SP3" class="internal">noun</a> object for &quot;brick&quot;; equally, the text being
+compiled might not contain the verb &quot;to provide&quot;, even though the stock has it.
+(b) For the most part, it is for the user of this module to create an
 appropriate stock. This will never be so large as to meaningfully define the
 entire English (or any other) language; it's likely to focus on some narrow
 subject area. The stock does not have to be created all at once: it can fill
-out over time.<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>
-</li><li>(c) For the most part, it is up to the user to give meanings to terms in the
+out over time.<sup id="fnred:1"><a href="#fn:1" rel="footnote">1</a></sup>
+(c) For the most part, it is up to the user to give meanings to terms in the
 stock, and the linguistics module tries to impose as few constraints as possible
-about those meanings.<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup>
-</li><li>(d) Only "for the most part", because certain "fixed" grammatical categories
-are an exception &mdash; for example, articles, or cardinal and ordinal
+about those meanings.<sup id="fnred:2"><a href="#fn:2" rel="footnote">2</a></sup>
+(d) Only &quot;for the most part&quot;, because certain &quot;fixed&quot; grammatical categories
+are an exception -- for example, articles, or cardinal and ordinal
 numbers, or determiners. In these categories, the linguistics module provides
 the stock and the user cannot change or add to it; and the linguistics
-module provides the meanings, too, which the user can read but cannot change.<sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup>
-</li></ul>
-<ul class="footnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> When Inform reads "A brick is a kind of thing. Two bricks are here.",
+module provides the meanings, too, which the user can read but cannot change.<sup id="fnred:3"><a href="#fn:3" rel="footnote">3</a></sup></p>
+<ul class="inwebfootnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>
+When Inform reads &quot;A brick is a kind of thing. Two bricks are here.&quot;,
 for example, the first sentence causes it to create the <a href="2-nns.html#SP3" class="internal">noun</a> for brick,
-so that the second sentence is read with a stock which is one term larger.
-<a href="#fnref:1" title="return to text"> &#x21A9;</a></p></li><li class="footnote" id="fn:2"><p class="inwebfootnote"><sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup> Verbs are a partial exception in that we need to make some minimal
-assumptions about how verb meanings will work &mdash; this is abstracted out in
+so that the second sentence is read with a stock which is one term larger.<a href="#fnref:1" title="return to text"> &#x21A9;</a></p>
+</li>
+<li class="footnote" id="fn:2"><p class="inwebfootnote"><sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup>
+Verbs are a partial exception in that we need to make some minimal
+assumptions about how verb meanings will work -- this is abstracted out in
 the section <a href="3-vm.html" class="internal">Verb Meanings</a>. Even there, though, the user will have to find
-her own way to define what verbs actually mean.
-<a href="#fnref:2" title="return to text"> &#x21A9;</a></p></li><li class="footnote" id="fn:3"><p class="inwebfootnote"><sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup> For example, the determiner "all of" has a fixed meaning defined here
-as the <a href="2-daq.html#SP2" class="internal">quantifier</a> object <span class="extract"><span class="extract-syntax">for_all_quantifier</span></span>; and the cardinal "six"
-always means 6.
-<a href="#fnref:3" title="return to text"> &#x21A9;</a></p></li></ul>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>This module is designed to work closely with the <a href="../inflections-module/index.html" class="internal">inflections</a> module,
+her own way to define what verbs actually mean.<a href="#fnref:2" title="return to text"> &#x21A9;</a></p>
+</li>
+<li class="footnote" id="fn:3"><p class="inwebfootnote"><sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup>
+For example, the determiner &quot;all of&quot; has a fixed meaning defined here
+as the <a href="2-daq.html#SP2" class="internal">quantifier</a> object <code>for_all_quantifier</code>; and the cardinal &quot;six&quot;
+always means 6.<a href="#fnref:3" title="return to text"> &#x21A9;</a></p>
+</li></ul>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  This module is designed to work closely with the <a href="../inflections-module/index.html" class="internal">inflections</a> module,
 and the demarcation line between the two is that <a href="../inflections-module/index.html" class="internal">inflections</a> knows nothing
 about the meaning or usage of words, while <a href="index.html" class="internal">linguistics</a> is largely free
-to ignore the complications brought in by inflected forms of words.
-</p>
-
-<p class="commentary">For example, a single <a href="3-vrb.html#SP1" class="internal">verb</a> object represents "to carry", even though it
-has many different expressions in words &mdash; "has not carried", "will carry",
-and so on. A single <a href="2-nns.html#SP3" class="internal">noun</a> representing "brick" would include its plural
-"bricks" and indeed its declension into other cases, in a language which has
+to ignore the complications brought in by inflected forms of words.</p>
+<p>For example, a single <a href="3-vrb.html#SP1" class="internal">verb</a> object represents &quot;to carry&quot;, even though it
+has many different expressions in words -- &quot;has not carried&quot;, &quot;will carry&quot;,
+and so on. A single <a href="2-nns.html#SP3" class="internal">noun</a> representing &quot;brick&quot; would include its plural
+&quot;bricks&quot; and indeed its declension into other cases, in a language which has
 noun cases. Our goal here is that the stock should never contain two different
-instances which merely represent inflected forms of the same thing.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Lcons.</b>An "lcon" is a reference to something in the linguistic stock, together with
+instances which merely represent inflected forms of the same thing.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Lcons.</b>  An &quot;lcon&quot; is a reference to something in the linguistic stock, together with
 annotations for the grammatical form used on a particular occasion. For
-example, an lcon can mean "the indefinite article, in the third person
-plural feminine form", where the stock item is just the indefinite article.
+example, an lcon can mean &quot;the indefinite article, in the third person
+plural feminine form&quot;, where the stock item is just the indefinite article.
 Lcons are packed into single integers for efficiency: no memory needs to be
-allocated to create lcons, and they copy with value semantics.
-</p>
-
-<p class="commentary">Thus the stock is not just a figure of speech, it's actually a data structure:
-see <a href="1-sc.html" class="internal">Stock Control</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Cardinals and ordinals.</b>This module does not aspire to parse the full range of literals understood
+allocated to create lcons, and they copy with value semantics.</p>
+<p>Thus the stock is not just a figure of speech, it's actually a data structure:
+see <a href="1-sc.html" class="internal">Stock Control</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Cardinals and ordinals.</b>  This module does not aspire to parse the full range of literals understood
 by, for example, Inform. But it does provide &lt;cardinal-number&gt; and
 &lt;ordinal-number&gt; nonterminals, which can recognise low numbers in words
-or arbitrary numbers in digits. See <a href="1-cao.html" class="internal">Cardinals and Ordinals</a>.
-</p>
-
-<p class="commentary">Note that these are not part of the stock. It wouldn't really make sense
+or arbitrary numbers in digits. See <a href="1-cao.html" class="internal">Cardinals and Ordinals</a>.</p>
+<p>Note that these are not part of the stock. It wouldn't really make sense
 for them to be so: we would need a potentially infinite number of them to
-accommodate the possible range of integers which appear.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Stock for noun phrases.</b>For convenience we will run through the stock in two sets: those grammatical
+accommodate the possible range of integers which appear.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Stock for noun phrases.</b>  For convenience we will run through the stock in two sets: those grammatical
 categories used in noun phrases, and provided by <a href="2-adj.html" class="internal">Chapter 2: NP Categories</a>; and those
-used in verb phrases, <a href="3-vrb.html" class="internal">Chapter 3: VP Categories</a>. In alphabetical order:
-</p>
-
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>Each adjective in the stock is an instance of <a href="2-adj.html#SP1" class="internal">adjective</a>. All senses of
-the same adjectival word &mdash; "empty", say &mdash; are represented by the same
+used in verb phrases, <a href="3-vrb.html" class="internal">Chapter 3: VP Categories</a>. In alphabetical order:</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>  Each adjective in the stock is an instance of <a href="2-adj.html#SP1" class="internal">adjective</a>. All senses of
+the same adjectival word -- &quot;empty&quot;, say -- are represented by the same
 <a href="2-adj.html#SP1" class="internal">adjective</a>: it's for the user to manage multiple meanings, and to deduce
-which one applies from the context.<sup id="fnref:4"><a href="#fn:4" rel="footnote">4</a></sup>
-</p>
-
-<p class="commentary">The user creates the stock of adjectives by calling <a href="2-adj.html#SP3" class="internal">Adjectives::declare</a>.
-</p>
-
-<ul class="footnotetexts"><li class="footnote" id="fn:4"><p class="inwebfootnote"><sup id="fnref:4"><a href="#fn:4" rel="footnote">4</a></sup> In Inform, for example, empty means something different for rulebooks
+which one applies from the context.<sup id="fnred:4"><a href="#fn:4" rel="footnote">1</a></sup></p>
+<p>The user creates the stock of adjectives by calling <a href="2-adj.html#SP3" class="internal">Adjectives::declare</a>.</p>
+<li class="footnote" id="fn:4"><p class="inwebfootnote"><sup id="fnref:4"><a href="#fn:4" rel="footnote">4</a></sup>
+In Inform, for example, empty means something different for rulebooks
 than for containers. An adjective is a unary predicate applying to something,
 and the kind of that thing can be used to decide which meaning applies. See
-<a href="../assertions-module/8-am.html" class="internal">Adjective Meanings (in assertions)</a> for how Inform does this.
-<a href="#fnref:4" title="return to text"> &#x21A9;</a></p></li></ul>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>Each article in the stock is an instance of <a href="2-adj.html#SP1" class="internal">adjective</a>. The stock is fixed
+<a href="../assertions-module/8-am.html" class="internal">Adjective Meanings (in assertions)</a> for how Inform does this.<a href="#fnref:4" title="return to text"> &#x21A9;</a></p>
+</li></ul>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>  Each article in the stock is an instance of <a href="2-adj.html#SP1" class="internal">adjective</a>. The stock is fixed
 at two, both automatically created: the definite and the indefinite article.
-See <a href="2-art.html" class="internal">Articles</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b>The determiners are a fixed stock of roughly 20, each being an instance of
-the class <a href="2-daq.html#SP4" class="internal">determiner</a>. Properly speaking some are families of determiners &mdash;
-"all but three" and "all but six" are the same <a href="2-daq.html#SP4" class="internal">determiner</a> but with a
-different numerical parameter. But others, like "most of", have fixed wording.
-The meaning of each determiner is a logical <a href="2-daq.html#SP2" class="internal">quantifier</a>.<sup id="fnref:5"><a href="#fn:5" rel="footnote">5</a></sup>
-See <a href="2-daq.html" class="internal">Determiners and Quantifiers</a>.
-</p>
-
-<ul class="footnotetexts"><li class="footnote" id="fn:5"><p class="inwebfootnote"><sup id="fnref:5"><a href="#fn:5" rel="footnote">5</a></sup> Inform makes heavy use of these quantifiers when representing the meaning
-of sentences in predicate calculus, but that's beyond the scope of this module.
-<a href="#fnref:5" title="return to text"> &#x21A9;</a></p></li></ul>
-<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. </b>Each noun in the stock is an instance of <a href="2-nns.html#SP3" class="internal">noun</a>. Unlike with <a href="2-adj.html#SP1" class="internal">adjective</a>,
+See <a href="2-art.html" class="internal">Articles</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b>  The determiners are a fixed stock of roughly 20, each being an instance of
+the class <a href="2-daq.html#SP4" class="internal">determiner</a>. Properly speaking some are families of determiners --
+&quot;all but three&quot; and &quot;all but six&quot; are the same <a href="2-daq.html#SP4" class="internal">determiner</a> but with a
+different numerical parameter. But others, like &quot;most of&quot;, have fixed wording.
+The meaning of each determiner is a logical <a href="2-daq.html#SP2" class="internal">quantifier</a>.<sup id="fnred:5"><a href="#fn:5" rel="footnote">1</a></sup>
+See <a href="2-daq.html" class="internal">Determiners and Quantifiers</a>.</p>
+<li class="footnote" id="fn:5"><p class="inwebfootnote"><sup id="fnref:5"><a href="#fn:5" rel="footnote">5</a></sup>
+Inform makes heavy use of these quantifiers when representing the meaning
+of sentences in predicate calculus, but that's beyond the scope of this module.<a href="#fnref:5" title="return to text"> &#x21A9;</a></p>
+</li></ul>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. </b>  Each noun in the stock is an instance of <a href="2-nns.html#SP3" class="internal">noun</a>. Unlike with <a href="2-adj.html#SP1" class="internal">adjective</a>,
 when the same noun word has multiple meanings, it gets multiple <a href="2-nns.html#SP3" class="internal">noun</a> objects,
-one for each meaning.<sup id="fnref:6"><a href="#fn:6" rel="footnote">6</a></sup> Nouns divide into two subclasses: common nouns, such
-as "monument", and proper nouns, such as "Statue of Liberty".<sup id="fnref:7"><a href="#fn:7" rel="footnote">7</a></sup>
-</p>
-
-<p class="commentary">The user creates the stock of adjectives by calling <a href="2-nns.html#SP7" class="internal">Nouns::new_proper_noun</a>
-or <a href="2-nns.html#SP7" class="internal">Nouns::new_common_noun</a>.
-</p>
-
-<ul class="footnotetexts"><li class="footnote" id="fn:6"><p class="inwebfootnote"><sup id="fnref:6"><a href="#fn:6" rel="footnote">6</a></sup> Because nouns unlike adjectives are not predicates, and therefore are not
+one for each meaning.<sup id="fnred:6"><a href="#fn:6" rel="footnote">1</a></sup> Nouns divide into two subclasses: common nouns, such
+as &quot;monument&quot;, and proper nouns, such as &quot;Statue of Liberty&quot;.<sup id="fnred:7"><a href="#fn:7" rel="footnote">2</a></sup></p>
+<p>The user creates the stock of adjectives by calling <a href="2-nns.html#SP7" class="internal">Nouns::new_proper_noun</a>
+or <a href="2-nns.html#SP7" class="internal">Nouns::new_common_noun</a>.</p>
+<li class="footnote" id="fn:6"><p class="inwebfootnote"><sup id="fnref:6"><a href="#fn:6" rel="footnote">6</a></sup>
+Because nouns unlike adjectives are not predicates, and therefore are not
 always dependent on some other word which will establish which meaning is
-intended. Our best option is instead to parse in some context-sensitive way.
-<a href="#fnref:6" title="return to text"> &#x21A9;</a></p></li><li class="footnote" id="fn:7"><p class="inwebfootnote"><sup id="fnref:7"><a href="#fn:7" rel="footnote">7</a></sup> Inform source text contains more proper nouns than a grammarian would guess.
-The sentence "Mary is carrying a kite" will result in two proper nouns being
-added to the stock, "Mary" and "kite", unless "kite" is already known as a
-common noun. This is because "the kite", from then on, will be understood
-as referring to this one specific object, just as "Mary" will.
-<a href="#fnref:7" title="return to text"> &#x21A9;</a></p></li></ul>
-<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. </b>Each pronoun in the stock is an instance of <a href="2-prn.html#SP1" class="internal">pronoun</a>. The stock is fixed
+intended. Our best option is instead to parse in some context-sensitive way.<a href="#fnref:6" title="return to text"> &#x21A9;</a></p>
+</li>
+<li class="footnote" id="fn:7"><p class="inwebfootnote"><sup id="fnref:7"><a href="#fn:7" rel="footnote">7</a></sup>
+Inform source text contains more proper nouns than a grammarian would guess.
+The sentence &quot;Mary is carrying a kite&quot; will result in two proper nouns being
+added to the stock, &quot;Mary&quot; and &quot;kite&quot;, unless &quot;kite&quot; is already known as a
+common noun. This is because &quot;the kite&quot;, from then on, will be understood
+as referring to this one specific object, just as &quot;Mary&quot; will.<a href="#fnref:7" title="return to text"> &#x21A9;</a></p>
+</li></ul>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. </b>  Each pronoun in the stock is an instance of <a href="2-prn.html#SP1" class="internal">pronoun</a>. The stock is fixed
 at three, all automatically created: the subject (he, she), object (him, her)
-and possessive (his, her) pronouns. See <a href="2-prn.html" class="internal">Pronouns</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. Stock for verb phrases.</b>Adverb phrases of occurrence refers to wording such as "for the sixth time".
+and possessive (his, her) pronouns. See <a href="2-prn.html" class="internal">Pronouns</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. Stock for verb phrases.</b>  Adverb phrases of occurrence refers to wording such as &quot;for the sixth time&quot;.
 The stock of these is fixed, though as with determiners, each is really a
-parametrised family: the two adverb phrases here are the one measuring "times",
-that is, repetitions, and the one measuring "turns", a purely
-interactive-fictional construction useful to Inform. See <a href="3-apoo.html" class="internal">Adverb Phrases of Occurrence</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. </b>Adverbs of certainty are words like "usually" or "always". There is a fixed
-stock of these, at five certainty levels. See <a href="3-aoc.html" class="internal">Adverbs of Certainty</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. </b>Prepositions are phrases like "over" or "on top of". Each is an instance of
-the <a href="3-prp.html#SP1" class="internal">preposition</a> class. See <a href="3-prp.html" class="internal">Prepositions</a>.
-</p>
-
-<p class="commentary">The user creates the stock of prepositions by calling <a href="3-prp.html#SP6" class="internal">Prepositions::make</a>,
+parametrised family: the two adverb phrases here are the one measuring &quot;times&quot;,
+that is, repetitions, and the one measuring &quot;turns&quot;, a purely
+interactive-fictional construction useful to Inform. See <a href="3-apoo.html" class="internal">Adverb Phrases of Occurrence</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. </b>  Adverbs of certainty are words like &quot;usually&quot; or &quot;always&quot;. There is a fixed
+stock of these, at five certainty levels. See <a href="3-aoc.html" class="internal">Adverbs of Certainty</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. </b>  Prepositions are phrases like &quot;over&quot; or &quot;on top of&quot;. Each is an instance of
+the <a href="3-prp.html#SP1" class="internal">preposition</a> class. See <a href="3-prp.html" class="internal">Prepositions</a>.</p>
+<p>The user creates the stock of prepositions by calling <a href="3-prp.html#SP6" class="internal">Prepositions::make</a>,
 but note that this function is also called when verbs are created, in order
-to implement participles like "carrying" as prepositions &mdash; which is not
+to implement participles like &quot;carrying&quot; as prepositions -- which is not
 linguistically ideal, but makes it possible to parse auxiliary uses of
-"to be" efficiently, as in "X is carried by Y".
-</p>
-
-<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. </b>Each verb in the stock is an instance of <a href="3-vrb.html#SP1" class="internal">verb</a>. For example, "to carry"
-or "to be" might be verbs. One verb in the stock is special and is the
-copular verb &mdash; in English, that's "to be". A copular verb is one which has two
-interacting subject phrases rather than a subject and an object.<sup id="fnref:8"><a href="#fn:8" rel="footnote">8</a></sup>
-</p>
-
-<p class="commentary">The user creates the stock of adjectives by calling <a href="3-vrb.html#SP3" class="internal">Verbs::new_verb</a> or
+&quot;to be&quot; efficiently, as in &quot;X is carried by Y&quot;.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. </b>  Each verb in the stock is an instance of <a href="3-vrb.html#SP1" class="internal">verb</a>. For example, &quot;to carry&quot;
+or &quot;to be&quot; might be verbs. One verb in the stock is special and is the
+copular verb -- in English, that's &quot;to be&quot;. A copular verb is one which has two
+interacting subject phrases rather than a subject and an object.<sup id="fnred:8"><a href="#fn:8" rel="footnote">1</a></sup></p>
+<p>The user creates the stock of adjectives by calling <a href="3-vrb.html#SP3" class="internal">Verbs::new_verb</a> or
 <a href="3-vrb.html#SP5" class="internal">Verbs::new_operator_verb</a>. (Operator verbs are mathematical operators
-such as <span class="extract"><span class="extract-syntax">&lt;=</span></span>, which can be added to the stock as if they were regular verbs,
-but which do not conjugate or have tenses.)
-</p>
-
-<p class="commentary">Each verb has a list of <a href="3-vrb.html#SP8" class="internal">verb_form</a> objects, one for each "form" it takes.
+such as <code>&lt;=</code>, which can be added to the stock as if they were regular verbs,
+but which do not conjugate or have tenses.)</p>
+<p>Each verb has a list of <a href="3-vrb.html#SP8" class="internal">verb_form</a> objects, one for each &quot;form&quot; it takes.
 A form in this sense is a combination of a verb with prepositions; meanings
 correspond to verb forms, not verbs alone. For example, the verb in the
-sentences "Peter is hungry" and "Jane will be in the Dining Room" is in
-each case "to be", but the forms are different: one is "to be" alone, the
-other "to be" plus the preposition "in", which changes the meaning.
-</p>
-
-<p class="commentary">The user, then, creates <a href="3-vrb.html#SP1" class="internal">verb</a> objects and gives them //verb_form//s,
+sentences &quot;Peter is hungry&quot; and &quot;Jane will be in the Dining Room&quot; is in
+each case &quot;to be&quot;, but the forms are different: one is &quot;to be&quot; alone, the
+other &quot;to be&quot; plus the preposition &quot;in&quot;, which changes the meaning.</p>
+<p>The user, then, creates <a href="3-vrb.html#SP1" class="internal">verb</a> objects and gives them <a href="3-vrb.html#SP8" class="internal">verb_form</a>s,
 attaching meanings to each form via the mechanisms in <a href="3-vm.html" class="internal">Verb Meanings</a>
 (which wrap those meanings in <a href="3-vm.html#SP3" class="internal">verb_meaning</a> objects). The linguistics
 module then has to provide an efficient way to parse text to find uses
 of these verbs, and it does so by constructing intermediate objects.
-See <a href="3-vu.html" class="internal">Verb Usages</a>.
-</p>
-
-<ul class="footnotetexts"><li class="footnote" id="fn:8"><p class="inwebfootnote"><sup id="fnref:8"><a href="#fn:8" rel="footnote">8</a></sup> Compare "Peter carries a ball", where Peter and the ball have very
+See <a href="3-vu.html" class="internal">Verb Usages</a>.</p>
+<li class="footnote" id="fn:8"><p class="inwebfootnote"><sup id="fnref:8"><a href="#fn:8" rel="footnote">8</a></sup>
+Compare &quot;Peter carries a ball&quot;, where Peter and the ball have very
 asymmetric roles because the action is done by Peter but to the ball, and
-"Peter is the mayor", where two nouns are equated in a symmetrical sort of way.
-<a href="#fnref:8" title="return to text"> &#x21A9;</a></p></li></ul>
-<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. Performance in practice.</b>The following tabulates the linguistic stock accumulated by a typical Inform 7
+&quot;Peter is the mayor&quot;, where two nouns are equated in a symmetrical sort of way.<a href="#fnref:8" title="return to text"> &#x21A9;</a></p>
+</li></ul>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. Performance in practice.</b>  The following tabulates the linguistic stock accumulated by a typical Inform 7
 compilation (the same one used to generate the data in <a href="../inform7/M-pm.html" class="internal">Performance Metrics (in inform7)</a>).
-Within each category, items are listed in order of creation.
-</p>
-
+Within each category, items are listed in order of creation.</p>
+</div>
 <pre class="undisplayed-code all-displayed-code code-font">
 <span class="identifier-syntax">adjective:</span><span class="plain-syntax"> </span><span class="constant-syntax">148</span><span class="plain-syntax"> </span><span class="identifier-syntax">items</span>
 <span class="identifier-syntax">article:</span><span class="plain-syntax"> </span><span class="constant-syntax">2</span><span class="plain-syntax"> </span><span class="identifier-syntax">items</span>
@@ -1338,8 +1327,8 @@ Within each category, items are listed in order of creation.
 <span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">turn</span><span class="plain-syntax"> </span><span class="identifier-syntax">count</span><span class="character-syntax">'</span>
 <span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">time</span><span class="plain-syntax"> </span><span class="identifier-syntax">of</span><span class="plain-syntax"> </span><span class="identifier-syntax">day</span><span class="character-syntax">'</span>
 <span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">darkness</span><span class="plain-syntax"> </span><span class="identifier-syntax">witnessed</span><span class="character-syntax">'</span>
-<span class="character-syntax">noun: proper: '</span><span class="reserved-syntax">noun</span><span class="character-syntax">'</span>
-<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">second</span><span class="plain-syntax"> </span><span class="reserved-syntax">noun</span><span class="character-syntax">'</span>
+<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">noun</span><span class="character-syntax">'</span>
+<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">second</span><span class="plain-syntax"> </span><span class="identifier-syntax">noun</span><span class="character-syntax">'</span>
 <span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">person</span><span class="plain-syntax"> </span><span class="identifier-syntax">asked</span><span class="character-syntax">'</span>
 <span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">reason</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">action</span><span class="plain-syntax"> </span><span class="identifier-syntax">failed</span><span class="character-syntax">'</span>
 <span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">item</span><span class="plain-syntax"> </span><span class="identifier-syntax">described</span><span class="character-syntax">'</span>
@@ -1498,14 +1487,14 @@ Within each category, items are listed in order of creation.
 <span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">can</span><span class="plain-syntax"> </span><span class="identifier-syntax">only</span><span class="plain-syntax"> </span><span class="identifier-syntax">use</span><span class="plain-syntax"> </span><span class="identifier-syntax">multiple</span><span class="plain-syntax"> </span><span class="identifier-syntax">objects</span><span class="plain-syntax"> </span><span class="identifier-syntax">error</span><span class="character-syntax">'</span>
 <span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">not</span><span class="plain-syntax"> </span><span class="identifier-syntax">sure</span><span class="plain-syntax"> </span><span class="identifier-syntax">what</span><span class="plain-syntax"> </span><span class="identifier-syntax">it</span><span class="plain-syntax"> </span><span class="identifier-syntax">refers</span><span class="plain-syntax"> </span><span class="identifier-syntax">to</span><span class="plain-syntax"> </span><span class="identifier-syntax">error</span><span class="character-syntax">'</span>
 <span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">excepted</span><span class="plain-syntax"> </span><span class="identifier-syntax">something</span><span class="plain-syntax"> </span><span class="identifier-syntax">not</span><span class="plain-syntax"> </span><span class="identifier-syntax">included</span><span class="plain-syntax"> </span><span class="identifier-syntax">error</span><span class="character-syntax">'</span>
-<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">not</span><span class="plain-syntax"> </span><span class="identifier-syntax">a</span><span class="plain-syntax"> </span><span class="reserved-syntax">verb</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax"> </span><span class="identifier-syntax">recognise</span><span class="plain-syntax"> </span><span class="identifier-syntax">error</span><span class="character-syntax">'</span>
+<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">not</span><span class="plain-syntax"> </span><span class="identifier-syntax">a</span><span class="plain-syntax"> </span><span class="identifier-syntax">verb</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax"> </span><span class="identifier-syntax">recognise</span><span class="plain-syntax"> </span><span class="identifier-syntax">error</span><span class="character-syntax">'</span>
 <span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">not</span><span class="plain-syntax"> </span><span class="identifier-syntax">something</span><span class="plain-syntax"> </span><span class="identifier-syntax">you</span><span class="plain-syntax"> </span><span class="identifier-syntax">need</span><span class="plain-syntax"> </span><span class="identifier-syntax">to</span><span class="plain-syntax"> </span><span class="identifier-syntax">refer</span><span class="plain-syntax"> </span><span class="identifier-syntax">to</span><span class="plain-syntax"> </span><span class="identifier-syntax">error</span><span class="character-syntax">'</span>
 <span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">can</span><span class="character-syntax">'t see it at the moment error'</span>
 <span class="identifier-syntax">noun:</span><span class="plain-syntax"> </span><span class="identifier-syntax">proper:</span><span class="plain-syntax"> </span><span class="character-syntax">'didn'</span><span class="identifier-syntax">t</span><span class="plain-syntax"> </span><span class="identifier-syntax">understand</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">way</span><span class="plain-syntax"> </span><span class="identifier-syntax">that</span><span class="plain-syntax"> </span><span class="identifier-syntax">finished</span><span class="plain-syntax"> </span><span class="identifier-syntax">error</span><span class="character-syntax">'</span>
 <span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">not</span><span class="plain-syntax"> </span><span class="identifier-syntax">enough</span><span class="plain-syntax"> </span><span class="identifier-syntax">of</span><span class="plain-syntax"> </span><span class="identifier-syntax">those</span><span class="plain-syntax"> </span><span class="identifier-syntax">available</span><span class="plain-syntax"> </span><span class="identifier-syntax">error</span><span class="character-syntax">'</span>
 <span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">nothing</span><span class="plain-syntax"> </span><span class="identifier-syntax">to</span><span class="plain-syntax"> </span><span class="reserved-syntax">do</span><span class="plain-syntax"> </span><span class="identifier-syntax">error</span><span class="character-syntax">'</span>
 <span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">referred</span><span class="plain-syntax"> </span><span class="identifier-syntax">to</span><span class="plain-syntax"> </span><span class="identifier-syntax">a</span><span class="plain-syntax"> </span><span class="identifier-syntax">determination</span><span class="plain-syntax"> </span><span class="identifier-syntax">of</span><span class="plain-syntax"> </span><span class="identifier-syntax">scope</span><span class="plain-syntax"> </span><span class="identifier-syntax">error</span><span class="character-syntax">'</span>
-<span class="character-syntax">noun: proper: '</span><span class="reserved-syntax">noun</span><span class="plain-syntax"> </span><span class="identifier-syntax">did</span><span class="plain-syntax"> </span><span class="identifier-syntax">not</span><span class="plain-syntax"> </span><span class="identifier-syntax">make</span><span class="plain-syntax"> </span><span class="identifier-syntax">sense</span><span class="plain-syntax"> </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">that</span><span class="plain-syntax"> </span><span class="identifier-syntax">context</span><span class="plain-syntax"> </span><span class="identifier-syntax">error</span><span class="character-syntax">'</span>
+<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">noun</span><span class="plain-syntax"> </span><span class="identifier-syntax">did</span><span class="plain-syntax"> </span><span class="identifier-syntax">not</span><span class="plain-syntax"> </span><span class="identifier-syntax">make</span><span class="plain-syntax"> </span><span class="identifier-syntax">sense</span><span class="plain-syntax"> </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">that</span><span class="plain-syntax"> </span><span class="identifier-syntax">context</span><span class="plain-syntax"> </span><span class="identifier-syntax">error</span><span class="character-syntax">'</span>
 <span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">i</span><span class="plain-syntax"> </span><span class="identifier-syntax">beg</span><span class="plain-syntax"> </span><span class="identifier-syntax">your</span><span class="plain-syntax"> </span><span class="identifier-syntax">pardon</span><span class="plain-syntax"> </span><span class="identifier-syntax">error</span><span class="character-syntax">'</span>
 <span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">can</span><span class="character-syntax">'t again the addressee error'</span>
 <span class="identifier-syntax">noun:</span><span class="plain-syntax"> </span><span class="identifier-syntax">proper:</span><span class="plain-syntax"> </span><span class="character-syntax">'comma can'</span><span class="identifier-syntax">t</span><span class="plain-syntax"> </span><span class="identifier-syntax">begin</span><span class="plain-syntax"> </span><span class="identifier-syntax">error</span><span class="character-syntax">'</span>
@@ -2655,18 +2644,18 @@ Within each category, items are listed in order of creation.
 <span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">report</span><span class="plain-syntax"> </span><span class="identifier-syntax">switching</span><span class="plain-syntax"> </span><span class="identifier-syntax">score</span><span class="plain-syntax"> </span><span class="identifier-syntax">notification</span><span class="plain-syntax"> </span><span class="identifier-syntax">off</span><span class="plain-syntax"> </span><span class="identifier-syntax">rulebook</span><span class="character-syntax">'</span>
 <span class="character-syntax">noun: proper: '</span><span class="reserved-syntax">switch</span><span class="plain-syntax"> </span><span class="identifier-syntax">score</span><span class="plain-syntax"> </span><span class="identifier-syntax">notification</span><span class="plain-syntax"> </span><span class="identifier-syntax">off</span><span class="plain-syntax"> </span><span class="identifier-syntax">rule</span><span class="character-syntax">'</span>
 <span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">standard</span><span class="plain-syntax"> </span><span class="identifier-syntax">report</span><span class="plain-syntax"> </span><span class="identifier-syntax">switching</span><span class="plain-syntax"> </span><span class="identifier-syntax">score</span><span class="plain-syntax"> </span><span class="identifier-syntax">notification</span><span class="plain-syntax"> </span><span class="identifier-syntax">off</span><span class="plain-syntax"> </span><span class="identifier-syntax">rule</span><span class="character-syntax">'</span>
-<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">requesting</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="reserved-syntax">pronoun</span><span class="plain-syntax"> </span><span class="identifier-syntax">meanings</span><span class="plain-syntax"> </span><span class="identifier-syntax">action</span><span class="character-syntax">'</span>
-<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">check</span><span class="plain-syntax"> </span><span class="identifier-syntax">requesting</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="reserved-syntax">pronoun</span><span class="plain-syntax"> </span><span class="identifier-syntax">meanings</span><span class="character-syntax">'</span>
-<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">check</span><span class="plain-syntax"> </span><span class="identifier-syntax">requesting</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="reserved-syntax">pronoun</span><span class="plain-syntax"> </span><span class="identifier-syntax">meanings</span><span class="plain-syntax"> </span><span class="identifier-syntax">rules</span><span class="character-syntax">'</span>
-<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">check</span><span class="plain-syntax"> </span><span class="identifier-syntax">requesting</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="reserved-syntax">pronoun</span><span class="plain-syntax"> </span><span class="identifier-syntax">meanings</span><span class="plain-syntax"> </span><span class="identifier-syntax">rulebook</span><span class="character-syntax">'</span>
-<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">carry</span><span class="plain-syntax"> </span><span class="identifier-syntax">out</span><span class="plain-syntax"> </span><span class="identifier-syntax">requesting</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="reserved-syntax">pronoun</span><span class="plain-syntax"> </span><span class="identifier-syntax">meanings</span><span class="character-syntax">'</span>
-<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">carry</span><span class="plain-syntax"> </span><span class="identifier-syntax">out</span><span class="plain-syntax"> </span><span class="identifier-syntax">requesting</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="reserved-syntax">pronoun</span><span class="plain-syntax"> </span><span class="identifier-syntax">meanings</span><span class="plain-syntax"> </span><span class="identifier-syntax">rules</span><span class="character-syntax">'</span>
-<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">carry</span><span class="plain-syntax"> </span><span class="identifier-syntax">out</span><span class="plain-syntax"> </span><span class="identifier-syntax">requesting</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="reserved-syntax">pronoun</span><span class="plain-syntax"> </span><span class="identifier-syntax">meanings</span><span class="plain-syntax"> </span><span class="identifier-syntax">rulebook</span><span class="character-syntax">'</span>
-<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">report</span><span class="plain-syntax"> </span><span class="identifier-syntax">requesting</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="reserved-syntax">pronoun</span><span class="plain-syntax"> </span><span class="identifier-syntax">meanings</span><span class="character-syntax">'</span>
-<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">report</span><span class="plain-syntax"> </span><span class="identifier-syntax">requesting</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="reserved-syntax">pronoun</span><span class="plain-syntax"> </span><span class="identifier-syntax">meanings</span><span class="plain-syntax"> </span><span class="identifier-syntax">rules</span><span class="character-syntax">'</span>
-<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">report</span><span class="plain-syntax"> </span><span class="identifier-syntax">requesting</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="reserved-syntax">pronoun</span><span class="plain-syntax"> </span><span class="identifier-syntax">meanings</span><span class="plain-syntax"> </span><span class="identifier-syntax">rulebook</span><span class="character-syntax">'</span>
-<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">announce</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="reserved-syntax">pronoun</span><span class="plain-syntax"> </span><span class="identifier-syntax">meanings</span><span class="plain-syntax"> </span><span class="identifier-syntax">rule</span><span class="character-syntax">'</span>
-<span class="character-syntax">noun: proper: '</span><span class="reserved-syntax">pronoun</span><span class="plain-syntax"> </span><span class="identifier-syntax">reference</span><span class="plain-syntax"> </span><span class="identifier-syntax">object</span><span class="character-syntax">'</span>
+<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">requesting</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">pronoun</span><span class="plain-syntax"> </span><span class="identifier-syntax">meanings</span><span class="plain-syntax"> </span><span class="identifier-syntax">action</span><span class="character-syntax">'</span>
+<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">check</span><span class="plain-syntax"> </span><span class="identifier-syntax">requesting</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">pronoun</span><span class="plain-syntax"> </span><span class="identifier-syntax">meanings</span><span class="character-syntax">'</span>
+<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">check</span><span class="plain-syntax"> </span><span class="identifier-syntax">requesting</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">pronoun</span><span class="plain-syntax"> </span><span class="identifier-syntax">meanings</span><span class="plain-syntax"> </span><span class="identifier-syntax">rules</span><span class="character-syntax">'</span>
+<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">check</span><span class="plain-syntax"> </span><span class="identifier-syntax">requesting</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">pronoun</span><span class="plain-syntax"> </span><span class="identifier-syntax">meanings</span><span class="plain-syntax"> </span><span class="identifier-syntax">rulebook</span><span class="character-syntax">'</span>
+<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">carry</span><span class="plain-syntax"> </span><span class="identifier-syntax">out</span><span class="plain-syntax"> </span><span class="identifier-syntax">requesting</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">pronoun</span><span class="plain-syntax"> </span><span class="identifier-syntax">meanings</span><span class="character-syntax">'</span>
+<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">carry</span><span class="plain-syntax"> </span><span class="identifier-syntax">out</span><span class="plain-syntax"> </span><span class="identifier-syntax">requesting</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">pronoun</span><span class="plain-syntax"> </span><span class="identifier-syntax">meanings</span><span class="plain-syntax"> </span><span class="identifier-syntax">rules</span><span class="character-syntax">'</span>
+<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">carry</span><span class="plain-syntax"> </span><span class="identifier-syntax">out</span><span class="plain-syntax"> </span><span class="identifier-syntax">requesting</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">pronoun</span><span class="plain-syntax"> </span><span class="identifier-syntax">meanings</span><span class="plain-syntax"> </span><span class="identifier-syntax">rulebook</span><span class="character-syntax">'</span>
+<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">report</span><span class="plain-syntax"> </span><span class="identifier-syntax">requesting</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">pronoun</span><span class="plain-syntax"> </span><span class="identifier-syntax">meanings</span><span class="character-syntax">'</span>
+<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">report</span><span class="plain-syntax"> </span><span class="identifier-syntax">requesting</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">pronoun</span><span class="plain-syntax"> </span><span class="identifier-syntax">meanings</span><span class="plain-syntax"> </span><span class="identifier-syntax">rules</span><span class="character-syntax">'</span>
+<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">report</span><span class="plain-syntax"> </span><span class="identifier-syntax">requesting</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">pronoun</span><span class="plain-syntax"> </span><span class="identifier-syntax">meanings</span><span class="plain-syntax"> </span><span class="identifier-syntax">rulebook</span><span class="character-syntax">'</span>
+<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">announce</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">pronoun</span><span class="plain-syntax"> </span><span class="identifier-syntax">meanings</span><span class="plain-syntax"> </span><span class="identifier-syntax">rule</span><span class="character-syntax">'</span>
+<span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">pronoun</span><span class="plain-syntax"> </span><span class="identifier-syntax">reference</span><span class="plain-syntax"> </span><span class="identifier-syntax">object</span><span class="character-syntax">'</span>
 <span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">asking</span><span class="plain-syntax"> </span><span class="reserved-syntax">for</span><span class="plain-syntax"> </span><span class="identifier-syntax">information</span><span class="plain-syntax"> </span><span class="identifier-syntax">action</span><span class="character-syntax">'</span>
 <span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">check</span><span class="plain-syntax"> </span><span class="identifier-syntax">asking</span><span class="plain-syntax"> </span><span class="reserved-syntax">for</span><span class="plain-syntax"> </span><span class="identifier-syntax">information</span><span class="character-syntax">'</span>
 <span class="character-syntax">noun: proper: '</span><span class="identifier-syntax">check</span><span class="plain-syntax"> </span><span class="identifier-syntax">asking</span><span class="plain-syntax"> </span><span class="reserved-syntax">for</span><span class="plain-syntax"> </span><span class="identifier-syntax">information</span><span class="plain-syntax"> </span><span class="identifier-syntax">rules</span><span class="character-syntax">'</span>
@@ -3029,14 +3018,14 @@ Within each category, items are listed in order of creation.
 <span class="identifier-syntax">noun:</span><span class="plain-syntax"> </span><span class="identifier-syntax">proper:</span><span class="plain-syntax"> </span><span class="character-syntax">'same-infection-color-as relation'</span>
 <span class="identifier-syntax">noun:</span><span class="plain-syntax"> </span><span class="identifier-syntax">proper:</span><span class="plain-syntax"> </span><span class="character-syntax">'same-unbolting-relation-storage-as relation'</span>
 
-<span class="identifier-syntax">pronoun:</span><span class="plain-syntax"> </span><span class="identifier-syntax">first</span><span class="plain-syntax"> </span><span class="identifier-syntax">person</span><span class="plain-syntax"> </span><span class="reserved-syntax">pronoun</span>
-<span class="identifier-syntax">pronoun:</span><span class="plain-syntax"> </span><span class="identifier-syntax">second</span><span class="plain-syntax"> </span><span class="identifier-syntax">person</span><span class="plain-syntax"> </span><span class="reserved-syntax">pronoun</span>
-<span class="identifier-syntax">pronoun:</span><span class="plain-syntax"> </span><span class="identifier-syntax">third</span><span class="plain-syntax"> </span><span class="identifier-syntax">person</span><span class="plain-syntax"> </span><span class="reserved-syntax">pronoun</span>
-<span class="identifier-syntax">pronoun:</span><span class="plain-syntax"> </span><span class="identifier-syntax">first</span><span class="plain-syntax"> </span><span class="identifier-syntax">person</span><span class="plain-syntax"> </span><span class="identifier-syntax">possessive</span><span class="plain-syntax"> </span><span class="reserved-syntax">pronoun</span>
-<span class="identifier-syntax">pronoun:</span><span class="plain-syntax"> </span><span class="identifier-syntax">second</span><span class="plain-syntax"> </span><span class="identifier-syntax">person</span><span class="plain-syntax"> </span><span class="identifier-syntax">possessive</span><span class="plain-syntax"> </span><span class="reserved-syntax">pronoun</span>
-<span class="identifier-syntax">pronoun:</span><span class="plain-syntax"> </span><span class="identifier-syntax">third</span><span class="plain-syntax"> </span><span class="identifier-syntax">person</span><span class="plain-syntax"> </span><span class="identifier-syntax">possessive</span><span class="plain-syntax"> </span><span class="reserved-syntax">pronoun</span>
-<span class="identifier-syntax">pronoun:</span><span class="plain-syntax"> </span><span class="identifier-syntax">location</span><span class="plain-syntax"> </span><span class="reserved-syntax">pronoun</span>
-<span class="identifier-syntax">pronoun:</span><span class="plain-syntax"> </span><span class="identifier-syntax">implied</span><span class="plain-syntax"> </span><span class="reserved-syntax">pronoun</span>
+<span class="identifier-syntax">pronoun:</span><span class="plain-syntax"> </span><span class="identifier-syntax">first</span><span class="plain-syntax"> </span><span class="identifier-syntax">person</span><span class="plain-syntax"> </span><span class="identifier-syntax">pronoun</span>
+<span class="identifier-syntax">pronoun:</span><span class="plain-syntax"> </span><span class="identifier-syntax">second</span><span class="plain-syntax"> </span><span class="identifier-syntax">person</span><span class="plain-syntax"> </span><span class="identifier-syntax">pronoun</span>
+<span class="identifier-syntax">pronoun:</span><span class="plain-syntax"> </span><span class="identifier-syntax">third</span><span class="plain-syntax"> </span><span class="identifier-syntax">person</span><span class="plain-syntax"> </span><span class="identifier-syntax">pronoun</span>
+<span class="identifier-syntax">pronoun:</span><span class="plain-syntax"> </span><span class="identifier-syntax">first</span><span class="plain-syntax"> </span><span class="identifier-syntax">person</span><span class="plain-syntax"> </span><span class="identifier-syntax">possessive</span><span class="plain-syntax"> </span><span class="identifier-syntax">pronoun</span>
+<span class="identifier-syntax">pronoun:</span><span class="plain-syntax"> </span><span class="identifier-syntax">second</span><span class="plain-syntax"> </span><span class="identifier-syntax">person</span><span class="plain-syntax"> </span><span class="identifier-syntax">possessive</span><span class="plain-syntax"> </span><span class="identifier-syntax">pronoun</span>
+<span class="identifier-syntax">pronoun:</span><span class="plain-syntax"> </span><span class="identifier-syntax">third</span><span class="plain-syntax"> </span><span class="identifier-syntax">person</span><span class="plain-syntax"> </span><span class="identifier-syntax">possessive</span><span class="plain-syntax"> </span><span class="identifier-syntax">pronoun</span>
+<span class="identifier-syntax">pronoun:</span><span class="plain-syntax"> </span><span class="identifier-syntax">location</span><span class="plain-syntax"> </span><span class="identifier-syntax">pronoun</span>
+<span class="identifier-syntax">pronoun:</span><span class="plain-syntax"> </span><span class="identifier-syntax">implied</span><span class="plain-syntax"> </span><span class="identifier-syntax">pronoun</span>
 
 <span class="identifier-syntax">preposition:</span><span class="plain-syntax"> </span><span class="identifier-syntax">meant</span><span class="plain-syntax"> </span><span class="identifier-syntax">by</span>
 <span class="identifier-syntax">preposition:</span><span class="plain-syntax"> </span><span class="identifier-syntax">meaning</span>
@@ -3821,7 +3810,7 @@ Within each category, items are listed in order of creation.
 <span class="identifier-syntax">verb_form:</span><span class="plain-syntax"> </span><span class="identifier-syntax">be</span><span class="plain-syntax">(0) + </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">same</span><span class="plain-syntax"> </span><span class="identifier-syntax">indefinite</span><span class="plain-syntax"> </span><span class="identifier-syntax">appearance</span><span class="plain-syntax"> </span><span class="identifier-syntax">text</span><span class="plain-syntax"> </span><span class="identifier-syntax">as</span><span class="plain-syntax"> + </span><span class="identifier-syntax">___</span><span class="plain-syntax"> </span><span class="identifier-syntax">SVO</span>
 <span class="identifier-syntax">verb_form:</span><span class="plain-syntax"> </span><span class="identifier-syntax">be</span><span class="plain-syntax">(0) + </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">same</span><span class="plain-syntax"> </span><span class="identifier-syntax">printed</span><span class="plain-syntax"> </span><span class="identifier-syntax">name</span><span class="plain-syntax"> </span><span class="identifier-syntax">as</span><span class="plain-syntax"> + </span><span class="identifier-syntax">___</span><span class="plain-syntax"> </span><span class="identifier-syntax">SVO</span>
 <span class="identifier-syntax">verb_form:</span><span class="plain-syntax"> </span><span class="identifier-syntax">be</span><span class="plain-syntax">(0) + </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">same</span><span class="plain-syntax"> </span><span class="identifier-syntax">printed</span><span class="plain-syntax"> </span><span class="identifier-syntax">plural</span><span class="plain-syntax"> </span><span class="identifier-syntax">name</span><span class="plain-syntax"> </span><span class="identifier-syntax">as</span><span class="plain-syntax"> + </span><span class="identifier-syntax">___</span><span class="plain-syntax"> </span><span class="identifier-syntax">SVO</span>
-<span class="identifier-syntax">verb_form:</span><span class="plain-syntax"> </span><span class="identifier-syntax">be</span><span class="plain-syntax">(0) + </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">same</span><span class="plain-syntax"> </span><span class="identifier-syntax">indefinite</span><span class="plain-syntax"> </span><span class="reserved-syntax">article</span><span class="plain-syntax"> </span><span class="identifier-syntax">as</span><span class="plain-syntax"> + </span><span class="identifier-syntax">___</span><span class="plain-syntax"> </span><span class="identifier-syntax">SVO</span>
+<span class="identifier-syntax">verb_form:</span><span class="plain-syntax"> </span><span class="identifier-syntax">be</span><span class="plain-syntax">(0) + </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">same</span><span class="plain-syntax"> </span><span class="identifier-syntax">indefinite</span><span class="plain-syntax"> </span><span class="identifier-syntax">article</span><span class="plain-syntax"> </span><span class="identifier-syntax">as</span><span class="plain-syntax"> + </span><span class="identifier-syntax">___</span><span class="plain-syntax"> </span><span class="identifier-syntax">SVO</span>
 <span class="identifier-syntax">verb_form:</span><span class="plain-syntax"> </span><span class="identifier-syntax">be</span><span class="plain-syntax">(0) + </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">same</span><span class="plain-syntax"> </span><span class="identifier-syntax">window</span><span class="plain-syntax"> </span><span class="identifier-syntax">type</span><span class="plain-syntax"> </span><span class="identifier-syntax">as</span><span class="plain-syntax"> + </span><span class="identifier-syntax">___</span><span class="plain-syntax"> </span><span class="identifier-syntax">SVO</span>
 <span class="identifier-syntax">verb_form:</span><span class="plain-syntax"> </span><span class="identifier-syntax">be</span><span class="plain-syntax">(0) + </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">same</span><span class="plain-syntax"> </span><span class="identifier-syntax">rock</span><span class="plain-syntax"> </span><span class="identifier-syntax">number</span><span class="plain-syntax"> </span><span class="identifier-syntax">as</span><span class="plain-syntax"> + </span><span class="identifier-syntax">___</span><span class="plain-syntax"> </span><span class="identifier-syntax">SVO</span>
 <span class="identifier-syntax">verb_form:</span><span class="plain-syntax"> </span><span class="identifier-syntax">be</span><span class="plain-syntax">(0) + </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">same</span><span class="plain-syntax"> </span><span class="identifier-syntax">glk</span><span class="plain-syntax"> </span><span class="identifier-syntax">window</span><span class="plain-syntax"> </span><span class="identifier-syntax">handle</span><span class="plain-syntax"> </span><span class="identifier-syntax">as</span><span class="plain-syntax"> + </span><span class="identifier-syntax">___</span><span class="plain-syntax"> </span><span class="identifier-syntax">SVO</span>

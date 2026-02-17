@@ -1,0 +1,8 @@
+Pattern "W3Enhanced" {
+	name: W3Enhanced based on GitHubPages
+	format: HTML
+	default range: sections
+	plugin: GitHub
+	plugin: W3
+	plugin: Breadcrumbs
+}

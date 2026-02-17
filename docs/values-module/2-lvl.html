@@ -20,6 +20,11 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -56,43 +61,34 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="2-lvl.html#SP1">&#167;1. Creation</a></li><li><a href="2-lvl.html#SP8">&#167;8. Testing</a></li><li><a href="2-lvl.html#SP11">&#167;11. Pretty-printing</a></li><li><a href="2-lvl.html#SP12">&#167;12. Kinds</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Creation.</b>"Lvalues" can occur on the left of an assignment sign: they are values
-which can be written to.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">LOCAL_VARIABLE_NT</span></span> refers to a specific local variable, so it has meaning
-only within the routine currently being compiled. A <span class="extract"><span class="extract-syntax">local_variable</span></span> pointer
-is attached. There are no references or arguments.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">NONLOCAL_VARIABLE_NT</span></span> refers to a variable of any other scope: that is, a
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Creation.</b>  &quot;Lvalues&quot; can occur on the left of an assignment sign: they are values
+which can be written to.</p>
+<p><code>LOCAL_VARIABLE_NT</code> refers to a specific local variable, so it has meaning
+only within the routine currently being compiled. A <code>local_variable</code> pointer
+is attached. There are no references or arguments.</p>
+<p><code>NONLOCAL_VARIABLE_NT</code> refers to a variable of any other scope: that is, a
 global variable, or perhaps a rulebook, action or activity variable. The
 important distinction between these other scopes and local scope is
 essentially that local variables live on the I6 call-stack and have only a
 local namespace, whereas others correspond to array entries or global I6
 variables and share a global namespace. (It is basically a matter of
 implementation convenience which makes us divide the stock of variables
-into two different species this way.) A <span class="extract"><span class="extract-syntax">instance *</span></span> pointer is attached,
+into two different species this way.) A <code>instance *</code> pointer is attached,
 identifying the name of the variable in question. There are no
-arguments.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">PROPERTY_VALUE_NT</span></span> represents a given (value-)property of a given object,
-not the name of a property in abstract. Thus "description of the Police
-Commissioner" qualifies, but "description" does not. There are two arguments:
-the property and the object which possesses it, respectively.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">TABLE_ENTRY_NT</span></span> represents a given entry to a table, which can be referred
+arguments.</p>
+<p><code>PROPERTY_VALUE_NT</code> represents a given (value-)property of a given object,
+not the name of a property in abstract. Thus &quot;description of the Police
+Commissioner&quot; qualifies, but &quot;description&quot; does not. There are two arguments:
+the property and the object which possesses it, respectively.</p>
+<p><code>TABLE_ENTRY_NT</code> represents a given entry to a table, which can be referred
 to in several different ways. There are four different kinds of table reference,
-distinguished by the number of arguments found:
-</p>
-
-<ul class="items"><li>(1) 1 argument. By column name only, the table and row to be understood from
+distinguished by the number of arguments found:</p>
+<p>(1) 1 argument. By column name only, the table and row to be understood from
 context because we have selected a row in the surrounding source text.
-</li><li>(2) 2 arguments. Used as a condition to see if a value is listed in a
+(2) 2 arguments. Used as a condition to see if a value is listed in a
 given column of a given table. Argument 0 must be a constant of kind
-"table column", argument 1 any value of kind "table". (Argument 0
+&quot;table column&quot;, argument 1 any value of kind &quot;table&quot;. (Argument 0
 has to be a constant because it is not type-safe to allow looping through
 columns, say: different columns have different kinds, and the compiler
 would be unable to tell the kind of the result of such a lookup. The
@@ -100,23 +96,19 @@ same doesn't apply to argument 1, perhaps oddly, because Inform requires
 that every column name have the same kind in every table using it. So
 the choice of table does not have to be a constant, and this allows
 for some interesting data structures to be built.)
-</li><li>(3) 3 arguments. An explicitly specified entry. The arguments are the
+(3) 3 arguments. An explicitly specified entry. The arguments are the
 table column, row number, and table respectively.
-</li><li>(4) 4 arguments. A reference to the X corresponding to a Y value of Z in table T.
-The arguments are X, Y, Z, T respectively.
-</li></ul>
-<p class="commentary"><span class="extract"><span class="extract-syntax">LIST_ENTRY_NT</span></span> represents a given entry in a list, which is much simpler:
-there are two arguments, the list and the numerical index, which counts from 1.
-</p>
-
-<p class="commentary">Note that property names, table names, and lists themselves are not storage
-items as such &mdash; they are places where storage items are found. They are
-all in the <span class="extract"><span class="extract-syntax">VALUE</span></span> family.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>And here are some convenient creators. Variables:
-</p>
-
+(4) 4 arguments. A reference to the X corresponding to a Y value of Z in table T.
+The arguments are X, Y, Z, T respectively.</p>
+<p><code>LIST_ENTRY_NT</code> represents a given entry in a list, which is much simpler:
+there are two arguments, the list and the numerical index, which counts from 1.</p>
+<p>Note that property names, table names, and lists themselves are not storage
+items as such -- they are places where storage items are found. They are
+all in the <code>VALUE</code> family.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  And here are some convenient creators. Variables:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="function-syntax">Lvalues::new_LOCAL_VARIABLE</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">Lvalues::new_LOCAL_VARIABLE</span></span>:<br/>Type Expressions and Values - <a href="4-teav.html#SP9_1">&#167;9.1</a>, <a href="4-teav.html#SP14">&#167;14</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">, </span><span class="identifier-syntax">local_variable</span><span class="plain-syntax"> *</span><span class="identifier-syntax">lvar</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">spec</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Node::new</span><span class="plain-syntax">(</span><span class="identifier-syntax">LOCAL_VARIABLE_NT</span><span class="plain-syntax">);</span>
@@ -133,9 +125,9 @@ all in the <span class="extract"><span class="extract-syntax">VALUE</span></span
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">spec</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>On which subject:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  On which subject:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">local_variable</span><span class="plain-syntax"> *</span><span class="function-syntax">Lvalues::get_local_variable_if_any</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">Lvalues::get_local_variable_if_any</span></span>:<br/>Dash - <a href="5-dsh.html#SP10_9_1_1_4">&#167;10.9.1.1.4</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">spec</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Node::is</span><span class="plain-syntax">(</span><span class="identifier-syntax">spec</span><span class="plain-syntax">, </span><span class="identifier-syntax">LOCAL_VARIABLE_NT</span><span class="plain-syntax">))</span>
@@ -143,19 +135,19 @@ all in the <span class="extract"><span class="extract-syntax">VALUE</span></span
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>Table entries have their arguments filled in by the relevant routines in
-"Meaning List Conversion":
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  Table entries have their arguments filled in by the relevant routines in
+&quot;Meaning List Conversion&quot;:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="function-syntax">Lvalues::new_TABLE_ENTRY</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">Lvalues::new_TABLE_ENTRY</span></span>:<br/>Type Expressions and Values - <a href="4-teav.html#SP20_1">&#167;20.1</a>, <a href="4-teav.html#SP20_2">&#167;20.2</a>, <a href="4-teav.html#SP20_3">&#167;20.3</a>, <a href="4-teav.html#SP20_4">&#167;20.4</a>, <a href="4-teav.html#SP20_5">&#167;20.5</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">spec</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Node::new_with_words</span><span class="plain-syntax">(</span><span class="identifier-syntax">TABLE_ENTRY_NT</span><span class="plain-syntax">, </span><span class="identifier-syntax">W</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">spec</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>List entries:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  List entries:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="function-syntax">Lvalues::new_LIST_ENTRY</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">Lvalues::new_LIST_ENTRY</span></span>:<br/>Type Expressions and Values - <a href="4-teav.html#SP9_3">&#167;9.3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">owner</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">index</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">spec</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Node::new</span><span class="plain-syntax">(</span><span class="identifier-syntax">LIST_ENTRY_NT</span><span class="plain-syntax">);</span>
@@ -164,15 +156,15 @@ all in the <span class="extract"><span class="extract-syntax">VALUE</span></span
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">spec</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>Property values are constructed out of what's often only implied text:
-for instance, "description" sometimes means "the description [of the
-<span class="extract"><span class="extract-syntax">self</span></span> object]". We give them a word range which is minimal such that it
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  Property values are constructed out of what's often only implied text:
+for instance, &quot;description&quot; sometimes means &quot;the description [of the
+<code>self</code> object]&quot;. We give them a word range which is minimal such that it
 must contain word ranges of both property and owner, if given. Thus
-"carrying capacity of the trunk" will result from "carrying capacity"
-and "trunk". This is not very scientific, perhaps, but it's done only to
-make problem messages more readable.
-</p>
-
+&quot;carrying capacity of the trunk&quot; will result from &quot;carrying capacity&quot;
+and &quot;trunk&quot;. This is not very scientific, perhaps, but it's done only to
+make problem messages more readable.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="function-syntax">Lvalues::new_PROPERTY_VALUE</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">Lvalues::new_PROPERTY_VALUE</span></span>:<br/>Type Expressions and Values - <a href="4-teav.html#SP12">&#167;12</a><br/>Dash - <a href="5-dsh.html#SP19_3_1_1">&#167;19.3.1.1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prop</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">owner</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">spec</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Node::new</span><span class="plain-syntax">(</span><span class="identifier-syntax">PROPERTY_VALUE_NT</span><span class="plain-syntax">);</span>
@@ -183,9 +175,9 @@ make problem messages more readable.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">spec</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>On the other hand we sometimes want to refer to the property in abstract.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  On the other hand we sometimes want to refer to the property in abstract.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="function-syntax">Lvalues::underlying_property</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">spec</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Node::is</span><span class="plain-syntax">(</span><span class="identifier-syntax">spec</span><span class="plain-syntax">, </span><span class="identifier-syntax">PROPERTY_VALUE_NT</span><span class="plain-syntax">)) {</span>
@@ -196,10 +188,10 @@ make problem messages more readable.
 <span class="plain-syntax">    </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"no underlying property"</span><span class="plain-syntax">); </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Testing.</b></p>
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Testing.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Lvalues::is_lvalue</span><button class="popup" onclick="togglePopup('usagePopup7')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup7">Usage of <span class="code-font"><span class="function-syntax">Lvalues::is_lvalue</span></span>:<br/>Specifications - <a href="2-spc.html#SP1">&#167;1</a>, <a href="2-spc.html#SP7">&#167;7</a><br/>Dash - <a href="5-dsh.html#SP9_1_1_3_1">&#167;9.1.1.3.1</a>, <a href="5-dsh.html#SP10_2">&#167;10.2</a>, <a href="5-dsh.html#SP19_5_4">&#167;19.5.4</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">spec</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Lvalues::is_lvalue</span><button class="popup" onclick="togglePopup('usagePopup7')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup7">Usage of <span class="code-font"><span class="function-syntax">Lvalues::is_lvalue</span></span>:<br/>Specifications - <a href="2-spc.html#SP1">&#167;1</a>, <a href="2-spc.html#SP7">&#167;7</a><br/>Dash - <a href="5-dsh.html#SP9_1_1_3_1">&#167;9.1.1.3.1</a>, <a href="5-dsh.html#SP10_2">&#167;10.2</a>, <a href="5-dsh.html#SP19_5_4">&#167;19.5.4</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">spec</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">node_type_metadata</span><span class="plain-syntax"> *</span><span class="identifier-syntax">metadata</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NodeType::get_metadata</span><span class="plain-syntax">(</span><span class="identifier-syntax">Node::get_type</span><span class="plain-syntax">(</span><span class="identifier-syntax">spec</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">metadata</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">metadata</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">category</span><span class="plain-syntax"> == </span><span class="identifier-syntax">LVALUE_NCAT</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
@@ -210,11 +202,11 @@ make problem messages more readable.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">UNKNOWN_NT</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>More specifically:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>  More specifically:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Lvalues::is_actual_NONLOCAL_VARIABLE</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">spec</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Lvalues::is_actual_NONLOCAL_VARIABLE</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">spec</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Node::is</span><span class="plain-syntax">(</span><span class="identifier-syntax">spec</span><span class="plain-syntax">, </span><span class="identifier-syntax">NONLOCAL_VARIABLE_NT</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
@@ -225,26 +217,26 @@ make problem messages more readable.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Lvalues::is_constant_NONLOCAL_VARIABLE</span><button class="popup" onclick="togglePopup('usagePopup10')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup10">Usage of <span class="code-font"><span class="function-syntax">Lvalues::is_constant_NONLOCAL_VARIABLE</span></span>:<br/>Literal Lists - <a href="3-ll.html#SP8_1">&#167;8.1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">spec</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Lvalues::is_constant_NONLOCAL_VARIABLE</span><button class="popup" onclick="togglePopup('usagePopup10')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup10">Usage of <span class="code-font"><span class="function-syntax">Lvalues::is_constant_NONLOCAL_VARIABLE</span></span>:<br/>Literal Lists - <a href="3-ll.html#SP8_1">&#167;8.1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">spec</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">nonlocal_variable</span><span class="plain-syntax"> *</span><span class="identifier-syntax">nlv</span><span class="plain-syntax"> = </span><a href="2-lvl.html#SP9" class="function-link"><span class="function-syntax">Lvalues::get_nonlocal_variable_if_any</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">spec</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">nlv</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NonlocalVariables::is_constant</span><span class="plain-syntax">(</span><span class="identifier-syntax">nlv</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b>Not all non-local variables are global &mdash; some have scope local to rulebooks,
-actions and the like:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b>  Not all non-local variables are global -- some have scope local to rulebooks,
+actions and the like:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Lvalues::is_global_variable</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">spec</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Lvalues::is_global_variable</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">spec</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-lvl.html#SP9" class="function-link"><span class="function-syntax">Lvalues::get_nonlocal_variable_if_any</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">spec</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. Pretty-printing.</b></p>
+<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. Pretty-printing.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Lvalues::write_out_in_English</span><button class="popup" onclick="togglePopup('usagePopup11')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup11">Usage of <span class="code-font"><span class="function-syntax">Lvalues::write_out_in_English</span></span>:<br/>Specifications - <a href="2-spc.html#SP7">&#167;7</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">spec</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Lvalues::write_out_in_English</span><button class="popup" onclick="togglePopup('usagePopup11')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup11">Usage of <span class="code-font"><span class="function-syntax">Lvalues::write_out_in_English</span></span>:<br/>Specifications - <a href="2-spc.html#SP7">&#167;7</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">spec</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax">(</span><span class="identifier-syntax">Node::get_type</span><span class="plain-syntax">(</span><span class="identifier-syntax">spec</span><span class="plain-syntax">)) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">LOCAL_VARIABLE_NT:</span><span class="plain-syntax"> </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"a temporary named value"</span><span class="plain-syntax">); </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">NONLOCAL_VARIABLE_NT:</span>
@@ -268,76 +260,71 @@ actions and the like:
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. Kinds.</b></p>
+<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. Kinds.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="function-syntax">Lvalues::to_kind</span><button class="popup" onclick="togglePopup('usagePopup12')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup12">Usage of <span class="code-font"><span class="function-syntax">Lvalues::to_kind</span></span>:<br/>Specifications - <a href="2-spc.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">spec</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">spec</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"Rvalues::to_kind on NULL"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Node::get_type</span><span class="plain-syntax">(</span><span class="identifier-syntax">spec</span><span class="plain-syntax">)) {</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">LOCAL_VARIABLE_NT:</span><span class="plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="2-lvl.html#SP12_1" class="named-paragraph-link"><span class="named-paragraph">Return the kind of a local variable</span><span class="named-paragraph-number">12.1</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">NONLOCAL_VARIABLE_NT:</span><span class="plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="2-lvl.html#SP12_2" class="named-paragraph-link"><span class="named-paragraph">Return the kind of a non-local variable</span><span class="named-paragraph-number">12.2</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">TABLE_ENTRY_NT:</span><span class="plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="2-lvl.html#SP12_3" class="named-paragraph-link"><span class="named-paragraph">Return the kind of a table entry</span><span class="named-paragraph-number">12.3</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">LIST_ENTRY_NT:</span><span class="plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="2-lvl.html#SP12_4" class="named-paragraph-link"><span class="named-paragraph">Return the kind of a list entry</span><span class="named-paragraph-number">12.4</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">PROPERTY_VALUE_NT:</span><span class="plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="2-lvl.html#SP12_5" class="named-paragraph-link"><span class="named-paragraph">Return the kind of a property value</span><span class="named-paragraph-number">12.5</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">LOCAL_VARIABLE_NT:</span><span class="plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="2-lvl.html#SP12_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Return the kind of a local variable</span></span><span class="named-paragraph-number">12.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">NONLOCAL_VARIABLE_NT:</span><span class="plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="2-lvl.html#SP12_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Return the kind of a non-local variable</span></span><span class="named-paragraph-number">12.2</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">TABLE_ENTRY_NT:</span><span class="plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="2-lvl.html#SP12_3" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Return the kind of a table entry</span></span><span class="named-paragraph-number">12.3</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">LIST_ENTRY_NT:</span><span class="plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="2-lvl.html#SP12_4" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Return the kind of a list entry</span></span><span class="named-paragraph-number">12.4</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">PROPERTY_VALUE_NT:</span><span class="plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="2-lvl.html#SP12_5" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Return the kind of a property value</span></span><span class="named-paragraph-number">12.5</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    }</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">K_value</span><span class="plain-syntax">; </span><span class="comment-syntax"> a generic answer for storage of an unknown sort</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">K_value</span><span class="plain-syntax">; </span><span class="comment-syntax">/* a generic answer for storage of an unknown sort */</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP12_1" class="paragraph-anchor"></a><b>&#167;12.1. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Return the kind of a local variable</span><span class="named-paragraph-number">12.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP12_1" class="paragraph-anchor"></a><b>&#167;12.1. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Return the kind of a local variable</span><span class="named-paragraph-number">12.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">local_variable</span><span class="plain-syntax"> *</span><span class="identifier-syntax">lvar</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Node::get_constant_local_variable</span><span class="plain-syntax">(</span><span class="identifier-syntax">spec</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">lvar</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">K_value</span><span class="plain-syntax">; </span><span class="comment-syntax"> for "existing"</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">lvar</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">K_value</span><span class="plain-syntax">; </span><span class="comment-syntax">/* for "existing" */</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">LocalVariables::kind</span><span class="plain-syntax">(</span><span class="identifier-syntax">lvar</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-lvl.html#SP12">&#167;12</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP12_2" class="paragraph-anchor"></a><b>&#167;12.2. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Return the kind of a non-local variable</span><span class="named-paragraph-number">12.2</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP12_2" class="paragraph-anchor"></a><b>&#167;12.2. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Return the kind of a non-local variable</span><span class="named-paragraph-number">12.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">nonlocal_variable</span><span class="plain-syntax"> *</span><span class="identifier-syntax">nlv</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Node::get_constant_nonlocal_variable</span><span class="plain-syntax">(</span><span class="identifier-syntax">spec</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NonlocalVariables::kind</span><span class="plain-syntax">(</span><span class="identifier-syntax">nlv</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-lvl.html#SP12">&#167;12</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP12_3" class="paragraph-anchor"></a><b>&#167;12.3. </b>In every form of table entry, argument 0 is the column, and the column
-is enough to determine the kind:
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Return the kind of a table entry</span><span class="named-paragraph-number">12.3</span></span><span class="comment-syntax"> =</span>
-</p>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP12_3" class="paragraph-anchor"></a><b>&#167;12.3. </b>  In every form of table entry, argument 0 is the column, and the column
+is enough to determine the kind:</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Return the kind of a table entry</span><span class="named-paragraph-number">12.3</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Node::no_children</span><span class="plain-syntax">(</span><span class="identifier-syntax">spec</span><span class="plain-syntax">) &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) { </span><span class="comment-syntax"> i.e., always, for actual table entry specifications</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Node::no_children</span><span class="plain-syntax">(</span><span class="identifier-syntax">spec</span><span class="plain-syntax">) &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) { </span><span class="comment-syntax">/* i.e., always, for actual table entry specifications */</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">fts</span><span class="plain-syntax"> = </span><span class="identifier-syntax">spec</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">down</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">table_column</span><span class="plain-syntax"> *</span><span class="identifier-syntax">tc</span><span class="plain-syntax"> = </span><a href="2-rvl.html#SP3" class="function-link"><span class="function-syntax">Rvalues::to_table_column</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">fts</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">Tables::Columns::get_kind</span><span class="plain-syntax">(</span><span class="identifier-syntax">tc</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    }</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax"> can happen when scanning phrase arguments, which are generic</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax">/* can happen when scanning phrase arguments, which are generic */</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-lvl.html#SP12">&#167;12</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP12_4" class="paragraph-anchor"></a><b>&#167;12.4. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Return the kind of a list entry</span><span class="named-paragraph-number">12.4</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP12_4" class="paragraph-anchor"></a><b>&#167;12.4. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Return the kind of a list entry</span><span class="named-paragraph-number">12.4</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Node::no_children</span><span class="plain-syntax">(</span><span class="identifier-syntax">spec</span><span class="plain-syntax">) == </span><span class="constant-syntax">2</span><span class="plain-syntax">) { </span><span class="comment-syntax"> i.e., always, for actual list entry specifications</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Node::no_children</span><span class="plain-syntax">(</span><span class="identifier-syntax">spec</span><span class="plain-syntax">) == </span><span class="constant-syntax">2</span><span class="plain-syntax">) { </span><span class="comment-syntax">/* i.e., always, for actual list entry specifications */</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K1</span><span class="plain-syntax"> = </span><a href="2-spc.html#SP1" class="function-link"><span class="function-syntax">Specifications::to_kind</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">spec</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">down</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Kinds::unary_construction_material</span><span class="plain-syntax">(</span><span class="identifier-syntax">K1</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">Kinds::unary_construction_material</span><span class="plain-syntax">(</span><span class="identifier-syntax">K1</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">K_value</span><span class="plain-syntax">; </span><span class="comment-syntax"> to help the type-checker produce better problem messages</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">K_value</span><span class="plain-syntax">; </span><span class="comment-syntax">/* to help the type-checker produce better problem messages */</span>
 <span class="plain-syntax">    }</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax"> can happen when scanning phrase arguments, which are generic</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax">/* can happen when scanning phrase arguments, which are generic */</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-lvl.html#SP12">&#167;12</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP12_5" class="paragraph-anchor"></a><b>&#167;12.5. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Return the kind of a property value</span><span class="named-paragraph-number">12.5</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP12_5" class="paragraph-anchor"></a><b>&#167;12.5. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Return the kind of a property value</span><span class="named-paragraph-number">12.5</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Node::no_children</span><span class="plain-syntax">(</span><span class="identifier-syntax">spec</span><span class="plain-syntax">) == </span><span class="constant-syntax">2</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prn</span><span class="plain-syntax"> = </span><a href="2-rvl.html#SP3" class="function-link"><span class="function-syntax">Rvalues::to_property</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">spec</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">down</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">prn</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">Properties::is_either_or</span><span class="plain-syntax">(</span><span class="identifier-syntax">prn</span><span class="plain-syntax">) == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">ValueProperties::kind</span><span class="plain-syntax">(</span><span class="identifier-syntax">prn</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">K_value</span><span class="plain-syntax">; </span><span class="comment-syntax"> to help the type-checker produce better problem messages</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">K_value</span><span class="plain-syntax">; </span><span class="comment-syntax">/* to help the type-checker produce better problem messages */</span>
 <span class="plain-syntax">    }</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax"> can happen when scanning phrase arguments, which are generic</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax">/* can happen when scanning phrase arguments, which are generic */</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-lvl.html#SP12">&#167;12</a>.</li></ul>
 <nav role="progress"><div class="progresscontainer">

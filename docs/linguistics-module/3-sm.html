@@ -20,6 +20,11 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -56,46 +61,38 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="3-sm.html#SP1">&#167;1. Special meaning functions</a></li><li><a href="3-sm.html#SP3">&#167;3. Special meaning holders</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Special meaning functions.</b>Regular meanings of verbs are represented by <span class="extract"><span class="extract-syntax">VERB_MEANING_LINGUISTICS_TYPE</span></span>
-pointers &mdash; see <a href="3-vm.html" class="internal">Verb Meanings</a>. In Inform, those are binary predicates.
-They always take two terms.
-</p>
-
-<p class="commentary">However, Inform sometimes wants sentences which are written in non-standard
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Special meaning functions.</b>  Regular meanings of verbs are represented by <code>VERB_MEANING_LINGUISTICS_TYPE</code>
+pointers -- see <a href="3-vm.html" class="internal">Verb Meanings</a>. In Inform, those are binary predicates.
+They always take two terms.</p>
+<p>However, Inform sometimes wants sentences which are written in non-standard
 ways, with anything from one to three terms, and which don't correspond to
-any of the relations. (For example, "Include Locksmith by Emily Short".)
-</p>
-
-<p class="commentary">These are represented by functions to perform the necessary business; the
-type <span class="extract"><span class="extract-syntax">special_meaning_fn</span></span> gives the type of such a function.
-</p>
-
+any of the relations. (For example, &quot;Include Locksmith by Emily Short&quot;.)</p>
+<p>These are represented by functions to perform the necessary business; the
+type <code>special_meaning_fn</code> gives the type of such a function.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">int</span><span class="plain-syntax"> (*</span><span class="identifier-syntax">special_meaning_fn</span><span class="plain-syntax">)(</span><span class="reserved-syntax">int</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> *);</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">int</span><span class="plain-syntax"> (*</span><span class="identifier-syntax">special_meaning_fn</span><span class="plain-syntax">)(</span><span class="identifier-syntax">int</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> *);</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>This is a convenient generic special-meaning function; it simply accumulates
-non-empty SPs and OPs as unparsed noun phrases and accepts them.
-</p>
-
-<p class="commentary">The first parameter is the task to be performed on the verb node pointed
-to by the second. The task number must belong to the <span class="extract"><span class="extract-syntax">*_SMFT</span></span> enumeration,
-and the only task used by the Linguistics module is <span class="extract"><span class="extract-syntax">ACCEPT_SMFT</span></span>. This should
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  This is a convenient generic special-meaning function; it simply accumulates
+non-empty SPs and OPs as unparsed noun phrases and accepts them.</p>
+<p>The first parameter is the task to be performed on the verb node pointed
+to by the second. The task number must belong to the <code>*_SMFT</code> enumeration,
+and the only task used by the Linguistics module is <code>ACCEPT_SMFT</code>. This should
 look at the array of wordings and either accept this as a valid usage, build
-a subtree from the verb node, and return <span class="extract"><span class="extract-syntax">TRUE</span></span>, or else return <span class="extract"><span class="extract-syntax">FALSE</span></span> to
-say that the usage is invalid: see Verb Phrases for more.
-</p>
-
-<p class="commentary">The user is then free to define further SMF tasks, and Inform does so.
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">enum</span> <span class="constant-syntax">ACCEPT_SMFT</span><span class="plain-syntax"> </span><span class="identifier-syntax">from</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span>
+a subtree from the verb node, and return <code>TRUE</code>, or else return <code>FALSE</code> to
+say that the usage is invalid: see Verb Phrases for more.</p>
+<p>The user is then free to define further SMF tasks, and Inform does so.</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="constant-syntax">0</span>
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">SpecialMeanings::generic_smf</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">SpecialMeanings::generic_smf</span></span>:<br/><a href="3-sm.html#SP5">&#167;5</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">task</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">V</span><span class="plain-syntax">, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> *</span><span class="identifier-syntax">NPs</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">SpecialMeanings::generic_smf</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">SpecialMeanings::generic_smf</span></span>:<br/><a href="3-sm.html#SP5">&#167;5</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">task</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">V</span><span class="plain-syntax">, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> *</span><span class="identifier-syntax">NPs</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="identifier-syntax">task</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">ACCEPT_SMFT:</span><span class="plain-syntax"> {</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">A</span><span class="plain-syntax"> = </span><span class="identifier-syntax">V</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;3; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) {</span>
+<span class="plain-syntax">            </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;3; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) {</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax"> = (</span><span class="identifier-syntax">NPs</span><span class="plain-syntax">)?(</span><span class="identifier-syntax">NPs</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">]):</span><span class="identifier-syntax">EMPTY_WORDING</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">                </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Wordings::nonempty</span><span class="plain-syntax">(</span><span class="identifier-syntax">W</span><span class="plain-syntax">)) {</span>
 <span class="plain-syntax">                    </span><span class="function-syntax">&lt;np-unparsed&gt;</span><span class="plain-syntax">(</span><span class="identifier-syntax">W</span><span class="plain-syntax">);</span>
@@ -109,27 +106,27 @@ say that the usage is invalid: see Verb Phrases for more.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Special meaning holders.</b>Although a SM is basically encapsulated by a function, it's convenient to
-have some metadata with it too:
-</p>
-
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b></p>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Special meaning holders.</b>  Although a SM is basically encapsulated by a function, it's convenient to
+have some metadata with it too:</p>
+</div>
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">special_meaning_holder</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> (*</span><span class="identifier-syntax">sm_func</span><span class="plain-syntax">)(</span><span class="reserved-syntax">int</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> *); </span><span class="comment-syntax"> (compiler doesn't like typedef here)</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sm_name</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">metadata_N</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">special_meaning_holder</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> (*</span><span class="identifier-syntax">sm_func</span><span class="plain-syntax">)(</span><span class="identifier-syntax">int</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> *); </span><span class="comment-syntax">/* (compiler doesn't like typedef here) */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sm_name</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">metadata_N</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">CLASS_DEFINITION</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">special_meaning_holder</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">special_meaning_holder</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>The structure special_meaning_holder is private to this section.</li></ul>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b></p>
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">special_meaning_holder</span><span class="plain-syntax"> *</span><span class="function-syntax">SpecialMeanings::declare</span><span class="plain-syntax">(</span><span class="identifier-syntax">special_meaning_fn</span><span class="plain-syntax"> </span><span class="identifier-syntax">func</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">name</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">p</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">special_meaning_holder</span><span class="plain-syntax"> *</span><span class="identifier-syntax">smh</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="reserved-syntax">special_meaning_holder</span><span class="plain-syntax">);</span>
+<span class="identifier-syntax">special_meaning_holder</span><span class="plain-syntax"> *</span><span class="function-syntax">SpecialMeanings::declare</span><span class="plain-syntax">(</span><span class="identifier-syntax">special_meaning_fn</span><span class="plain-syntax"> </span><span class="identifier-syntax">func</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">name</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">p</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">special_meaning_holder</span><span class="plain-syntax"> *</span><span class="identifier-syntax">smh</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="identifier-syntax">special_meaning_holder</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">func</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">func</span><span class="plain-syntax"> = </span><a href="3-sm.html#SP2" class="function-link"><span class="function-syntax">SpecialMeanings::generic_smf</span></a><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">smh</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">sm_func</span><span class="plain-syntax"> = </span><span class="identifier-syntax">func</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">smh</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">sm_name</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Str::duplicate</span><span class="plain-syntax">(</span><span class="identifier-syntax">name</span><span class="plain-syntax">);</span>
@@ -137,46 +134,46 @@ have some metadata with it too:
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">smh</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>SMHs can be found by name:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  SMHs can be found by name:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">special_meaning_holder</span><span class="plain-syntax"> *</span><span class="function-syntax">SpecialMeanings::find_from_wording</span><span class="plain-syntax">(</span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">special_meaning_holder</span><span class="plain-syntax"> *</span><span class="function-syntax">SpecialMeanings::find_from_wording</span><span class="plain-syntax">(</span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">TEMPORARY_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">name</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE_TO</span><span class="plain-syntax">(</span><span class="identifier-syntax">name</span><span class="plain-syntax">, </span><span class="string-syntax">"%W"</span><span class="plain-syntax">, </span><span class="identifier-syntax">W</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">special_meaning_holder</span><span class="plain-syntax"> *</span><span class="identifier-syntax">smh</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">smh</span><span class="plain-syntax">, </span><span class="reserved-syntax">special_meaning_holder</span><span class="plain-syntax">)</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">special_meaning_holder</span><span class="plain-syntax"> *</span><span class="identifier-syntax">smh</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">smh</span><span class="plain-syntax">, </span><span class="identifier-syntax">special_meaning_holder</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Str::eq_insensitive</span><span class="plain-syntax">(</span><span class="identifier-syntax">smh</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">sm_name</span><span class="plain-syntax">, </span><span class="identifier-syntax">name</span><span class="plain-syntax">))</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">DISCARD_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">name</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">smh</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>Metadata access:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  Metadata access:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">SpecialMeanings::get_metadata_N</span><span class="plain-syntax">(</span><span class="reserved-syntax">special_meaning_holder</span><span class="plain-syntax"> *</span><span class="identifier-syntax">smh</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">SpecialMeanings::get_metadata_N</span><span class="plain-syntax">(</span><span class="identifier-syntax">special_meaning_holder</span><span class="plain-syntax"> *</span><span class="identifier-syntax">smh</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">smh</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">smh</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">metadata_N</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="function-syntax">SpecialMeanings::get_name</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">SpecialMeanings::get_name</span></span>:<br/>Diagrams - <a href="1-dgr.html#SP3">&#167;3</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">special_meaning_holder</span><span class="plain-syntax"> *</span><span class="identifier-syntax">smh</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="function-syntax">SpecialMeanings::get_name</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">SpecialMeanings::get_name</span></span>:<br/>Diagrams - <a href="1-dgr.html#SP3">&#167;3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">special_meaning_holder</span><span class="plain-syntax"> *</span><span class="identifier-syntax">smh</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">smh</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">smh</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">sm_name</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">SpecialMeanings::is</span><span class="plain-syntax">(</span><span class="reserved-syntax">special_meaning_holder</span><span class="plain-syntax"> *</span><span class="identifier-syntax">smh</span><span class="plain-syntax">, </span><span class="identifier-syntax">special_meaning_fn</span><span class="plain-syntax"> </span><span class="identifier-syntax">func</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">SpecialMeanings::is</span><span class="plain-syntax">(</span><span class="identifier-syntax">special_meaning_holder</span><span class="plain-syntax"> *</span><span class="identifier-syntax">smh</span><span class="plain-syntax">, </span><span class="identifier-syntax">special_meaning_fn</span><span class="plain-syntax"> </span><span class="identifier-syntax">func</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">smh</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">smh</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">sm_func</span><span class="plain-syntax"> == </span><span class="identifier-syntax">func</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>Calling:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>  Calling:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">SpecialMeanings::call</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">SpecialMeanings::call</span></span>:<br/>Verb Phrases - <a href="4-vp.html#SP7">&#167;7</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">special_meaning_holder</span><span class="plain-syntax"> *</span><span class="identifier-syntax">smh</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">task</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">V</span><span class="plain-syntax">,</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">SpecialMeanings::call</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">SpecialMeanings::call</span></span>:<br/>Verb Phrases - <a href="4-vp.html#SP7">&#167;7</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">special_meaning_holder</span><span class="plain-syntax"> *</span><span class="identifier-syntax">smh</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">task</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">V</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> *</span><span class="identifier-syntax">NPs</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">smh</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) || (</span><span class="identifier-syntax">smh</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">sm_func</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> (*(</span><span class="identifier-syntax">smh</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">sm_func</span><span class="plain-syntax">))(</span><span class="identifier-syntax">task</span><span class="plain-syntax">, </span><span class="identifier-syntax">V</span><span class="plain-syntax">, </span><span class="identifier-syntax">NPs</span><span class="plain-syntax">);</span>

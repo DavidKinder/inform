@@ -20,7 +20,13 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<link href="../docs-assets/Preform-Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
 	<body class="commentary-font">
@@ -56,67 +62,66 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="6-dl.html#SP1">&#167;1. Scanning the dialogue lines in pass 0</a></li><li><a href="6-dl.html#SP6">&#167;6. Processing lines after pass 1</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Scanning the dialogue lines in pass 0.</b>Lines have already been parsed a little. For example,
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Scanning the dialogue lines in pass 0.</b>  Lines have already been parsed a little. For example,</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">Marcellus</span><span class="plain-syntax"> (</span><span class="identifier-syntax">this</span><span class="plain-syntax"> </span><span class="identifier-syntax">is</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">phantom</span><span class="plain-syntax"> </span><span class="identifier-syntax">line</span><span class="plain-syntax">): </span><span class="string-syntax">"What, has this thing appear'd again to-night?"</span>
 </pre>
-<p class="commentary">will have become:
-</p>
-
+<div class="lsmarkdown">
+<p>will have become:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">DIALOGUE_LINE_NT</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">DIALOGUE_SPEAKER_NT</span><span class="plain-syntax"> </span><span class="string-syntax">"Marcellus"</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">DIALOGUE_SPEECH_NT</span><span class="plain-syntax"> </span><span class="string-syntax">""</span><span class="identifier-syntax">What</span><span class="plain-syntax">, </span><span class="identifier-syntax">has</span><span class="plain-syntax"> </span><span class="identifier-syntax">this</span><span class="plain-syntax"> </span><span class="identifier-syntax">thing</span><span class="plain-syntax"> </span><span class="identifier-syntax">appear</span><span class="character-syntax">'d again to-night?""</span>
 <span class="character-syntax">        DIALOGUE_CLAUSE_NT "this is the phantom line"</span>
 </pre>
-<p class="commentary">Here we have a simple tree where the beat node has at least two child nodes:
-exactly one each of <span class="extract"><span class="extract-syntax">DIALOGUE_SPEAKER_NT</span></span> and <span class="extract"><span class="extract-syntax">DIALOGUE_SPEECH_NT</span></span>, and then
-any number of <span class="extract"><span class="extract-syntax">DIALOGUE_CLAUSE_NT</span></span> nodes (including none at all).
-</p>
-
+<div class="lsmarkdown">
+<p>Here we have a simple tree where the beat node has at least two child nodes:
+exactly one each of <code>DIALOGUE_SPEAKER_NT</code> and <code>DIALOGUE_SPEECH_NT</code>, and then
+any number of <code>DIALOGUE_CLAUSE_NT</code> nodes (including none at all).</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">dialogue_line</span><span class="plain-syntax"> *</span><span class="function-syntax">DialogueLines::new</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">PN</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">L</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Annotations::read_int</span><span class="plain-syntax">(</span><span class="identifier-syntax">PN</span><span class="plain-syntax">, </span><span class="identifier-syntax">dialogue_level_ANNOT</span><span class="plain-syntax">);</span>
+<span class="identifier-syntax">dialogue_line</span><span class="plain-syntax"> *</span><span class="function-syntax">DialogueLines::new</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">PN</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">L</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Annotations::read_int</span><span class="plain-syntax">(</span><span class="identifier-syntax">PN</span><span class="plain-syntax">, </span><span class="identifier-syntax">dialogue_level_ANNOT</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">L</span><span class="plain-syntax"> &lt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="identifier-syntax">L</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">dialogue_line</span><span class="plain-syntax"> *</span><span class="identifier-syntax">dl</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="reserved-syntax">dialogue_line</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="6-dl.html#SP1_1" class="named-paragraph-link"><span class="named-paragraph">Initialise the line</span><span class="named-paragraph-number">1.1</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="6-dl.html#SP1_2" class="named-paragraph-link"><span class="named-paragraph">Parse the clauses just enough to classify them</span><span class="named-paragraph-number">1.2</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="6-dl.html#SP1_3" class="named-paragraph-link"><span class="named-paragraph">Decide if this is elaborated</span><span class="named-paragraph-number">1.3</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="6-dl.html#SP1_4" class="named-paragraph-link"><span class="named-paragraph">Look for a line name</span><span class="named-paragraph-number">1.4</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">dialogue_line</span><span class="plain-syntax"> *</span><span class="identifier-syntax">dl</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="identifier-syntax">dialogue_line</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="6-dl.html#SP1_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Initialise the line</span></span><span class="named-paragraph-number">1.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="6-dl.html#SP1_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Parse the clauses just enough to classify them</span></span><span class="named-paragraph-number">1.2</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="6-dl.html#SP1_3" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Decide if this is elaborated</span></span><span class="named-paragraph-number">1.3</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="6-dl.html#SP1_4" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Look for a line name</span></span><span class="named-paragraph-number">1.4</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">dl</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">as_node</span><span class="plain-syntax"> = </span><a href="6-dn.html#SP3" class="function-link"><span class="function-syntax">DialogueNodes::add_to_current_beat</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">L</span><span class="plain-syntax">, </span><span class="identifier-syntax">dl</span><span class="plain-syntax">, </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="6-dl.html#SP1_5" class="named-paragraph-link"><span class="named-paragraph">Add the line to the world model</span><span class="named-paragraph-number">1.5</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="6-dl.html#SP1_5" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Add the line to the world model</span></span><span class="named-paragraph-number">1.5</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">dl</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b></p>
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">dialogue_line</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">line_name</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">as_instance</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">line_at</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">narration</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">elaborated</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">without_speaking</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">speaker_text</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">speaker_is_player</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">speaker_description</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">interlocutor_text</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">interlocutor_is_player</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">interlocutor_description</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">speech_text</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">linked_list</span><span class="plain-syntax"> *</span><span class="identifier-syntax">mentioning</span><span class="plain-syntax">; </span><span class="comment-syntax"> of </span><span class="extract"><span class="extract-syntax">parse_node</span></span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">performance_style</span><span class="plain-syntax"> *</span><span class="identifier-syntax">how_performed</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">dialogue_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">as_node</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">dialogue_line_compilation_data</span><span class="plain-syntax"> </span><span class="identifier-syntax">compilation_data</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">dialogue_line</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">line_name</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">as_instance</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">line_at</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">narration</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">elaborated</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">without_speaking</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">speaker_text</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">speaker_is_player</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">speaker_description</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">interlocutor_text</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">interlocutor_is_player</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">interlocutor_description</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">speech_text</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">linked_list</span><span class="plain-syntax"> *</span><span class="identifier-syntax">mentioning</span><span class="plain-syntax">; </span><span class="comment-syntax">/* of |parse_node| */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">performance_style</span><span class="plain-syntax"> *</span><span class="identifier-syntax">how_performed</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">dialogue_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">as_node</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">dialogue_line_compilation_data</span><span class="plain-syntax"> </span><span class="identifier-syntax">compilation_data</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">CLASS_DEFINITION</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">dialogue_line</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">dialogue_line</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>The structure dialogue_line is accessed in 3/scn, 4/ap, 4/act, 4/as, 4/nap, 4/gng, 5/pp, 5/cg, 5/cgl, 5/ts, 6/dlg, 6/db, 6/dc, 6/dn, 6/ps and here.</li></ul>
-<p class="commentary firstcommentary"><a id="SP1_1" class="paragraph-anchor"></a><b>&#167;1.1. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Initialise the line</span><span class="named-paragraph-number">1.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP1_1" class="paragraph-anchor"></a><b>&#167;1.1. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Initialise the line</span><span class="named-paragraph-number">1.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">dl</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">line_name</span><span class="plain-syntax"> = </span><span class="identifier-syntax">EMPTY_WORDING</span><span class="plain-syntax">;</span>
@@ -136,8 +141,7 @@ any number of <span class="extract"><span class="extract-syntax">DIALOGUE_CLAUSE
 <span class="plain-syntax">    </span><span class="identifier-syntax">dl</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">interlocutor_description</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="6-dl.html#SP1">&#167;1</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP1_2" class="paragraph-anchor"></a><b>&#167;1.2. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Parse the clauses just enough to classify them</span><span class="named-paragraph-number">1.2</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP1_2" class="paragraph-anchor"></a><b>&#167;1.2. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Parse the clauses just enough to classify them</span><span class="named-paragraph-number">1.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">clause</span><span class="plain-syntax"> = </span><span class="identifier-syntax">PN</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">down</span><span class="plain-syntax">; </span><span class="identifier-syntax">clause</span><span class="plain-syntax">; </span><span class="identifier-syntax">clause</span><span class="plain-syntax"> = </span><span class="identifier-syntax">clause</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax">) {</span>
@@ -159,15 +163,14 @@ any number of <span class="extract"><span class="extract-syntax">DIALOGUE_CLAUSE
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="6-dl.html#SP1">&#167;1</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP1_3" class="paragraph-anchor"></a><b>&#167;1.3. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Decide if this is elaborated</span><span class="named-paragraph-number">1.3</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP1_3" class="paragraph-anchor"></a><b>&#167;1.3. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Decide if this is elaborated</span><span class="named-paragraph-number">1.3</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">wn</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Wordings::first_wn</span><span class="plain-syntax">(</span><span class="identifier-syntax">dl</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">speech_text</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">wn</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Wordings::first_wn</span><span class="plain-syntax">(</span><span class="identifier-syntax">dl</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">speech_text</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">wn</span><span class="plain-syntax"> &gt;= </span><span class="constant-syntax">0</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">quote_marks</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">quote_marks</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">inchar32_t</span><span class="plain-syntax"> *</span><span class="identifier-syntax">p</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Lexer::word_text</span><span class="plain-syntax">(</span><span class="identifier-syntax">wn</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">p</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">]; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++)</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">p</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">]; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++)</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">p</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">] == </span><span class="character-syntax">'\''</span><span class="plain-syntax">) &amp;&amp;</span>
 <span class="plain-syntax">                ((</span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;=1) || (</span><span class="identifier-syntax">p</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">+1] == </span><span class="character-syntax">'\"'</span><span class="plain-syntax">) ||</span>
 <span class="plain-syntax">                    (</span><span class="identifier-syntax">Characters::is_whitespace</span><span class="plain-syntax">(</span><span class="identifier-syntax">p</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">+1])) || (</span><span class="identifier-syntax">Characters::is_whitespace</span><span class="plain-syntax">(</span><span class="identifier-syntax">p</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">-1]))))</span>
@@ -177,33 +180,42 @@ any number of <span class="extract"><span class="extract-syntax">DIALOGUE_CLAUSE
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">dl</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">narration</span><span class="plain-syntax">) </span><span class="identifier-syntax">dl</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">elaborated</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="6-dl.html#SP1">&#167;1</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>The special speaker "narration" marks out a line which isn't a speech at all:
-</p>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  The special speaker &quot;narration&quot; marks out a line which isn't a speech at all:</p>
+</div>
+<pre class="Preform-displayed-code all-displayed-code code-font">
+<span class="Preform-function-syntax">&lt;dialogue-is-narration&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">narration</span>
+</pre>
+<ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1_4" class="paragraph-anchor"></a><b>&#167;1.4. </b>  As with the analogous clauses for <a href="6-db.html" class="internal">Dialogue Beats</a>, each clause can be one
+of the following possibilities:</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="Preform-constant-syntax">1</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Look for a line name</span><span class="named-paragraph-number">1.4</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="function-syntax">&lt;dialogue-is-narration&gt;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">narration</span>
-</pre>
-<p class="commentary firstcommentary"><a id="SP1_4" class="paragraph-anchor"></a><b>&#167;1.4. </b>As with the analogous clauses for <a href="6-db.html" class="internal">Dialogue Beats</a>, each clause can be one
-of the following possibilities:
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">enum</span> <span class="constant-syntax">LINE_NAME_DLC</span><span class="plain-syntax"> </span><span class="identifier-syntax">from</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">MENTIONING_DLC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">IF_DLC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">UNLESS_DLC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">BEFORE_DLC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">AFTER_DLC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">NOW_DLC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">TO_DLC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">WITHOUT_SPEAKING_DLC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">STYLE_DLC</span>
-</pre>
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Look for a line name</span><span class="named-paragraph-number">1.4</span></span><span class="comment-syntax"> =</span>
-</p>
-
-<pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">dialogue_line_name_count</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">dialogue_line_name_count</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">clause</span><span class="plain-syntax"> = </span><span class="identifier-syntax">PN</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">down</span><span class="plain-syntax">; </span><span class="identifier-syntax">clause</span><span class="plain-syntax">; </span><span class="identifier-syntax">clause</span><span class="plain-syntax"> = </span><span class="identifier-syntax">clause</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">CW</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Node::get_text</span><span class="plain-syntax">(</span><span class="identifier-syntax">clause</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Annotations::read_int</span><span class="plain-syntax">(</span><span class="identifier-syntax">clause</span><span class="plain-syntax">, </span><span class="identifier-syntax">dialogue_line_clause_ANNOT</span><span class="plain-syntax">)) {</span>
@@ -227,26 +239,27 @@ of the following possibilities:
 <span class="plain-syntax">            </span><span class="string-syntax">"one name."</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="6-dl.html#SP1">&#167;1</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>Using:
-</p>
-
-<pre class="displayed-code all-displayed-code code-font">
-<span class="function-syntax">&lt;dialogue-line-clause&gt;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">this</span><span class="plain-syntax"> </span><span class="identifier-syntax">is</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> { ... </span><span class="identifier-syntax">line</span><span class="plain-syntax"> } |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">mentioning</span><span class="plain-syntax"> ... |</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ... |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">unless</span><span class="plain-syntax"> ... |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">before</span><span class="plain-syntax"> ... |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">after</span><span class="plain-syntax"> ... |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">to</span><span class="plain-syntax"> ... |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">now</span><span class="plain-syntax"> ... |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">without</span><span class="plain-syntax"> </span><span class="identifier-syntax">speaking</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    ...</span>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  Using:</p>
+</div>
+<pre class="Preform-displayed-code all-displayed-code code-font">
+<span class="Preform-function-syntax">&lt;dialogue-line-clause&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">this</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">is</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">the</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">{</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">...</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">line</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">}</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">                           </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { LINE_NAME_DLC, - }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">mentioning</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">...</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">                                     </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { MENTIONING_DLC, - }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">if</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">...</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">                                             </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { IF_DLC, - }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">unless</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">...</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">                                         </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { UNLESS_DLC, - }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">before</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">...</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">                                         </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { BEFORE_DLC, - }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">after</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">...</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">                                          </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { AFTER_DLC, - }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">to</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">...</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">                                             </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { TO_DLC, - }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">now</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">...</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">                                            </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { NOW_DLC, - }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">without</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">speaking</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">                                   </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { WITHOUT_SPEAKING_DLC, - }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-reserved-syntax">...</span><span class="Preform-plain-syntax">                                                  </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { STYLE_DLC, - }</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b></p>
+<ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">DialogueLines::write_dlc</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">c</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">DialogueLines::write_dlc</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">c</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax">(</span><span class="identifier-syntax">c</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">LINE_NAME_DLC:</span><span class="plain-syntax">             </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"LINE_NAME"</span><span class="plain-syntax">); </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">IF_DLC:</span><span class="plain-syntax">                    </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"IF"</span><span class="plain-syntax">); </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
@@ -261,12 +274,11 @@ of the following possibilities:
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP1_5" class="paragraph-anchor"></a><b>&#167;1.5. </b>Each line produces an instance of the kind <span class="extract"><span class="extract-syntax">dialogue line</span></span>, using the name
-given in its clauses if one was.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Add the line to the world model</span><span class="named-paragraph-number">1.5</span></span><span class="comment-syntax"> =</span>
-</p>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1_5" class="paragraph-anchor"></a><b>&#167;1.5. </b>  Each line produces an instance of the kind <code>dialogue line</code>, using the name
+given in its clauses if one was.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Add the line to the world model</span><span class="named-paragraph-number">1.5</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">K_dialogue_line</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"DialogueKit has not created K_dialogue_line"</span><span class="plain-syntax">);</span>
@@ -282,22 +294,22 @@ given in its clauses if one was.
 <span class="plain-syntax">    </span><span class="identifier-syntax">dl</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">as_instance</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Instances::latest</span><span class="plain-syntax">();</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="6-dl.html#SP1">&#167;1</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Processing lines after pass 1.</b>It's now a little later, and the following is called to look at each line and
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Processing lines after pass 1.</b>  It's now a little later, and the following is called to look at each line and
 parse its clauses further. By this point, all instances have been created,
-and we can therefore parse the speaker name, "mentioning ..." clauses, "to ..."
-clauses, and so on. Instances of the "performance style" kind exist now, too,
-so we can also deal with style clauses.
-</p>
-
+and we can therefore parse the speaker name, &quot;mentioning ...&quot; clauses, &quot;to ...&quot;
+clauses, and so on. Instances of the &quot;performance style&quot; kind exist now, too,
+so we can also deal with style clauses.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">DialogueLines::decide_line_mentions</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">DialogueLines::decide_line_mentions</span></span>:<br/>Dialogue - <a href="6-dlg.html#SP11">&#167;11</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">dialogue_line</span><span class="plain-syntax"> *</span><span class="identifier-syntax">dl</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">dl</span><span class="plain-syntax">, </span><span class="reserved-syntax">dialogue_line</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">DialogueLines::decide_line_mentions</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">DialogueLines::decide_line_mentions</span></span>:<br/>Dialogue - <a href="6-dlg.html#SP11">&#167;11</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">dialogue_line</span><span class="plain-syntax"> *</span><span class="identifier-syntax">dl</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">dl</span><span class="plain-syntax">, </span><span class="identifier-syntax">dialogue_line</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">current_sentence</span><span class="plain-syntax"> = </span><span class="identifier-syntax">dl</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">line_at</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">clause</span><span class="plain-syntax"> = </span><span class="identifier-syntax">dl</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">line_at</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">down</span><span class="plain-syntax">; </span><span class="identifier-syntax">clause</span><span class="plain-syntax">; </span><span class="identifier-syntax">clause</span><span class="plain-syntax"> = </span><span class="identifier-syntax">clause</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Node::is</span><span class="plain-syntax">(</span><span class="identifier-syntax">clause</span><span class="plain-syntax">, </span><span class="identifier-syntax">DIALOGUE_CLAUSE_NT</span><span class="plain-syntax">)) {</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">CW</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Node::get_text</span><span class="plain-syntax">(</span><span class="identifier-syntax">clause</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">                </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">c</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Annotations::read_int</span><span class="plain-syntax">(</span><span class="identifier-syntax">clause</span><span class="plain-syntax">, </span><span class="identifier-syntax">dialogue_line_clause_ANNOT</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">                </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">c</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Annotations::read_int</span><span class="plain-syntax">(</span><span class="identifier-syntax">clause</span><span class="plain-syntax">, </span><span class="identifier-syntax">dialogue_line_clause_ANNOT</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">                </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="identifier-syntax">c</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">                    </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">MENTIONING_DLC:</span><span class="plain-syntax"> {</span>
 <span class="plain-syntax">                        </span><span class="function-syntax">&lt;dialogue-line-clause&gt;</span><span class="plain-syntax">(</span><span class="identifier-syntax">CW</span><span class="plain-syntax">);</span>
@@ -334,8 +346,8 @@ so we can also deal with style clauses.
 <span class="plain-syntax">            }</span>
 <span class="plain-syntax">        }</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">dl</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">narration</span><span class="plain-syntax"> == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="6-dl.html#SP6_1" class="named-paragraph-link"><span class="named-paragraph">Parse the speaker description</span><span class="named-paragraph-number">6.1</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Wordings::nonempty</span><span class="plain-syntax">(</span><span class="identifier-syntax">dl</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">interlocutor_text</span><span class="plain-syntax">)) </span><span class="named-paragraph-container code-font"><a href="6-dl.html#SP6_2" class="named-paragraph-link"><span class="named-paragraph">Parse the interlocutor description</span><span class="named-paragraph-number">6.2</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="6-dl.html#SP6_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Parse the speaker description</span></span><span class="named-paragraph-number">6.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Wordings::nonempty</span><span class="plain-syntax">(</span><span class="identifier-syntax">dl</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">interlocutor_text</span><span class="plain-syntax">)) </span><span class="named-paragraph-container code-font"><a href="6-dl.html#SP6_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Parse the interlocutor description</span></span><span class="named-paragraph-number">6.2</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        }</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">dl</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">how_performed</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">dl</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">how_performed</span><span class="plain-syntax"> = </span><a href="6-ps.html#SP9" class="function-link"><span class="function-syntax">PerformanceStyles::default</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">dl</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">elaborated</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">P_elaborated</span><span class="plain-syntax">)) {</span>
@@ -349,10 +361,10 @@ so we can also deal with style clauses.
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b></p>
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">DialogueLines::apply_property</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">DialogueLines::apply_property</span></span>:<br/><a href="6-dl.html#SP6">&#167;6</a><br/>Dialogue Beats - <a href="6-db.html#SP16">&#167;16</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">dialogue_line</span><span class="plain-syntax"> *</span><span class="identifier-syntax">dl</span><span class="plain-syntax">, </span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prn</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">DialogueLines::apply_property</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">DialogueLines::apply_property</span></span>:<br/><a href="6-dl.html#SP6">&#167;6</a><br/>Dialogue Beats - <a href="6-db.html#SP16">&#167;16</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">dialogue_line</span><span class="plain-syntax"> *</span><span class="identifier-syntax">dl</span><span class="plain-syntax">, </span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prn</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">subj</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Instances::as_subject</span><span class="plain-syntax">(</span><span class="identifier-syntax">dl</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">as_instance</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">pcalc_prop</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prop</span><span class="plain-syntax"> = </span><span class="identifier-syntax">AdjectivalPredicates::new_atom_on_x</span><span class="plain-syntax">(</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">EitherOrProperties::as_adjective</span><span class="plain-syntax">(</span><span class="identifier-syntax">prn</span><span class="plain-syntax">), </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">);</span>
@@ -361,7 +373,7 @@ so we can also deal with style clauses.
 <span class="plain-syntax">    </span><span class="identifier-syntax">Assert::true_about</span><span class="plain-syntax">(</span><span class="identifier-syntax">prop</span><span class="plain-syntax">, </span><span class="identifier-syntax">subj</span><span class="plain-syntax">, </span><span class="identifier-syntax">CERTAIN_CE</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">DialogueLines::apply_property_value</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">DialogueLines::apply_property_value</span></span>:<br/><a href="6-dl.html#SP6">&#167;6</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">dialogue_line</span><span class="plain-syntax"> *</span><span class="identifier-syntax">dl</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">val</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">DialogueLines::apply_property_value</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">DialogueLines::apply_property_value</span></span>:<br/><a href="6-dl.html#SP6">&#167;6</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">dialogue_line</span><span class="plain-syntax"> *</span><span class="identifier-syntax">dl</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">val</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">subj</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Instances::as_subject</span><span class="plain-syntax">(</span><span class="identifier-syntax">dl</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">as_instance</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">pcalc_prop</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prop</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Descriptions::to_proposition</span><span class="plain-syntax">(</span><span class="identifier-syntax">val</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">prop</span><span class="plain-syntax">) {</span>
@@ -371,17 +383,17 @@ so we can also deal with style clauses.
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b></p>
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b> </p>
 
-<pre class="displayed-code all-displayed-code code-font">
-<span class="function-syntax">&lt;speaker-description&gt;</span>
-<span class="plain-syntax">    </span><span class="function-syntax">&lt;definite-article&gt;</span><span class="plain-syntax"> </span><span class="identifier-syntax">player</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">player</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="function-syntax">&lt;s-type-expression&gt;</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="function-syntax">&lt;s-value&gt;</span>
+<pre class="Preform-displayed-code all-displayed-code code-font">
+<span class="Preform-function-syntax">&lt;speaker-description&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;definite-article&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">player</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">     </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { TRUE, NULL }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">player</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">                        </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { TRUE, NULL }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;s-type-expression&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">           </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { FALSE, RP[1] }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;s-value&gt;</span><span class="Preform-plain-syntax">                       </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { NOT_APPLICABLE, RP[1] }</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6_1" class="paragraph-anchor"></a><b>&#167;6.1. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Parse the speaker description</span><span class="named-paragraph-number">6.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
+<p class="commentary firstcommentary"><a id="SP6_1" class="paragraph-anchor"></a><b>&#167;6.1. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Parse the speaker description</span><span class="named-paragraph-number">6.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">S</span><span class="plain-syntax"> = </span><span class="identifier-syntax">dl</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">speaker_text</span><span class="plain-syntax">;</span>
@@ -416,8 +428,7 @@ so we can also deal with style clauses.
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="6-dl.html#SP6">&#167;6</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP6_2" class="paragraph-anchor"></a><b>&#167;6.2. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Parse the interlocutor description</span><span class="named-paragraph-number">6.2</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP6_2" class="paragraph-anchor"></a><b>&#167;6.2. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Parse the interlocutor description</span><span class="named-paragraph-number">6.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">S</span><span class="plain-syntax"> = </span><span class="identifier-syntax">dl</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">interlocutor_text</span><span class="plain-syntax">;</span>
@@ -451,11 +462,11 @@ so we can also deal with style clauses.
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="6-dl.html#SP6">&#167;6</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>So what remains to be done? The unparsed clauses remaining are <span class="extract"><span class="extract-syntax">IF</span></span> and <span class="extract"><span class="extract-syntax">UNLESS</span></span>,
-<span class="extract"><span class="extract-syntax">BEFORE</span></span> and <span class="extract"><span class="extract-syntax">AFTER</span></span>, and <span class="extract"><span class="extract-syntax">NOW</span></span>: but all of those are essentially code rather
-than data, and we will parse those in <a href="../runtime-module/5-dli.html" class="internal">Dialogue Line Instances (in runtime)</a>.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>  So what remains to be done? The unparsed clauses remaining are <code>IF</code> and <code>UNLESS</code>,
+<code>BEFORE</code> and <code>AFTER</code>, and <code>NOW</code>: but all of those are essentially code rather
+than data, and we will parse those in <a href="../runtime-module/5-dli.html" class="internal">Dialogue Line Instances (in runtime)</a>.</p>
+</div>
 <nav role="progress"><div class="progresscontainer">
     <ul class="progressbar"><li class="progressprev"><a href="6-db.html">&#10094;</a></li><li class="progresschapter"><a href="P-wtmd.html">P</a></li><li class="progresschapter"><a href="1-im.html">1</a></li><li class="progresschapter"><a href="2-bd.html">2</a></li><li class="progresschapter"><a href="3-sm.html">3</a></li><li class="progresschapter"><a href="4-ap.html">4</a></li><li class="progresschapter"><a href="5-pp.html">5</a></li><li class="progresscurrentchapter">6</li><li class="progresssection"><a href="6-dlg.html">dlg</a></li><li class="progresssection"><a href="6-db.html">db</a></li><li class="progresscurrent">dl</li><li class="progresssection"><a href="6-dc.html">dc</a></li><li class="progresssection"><a href="6-dn.html">dn</a></li><li class="progresssection"><a href="6-dr.html">dr</a></li><li class="progresssection"><a href="6-ps.html">ps</a></li><li class="progressnext"><a href="6-dc.html">&#10095;</a></li></ul></div>
 </nav><!-- End of weave -->

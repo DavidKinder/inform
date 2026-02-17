@@ -20,7 +20,13 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<link href="../docs-assets/Preform-Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
 	<body class="commentary-font">
@@ -56,28 +62,28 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="5-cgt.html#SP1">&#167;1. Introduction</a></li><li><a href="5-cgt.html#SP2">&#167;2. Text to a CG token list</a></li><li><a href="5-cgt.html#SP9">&#167;9. The GTC</a></li><li><a href="5-cgt.html#SP11">&#167;11. Logging</a></li><li><a href="5-cgt.html#SP12">&#167;12. Parsing nonliteral tokens</a></li><li><a href="5-cgt.html#SP14">&#167;14. Determining</a></li><li><a href="5-cgt.html#SP15">&#167;15. Scoring</a></li><li><a href="5-cgt.html#SP16">&#167;16. Verification</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Introduction.</b>Until 2021, CG tokens were held as parse nodes in the syntax tree, with a
-special type <span class="extract"><span class="extract-syntax">TOKEN_NT</span></span> and a set of annotations, but as cute as that was
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Introduction.</b>  Until 2021, CG tokens were held as parse nodes in the syntax tree, with a
+special type <code>TOKEN_NT</code> and a set of annotations, but as cute as that was
 it was also obfuscatory, and now each CG token corresponds to a <a href="5-cgt.html#SP1" class="internal">cg_token</a>
-object as follows:
-</p>
-
+object as follows:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">cg_token</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_of_token</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">grammar_token_code</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">what_token_describes</span><span class="plain-syntax">; </span><span class="comment-syntax"> 0 or else one of the </span><span class="extract"><span class="extract-syntax">*_GTC</span></span><span class="comment-syntax"> values</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">binary_predicate</span><span class="plain-syntax"> *</span><span class="identifier-syntax">token_relation</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">noun_filter_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">noun_filter</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">command_grammar</span><span class="plain-syntax"> *</span><span class="identifier-syntax">defined_by</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">slash_class</span><span class="plain-syntax">; </span><span class="comment-syntax"> used in slashing: see </span><a href="5-cgl.html#SP15" class="internal">CGLines::slash</a>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">slash_dash_dash</span><span class="plain-syntax">; </span><span class="comment-syntax"> ditto</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">next_token</span><span class="plain-syntax">; </span><span class="comment-syntax"> in the list for a CG line</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">cg_token</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_of_token</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">grammar_token_code</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">what_token_describes</span><span class="plain-syntax">; </span><span class="comment-syntax">/* 0 or else one of the |*_GTC| values */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">binary_predicate</span><span class="plain-syntax"> *</span><span class="identifier-syntax">token_relation</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">noun_filter_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">noun_filter</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">command_grammar</span><span class="plain-syntax"> *</span><span class="identifier-syntax">defined_by</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">slash_class</span><span class="plain-syntax">; </span><span class="comment-syntax">/* used in slashing: see //CGLines::slash// */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">slash_dash_dash</span><span class="plain-syntax">; </span><span class="comment-syntax">/* ditto */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">next_token</span><span class="plain-syntax">; </span><span class="comment-syntax">/* in the list for a CG line */</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">CLASS_DEFINITION</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">cg_token</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">cg_token</span><span class="plain-syntax">;</span>
 
-<span class="reserved-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="function-syntax">CGTokens::cgt_of</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">CGTokens::cgt_of</span></span>:<br/><a href="5-cgt.html#SP6">&#167;6</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">lit</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cgt</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="reserved-syntax">cg_token</span><span class="plain-syntax">);</span>
+<span class="identifier-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="function-syntax">CGTokens::cgt_of</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">CGTokens::cgt_of</span></span>:<br/><a href="5-cgt.html#SP6">&#167;6</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">lit</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cgt</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="identifier-syntax">cg_token</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">cgt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">text_of_token</span><span class="plain-syntax"> = </span><span class="identifier-syntax">W</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">cgt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">slash_dash_dash</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">cgt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">slash_class</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
@@ -91,42 +97,41 @@ object as follows:
 <span class="plain-syntax">}</span>
 </pre>
 <ul class="endnotetexts"><li>The structure cg_token is accessed in 5/cgl and here.</li></ul>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Text to a CG token list.</b>Tokens are created when text such as "drill [something] with [something]"
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Text to a CG token list.</b>  Tokens are created when text such as &quot;drill [something] with [something]&quot;
 is parsed, from an Understand sentence or elsewhere. What happens is much
 the same as when text with substitutions is read: the text is retokenised
 by the lexer to produce the following, in which the square brackets have
-become commas:
-</p>
-
+become commas:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="string-syntax">"drill"</span><span class="plain-syntax"> , </span><span class="identifier-syntax">something</span><span class="plain-syntax"> , </span><span class="string-syntax">"with"</span><span class="plain-syntax"> , </span><span class="identifier-syntax">something</span>
 </pre>
-<p class="commentary">In fact we use a different punctuation set from the lexer's default, because
-we want forward slashes to break words, so that we need <span class="extract"><span class="extract-syntax">/</span></span> to be a punctuation
-mark: thus "get away/off/out" becomes
-</p>
-
+<div class="lsmarkdown">
+<p>In fact we use a different punctuation set from the lexer's default, because
+we want forward slashes to break words, so that we need <code>/</code> to be a punctuation
+mark: thus &quot;get away/off/out&quot; becomes</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="string-syntax">"get"</span><span class="plain-syntax"> </span><span class="string-syntax">"away"</span><span class="plain-syntax"> / </span><span class="string-syntax">"off"</span><span class="plain-syntax"> / </span><span class="string-syntax">"out"</span>
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">GRAMMAR_PUNCTUATION_MARKS</span><span class="plain-syntax"> </span><span class="identifier-syntax">U</span><span class="string-syntax">".,:;?!(){}[]/"</span><span class="plain-syntax"> </span><span class="comment-syntax"> note the slash</span>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">U</span><span class="string-syntax">".,:;?!(){}[]/"</span><span class="plain-syntax"> </span><span class="comment-syntax">/* note the slash */</span>
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="function-syntax">CGTokens::break</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">CGTokens::break</span></span>:<br/><a href="5-cgt.html#SP4">&#167;4</a>, <a href="5-cgt.html#SP6">&#167;6</a><br/>Understand Sentences - <a href="5-us.html#SP10_5">&#167;10.5</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inchar32_t</span><span class="plain-syntax"> *</span><span class="identifier-syntax">text</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">expand</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="5-cgt.html#SP2_1" class="named-paragraph-link"><span class="named-paragraph">Reject this if it contains punctuation</span><span class="named-paragraph-number">2.1</span></a></span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="function-syntax">CGTokens::break</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">CGTokens::break</span></span>:<br/><a href="5-cgt.html#SP4">&#167;4</a>, <a href="5-cgt.html#SP6">&#167;6</a><br/>Understand Sentences - <a href="5-us.html#SP10_5">&#167;10.5</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inchar32_t</span><span class="plain-syntax"> *</span><span class="identifier-syntax">text</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">expand</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="5-cgt.html#SP2_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Reject this if it contains punctuation</span></span><span class="named-paragraph-number">2.1</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">TW</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Feeds::feed_C_string_full</span><span class="plain-syntax">(</span><span class="identifier-syntax">text</span><span class="plain-syntax">, </span><span class="identifier-syntax">expand</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">        </span><span class="constant-syntax">GRAMMAR_PUNCTUATION_MARKS</span><span class="plain-syntax">, </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="5-cgt.html#SP2_2" class="named-paragraph-link"><span class="named-paragraph">Reject this if it contains two consecutive commas</span><span class="named-paragraph-number">2.2</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="5-cgt.html#SP2_3" class="named-paragraph-link"><span class="named-paragraph">Reject this if it slashes off a numerical word</span><span class="named-paragraph-number">2.3</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="5-cgt.html#SP2_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Reject this if it contains two consecutive commas</span></span><span class="named-paragraph-number">2.2</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="5-cgt.html#SP2_3" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Reject this if it slashes off a numerical word</span></span><span class="named-paragraph-number">2.3</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TW</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2_1" class="paragraph-anchor"></a><b>&#167;2.1. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Reject this if it contains punctuation</span><span class="named-paragraph-number">2.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP2_1" class="paragraph-anchor"></a><b>&#167;2.1. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Reject this if it contains punctuation</span><span class="named-paragraph-number">2.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">skip</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">, </span><span class="identifier-syntax">literal_punct</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">text</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">]; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">skip</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">, </span><span class="identifier-syntax">literal_punct</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">text</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">]; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">text</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">] == </span><span class="character-syntax">'['</span><span class="plain-syntax">) </span><span class="identifier-syntax">skip</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">text</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">] == </span><span class="character-syntax">']'</span><span class="plain-syntax">) </span><span class="identifier-syntax">skip</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">skip</span><span class="plain-syntax">) </span><span class="reserved-syntax">continue</span><span class="plain-syntax">;</span>
@@ -145,8 +150,7 @@ mark: thus "get away/off/out" becomes
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-cgt.html#SP2">&#167;2</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP2_2" class="paragraph-anchor"></a><b>&#167;2.2. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Reject this if it contains two consecutive commas</span><span class="named-paragraph-number">2.2</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP2_2" class="paragraph-anchor"></a><b>&#167;2.2. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Reject this if it contains two consecutive commas</span><span class="named-paragraph-number">2.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_THROUGH_WORDING</span><span class="plain-syntax">(</span><span class="identifier-syntax">i</span><span class="plain-syntax">, </span><span class="identifier-syntax">TW</span><span class="plain-syntax">)</span>
@@ -168,8 +172,7 @@ mark: thus "get away/off/out" becomes
 <span class="plain-syntax">            }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-cgt.html#SP2">&#167;2</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP2_3" class="paragraph-anchor"></a><b>&#167;2.3. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Reject this if it slashes off a numerical word</span><span class="named-paragraph-number">2.3</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP2_3" class="paragraph-anchor"></a><b>&#167;2.3. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Reject this if it slashes off a numerical word</span><span class="named-paragraph-number">2.3</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_THROUGH_WORDING</span><span class="plain-syntax">(</span><span class="identifier-syntax">i</span><span class="plain-syntax">, </span><span class="identifier-syntax">TW</span><span class="plain-syntax">)</span>
@@ -186,25 +189,25 @@ mark: thus "get away/off/out" becomes
 <span class="plain-syntax">            }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-cgt.html#SP2">&#167;2</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b></p>
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">CGTokens::numerical</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">CGTokens::numerical</span></span>:<br/><a href="5-cgt.html#SP2_3">&#167;2.3</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">wn</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">CGTokens::numerical</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">CGTokens::numerical</span></span>:<br/><a href="5-cgt.html#SP2_3">&#167;2.3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">wn</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inchar32_t</span><span class="plain-syntax"> *</span><span class="identifier-syntax">text</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Lexer::word_text</span><span class="plain-syntax">(</span><span class="identifier-syntax">wn</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;</span><span class="identifier-syntax">Wide::len</span><span class="plain-syntax">(</span><span class="identifier-syntax">text</span><span class="plain-syntax">); </span><span class="identifier-syntax">i</span><span class="plain-syntax">++)</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;</span><span class="identifier-syntax">Wide::len</span><span class="plain-syntax">(</span><span class="identifier-syntax">text</span><span class="plain-syntax">); </span><span class="identifier-syntax">i</span><span class="plain-syntax">++)</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Characters::isdigit</span><span class="plain-syntax">(</span><span class="identifier-syntax">text</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">]) == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>And here the result becomes a token list:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  And here the result becomes a token list:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="function-syntax">CGTokens::tokenise</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">CGTokens::tokenise</span></span>:<br/>Understand Sentences - <a href="5-us.html#SP19_9">&#167;19.9</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="function-syntax">CGTokens::tokenise</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">CGTokens::tokenise</span></span>:<br/>Understand Sentences - <a href="5-us.html#SP19_9">&#167;19.9</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inchar32_t</span><span class="plain-syntax"> *</span><span class="identifier-syntax">as_wide_string</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Lexer::word_text</span><span class="plain-syntax">(</span><span class="identifier-syntax">Wordings::first_wn</span><span class="plain-syntax">(</span><span class="identifier-syntax">W</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">TW</span><span class="plain-syntax"> = </span><a href="5-cgt.html#SP2" class="function-link"><span class="function-syntax">CGTokens::break</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">as_wide_string</span><span class="plain-syntax">, </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">tokens</span><span class="plain-syntax"> = </span><a href="5-cgt.html#SP6" class="function-link"><span class="function-syntax">CGTokens::break_into_tokens</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">TW</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">tokens</span><span class="plain-syntax"> = </span><a href="5-cgt.html#SP6" class="function-link"><span class="function-syntax">CGTokens::break_into_tokens</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">TW</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Wordings::empty</span><span class="plain-syntax">(</span><span class="identifier-syntax">TW</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">tokens</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">StandardProblems::sentence_problem</span><span class="plain-syntax">(</span><span class="identifier-syntax">Task::syntax_tree</span><span class="plain-syntax">(),</span>
@@ -219,25 +222,26 @@ mark: thus "get away/off/out" becomes
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">tokens</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>The following tiny Preform grammar is then used to break up the resulting
-text at commas:
-</p>
-
-<pre class="displayed-code all-displayed-code code-font">
-<span class="function-syntax">&lt;grammar-token-breaking&gt;</span>
-<span class="plain-syntax">    ... , ... |</span>
-<span class="plain-syntax">    </span><span class="function-syntax">&lt;quoted-text&gt;</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    ...</span>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  The following tiny Preform grammar is then used to break up the resulting
+text at commas:</p>
+</div>
+<pre class="Preform-displayed-code all-displayed-code code-font">
+<span class="Preform-function-syntax">&lt;grammar-token-breaking&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-reserved-syntax">...</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">,</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">...</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">      </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { NOT_APPLICABLE, - }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;quoted-text&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">  </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { TRUE, - }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-reserved-syntax">...</span><span class="Preform-plain-syntax">              </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { FALSE, - }</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>The following function takes a wording and turns it into a linked list of
-CG tokens, divided by commas:
-</p>
-
+<ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  The following function takes a wording and turns it into a linked list of
+CG tokens, divided by commas:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="function-syntax">CGTokens::break_into_tokens</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">CGTokens::break_into_tokens</span></span>:<br/><a href="5-cgt.html#SP4">&#167;4</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="function-syntax">CGTokens::break_into_tokens</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">CGTokens::break_into_tokens</span></span>:<br/><a href="5-cgt.html#SP4">&#167;4</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><a href="5-cgt.html#SP6" class="function-link"><span class="function-syntax">CGTokens::break_into_tokens_r</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">NULL</span><span class="plain-syntax">, </span><span class="identifier-syntax">W</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
-<span class="reserved-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="function-syntax">CGTokens::break_into_tokens_r</span><span class="plain-syntax">(</span><span class="reserved-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">list</span><span class="plain-syntax">, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="function-syntax">CGTokens::break_into_tokens_r</span><span class="plain-syntax">(</span><span class="identifier-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">list</span><span class="plain-syntax">, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="function-syntax">&lt;grammar-token-breaking&gt;</span><span class="plain-syntax">(</span><span class="identifier-syntax">W</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="function-syntax">&lt;&lt;r&gt;&gt;</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">NOT_APPLICABLE:</span><span class="plain-syntax"> {</span>
@@ -252,12 +256,12 @@ CG tokens, divided by commas:
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (*(</span><span class="identifier-syntax">Lexer::word_text</span><span class="plain-syntax">(</span><span class="identifier-syntax">Wordings::first_wn</span><span class="plain-syntax">(</span><span class="identifier-syntax">W</span><span class="plain-syntax">))) == </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">list</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">W</span><span class="plain-syntax"> = </span><a href="5-cgt.html#SP2" class="function-link"><span class="function-syntax">CGTokens::break</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">Lexer::word_text</span><span class="plain-syntax">(</span><span class="identifier-syntax">Wordings::first_wn</span><span class="plain-syntax">(</span><span class="identifier-syntax">W</span><span class="plain-syntax">)), </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">LOOP_THROUGH_WORDING</span><span class="plain-syntax">(</span><span class="identifier-syntax">i</span><span class="plain-syntax">, </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">                </span><span class="reserved-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cgt</span><span class="plain-syntax"> = </span><a href="5-cgt.html#SP1" class="function-link"><span class="function-syntax">CGTokens::cgt_of</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">Wordings::one_word</span><span class="plain-syntax">(</span><span class="identifier-syntax">i</span><span class="plain-syntax">), </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">                </span><span class="identifier-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cgt</span><span class="plain-syntax"> = </span><a href="5-cgt.html#SP1" class="function-link"><span class="function-syntax">CGTokens::cgt_of</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">Wordings::one_word</span><span class="plain-syntax">(</span><span class="identifier-syntax">i</span><span class="plain-syntax">), </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">list</span><span class="plain-syntax"> = </span><a href="5-cgt.html#SP7" class="function-link"><span class="function-syntax">CGTokens::add_to_list</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">, </span><span class="identifier-syntax">list</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            }</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE:</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cgt</span><span class="plain-syntax"> = </span><a href="5-cgt.html#SP1" class="function-link"><span class="function-syntax">CGTokens::cgt_of</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">W</span><span class="plain-syntax">, </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">            </span><span class="identifier-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cgt</span><span class="plain-syntax"> = </span><a href="5-cgt.html#SP1" class="function-link"><span class="function-syntax">CGTokens::cgt_of</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">W</span><span class="plain-syntax">, </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">list</span><span class="plain-syntax"> = </span><a href="5-cgt.html#SP7" class="function-link"><span class="function-syntax">CGTokens::add_to_list</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">, </span><span class="identifier-syntax">list</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        }</span>
@@ -265,80 +269,92 @@ CG tokens, divided by commas:
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">list</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>If <span class="extract"><span class="extract-syntax">list</span></span> represents the head of the list (and is <span class="extract"><span class="extract-syntax">NULL</span></span> for an empty list),
-this adds <span class="extract"><span class="extract-syntax">cgt</span></span> at the end and returns the new head.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  If <code>list</code> represents the head of the list (and is <code>NULL</code> for an empty list),
+this adds <code>cgt</code> at the end and returns the new head.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="function-syntax">CGTokens::add_to_list</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">CGTokens::add_to_list</span></span>:<br/><a href="5-cgt.html#SP6">&#167;6</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">, </span><span class="reserved-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">list</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="function-syntax">CGTokens::add_to_list</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">CGTokens::add_to_list</span></span>:<br/><a href="5-cgt.html#SP6">&#167;6</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">, </span><span class="identifier-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">list</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">list</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">cgt</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">cgt</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">list</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">x</span><span class="plain-syntax"> = </span><span class="identifier-syntax">list</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">x</span><span class="plain-syntax"> = </span><span class="identifier-syntax">list</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">while</span><span class="plain-syntax"> (</span><span class="identifier-syntax">x</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next_token</span><span class="plain-syntax">) </span><span class="identifier-syntax">x</span><span class="plain-syntax"> = </span><span class="identifier-syntax">x</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next_token</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">x</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next_token</span><span class="plain-syntax"> = </span><span class="identifier-syntax">cgt</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">list</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>As the above shows, the text of a token is not necessarily a single word,
-unless it's a literal.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>  As the above shows, the text of a token is not necessarily a single word,
+unless it's a literal.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="function-syntax">CGTokens::text</span><button class="popup" onclick="togglePopup('usagePopup7')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup7">Usage of <span class="code-font"><span class="function-syntax">CGTokens::text</span></span>:<br/><a href="5-cgt.html#SP14">&#167;14</a>, <a href="5-cgt.html#SP14_2">&#167;14.2</a>, <a href="5-cgt.html#SP16">&#167;16</a><br/>Understand Sentences - <a href="5-us.html#SP19_11">&#167;19.11</a><br/>Command Grammar Lines - <a href="5-cgl.html#SP14">&#167;14</a>, <a href="5-cgl.html#SP15_1">&#167;15.1</a>, <a href="5-cgl.html#SP16_1">&#167;16.1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="function-syntax">CGTokens::text</span><button class="popup" onclick="togglePopup('usagePopup7')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup7">Usage of <span class="code-font"><span class="function-syntax">CGTokens::text</span></span>:<br/><a href="5-cgt.html#SP14">&#167;14</a>, <a href="5-cgt.html#SP14_2">&#167;14.2</a>, <a href="5-cgt.html#SP16">&#167;16</a><br/>Understand Sentences - <a href="5-us.html#SP19_11">&#167;19.11</a><br/>Command Grammar Lines - <a href="5-cgl.html#SP14">&#167;14</a>, <a href="5-cgl.html#SP15_1">&#167;15.1</a>, <a href="5-cgl.html#SP16_1">&#167;16.1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">cgt</span><span class="plain-syntax">?(</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">text_of_token</span><span class="plain-syntax">):(</span><span class="identifier-syntax">EMPTY_WORDING</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. The GTC.</b>The GTC, or grammar token code, is a sort of type indicator for tokens. As
-produced by the tokeniser above, tokens initially have GTC either <span class="extract"><span class="extract-syntax">UNDETERMINED_GTC</span></span>
-or <span class="extract"><span class="extract-syntax">LITERAL_GTC</span></span>. Differentiation of non-literal tokens into other types happens
-in <a href="5-cgt.html#SP14" class="internal">CGTokens::determine</a>.
-</p>
-
-<p class="commentary">Note that there are two sets of GTC values, one set positive, one negative. The
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. The GTC.</b>  The GTC, or grammar token code, is a sort of type indicator for tokens. As
+produced by the tokeniser above, tokens initially have GTC either <code>UNDETERMINED_GTC</code>
+or <code>LITERAL_GTC</code>. Differentiation of non-literal tokens into other types happens
+in <a href="5-cgt.html#SP14" class="internal">CGTokens::determine</a>.</p>
+<p>Note that there are two sets of GTC values, one set positive, one negative. The
 negative ones correspond closely to command-parser grammar reserved tokens in
 the old I6 compiler, and this is indeed what they compile to if we are
-generating I6 code.
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">NAMED_TOKEN_GTC</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span>
-<span class="definition-keyword">define</span> <span class="constant-syntax">RELATED_GTC</span><span class="plain-syntax"> </span><span class="constant-syntax">2</span>
-<span class="definition-keyword">define</span> <span class="constant-syntax">STUFF_GTC</span><span class="plain-syntax"> </span><span class="constant-syntax">3</span>
-<span class="definition-keyword">define</span> <span class="constant-syntax">ANY_STUFF_GTC</span><span class="plain-syntax"> </span><span class="constant-syntax">4</span>
-<span class="definition-keyword">define</span> <span class="constant-syntax">ANY_THINGS_GTC</span><span class="plain-syntax"> </span><span class="constant-syntax">5</span>
-<span class="definition-keyword">define</span> <span class="constant-syntax">LITERAL_GTC</span><span class="plain-syntax"> </span><span class="constant-syntax">6</span>
-<span class="definition-keyword">define</span> <span class="constant-syntax">UNDETERMINED_GTC</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span>
-<span class="definition-keyword">define</span> <span class="constant-syntax">NOUN_TOKEN_GTC</span><span class="plain-syntax"> -1        </span><span class="comment-syntax"> like I6 </span><span class="extract"><span class="extract-syntax">noun</span></span>
-<span class="definition-keyword">define</span> <span class="constant-syntax">MULTI_TOKEN_GTC</span><span class="plain-syntax"> -2       </span><span class="comment-syntax"> like I6 </span><span class="extract"><span class="extract-syntax">multi</span></span>
-<span class="definition-keyword">define</span> <span class="constant-syntax">MULTIINSIDE_TOKEN_GTC</span><span class="plain-syntax"> -3 </span><span class="comment-syntax"> like I6 </span><span class="extract"><span class="extract-syntax">multiinside</span></span>
-<span class="definition-keyword">define</span> <span class="constant-syntax">MULTIHELD_TOKEN_GTC</span><span class="plain-syntax"> -4   </span><span class="comment-syntax"> like I6 </span><span class="extract"><span class="extract-syntax">multiheld</span></span>
-<span class="definition-keyword">define</span> <span class="constant-syntax">HELD_TOKEN_GTC</span><span class="plain-syntax"> -5        </span><span class="comment-syntax"> like I6 </span><span class="extract"><span class="extract-syntax">held</span></span>
-<span class="definition-keyword">define</span> <span class="constant-syntax">CREATURE_TOKEN_GTC</span><span class="plain-syntax"> -6    </span><span class="comment-syntax"> like I6 </span><span class="extract"><span class="extract-syntax">creature</span></span>
-<span class="definition-keyword">define</span> <span class="constant-syntax">TOPIC_TOKEN_GTC</span><span class="plain-syntax"> -7       </span><span class="comment-syntax"> like I6 </span><span class="extract"><span class="extract-syntax">topic</span></span>
-<span class="definition-keyword">define</span> <span class="constant-syntax">MULTIEXCEPT_TOKEN_GTC</span><span class="plain-syntax"> -8 </span><span class="comment-syntax"> like I6 </span><span class="extract"><span class="extract-syntax">multiexcept</span></span>
+generating I6 code.</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">1</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">2</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">3</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">4</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">5</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">6</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">0</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">-1</span><span class="plain-syntax">        </span><span class="comment-syntax">/* like I6 |noun| */</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">-2</span><span class="plain-syntax">       </span><span class="comment-syntax">/* like I6 |multi| */</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">-3</span><span class="plain-syntax"> </span><span class="comment-syntax">/* like I6 |multiinside| */</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">-4</span><span class="plain-syntax">   </span><span class="comment-syntax">/* like I6 |multiheld| */</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">-5</span><span class="plain-syntax">        </span><span class="comment-syntax">/* like I6 |held| */</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">-6</span><span class="plain-syntax">    </span><span class="comment-syntax">/* like I6 |creature| */</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">-7</span><span class="plain-syntax">       </span><span class="comment-syntax">/* like I6 |topic| */</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">-8</span><span class="plain-syntax"> </span><span class="comment-syntax">/* like I6 |multiexcept| */</span>
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">CGTokens::is_literal</span><button class="popup" onclick="togglePopup('usagePopup8')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup8">Usage of <span class="code-font"><span class="function-syntax">CGTokens::is_literal</span></span>:<br/><a href="5-cgt.html#SP14">&#167;14</a>, <a href="5-cgt.html#SP16">&#167;16</a><br/>Understand Sentences - <a href="5-us.html#SP19_11">&#167;19.11</a><br/>Command Grammar Lines - <a href="5-cgl.html#SP14">&#167;14</a>, <a href="5-cgl.html#SP15_2">&#167;15.2</a>, <a href="5-cgl.html#SP16_2">&#167;16.2</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">CGTokens::is_literal</span><button class="popup" onclick="togglePopup('usagePopup8')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup8">Usage of <span class="code-font"><span class="function-syntax">CGTokens::is_literal</span></span>:<br/><a href="5-cgt.html#SP14">&#167;14</a>, <a href="5-cgt.html#SP16">&#167;16</a><br/>Understand Sentences - <a href="5-us.html#SP19_11">&#167;19.11</a><br/>Command Grammar Lines - <a href="5-cgl.html#SP14">&#167;14</a>, <a href="5-cgl.html#SP15_2">&#167;15.2</a>, <a href="5-cgl.html#SP16_2">&#167;16.2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">grammar_token_code</span><span class="plain-syntax"> == </span><span class="constant-syntax">LITERAL_GTC</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">CGTokens::is_I6_parser_token</span><span class="plain-syntax">(</span><span class="reserved-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">CGTokens::is_I6_parser_token</span><span class="plain-syntax">(</span><span class="identifier-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">grammar_token_code</span><span class="plain-syntax"> &lt; </span><span class="constant-syntax">0</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">CGTokens::is_topic</span><button class="popup" onclick="togglePopup('usagePopup9')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup9">Usage of <span class="code-font"><span class="function-syntax">CGTokens::is_topic</span></span>:<br/><a href="5-cgt.html#SP16">&#167;16</a><br/>Command Grammar Lines - <a href="5-cgl.html#SP16_2">&#167;16.2</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">CGTokens::is_topic</span><button class="popup" onclick="togglePopup('usagePopup9')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup9">Usage of <span class="code-font"><span class="function-syntax">CGTokens::is_topic</span></span>:<br/><a href="5-cgt.html#SP16">&#167;16</a><br/>Command Grammar Lines - <a href="5-cgl.html#SP16_2">&#167;16.2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">grammar_token_code</span><span class="plain-syntax"> == </span><span class="constant-syntax">TOPIC_TOKEN_GTC</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b>A multiple token is one which permits multiple matches in the run-time command
-parser: for instance, the player can type ALL where a <span class="extract"><span class="extract-syntax">MULTI_TOKEN_GTC</span></span> is
-expected.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b>  A multiple token is one which permits multiple matches in the run-time command
+parser: for instance, the player can type ALL where a <code>MULTI_TOKEN_GTC</code> is
+expected.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">CGTokens::is_multiple</span><button class="popup" onclick="togglePopup('usagePopup10')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup10">Usage of <span class="code-font"><span class="function-syntax">CGTokens::is_multiple</span></span>:<br/>Command Grammar Lines - <a href="5-cgl.html#SP16_1">&#167;16.1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">CGTokens::is_multiple</span><button class="popup" onclick="togglePopup('usagePopup10')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup10">Usage of <span class="code-font"><span class="function-syntax">CGTokens::is_multiple</span></span>:<br/>Command Grammar Lines - <a href="5-cgl.html#SP16_1">&#167;16.1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">grammar_token_code</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">MULTI_TOKEN_GTC:</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">MULTIINSIDE_TOKEN_GTC:</span>
@@ -349,10 +365,10 @@ expected.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. Logging.</b></p>
+<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. Logging.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CGTokens::log</span><button class="popup" onclick="togglePopup('usagePopup11')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup11">Usage of <span class="code-font"><span class="function-syntax">CGTokens::log</span></span>:<br/>IF Module - <a href="1-im.html#SP2">&#167;2</a>, <a href="1-im.html#SP2_2">&#167;2.2</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CGTokens::log</span><button class="popup" onclick="togglePopup('usagePopup11')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup11">Usage of <span class="code-font"><span class="function-syntax">CGTokens::log</span></span>:<br/>IF Module - <a href="1-im.html#SP2">&#167;2</a>, <a href="1-im.html#SP2_2">&#167;2.2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">cgt</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"&lt;no-cgt&gt;"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">else</span><span class="plain-syntax"> {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"&lt;CGT%d:%W"</span><span class="plain-syntax">, </span><span class="identifier-syntax">cgt</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">allocation_id</span><span class="plain-syntax">, </span><span class="identifier-syntax">cgt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">text_of_token</span><span class="plain-syntax">);</span>
@@ -377,83 +393,78 @@ expected.
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. Parsing nonliteral tokens.</b>Unless a token is literal and in double-quotes, it will start out as having
-<span class="extract"><span class="extract-syntax">UNDETERMINED_GTC</span></span> until we investigate what the words in it mean, which we
-will do with the following Preform grammar.
-</p>
-
-<p class="commentary">Note that &lt;grammar-token&gt; always matches any text, even if it sometimes throws
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. Parsing nonliteral tokens.</b>  Unless a token is literal and in double-quotes, it will start out as having
+<code>UNDETERMINED_GTC</code> until we investigate what the words in it mean, which we
+will do with the following Preform grammar.</p>
+<p>Note that &lt;grammar-token&gt; always matches any text, even if it sometimes throws
 a problem message on the way. Its return integer is a valid GTC, and its
-return pointer is a (non-null) description of what the token matches.
-</p>
+return pointer is a (non-null) description of what the token matches.</p>
+</div>
+<pre class="Preform-displayed-code all-displayed-code code-font">
+<span class="Preform-function-syntax">&lt;grammar-token&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;named-grammar-token&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">       </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="5-cgt.html#SP12_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Apply the command grammar</span></span><span class="named-paragraph-number">12.1</span></a></span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">any</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">things</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">                  </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { ANY_THINGS_GTC, Specifications::from_kind(K_thing) }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">any</span><span class="Preform-plain-syntax"> </span><span class="Preform-function-syntax">&lt;s-description&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">         </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { ANY_STUFF_GTC, RP[1] }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">anything</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">                    </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { ANY_STUFF_GTC, Specifications::from_kind(K_thing) }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">anybody</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">                     </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { ANY_STUFF_GTC, Specifications::from_kind(K_person) }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">anyone</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">                      </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { ANY_STUFF_GTC, Specifications::from_kind(K_person) }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">anywhere</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">                    </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { ANY_STUFF_GTC, Specifications::from_kind(K_room) }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">something</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">related</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">by</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">reversed</span><span class="Preform-plain-syntax"> </span><span class="Preform-function-syntax">&lt;relation-name&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">   </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="5-cgt.html#SP12_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Apply the reversed relation</span></span><span class="named-paragraph-number">12.2</span></a></span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">something</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">related</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">by</span><span class="Preform-plain-syntax"> </span><span class="Preform-function-syntax">&lt;relation-name&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">            </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="5-cgt.html#SP12_3" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Apply the relation</span></span><span class="named-paragraph-number">12.3</span></a></span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">something</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">related</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">by</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">...</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">    </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="5-cgt.html#SP12_4" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Issue PM_GrammarBadRelation problem</span></span><span class="named-paragraph-number">12.4</span></a></span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;standard-grammar-token&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">    </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { pass 1 }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;definite-article&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-function-syntax">&lt;k-kind&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { STUFF_GTC, Specifications::from_kind(RP[2]) }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;s-description&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">             </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { STUFF_GTC, RP[1] }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;s-type-expression&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">         </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="5-cgt.html#SP12_9" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Issue PM_BizarreToken problem</span></span><span class="named-paragraph-number">12.9</span></a></span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-reserved-syntax">...</span><span class="Preform-plain-syntax">                           </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="5-cgt.html#SP12_10" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Issue PM_UnknownToken problem</span></span><span class="named-paragraph-number">12.10</span></a></span>
 
-<pre class="displayed-code all-displayed-code code-font">
-<span class="function-syntax">&lt;grammar-token&gt;</span>
-<span class="plain-syntax">    </span><span class="function-syntax">&lt;named-grammar-token&gt;</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">any</span><span class="plain-syntax"> </span><span class="identifier-syntax">things</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">any</span><span class="plain-syntax"> </span><span class="function-syntax">&lt;s-description&gt;</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">anything</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">anybody</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">anyone</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">anywhere</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">something</span><span class="plain-syntax"> </span><span class="identifier-syntax">related</span><span class="plain-syntax"> </span><span class="identifier-syntax">by</span><span class="plain-syntax"> </span><span class="identifier-syntax">reversed</span><span class="plain-syntax"> </span><span class="function-syntax">&lt;relation-name&gt;</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">something</span><span class="plain-syntax"> </span><span class="identifier-syntax">related</span><span class="plain-syntax"> </span><span class="identifier-syntax">by</span><span class="plain-syntax"> </span><span class="function-syntax">&lt;relation-name&gt;</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">something</span><span class="plain-syntax"> </span><span class="identifier-syntax">related</span><span class="plain-syntax"> </span><span class="identifier-syntax">by</span><span class="plain-syntax"> ... |</span>
-<span class="plain-syntax">    </span><span class="function-syntax">&lt;standard-grammar-token&gt;</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="function-syntax">&lt;definite-article&gt;</span><span class="plain-syntax"> </span><span class="function-syntax">&lt;k-kind&gt;</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="function-syntax">&lt;s-description&gt;</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="function-syntax">&lt;s-type-expression&gt;</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    ...</span>
+<span class="Preform-function-syntax">&lt;standard-grammar-token&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">something</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">                 </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { NOUN_TOKEN_GTC, Specifications::from_kind(K_object) }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">things</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">                    </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { MULTI_TOKEN_GTC, Specifications::from_kind(K_object) }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">things</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">inside</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">             </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { MULTIINSIDE_TOKEN_GTC, Specifications::from_kind(K_object) }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">things</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">preferably</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">held</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">    </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { MULTIHELD_TOKEN_GTC, Specifications::from_kind(K_object) }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">something</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">preferably</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">held</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { HELD_TOKEN_GTC, Specifications::from_kind(K_object) }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">other</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">things</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">              </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { MULTIEXCEPT_TOKEN_GTC, Specifications::from_kind(K_object) }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">someone</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">                   </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { CREATURE_TOKEN_GTC, Specifications::from_kind(K_object) }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">somebody</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">                  </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { CREATURE_TOKEN_GTC, Specifications::from_kind(K_object) }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">text</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">                      </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { TOPIC_TOKEN_GTC, Specifications::from_kind(K_understanding) }</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">topic</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">                     </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="5-cgt.html#SP12_5" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Issue PM_UseTextNotTopic problem</span></span><span class="named-paragraph-number">12.5</span></a></span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">a</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">topic</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">                   </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="5-cgt.html#SP12_5" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Issue PM_UseTextNotTopic problem</span></span><span class="named-paragraph-number">12.5</span></a></span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">object</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">                    </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="5-cgt.html#SP12_6" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Issue PM_UseThingNotObject problem</span></span><span class="named-paragraph-number">12.6</span></a></span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">an</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">object</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">                 </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="5-cgt.html#SP12_6" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Issue PM_UseThingNotObject problem</span></span><span class="named-paragraph-number">12.6</span></a></span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">something</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">held</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">            </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="5-cgt.html#SP12_7" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Issue something held problem message</span></span><span class="named-paragraph-number">12.7</span></a></span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">things</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">held</span><span class="Preform-plain-syntax">                 </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="5-cgt.html#SP12_8" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Issue things held problem message</span></span><span class="named-paragraph-number">12.8</span></a></span>
 
-<span class="function-syntax">&lt;standard-grammar-token&gt;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">something</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">things</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">things</span><span class="plain-syntax"> </span><span class="identifier-syntax">inside</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">things</span><span class="plain-syntax"> </span><span class="identifier-syntax">preferably</span><span class="plain-syntax"> </span><span class="identifier-syntax">held</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">something</span><span class="plain-syntax"> </span><span class="identifier-syntax">preferably</span><span class="plain-syntax"> </span><span class="identifier-syntax">held</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">other</span><span class="plain-syntax"> </span><span class="identifier-syntax">things</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">someone</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">somebody</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">text</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">topic</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">a</span><span class="plain-syntax"> </span><span class="identifier-syntax">topic</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">object</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">an</span><span class="plain-syntax"> </span><span class="identifier-syntax">object</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">something</span><span class="plain-syntax"> </span><span class="identifier-syntax">held</span><span class="plain-syntax"> |</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">things</span><span class="plain-syntax"> </span><span class="identifier-syntax">held</span>
-
-<span class="function-syntax">&lt;named-grammar-token&gt;</span><span class="plain-syntax"> </span><span class="identifier-syntax">internal</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">command_grammar</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cg</span><span class="plain-syntax"> = </span><a href="5-cg.html#SP11" class="function-link"><span class="function-syntax">CommandGrammars::named_token_by_name</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">W</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">cg</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">        ==&gt; { -, </span><span class="identifier-syntax">cg</span><span class="plain-syntax"> };</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    }</span>
-<span class="plain-syntax">    ==&gt; { </span><span class="identifier-syntax">fail</span><span class="plain-syntax"> </span><span class="identifier-syntax">nonterminal</span><span class="plain-syntax"> };</span>
-<span class="plain-syntax">}</span>
+<span class="Preform-function-syntax">&lt;named-grammar-token&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">internal</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">{</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-identifier-syntax">command_grammar</span><span class="Preform-plain-syntax"> *</span><span class="Preform-identifier-syntax">cg</span><span class="Preform-plain-syntax"> = </span><a href="5-cg.html#SP11" class="function-link"><span class="Preform-function-syntax">CommandGrammars::named_token_by_name</span></a><span class="Preform-plain-syntax">(</span><span class="Preform-identifier-syntax">W</span><span class="Preform-plain-syntax">);</span>
+<span class="Preform-plain-syntax">    </span><span class="Preform-reserved-syntax">if</span><span class="Preform-plain-syntax"> (</span><span class="Preform-identifier-syntax">cg</span><span class="Preform-plain-syntax">) {</span>
+<span class="Preform-plain-syntax">        ==&gt; { </span><span class="Preform-constant-syntax">-</span><span class="Preform-plain-syntax">, </span><span class="Preform-identifier-syntax">cg</span><span class="Preform-plain-syntax"> };</span>
+<span class="Preform-plain-syntax">        </span><span class="Preform-reserved-syntax">return</span><span class="Preform-plain-syntax"> </span><span class="Preform-identifier-syntax">TRUE</span><span class="Preform-plain-syntax">;</span>
+<span class="Preform-plain-syntax">    }</span>
+<span class="Preform-plain-syntax">    ==&gt; { </span><span class="Preform-identifier-syntax">fail</span><span class="Preform-plain-syntax"> </span><span class="Preform-identifier-syntax">nonterminal</span><span class="Preform-plain-syntax"> };</span>
+<span class="Preform-plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP12_1" class="paragraph-anchor"></a><b>&#167;12.1. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Apply the command grammar</span><span class="named-paragraph-number">12.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
+<p class="commentary firstcommentary"><a id="SP12_1" class="paragraph-anchor"></a><b>&#167;12.1. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Apply the command grammar</span><span class="named-paragraph-number">12.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    ==&gt; { </span><span class="constant-syntax">NAMED_TOKEN_GTC</span><span class="plain-syntax">, </span><a href="5-pp.html#SP4" class="function-link"><span class="function-syntax">ParsingPlugin::rvalue_from_command_grammar</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">RP</span><span class="plain-syntax">[1]) }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-cgt.html#SP12">&#167;12</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP12_2" class="paragraph-anchor"></a><b>&#167;12.2. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Apply the reversed relation</span><span class="named-paragraph-number">12.2</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP12_2" class="paragraph-anchor"></a><b>&#167;12.2. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Apply the reversed relation</span><span class="named-paragraph-number">12.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    ==&gt; { </span><span class="constant-syntax">RELATED_GTC</span><span class="plain-syntax">, </span><span class="identifier-syntax">Rvalues::from_binary_predicate</span><span class="plain-syntax">(</span><span class="identifier-syntax">BinaryPredicates::get_reversal</span><span class="plain-syntax">(</span><span class="identifier-syntax">RP</span><span class="plain-syntax">[1])) }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-cgt.html#SP12">&#167;12</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP12_3" class="paragraph-anchor"></a><b>&#167;12.3. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Apply the relation</span><span class="named-paragraph-number">12.3</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP12_3" class="paragraph-anchor"></a><b>&#167;12.3. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Apply the relation</span><span class="named-paragraph-number">12.3</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    ==&gt; { </span><span class="constant-syntax">RELATED_GTC</span><span class="plain-syntax">, </span><span class="identifier-syntax">Rvalues::from_binary_predicate</span><span class="plain-syntax">(</span><span class="identifier-syntax">RP</span><span class="plain-syntax">[1]) }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-cgt.html#SP12">&#167;12</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP12_4" class="paragraph-anchor"></a><b>&#167;12.4. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Issue PM_GrammarBadRelation problem</span><span class="named-paragraph-number">12.4</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP12_4" class="paragraph-anchor"></a><b>&#167;12.4. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Issue PM_GrammarBadRelation problem</span><span class="named-paragraph-number">12.4</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">Problems::quote_source</span><span class="plain-syntax">(1, </span><span class="identifier-syntax">current_sentence</span><span class="plain-syntax">);</span>
@@ -467,8 +478,7 @@ return pointer is a (non-null) description of what the token matches.
 <span class="plain-syntax">    ==&gt; { </span><span class="constant-syntax">RELATED_GTC</span><span class="plain-syntax">, </span><span class="identifier-syntax">Rvalues::from_binary_predicate</span><span class="plain-syntax">(</span><span class="identifier-syntax">R_equality</span><span class="plain-syntax">) }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-cgt.html#SP12">&#167;12</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP12_5" class="paragraph-anchor"></a><b>&#167;12.5. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Issue PM_UseTextNotTopic problem</span><span class="named-paragraph-number">12.5</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP12_5" class="paragraph-anchor"></a><b>&#167;12.5. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Issue PM_UseTextNotTopic problem</span><span class="named-paragraph-number">12.5</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">Problems::quote_source</span><span class="plain-syntax">(1, </span><span class="identifier-syntax">current_sentence</span><span class="plain-syntax">);</span>
@@ -488,8 +498,7 @@ return pointer is a (non-null) description of what the token matches.
 <span class="plain-syntax">    ==&gt; { </span><span class="constant-syntax">TOPIC_TOKEN_GTC</span><span class="plain-syntax">, </span><span class="identifier-syntax">Specifications::from_kind</span><span class="plain-syntax">(</span><span class="identifier-syntax">K_understanding</span><span class="plain-syntax">) };</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-cgt.html#SP12">&#167;12</a> (twice).</li></ul>
-<p class="commentary firstcommentary"><a id="SP12_6" class="paragraph-anchor"></a><b>&#167;12.6. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Issue PM_UseThingNotObject problem</span><span class="named-paragraph-number">12.6</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP12_6" class="paragraph-anchor"></a><b>&#167;12.6. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Issue PM_UseThingNotObject problem</span><span class="named-paragraph-number">12.6</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">Problems::quote_source</span><span class="plain-syntax">(1, </span><span class="identifier-syntax">current_sentence</span><span class="plain-syntax">);</span>
@@ -504,8 +513,7 @@ return pointer is a (non-null) description of what the token matches.
 <span class="plain-syntax">    ==&gt; { </span><span class="constant-syntax">MULTI_TOKEN_GTC</span><span class="plain-syntax">, </span><span class="identifier-syntax">Specifications::from_kind</span><span class="plain-syntax">(</span><span class="identifier-syntax">K_object</span><span class="plain-syntax">) }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-cgt.html#SP12">&#167;12</a> (twice).</li></ul>
-<p class="commentary firstcommentary"><a id="SP12_7" class="paragraph-anchor"></a><b>&#167;12.7. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Issue something held problem message</span><span class="named-paragraph-number">12.7</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP12_7" class="paragraph-anchor"></a><b>&#167;12.7. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Issue something held problem message</span><span class="named-paragraph-number">12.7</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><a href="5-cgt.html#SP13" class="function-link"><span class="function-syntax">CGTokens::incompatible_change_problem</span></a><span class="plain-syntax">(</span>
@@ -513,8 +521,7 @@ return pointer is a (non-null) description of what the token matches.
 <span class="plain-syntax">    ==&gt; { </span><span class="constant-syntax">HELD_TOKEN_GTC</span><span class="plain-syntax">, </span><span class="identifier-syntax">Specifications::from_kind</span><span class="plain-syntax">(</span><span class="identifier-syntax">K_object</span><span class="plain-syntax">) }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-cgt.html#SP12">&#167;12</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP12_8" class="paragraph-anchor"></a><b>&#167;12.8. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Issue things held problem message</span><span class="named-paragraph-number">12.8</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP12_8" class="paragraph-anchor"></a><b>&#167;12.8. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Issue things held problem message</span><span class="named-paragraph-number">12.8</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><a href="5-cgt.html#SP13" class="function-link"><span class="function-syntax">CGTokens::incompatible_change_problem</span></a><span class="plain-syntax">(</span>
@@ -522,8 +529,7 @@ return pointer is a (non-null) description of what the token matches.
 <span class="plain-syntax">    ==&gt; { </span><span class="constant-syntax">MULTIHELD_TOKEN_GTC</span><span class="plain-syntax">, </span><span class="identifier-syntax">Specifications::from_kind</span><span class="plain-syntax">(</span><span class="identifier-syntax">K_object</span><span class="plain-syntax">) }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-cgt.html#SP12">&#167;12</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP12_9" class="paragraph-anchor"></a><b>&#167;12.9. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Issue PM_BizarreToken problem</span><span class="named-paragraph-number">12.9</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP12_9" class="paragraph-anchor"></a><b>&#167;12.9. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Issue PM_BizarreToken problem</span><span class="named-paragraph-number">12.9</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"$T"</span><span class="plain-syntax">, </span><span class="identifier-syntax">current_sentence</span><span class="plain-syntax">);</span>
@@ -539,8 +545,7 @@ return pointer is a (non-null) description of what the token matches.
 <span class="plain-syntax">    ==&gt; { </span><span class="constant-syntax">STUFF_GTC</span><span class="plain-syntax">, </span><span class="identifier-syntax">Specifications::from_kind</span><span class="plain-syntax">(</span><span class="identifier-syntax">K_thing</span><span class="plain-syntax">) }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-cgt.html#SP12">&#167;12</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP12_10" class="paragraph-anchor"></a><b>&#167;12.10. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Issue PM_UnknownToken problem</span><span class="named-paragraph-number">12.10</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP12_10" class="paragraph-anchor"></a><b>&#167;12.10. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Issue PM_UnknownToken problem</span><span class="named-paragraph-number">12.10</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"$T"</span><span class="plain-syntax">, </span><span class="identifier-syntax">current_sentence</span><span class="plain-syntax">);</span>
@@ -554,13 +559,13 @@ return pointer is a (non-null) description of what the token matches.
 <span class="plain-syntax">    ==&gt; { </span><span class="constant-syntax">STUFF_GTC</span><span class="plain-syntax">, </span><span class="identifier-syntax">Specifications::from_kind</span><span class="plain-syntax">(</span><span class="identifier-syntax">K_thing</span><span class="plain-syntax">) }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-cgt.html#SP12">&#167;12</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. </b>Something of an extended mea culpa: but it had the desired effect, in
-that nobody complained about what might have been a controversial change.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. </b>  Something of an extended mea culpa: but it had the desired effect, in
+that nobody complained about what might have been a controversial change.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CGTokens::incompatible_change_problem</span><button class="popup" onclick="togglePopup('usagePopup12')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup12">Usage of <span class="code-font"><span class="function-syntax">CGTokens::incompatible_change_problem</span></span>:<br/><a href="5-cgt.html#SP12_7">&#167;12.7</a>, <a href="5-cgt.html#SP12_8">&#167;12.8</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">token_tried</span><span class="plain-syntax">, </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">token_instead</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">token_better</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CGTokens::incompatible_change_problem</span><button class="popup" onclick="togglePopup('usagePopup12')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup12">Usage of <span class="code-font"><span class="function-syntax">CGTokens::incompatible_change_problem</span></span>:<br/><a href="5-cgt.html#SP12_7">&#167;12.7</a>, <a href="5-cgt.html#SP12_8">&#167;12.8</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">token_tried</span><span class="plain-syntax">, </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">token_instead</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">token_better</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">Problems::quote_source</span><span class="plain-syntax">(1, </span><span class="identifier-syntax">current_sentence</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">Problems::quote_text</span><span class="plain-syntax">(2, </span><span class="identifier-syntax">token_tried</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">Problems::quote_text</span><span class="plain-syntax">(3, </span><span class="identifier-syntax">token_instead</span><span class="plain-syntax">);</span>
@@ -585,18 +590,16 @@ that nobody complained about what might have been a controversial change.
 <span class="plain-syntax">    </span><span class="identifier-syntax">Problems::issue_problem_end</span><span class="plain-syntax">();</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. Determining.</b>To calculate a description of what is being described by a token, then, we
-call the following function, which delegates to &lt;grammar-token&gt; above.
-</p>
-
-<p class="commentary">In the two cases <span class="extract"><span class="extract-syntax">NAMED_TOKEN_GTC</span></span> and <span class="extract"><span class="extract-syntax">RELATED_GTC</span></span> the pointer result is
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. Determining.</b>  To calculate a description of what is being described by a token, then, we
+call the following function, which delegates to &lt;grammar-token&gt; above.</p>
+<p>In the two cases <code>NAMED_TOKEN_GTC</code> and <code>RELATED_GTC</code> the pointer result is
 a temporary one telling us which named token, and which relation, respectively:
-we then convert those into the result. In all other cases, the <span class="extract"><span class="extract-syntax">parse_node</span></span>
-pointer returned by &lt;grammar-token&gt; is the result.
-</p>
-
+we then convert those into the result. In all other cases, the <code>parse_node</code>
+pointer returned by &lt;grammar-token&gt; is the result.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="function-syntax">CGTokens::determine</span><button class="popup" onclick="togglePopup('usagePopup13')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup13">Usage of <span class="code-font"><span class="function-syntax">CGTokens::determine</span></span>:<br/>Command Grammar Lines - <a href="5-cgl.html#SP16_1">&#167;16.1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">depth</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="function-syntax">CGTokens::determine</span><button class="popup" onclick="togglePopup('usagePopup13')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup13">Usage of <span class="code-font"><span class="function-syntax">CGTokens::determine</span></span>:<br/>Command Grammar Lines - <a href="5-cgl.html#SP16_1">&#167;16.1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">depth</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="5-cgt.html#SP9" class="function-link"><span class="function-syntax">CGTokens::is_literal</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 
 <span class="plain-syntax">    </span><span class="function-syntax">&lt;grammar-token&gt;</span><span class="plain-syntax">(</span><a href="5-cgt.html#SP8" class="function-link"><span class="function-syntax">CGTokens::text</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">));</span>
@@ -609,11 +612,11 @@ pointer returned by &lt;grammar-token&gt; is the result.
 <span class="plain-syntax">            </span><span class="identifier-syntax">result</span><span class="plain-syntax"> = </span><a href="5-cg.html#SP20" class="function-link"><span class="function-syntax">CommandGrammars::determine</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">defined_by</span><span class="plain-syntax">, </span><span class="identifier-syntax">depth</span><span class="plain-syntax">+1);</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">ANY_STUFF_GTC:</span>
-<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="5-cgt.html#SP14_1" class="named-paragraph-link"><span class="named-paragraph">Make sure the result is a description with one free variable</span><span class="named-paragraph-number">14.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="5-cgt.html#SP14_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Make sure the result is a description with one free variable</span></span><span class="named-paragraph-number">14.1</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">cgt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">noun_filter</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NounFilterTokens::new</span><span class="plain-syntax">(</span><span class="identifier-syntax">result</span><span class="plain-syntax">, </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">, </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">ANY_THINGS_GTC:</span>
-<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="5-cgt.html#SP14_1" class="named-paragraph-link"><span class="named-paragraph">Make sure the result is a description with one free variable</span><span class="named-paragraph-number">14.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="5-cgt.html#SP14_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Make sure the result is a description with one free variable</span></span><span class="named-paragraph-number">14.1</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">cgt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">noun_filter</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NounFilterTokens::new</span><span class="plain-syntax">(</span><span class="identifier-syntax">result</span><span class="plain-syntax">, </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">, </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">RELATED_GTC:</span>
@@ -623,8 +626,8 @@ pointer returned by &lt;grammar-token&gt; is the result.
 <span class="plain-syntax">            </span><span class="identifier-syntax">result</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Specifications::from_kind</span><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">STUFF_GTC:</span>
-<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="5-cgt.html#SP14_1" class="named-paragraph-link"><span class="named-paragraph">Make sure the result is a description with one free variable</span><span class="named-paragraph-number">14.1</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">any</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="5-cgt.html#SP14_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Make sure the result is a description with one free variable</span></span><span class="named-paragraph-number">14.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">any</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Kinds::Behaviour::is_object_of_kind</span><span class="plain-syntax">(</span><span class="identifier-syntax">Specifications::to_kind</span><span class="plain-syntax">(</span><span class="identifier-syntax">result</span><span class="plain-syntax">), </span><span class="identifier-syntax">K_thing</span><span class="plain-syntax">))</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">any</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">cgt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">noun_filter</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NounFilterTokens::new</span><span class="plain-syntax">(</span><span class="identifier-syntax">result</span><span class="plain-syntax">, </span><span class="identifier-syntax">any</span><span class="plain-syntax">, </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">);</span>
@@ -634,19 +637,18 @@ pointer returned by &lt;grammar-token&gt; is the result.
 <span class="plain-syntax">            </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    }</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">result</span><span class="plain-syntax">) </span><span class="named-paragraph-container code-font"><a href="5-cgt.html#SP14_2" class="named-paragraph-link"><span class="named-paragraph">Vet the grammar token determination for parsability at run-time</span><span class="named-paragraph-number">14.2</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">result</span><span class="plain-syntax">) </span><span class="named-paragraph-container code-font"><a href="5-cgt.html#SP14_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Vet the grammar token determination for parsability at run-time</span></span><span class="named-paragraph-number">14.2</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">cgt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">what_token_describes</span><span class="plain-syntax"> = </span><span class="identifier-syntax">result</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">cgt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">what_token_describes</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP14_1" class="paragraph-anchor"></a><b>&#167;14.1. </b>If the token determines an actual constant value &mdash; as it can when it is a
-named token which always refers to a specific thing, for example &mdash; it is
-possible for <span class="extract"><span class="extract-syntax">result</span></span> not to be a description. Otherwise, though, it has to
-be a description which is true or false for any given value, so:
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Make sure the result is a description with one free variable</span><span class="named-paragraph-number">14.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP14_1" class="paragraph-anchor"></a><b>&#167;14.1. </b>  If the token determines an actual constant value -- as it can when it is a
+named token which always refers to a specific thing, for example -- it is
+possible for <code>result</code> not to be a description. Otherwise, though, it has to
+be a description which is true or false for any given value, so:</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Make sure the result is a description with one free variable</span><span class="named-paragraph-number">14.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">pcalc_prop</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prop</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Specifications::to_proposition</span><span class="plain-syntax">(</span><span class="identifier-syntax">result</span><span class="plain-syntax">);</span>
@@ -659,8 +661,7 @@ be a description which is true or false for any given value, so:
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-cgt.html#SP14">&#167;14</a> (three times).</li></ul>
-<p class="commentary firstcommentary"><a id="SP14_2" class="paragraph-anchor"></a><b>&#167;14.2. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Vet the grammar token determination for parsability at run-time</span><span class="named-paragraph-number">14.2</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP14_2" class="paragraph-anchor"></a><b>&#167;14.2. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Vet the grammar token determination for parsability at run-time</span><span class="named-paragraph-number">14.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Specifications::is_description</span><span class="plain-syntax">(</span><span class="identifier-syntax">result</span><span class="plain-syntax">)) {</span>
@@ -684,18 +685,18 @@ be a description which is true or false for any given value, so:
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-cgt.html#SP14">&#167;14</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. Scoring.</b>This score is needed when sorting CG lines in order of applicability: see the
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. Scoring.</b>  This score is needed when sorting CG lines in order of applicability: see the
 discussion at <a href="5-cgl.html#SP16" class="internal">CGLines::cgl_determine</a>. The function must return a value
-which is at least 0 but strictly less than <span class="extract"><span class="extract-syntax">CGL_SCORE_TOKEN_RANGE</span></span>. The
+which is at least 0 but strictly less than <code>CGL_SCORE_TOKEN_RANGE</code>. The
 general idea is that higher scores cause tokens to take precedence over lower
-ones.
-</p>
-
+ones.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">CGTokens::score_bonus</span><button class="popup" onclick="togglePopup('usagePopup14')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup14">Usage of <span class="code-font"><span class="function-syntax">CGTokens::score_bonus</span></span>:<br/>Command Grammar Lines - <a href="5-cgl.html#SP16_1">&#167;16.1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">CGTokens::score_bonus</span><button class="popup" onclick="togglePopup('usagePopup14')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup14">Usage of <span class="code-font"><span class="function-syntax">CGTokens::score_bonus</span></span>:<br/>Command Grammar Lines - <a href="5-cgl.html#SP16_1">&#167;16.1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">cgt</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"no cgt"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">grammar_token_code</span><span class="plain-syntax"> == </span><span class="constant-syntax">UNDETERMINED_GTC</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"undetermined"</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">gtc</span><span class="plain-syntax"> = </span><span class="identifier-syntax">cgt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">grammar_token_code</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">gtc</span><span class="plain-syntax"> = </span><span class="identifier-syntax">cgt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">grammar_token_code</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax">(</span><span class="identifier-syntax">gtc</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">STUFF_GTC:</span><span class="plain-syntax">             </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">5</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">NOUN_TOKEN_GTC:</span><span class="plain-syntax">        </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
@@ -710,13 +711,13 @@ ones.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. Verification.</b>This function checks that it's okay to compile the given token, and returns the
-kind of value produced, if any is, or <span class="extract"><span class="extract-syntax">NULL</span></span> if it isn't. The kind returned is
-not significant if a problem is generated.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. Verification.</b>  This function checks that it's okay to compile the given token, and returns the
+kind of value produced, if any is, or <code>NULL</code> if it isn't. The kind returned is
+not significant if a problem is generated.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="function-syntax">CGTokens::verify_and_find_kind</span><button class="popup" onclick="togglePopup('usagePopup15')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup15">Usage of <span class="code-font"><span class="function-syntax">CGTokens::verify_and_find_kind</span></span>:<br/>Command Grammar Lines - <a href="5-cgl.html#SP16_2">&#167;16.2</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">code_mode</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">consult_mode</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="function-syntax">CGTokens::verify_and_find_kind</span><button class="popup" onclick="togglePopup('usagePopup15')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup15">Usage of <span class="code-font"><span class="function-syntax">CGTokens::verify_and_find_kind</span></span>:<br/>Command Grammar Lines - <a href="5-cgl.html#SP16_2">&#167;16.2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">cg_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">code_mode</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">consult_mode</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="5-cgt.html#SP9" class="function-link"><span class="function-syntax">CGTokens::is_literal</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">cgt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">token_relation</span><span class="plain-syntax">) {</span>
@@ -756,14 +757,14 @@ not significant if a problem is generated.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. </b>Relational tokens are the hardest to cope with at runtime, not least because
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. </b>  Relational tokens are the hardest to cope with at runtime, not least because
 Inform has so many different implementations for different relations, and not every
-relation can legally be used. The following function polices that &mdash; either
-doing nothing (okay) or issuing exactly one problem message (not okay).
-</p>
-
+relation can legally be used. The following function polices that -- either
+doing nothing (okay) or issuing exactly one problem message (not okay).</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CGTokens::verify_relation_token</span><button class="popup" onclick="togglePopup('usagePopup16')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup16">Usage of <span class="code-font"><span class="function-syntax">CGTokens::verify_relation_token</span></span>:<br/><a href="5-cgt.html#SP16">&#167;16</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">binary_predicate</span><span class="plain-syntax"> *</span><span class="identifier-syntax">bp</span><span class="plain-syntax">, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CGTokens::verify_relation_token</span><button class="popup" onclick="togglePopup('usagePopup16')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup16">Usage of <span class="code-font"><span class="function-syntax">CGTokens::verify_relation_token</span></span>:<br/><a href="5-cgt.html#SP16">&#167;16</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">binary_predicate</span><span class="plain-syntax"> *</span><span class="identifier-syntax">bp</span><span class="plain-syntax">, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">bp</span><span class="plain-syntax"> == </span><span class="identifier-syntax">R_equality</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">Problems::quote_source</span><span class="plain-syntax">(1, </span><span class="identifier-syntax">current_sentence</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">Problems::quote_wording</span><span class="plain-syntax">(2, </span><span class="identifier-syntax">W</span><span class="plain-syntax">);</span>
@@ -801,7 +802,7 @@ doing nothing (okay) or issuing exactly one problem message (not okay).
 <span class="plain-syntax">    }</span>
 
 <span class="plain-syntax">    </span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prn</span><span class="plain-syntax"> = </span><span class="identifier-syntax">ExplicitRelations::get_i6_storage_property</span><span class="plain-syntax">(</span><span class="identifier-syntax">bp</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">reverse</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">reverse</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">BinaryPredicates::is_the_wrong_way_round</span><span class="plain-syntax">(</span><span class="identifier-syntax">bp</span><span class="plain-syntax">)) </span><span class="identifier-syntax">reverse</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">ExplicitRelations::get_form_of_relation</span><span class="plain-syntax">(</span><span class="identifier-syntax">bp</span><span class="plain-syntax">) == </span><span class="identifier-syntax">Relation_VtoO</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">reverse</span><span class="plain-syntax"> = (</span><span class="identifier-syntax">reverse</span><span class="plain-syntax">)?</span><span class="identifier-syntax">FALSE:TRUE</span><span class="plain-syntax">;</span>

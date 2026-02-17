@@ -20,6 +20,11 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -54,38 +59,34 @@ function togglePopup(material_id) {
     <ul class="crumbs"><li><a href="../index.html">Home</a></li><li><a href="../inform7n.html">Inform7</a></li><li><a href="index.html">imperative</a></li><li><a href="index.html#5">Chapter 5: Invocations</a></li><li><b>Compile Solutions to Equations</b></li></ul></div>
 <p class="purpose">To compile code to solve an equation involving numerical quantities.</p>
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>This section implements the <span class="extract"><span class="extract-syntax">{-primitive-definition:solve-equation}</span></span>
-bracing for an inline invocation.
-</p>
-
-<p class="commentary">Nothing here will entirely make sense without first having read
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  This section implements the <code>{-primitive-definition:solve-equation}</code>
+bracing for an inline invocation.</p>
+<p>Nothing here will entirely make sense without first having read
 <a href="../assertions-module/7-eqt.html" class="internal">Equations (in assertions)</a>, but briefly: equations written in the source
-text have been turned into <span class="extract"><span class="extract-syntax">equation</span></span> structures, and we are asked to solve
-the one held in <span class="extract"><span class="extract-syntax">eqn</span></span>. It involves symbols (consider "F", "m" and "a" in the
-equation "F = ma"), each of which is an <span class="extract"><span class="extract-syntax">equation_symbol</span></span>. And the structure
-of the equation has been turned into a tree where each node is an <span class="extract"><span class="extract-syntax">equation_node</span></span>.
+text have been turned into <code>equation</code> structures, and we are asked to solve
+the one held in <code>eqn</code>. It involves symbols (consider &quot;F&quot;, &quot;m&quot; and &quot;a&quot; in the
+equation &quot;F = ma&quot;), each of which is an <code>equation_symbol</code>. And the structure
+of the equation has been turned into a tree where each node is an <code>equation_node</code>.
 The leaves in this tree are symbols or values; the other nodes represent
-operations to perform.
-</p>
-
-<p class="commentary">Before getting under way, a detail. When a named equation is used, a
-"where..." clause is sometimes given to make temporary assignments; what
+operations to perform.</p>
+<p>Before getting under way, a detail. When a named equation is used, a
+&quot;where...&quot; clause is sometimes given to make temporary assignments; what
 happens is that the S-parser temporarily sets the usage words of the equation
-to the relevant text...
-</p>
-
+to the relevant text...</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">EquationSolver::set_usage_notes</span><span class="plain-syntax">(</span><span class="identifier-syntax">equation</span><span class="plain-syntax"> *</span><span class="identifier-syntax">eqn</span><span class="plain-syntax">, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">EquationSolver::set_usage_notes</span><span class="plain-syntax">(</span><span class="identifier-syntax">equation</span><span class="plain-syntax"> *</span><span class="identifier-syntax">eqn</span><span class="plain-syntax">, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">eqn</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">usage_text</span><span class="plain-syntax"> = </span><span class="identifier-syntax">W</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>...so that, when we come to solve the equation (i.e., later on in the
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  ...so that, when we come to solve the equation (i.e., later on in the
 invocation compiler), we know where to find these temporary assignments.
-They are wiped out once this compilation is over.
-</p>
-
+They are wiped out once this compilation is over.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">EquationSolver::compile_solution</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">EquationSolver::compile_solution</span></span>:<br/>Compile Invocations Inline - <a href="5-cii.html#SP6_7_3">&#167;6.7.3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">, </span><span class="identifier-syntax">equation</span><span class="plain-syntax"> *</span><span class="identifier-syntax">eqn</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">EquationSolver::compile_solution</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">EquationSolver::compile_solution</span></span>:<br/>Compile Invocations Inline - <a href="5-cii.html#SP6_7_3">&#167;6.7.3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">, </span><span class="identifier-syntax">equation</span><span class="plain-syntax"> *</span><span class="identifier-syntax">eqn</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Wordings::nonempty</span><span class="plain-syntax">(</span><span class="identifier-syntax">eqn</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">usage_text</span><span class="plain-syntax">))</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">Equations::eqn_declare_variables_inner</span><span class="plain-syntax">(</span><span class="identifier-syntax">eqn</span><span class="plain-syntax">, </span><span class="identifier-syntax">eqn</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">usage_text</span><span class="plain-syntax">, </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="5-cste.html#SP3" class="function-link"><span class="function-syntax">EquationSolver::compile_solution_inner</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">W</span><span class="plain-syntax">, </span><span class="identifier-syntax">eqn</span><span class="plain-syntax">);</span>
@@ -93,18 +94,18 @@ They are wiped out once this compilation is over.
 <span class="plain-syntax">    </span><span class="identifier-syntax">eqn</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">usage_text</span><span class="plain-syntax"> = </span><span class="identifier-syntax">EMPTY_WORDING</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>With that dance out of the way, we can concentrate on the actual task.
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  With that dance out of the way, we can concentrate on the actual task.
 We have to compile code which assigns the correct value to the symbol
-specified by <span class="extract"><span class="extract-syntax">W</span></span>, according to the equation <span class="extract"><span class="extract-syntax">eqn</span></span>.
-</p>
-
+specified by <code>W</code>, according to the equation <code>eqn</code>.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">EquationSolver::compile_solution_inner</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">EquationSolver::compile_solution_inner</span></span>:<br/><a href="5-cste.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">, </span><span class="identifier-syntax">equation</span><span class="plain-syntax"> *</span><span class="identifier-syntax">eqn</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">EquationSolver::compile_solution_inner</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">EquationSolver::compile_solution_inner</span></span>:<br/><a href="5-cste.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">, </span><span class="identifier-syntax">equation</span><span class="plain-syntax"> *</span><span class="identifier-syntax">eqn</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">equation_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">to_solve</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="5-cste.html#SP3_1" class="named-paragraph-link"><span class="named-paragraph">Identify which symbol in the equation we are solving for</span><span class="named-paragraph-number">3.1</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="5-cste.html#SP3_2" class="named-paragraph-link"><span class="named-paragraph">Rearrange the equation so that this symbol is the entire LHS</span><span class="named-paragraph-number">3.2</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="5-cste.html#SP3_3" class="named-paragraph-link"><span class="named-paragraph">Identify the symbols in the equation with local variables</span><span class="named-paragraph-number">3.3</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="5-cste.html#SP3_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Identify which symbol in the equation we are solving for</span></span><span class="named-paragraph-number">3.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="5-cste.html#SP3_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Rearrange the equation so that this symbol is the entire LHS</span></span><span class="named-paragraph-number">3.2</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="5-cste.html#SP3_3" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Identify the symbols in the equation with local variables</span></span><span class="named-paragraph-number">3.3</span></a></span><span class="plain-syntax">;</span>
 
 <span class="plain-syntax">    </span><span class="identifier-syntax">TEMPORARY_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">C</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE_TO</span><span class="plain-syntax">(</span><span class="identifier-syntax">C</span><span class="plain-syntax">, </span><span class="string-syntax">"Solving %n for '$w'"</span><span class="plain-syntax">, </span><span class="identifier-syntax">eqn</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">compilation_data</span><span class="plain-syntax">.</span><span class="identifier-syntax">eqn_iname</span><span class="plain-syntax">, </span><span class="identifier-syntax">to_solve</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">name</span><span class="plain-syntax">);</span>
@@ -113,11 +114,10 @@ specified by <span class="extract"><span class="extract-syntax">W</span></span>,
 <span class="plain-syntax">    </span><a href="5-cste.html#SP4" class="function-link"><span class="function-syntax">EquationSolver::compile_enode</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">eqn</span><span class="plain-syntax">, </span><span class="identifier-syntax">eqn</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">parsed_equation</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3_1" class="paragraph-anchor"></a><b>&#167;3.1. </b>Note the case sensitivity here.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Identify which symbol in the equation we are solving for</span><span class="named-paragraph-number">3.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3_1" class="paragraph-anchor"></a><b>&#167;3.1. </b>  Note the case sensitivity here.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Identify which symbol in the equation we are solving for</span><span class="named-paragraph-number">3.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Wordings::length</span><span class="plain-syntax">(</span><span class="identifier-syntax">W</span><span class="plain-syntax">) == </span><span class="constant-syntax">1</span><span class="plain-syntax">)</span>
@@ -153,21 +153,18 @@ specified by <span class="extract"><span class="extract-syntax">W</span></span>,
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-cste.html#SP3">&#167;3</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP3_2" class="paragraph-anchor"></a><b>&#167;3.2. </b>By far the hardest part of the problem is to rearrange the equation so that
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3_2" class="paragraph-anchor"></a><b>&#167;3.2. </b>  By far the hardest part of the problem is to rearrange the equation so that
 the variable we want to find is the entire left hand side, but this is done
-for us by code in <a href="../assertions-module/7-eqt.html" class="internal">Equations (in assertions)</a>, so it looks easy here.
-</p>
-
-<p class="commentary">The surprising thing is the fresh round of typechecking: why do we do that?
-The answer is not that we doubt whether the equation is still valid &mdash; the
+for us by code in <a href="../assertions-module/7-eqt.html" class="internal">Equations (in assertions)</a>, so it looks easy here.</p>
+<p>The surprising thing is the fresh round of typechecking: why do we do that?
+The answer is not that we doubt whether the equation is still valid -- the
 rearranged equation should pass if and only if the original did, if we've
-implemented all of this correctly &mdash; but because the alterations made to the
+implemented all of this correctly -- but because the alterations made to the
 tree mean that the assignments of kinds at each node are now potentially
-incorrect. Re-typechecking will recalculate these.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Rearrange the equation so that this symbol is the entire LHS</span><span class="named-paragraph-number">3.2</span></span><span class="comment-syntax"> =</span>
-</p>
+incorrect. Re-typechecking will recalculate these.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Rearrange the equation so that this symbol is the entire LHS</span><span class="named-paragraph-number">3.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Equations::eqn_rearrange</span><span class="plain-syntax">(</span><span class="identifier-syntax">eqn</span><span class="plain-syntax">, </span><span class="identifier-syntax">to_solve</span><span class="plain-syntax">) == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">) {</span>
@@ -187,21 +184,22 @@ incorrect. Re-typechecking will recalculate these.
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Equations::eqn_typecheck</span><span class="plain-syntax">(</span><span class="identifier-syntax">eqn</span><span class="plain-syntax">) == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-cste.html#SP3">&#167;3</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP3_3" class="paragraph-anchor"></a><b>&#167;3.3. </b>Suppose we read a phrase such as
-</p>
+<p class="commentary firstcommentary"><a id="SP3_3" class="paragraph-anchor"></a><b>&#167;3.3. </b> </p>
 
 <blockquote>
     <p>let PE be given by PE = mgh, where g = 9.801 m/ss;</p>
 </blockquote>
 
-<p class="commentary">We can only compile code to do this if we can identify values for the symbols.
-"g" is not a problem because a temporary assignment supplies this. For each
-symbol <span class="extract"><span class="extract-syntax">ev</span></span> which isn't a constant, we must set <span class="extract"><span class="extract-syntax">ev-&gt;local_map</span></span> to the
-corresponding local variable.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Identify the symbols in the equation with local variables</span><span class="named-paragraph-number">3.3</span></span><span class="comment-syntax"> =</span>
-</p>
+<div class="lsmarkdown">
+<p>Suppose we read a phrase such as</p>
+</div>
+<div class="lsmarkdown">
+<p>We can only compile code to do this if we can identify values for the symbols.
+&quot;g&quot; is not a problem because a temporary assignment supplies this. For each
+symbol <code>ev</code> which isn't a constant, we must set <code>ev-&gt;local_map</code> to the
+corresponding local variable.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Identify the symbols in the equation with local variables</span><span class="named-paragraph-number">3.3</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">equation_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">ev</span><span class="plain-syntax">;</span>
@@ -210,21 +208,20 @@ corresponding local variable.
 <span class="plain-syntax">            </span><span class="identifier-syntax">ev</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">local_map</span><span class="plain-syntax"> = </span><a href="3-lv.html#SP17" class="function-link"><span class="function-syntax">LocalVariables::parse</span></a><span class="plain-syntax">(</span><a href="3-sf.html#SP2" class="function-link"><span class="function-syntax">Frames::current_stack_frame</span></a><span class="plain-syntax">(), </span><span class="identifier-syntax">ev</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">name</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">ev</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">promote_local_to_real</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">ev</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">local_map</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">)</span>
-<span class="plain-syntax">                </span><span class="named-paragraph-container code-font"><a href="5-cste.html#SP3_3_1" class="named-paragraph-link"><span class="named-paragraph">Can't find an unset symbol among the local variables</span><span class="named-paragraph-number">3.3.1</span></a></span>
+<span class="plain-syntax">                </span><span class="named-paragraph-container code-font"><a href="5-cste.html#SP3_3_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Can't find an unset symbol among the local variables</span></span><span class="named-paragraph-number">3.3.1</span></a></span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">else</span>
-<span class="plain-syntax">                </span><span class="named-paragraph-container code-font"><a href="5-cste.html#SP3_3_2" class="named-paragraph-link"><span class="named-paragraph">Check that the kind of the local variable matches that of the symbol</span><span class="named-paragraph-number">3.3.2</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">                </span><span class="named-paragraph-container code-font"><a href="5-cste.html#SP3_3_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Check that the kind of the local variable matches that of the symbol</span></span><span class="named-paragraph-number">3.3.2</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-cste.html#SP3">&#167;3</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP3_3_1" class="paragraph-anchor"></a><b>&#167;3.3.1. </b>In the above example, finding "PE" should not be a problem: this
-is the <span class="extract"><span class="extract-syntax">to_solve</span></span> symbol, and it must be a current local variable name
-since the "let" will have created it as such if it didn't already
-exist. But things can certainly go wrong with "m" and "h", which
-need to exist as local variables in the current stack frame.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Can't find an unset symbol among the local variables</span><span class="named-paragraph-number">3.3.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3_3_1" class="paragraph-anchor"></a><b>&#167;3.3.1. </b>  In the above example, finding &quot;PE&quot; should not be a problem: this
+is the <code>to_solve</code> symbol, and it must be a current local variable name
+since the &quot;let&quot; will have created it as such if it didn't already
+exist. But things can certainly go wrong with &quot;m&quot; and &quot;h&quot;, which
+need to exist as local variables in the current stack frame.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Can't find an unset symbol among the local variables</span><span class="named-paragraph-number">3.3.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">ev</span><span class="plain-syntax"> == </span><span class="identifier-syntax">to_solve</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"can't find 'let' variable to assign"</span><span class="plain-syntax">);</span>
@@ -242,19 +239,16 @@ need to exist as local variables in the current stack frame.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-cste.html#SP3_3">&#167;3.3</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP3_3_2" class="paragraph-anchor"></a><b>&#167;3.3.2. </b>In the case of the symbol we are setting, the local variable might be one
-which has only just been created and thus has no value yet &mdash; not having
-set it, Inform hasn't given it a kind more explicit than "value".
-We can improve that by giving it the kind of the symbol it is to match.
-</p>
-
-<p class="commentary">In all other cases, the local variable already exists and has a fixed kind.
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3_3_2" class="paragraph-anchor"></a><b>&#167;3.3.2. </b>  In the case of the symbol we are setting, the local variable might be one
+which has only just been created and thus has no value yet -- not having
+set it, Inform hasn't given it a kind more explicit than &quot;value&quot;.
+We can improve that by giving it the kind of the symbol it is to match.</p>
+<p>In all other cases, the local variable already exists and has a fixed kind.
 This must exactly match that of the symbol. (Again, if we ever need implicit
-casting between quasinumerical kinds, we'll have to return to this.)
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Check that the kind of the local variable matches that of the symbol</span><span class="named-paragraph-number">3.3.2</span></span><span class="comment-syntax"> =</span>
-</p>
+casting between quasinumerical kinds, we'll have to return to this.)</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Check that the kind of the local variable matches that of the symbol</span><span class="named-paragraph-number">3.3.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K</span><span class="plain-syntax"> = </span><a href="3-lv.html#SP24" class="function-link"><span class="function-syntax">LocalVariables::kind</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">ev</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">local_map</span><span class="plain-syntax">);</span>
@@ -286,19 +280,19 @@ casting between quasinumerical kinds, we'll have to return to this.)
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-cste.html#SP3_3">&#167;3.3</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>Actual compilation is simple, since the tree is set up for it.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  Actual compilation is simple, since the tree is set up for it.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">EquationSolver::compile_enode</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">EquationSolver::compile_enode</span></span>:<br/><a href="5-cste.html#SP3">&#167;3</a><br/>Compile Arithmetic - <a href="5-ca.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">equation</span><span class="plain-syntax"> *</span><span class="identifier-syntax">eqn</span><span class="plain-syntax">, </span><span class="identifier-syntax">equation_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">tok</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">a</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">EquationSolver::compile_enode</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">EquationSolver::compile_enode</span></span>:<br/><a href="5-cste.html#SP3">&#167;3</a><br/>Compile Arithmetic - <a href="5-ca.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">equation</span><span class="plain-syntax"> *</span><span class="identifier-syntax">eqn</span><span class="plain-syntax">, </span><span class="identifier-syntax">equation_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">tok</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">a</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Kinds::FloatingPoint::is_real</span><span class="plain-syntax">(</span><span class="identifier-syntax">tok</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">gK_before</span><span class="plain-syntax">)) </span><span class="identifier-syntax">a</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">b</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">b</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Kinds::FloatingPoint::is_real</span><span class="plain-syntax">(</span><span class="identifier-syntax">tok</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">gK_after</span><span class="plain-syntax">)) </span><span class="identifier-syntax">b</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">f</span><span class="plain-syntax"> = </span><span class="identifier-syntax">b</span><span class="plain-syntax"> - </span><span class="identifier-syntax">a</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">f</span><span class="plain-syntax"> = </span><span class="identifier-syntax">b</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax"> </span><span class="identifier-syntax">a</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">f</span><span class="plain-syntax"> == </span><span class="constant-syntax">1</span><span class="plain-syntax">) </span><span class="identifier-syntax">Kinds::FloatingPoint::begin_flotation_emit</span><span class="plain-syntax">(</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">Kinds::FloatingPoint::underlying</span><span class="plain-syntax">(</span><span class="identifier-syntax">tok</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">gK_before</span><span class="plain-syntax">));</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">f</span><span class="plain-syntax"> == -1) </span><span class="identifier-syntax">Kinds::FloatingPoint::begin_deflotation_emit</span><span class="plain-syntax">(</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">f</span><span class="plain-syntax"> == </span><span class="constant-syntax">-1</span><span class="plain-syntax">) </span><span class="identifier-syntax">Kinds::FloatingPoint::begin_deflotation_emit</span><span class="plain-syntax">(</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">Kinds::FloatingPoint::underlying</span><span class="plain-syntax">(</span><span class="identifier-syntax">tok</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">gK_before</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="identifier-syntax">tok</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">eqn_type</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">SYMBOL_EQN:</span>
@@ -325,20 +319,19 @@ casting between quasinumerical kinds, we'll have to return to this.)
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">CONSTANT_EQN:</span>
 <span class="plain-syntax">            </span><a href="2-cv.html#SP5" class="function-link"><span class="function-syntax">CompileValues::to_code_val</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">tok</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">leaf_constant</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">OPERATION_EQN:</span><span class="plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="5-cste.html#SP4_1" class="named-paragraph-link"><span class="named-paragraph">Emit a single operation</span><span class="named-paragraph-number">4.1</span></a></span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">OPERATION_EQN:</span><span class="plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="5-cste.html#SP4_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Emit a single operation</span></span><span class="named-paragraph-number">4.1</span></a></span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">default:</span><span class="plain-syntax"> </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"forbidden enode found in parsed equation"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">f</span><span class="plain-syntax"> == </span><span class="constant-syntax">1</span><span class="plain-syntax">) </span><span class="identifier-syntax">Kinds::FloatingPoint::end_flotation_emit</span><span class="plain-syntax">(</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">Kinds::FloatingPoint::underlying</span><span class="plain-syntax">(</span><span class="identifier-syntax">tok</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">gK_before</span><span class="plain-syntax">));</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">f</span><span class="plain-syntax"> == -1) </span><span class="identifier-syntax">Kinds::FloatingPoint::end_deflotation_emit</span><span class="plain-syntax">(</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">f</span><span class="plain-syntax"> == </span><span class="constant-syntax">-1</span><span class="plain-syntax">) </span><span class="identifier-syntax">Kinds::FloatingPoint::end_deflotation_emit</span><span class="plain-syntax">(</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">Kinds::FloatingPoint::underlying</span><span class="plain-syntax">(</span><span class="identifier-syntax">tok</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">gK_before</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4_1" class="paragraph-anchor"></a><b>&#167;4.1. </b>And here we handle operation nodes:
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Emit a single operation</span><span class="named-paragraph-number">4.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4_1" class="paragraph-anchor"></a><b>&#167;4.1. </b>  And here we handle operation nodes:</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Emit a single operation</span><span class="named-paragraph-number">4.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">equation_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">X</span><span class="plain-syntax"> = </span><span class="identifier-syntax">tok</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">enode_operands</span><span class="plain-syntax">[0];</span>
@@ -353,10 +346,10 @@ casting between quasinumerical kinds, we'll have to return to this.)
 <span class="plain-syntax">        </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">, </span><span class="identifier-syntax">X</span><span class="plain-syntax">, </span><span class="identifier-syntax">KX</span><span class="plain-syntax">, </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">, </span><span class="identifier-syntax">Y</span><span class="plain-syntax">, </span><span class="identifier-syntax">KY</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-cste.html#SP4">&#167;4</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b></p>
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">EquationSolver::issue_problem_on_root</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">EquationSolver::issue_problem_on_root</span></span>:<br/>Compile Arithmetic - <a href="5-ca.html#SP1_4_2">&#167;1.4.2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">equation</span><span class="plain-syntax"> *</span><span class="identifier-syntax">eqn</span><span class="plain-syntax">, </span><span class="identifier-syntax">equation_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">tok</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">EquationSolver::issue_problem_on_root</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">EquationSolver::issue_problem_on_root</span></span>:<br/>Compile Arithmetic - <a href="5-ca.html#SP1_4_2">&#167;1.4.2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">equation</span><span class="plain-syntax"> *</span><span class="identifier-syntax">eqn</span><span class="plain-syntax">, </span><span class="identifier-syntax">equation_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">tok</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">Problems::quote_source</span><span class="plain-syntax">(1, </span><span class="identifier-syntax">current_sentence</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">Problems::quote_wording</span><span class="plain-syntax">(2, </span><span class="identifier-syntax">eqn</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">equation_text</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">StandardProblems::handmade_problem</span><span class="plain-syntax">(</span><span class="identifier-syntax">Task::syntax_tree</span><span class="plain-syntax">(), </span><span class="identifier-syntax">_p_</span><span class="plain-syntax">(</span><span class="identifier-syntax">PM_HardIntegerRoot</span><span class="plain-syntax">));</span>

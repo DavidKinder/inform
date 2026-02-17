@@ -12,6 +12,11 @@
 <link href="../docs-assets/Navigation.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Fonts.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Preform-Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
@@ -47,353 +52,325 @@
     <ul class="crumbs"><li><a href="../index.html">Home</a></li><li><a href="../services.html">Services</a></li><li><a href="index.html">words</a></li><li><a href="index.html#4">Chapter 4: Parsing</a></li><li><b>About Preform</b></li></ul></div>
 <p class="purpose">A brief guide to Preform and how to use it.</p>
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>Preform is a meta-language for writing a simple grammar: it's in some sense
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  Preform is a meta-language for writing a simple grammar: it's in some sense
 pre-Inform, because it defines the Inform language itself, and has to be read
 by the <a href="index.html" class="internal">words</a> module (on behalf of Inform) before Inform can parse anything.
-For example,
-</p>
-
+For example,</p>
+</div>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;competitor&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-function-syntax">&lt;ordinal-number&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">runner</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-constant-syntax">runner</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">no</span><span class="Preform-plain-syntax"> </span><span class="Preform-function-syntax">&lt;cardinal-number&gt;</span>
 </pre>
-<p class="commentary">The <span class="extract"><span class="Preform-extract-syntax">::=</span></span> indicates a definition: the following-on lines, divided by the
-vertical stroke, are possibilities tried in turn. Each "non-terminal", written
+<div class="lsmarkdown">
+<p>The <code>::=</code> indicates a definition: the following-on lines, divided by the
+vertical stroke, are possibilities tried in turn. Each &quot;non-terminal&quot;, written
 in angle brackets, can in principle match (or not match) against any wording.
 When writing code in InC (the slight extension of C granted by inweb: see
-<a href="../inweb/M-tid.html" class="internal">The InC Dialect (in inweb)</a>), this can actually be written as a function call:
-</p>
-
+<a href="../inweb/M-tid.html" class="internal">The InC Dialect (in inweb)</a>), this can actually be written as a function call:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (&lt;</span><span class="identifier-syntax">competitor</span><span class="plain-syntax">&gt;(</span><span class="identifier-syntax">W</span><span class="plain-syntax">)) ...</span>
 </pre>
-<p class="commentary">This function returns <span class="extract"><span class="extract-syntax">TRUE</span></span> if a match is made, and <span class="extract"><span class="extract-syntax">FALSE</span></span> if it is not.
-But if a match is indeed made, there are side-effects too, as we shall see.
-</p>
-
-<p class="commentary">So, for example, the above grammar would match any of these possibilities:
-</p>
-
+<div class="lsmarkdown">
+<p>This function returns <code>TRUE</code> if a match is made, and <code>FALSE</code> if it is not.
+But if a match is indeed made, there are side-effects too, as we shall see.</p>
+<p>So, for example, the above grammar would match any of these possibilities:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="constant-syntax">7</span><span class="identifier-syntax">th</span><span class="plain-syntax"> </span><span class="identifier-syntax">runner</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">third</span><span class="plain-syntax"> </span><span class="identifier-syntax">runner</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">runner</span><span class="plain-syntax"> </span><span class="identifier-syntax">no</span><span class="plain-syntax"> </span><span class="constant-syntax">7</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">runner</span><span class="plain-syntax"> </span><span class="identifier-syntax">no</span><span class="plain-syntax"> </span><span class="identifier-syntax">three</span>
 </pre>
-<p class="commentary">but would fail, for example,
-</p>
-
+<div class="lsmarkdown">
+<p>but would fail, for example,</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">runner</span>
 <span class="plain-syntax">    </span><span class="constant-syntax">7</span><span class="plain-syntax"> </span><span class="identifier-syntax">runner</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">runner</span><span class="plain-syntax"> </span><span class="identifier-syntax">no</span><span class="plain-syntax"> </span><span class="constant-syntax">7</span><span class="identifier-syntax">th</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">ice</span><span class="plain-syntax"> </span><span class="identifier-syntax">cream</span><span class="plain-syntax"> </span><span class="identifier-syntax">sandwich</span>
 </pre>
-<p class="commentary">A small number of nonterminals are "internal", meaning that they are defined
-by the Inform compiler modules; all of the rest are called "regular" and are
-defined rather like &lt;competitor&gt;, i.e., with grammar spelled out.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>Preform grammar is stored in a text file which is read by Inform early in
+<div class="lsmarkdown">
+<p>A small number of nonterminals are &quot;internal&quot;, meaning that they are defined
+by the Inform compiler modules; all of the rest are called &quot;regular&quot; and are
+defined rather like &lt;competitor&gt;, i.e., with grammar spelled out.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  Preform grammar is stored in a text file which is read by Inform early in
 its run: see <a href="4-lp.html#SP1" class="internal">LoadPreform::load</a>. In principle, different natural language
 definitions can be made: thus, French translators could supply a French-localised
 Preform grammar. In practice this whole area of Inform needs more work before
 it can fully advance. Still, the principle is that the user can therefore
-modify the underlying grammar used by Inform.
-</p>
-
-<p class="commentary">The standard Inform distribution comes with the English Preform: in fact, the
-file is in <span class="extract"><span class="extract-syntax">inform7/Internal/Languages/English/Syntax.preform</span></span>. However,
-this file is not the "original": it is mechanically generated from the source
+modify the underlying grammar used by Inform.</p>
+<p>The standard Inform distribution comes with the English Preform: in fact, the
+file is in <code>inform7/Internal/Languages/English/Syntax.preform</code>. However,
+this file is not the &quot;original&quot;: it is mechanically generated from the source
 code of Inform by <a href="../inweb/index.html" class="internal">inweb</a>. For example, the excerpt of grammar might have
-come from some (hypothetical) source code looking like this:
-</p>
-
+come from some (hypothetical) source code looking like this:</p>
+</div>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;competitor&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-function-syntax">&lt;ordinal-number&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">runner</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">    </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { TRUE, - }</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-constant-syntax">runner</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">no</span><span class="Preform-plain-syntax"> </span><span class="Preform-function-syntax">&lt;cardinal-number&gt;</span><span class="Preform-plain-syntax">  </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { FALSE, - }</span>
 </pre>
-<p class="commentary">Definitions like this one are scattered all across the Inform web, in order
+<div class="lsmarkdown">
+<p>Definitions like this one are scattered all across the Inform web, in order
 to keep them close to the code which relates to them. <a href="../inweb/index.html" class="internal">inweb</a> tears this
-code in half lengthways: the left-hand side goes into the <span class="extract"><span class="Preform-extract-syntax">Syntax.preform</span></span>
+code in half lengthways: the left-hand side goes into the <code>Syntax.preform</code>
 file mentioned above, and is then read into Inform at run-time; and the
 right-hand side, which is essentially C, becomes code which takes action
-on any successful match against the grammar.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>Each nonterminal, when successfully matched, can provide both or more usually
-just one of two results: an integer, to be stored in a variable called <span class="extract"><span class="Preform-extract-syntax">*X</span></span>,
-and a void pointer, to be stored in <span class="extract"><span class="Preform-extract-syntax">*XP</span></span>, which is usually an object.
-</p>
-
-<p class="commentary">The example above, <span class="extract"><span class="Preform-extract-syntax">&lt;competitor&gt;</span></span>, only results in an integer. The <span class="extract"><span class="Preform-extract-syntax">==&gt;</span></span> arrow
+on any successful match against the grammar.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  Each nonterminal, when successfully matched, can provide both or more usually
+just one of two results: an integer, to be stored in a variable called <code>*X</code>,
+and a void pointer, to be stored in <code>*XP</code>, which is usually an object.</p>
+<p>The example above, <code>&lt;competitor&gt;</code>, only results in an integer. The <code>==&gt;</code> arrow
 is optional, but if present, it says what the integer result is if the given
-production is matched. So, for example, "runner bean" or "beetroot" would not
-match &lt;competitor&gt;; "4th runner" would match with integer result <span class="extract"><span class="Preform-extract-syntax">TRUE</span></span>;
-"runner no 17" would match with integer result <span class="extract"><span class="Preform-extract-syntax">FALSE</span></span>.
-</p>
-
-<p class="commentary">Usually, though, the result(s) of a nonterminal depend on the result(s) of
+production is matched. So, for example, &quot;runner bean&quot; or &quot;beetroot&quot; would not
+match &lt;competitor&gt;; &quot;4th runner&quot; would match with integer result <code>TRUE</code>;
+&quot;runner no 17&quot; would match with integer result <code>FALSE</code>.</p>
+<p>Usually, though, the result(s) of a nonterminal depend on the result(s) of
 other nonterminals used to make the match. If that's so, then the expression
 right of the arrow will have to combine these. In such a compositing expression,
 so called because it composes together the various intermediate results into
-one final result, <span class="extract"><span class="Preform-extract-syntax">R[1]</span></span> is the integer result of the first nonterminal in
-the production, <span class="extract"><span class="Preform-extract-syntax">R[2]</span></span> the second, and so on; <span class="extract"><span class="Preform-extract-syntax">RP[1]</span></span> and so on hold the
-pointer results. For example, you could make a very crude calculator with:
-</p>
-
+one final result, <code>R[1]</code> is the integer result of the first nonterminal in
+the production, <code>R[2]</code> the second, and so on; <code>RP[1]</code> and so on hold the
+pointer results. For example, you could make a very crude calculator with:</p>
+</div>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;arithmetic&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-function-syntax">&lt;cardinal-number&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">                       </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { pass 1 }</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-function-syntax">&lt;cardinal-number&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">plus</span><span class="Preform-plain-syntax"> </span><span class="Preform-function-syntax">&lt;cardinal-number&gt;</span><span class="Preform-plain-syntax">  </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { R[1]+R[2], - }</span>
 </pre>
-<p class="commentary">Here <span class="extract"><span class="Preform-extract-syntax">R[1]+R[2]</span></span> produces a result by composition of the two results of
+<div class="lsmarkdown">
+<p>Here <code>R[1]+R[2]</code> produces a result by composition of the two results of
 the &lt;cardinal-number&gt; nonterminal which occurred when parsing the line.
-So, for example, "seven" matches &lt;arithmetic&gt; with result 7, and "two plus
-three" with result 5.
-</p>
-
-<p class="commentary">Or consider the following refinement of &lt;competitor&gt;:
-</p>
-
+So, for example, &quot;seven&quot; matches &lt;arithmetic&gt; with result 7, and &quot;two plus
+three&quot; with result 5.</p>
+<p>Or consider the following refinement of &lt;competitor&gt;:</p>
+</div>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;competitor&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-constant-syntax">the</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">pacemaker</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">              </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { 1, - }</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-function-syntax">&lt;ordinal-number&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">runner</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">    </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { pass 1 }</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-constant-syntax">runner</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">no</span><span class="Preform-plain-syntax"> </span><span class="Preform-function-syntax">&lt;cardinal-number&gt;</span><span class="Preform-plain-syntax">  </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { pass 1 }</span>
 </pre>
-<p class="commentary">Now "4th runner" matches with integer result 4, because &lt;ordinal-number&gt;
-matches "4th" with integer result 4, and that goes into <span class="extract"><span class="Preform-extract-syntax">R[1]</span></span>. Similarly,
-"runner no 17" ends up with integer result 17. "The pacemaker" matches
+<div class="lsmarkdown">
+<p>Now &quot;4th runner&quot; matches with integer result 4, because &lt;ordinal-number&gt;
+matches &quot;4th&quot; with integer result 4, and that goes into <code>R[1]</code>. Similarly,
+&quot;runner no 17&quot; ends up with integer result 17. &quot;The pacemaker&quot; matches
 with integer result 1; here there are no intermediate results to make use
-of, so <span class="extract"><span class="Preform-extract-syntax">pass</span></span> can't be used.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>The arrows and expressions are optional, and if they are omitted, then the
+of, so <code>pass</code> can't be used.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  The arrows and expressions are optional, and if they are omitted, then the
 result integer is set to the alternative number, counting up from 0. For
-example, given the following, "polkadot" matches with result 1, and "green"
-with result 2.
-</p>
-
+example, given the following, &quot;polkadot&quot; matches with result 1, and &quot;green&quot;
+with result 2.</p>
+</div>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;race-jersey&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-constant-syntax">yellow</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">polkadot</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">green</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">white</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>As a convenient abbreviation, a slash character can be used to divide
-alternative possibilities for a single word. For example:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  As a convenient abbreviation, a slash character can be used to divide
+alternative possibilities for a single word. For example:</p>
+</div>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;race-jersey&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-constant-syntax">yellow</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">polkadot/polka-dot</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">green</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">white</span>
 </pre>
-<p class="commentary">matches "polka-dot" equivalently to "polkadot".
-</p>
-
-<p class="commentary">Another convenient notation is the caret <span class="extract"><span class="Preform-extract-syntax">^</span></span>, which negates the effect of
-a token. For example,
-</p>
-
+<div class="lsmarkdown">
+<p>matches &quot;polka-dot&quot; equivalently to &quot;polkadot&quot;.</p>
+<p>Another convenient notation is the caret <code>^</code>, which negates the effect of
+a token. For example,</p>
+</div>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;competitor&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-constant-syntax">the</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">^adjudicator</span><span class="Preform-plain-syntax">  </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { 1, - }</span>
 </pre>
-<p class="commentary">matches "the pacemaker", "the cyclist", etc. &mdash; the anything at all, but not
-"the adjudicator".
-</p>
-
-<p class="commentary">The final modifying notation is the underscore <span class="extract"><span class="Preform-extract-syntax">_</span></span>, which forbids unexpected
-use of upper casing. Thus
-</p>
-
+<div class="lsmarkdown">
+<p>matches &quot;the pacemaker&quot;, &quot;the cyclist&quot;, etc. -- the anything at all, but not
+&quot;the adjudicator&quot;.</p>
+<p>The final modifying notation is the underscore <code>_</code>, which forbids unexpected
+use of upper casing. Thus</p>
+</div>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;race-jersey&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-constant-syntax">yellow</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">polkadot</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">_green</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">white</span>
 </pre>
-<p class="commentary">means that it will match Yellow, yellow, Polkadot, polkadot, green, White
+<div class="lsmarkdown">
+<p>means that it will match Yellow, yellow, Polkadot, polkadot, green, White
 and white, but not Green (except as the first word of a sentence, where
-the use of capitalisation has no significance).
-</p>
-
-<p class="commentary">If the modifiers <span class="extract"><span class="Preform-extract-syntax">^</span></span> or <span class="extract"><span class="Preform-extract-syntax">_</span></span> are given for the first of a series of slashed
-alternatives, they apply to all of the alternatives: thus <span class="extract"><span class="Preform-extract-syntax">^cat/dog</span></span> matches
-any word which is neither "cat" nor "dog".
-</p>
-
-<p class="commentary">If these characters are needed in their literal form, a backslash <span class="extract"><span class="Preform-extract-syntax">\</span></span> can
-be used to escape them. Thus <span class="extract"><span class="Preform-extract-syntax">\_green</span></span> actually matches <span class="extract"><span class="Preform-extract-syntax">_green</span></span>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>So far, the only ingredients of Preform syntax have been nonterminals and
-fixed words, but Preform also has "wildcards". For example, in
-</p>
-
+the use of capitalisation has no significance).</p>
+<p>If the modifiers <code>^</code> or <code>_</code> are given for the first of a series of slashed
+alternatives, they apply to all of the alternatives: thus <code>^cat/dog</code> matches
+any word which is neither &quot;cat&quot; nor &quot;dog&quot;.</p>
+<p>If these characters are needed in their literal form, a backslash <code>\</code> can
+be used to escape them. Thus <code>\_green</code> actually matches <code>_green</code>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  So far, the only ingredients of Preform syntax have been nonterminals and
+fixed words, but Preform also has &quot;wildcards&quot;. For example, in</p>
+</div>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;competitor&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-constant-syntax">man</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">with</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">...</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">on</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">his</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">...</span>
 </pre>
-<p class="commentary">would match, for example, "man with number 17 on his back", or "man with a
-chip on his shoulder". <span class="extract"><span class="Preform-extract-syntax">...</span></span> matches any non-empty wording, and the text
+<div class="lsmarkdown">
+<p>would match, for example, &quot;man with number 17 on his back&quot;, or &quot;man with a
+chip on his shoulder&quot;. <code>...</code> matches any non-empty wording, and the text
 actually matched is recorded for any successful match. Wordings like this
 are numbered upwards from 1 to a maximum of 4, and are usually retrieved by
-whatever part of Inform requested the parse, using the <span class="extract"><span class="Preform-extract-syntax">GET_RW</span></span> macro. For
-example:
-</p>
-
+whatever part of Inform requested the parse, using the <code>GET_RW</code> macro. For
+example:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">TEXT</span><span class="plain-syntax">                              </span><span class="identifier-syntax">GET_RW</span><span class="plain-syntax">(</span><span class="function-syntax">&lt;competitor&gt;</span><span class="plain-syntax">, </span><span class="constant-syntax">1</span><span class="plain-syntax">)   </span><span class="identifier-syntax">GET_RW</span><span class="plain-syntax">(</span><span class="function-syntax">&lt;competitor&gt;</span><span class="plain-syntax">, </span><span class="constant-syntax">2</span><span class="plain-syntax">)</span>
 <span class="identifier-syntax">man</span><span class="plain-syntax"> </span><span class="identifier-syntax">with</span><span class="plain-syntax"> </span><span class="identifier-syntax">number</span><span class="plain-syntax"> </span><span class="constant-syntax">17</span><span class="plain-syntax"> </span><span class="identifier-syntax">on</span><span class="plain-syntax"> </span><span class="identifier-syntax">his</span><span class="plain-syntax"> </span><span class="identifier-syntax">back</span><span class="plain-syntax">    </span><span class="identifier-syntax">number</span><span class="plain-syntax"> </span><span class="constant-syntax">17</span><span class="plain-syntax">                 </span><span class="identifier-syntax">back</span>
 <span class="identifier-syntax">man</span><span class="plain-syntax"> </span><span class="identifier-syntax">with</span><span class="plain-syntax"> </span><span class="identifier-syntax">a</span><span class="plain-syntax"> </span><span class="identifier-syntax">chip</span><span class="plain-syntax"> </span><span class="identifier-syntax">on</span><span class="plain-syntax"> </span><span class="identifier-syntax">his</span><span class="plain-syntax"> </span><span class="identifier-syntax">shoulder</span><span class="plain-syntax">   </span><span class="identifier-syntax">a</span><span class="plain-syntax"> </span><span class="identifier-syntax">chip</span><span class="plain-syntax">                    </span><span class="identifier-syntax">shoulder</span>
 </pre>
-<p class="commentary">A few internal nonterminals also generate word ranges, using <span class="extract"><span class="extract-syntax">PUT_RW</span></span> to do so,
+<div class="lsmarkdown">
+<p>A few internal nonterminals also generate word ranges, using <code>PUT_RW</code> to do so,
 and word ranges can also be inherited up from one nonterminal to another with
-<span class="extract"><span class="extract-syntax">INHERIT_RANGES</span></span>: see <a href="4-lp.html" class="internal">Loading Preform</a> for definitions of these macros.
-</p>
-
-<p class="commentary">There are in fact several different wildcards:
-</p>
-
-<ul class="items"><li>(a) <span class="extract"><span class="extract-syntax">...</span></span> matches any non-empty text, as shown above.
-</li><li>(b) <span class="extract"><span class="extract-syntax">***</span></span> matches any text, including possibly the empty text.
-</li><li>(c) <span class="extract"><span class="extract-syntax">......</span></span> matches any non-empty text in which brackets are used in a
-balanced way &mdash; thus they would match "alpha beta gamma" or "alpha (the
-Greek letter)", but not "alpha (the" or "Greek letter)".
-</li><li>(d) <span class="extract"><span class="extract-syntax">###</span></span> matches any single word, counting words as the lexer does.
-</li></ul>
-<p class="commentary">It is also possible to use braces to widen ranges. For example,
-</p>
-
+<code>INHERIT_RANGES</code>: see <a href="4-lp.html" class="internal">Loading Preform</a> for definitions of these macros.</p>
+<p>There are in fact several different wildcards:
+(a) <code>...</code> matches any non-empty text, as shown above.
+(b) <code>***</code> matches any text, including possibly the empty text.
+(c) <code>......</code> matches any non-empty text in which brackets are used in a
+balanced way -- thus they would match &quot;alpha beta gamma&quot; or &quot;alpha (the
+Greek letter)&quot;, but not &quot;alpha (the&quot; or &quot;Greek letter)&quot;.
+(d) <code>###</code> matches any single word, counting words as the lexer does.</p>
+<p>It is also possible to use braces to widen ranges. For example,</p>
+</div>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;competitor&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-constant-syntax">man</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">with</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">{...</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">on</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">his</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">...}</span>
 </pre>
-<p class="commentary">groups together anything matching <span class="extract"><span class="Preform-extract-syntax">... on his ...</span></span> into a single range. There
-need not even be a wildcard inside the braces:
-</p>
-
+<div class="lsmarkdown">
+<p>groups together anything matching <code>... on his ...</code> into a single range. There
+need not even be a wildcard inside the braces:</p>
+</div>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;competitor&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-constant-syntax">{man}</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">with</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">{...</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">on</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">his</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">...}</span>
 </pre>
-<p class="commentary">works fine, and makes two ranges, the first of which is always just "man".
-</p>
-
-<p class="commentary">Once again, literal brace characters can be achieved using the <span class="extract"><span class="Preform-extract-syntax">\</span></span> escape.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>The alternative lines (or "productions", as they're called) in a regular
+<div class="lsmarkdown">
+<p>works fine, and makes two ranges, the first of which is always just &quot;man&quot;.</p>
+<p>Once again, literal brace characters can be achieved using the <code>\</code> escape.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  The alternative lines (or &quot;productions&quot;, as they're called) in a regular
 definition are normally given the internal numbers 0, 1, 2, 3... in the
-order in which they appear. For example, in
-</p>
-
+order in which they appear. For example, in</p>
+</div>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;competitor&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-constant-syntax">the</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">pacemaker</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">              </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { 1, - }</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-function-syntax">&lt;ordinal-number&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">runner</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">    </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { pass 1 }</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-constant-syntax">runner</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">no</span><span class="Preform-plain-syntax"> </span><span class="Preform-function-syntax">&lt;cardinal-number&gt;</span><span class="Preform-plain-syntax">  </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { pass 1 }</span>
 </pre>
-<p class="commentary">the <span class="extract"><span class="Preform-extract-syntax">the pacemaker</span></span> row is numbered 0, <span class="extract"><span class="Preform-extract-syntax">&lt;ordinal-number&gt; runner</span></span> is numbered 1,
-and so on. Those "match numbers" have little outward significance, but help
-to determine the result when a successful match is made. Consider:
-</p>
-
+<div class="lsmarkdown">
+<p>the <code>the pacemaker</code> row is numbered 0, <code>&lt;ordinal-number&gt; runner</code> is numbered 1,
+and so on. Those &quot;match numbers&quot; have little outward significance, but help
+to determine the result when a successful match is made. Consider:</p>
+</div>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;letter-score&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-constant-syntax">alpha</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">  </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { 10, - }</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-constant-syntax">beta</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">   </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { 20, - }</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-constant-syntax">gamma</span><span class="Preform-plain-syntax">    </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { 30, - }</span>
 </pre>
-<p class="commentary">Here, matching against "beta" produces 20 &mdash; the result on the same row. But
-we can mess with that:
-</p>
-
+<div class="lsmarkdown">
+<p>Here, matching against &quot;beta&quot; produces 20 -- the result on the same row. But
+we can mess with that:</p>
+</div>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;letter-score&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-constant-syntax">/c/</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">alpha</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">  </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { 10, - }</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-constant-syntax">/a/</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">beta</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">   </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { 20, - }</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-constant-syntax">/b/</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">gamma</span><span class="Preform-plain-syntax">    </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { 30, - }</span>
 </pre>
-<p class="commentary">The special notation <span class="extract"><span class="Preform-extract-syntax">/X/</span></span>, where <span class="extract"><span class="Preform-extract-syntax">X</span></span> is a lower-case letter, marks the row
-as having a different number from the obvious one. <span class="extract"><span class="Preform-extract-syntax">/a/</span></span> means 0, <span class="extract"><span class="Preform-extract-syntax">/b/</span></span> means
+<div class="lsmarkdown">
+<p>The special notation <code>/X/</code>, where <code>X</code> is a lower-case letter, marks the row
+as having a different number from the obvious one. <code>/a/</code> means 0, <code>/b/</code> means
 1, and so on. The practical effect of the above is to achieve the equivalent
-of this:
-</p>
-
+of this:</p>
+</div>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;letter-score&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-constant-syntax">beta</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">  </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { 10, - }</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-constant-syntax">gamma</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { 20, - }</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-constant-syntax">alpha</span><span class="Preform-plain-syntax">   </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { 30, - }</span>
 </pre>
-<p class="commentary">That might seem a stupidly obfuscatory thing to do, and indeed it is, when
-done in the main Inform source code &mdash; which is why we never do it. But
+<div class="lsmarkdown">
+<p>That might seem a stupidly obfuscatory thing to do, and indeed it is, when
+done in the main Inform source code -- which is why we never do it. But
 Preform can also be used by translators of Inform to other languages, who might
-supply, e.g., a French version of <span class="extract"><span class="Preform-extract-syntax">Syntax.preform</span></span>. Or suppose in this instance
+supply, e.g., a French version of <code>Syntax.preform</code>. Or suppose in this instance
 that the Inform source code contains &lt;letter-score&gt; but that a translator into
-Hebrew wants to override that definition. Her Hebrew version of <span class="extract"><span class="Preform-extract-syntax">Syntax.preform</span></span>
-could then write:
-</p>
-
+Hebrew wants to override that definition. Her Hebrew version of <code>Syntax.preform</code>
+could then write:</p>
+</div>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;letter-score&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-constant-syntax">/a/</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">aleph</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-constant-syntax">/a/</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">alef</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-constant-syntax">/b/</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">beth</span>
 </pre>
-<p class="commentary">This translator wanted to provide two alternative ways to write the Hebrew
-version of "alpha", one for "beta", but none for "gamma". Using the remappings
-<span class="extract"><span class="Preform-extract-syntax">/a/</span></span> and <span class="extract"><span class="Preform-extract-syntax">/b/</span></span> here, she is able to make her lines behave as if they were
+<div class="lsmarkdown">
+<p>This translator wanted to provide two alternative ways to write the Hebrew
+version of &quot;alpha&quot;, one for &quot;beta&quot;, but none for &quot;gamma&quot;. Using the remappings
+<code>/a/</code> and <code>/b/</code> here, she is able to make her lines behave as if they were
 lines 1, 1, 2 of the original, rather than 1, 2, 3, which would have been the
-default.
-</p>
-
-<p class="commentary">Because there are a few rather long nonterminal definitions in Inform, the
-labelling runs <span class="extract"><span class="Preform-extract-syntax">/a/</span></span>, <span class="extract"><span class="Preform-extract-syntax">/b/</span></span>, ..., <span class="extract"><span class="Preform-extract-syntax">/z/</span></span> and then continues <span class="extract"><span class="Preform-extract-syntax">/aa/</span></span>, <span class="extract"><span class="Preform-extract-syntax">/bb/</span></span>,
-..., <span class="extract"><span class="Preform-extract-syntax">/zz/</span></span>, thus allowing for up to 52 productions to be remapped in this way.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>A similar form if remapping is allowed with word ranges, using a special
-notation. Suppose the Inform source contained:
-</p>
-
+default.</p>
+<p>Because there are a few rather long nonterminal definitions in Inform, the
+labelling runs <code>/a/</code>, <code>/b/</code>, ..., <code>/z/</code> and then continues <code>/aa/</code>, <code>/bb/</code>,
+..., <code>/zz/</code>, thus allowing for up to 52 productions to be remapped in this way.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>  A similar form if remapping is allowed with word ranges, using a special
+notation. Suppose the Inform source contained:</p>
+</div>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;coloured-thing&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-constant-syntax">{</span><span class="Preform-plain-syntax"> </span><span class="Preform-function-syntax">&lt;race-colour&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">}</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">{</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">jersey/helmet</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">}</span>
 </pre>
-<p class="commentary">but we want this in French, where adjectives usually come after nouns. So this:
-</p>
-
+<div class="lsmarkdown">
+<p>but we want this in French, where adjectives usually come after nouns. So this:</p>
+</div>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;coloured-thing&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-constant-syntax">{</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">maillot/casque</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">}</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">{</span><span class="Preform-plain-syntax"> </span><span class="Preform-function-syntax">&lt;race-colour&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">}</span>
 </pre>
-<p class="commentary">wouldn't work &mdash; it would set the word ranges the wrong way around. Instead:
-</p>
-
+<div class="lsmarkdown">
+<p>wouldn't work -- it would set the word ranges the wrong way around. Instead:</p>
+</div>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;coloured-thing&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
 <span class="Preform-plain-syntax">        </span><span class="Preform-constant-syntax">{</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">maillot/casque</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">}?2</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">{</span><span class="Preform-plain-syntax"> </span><span class="Preform-function-syntax">&lt;race-colour&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">}?1</span>
 </pre>
-<p class="commentary">says that word range 2 is to be the article of clothing, and word range 1 the
-colour.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>Preform turns out to be a useful notation for patterns of wording, and can
+<div class="lsmarkdown">
+<p>says that word range 2 is to be the article of clothing, and word range 1 the
+colour.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>  Preform turns out to be a useful notation for patterns of wording, and can
 be put to other uses besides parsing source text. For these other uses, see
-<a href="4-pu.html" class="internal">Preform Utilities</a>. Specifically, and in rough order of complexity:
-</p>
-
-<ul class="items"><li>&#9679; Specifying text being generated by Inform &mdash; see <a href="4-pu.html#SP1" class="internal">PreformUtilities::merge</a>.
-</li><li>&#9679; Specifying replacements of one set of words by another &mdash; see
-<a href="4-pu.html#SP4" class="internal">PreformUtilities::find_corresponding_word</a>.
-</li><li>&#9679; Saying how to build a trie which will detect patterns in a single word and
-then modify it &mdash; see <a href="4-pu.html#SP5" class="internal">PreformUtilities::define_trie</a>.
-</li></ul>
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b>Finally, syntax errors in Preform are reported by <a href="4-pu.html#SP7" class="internal">PreformUtilities::production_error</a>.
-</p>
-
+<a href="4-pu.html" class="internal">Preform Utilities</a>. Specifically, and in rough order of complexity:</p>
+<p>(*) Specifying text being generated by Inform -- see <a href="4-pu.html#SP1" class="internal">PreformUtilities::merge</a>.</p>
+<p>(*) Specifying replacements of one set of words by another -- see
+<a href="4-pu.html#SP4" class="internal">PreformUtilities::find_corresponding_word</a>.</p>
+<p>(*) Saying how to build a trie which will detect patterns in a single word and
+then modify it -- see <a href="4-pu.html#SP5" class="internal">PreformUtilities::define_trie</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b>  Finally, syntax errors in Preform are reported by <a href="4-pu.html#SP7" class="internal">PreformUtilities::production_error</a>.</p>
+</div>
 <nav role="progress"><div class="progresscontainer">
     <ul class="progressbar"><li class="progressprev"><a href="3-idn.html">&#10094;</a></li><li class="progresschapter"><a href="P-wtmd.html">P</a></li><li class="progresschapter"><a href="1-wm.html">1</a></li><li class="progresschapter"><a href="2-vcb.html">2</a></li><li class="progresschapter"><a href="3-lxr.html">3</a></li><li class="progresscurrentchapter">4</li><li class="progresscurrent">ap</li><li class="progresssection"><a href="4-nnt.html">nnt</a></li><li class="progresssection"><a href="4-lp.html">lp</a></li><li class="progresssection"><a href="4-to.html">to</a></li><li class="progresssection"><a href="4-le.html">le</a></li><li class="progresssection"><a href="4-ni.html">ni</a></li><li class="progresssection"><a href="4-prf.html">prf</a></li><li class="progresssection"><a href="4-bn.html">bn</a></li><li class="progresssection"><a href="4-ins.html">ins</a></li><li class="progresssection"><a href="4-pu.html">pu</a></li><li class="progressnext"><a href="4-nnt.html">&#10095;</a></li></ul></div>
 </nav><!-- End of weave -->

@@ -12,6 +12,11 @@
 <link href="../docs-assets/Navigation.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Fonts.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -46,14 +51,14 @@
     <ul class="crumbs"><li><a href="../index.html">Home</a></li><li><a href="../inform7n.html">Inform7</a></li><li><a href="index.html">core</a></li><li><a href="index.html#2">Chapter 2: Problem Messages</a></li><li><b>Calculus Problems</b></li></ul></div>
 <p class="purpose">Errors with formulating logical statements are sometimes caught by the calculus module: this section collects and issues such errors as tidy Inform problems.</p>
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>The <span class="extract"><span class="extract-syntax">:calculus</span></span> group of tests for <a href="../inform7/index.html" class="internal">inform7</a> generates all of the problems
-below.
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">PROBLEM_CALCULUS_CALLBACK</span><span class="plain-syntax"> </span><a href="2-cp.html#SP1" class="function-link"><span class="function-syntax">CalculusProblems::issue_problem</span></a>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  The <code>:calculus</code> group of tests for <a href="../inform7/index.html" class="internal">inform7</a> generates all of the problems
+below.</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <a href="2-cp.html#SP1" class="function-link"><span class="function-syntax">CalculusProblems::issue_problem</span></a>
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CalculusProblems::issue_problem</span><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">err_no</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">spec</span><span class="plain-syntax">, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">,</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CalculusProblems::issue_problem</span><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">err_no</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">spec</span><span class="plain-syntax">, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K1</span><span class="plain-syntax">, </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K2</span><span class="plain-syntax">, </span><span class="identifier-syntax">binary_predicate</span><span class="plain-syntax"> *</span><span class="identifier-syntax">bp</span><span class="plain-syntax">, </span><span class="identifier-syntax">tc_problem_kit</span><span class="plain-syntax"> *</span><span class="identifier-syntax">tck</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax">(</span><span class="identifier-syntax">err_no</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">BareKindVariable_CALCERROR:</span>
@@ -89,7 +94,7 @@ below.
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">ComparisonFailed_CALCERROR:</span>
 <span class="plain-syntax">            </span><a href="2-sq.html#SP3" class="function-link"><span class="function-syntax">Problems::quote_kind</span></a><span class="plain-syntax">(4, </span><span class="identifier-syntax">K1</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><a href="2-sq.html#SP3" class="function-link"><span class="function-syntax">Problems::quote_kind</span></a><span class="plain-syntax">(5, </span><span class="identifier-syntax">K2</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">msg</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">msg</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (((</span><span class="identifier-syntax">Kinds::eq</span><span class="plain-syntax">(</span><span class="identifier-syntax">K1</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_time</span><span class="plain-syntax">)) &amp;&amp; (</span><span class="identifier-syntax">Kinds::eq</span><span class="plain-syntax">(</span><span class="identifier-syntax">K2</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_time_period</span><span class="plain-syntax">))) ||</span>
 <span class="plain-syntax">                ((</span><span class="identifier-syntax">Kinds::eq</span><span class="plain-syntax">(</span><span class="identifier-syntax">K2</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_time</span><span class="plain-syntax">)) &amp;&amp; (</span><span class="identifier-syntax">Kinds::eq</span><span class="plain-syntax">(</span><span class="identifier-syntax">K1</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_time_period</span><span class="plain-syntax">))))</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">msg</span><span class="plain-syntax"> = </span><span class="string-syntax">"that would mean comparing two kinds of value which cannot mix - "</span>

@@ -12,6 +12,11 @@
 <link href="../docs-assets/Navigation.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Fonts.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -48,85 +53,78 @@
 
 <ul class="toc"><li><a href="P-htitm.html#SP1">&#167;1. Status</a></li><li><a href="P-htitm.html#SP2">&#167;2. Importing the module</a></li><li><a href="P-htitm.html#SP3">&#167;3. Using callbacks</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Status.</b>The kinds module is provided as one of the "services" suite of modules,
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Status.</b>  The kinds module is provided as one of the &quot;services&quot; suite of modules,
 which means that it was built with a view to potential incorporation in
 multiple tools. It can be found, for example, in <a href="../inform7/index.html" class="internal">inform7</a> and
-<a href="../kinds-test/index.html" class="internal">kinds-test</a>.
-</p>
-
-<p class="commentary">By convention, the modules considered as "services" have no dependencies on
-other modules except for <a href="../foundation/index.html" class="internal">foundation</a> and other "services" modules.
-</p>
-
-<p class="commentary">A tool can import <a href="index.html" class="internal">kinds</a> only if it also imports <a href="../foundation/index.html" class="internal">foundation</a>,
-<a href="../words-module/index.html" class="internal">words</a>, <a href="../syntax-module/index.html" class="internal">syntax</a>, <a href="../inflections-module/index.html" class="internal">inflections</a> and <a href="../linguistics-module/index.html" class="internal">linguistics</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Importing the module.</b>We'll use the term "parent" to mean the tool which is importing <a href="index.html" class="internal">kinds</a>,
+<a href="../kinds-test/index.html" class="internal">kinds-test</a>.</p>
+<p>By convention, the modules considered as &quot;services&quot; have no dependencies on
+other modules except for <a href="../foundation/index.html" class="internal">foundation</a> and other &quot;services&quot; modules.</p>
+<p>A tool can import <a href="index.html" class="internal">kinds</a> only if it also imports <a href="../foundation/index.html" class="internal">foundation</a>,
+<a href="../words-module/index.html" class="internal">words</a>, <a href="../syntax-module/index.html" class="internal">syntax</a>, <a href="../inflections-module/index.html" class="internal">inflections</a> and <a href="../linguistics-module/index.html" class="internal">linguistics</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Importing the module.</b>  We'll use the term &quot;parent&quot; to mean the tool which is importing <a href="index.html" class="internal">kinds</a>,
 that is, which will include its code and be able to use it. As with any
 imported module,
-</p>
-
-<ul class="items"><li>&#9679; The contents page of the parent's web must identify and locate the
-module:
-</li></ul>
+(*) The contents page of the parent's web must identify and locate the
+module:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="element-syntax">Import</span><span class="plain-syntax">:</span><span class="string-syntax"> somepath/kinds</span>
+<span class="plain-syntax">Import: somepath/kinds</span>
 </pre>
-<ul class="items"><li>&#9679; The parent must call <a href="1-km.html#SP3" class="internal">KindsModule::start</a> just after it starts up, and
+<div class="lsmarkdown">
+<p>(*) The parent must call <a href="1-km.html#SP3" class="internal">KindsModule::start</a> just after it starts up, and
 <a href="1-km.html#SP3" class="internal">KindsModule::end</a> just before it shuts down. (But just after, and just
-before, the corresponding calls to <a href="../foundation/index.html" class="internal">foundation</a>.)
-</li></ul>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Using callbacks.</b>Shared modules like this one are tweaked in behaviour by defining "callback
-functions". This means that the parent might provide a function of its own
+before, the corresponding calls to <a href="../foundation/index.html" class="internal">foundation</a>.)</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Using callbacks.</b>  Shared modules like this one are tweaked in behaviour by defining &quot;callback
+functions&quot;. This means that the parent might provide a function of its own
 which would answer a question put to it by the module, or take some action
 on behalf of the module: it's a callback in the sense that the parent is
 normally calling the module, but then the module calls the parent back to
-ask for data or action.
-</p>
-
-<p class="commentary">The parent must indicate which function to use by defining a constant with
+ask for data or action.</p>
+<p>The parent must indicate which function to use by defining a constant with
 a specific name as being equal to that function's name. A fictional example
-would be
-</p>
-
+would be</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="function-syntax">@d</span><span class="plain-syntax"> EXPRESS_SURPRISE_KINDS_CALLBACK Emotions::whoa</span>
+<span class="plain-syntax">    @d EXPRESS_SURPRISE_KINDS_CALLBACK Emotions::whoa</span>
 
 <span class="plain-syntax">    =</span>
-<span class="plain-syntax">    </span><span class="element-syntax">void Emotions:</span><span class="plain-syntax">:</span><span class="string-syntax">whoa(text_stream *OUT) {</span>
+<span class="plain-syntax">    void Emotions::whoa(text_stream *OUT) {</span>
 <span class="plain-syntax">        WRITE("Great heavens!\n");</span>
 <span class="plain-syntax">    }</span>
 </pre>
-<p class="commentary">The following alphabetical list has references to fuller explanations:
-</p>
-
-<ul class="items"><li>&#9679; <span class="extract"><span class="extract-syntax">DETERMINE_SCALE_FACTOR_KINDS_CALLBACK</span></span>, if provided, is called to give
-the "scale factor" for a kind. See <a href="../values-module/3-lp.html" class="internal">Literal Patterns (in values)</a> for the
-use of this; here, it appears in <a href="2-uk.html#SP18" class="internal">Kinds::Behaviour::scale_factor</a>.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">HIERARCHY_GET_SUPER_KINDS_CALLBACK</span></span> is called to ask what the superkind
-of a kind is. See <a href="2-tlok.html#SP6" class="internal">Latticework::super</a>.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">HIERARCHY_ALLOWS_SOMETIMES_MATCH_KINDS_CALLBACK</span></span> is called to ask if q
+<div class="lsmarkdown">
+<p>The following alphabetical list has references to fuller explanations:</p>
+<p>(*) <code>DETERMINE_SCALE_FACTOR_KINDS_CALLBACK</code>, if provided, is called to give
+the &quot;scale factor&quot; for a kind. See <a href="../values-module/3-lp.html" class="internal">Literal Patterns (in values)</a> for the
+use of this; here, it appears in <a href="2-uk.html#SP18" class="internal">Kinds::Behaviour::scale_factor</a>.</p>
+<p>(*) <code>HIERARCHY_GET_SUPER_KINDS_CALLBACK</code> is called to ask what the superkind
+of a kind is. See <a href="2-tlok.html#SP6" class="internal">Latticework::super</a>.</p>
+<p>(*) <code>HIERARCHY_ALLOWS_SOMETIMES_MATCH_KINDS_CALLBACK</code> is called to ask if q
 kind can contain sometimes-matching subkind instances. See
-<a href="2-tlok.html#SP13" class="internal">Latticework::order_relation</a>.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">HIERARCHY_MOVE_KINDS_CALLBACK</span></span> is called to ask us to put make one
+<a href="2-tlok.html#SP13" class="internal">Latticework::order_relation</a>.</p>
+<p>(*) <code>HIERARCHY_MOVE_KINDS_CALLBACK</code> is called to ask us to put make one
 kind a subkind of another. See <a href="2-knd.html#SP24" class="internal">Kinds::make_subkind</a> and
-<a href="2-knd.html#SP23" class="internal">Kinds::new_base</a> &mdash; there are two ways this can happen.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">HIERARCHY_VETO_MOVE_KINDS_CALLBACK</span></span> is called to give the parent tool a
+<a href="2-knd.html#SP23" class="internal">Kinds::new_base</a> -- there are two ways this can happen.</p>
+<p>(*) <code>HIERARCHY_VETO_MOVE_KINDS_CALLBACK</code> is called to give the parent tool a
 chance to veto any proposed subkind. (Inform uses this, for example, to catch
-the case of somebody making "region" a subkind of some other kind of object.)
-See <a href="2-knd.html#SP24" class="internal">Kinds::make_subkind</a>.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">NEW_BASE_KINDS_CALLBACK</span></span> is called when a new base kind (properly
+the case of somebody making &quot;region&quot; a subkind of some other kind of object.)
+See <a href="2-knd.html#SP24" class="internal">Kinds::make_subkind</a>.</p>
+<p>(*) <code>NEW_BASE_KINDS_CALLBACK</code> is called when a new base kind (properly
 speaking, a new arity-0 kind constructor) is made. See <a href="2-knd.html#SP23" class="internal">Kinds::new_base</a>
-and <a href="4-nf.html#SP1" class="internal">NeptuneFiles::read_command</a> &mdash; there are two ways this can happen.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">NOTIFY_NATURAL_LANGUAGE_KINDS_CALLBACK</span></span> is called when the kind "natural
-language" is created (if it is): see <a href="2-fk.html#SP13" class="internal">FamiliarKinds::notice_new_kind</a>.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">PROBLEM_KINDS_CALLBACK</span></span> is called when a syntax error is found, and can
+and <a href="4-nf.html#SP1" class="internal">NeptuneFiles::read_command</a> -- there are two ways this can happen.</p>
+<p>(*) <code>NOTIFY_NATURAL_LANGUAGE_KINDS_CALLBACK</code> is called when the kind &quot;natural
+language&quot; is created (if it is): see <a href="2-fk.html#SP13" class="internal">FamiliarKinds::notice_new_kind</a>.</p>
+<p>(*) <code>PROBLEM_KINDS_CALLBACK</code> is called when a syntax error is found, and can
 prevent this from being issued to the terminal as an error message: see
-<a href="1-km.html#SP5" class="internal">KindsModule::problem_handler</a>.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">REGISTER_NOUN_KINDS_CALLBACK</span></span>, if provided, can register a common noun
-for a new base kind with the lexicon itself. See <a href="2-knd.html#SP23" class="internal">Kinds::new_base</a>.
-</li></ul>
+<a href="1-km.html#SP5" class="internal">KindsModule::problem_handler</a>.</p>
+<p>(*) <code>REGISTER_NOUN_KINDS_CALLBACK</code>, if provided, can register a common noun
+for a new base kind with the lexicon itself. See <a href="2-knd.html#SP23" class="internal">Kinds::new_base</a>.</p>
+</div>
 <nav role="progress"><div class="progresscontainer">
     <ul class="progressbar"><li class="progressprev"><a href="P-wtmd.html">&#10094;</a></li><li class="progresscurrentchapter">P</li><li class="progresssection"><a href="P-wtmd.html">wtmd</a></li><li class="progresscurrent">htitm</li><li class="progresschapter"><a href="1-km.html">1</a></li><li class="progresschapter"><a href="2-knd.html">2</a></li><li class="progresschapter"><a href="3-dmn.html">3</a></li><li class="progresschapter"><a href="4-abgtn.html">4</a></li><li class="progressnext"><a href="1-km.html">&#10095;</a></li></ul></div>
 </nav><!-- End of weave -->

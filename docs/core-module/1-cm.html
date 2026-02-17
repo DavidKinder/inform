@@ -20,6 +20,11 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -54,31 +59,29 @@ function togglePopup(material_id) {
     <ul class="crumbs"><li><a href="../index.html">Home</a></li><li><a href="../inform7n.html">Inform7</a></li><li><a href="index.html">core</a></li><li><a href="index.html#1">Chapter 1: Control</a></li><li><b>Core Module</b></li></ul></div>
 <p class="purpose">Setting up the use of this module.</p>
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>The following constant exists only in tools which use this module:
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">CORE_MODULE</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  The following constant exists only in tools which use this module:</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">TRUE</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>Like all modules, this one must define a <span class="extract"><span class="extract-syntax">start</span></span> and <span class="extract"><span class="extract-syntax">end</span></span> function.
-</p>
-
-<p class="commentary">Note that the "core" feature itself does nothing except to be a parent to the
-other two; it doesn't even have an activation function.
-</p>
-
-<p class="commentary">The "experimental features" feature is similarly an umbrella for any features
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  Like all modules, this one must define a <code>start</code> and <code>end</code> function.</p>
+<p>Note that the &quot;core&quot; feature itself does nothing except to be a parent to the
+other two; it doesn't even have an activation function.</p>
+<p>The &quot;experimental features&quot; feature is similarly an umbrella for any features
 being used to test out half-implemented compiler functionality before it's ready
-to be part of a released version.
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">enum</span> <span class="constant-syntax">TASK_QUEUE_DA</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">INTER_DA</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">INFORM_INTER_DA</span>
+to be part of a released version.</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">compiler_feature</span><span class="plain-syntax"> *</span><span class="identifier-syntax">naming_feature</span><span class="plain-syntax">, *</span><span class="identifier-syntax">counting_feature</span><span class="plain-syntax">;</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CoreModule::start</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CoreModule::start</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">Features::activate_core</span><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">naming_feature</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Features::new</span><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">Naming::start</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"naming"</span><span class="plain-syntax">, </span><span class="identifier-syntax">core_feature</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">counting_feature</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Features::new</span><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">InstanceCounting::start</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"instance counting"</span><span class="plain-syntax">, </span><span class="identifier-syntax">core_feature</span><span class="plain-syntax">);</span>
@@ -92,21 +95,21 @@ to be part of a released version.
 <span class="plain-syntax">    </span><a href="1-inaa.html#SP8" class="function-link"><span class="function-syntax">CoreSyntax::declare_annotations</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><a href="1-itc.html#SP8" class="function-link"><span class="function-syntax">InternalTests::begin</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">}</span>
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CoreModule::end</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CoreModule::end</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>The <span class="extract"><span class="extract-syntax">%B</span></span> string escape prints the build number, lying about it when we
-want to produce predictable output for easier testing.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  The <code>%B</code> string escape prints the build number, lying about it when we
+want to produce predictable output for easier testing.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CoreModule::writer</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">CoreModule::writer</span></span>:<br/><a href="1-cm.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">format_string</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">wn</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">CoreModule::writer</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">CoreModule::writer</span></span>:<br/><a href="1-cm.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">format_string</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">wn</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Time::fixed</span><span class="plain-syntax">()) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">wn</span><span class="plain-syntax">) </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"9Z99"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"Inform 7.99.99"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    } </span><span class="reserved-syntax">else</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">wn</span><span class="plain-syntax">) </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"[[Build Number]]"</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"Inform [[Version Number]]"</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">wn</span><span class="plain-syntax">) </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"</span><span class="named-paragraph-container code-font"><span class="named-paragraph">output from tangler command 'Build Number'</span></span><span class="string-syntax">"</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"Inform </span><span class="named-paragraph-container code-font"><span class="named-paragraph">output from tangler command 'Version Number'</span></span><span class="string-syntax">"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>

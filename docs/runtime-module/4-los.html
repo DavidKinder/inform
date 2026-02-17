@@ -20,6 +20,11 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -54,34 +59,32 @@ function togglePopup(material_id) {
     <ul class="crumbs"><li><a href="../index.html">Home</a></li><li><a href="../inform7n.html">Inform7</a></li><li><a href="index.html">runtime</a></li><li><a href="index.html#4">Chapter 4: Enclosed Resources</a></li><li><b>Looping Over Scope</b></li></ul></div>
 <p class="purpose">To compile functions which implement conditions such as "in the presence of Mrs Dalloway".</p>
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>Each time we need to parse an action pattern with the provison "in the
-presence of X", one of the following objects is created, as an instruction
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  Each time we need to parse an action pattern with the provison &quot;in the
+presence of X&quot;, one of the following objects is created, as an instruction
 to pass to the agent below. These tests are local resources, included in
 the same enclosure as the function they are called from. Each test is used
-in just one place in the program.
-</p>
-
-<p class="commentary">The term "loop over scope" is traditional and goes back to the Inform 6
-world model, where the "scope" was the set of things which the player could
-interact with at any given point.
-</p>
-
+in just one place in the program.</p>
+<p>The term &quot;loop over scope&quot; is traditional and goes back to the Inform 6
+world model, where the &quot;scope&quot; was the set of things which the player could
+interact with at any given point.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">loop_over_scope</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">what_to_find</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">los_iname</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">loop_over_scope</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">what_to_find</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">los_iname</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">CLASS_DEFINITION</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">loop_over_scope</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">loop_over_scope</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>The structure loop_over_scope is private to this section.</li></ul>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>Because the test is performed by a separate function, we need to make sure
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  Because the test is performed by a separate function, we need to make sure
 that any called variables are created in the calling function, and not in
-that external one: so we remove calling details from <span class="extract"><span class="extract-syntax">what_to_find</span></span>.
-</p>
-
+that external one: so we remove calling details from <code>what_to_find</code>.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">loop_over_scope</span><span class="plain-syntax"> *</span><span class="function-syntax">LoopingOverScope::new</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">what</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">loop_over_scope</span><span class="plain-syntax"> *</span><span class="identifier-syntax">los</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="reserved-syntax">loop_over_scope</span><span class="plain-syntax">);</span>
+<span class="identifier-syntax">loop_over_scope</span><span class="plain-syntax"> *</span><span class="function-syntax">LoopingOverScope::new</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">what</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">loop_over_scope</span><span class="plain-syntax"> *</span><span class="identifier-syntax">los</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="identifier-syntax">loop_over_scope</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">los</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">what_to_find</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Node::duplicate</span><span class="plain-syntax">(</span><span class="identifier-syntax">what</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Specifications::is_description</span><span class="plain-syntax">(</span><span class="identifier-syntax">what</span><span class="plain-syntax">)) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">los</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">what_to_find</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">down</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Node::duplicate</span><span class="plain-syntax">(</span><span class="identifier-syntax">los</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">what_to_find</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">down</span><span class="plain-syntax">);</span>
@@ -95,12 +98,12 @@ that external one: so we remove calling details from <span class="extract"><span
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">los</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>And here we compile a single test.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  And here we compile a single test.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">LoopingOverScope::compilation_agent</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">LoopingOverScope::compilation_agent</span></span>:<br/><a href="4-los.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">compilation_subtask</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">loop_over_scope</span><span class="plain-syntax"> *</span><span class="identifier-syntax">los</span><span class="plain-syntax"> = </span><span class="identifier-syntax">RETRIEVE_POINTER_loop_over_scope</span><span class="plain-syntax">(</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">data</span><span class="plain-syntax">);</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">LoopingOverScope::compilation_agent</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">LoopingOverScope::compilation_agent</span></span>:<br/><a href="4-los.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">compilation_subtask</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">loop_over_scope</span><span class="plain-syntax"> *</span><span class="identifier-syntax">los</span><span class="plain-syntax"> = </span><span class="identifier-syntax">RETRIEVE_POINTER_loop_over_scope</span><span class="plain-syntax">(</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">data</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">packaging_state</span><span class="plain-syntax"> </span><span class="identifier-syntax">save</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Functions::begin</span><span class="plain-syntax">(</span><span class="identifier-syntax">los</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">los_iname</span><span class="plain-syntax">);</span>
 
 <span class="plain-syntax">    </span><span class="identifier-syntax">stack_frame</span><span class="plain-syntax"> *</span><span class="identifier-syntax">phsf</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Frames::current_stack_frame</span><span class="plain-syntax">();</span>

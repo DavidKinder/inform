@@ -53,49 +53,40 @@
 
 <ul class="toc"><li><a href="4-abgtn.html#SP1">&#167;1. Purpose</a></li><li><a href="4-abgtn.html#SP2">&#167;2. Comments and white space</a></li><li><a href="4-abgtn.html#SP3">&#167;3. Declarations</a></li><li><a href="4-abgtn.html#SP7">&#167;7. Commands</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Purpose.</b>Neptune is a simple mini-language for defining the built-in kinds of Inform.
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Purpose.</b>  Neptune is a simple mini-language for defining the built-in kinds of Inform.
 Each kit of Inter code can supply one or more Neptune files: for example,
-<span class="extract"><span class="extract-syntax">WorldModelKit</span></span> supplies a file called <span class="extract"><span class="extract-syntax">Scenes.neptune</span></span> which defines the
-built-in base kind "scene".
-</p>
-
-<p class="commentary">The name is nothing to do with the planet and derives from the Place Neptune,
+<code>WorldModelKit</code> supplies a file called <code>Scenes.neptune</code> which defines the
+built-in base kind &quot;scene&quot;.</p>
+<p>The name is nothing to do with the planet and derives from the Place Neptune,
 Carcassonne, where these files were first implemented in August 2007. The
-syntax was made more legible in 2020.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Comments and white space.</b>Lines consisting of white space or whose first non-white space character is
-<span class="extract"><span class="extract-syntax">!</span></span> are ignored as comments, but note that a <span class="extract"><span class="extract-syntax">!</span></span> later in a line which already
-has other content will not be treated as a comment.
-</p>
-
-<p class="commentary">All white space at the start or end of a line is similarly ignored. Indentation
-can be used for clarity, but has no significance.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Declarations.</b>Otherwise, a Neptune file is a series of declarations. Each must begin with
+syntax was made more legible in 2020.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Comments and white space.</b>  Lines consisting of white space or whose first non-white space character is
+<code>!</code> are ignored as comments, but note that a <code>!</code> later in a line which already
+has other content will not be treated as a comment.</p>
+<p>All white space at the start or end of a line is similarly ignored. Indentation
+can be used for clarity, but has no significance.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Declarations.</b>  Otherwise, a Neptune file is a series of declarations. Each must begin with
 a header line which ends in an open brace, and must conclude with a line
-consisting only of a close brace.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>A constructor is created with two initial keywords, and then its identifier
-name. The first keyword must be either <span class="extract"><span class="extract-syntax">new</span></span> or <span class="extract"><span class="extract-syntax">builtin</span></span>. The only difference
-here is that <span class="extract"><span class="extract-syntax">builtin</span></span> must be used if the constructor being made is one of
+consisting only of a close brace.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  A constructor is created with two initial keywords, and then its identifier
+name. The first keyword must be either <code>new</code> or <code>builtin</code>. The only difference
+here is that <code>builtin</code> must be used if the constructor being made is one of
 the <a href="2-fk.html" class="internal">Familiar Kinds</a>, whose identifier has to correspond to one of those
-hardwired into the code of this module. <span class="extract"><span class="extract-syntax">new</span></span> must be used in all other cases.<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>
-</p>
-
-<p class="commentary">The second keyword must be one of the following:
-</p>
-
-<ul class="items"><li>&#9679; <span class="extract"><span class="extract-syntax">base</span></span> for a new base kind, like <span class="extract"><span class="extract-syntax">NUMBER_TY</span></span>.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">constructor</span></span> for a proper constructor, like <span class="extract"><span class="extract-syntax">LIST_OF_TY</span></span>.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">protocol</span></span> for a kind of kind, like <span class="extract"><span class="extract-syntax">SAYABLE_VALUE_TY</span></span>.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">punctuation</span></span> for a constructor with no independent meaning, such as <span class="extract"><span class="extract-syntax">INTERMEDIATE_TY</span></span>.
-</li></ul>
-<p class="commentary">For example:
-</p>
-
+hardwired into the code of this module. <code>new</code> must be used in all other cases.<sup id="fnred:1"><a href="#fn:1" rel="footnote">1</a></sup></p>
+<p>The second keyword must be one of the following:
+(<em>) <code>base</code> for a new base kind, like <code>NUMBER_TY</code>.
+(</em>) <code>constructor</code> for a proper constructor, like <code>LIST_OF_TY</code>.
+(<em>) <code>protocol</code> for a kind of kind, like <code>SAYABLE_VALUE_TY</code>.
+(</em>) <code>punctuation</code> for a constructor with no independent meaning, such as <code>INTERMEDIATE_TY</code>.</p>
+<p>For example:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">builtin</span><span class="plain-syntax"> </span><span class="identifier-syntax">protocol</span><span class="plain-syntax"> </span><span class="identifier-syntax">SAYABLE_VALUE_TY</span><span class="plain-syntax"> {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">conforms</span><span class="plain-syntax">-</span><span class="identifier-syntax">to:</span><span class="plain-syntax"> </span><span class="identifier-syntax">STORED_VALUE_TY</span>
@@ -103,64 +94,62 @@ hardwired into the code of this module. <span class="extract"><span class="extra
 <span class="plain-syntax">    </span><span class="identifier-syntax">plural:</span><span class="plain-syntax"> </span><span class="identifier-syntax">sayable</span><span class="plain-syntax"> </span><span class="identifier-syntax">values</span>
 <span class="plain-syntax">}</span>
 </pre>
-<ul class="footnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> The distinction really only exists as a mnemonic - it reminds us that it
-wouldn't be safe to change the identifier without also changing the compiler.
-<a href="#fnref:1" title="return to text"> &#x21A9;</a></p></li></ul>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>A "macro" is a set of commands which could be applied to any constructor.
+<div class="lsmarkdown">
+<ul class="inwebfootnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>
+The distinction really only exists as a mnemonic - it reminds us that it
+wouldn't be safe to change the identifier without also changing the compiler.<a href="#fnref:1" title="return to text"> &#x21A9;</a></p>
+</li></ul>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  A &quot;macro&quot; is a set of commands which could be applied to any constructor.
 It will have no effect unless applied, which happens only by a special command
 (see below) or, for certain macro names, when the code in this module applies
-it automatically.
-</p>
-
-<p class="commentary">For example:
-</p>
-
+it automatically.</p>
+<p>For example:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">macro</span><span class="plain-syntax"> #</span><span class="identifier-syntax">REAL</span><span class="plain-syntax"> {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">conforms</span><span class="plain-syntax">-</span><span class="identifier-syntax">to:</span><span class="plain-syntax"> </span><span class="identifier-syntax">REAL_ARITHMETIC_VALUE_TY</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary">This declares a macro called <span class="extract"><span class="extract-syntax">#REAL</span></span>. All macros have names beginning with a
-sharp sign, and continuing with capital letters.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>An "invention" is a piece of source text to be added to whatever is being
-compiled.<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup> Invention names begin with an asterisk. For example:
-</p>
-
+<div class="lsmarkdown">
+<p>This declares a macro called <code>#REAL</code>. All macros have names beginning with a
+sharp sign, and continuing with capital letters.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  An &quot;invention&quot; is a piece of source text to be added to whatever is being
+compiled.<sup id="fnred:2"><a href="#fn:2" rel="footnote">1</a></sup> Invention names begin with an asterisk. For example:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">invention</span><span class="plain-syntax"> *</span><span class="identifier-syntax">UNDERSTOOD</span><span class="plain-syntax">-</span><span class="identifier-syntax">VARIABLE</span><span class="plain-syntax"> {</span>
 <span class="plain-syntax">    </span><span class="function-syntax">&lt;kind&gt;</span><span class="plain-syntax"> </span><span class="identifier-syntax">understood</span><span class="plain-syntax"> </span><span class="identifier-syntax">is</span><span class="plain-syntax"> </span><span class="identifier-syntax">a</span><span class="plain-syntax"> </span><span class="function-syntax">&lt;kind&gt;</span><span class="plain-syntax"> </span><span class="identifier-syntax">which</span><span class="plain-syntax"> </span><span class="identifier-syntax">varies</span><span class="plain-syntax">.</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary">Note that the text is not quite literal, because it can contain wildcards like
-<span class="extract"><span class="extract-syntax">&lt;kind&gt;</span></span>, which expands to the name of the kind in question: for instance, we
-might get "number understood is a number which varies". The legal wildcards are:
-</p>
-
-<ul class="items"><li>&#9679; &lt;kind&gt;, expanding to the singular name of the kind.
-</li><li>&#9679; &lt;lower-case-kind&gt;, the same but always using lower case.
-</li><li>&#9679; &lt;kind-weak-ID&gt;, the weak ID number for the base kind.
-</li><li>&#9679; &lt;say-function&gt;, the identifier of its printing routine.
-</li><li>&#9679; &lt;compare-function&gt;, similarly.
-</li></ul>
-<p class="commentary">There are a few limitations on what template text can include. Firstly,
+<div class="lsmarkdown">
+<p>Note that the text is not quite literal, because it can contain wildcards like
+<code>&lt;kind&gt;</code>, which expands to the name of the kind in question: for instance, we
+might get &quot;number understood is a number which varies&quot;. The legal wildcards are:
+(<em>) &lt;kind&gt;, expanding to the singular name of the kind.
+(</em>) &lt;lower-case-kind&gt;, the same but always using lower case.
+(<em>) &lt;kind-weak-ID&gt;, the weak ID number for the base kind.
+(</em>) &lt;say-function&gt;, the identifier of its printing routine.
+(*) &lt;compare-function&gt;, similarly.</p>
+<p>There are a few limitations on what template text can include. Firstly,
 nothing with angle brackets in, except where a wildcard appears. Secondly,
 each sentence must end at the end of a line, and similarly the colon for
-any rule or other definition. Thus this template would fail:
-</p>
-
+any rule or other definition. Thus this template would fail:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">invention</span><span class="plain-syntax"> *</span><span class="identifier-syntax">UNDERSTOOD</span><span class="plain-syntax">-</span><span class="identifier-syntax">VARIABLE</span><span class="plain-syntax"> {</span>
 <span class="plain-syntax">    </span><span class="function-syntax">&lt;kind&gt;</span><span class="plain-syntax"> </span><span class="identifier-syntax">understood</span><span class="plain-syntax"> </span><span class="identifier-syntax">is</span><span class="plain-syntax"> </span><span class="identifier-syntax">a</span><span class="plain-syntax"> </span><span class="function-syntax">&lt;kind&gt;</span><span class="plain-syntax"> </span><span class="identifier-syntax">which</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">varies</span><span class="plain-syntax">. </span><span class="identifier-syntax">To</span><span class="plain-syntax"> </span><span class="identifier-syntax">judge</span><span class="plain-syntax"> </span><span class="function-syntax">&lt;kind&gt;</span><span class="plain-syntax">: </span><span class="identifier-syntax">say</span><span class="plain-syntax"> </span><span class="string-syntax">"I judge [&lt;kind&gt; understood]."</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary">because the first sentence ends in the middle of the second line, and the
+<div class="lsmarkdown">
+<p>because the first sentence ends in the middle of the second line, and the
 colon dividing the phrase header from its definition is also mid-line. The
-template must be reformatted thus to work:
-</p>
-
+template must be reformatted thus to work:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">invention</span><span class="plain-syntax"> *</span><span class="identifier-syntax">UNDERSTOOD</span><span class="plain-syntax">-</span><span class="identifier-syntax">VARIABLE</span><span class="plain-syntax"> {</span>
 <span class="plain-syntax">    </span><span class="function-syntax">&lt;kind&gt;</span><span class="plain-syntax"> </span><span class="identifier-syntax">understood</span><span class="plain-syntax"> </span><span class="identifier-syntax">is</span><span class="plain-syntax"> </span><span class="identifier-syntax">a</span><span class="plain-syntax"> </span><span class="function-syntax">&lt;kind&gt;</span><span class="plain-syntax"> </span><span class="identifier-syntax">which</span><span class="plain-syntax"> </span><span class="identifier-syntax">varies</span><span class="plain-syntax">.</span>
@@ -168,180 +157,131 @@ template must be reformatted thus to work:
 <span class="plain-syntax">        </span><span class="identifier-syntax">say</span><span class="plain-syntax"> </span><span class="string-syntax">"I judge [&lt;kind&gt; understood]."</span>
 <span class="plain-syntax">}</span>
 </pre>
-<ul class="footnotetexts"><li class="footnote" id="fn:2"><p class="inwebfootnote"><sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup> Inventions are not elegant and have now mostly been phased out, except to
-create the "K understood" variables for each base kind conforming to
-<span class="extract"><span class="extract-syntax">understandable value</span></span>, using the example invention shown here.
-<a href="#fnref:2" title="return to text"> &#x21A9;</a></p></li></ul>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Commands.</b>Inside a macro or a constructor declaration, each line consists of a single
-command, always written in the form <span class="extract"><span class="extract-syntax">command: value</span></span>. If the command occurs
+<div class="lsmarkdown">
+<li class="footnote" id="fn:2"><p class="inwebfootnote"><sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup>
+Inventions are not elegant and have now mostly been phased out, except to
+create the &quot;K understood&quot; variables for each base kind conforming to
+<code>understandable value</code>, using the example invention shown here.<a href="#fnref:2" title="return to text"> &#x21A9;</a></p>
+</li></ul>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Commands.</b>  Inside a macro or a constructor declaration, each line consists of a single
+command, always written in the form <code>command: value</code>. If the command occurs
 in a constructor, it applies to that constructor; if in a macro, it is applied
-to whatever constructor the macro is being applied to (if it ever is).
-</p>
-
-<p class="commentary">All commands are a single word, though sometimes hyphenated. White space
-either side of the <span class="extract"><span class="extract-syntax">value</span></span> is trimmed away. <span class="extract"><span class="extract-syntax">value</span></span> is not allowed to be empty,
-or to contain only white space.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>Constructor declarations are conventionally written in four groups of commands,
+to whatever constructor the macro is being applied to (if it ever is).</p>
+<p>All commands are a single word, though sometimes hyphenated. White space
+either side of the <code>value</code> is trimmed away. <code>value</code> is not allowed to be empty,
+or to contain only white space.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>  Constructor declarations are conventionally written in four groups of commands,
 though this is just convention. Let's start with the first block, which names
-the constructor and locates it in the lattice.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">conforms-to: K</span></span> declares that the new kind conforms to the existing kind <span class="extract"><span class="extract-syntax">K</span></span>.
+the constructor and locates it in the lattice.</p>
+<p><code>conforms-to: K</code> declares that the new kind conforms to the existing kind <code>K</code>.
 Multiple conformances can be given, but there is seldom any need to, because if
-<span class="extract"><span class="extract-syntax">K</span></span> then conforms to <span class="extract"><span class="extract-syntax">L</span></span>, our new kind will do so too. In general, new base
-kinds should declare their conformance to the most specific protocol they can.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">compatible-with: K</span></span> declares that <span class="extract"><span class="extract-syntax">K</span></span> is compatible with the new kind (note:
+<code>K</code> then conforms to <code>L</code>, our new kind will do so too. In general, new base
+kinds should declare their conformance to the most specific protocol they can.</p>
+<p><code>compatible-with: K</code> declares that <code>K</code> is compatible with the new kind (note:
 not the other way round), in a way needing explicit conversion code at run-time:
-i.e., <span class="extract"><span class="extract-syntax">K</span></span> does not conform to the new kind, but can be converted to it.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">singular</span></span> and <span class="extract"><span class="extract-syntax">plural</span></span> specify singular and plural natural language names for
+i.e., <code>K</code> does not conform to the new kind, but can be converted to it.</p>
+<p><code>singular</code> and <code>plural</code> specify singular and plural natural language names for
 the constructor. If these are omitted, it will be impossible to refer to in
 source text, but that doesn't necessarily make the constructor useless: the
 compiler can still generate it internally. Multiple legal wordings can be
 given, divided by vertical strokes. Names of the construction kinds can be
-written as <span class="extract"><span class="extract-syntax">k</span></span> and <span class="extract"><span class="extract-syntax">l</span></span> (note lower case). So, for example, <span class="extract"><span class="extract-syntax">list of k</span></span>.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">terms</span></span> is used only for proper constructors. For a unary constructor, it will
+written as <code>k</code> and <code>l</code> (note lower case). So, for example, <code>list of k</code>.</p>
+<p><code>terms</code> is used only for proper constructors. For a unary constructor, it will
 give one term; for binary, two terms, separated by a comma. Each term should
-be <span class="extract"><span class="extract-syntax">covariant</span></span> or <span class="extract"><span class="extract-syntax">contravariant</span></span>, with an optional keyword after it:
-</p>
-
-<ul class="items"><li>&#9679; <span class="extract"><span class="extract-syntax">optional</span></span> means that it is legal to name the constructor without naming
-this term. For example, "activity" is a legal way to say "activity on nothing".
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">list</span></span> means that it is legal to give a list of kinds here, in brackets
-if there are some, or <span class="extract"><span class="extract-syntax">nothing</span></span> if there are not.
-</li></ul>
-<p class="commentary"><span class="extract"><span class="extract-syntax">invent-source-text: *NAME</span></span> causes new source text to be invented. <span class="extract"><span class="extract-syntax">*NAME</span></span>
+be <code>covariant</code> or <code>contravariant</code>, with an optional keyword after it:
+(<em>) <code>optional</code> means that it is legal to name the constructor without naming
+this term. For example, &quot;activity&quot; is a legal way to say &quot;activity on nothing&quot;.
+(</em>) <code>list</code> means that it is legal to give a list of kinds here, in brackets
+if there are some, or <code>nothing</code> if there are not.</p>
+<p><code>invent-source-text: *NAME</code> causes new source text to be invented. <code>*NAME</code>
 must be an invention which has already been declared. If this command is applied
-to a protocol, such as <span class="extract"><span class="extract-syntax">arithmetic value</span></span>, then the invention will be made not
+to a protocol, such as <code>arithmetic value</code>, then the invention will be made not
 for the protocol itself, but for every base kind which conforms to it: this can
-result in a stream of similar-looking sentences.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">apply-macro: #NAME</span></span> does what it says, really. Here, however, it applies to
-protocols just the same as to everything else.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>The second group concerns behaviours of the kinds in question, or methods
+result in a stream of similar-looking sentences.</p>
+<p><code>apply-macro: #NAME</code> does what it says, really. Here, however, it applies to
+protocols just the same as to everything else.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>  The second group concerns behaviours of the kinds in question, or methods
 for compiling their data. They are in general meaningless for protocols or
-other kinds which don't refer to data stored at run-time.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">default-value</span></span> is the default value for an uninitialised variable of this
-kind. If this is not set, problem messages may be generated for such variables.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">can-coincide-with-property</span></span> is either <span class="extract"><span class="extract-syntax">yes</span></span> or <span class="extract"><span class="extract-syntax">no</span></span> (default <span class="extract"><span class="extract-syntax">no</span></span>), and means
+other kinds which don't refer to data stored at run-time.</p>
+<p><code>default-value</code> is the default value for an uninitialised variable of this
+kind. If this is not set, problem messages may be generated for such variables.</p>
+<p><code>can-coincide-with-property</code> is either <code>yes</code> or <code>no</code> (default <code>no</code>), and means
 what it says: the name of this kind is allowed also to be the name of a property
-which takes values in this kind.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">can-exchange</span></span> is either <span class="extract"><span class="extract-syntax">yes</span></span> or <span class="extract"><span class="extract-syntax">no</span></span> (default <span class="extract"><span class="extract-syntax">no</span></span>), and means that data of
-this kind can be serialised &mdash; printed out as text into an external file &mdash;
-and read into a different program, but with the same meaning.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">constant-compilation-method</span></span> tells Inform how to compile constants of this
-kind. The possible options are: <span class="extract"><span class="extract-syntax">none</span></span>, <span class="extract"><span class="extract-syntax">literal</span></span>, <span class="extract"><span class="extract-syntax">quantitative</span></span> and <span class="extract"><span class="extract-syntax">special</span></span>,
-the default being <span class="extract"><span class="extract-syntax">none</span></span>:
-</p>
-
-<ul class="items"><li>&#9679; <span class="extract"><span class="extract-syntax">none</span></span> means there are no constants of this kind.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">literal</span></span> means constants are literals in Inform source text, such as 65 or 11:12 PM.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">quantitative</span></span> means they are named instances, as for enumerations.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">special</span></span> means that the compiler needs to use ad-hoc code to handle
-this kind; unless it contains that code, of course, this can't be used.
-</li></ul>
-<p class="commentary"><span class="extract"><span class="extract-syntax">loop-domain-schema</span></span> is an Inter schema for iterating through the valid
-instances of the kind.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">comparison-schema</span></span> is an Inter schema for comparing a value of this kind
+which takes values in this kind.</p>
+<p><code>can-exchange</code> is either <code>yes</code> or <code>no</code> (default <code>no</code>), and means that data of
+this kind can be serialised -- printed out as text into an external file --
+and read into a different program, but with the same meaning.</p>
+<p><code>constant-compilation-method</code> tells Inform how to compile constants of this
+kind. The possible options are: <code>none</code>, <code>literal</code>, <code>quantitative</code> and <code>special</code>,
+the default being <code>none</code>:
+(<em>) <code>none</code> means there are no constants of this kind.
+(</em>) <code>literal</code> means constants are literals in Inform source text, such as 65 or 11:12 PM.
+(<em>) <code>quantitative</code> means they are named instances, as for enumerations.
+(</em>) <code>special</code> means that the compiler needs to use ad-hoc code to handle
+this kind; unless it contains that code, of course, this can't be used.</p>
+<p><code>loop-domain-schema</code> is an Inter schema for iterating through the valid
+instances of the kind.</p>
+<p><code>comparison-schema</code> is an Inter schema for comparing a value of this kind
 with a value of a named other kind to which it does not conform. It should
-take the form <span class="extract"><span class="extract-syntax">NAME&gt;&gt;&gt;SCHEMA</span></span>, where <span class="extract"><span class="extract-syntax">NAME</span></span> is the other kind, and <span class="extract"><span class="extract-syntax">SCHEMA</span></span>
-the Inter code.
-</p>
-
-<p class="commentary">If the kind conforms to <span class="extract"><span class="extract-syntax">POINTER_VALUE_TY</span></span> then it stores values on the heap,
+take the form <code>NAME&gt;&gt;&gt;SCHEMA</code>, where <code>NAME</code> is the other kind, and <code>SCHEMA</code>
+the Inter code.</p>
+<p>If the kind conforms to <code>POINTER_VALUE_TY</code> then it stores values on the heap,
 rather than in single words of memory, and in that case three more properies
-become meaningful: <span class="extract"><span class="extract-syntax">multiple-block</span></span> is either <span class="extract"><span class="extract-syntax">yes</span></span> or <span class="extract"><span class="extract-syntax">no</span></span> (default <span class="extract"><span class="extract-syntax">no</span></span>), and
-allows data to expand arbitrarily in size if necessary; <span class="extract"><span class="extract-syntax">heap-size-estimate</span></span>
+become meaningful: <code>multiple-block</code> is either <code>yes</code> or <code>no</code> (default <code>no</code>), and
+allows data to expand arbitrarily in size if necessary; <code>heap-size-estimate</code>
 should be a power of 2, and gives an initial allocation size in words; and
-<span class="extract"><span class="extract-syntax">short-block-size</span></span> optionally allows a short block (in words) to point to the
-data (thus adding further indirection).
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">is-incompletely-defined</span></span> is either <span class="extract"><span class="extract-syntax">yes</span></span> or <span class="extract"><span class="extract-syntax">no</span></span> (default <span class="extract"><span class="extract-syntax">no</span></span>), and is a
+<code>short-block-size</code> optionally allows a short block (in words) to point to the
+data (thus adding further indirection).</p>
+<p><code>is-incompletely-defined</code> is either <code>yes</code> or <code>no</code> (default <code>no</code>), and is a
 short-term device used to handle kinds which have been created but not yet
-turned into units or enumerations.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b>The third group supplies identifier names for Inter routines to perform run-time
+turned into units or enumerations.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b>  The third group supplies identifier names for Inter routines to perform run-time
 duties related to the kind. Inform will simply assume such a routine is present;
-this will usually be defined in the same kit which is supplying the Neptune file.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">compare-function</span></span> determines which of two values of the kind is greater.
-The default is <span class="extract"><span class="extract-syntax">UnsignedCompare</span></span>. The special value <span class="extract"><span class="extract-syntax">signed</span></span> can be used to
+this will usually be defined in the same kit which is supplying the Neptune file.</p>
+<p><code>compare-function</code> determines which of two values of the kind is greater.
+The default is <code>UnsignedCompare</code>. The special value <code>signed</code> can be used to
 ask for signed comparison of the 2s-complement run-time values, which is a
-little quicker than calling a routine.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">say-function</span></span> prints out a textual representation of a value of the given
-kind. These have no effect for kinds which do not conform to <span class="extract"><span class="extract-syntax">sayable value</span></span>.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">understand-function</span></span> is a "general parsing routine", which assists the run-time
-command parser. <span class="extract"><span class="extract-syntax">distinguish-function</span></span>, similarly, determines whether two
+little quicker than calling a routine.</p>
+<p><code>say-function</code> prints out a textual representation of a value of the given
+kind. These have no effect for kinds which do not conform to <code>sayable value</code>.</p>
+<p><code>understand-function</code> is a &quot;general parsing routine&quot;, which assists the run-time
+command parser. <code>distinguish-function</code>, similarly, determines whether two
 things can be distinguished by textual commands. These have no effect in Basic
-Inform projects, or for kinds which do not conform to <span class="extract"><span class="extract-syntax">understandable value</span></span>.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">recognise-function</span></span> is a "recognition-only general parsing routine". Again
+Inform projects, or for kinds which do not conform to <code>understandable value</code>.</p>
+<p><code>recognise-function</code> is a &quot;recognition-only general parsing routine&quot;. Again
 this has no effect in Basic Inform projects. It is only used for kinds which
-do not conform to <span class="extract"><span class="extract-syntax">understandable value</span></span>, but can nevertheless be used when
+do not conform to <code>understandable value</code>, but can nevertheless be used when
 the command parser allows things to be named by their property values, and
-those values have the kind in question.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. </b>The final group is concerned only with documentation and indexing, and thus
-has no effect on compilation.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">documentation-reference</span></span> is a reference keyword to the Inform documentation,
+those values have the kind in question.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. </b>  The final group is concerned only with documentation and indexing, and thus
+has no effect on compilation.</p>
+<p><code>documentation-reference</code> is a reference keyword to the Inform documentation,
 which can make be used to improve problem messages or the index by giving little
-blue help buttons next to the kind's name.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">index-priority</span></span> is a non-negative integer. It is by default 100 for base kinds
-and constructors, 0 for protocols and punctuation. 0 in fact means "omit from the
-index", which is otherwise grouped in ascending order &mdash; i.e., lowest priority
-numbers first.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">index-default-value</span></span> can be used in place of the <span class="extract"><span class="extract-syntax">default-value</span></span> in the index,
-to make it look prettier.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">index-maximum-value</span></span> can similarly override the indexer's automated attempt to
-print the largest representable value, and similarly for <span class="extract"><span class="extract-syntax">index-minimum-value</span></span>.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">indexed-grey-if-empty</span></span> is either <span class="extract"><span class="extract-syntax">yes</span></span> or <span class="extract"><span class="extract-syntax">no</span></span> (default <span class="extract"><span class="extract-syntax">no</span></span>), and specifies
-that if the kind has no instances then it should be tinted grey in the index.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">specification-text</span></span> provides the value of the specification pseudo-property
+blue help buttons next to the kind's name.</p>
+<p><code>index-priority</code> is a non-negative integer. It is by default 100 for base kinds
+and constructors, 0 for protocols and punctuation. 0 in fact means &quot;omit from the
+index&quot;, which is otherwise grouped in ascending order -- i.e., lowest priority
+numbers first.</p>
+<p><code>index-default-value</code> can be used in place of the <code>default-value</code> in the index,
+to make it look prettier.</p>
+<p><code>index-maximum-value</code> can similarly override the indexer's automated attempt to
+print the largest representable value, and similarly for <code>index-minimum-value</code>.</p>
+<p><code>indexed-grey-if-empty</code> is either <code>yes</code> or <code>no</code> (default <code>no</code>), and specifies
+that if the kind has no instances then it should be tinted grey in the index.</p>
+<p><code>specification-text</code> provides the value of the specification pseudo-property
 (an oddball feature of the Inform language which seemed like a good idea at
-the time). This should be plain text, not HTML.
-</p>
-
+the time). This should be plain text, not HTML.</p>
+</div>
 <nav role="progress"><div class="progresscontainer">
     <ul class="progressbar"><li class="progressprev"><a href="3-sav.html">&#10094;</a></li><li class="progresschapter"><a href="P-wtmd.html">P</a></li><li class="progresschapter"><a href="1-km.html">1</a></li><li class="progresschapter"><a href="2-knd.html">2</a></li><li class="progresschapter"><a href="3-dmn.html">3</a></li><li class="progresscurrentchapter">4</li><li class="progresscurrent">abgtn</li><li class="progresssection"><a href="4-nf.html">nf</a></li><li class="progresssection"><a href="4-ns.html">ns</a></li><li class="progresssection"><a href="4-mcr.html">mcr</a></li><li class="progresssection"><a href="4-st.html">st</a></li><li class="progresssection"><a href="4-kc.html">kc</a></li><li class="progresssection"><a href="4-kc2.html">kc2</a></li><li class="progressnext"><a href="4-nf.html">&#10095;</a></li></ul></div>
 </nav><!-- End of weave -->

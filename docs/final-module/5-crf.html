@@ -26,7 +26,6 @@ function togglePopup(material_id) {
 <script src="../docs-assets/Bigfoot.js"></script>
 <link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
-<link href="../docs-assets/Extracts-Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
 	<body class="commentary-font">
@@ -60,44 +59,42 @@ function togglePopup(material_id) {
     <ul class="crumbs"><li><a href="../index.html">Home</a></li><li><a href="../intern.html">Inter Modules</a></li><li><a href="index.html">final</a></li><li><a href="index.html#5">Chapter 5: C</a></li><li><b>C References</b></li></ul></div>
 <p class="purpose">How changes to storage objects are translated into C.</p>
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>References identify storage objects which are being written to or otherwise
-modified, rather than having their current contents read.
-</p>
-
-<p class="commentary">There are seven possible ways to modify something identified by a reference,
-and we need constants to identify these ways in the code we generate:
-</p>
-
-<pre class="Extracts-displayed-code all-displayed-code code-font">
-<span class="Extracts-plain-syntax">#</span><span class="Extracts-identifier-syntax">define</span><span class="Extracts-plain-syntax"> </span><span class="Extracts-identifier-syntax">i7_lvalue_SET</span><span class="Extracts-plain-syntax"> </span><span class="Extracts-constant-syntax">1</span>
-<span class="Extracts-plain-syntax">#</span><span class="Extracts-identifier-syntax">define</span><span class="Extracts-plain-syntax"> </span><span class="Extracts-identifier-syntax">i7_lvalue_PREDEC</span><span class="Extracts-plain-syntax"> </span><span class="Extracts-constant-syntax">2</span>
-<span class="Extracts-plain-syntax">#</span><span class="Extracts-identifier-syntax">define</span><span class="Extracts-plain-syntax"> </span><span class="Extracts-identifier-syntax">i7_lvalue_POSTDEC</span><span class="Extracts-plain-syntax"> </span><span class="Extracts-constant-syntax">3</span>
-<span class="Extracts-plain-syntax">#</span><span class="Extracts-identifier-syntax">define</span><span class="Extracts-plain-syntax"> </span><span class="Extracts-identifier-syntax">i7_lvalue_PREINC</span><span class="Extracts-plain-syntax"> </span><span class="Extracts-constant-syntax">4</span>
-<span class="Extracts-plain-syntax">#</span><span class="Extracts-identifier-syntax">define</span><span class="Extracts-plain-syntax"> </span><span class="Extracts-identifier-syntax">i7_lvalue_POSTINC</span><span class="Extracts-plain-syntax"> </span><span class="Extracts-constant-syntax">5</span>
-<span class="Extracts-plain-syntax">#</span><span class="Extracts-identifier-syntax">define</span><span class="Extracts-plain-syntax"> </span><span class="Extracts-identifier-syntax">i7_lvalue_SETBIT</span><span class="Extracts-plain-syntax"> </span><span class="Extracts-constant-syntax">6</span>
-<span class="Extracts-plain-syntax">#</span><span class="Extracts-identifier-syntax">define</span><span class="Extracts-plain-syntax"> </span><span class="Extracts-identifier-syntax">i7_lvalue_CLEARBIT</span><span class="Extracts-plain-syntax"> </span><span class="Extracts-constant-syntax">7</span>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  References identify storage objects which are being written to or otherwise
+modified, rather than having their current contents read.</p>
+<p>There are seven possible ways to modify something identified by a reference,
+and we need constants to identify these ways in the code we generate:</p>
+</div>
+<pre class="displayed-code all-displayed-code code-font">
+<span class="plain-syntax">#</span><span class="identifier-syntax">define</span><span class="plain-syntax"> </span><span class="identifier-syntax">i7_lvalue_SET</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span>
+<span class="plain-syntax">#</span><span class="identifier-syntax">define</span><span class="plain-syntax"> </span><span class="identifier-syntax">i7_lvalue_PREDEC</span><span class="plain-syntax"> </span><span class="constant-syntax">2</span>
+<span class="plain-syntax">#</span><span class="identifier-syntax">define</span><span class="plain-syntax"> </span><span class="identifier-syntax">i7_lvalue_POSTDEC</span><span class="plain-syntax"> </span><span class="constant-syntax">3</span>
+<span class="plain-syntax">#</span><span class="identifier-syntax">define</span><span class="plain-syntax"> </span><span class="identifier-syntax">i7_lvalue_PREINC</span><span class="plain-syntax"> </span><span class="constant-syntax">4</span>
+<span class="plain-syntax">#</span><span class="identifier-syntax">define</span><span class="plain-syntax"> </span><span class="identifier-syntax">i7_lvalue_POSTINC</span><span class="plain-syntax"> </span><span class="constant-syntax">5</span>
+<span class="plain-syntax">#</span><span class="identifier-syntax">define</span><span class="plain-syntax"> </span><span class="identifier-syntax">i7_lvalue_SETBIT</span><span class="plain-syntax"> </span><span class="constant-syntax">6</span>
+<span class="plain-syntax">#</span><span class="identifier-syntax">define</span><span class="plain-syntax"> </span><span class="identifier-syntax">i7_lvalue_CLEARBIT</span><span class="plain-syntax"> </span><span class="constant-syntax">7</span>
 </pre>
 <ul class="endnotetexts"><li>This is part of the extract file inform7_clib.h.</li></ul>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>Those seven ways correspond to seven Inter primitives, with the following
-signatures:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  Those seven ways correspond to seven Inter primitives, with the following
+signatures:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">primitive</span><span class="plain-syntax"> !</span><span class="identifier-syntax">store</span><span class="plain-syntax">         </span><span class="identifier-syntax">ref</span><span class="plain-syntax"> </span><span class="identifier-syntax">val</span><span class="plain-syntax"> -&gt; </span><span class="identifier-syntax">val</span>
-<span class="identifier-syntax">primitive</span><span class="plain-syntax"> !</span><span class="identifier-syntax">preincrement</span><span class="plain-syntax">  </span><span class="identifier-syntax">ref</span><span class="plain-syntax"> -&gt; </span><span class="identifier-syntax">val</span>
-<span class="identifier-syntax">primitive</span><span class="plain-syntax"> !</span><span class="identifier-syntax">postincrement</span><span class="plain-syntax"> </span><span class="identifier-syntax">ref</span><span class="plain-syntax"> -&gt; </span><span class="identifier-syntax">val</span>
-<span class="identifier-syntax">primitive</span><span class="plain-syntax"> !</span><span class="identifier-syntax">predecrement</span><span class="plain-syntax">  </span><span class="identifier-syntax">ref</span><span class="plain-syntax"> -&gt; </span><span class="identifier-syntax">val</span>
-<span class="identifier-syntax">primitive</span><span class="plain-syntax"> !</span><span class="identifier-syntax">postdecrement</span><span class="plain-syntax"> </span><span class="identifier-syntax">ref</span><span class="plain-syntax"> -&gt; </span><span class="identifier-syntax">val</span>
-<span class="identifier-syntax">primitive</span><span class="plain-syntax"> !</span><span class="identifier-syntax">setbit</span><span class="plain-syntax">        </span><span class="identifier-syntax">ref</span><span class="plain-syntax"> </span><span class="identifier-syntax">val</span><span class="plain-syntax"> -&gt; </span><span class="reserved-syntax">void</span>
-<span class="identifier-syntax">primitive</span><span class="plain-syntax"> !</span><span class="identifier-syntax">clearbit</span><span class="plain-syntax">      </span><span class="identifier-syntax">ref</span><span class="plain-syntax"> </span><span class="identifier-syntax">val</span><span class="plain-syntax"> -&gt; </span><span class="reserved-syntax">void</span>
+<span class="identifier-syntax">primitive</span><span class="plain-syntax"> !</span><span class="identifier-syntax">store</span><span class="plain-syntax">         </span><span class="identifier-syntax">ref</span><span class="plain-syntax"> </span><span class="identifier-syntax">val</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">val</span>
+<span class="identifier-syntax">primitive</span><span class="plain-syntax"> !</span><span class="identifier-syntax">preincrement</span><span class="plain-syntax">  </span><span class="identifier-syntax">ref</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">val</span>
+<span class="identifier-syntax">primitive</span><span class="plain-syntax"> !</span><span class="identifier-syntax">postincrement</span><span class="plain-syntax"> </span><span class="identifier-syntax">ref</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">val</span>
+<span class="identifier-syntax">primitive</span><span class="plain-syntax"> !</span><span class="identifier-syntax">predecrement</span><span class="plain-syntax">  </span><span class="identifier-syntax">ref</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">val</span>
+<span class="identifier-syntax">primitive</span><span class="plain-syntax"> !</span><span class="identifier-syntax">postdecrement</span><span class="plain-syntax"> </span><span class="identifier-syntax">ref</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">val</span>
+<span class="identifier-syntax">primitive</span><span class="plain-syntax"> !</span><span class="identifier-syntax">setbit</span><span class="plain-syntax">        </span><span class="identifier-syntax">ref</span><span class="plain-syntax"> </span><span class="identifier-syntax">val</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">void</span>
+<span class="identifier-syntax">primitive</span><span class="plain-syntax"> !</span><span class="identifier-syntax">clearbit</span><span class="plain-syntax">      </span><span class="identifier-syntax">ref</span><span class="plain-syntax"> </span><span class="identifier-syntax">val</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">void</span>
 </pre>
-<p class="commentary">Since C functions can have their return values freely ignored, we will in fact
-implement <span class="extract"><span class="extract-syntax">!setbit</span></span> and <span class="extract"><span class="extract-syntax">!clearbit</span></span> as if they too had the signature
-<span class="extract"><span class="extract-syntax">ref val -&gt; val</span></span>.
-</p>
-
+<div class="lsmarkdown">
+<p>Since C functions can have their return values freely ignored, we will in fact
+implement <code>!setbit</code> and <code>!clearbit</code> as if they too had the signature
+<code>ref val -&gt; val</code>.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">CReferences::invoke_primitive</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">CReferences::invoke_primitive</span></span>:<br/>C Program Control - <a href="5-cpc.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">code_generation</span><span class="plain-syntax"> *</span><span class="identifier-syntax">gen</span><span class="plain-syntax">, </span><span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">bip</span><span class="plain-syntax">, </span><span class="identifier-syntax">inter_tree_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">CReferences::invoke_primitive</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">CReferences::invoke_primitive</span></span>:<br/>C Program Control - <a href="5-cpc.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">code_generation</span><span class="plain-syntax"> *</span><span class="identifier-syntax">gen</span><span class="plain-syntax">, </span><span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">bip</span><span class="plain-syntax">, </span><span class="identifier-syntax">inter_tree_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">OUT</span><span class="plain-syntax"> = </span><a href="2-cg.html#SP14" class="function-link"><span class="function-syntax">CodeGen::current</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">gen</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">store_form</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="identifier-syntax">bip</span><span class="plain-syntax">) {</span>
@@ -110,45 +107,42 @@ implement <span class="extract"><span class="extract-syntax">!setbit</span></spa
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">CLEARBIT_BIP:</span><span class="plain-syntax">      </span><span class="identifier-syntax">store_form</span><span class="plain-syntax"> = </span><span class="identifier-syntax">I</span><span class="string-syntax">"i7_lvalue_CLEARBIT"</span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">default:</span><span class="plain-syntax"> </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NOT_APPLICABLE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    }</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">store_form</span><span class="plain-syntax">) </span><span class="named-paragraph-container code-font"><a href="5-crf.html#SP2_1" class="named-paragraph-link"><span class="named-paragraph">This does indeed modify a value by reference</span><span class="named-paragraph-number">2.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">store_form</span><span class="plain-syntax">) </span><span class="named-paragraph-container code-font"><a href="5-crf.html#SP2_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">This does indeed modify a value by reference</span></span><span class="named-paragraph-number">2.1</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2_1" class="paragraph-anchor"></a><b>&#167;2.1. </b>Some storage objects, like variables, can be generated to C code which works
-in either an lvalue or rvalue context. For example, the Inter variable <span class="extract"><span class="extract-syntax">frog</span></span>
-generates just as the C variable <span class="extract"><span class="extract-syntax">i7_mgl_frog</span></span>.<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> It's then fine to generate
-code like either <span class="extract"><span class="extract-syntax">10 + i7_mgl_frog</span></span>, where it is used in a <span class="extract"><span class="extract-syntax">val</span></span> context, or
-like <span class="extract"><span class="extract-syntax">i7_mgl_frog++</span></span>, where it is used in a <span class="extract"><span class="extract-syntax">ref</span></span> context.
-</p>
-
-<p class="commentary">But other storage objects are not so lucky, and can only be written to by
-calling functions.
-</p>
-
-<ul class="footnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> In real life, do not mangle frogs. See C. S. Lewis, "Perelandra", 1943.
-<a href="#fnref:1" title="return to text"> &#x21A9;</a></p></li></ul>
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">This does indeed modify a value by reference</span><span class="named-paragraph-number">2.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2_1" class="paragraph-anchor"></a><b>&#167;2.1. </b>  Some storage objects, like variables, can be generated to C code which works
+in either an lvalue or rvalue context. For example, the Inter variable <code>frog</code>
+generates just as the C variable <code>i7_mgl_frog</code>.<sup id="fnred:1"><a href="#fn:1" rel="footnote">1</a></sup> It's then fine to generate
+code like either <code>10 + i7_mgl_frog</code>, where it is used in a <code>val</code> context, or
+like <code>i7_mgl_frog++</code>, where it is used in a <code>ref</code> context.</p>
+<p>But other storage objects are not so lucky, and can only be written to by
+calling functions.</p>
+<ul class="inwebfootnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>
+In real life, do not mangle frogs. See C. S. Lewis, &quot;Perelandra&quot;, 1943.<a href="#fnref:1" title="return to text"> &#x21A9;</a></p>
+</li></ul>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">This does indeed modify a value by reference</span><span class="named-paragraph-number">2.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">inter_tree_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">ref</span><span class="plain-syntax"> = </span><span class="identifier-syntax">InterTree::first_child</span><span class="plain-syntax">(</span><span class="identifier-syntax">P</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inter_tree_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">storage_ref</span><span class="plain-syntax"> = </span><span class="identifier-syntax">InterTree::first_child</span><span class="plain-syntax">(</span><span class="identifier-syntax">P</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">storage_ref</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">W</span><span class="plain-syntax">.</span><span class="identifier-syntax">instruction</span><span class="plain-syntax">[0] == </span><span class="identifier-syntax">REFERENCE_IST</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">storage_ref</span><span class="plain-syntax"> = </span><span class="identifier-syntax">InterTree::first_child</span><span class="plain-syntax">(</span><span class="identifier-syntax">storage_ref</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">val_supplied</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">val_supplied</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">bip</span><span class="plain-syntax"> == </span><span class="identifier-syntax">STORE_BIP</span><span class="plain-syntax">) || (</span><span class="identifier-syntax">bip</span><span class="plain-syntax"> == </span><span class="identifier-syntax">SETBIT_BIP</span><span class="plain-syntax">) || (</span><span class="identifier-syntax">bip</span><span class="plain-syntax"> == </span><span class="identifier-syntax">CLEARBIT_BIP</span><span class="plain-syntax">)) </span><span class="identifier-syntax">val_supplied</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">ReferenceInstruction::node_is_ref_to</span><span class="plain-syntax">(</span><span class="identifier-syntax">gen</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">from</span><span class="plain-syntax">, </span><span class="identifier-syntax">ref</span><span class="plain-syntax">, </span><span class="identifier-syntax">LOOKUP_BIP</span><span class="plain-syntax">))</span>
-<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="5-crf.html#SP2_1_1" class="named-paragraph-link"><span class="named-paragraph">This is a reference to a word lookup</span><span class="named-paragraph-number">2.1.1</span></a></span>
+<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="5-crf.html#SP2_1_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">This is a reference to a word lookup</span></span><span class="named-paragraph-number">2.1.1</span></a></span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">ReferenceInstruction::node_is_ref_to</span><span class="plain-syntax">(</span><span class="identifier-syntax">gen</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">from</span><span class="plain-syntax">, </span><span class="identifier-syntax">ref</span><span class="plain-syntax">, </span><span class="identifier-syntax">LOOKUPBYTE_BIP</span><span class="plain-syntax">))</span>
-<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="5-crf.html#SP2_1_2" class="named-paragraph-link"><span class="named-paragraph">This is a reference to a byte lookup</span><span class="named-paragraph-number">2.1.2</span></a></span>
+<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="5-crf.html#SP2_1_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">This is a reference to a byte lookup</span></span><span class="named-paragraph-number">2.1.2</span></a></span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">ReferenceInstruction::node_is_ref_to</span><span class="plain-syntax">(</span><span class="identifier-syntax">gen</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">from</span><span class="plain-syntax">, </span><span class="identifier-syntax">ref</span><span class="plain-syntax">, </span><span class="identifier-syntax">PROPERTYVALUE_BIP</span><span class="plain-syntax">))</span>
-<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="5-crf.html#SP2_1_3" class="named-paragraph-link"><span class="named-paragraph">This is a reference to a property value</span><span class="named-paragraph-number">2.1.3</span></a></span>
+<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="5-crf.html#SP2_1_3" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">This is a reference to a property value</span></span><span class="named-paragraph-number">2.1.3</span></a></span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">else</span>
-<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="5-crf.html#SP2_1_4" class="named-paragraph-link"><span class="named-paragraph">This is a reference to something else</span><span class="named-paragraph-number">2.1.4</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="5-crf.html#SP2_1_4" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">This is a reference to something else</span></span><span class="named-paragraph-number">2.1.4</span></a></span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-crf.html#SP2">&#167;2</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP2_1_1" class="paragraph-anchor"></a><b>&#167;2.1.1. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">This is a reference to a word lookup</span><span class="named-paragraph-number">2.1.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP2_1_1" class="paragraph-anchor"></a><b>&#167;2.1.1. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">This is a reference to a word lookup</span><span class="named-paragraph-number">2.1.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"("</span><span class="plain-syntax">);</span>
@@ -160,8 +154,7 @@ calling functions.
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"))"</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-crf.html#SP2_1">&#167;2.1</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP2_1_2" class="paragraph-anchor"></a><b>&#167;2.1.2. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">This is a reference to a byte lookup</span><span class="named-paragraph-number">2.1.2</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP2_1_2" class="paragraph-anchor"></a><b>&#167;2.1.2. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">This is a reference to a byte lookup</span><span class="named-paragraph-number">2.1.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"("</span><span class="plain-syntax">);</span>
@@ -173,8 +166,7 @@ calling functions.
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"))"</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-crf.html#SP2_1">&#167;2.1</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP2_1_3" class="paragraph-anchor"></a><b>&#167;2.1.3. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">This is a reference to a property value</span><span class="named-paragraph-number">2.1.3</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP2_1_3" class="paragraph-anchor"></a><b>&#167;2.1.3. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">This is a reference to a property value</span><span class="named-paragraph-number">2.1.3</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"("</span><span class="plain-syntax">);</span>
@@ -187,8 +179,7 @@ calling functions.
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"))"</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-crf.html#SP2_1">&#167;2.1</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP2_1_4" class="paragraph-anchor"></a><b>&#167;2.1.4. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">This is a reference to something else</span><span class="named-paragraph-number">2.1.4</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP2_1_4" class="paragraph-anchor"></a><b>&#167;2.1.4. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">This is a reference to something else</span><span class="named-paragraph-number">2.1.4</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="identifier-syntax">bip</span><span class="plain-syntax">) {</span>

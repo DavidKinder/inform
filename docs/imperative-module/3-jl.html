@@ -59,66 +59,59 @@ function togglePopup(material_id) {
     <ul class="crumbs"><li><a href="../index.html">Home</a></li><li><a href="../inform7n.html">Inform7</a></li><li><a href="index.html">imperative</a></li><li><a href="index.html#3">Chapter 3: Functions</a></li><li><b>Jump Labels</b></li></ul></div>
 <p class="purpose">Generating numbered families of identifier names to use as jump labels, and creating any associated array storage needed.</p>
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>At the risk of angering the ghost of Dijkstra, we compile plenty of <span class="extract"><span class="extract-syntax">JUMP_BIP</span></span>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  At the risk of angering the ghost of Dijkstra, we compile plenty of <code>JUMP_BIP</code>
 opcodes in the Inter functions we make, and these require labels to jump to.
-Clearly we could just call these <span class="extract"><span class="extract-syntax">L0</span></span>, <span class="extract"><span class="extract-syntax">L1</span></span>, <span class="extract"><span class="extract-syntax">L2</span></span>, ..., <span class="extract"><span class="extract-syntax">L3475</span></span>, ..., but that
+Clearly we could just call these <code>L0</code>, <code>L1</code>, <code>L2</code>, ..., <code>L3475</code>, ..., but that
 would make the Inter code we're generating harder for human eyes to read. So we
-will go to a little trouble to give meaningful names.
-</p>
-
-<p class="commentary">In particular, labels are generated within "namespaces", which are really just
-numbered sets, except that they can also have associated storage,<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> which is
-global and persistent:
-</p>
-
-<ul class="footnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> Labels and storage are not obviously related, but in fact these small pieces
-of storage are used in "say" phrases to choose alternative wordings, where the
-options correspond to labels to jump to.
-<a href="#fnref:1" title="return to text"> &#x21A9;</a></p></li></ul>
+will go to a little trouble to give meaningful names.</p>
+<p>In particular, labels are generated within &quot;namespaces&quot;, which are really just
+numbered sets, except that they can also have associated storage,<sup id="fnred:1"><a href="#fn:1" rel="footnote">1</a></sup> which is
+global and persistent:</p>
+<ul class="inwebfootnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>
+Labels and storage are not obviously related, but in fact these small pieces
+of storage are used in &quot;say&quot; phrases to choose alternative wordings, where the
+options correspond to labels to jump to.<a href="#fnref:1" title="return to text"> &#x21A9;</a></p>
+</li></ul>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">label_namespace</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">label_prefix</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">label_counter</span><span class="plain-syntax">; </span><span class="comment-syntax"> next free ID number for this label namespace</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">max_label_counter</span><span class="plain-syntax">; </span><span class="comment-syntax"> largest ever value of the label counter</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">allocate_storage</span><span class="plain-syntax">; </span><span class="comment-syntax"> number of words of memory to reserve for each label</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">label_storage_iname</span><span class="plain-syntax">; </span><span class="comment-syntax"> where that storage is</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">storage_requested</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">storage_compiled</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">label_namespace</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">label_prefix</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">label_counter</span><span class="plain-syntax">; </span><span class="comment-syntax">/* next free ID number for this label namespace */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">max_label_counter</span><span class="plain-syntax">; </span><span class="comment-syntax">/* largest ever value of the label counter */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">allocate_storage</span><span class="plain-syntax">; </span><span class="comment-syntax">/* number of words of memory to reserve for each label */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">label_storage_iname</span><span class="plain-syntax">; </span><span class="comment-syntax">/* where that storage is */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">storage_requested</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">storage_compiled</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">CLASS_DEFINITION</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">label_namespace</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">label_namespace</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>The structure label_namespace is private to this section.</li></ul>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>This function writes the current label identifier within the given namespace.
-This takes the form <span class="extract"><span class="extract-syntax">L_NameNumber</span></span>. For instance, <span class="extract"><span class="extract-syntax">L_Marble17</span></span> is the 18th label
-in namespace <span class="extract"><span class="extract-syntax">Marble</span></span>.
-</p>
-
-<p class="commentary">It is legal for a namespace's name to be the empty text, which generates labels
-<span class="extract"><span class="extract-syntax">L_0</span></span>, <span class="extract"><span class="extract-syntax">L_1</span></span>, ...
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  This function writes the current label identifier within the given namespace.
+This takes the form <code>L_NameNumber</code>. For instance, <code>L_Marble17</code> is the 18th label
+in namespace <code>Marble</code>.</p>
+<p>It is legal for a namespace's name to be the empty text, which generates labels
+<code>L_0</code>, <code>L_1</code>, ...</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">JumpLabels::write</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">JumpLabels::write</span></span>:<br/>Compile Blocks and Lines - <a href="5-cbal.html#SP4_5_3">&#167;4.5.3</a><br/>Compile Invocations Inline - <a href="5-cii.html#SP6_4_1">&#167;6.4.1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">namespace</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">label_namespace</span><span class="plain-syntax"> *</span><span class="identifier-syntax">lns</span><span class="plain-syntax"> = </span><a href="3-jl.html#SP3" class="function-link"><span class="function-syntax">JumpLabels::obtain_namespace</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">namespace</span><span class="plain-syntax">);</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">JumpLabels::write</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">JumpLabels::write</span></span>:<br/>Compile Blocks and Lines - <a href="5-cbal.html#SP4_5_3">&#167;4.5.3</a><br/>Compile Invocations Inline - <a href="5-cii.html#SP6_4_1">&#167;6.4.1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">namespace</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">label_namespace</span><span class="plain-syntax"> *</span><span class="identifier-syntax">lns</span><span class="plain-syntax"> = </span><a href="3-jl.html#SP3" class="function-link"><span class="function-syntax">JumpLabels::obtain_namespace</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">namespace</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"L_%S%d"</span><span class="plain-syntax">, </span><span class="identifier-syntax">lns</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">label_prefix</span><span class="plain-syntax">, </span><span class="identifier-syntax">lns</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">label_counter</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>The rest of Inform tends not to store pointers to namespaces: instead it
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  The rest of Inform tends not to store pointers to namespaces: instead it
 must indicate them by their textual prefixes. This is very slightly inefficient,
-but there are very few namespaces in any single function.
-</p>
-
-<p class="commentary">However, the namespace <span class="extract"><span class="extract-syntax">Whatever</span></span> is different for different functions &mdash; jump
-labels, after all, are private to functions. <span class="extract"><span class="extract-syntax">JumpLabels::obtain_namespace(I"Whatever")</span></span>
-will return the namespace for whatever we are currently compiling.
-</p>
-
-<p class="commentary">This leads to an interesting nuance, which is that functions which are instantiations
+but there are very few namespaces in any single function.</p>
+<p>However, the namespace <code>Whatever</code> is different for different functions -- jump
+labels, after all, are private to functions. <code>JumpLabels::obtain_namespace(I&quot;Whatever&quot;)</code>
+will return the namespace for whatever we are currently compiling.</p>
+<p>This leads to an interesting nuance, which is that functions which are instantiations
 of templates will share a common list. (See <a href="3-fnc.html#SP4" class="internal">Functions::current_label_namespaces</a>.)
 That means that they share their storage, if they have any. For example, label
-storage is used to manage the alternate texts in the following:
-</p>
-
+storage is used to manage the alternate texts in the following:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">To</span><span class="plain-syntax"> </span><span class="identifier-syntax">judge</span><span class="plain-syntax"> (</span><span class="identifier-syntax">V</span><span class="plain-syntax"> - </span><span class="identifier-syntax">value</span><span class="plain-syntax">):</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">say</span><span class="plain-syntax"> </span><span class="string-syntax">"[V] is [one of]clearly[or]evidently[or]markedly[cycling] just plain [V]."</span>
@@ -128,11 +121,11 @@ storage is used to manage the alternate texts in the following:
 <span class="plain-syntax">    </span><span class="identifier-syntax">judge</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">time</span><span class="plain-syntax"> </span><span class="identifier-syntax">of</span><span class="plain-syntax"> </span><span class="identifier-syntax">day</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">judge</span><span class="plain-syntax"> </span><span class="identifier-syntax">true</span><span class="plain-syntax">.</span>
 </pre>
-<p class="commentary">Here "to judge" is instantiated four times (for when <span class="extract"><span class="extract-syntax">V</span></span> is a number, when it
+<div class="lsmarkdown">
+<p>Here &quot;to judge&quot; is instantiated four times (for when <code>V</code> is a number, when it
 is a text, when it is a time of day, and when it is a truth state). The output
-here should be:
-</p>
-
+here should be:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="constant-syntax">21</span><span class="plain-syntax"> </span><span class="identifier-syntax">is</span><span class="plain-syntax"> </span><span class="identifier-syntax">clearly</span><span class="plain-syntax"> </span><span class="identifier-syntax">just</span><span class="plain-syntax"> </span><span class="identifier-syntax">plain</span><span class="plain-syntax"> </span><span class="constant-syntax">21</span><span class="plain-syntax">.</span>
 <span class="identifier-syntax">fishslice</span><span class="plain-syntax"> </span><span class="identifier-syntax">is</span><span class="plain-syntax"> </span><span class="identifier-syntax">evidently</span><span class="plain-syntax"> </span><span class="identifier-syntax">just</span><span class="plain-syntax"> </span><span class="identifier-syntax">plain</span><span class="plain-syntax"> </span><span class="identifier-syntax">fishslice</span><span class="plain-syntax">.</span>
@@ -140,10 +133,10 @@ here should be:
 <span class="identifier-syntax">true</span><span class="plain-syntax"> </span><span class="identifier-syntax">is</span><span class="plain-syntax"> </span><span class="identifier-syntax">clearly</span><span class="plain-syntax"> </span><span class="identifier-syntax">just</span><span class="plain-syntax"> </span><span class="identifier-syntax">plain</span><span class="plain-syntax"> </span><span class="identifier-syntax">true</span><span class="plain-syntax">.</span>
 <span class="constant-syntax">56</span><span class="plain-syntax"> </span><span class="identifier-syntax">is</span><span class="plain-syntax"> </span><span class="identifier-syntax">evidently</span><span class="plain-syntax"> </span><span class="identifier-syntax">just</span><span class="plain-syntax"> </span><span class="identifier-syntax">plain</span><span class="plain-syntax"> </span><span class="constant-syntax">56</span><span class="plain-syntax">.</span>
 </pre>
-<p class="commentary">In other words, the counter used in all four instance functions must be the
-same one; if they had all had independent counters, the result would be:
-</p>
-
+<div class="lsmarkdown">
+<p>In other words, the counter used in all four instance functions must be the
+same one; if they had all had independent counters, the result would be:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="constant-syntax">21</span><span class="plain-syntax"> </span><span class="identifier-syntax">is</span><span class="plain-syntax"> </span><span class="identifier-syntax">clearly</span><span class="plain-syntax"> </span><span class="identifier-syntax">just</span><span class="plain-syntax"> </span><span class="identifier-syntax">plain</span><span class="plain-syntax"> </span><span class="constant-syntax">21</span><span class="plain-syntax">.</span>
 <span class="identifier-syntax">fishslice</span><span class="plain-syntax"> </span><span class="identifier-syntax">is</span><span class="plain-syntax"> </span><span class="identifier-syntax">clearly</span><span class="plain-syntax"> </span><span class="identifier-syntax">just</span><span class="plain-syntax"> </span><span class="identifier-syntax">plain</span><span class="plain-syntax"> </span><span class="identifier-syntax">fishslice</span><span class="plain-syntax">.</span>
@@ -151,17 +144,17 @@ same one; if they had all had independent counters, the result would be:
 <span class="identifier-syntax">true</span><span class="plain-syntax"> </span><span class="identifier-syntax">is</span><span class="plain-syntax"> </span><span class="identifier-syntax">clearly</span><span class="plain-syntax"> </span><span class="identifier-syntax">just</span><span class="plain-syntax"> </span><span class="identifier-syntax">plain</span><span class="plain-syntax"> </span><span class="identifier-syntax">true</span><span class="plain-syntax">.</span>
 <span class="constant-syntax">56</span><span class="plain-syntax"> </span><span class="identifier-syntax">is</span><span class="plain-syntax"> </span><span class="identifier-syntax">evidently</span><span class="plain-syntax"> </span><span class="identifier-syntax">just</span><span class="plain-syntax"> </span><span class="identifier-syntax">plain</span><span class="plain-syntax"> </span><span class="constant-syntax">56</span><span class="plain-syntax">.</span>
 </pre>
-<p class="commentary">See the test case <span class="extract"><span class="extract-syntax">InstantiatedLabelStorage</span></span>.
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">MAX_NAMESPACE_PREFIX_LENGTH</span><span class="plain-syntax"> </span><span class="constant-syntax">20</span><span class="plain-syntax"> </span><span class="comment-syntax"> when </span><span class="extract"><span class="extract-syntax">L_</span></span><span class="comment-syntax"> and a number are added, we are within 31 chars</span>
+<div class="lsmarkdown">
+<p>See the test case <code>InstantiatedLabelStorage</code>.</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">20</span><span class="plain-syntax"> </span><span class="comment-syntax">/* when |L_| and a number are added, we are within 31 chars */</span>
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">label_namespace</span><span class="plain-syntax"> *</span><span class="function-syntax">JumpLabels::obtain_namespace</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">JumpLabels::obtain_namespace</span></span>:<br/><a href="3-jl.html#SP2">&#167;2</a>, <a href="3-jl.html#SP5">&#167;5</a>, <a href="3-jl.html#SP6">&#167;6</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">name</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">label_namespace</span><span class="plain-syntax"> *</span><span class="function-syntax">JumpLabels::obtain_namespace</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">JumpLabels::obtain_namespace</span></span>:<br/><a href="3-jl.html#SP2">&#167;2</a>, <a href="3-jl.html#SP5">&#167;5</a>, <a href="3-jl.html#SP6">&#167;6</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">name</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">linked_list</span><span class="plain-syntax"> *</span><span class="identifier-syntax">namespaces</span><span class="plain-syntax"> = </span><a href="3-fnc.html#SP4" class="function-link"><span class="function-syntax">Functions::current_label_namespaces</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">namespaces</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"labels are available only within functions"</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">label_namespace</span><span class="plain-syntax"> *</span><span class="identifier-syntax">lns</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER_LINKED_LIST</span><span class="plain-syntax">(</span><span class="identifier-syntax">lns</span><span class="plain-syntax">, </span><span class="reserved-syntax">label_namespace</span><span class="plain-syntax">, </span><span class="identifier-syntax">namespaces</span><span class="plain-syntax">)</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">label_namespace</span><span class="plain-syntax"> *</span><span class="identifier-syntax">lns</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER_LINKED_LIST</span><span class="plain-syntax">(</span><span class="identifier-syntax">lns</span><span class="plain-syntax">, </span><span class="identifier-syntax">label_namespace</span><span class="plain-syntax">, </span><span class="identifier-syntax">namespaces</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Str::eq</span><span class="plain-syntax">(</span><span class="identifier-syntax">name</span><span class="plain-syntax">, </span><span class="identifier-syntax">lns</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">label_prefix</span><span class="plain-syntax">))</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">lns</span><span class="plain-syntax">;</span>
 
@@ -172,7 +165,7 @@ same one; if they had all had independent counters, the result would be:
 <span class="plain-syntax">            </span><span class="string-syntax">"and should be shortened to a few alphabetic characters."</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">Str::truncate</span><span class="plain-syntax">(</span><span class="identifier-syntax">name</span><span class="plain-syntax">, </span><span class="constant-syntax">MAX_NAMESPACE_PREFIX_LENGTH</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    }</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">lns</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="reserved-syntax">label_namespace</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">lns</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="identifier-syntax">label_namespace</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">lns</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">label_prefix</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Str::duplicate</span><span class="plain-syntax">(</span><span class="identifier-syntax">name</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">lns</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">label_storage_iname</span><span class="plain-syntax"> =</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">Enclosures::new_iname</span><span class="plain-syntax">(</span><span class="identifier-syntax">LABEL_STORAGES_HAP</span><span class="plain-syntax">, </span><span class="identifier-syntax">LABEL_ASSOCIATED_STORAGE_HL</span><span class="plain-syntax">);</span>
@@ -181,28 +174,28 @@ same one; if they had all had independent counters, the result would be:
 <span class="plain-syntax">    </span><span class="identifier-syntax">lns</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">allocate_storage</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">lns</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">storage_compiled</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">lns</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">storage_requested</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">ADD_TO_LINKED_LIST</span><span class="plain-syntax">(</span><span class="identifier-syntax">lns</span><span class="plain-syntax">, </span><span class="reserved-syntax">label_namespace</span><span class="plain-syntax">, </span><span class="identifier-syntax">namespaces</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">ADD_TO_LINKED_LIST</span><span class="plain-syntax">(</span><span class="identifier-syntax">lns</span><span class="plain-syntax">, </span><span class="identifier-syntax">label_namespace</span><span class="plain-syntax">, </span><span class="identifier-syntax">namespaces</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">lns</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>Though multiple instantiations of the same imperative definition may share
-a namespace list, we need to reset all the counters each time it is instantiated:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  Though multiple instantiations of the same imperative definition may share
+a namespace list, we need to reset all the counters each time it is instantiated:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">JumpLabels::restart_counters</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">JumpLabels::restart_counters</span></span>:<br/>Functions - <a href="3-fnc.html#SP5">&#167;5</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">id_body</span><span class="plain-syntax"> *</span><span class="identifier-syntax">idb</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">label_namespace</span><span class="plain-syntax"> *</span><span class="identifier-syntax">lns</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER_LINKED_LIST</span><span class="plain-syntax">(</span><span class="identifier-syntax">lns</span><span class="plain-syntax">, </span><span class="reserved-syntax">label_namespace</span><span class="plain-syntax">, </span><span class="identifier-syntax">idb</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">compilation_data</span><span class="plain-syntax">.</span><span class="element-syntax">label_namespaces</span><span class="plain-syntax">)</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">JumpLabels::restart_counters</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">JumpLabels::restart_counters</span></span>:<br/>Functions - <a href="3-fnc.html#SP5">&#167;5</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">id_body</span><span class="plain-syntax"> *</span><span class="identifier-syntax">idb</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">label_namespace</span><span class="plain-syntax"> *</span><span class="identifier-syntax">lns</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER_LINKED_LIST</span><span class="plain-syntax">(</span><span class="identifier-syntax">lns</span><span class="plain-syntax">, </span><span class="identifier-syntax">label_namespace</span><span class="plain-syntax">, </span><span class="identifier-syntax">idb</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">compilation_data</span><span class="plain-syntax">.</span><span class="element-syntax">label_namespaces</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">lns</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">label_counter</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>An individual counter can be read, advanced or retreated with:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  An individual counter can be read, advanced or retreated with:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">JumpLabels::read_counter</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">JumpLabels::read_counter</span></span>:<br/>Compile Blocks and Lines - <a href="5-cbal.html#SP4_5_3">&#167;4.5.3</a><br/>Compile Invocations Inline - <a href="5-cii.html#SP6_4_2">&#167;6.4.2</a>, <a href="5-cii.html#SP6_4_4">&#167;6.4.4</a>, <a href="5-cii.html#SP6_4_5">&#167;6.4.5</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">namespace</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">advance_by</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">label_namespace</span><span class="plain-syntax"> *</span><span class="identifier-syntax">lns</span><span class="plain-syntax"> = </span><a href="3-jl.html#SP3" class="function-link"><span class="function-syntax">JumpLabels::obtain_namespace</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">namespace</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">c</span><span class="plain-syntax"> = </span><span class="identifier-syntax">lns</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">label_counter</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">JumpLabels::read_counter</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">JumpLabels::read_counter</span></span>:<br/>Compile Blocks and Lines - <a href="5-cbal.html#SP4_5_3">&#167;4.5.3</a><br/>Compile Invocations Inline - <a href="5-cii.html#SP6_4_2">&#167;6.4.2</a>, <a href="5-cii.html#SP6_4_4">&#167;6.4.4</a>, <a href="5-cii.html#SP6_4_5">&#167;6.4.5</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">namespace</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">advance_by</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">label_namespace</span><span class="plain-syntax"> *</span><span class="identifier-syntax">lns</span><span class="plain-syntax"> = </span><a href="3-jl.html#SP3" class="function-link"><span class="function-syntax">JumpLabels::obtain_namespace</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">namespace</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">c</span><span class="plain-syntax"> = </span><span class="identifier-syntax">lns</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">label_counter</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">lns</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">label_counter</span><span class="plain-syntax"> += </span><span class="identifier-syntax">advance_by</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">lns</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">max_label_counter</span><span class="plain-syntax"> &lt; </span><span class="identifier-syntax">lns</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">label_counter</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">lns</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">max_label_counter</span><span class="plain-syntax"> = </span><span class="identifier-syntax">lns</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">label_counter</span><span class="plain-syntax">;</span>
@@ -210,37 +203,37 @@ a namespace list, we need to reset all the counters each time it is instantiated
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">c</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>So, then, we can mark a namespace as requiring 1 or more words of storage.
-This will accumulate into an array, as follows.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  So, then, we can mark a namespace as requiring 1 or more words of storage.
+This will accumulate into an array, as follows.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">JumpLabels::allocate_storage</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">JumpLabels::allocate_storage</span></span>:<br/>Compile Invocations Inline - <a href="5-cii.html#SP6_4_6">&#167;6.4.6</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">namespace</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">multiplier</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">label_namespace</span><span class="plain-syntax"> *</span><span class="identifier-syntax">lns</span><span class="plain-syntax"> = </span><a href="3-jl.html#SP3" class="function-link"><span class="function-syntax">JumpLabels::obtain_namespace</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">namespace</span><span class="plain-syntax">);</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">JumpLabels::allocate_storage</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">JumpLabels::allocate_storage</span></span>:<br/>Compile Invocations Inline - <a href="5-cii.html#SP6_4_6">&#167;6.4.6</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">namespace</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">multiplier</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">label_namespace</span><span class="plain-syntax"> *</span><span class="identifier-syntax">lns</span><span class="plain-syntax"> = </span><a href="3-jl.html#SP3" class="function-link"><span class="function-syntax">JumpLabels::obtain_namespace</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">namespace</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">multiplier</span><span class="plain-syntax"> &gt; </span><span class="identifier-syntax">lns</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">allocate_storage</span><span class="plain-syntax">) </span><span class="identifier-syntax">lns</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">allocate_storage</span><span class="plain-syntax"> = </span><span class="identifier-syntax">multiplier</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">lns</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">storage_requested</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
 <span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="function-syntax">JumpLabels::storage_iname</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">JumpLabels::storage_iname</span></span>:<br/>Compile Invocations Inline - <a href="5-cii.html#SP6_4_3">&#167;6.4.3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">namespace</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">label_namespace</span><span class="plain-syntax"> *</span><span class="identifier-syntax">lns</span><span class="plain-syntax"> = </span><a href="3-jl.html#SP3" class="function-link"><span class="function-syntax">JumpLabels::obtain_namespace</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">namespace</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">label_namespace</span><span class="plain-syntax"> *</span><span class="identifier-syntax">lns</span><span class="plain-syntax"> = </span><a href="3-jl.html#SP3" class="function-link"><span class="function-syntax">JumpLabels::obtain_namespace</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">namespace</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">lns</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">label_storage_iname</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>When a function body is completed, this is then called to create the necessary
-storage space, if any:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  When a function body is completed, this is then called to create the necessary
+storage space, if any:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">JumpLabels::compile_necessary_storage</span><button class="popup" onclick="togglePopup('usagePopup7')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup7">Usage of <span class="code-font"><span class="function-syntax">JumpLabels::compile_necessary_storage</span></span>:<br/>Functions - <a href="3-fnc.html#SP6">&#167;6</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">JumpLabels::compile_necessary_storage</span><button class="popup" onclick="togglePopup('usagePopup7')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup7">Usage of <span class="code-font"><span class="function-syntax">JumpLabels::compile_necessary_storage</span></span>:<br/>Functions - <a href="3-fnc.html#SP6">&#167;6</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">linked_list</span><span class="plain-syntax"> *</span><span class="identifier-syntax">namespaces</span><span class="plain-syntax"> = </span><a href="3-fnc.html#SP4" class="function-link"><span class="function-syntax">Functions::current_label_namespaces</span></a><span class="plain-syntax">();</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">label_namespace</span><span class="plain-syntax"> *</span><span class="identifier-syntax">lns</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER_LINKED_LIST</span><span class="plain-syntax">(</span><span class="identifier-syntax">lns</span><span class="plain-syntax">, </span><span class="reserved-syntax">label_namespace</span><span class="plain-syntax">, </span><span class="identifier-syntax">namespaces</span><span class="plain-syntax">)</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">label_namespace</span><span class="plain-syntax"> *</span><span class="identifier-syntax">lns</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER_LINKED_LIST</span><span class="plain-syntax">(</span><span class="identifier-syntax">lns</span><span class="plain-syntax">, </span><span class="identifier-syntax">label_namespace</span><span class="plain-syntax">, </span><span class="identifier-syntax">namespaces</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">lns</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">storage_compiled</span><span class="plain-syntax"> == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">lns</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">storage_requested</span><span class="plain-syntax">)) {</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">N</span><span class="plain-syntax"> = (</span><span class="identifier-syntax">lns</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">allocate_storage</span><span class="plain-syntax">)*(</span><span class="identifier-syntax">lns</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">max_label_counter</span><span class="plain-syntax"> + </span><span class="constant-syntax">1</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">            </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">N</span><span class="plain-syntax"> = (</span><span class="identifier-syntax">lns</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">allocate_storage</span><span class="plain-syntax">)*(</span><span class="identifier-syntax">lns</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">max_label_counter</span><span class="plain-syntax"> + </span><span class="constant-syntax">1</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">N</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">packaging_state</span><span class="plain-syntax"> </span><span class="identifier-syntax">save</span><span class="plain-syntax"> =</span>
 <span class="plain-syntax">                    </span><span class="identifier-syntax">EmitArrays::begin_word</span><span class="plain-syntax">(</span><span class="identifier-syntax">lns</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">label_storage_iname</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_value</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">                </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;</span><span class="identifier-syntax">N</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) </span><span class="identifier-syntax">EmitArrays::numeric_entry</span><span class="plain-syntax">(0);</span>
+<span class="plain-syntax">                </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;</span><span class="identifier-syntax">N</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) </span><span class="identifier-syntax">EmitArrays::numeric_entry</span><span class="plain-syntax">(0);</span>
 <span class="plain-syntax">                </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">N</span><span class="plain-syntax"> == </span><span class="constant-syntax">1</span><span class="plain-syntax">) </span><span class="identifier-syntax">EmitArrays::numeric_entry</span><span class="plain-syntax">(0);</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">EmitArrays::end</span><span class="plain-syntax">(</span><span class="identifier-syntax">save</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">lns</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">storage_compiled</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>

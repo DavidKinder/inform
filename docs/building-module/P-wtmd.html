@@ -53,257 +53,236 @@
 
 <ul class="toc"><li><a href="P-wtmd.html#SP1">&#167;1. Prerequisites</a></li><li><a href="P-wtmd.html#SP2">&#167;2. Introduction</a></li><li><a href="P-wtmd.html#SP3">&#167;3. Large-scale architecture</a></li><li><a href="P-wtmd.html#SP5">&#167;5. Medium-scale blueprints</a></li><li><a href="P-wtmd.html#SP7">&#167;7. Small-scale masonry</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Prerequisites.</b>The building module is a part of the Inform compiler toolset. It is
-presented as a literate program or "web". Before diving in:
-</p>
-
-<ul class="items"><li>(a) It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.
-</li><li>(b) The module is written in C, in fact ANSI C99, but this is disguised by the
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Prerequisites.</b>  The building module is a part of the Inform compiler toolset. It is
+presented as a literate program or &quot;web&quot;. Before diving in:
+(a) It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.
+(b) The module is written in C, in fact ANSI C99, but this is disguised by the
 fact that it uses some extension syntaxes provided by the <a href="../inweb/index.html" class="internal">inweb</a> literate
 programming tool, making it a dialect of C called InC. See <a href="../inweb/index.html" class="internal">inweb</a> for
 full details, but essentially: it's C without predeclarations or header files,
-and where functions have names like <span class="extract"><span class="extract-syntax">Tags::add_by_name</span></span> rather than just <span class="extract"><span class="extract-syntax">add_by_name</span></span>.
-</li><li>(c) This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
+and where functions have names like <code>Tags::add_by_name</code> rather than just <code>add_by_name</code>.
+(c) This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
 uses a module of utility functions called <a href="../foundation/index.html" class="internal">foundation</a>.
-For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.
-</li></ul>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Introduction.</b>This module is essentially middleware. It acts as a bridge to the low-level
+For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Introduction.</b>  This module is essentially middleware. It acts as a bridge to the low-level
 functions in the <a href="../bytecode-module/index.html" class="internal">bytecode</a> module, allowing them to be used with much
-greater ease and consistency.
-</p>
-
-<p class="commentary">This module needs plenty of working data, and stashes that data inside the
-<span class="extract"><span class="extract-syntax">inter_tree</span></span> structure it is working on: in a component of that structure called
-a <a href="1-bm.html#SP4" class="internal">building_site</a>. Whereas the main data in an <span class="extract"><span class="extract-syntax">inter_tree</span></span> affects the meaning
+greater ease and consistency.</p>
+<p>This module needs plenty of working data, and stashes that data inside the
+<code>inter_tree</code> structure it is working on: in a component of that structure called
+a <a href="1-bm.html#SP4" class="internal">building_site</a>. Whereas the main data in an <code>inter_tree</code> affects the meaning
 of the tree, i.e., makes a difference as to what program the tree represents,
 the contents of the <a href="1-bm.html#SP4" class="internal">building_site</a> component are only used to make it, and
-are ignored by the <a href="../final-module/index.html" class="internal">final</a> code-generator.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Large-scale architecture.</b>An inter tree is fundamentally a set of resources stored in a nested set of
-<span class="extract"><span class="extract-syntax">inter_package</span></span> boxes.
-</p>
-
-<ul class="items"><li>&#9679; The following resources are stored at the root level (i.e., not inside of
+are ignored by the <a href="../final-module/index.html" class="internal">final</a> code-generator.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Large-scale architecture.</b>  An inter tree is fundamentally a set of resources stored in a nested set of
+<code>inter_package</code> boxes.</p>
+<p>(<em>) The following resources are stored at the root level (i.e., not inside of
 any package) and nowhere else:
-<ul class="items"><li>&#9679; Package type declarations. See <a href="1-ls.html#SP19" class="internal">LargeScale::package_type</a>.
-</li><li>&#9679; Primitive declarations. See <a href="1-ip.html" class="internal">Inter Primitives</a>. Again, Inter can in
-principle support a variety of different "instruction sets", but this module
+(-</em>) Package type declarations. See <a href="1-ls.html#SP19" class="internal">LargeScale::package_type</a>.
+(-<em>) Primitive declarations. See <a href="1-ip.html" class="internal">Inter Primitives</a>. Again, Inter can in
+principle support a variety of different &quot;instruction sets&quot;, but this module
 presents a single standardised instruction set.
-</li><li>&#9679; Compiler pragmas. These are marginal tweaks on a platform-by-platform basis
-and use of them is minimal, but see <a href="1-ls.html#SP17" class="internal">LargeScale::emit_pragma</a>.
-</li></ul>
-<li>&#9679; Everything else is inside a single top-level package called <span class="extract"><span class="extract-syntax">main</span></span>, which
-has package type <span class="extract"><span class="extract-syntax">_plain</span></span>.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">main</span></span> contains only packages, and of only two types:
-<ul class="items"><li>&#9679; "Modules", which are packages of type <span class="extract"><span class="extract-syntax">_module</span></span>. These occur nowhere else
+(-</em>) Compiler pragmas. These are marginal tweaks on a platform-by-platform basis
+and use of them is minimal, but see <a href="1-ls.html#SP17" class="internal">LargeScale::emit_pragma</a>.</p>
+<p>(*) Everything else is inside a single top-level package called <code>main</code>, which
+has package type <code>_plain</code>.</p>
+<p>(<em>) <code>main</code> contains only packages, and of only two types:
+(-</em>) &quot;Modules&quot;, which are packages of type <code>_module</code>. These occur nowhere else
 in the tree.
-</li><li>&#9679; "Linkages", which are packages of type <span class="extract"><span class="extract-syntax">_linkage</span></span>. These occur nowhere else
-in the tree.
-</li></ul>
-<li>&#9679; <a href="../inform7/index.html" class="internal">inform7</a> compiles the material in each compilation unit to a module
+(-*) &quot;Linkages&quot;, which are packages of type <code>_linkage</code>. These occur nowhere else
+in the tree.</p>
+<p>(<em>) <a href="../inform7/index.html" class="internal">inform7</a> compiles the material in each compilation unit to a module
 named for that unit. That is:
-<ul class="items"><li>&#9679; The module <span class="extract"><span class="extract-syntax">source_text</span></span> contains material from the main source text.
-</li><li>&#9679; Each extension included produces a module, named, for example,
-<span class="extract"><span class="extract-syntax">locksmith_by_emily_short</span></span>.
-</li></ul>
-<li>&#9679; Each kit produces a module, named after it. Any Inter tree produced by
-<a href="../inform7/index.html" class="internal">inform7</a> will always contain the module <span class="extract"><span class="extract-syntax">BasicInformKit</span></span>, for example.
-</li><li>&#9679; <a href="../inform7/index.html" class="internal">inform7</a> generates an additional module called <span class="extract"><span class="extract-syntax">generic</span></span>, holding
-generic definitions &mdash; material which is the same regardless of what is
-being compiled.
-</li><li>&#9679; <a href="../inform7/index.html" class="internal">inform7</a> generates an additional module called <span class="extract"><span class="extract-syntax">completion</span></span>, holding
-resources put together from across different compilation units.<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>
-</li><li>&#9679; <a href="../inter/index.html" class="internal">inter</a> generates an additional module called <span class="extract"><span class="extract-syntax">synoptic</span></span>, made during
+(-</em>) The module <code>source_text</code> contains material from the main source text.
+(-*) Each extension included produces a module, named, for example,
+<code>locksmith_by_emily_short</code>.</p>
+<p>(*) Each kit produces a module, named after it. Any Inter tree produced by
+<a href="../inform7/index.html" class="internal">inform7</a> will always contain the module <code>BasicInformKit</code>, for example.</p>
+<p>(*) <a href="../inform7/index.html" class="internal">inform7</a> generates an additional module called <code>generic</code>, holding
+generic definitions -- material which is the same regardless of what is
+being compiled.</p>
+<p>(*) <a href="../inform7/index.html" class="internal">inform7</a> generates an additional module called <code>completion</code>, holding
+resources put together from across different compilation units.<sup id="fnred:1"><a href="#fn:1" rel="footnote">1</a></sup></p>
+<p>(*) <a href="../inter/index.html" class="internal">inter</a> generates an additional module called <code>synoptic</code>, made during
 linking, which contains resources collated from or cross-referencing
-everything else.
-</li><li>&#9679; Modules contain only further packages, called "submodules" and with the
-package type <span class="extract"><span class="extract-syntax">_submodule</span></span>. The Inform tools use a standard set of names for
+everything else.</p>
+<p>(*) Modules contain only further packages, called &quot;submodules&quot; and with the
+package type <code>_submodule</code>. The Inform tools use a standard set of names for
 such submodules: for example, in any module the resources defining its
-global variables are in a submodule called <span class="extract"><span class="extract-syntax">variables</span></span>. (If it defines no
-variables, the submodule will not be present.)
-</li><li>&#9679; There are just two different linkages &mdash; packages with special contents
+global variables are in a submodule called <code>variables</code>. (If it defines no
+variables, the submodule will not be present.)</p>
+<p>(*) There are just two different linkages -- packages with special contents
 and which the linking steps of <a href="../pipeline-module/index.html" class="internal">pipeline</a> treat differently from modules.
-<ul class="items"><li>&#9679; <span class="extract"><span class="extract-syntax">architecture</span></span> has no subpackages, and contains only constant definitions,
+(-<em>) <code>architecture</code> has no subpackages, and contains only constant definitions,
 drawn from a fixed and limited set. These definitions depend on, and indeed
-express, the target architecture: for example, <span class="extract"><span class="extract-syntax">WORDSIZE</span></span>, the number of
+express, the target architecture: for example, <code>WORDSIZE</code>, the number of
 bytes per word, is defined here. Symbols here behave uniquely in linking:
-when two trees are linked together, they will each have an <span class="extract"><span class="extract-syntax">architecture</span></span>
+when two trees are linked together, they will each have an <code>architecture</code>
 package, and symbols in them will simply be identified with each other.
-Thus the <span class="extract"><span class="extract-syntax">WORDSIZE</span></span> defined in the main Inform 7 tree will be considered
-the same symbol as the <span class="extract"><span class="extract-syntax">WORDSIZE</span></span> defined in the tree for BasicInformKit.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">connectors</span></span> has no subpackages and no resources other than symbols.
+Thus the <code>WORDSIZE</code> defined in the main Inform 7 tree will be considered
+the same symbol as the <code>WORDSIZE</code> defined in the tree for BasicInformKit.
+(-</em>) <code>connectors</code> has no subpackages and no resources other than symbols.
 It holds plugs and sockets enabling the Inter tree to be linked with other
 Inter trees; during linking, these are removed when their purposes has been
-served, so that after a successful link, <span class="extract"><span class="extract-syntax">connectors</span></span> will always be empty.
+served, so that after a successful link, <code>connectors</code> will always be empty.</p>
+<p>See <a href="1-ls.html" class="internal">Large-Scale Structure</a> for the code which builds all of the above
+packages (though not their contents).</p>
+<ul class="inwebfootnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>
+Ideally <code>completion</code> would not exist, and everything in it would be made
+as part of <code>synoptic</code> during linking, but at present this is too difficult.<a href="#fnref:1" title="return to text"> &#x21A9;</a></p>
 </li></ul>
-</li></ul>
-<p class="commentary">See <a href="1-ls.html" class="internal">Large-Scale Structure</a> for the code which builds all of the above
-packages (though not their contents).
-</p>
-
-<ul class="footnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> Ideally <span class="extract"><span class="extract-syntax">completion</span></span> would not exist, and everything in it would be made
-as part of <span class="extract"><span class="extract-syntax">synoptic</span></span> during linking, but at present this is too difficult.
-<a href="#fnref:1" title="return to text"> &#x21A9;</a></p></li></ul>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>Inter code is a nested tree of boxes, <span class="extract"><span class="extract-syntax">inter_package</span></span>s, which contain Inter
-code defining various resources, cross-referenced by <span class="extract"><span class="extract-syntax">inter_symbol</span></span>s.
-</p>
-
-<p class="commentary">But this tree cannot be magically made all at once. For much of the run of
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  Inter code is a nested tree of boxes, <code>inter_package</code>s, which contain Inter
+code defining various resources, cross-referenced by <code>inter_symbol</code>s.</p>
+<p>But this tree cannot be magically made all at once. For much of the run of
 a tool like <a href="../inform7/index.html" class="internal">inform7</a>, a partly-built tree will exist, and this introduces
-many potential race conditions &mdash; where, for example, a call to function F
-cannot be made until F itself has been made, and so on.
-</p>
-
-<p class="commentary">We also want to avoid bugs where one part of the compiler thinks that F will
-live in one place, and another part thinks it is somewhere else.
-</p>
-
-<p class="commentary">To that end, we use a flexible way to describe naming and positioning
+many potential race conditions -- where, for example, a call to function F
+cannot be made until F itself has been made, and so on.</p>
+<p>We also want to avoid bugs where one part of the compiler thinks that F will
+live in one place, and another part thinks it is somewhere else.</p>
+<p>To that end, we use a flexible way to describe naming and positioning
 conventions for Inter resources (such as our hypothetical F). In this system,
 a <a href="1-pck.html#SP1" class="internal">package_request</a> stands for a package which may or may not already exist;
 and an <a href="1-in.html#SP3" class="internal">inter_name</a>, similarly, is a symbol which may or may not exist yet.
 This enables tools like <a href="../inform7/index.html" class="internal">inform7</a> to build up elaborate if shadowy worlds
-of references to tree positions which will be filled in later.
-</p>
-
+of references to tree positions which will be filled in later.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">                </span><span class="identifier-syntax">DEFINITELY</span><span class="plain-syntax"> </span><span class="identifier-syntax">MADE</span><span class="plain-syntax">     </span><span class="identifier-syntax">PERHAPS</span><span class="plain-syntax"> </span><span class="identifier-syntax">NOT</span><span class="plain-syntax"> </span><span class="identifier-syntax">YET</span><span class="plain-syntax"> </span><span class="identifier-syntax">MADE</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">PACKAGE</span><span class="plain-syntax">     </span><span class="identifier-syntax">inter_package</span><span class="plain-syntax">       </span><span class="comment-syntax">package_request//</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">SYMBOL</span><span class="plain-syntax">      </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax">        </span><span class="comment-syntax">inter_name//</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">PACKAGE</span><span class="plain-syntax">     </span><span class="identifier-syntax">inter_package</span><span class="plain-syntax">       </span><span class="comment-syntax">//package_request//</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">SYMBOL</span><span class="plain-syntax">      </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax">        </span><span class="comment-syntax">//inter_name//</span>
 </pre>
-<p class="commentary">So, for example, a <a href="1-pck.html#SP1" class="internal">package_request</a> can represent <span class="extract"><span class="extract-syntax">/main/synoptic/kinds</span></span>
+<div class="lsmarkdown">
+<p>So, for example, a <a href="1-pck.html#SP1" class="internal">package_request</a> can represent <code>/main/synoptic/kinds</code>
 either before or after that package has been built. At some point the package
-ceases to be virtual and comes into being: this is called "incarnation". But
+ceases to be virtual and comes into being: this is called &quot;incarnation&quot;. But
 code in <a href="../inform7/index.html" class="internal">inform7</a> using package requests never needs to know when this takes
-place, and will function equally well before or after &mdash; so, no race conditions.
-</p>
-
-<p class="commentary">And similarly for <a href="1-in.html#SP3" class="internal">inter_name</a>, which it would perhaps be more consistent
-to call a <span class="extract"><span class="extract-syntax">symbol_request</span></span>. But "iname" is now a term used almost ubiquitously
-across <a href="../inform7/index.html" class="internal">inform7</a> and <a href="../inter/index.html" class="internal">inter</a>, and it doesn't seem worth renaming it now.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Medium-scale blueprints.</b>The above systems make nested packages and symbols within them, but not the
+place, and will function equally well before or after -- so, no race conditions.</p>
+<p>And similarly for <a href="1-in.html#SP3" class="internal">inter_name</a>, which it would perhaps be more consistent
+to call a <code>symbol_request</code>. But &quot;iname&quot; is now a term used almost ubiquitously
+across <a href="../inform7/index.html" class="internal">inform7</a> and <a href="../inter/index.html" class="internal">inter</a>, and it doesn't seem worth renaming it now.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Medium-scale blueprints.</b>  The above systems make nested packages and symbols within them, but not the
 actual content of these boxes, or the definitions which the symbols refer to.
-In short, the actual Inter code.
-</p>
-
-<p class="commentary">The straightforward way to compile some Inter code is to make calls to functions
-in <a href="3-prd.html" class="internal">Produce</a>, which provide a straightforward if low-level API. For example:
-</p>
-
+In short, the actual Inter code.</p>
+<p>The straightforward way to compile some Inter code is to make calls to functions
+in <a href="3-prd.html" class="internal">Produce</a>, which provide a straightforward if low-level API. For example:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">iname</span><span class="plain-syntax"> = </span><span class="function-syntax">HierarchyLocations::iname</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">CCOUNT_PROPERTY_HL</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">iname</span><span class="plain-syntax"> = </span><span class="function-syntax">HierarchyLocations::iname</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">CCOUNT_PROPERTY_HL</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="function-syntax">Produce::numeric_constant</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">iname</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_value</span><span class="plain-syntax">, </span><span class="identifier-syntax">x</span><span class="plain-syntax">);</span>
 </pre>
-<p class="commentary">Note that we do not need to say where this code will go. <a href="3-prd.html" class="internal">Produce</a>
+<div class="lsmarkdown">
+<p>Note that we do not need to say where this code will go. <a href="3-prd.html" class="internal">Produce</a>
 looks at the iname, works out what package request it should go into, incarnates
-that into a real <span class="extract"><span class="extract-syntax">inter_package</span></span> if necessary, then incarnates the iname into
-a real <span class="extract"><span class="extract-syntax">inter_symbol</span></span> if necessary; and finally emits a <span class="extract"><span class="extract-syntax">CONSTANT_IST</span></span> in the
-relevant package, an instruction which defines the symbol.
-</p>
-
-<p class="commentary">And similarly for emitting code inside a function body, though then it is
+that into a real <code>inter_package</code> if necessary, then incarnates the iname into
+a real <code>inter_symbol</code> if necessary; and finally emits a <code>CONSTANT_IST</code> in the
+relevant package, an instruction which defines the symbol.</p>
+<p>And similarly for emitting code inside a function body, though then it is
 necessary first to say what function (which can be done by calling <a href="3-prd.html#SP12" class="internal">Produce::function_body</a>
-with the iname for that function). For example:
-</p>
-
+with the iname for that function). For example:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="function-syntax">Produce::inv_primitive</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="constant-syntax">RETURN_BIP</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="function-syntax">Produce::down</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="function-syntax">Produce::val</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_value</span><span class="plain-syntax">, </span><span class="identifier-syntax">InterValuePairs::number</span><span class="plain-syntax">(1));</span>
 <span class="plain-syntax">    </span><span class="function-syntax">Produce::up</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">);</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>But that is a laborious sort of notation for what, in a C-like language, would
-be written just as <span class="extract"><span class="extract-syntax">return 1</span></span>. It would be very painful to have to implement
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  But that is a laborious sort of notation for what, in a C-like language, would
+be written just as <code>return 1</code>. It would be very painful to have to implement
 kits such as BasicInformKit that way. Instead, we write them in a notation which
-is very close indeed<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup> to Inform 6 syntax.<sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup>
-</p>
-
-<p class="commentary">This means we need to provide what amounts to a pocket Inform-6-to-Inter compiler,
-and we do that in this module, using a data structure called an <a href="2-is.html#SP1" class="internal">inter_schema</a> &mdash;
-in effect, an annotated syntax tree &mdash; to represent the results of parsing Inform 6
-notation. For example, this:
-</p>
-
+is very close indeed<sup id="fnred:2"><a href="#fn:2" rel="footnote">1</a></sup> to Inform 6 syntax.<sup id="fnred:3"><a href="#fn:3" rel="footnote">2</a></sup></p>
+<p>This means we need to provide what amounts to a pocket Inform-6-to-Inter compiler,
+and we do that in this module, using a data structure called an <a href="2-is.html#SP1" class="internal">inter_schema</a> --
+in effect, an annotated syntax tree -- to represent the results of parsing Inform 6
+notation. For example, this:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_schema</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sch</span><span class="plain-syntax"> = </span><span class="function-syntax">ParsingSchemas::from_text</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="string-syntax">"return true;"</span><span class="plain-syntax">, </span><span class="identifier-syntax">where</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_schema</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sch</span><span class="plain-syntax"> = </span><span class="function-syntax">ParsingSchemas::from_text</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="string-syntax">"return true;"</span><span class="plain-syntax">, </span><span class="identifier-syntax">where</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="function-syntax">EmitInterSchemas::emit</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, ..., </span><span class="identifier-syntax">sch</span><span class="plain-syntax">, ...);</span>
 </pre>
-<p class="commentary">generates Inter code equivalent to the example above.<sup id="fnref:4"><a href="#fn:4" rel="footnote">4</a></sup> But the real power of
-the system comes from:
-</p>
-
-<ul class="items"><li>(a) The ability to handle much larger passages of I6 notation - for example, a
-function body 10K long &mdash; in an acceptably speed-efficient way; and
-</li><li>(b) The ability to subsctitute values in for placeholders.
-</li></ul>
-<p class="commentary">As an example of (b), an <a href="2-is.html#SP1" class="internal">inter_schema</a> is how <a href="../inform7/index.html" class="internal">inform7</a> compiles so-called
-inline phrase definitions such as:
-</p>
-
+<div class="lsmarkdown">
+<p>generates Inter code equivalent to the example above.<sup id="fnred:4"><a href="#fn:4" rel="footnote">3</a></sup> But the real power of
+the system comes from:</p>
+<p>(a) The ability to handle much larger passages of I6 notation - for example, a
+function body 10K long -- in an acceptably speed-efficient way; and</p>
+<p>(b) The ability to subsctitute values in for placeholders.</p>
+<p>As an example of (b), an <a href="2-is.html#SP1" class="internal">inter_schema</a> is how <a href="../inform7/index.html" class="internal">inform7</a> compiles so-called
+inline phrase definitions such as:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">To</span><span class="plain-syntax"> </span><span class="identifier-syntax">say</span><span class="plain-syntax"> (</span><span class="identifier-syntax">L</span><span class="plain-syntax"> - </span><span class="identifier-syntax">a</span><span class="plain-syntax"> </span><span class="identifier-syntax">list</span><span class="plain-syntax"> </span><span class="identifier-syntax">of</span><span class="plain-syntax"> </span><span class="identifier-syntax">values</span><span class="plain-syntax">) </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">brace</span><span class="plain-syntax"> </span><span class="identifier-syntax">notation</span><span class="plain-syntax">:</span>
 <span class="plain-syntax">        (- </span><span class="identifier-syntax">LIST_OF_TY_Say</span><span class="plain-syntax">({-</span><span class="identifier-syntax">by</span><span class="plain-syntax">-</span><span class="identifier-syntax">reference</span><span class="plain-syntax">:</span><span class="identifier-syntax">L</span><span class="plain-syntax">}, </span><span class="constant-syntax">1</span><span class="plain-syntax">); -).</span>
 </pre>
-<p class="commentary">Here, the text <span class="extract"><span class="extract-syntax">LIST_OF_TY_Say({-by-reference:L}, 1);</span></span> is passed through to
+<div class="lsmarkdown">
+<p>Here, the text <code>LIST_OF_TY_Say({-by-reference:L}, 1);</code> is passed through to
 <a href="2-pis.html#SP1" class="internal">ParsingSchemas::from_text</a> to make a schema. When the phrase is invoked,
 <a href="2-eis.html#SP1" class="internal">EmitInterSchemas::emit</a> is used to generate Inter code from it; and a
-reference to the list passed to the invocation as the token <span class="extract"><span class="extract-syntax">L</span></span> is substituted
-for the braced clause <span class="extract"><span class="extract-syntax">{-by-reference:L}</span></span>.<sup id="fnref:5"><a href="#fn:5" rel="footnote">5</a></sup> Schemas are also used as convenient
+reference to the list passed to the invocation as the token <code>L</code> is substituted
+for the braced clause <code>{-by-reference:L}</code>.<sup id="fnred:5"><a href="#fn:5" rel="footnote">4</a></sup> Schemas are also used as convenient
 shorthand in the compiler to express how to, for example, post-increment a
-property value.
-</p>
-
-<ul class="footnotetexts"><li class="footnote" id="fn:2"><p class="inwebfootnote"><sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup> Some antique syntaxes, such as <span class="extract"><span class="extract-syntax">for</span></span> loops broken with semicolons not colons,
-are missing; so are some hardly-used directives; and the superclass <span class="extract"><span class="extract-syntax">::</span></span> operator;
+property value.</p>
+<li class="footnote" id="fn:2"><p class="inwebfootnote"><sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup>
+Some antique syntaxes, such as <code>for</code> loops broken with semicolons not colons,
+are missing; so are some hardly-used directives; and the superclass <code>::</code> operator;
 and built-in compiler symbols relevant only to particular virtual machines, such
-as <span class="extract"><span class="extract-syntax">#g$self</span></span>, are not there. But really, you will never notice they are gone.
-<a href="#fnref:2" title="return to text"> &#x21A9;</a></p></li><li class="footnote" id="fn:3"><p class="inwebfootnote"><sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup> Using Inform 6 notation was very convenient in the years 2004-17, when Inform
+as <code>#g$self</code>, are not there. But really, you will never notice they are gone.<a href="#fnref:2" title="return to text"> &#x21A9;</a></p>
+</li>
+<li class="footnote" id="fn:3"><p class="inwebfootnote"><sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup>
+Using Inform 6 notation was very convenient in the years 2004-17, when Inform
 generated only I6 code: it became more problematic in 2018, when Inter instructions
-were needed instead, and much of this module was written as a response.
-<a href="#fnref:3" title="return to text"> &#x21A9;</a></p></li><li class="footnote" id="fn:4"><p class="inwebfootnote"><sup id="fnref:4"><a href="#fn:4" rel="footnote">4</a></sup> Skipping over some of the arguments to the emission function, which basically
-tell us how to resolve identifier names into variables, arrays, and so on.
-<a href="#fnref:4" title="return to text"> &#x21A9;</a></p></li><li class="footnote" id="fn:5"><p class="inwebfootnote"><sup id="fnref:5"><a href="#fn:5" rel="footnote">5</a></sup> These braced placeholders are, of course, not Inform 6 notation, and
-represent an extension of the I6 syntax.
-<a href="#fnref:5" title="return to text"> &#x21A9;</a></p></li></ul>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Small-scale masonry.</b>Finally, there are also times when we want to compile explicit code, one
-Inter instruction at a time, and for this the Produce API is provided.
-</p>
-
-<p class="commentary">This API keeps track of the current write position inside each tree (using
+were needed instead, and much of this module was written as a response.<a href="#fnref:3" title="return to text"> &#x21A9;</a></p>
+</li>
+<li class="footnote" id="fn:4"><p class="inwebfootnote"><sup id="fnref:4"><a href="#fn:4" rel="footnote">4</a></sup>
+Skipping over some of the arguments to the emission function, which basically
+tell us how to resolve identifier names into variables, arrays, and so on.<a href="#fnref:4" title="return to text"> &#x21A9;</a></p>
+</li>
+<li class="footnote" id="fn:5"><p class="inwebfootnote"><sup id="fnref:5"><a href="#fn:5" rel="footnote">5</a></sup>
+These braced placeholders are, of course, not Inform 6 notation, and
+represent an extension of the I6 syntax.<a href="#fnref:5" title="return to text"> &#x21A9;</a></p>
+</li></ul>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Small-scale masonry.</b>  Finally, there are also times when we want to compile explicit code, one
+Inter instruction at a time, and for this the Produce API is provided.</p>
+<p>This API keeps track of the current write position inside each tree (using
 the <a href="3-prd.html#SP3" class="internal">code_insertion_point</a> system), and then provides functions which call
 down into <a href="../bytecode-module/index.html" class="internal">bytecode</a> for us, making use of that write position. So, for
-example, we can write:
-</p>
-
+example, we can write:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="function-syntax">Produce::inv_primitive</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="constant-syntax">RETURN_BIP</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="function-syntax">Produce::down</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="function-syntax">Produce::val</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_value</span><span class="plain-syntax">, </span><span class="identifier-syntax">InterValuePairs::number</span><span class="plain-syntax">(17));</span>
 <span class="plain-syntax">    </span><span class="function-syntax">Produce::up</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">);</span>
 </pre>
-<p class="commentary">to produce the Inter code:
-</p>
-
+<div class="lsmarkdown">
+<p>to produce the Inter code:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!return</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">val</span><span class="plain-syntax"> </span><span class="identifier-syntax">K_unchecked</span><span class="plain-syntax"> </span><span class="constant-syntax">17</span>
+<span class="plain-syntax">    </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!return</span>
+<span class="plain-syntax">        </span><span class="type-syntax">val</span><span class="plain-syntax"> </span><span class="identifier-syntax">K_unchecked</span><span class="plain-syntax"> </span><span class="constant-syntax">17</span>
 </pre>
-<p class="commentary">Note the use of <a href="3-prd.html#SP9" class="internal">Produce::down</a> and <a href="3-prd.html#SP9" class="internal">Produce::up</a> to step up and down the
-hierarchy: these functions are always called in matching ways.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>The <a href="../pipeline-module/index.html" class="internal">pipeline</a> module makes heavy use of the Produce API. Surprising,
-<a href="../inform7/index.html" class="internal">inform7</a> calls it in only a few places &mdash; but in fact that is because
+<div class="lsmarkdown">
+<p>Note the use of <a href="3-prd.html#SP9" class="internal">Produce::down</a> and <a href="3-prd.html#SP9" class="internal">Produce::up</a> to step up and down the
+hierarchy: these functions are always called in matching ways.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>  The <a href="../pipeline-module/index.html" class="internal">pipeline</a> module makes heavy use of the Produce API. Surprising,
+<a href="../inform7/index.html" class="internal">inform7</a> calls it in only a few places -- but in fact that is because
 it provides still another middleware layer on top. See <a href="../runtime-module/2-emt.html" class="internal">Emit (in runtime)</a>.
 But it's really only a very thin layer, allowing the caller not to have to
-pass the <span class="extract"><span class="extract-syntax">I</span></span> argument to every call (because it will always be the Inter tree
+pass the <code>I</code> argument to every call (because it will always be the Inter tree
 being compiled by <a href="../inform7/index.html" class="internal">inform7</a>). Despite appearances, then, Produce makes all
-of the Inter instructions generated inside either <a href="../inter/index.html" class="internal">inter</a> or <a href="../inform7/index.html" class="internal">inform7</a>.
-</p>
-
+of the Inter instructions generated inside either <a href="../inter/index.html" class="internal">inter</a> or <a href="../inform7/index.html" class="internal">inform7</a>.</p>
+</div>
 <nav role="progress"><div class="progresscontainer">
     <ul class="progressbar"><li class="progressprevoff">&#10094;</li><li class="progresscurrentchapter">P</li><li class="progresscurrent">wtmd</li><li class="progresschapter"><a href="1-bm.html">1</a></li><li class="progresschapter"><a href="2-is.html">2</a></li><li class="progresschapter"><a href="3-prd.html">3</a></li><li class="progressnext"><a href="1-bm.html">&#10095;</a></li></ul></div>
 </nav><!-- End of weave -->

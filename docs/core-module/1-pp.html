@@ -20,6 +20,11 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -54,7 +59,8 @@ function togglePopup(material_id) {
     <ul class="crumbs"><li><a href="../index.html">Home</a></li><li><a href="../inform7n.html">Inform7</a></li><li><a href="index.html">core</a></li><li><a href="index.html#1">Chapter 1: Control</a></li><li><b>Progress Percentages</b></li></ul></div>
 <p class="purpose">This tiny section, the Lichtenstein of Inform, prints percentage of completion estimates so that the host application can intercept them and update its graphical progress bar.</p>
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>Clearly we can only estimate how far Inform has progressed. While we could in
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  Clearly we can only estimate how far Inform has progressed. While we could in
 principle measure the number of CPU-seconds it has run for, we don't know
 how many more it will need. Instead, we rely on experience to suggest that
 its run can be broken down into the following five stages, which a given
@@ -62,28 +68,23 @@ percentage of time spent in each stage: thus, for instance, semantic
 analysis takes up about ten percent of every run in which problems do
 not cause an early halt. Within each stage, we have a reasonable measure
 of how far we have got: what proportion of the phrases have been compiled,
-for instance, tells us how far "generating code" has got. The result is
+for instance, tells us how far &quot;generating code&quot; has got. The result is
 that (if the relevant command line setting has been set, so that
-<span class="extract"><span class="extract-syntax">show_progress_indicator</span></span> is true) Inform prints about thirty lines like this
-one to <span class="extract"><span class="extract-syntax">stderr</span></span>:
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">++ 32% (Binding rulebooks)</span></span>
-</p>
-
-<p class="commentary">The Inform application can intercept and parse these lines to display a
-progress bar with a rubric beneath it.
-</p>
-
+<code>show_progress_indicator</code> is true) Inform prints about thirty lines like this
+one to <code>stderr</code>:</p>
+<p><code>++ 32% (Binding rulebooks)</code></p>
+<p>The Inform application can intercept and parse these lines to display a
+progress bar with a rubric beneath it.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">show_progress_indicator</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">; </span><span class="comment-syntax"> Produce percentage of progress messages</span>
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">ProgressBar::enable_or_disable</span><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">which</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">show_progress_indicator</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">; </span><span class="comment-syntax">/* Produce percentage of progress messages */</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">ProgressBar::enable_or_disable</span><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">which</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">show_progress_indicator</span><span class="plain-syntax"> = </span><span class="identifier-syntax">which</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">last_progress_pc</span><span class="plain-syntax"> = -100;</span>
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">progress_stage_from</span><span class="plain-syntax">[] = { </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="constant-syntax">5</span><span class="plain-syntax">, </span><span class="constant-syntax">15</span><span class="plain-syntax">, </span><span class="constant-syntax">20</span><span class="plain-syntax">, </span><span class="constant-syntax">40</span><span class="plain-syntax">, </span><span class="constant-syntax">100</span><span class="plain-syntax"> };</span>
-<span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">progress_stage_name</span><span class="plain-syntax">[] = {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">last_progress_pc</span><span class="plain-syntax"> = </span><span class="constant-syntax">-100</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">progress_stage_from</span><span class="plain-syntax">[] = { </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="constant-syntax">5</span><span class="plain-syntax">, </span><span class="constant-syntax">15</span><span class="plain-syntax">, </span><span class="constant-syntax">20</span><span class="plain-syntax">, </span><span class="constant-syntax">40</span><span class="plain-syntax">, </span><span class="constant-syntax">100</span><span class="plain-syntax"> };</span>
+<span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">progress_stage_name</span><span class="plain-syntax">[] = {</span>
 <span class="plain-syntax">    </span><span class="string-syntax">"Reading text"</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">    </span><span class="string-syntax">"Analysing sentences"</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">    </span><span class="string-syntax">"Drawing inferences"</span><span class="plain-syntax">,</span>
@@ -91,9 +92,9 @@ progress bar with a rubric beneath it.
 <span class="plain-syntax">    </span><span class="string-syntax">"Generating code"</span>
 <span class="plain-syntax">};</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">ProgressBar::update</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">ProgressBar::update</span></span>:<br/>What To Compile - <a href="1-wtc.html#SP6">&#167;6</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">stage</span><span class="plain-syntax">, </span><span class="reserved-syntax">float</span><span class="plain-syntax"> </span><span class="identifier-syntax">proportion</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">r1</span><span class="plain-syntax"> = </span><span class="identifier-syntax">progress_stage_from</span><span class="plain-syntax">[</span><span class="identifier-syntax">stage</span><span class="plain-syntax">], </span><span class="identifier-syntax">r2</span><span class="plain-syntax"> = </span><span class="identifier-syntax">progress_stage_from</span><span class="plain-syntax">[</span><span class="identifier-syntax">stage</span><span class="plain-syntax">+1];</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">pc</span><span class="plain-syntax"> = </span><span class="identifier-syntax">r1</span><span class="plain-syntax"> + ((</span><span class="reserved-syntax">int</span><span class="plain-syntax">) (</span><span class="identifier-syntax">proportion</span><span class="plain-syntax">*(</span><span class="identifier-syntax">r2</span><span class="plain-syntax">-</span><span class="identifier-syntax">r1</span><span class="plain-syntax">)));</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">ProgressBar::update</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">ProgressBar::update</span></span>:<br/>What To Compile - <a href="1-wtc.html#SP6">&#167;6</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">stage</span><span class="plain-syntax">, </span><span class="identifier-syntax">float</span><span class="plain-syntax"> </span><span class="identifier-syntax">proportion</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">r1</span><span class="plain-syntax"> = </span><span class="identifier-syntax">progress_stage_from</span><span class="plain-syntax">[</span><span class="identifier-syntax">stage</span><span class="plain-syntax">], </span><span class="identifier-syntax">r2</span><span class="plain-syntax"> = </span><span class="identifier-syntax">progress_stage_from</span><span class="plain-syntax">[</span><span class="identifier-syntax">stage</span><span class="plain-syntax">+1];</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">pc</span><span class="plain-syntax"> = </span><span class="identifier-syntax">r1</span><span class="plain-syntax"> + ((</span><span class="identifier-syntax">int</span><span class="plain-syntax">) (</span><span class="identifier-syntax">proportion</span><span class="plain-syntax">*(</span><span class="identifier-syntax">r2</span><span class="plain-syntax">-</span><span class="identifier-syntax">r1</span><span class="plain-syntax">)));</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">show_progress_indicator</span><span class="plain-syntax"> == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">pc</span><span class="plain-syntax">-</span><span class="identifier-syntax">last_progress_pc</span><span class="plain-syntax"> &lt; </span><span class="constant-syntax">3</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE_TO</span><span class="plain-syntax">(</span><span class="identifier-syntax">STDERR</span><span class="plain-syntax">, </span><span class="string-syntax">"++ %d%% (%s)\n"</span><span class="plain-syntax">, </span><span class="identifier-syntax">pc</span><span class="plain-syntax">, </span><span class="identifier-syntax">progress_stage_name</span><span class="plain-syntax">[</span><span class="identifier-syntax">stage</span><span class="plain-syntax">]);</span>
@@ -101,25 +102,25 @@ progress bar with a rubric beneath it.
 <span class="plain-syntax">    </span><span class="identifier-syntax">last_progress_pc</span><span class="plain-syntax"> = </span><span class="identifier-syntax">pc</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">ProgressBar::final_state_of_progress_bar</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">ProgressBar::final_state_of_progress_bar</span></span>:<br/>Using Problems - <a href="2-up.html#SP3_3">&#167;3.3</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">ProgressBar::final_state_of_progress_bar</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">ProgressBar::final_state_of_progress_bar</span></span>:<br/>Using Problems - <a href="2-up.html#SP3_3">&#167;3.3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">show_progress_indicator</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">WRITE_TO</span><span class="plain-syntax">(</span><span class="identifier-syntax">STDERR</span><span class="plain-syntax">, </span><span class="string-syntax">"++ 100%% (Finishing work)\n"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">STREAM_FLUSH</span><span class="plain-syntax">(</span><span class="identifier-syntax">STDERR</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>Finally, the following sends a pithy summary back to the app to use as
-a final status indicator.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  Finally, the following sends a pithy summary back to the app to use as
+a final status indicator.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="function-syntax">ProgressBar::begin_outcome</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">ProgressBar::begin_outcome</span></span>:<br/>Using Problems - <a href="2-up.html#SP3_2">&#167;3.2</a>, <a href="2-up.html#SP3_3">&#167;3.3</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="function-syntax">ProgressBar::begin_outcome</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">ProgressBar::begin_outcome</span></span>:<br/>Using Problems - <a href="2-up.html#SP3_2">&#167;3.2</a>, <a href="2-up.html#SP3_3">&#167;3.3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">show_progress_indicator</span><span class="plain-syntax"> == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE_TO</span><span class="plain-syntax">(</span><span class="identifier-syntax">STDERR</span><span class="plain-syntax">, </span><span class="string-syntax">"++ Ended: "</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">STDERR</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">ProgressBar::end_outcome</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">ProgressBar::end_outcome</span></span>:<br/>Using Problems - <a href="2-up.html#SP3_2">&#167;3.2</a>, <a href="2-up.html#SP3_3">&#167;3.3</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">ProgressBar::end_outcome</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">ProgressBar::end_outcome</span></span>:<br/>Using Problems - <a href="2-up.html#SP3_2">&#167;3.2</a>, <a href="2-up.html#SP3_3">&#167;3.3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">show_progress_indicator</span><span class="plain-syntax"> == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE_TO</span><span class="plain-syntax">(</span><span class="identifier-syntax">STDERR</span><span class="plain-syntax">, </span><span class="string-syntax">"\n"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">STREAM_FLUSH</span><span class="plain-syntax">(</span><span class="identifier-syntax">STDERR</span><span class="plain-syntax">);</span>

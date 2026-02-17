@@ -20,6 +20,11 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -56,35 +61,32 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="5-di.html#SP2">&#167;2. Door direction</a></li><li><a href="5-di.html#SP4">&#167;4. Door to</a></li><li><a href="5-di.html#SP6">&#167;6. Found in</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>The I6 implementation of two-way doors is quite complicated; see the Inform
-Designer's Manual, fourth edition (the "DM4") for explanations, but basically
-it means giving instances of such doors three low-level properties &mdash;
-</p>
-
-<ul class="items"><li>&#9679; <span class="extract"><span class="extract-syntax">door_dir</span></span>, the map direction through the door;
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">door_to</span></span>, the room on the other side;
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">found_in</span></span>, the two rooms in which the door is located.
-</li></ul>
-<p class="commentary">We continue to use that implementation because there is no pressing reason to
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  The I6 implementation of two-way doors is quite complicated; see the Inform
+Designer's Manual, fourth edition (the &quot;DM4&quot;) for explanations, but basically
+it means giving instances of such doors three low-level properties --</p>
+<p>(<em>) <code>door_dir</code>, the map direction through the door;
+(</em>) <code>door_to</code>, the room on the other side;
+(*) <code>found_in</code>, the two rooms in which the door is located.</p>
+<p>We continue to use that implementation because there is no pressing reason to
 change it: I7 authors are never even aware of how this is all done, and do not
-have to see or think about these properties.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Door direction.</b></p>
+have to see or think about these properties.</p>
+</div>
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Door direction.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">door_dir_notice</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">ddn_iname</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">door</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">R1</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">D1</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">D2</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">door_dir_notice</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">ddn_iname</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">door</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">R1</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">D1</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">D2</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">CLASS_DEFINITION</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">door_dir_notice</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">door_dir_notice</span><span class="plain-syntax">;</span>
 
 <span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="function-syntax">RTDoors::door_dir_for_2_sided</span><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">R1</span><span class="plain-syntax">, </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">D1</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">D2</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">door_dir_notice</span><span class="plain-syntax"> *</span><span class="identifier-syntax">notice</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="reserved-syntax">door_dir_notice</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">door_dir_notice</span><span class="plain-syntax"> *</span><span class="identifier-syntax">notice</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="identifier-syntax">door_dir_notice</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">notice</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">ddn_iname</span><span class="plain-syntax"> =</span>
 <span class="plain-syntax">        </span><a href="2-hrr.html#SP12" class="function-link"><span class="function-syntax">Hierarchy::make_iname_in</span></a><span class="plain-syntax">(</span><span class="constant-syntax">TSD_DOOR_DIR_FN_HL</span><span class="plain-syntax">, </span><a href="5-ins.html#SP1" class="function-link"><span class="function-syntax">RTInstances::package</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">notice</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">door</span><span class="plain-syntax"> = </span><span class="identifier-syntax">I</span><span class="plain-syntax">;</span>
@@ -98,12 +100,12 @@ have to see or think about these properties.
 <span class="plain-syntax">}</span>
 </pre>
 <ul class="endnotetexts"><li>The structure door_dir_notice is private to this section.</li></ul>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>So, then, this is a function: see the DM4 for specification.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  So, then, this is a function: see the DM4 for specification.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">RTDoors::door_dir_agent</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">RTDoors::door_dir_agent</span></span>:<br/><a href="5-di.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">compilation_subtask</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">door_dir_notice</span><span class="plain-syntax"> *</span><span class="identifier-syntax">notice</span><span class="plain-syntax"> = </span><span class="identifier-syntax">RETRIEVE_POINTER_door_dir_notice</span><span class="plain-syntax">(</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">data</span><span class="plain-syntax">);</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">RTDoors::door_dir_agent</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">RTDoors::door_dir_agent</span></span>:<br/><a href="5-di.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">compilation_subtask</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">door_dir_notice</span><span class="plain-syntax"> *</span><span class="identifier-syntax">notice</span><span class="plain-syntax"> = </span><span class="identifier-syntax">RETRIEVE_POINTER_door_dir_notice</span><span class="plain-syntax">(</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">data</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">packaging_state</span><span class="plain-syntax"> </span><span class="identifier-syntax">save</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Functions::begin</span><span class="plain-syntax">(</span><span class="identifier-syntax">notice</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">ddn_iname</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">local_variable</span><span class="plain-syntax"> *</span><span class="identifier-syntax">loc</span><span class="plain-syntax"> = </span><span class="identifier-syntax">LocalVariables::new_internal_commented</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="string-syntax">"loc"</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"room of actor"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">loc_s</span><span class="plain-syntax"> = </span><span class="identifier-syntax">LocalVariables::declare</span><span class="plain-syntax">(</span><span class="identifier-syntax">loc</span><span class="plain-syntax">);</span>
@@ -156,19 +158,19 @@ have to see or think about these properties.
 <span class="plain-syntax">    </span><span class="identifier-syntax">Functions::end</span><span class="plain-syntax">(</span><span class="identifier-syntax">save</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Door to.</b></p>
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Door to.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">door_to_notice</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">dtn_iname</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">door</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">R1</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">R2</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">door_to_notice</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">dtn_iname</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">door</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">R1</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">R2</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">CLASS_DEFINITION</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">door_to_notice</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">door_to_notice</span><span class="plain-syntax">;</span>
 
 <span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="function-syntax">RTDoors::door_to_for_2_sided</span><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">R1</span><span class="plain-syntax">, </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">R2</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">door_to_notice</span><span class="plain-syntax"> *</span><span class="identifier-syntax">notice</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="reserved-syntax">door_to_notice</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">door_to_notice</span><span class="plain-syntax"> *</span><span class="identifier-syntax">notice</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="identifier-syntax">door_to_notice</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">notice</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">dtn_iname</span><span class="plain-syntax"> =</span>
 <span class="plain-syntax">        </span><a href="2-hrr.html#SP12" class="function-link"><span class="function-syntax">Hierarchy::make_iname_in</span></a><span class="plain-syntax">(</span><span class="constant-syntax">TSD_DOOR_TO_FN_HL</span><span class="plain-syntax">, </span><a href="5-ins.html#SP1" class="function-link"><span class="function-syntax">RTInstances::package</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">notice</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">door</span><span class="plain-syntax"> = </span><span class="identifier-syntax">I</span><span class="plain-syntax">;</span>
@@ -181,12 +183,12 @@ have to see or think about these properties.
 <span class="plain-syntax">}</span>
 </pre>
 <ul class="endnotetexts"><li>The structure door_to_notice is private to this section.</li></ul>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>Another function: see the DM4 for specification.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  Another function: see the DM4 for specification.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">RTDoors::door_to_agent</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">RTDoors::door_to_agent</span></span>:<br/><a href="5-di.html#SP4">&#167;4</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">compilation_subtask</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">door_to_notice</span><span class="plain-syntax"> *</span><span class="identifier-syntax">notice</span><span class="plain-syntax"> = </span><span class="identifier-syntax">RETRIEVE_POINTER_door_to_notice</span><span class="plain-syntax">(</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">data</span><span class="plain-syntax">);</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">RTDoors::door_to_agent</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">RTDoors::door_to_agent</span></span>:<br/><a href="5-di.html#SP4">&#167;4</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">compilation_subtask</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">door_to_notice</span><span class="plain-syntax"> *</span><span class="identifier-syntax">notice</span><span class="plain-syntax"> = </span><span class="identifier-syntax">RETRIEVE_POINTER_door_to_notice</span><span class="plain-syntax">(</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">data</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">packaging_state</span><span class="plain-syntax"> </span><span class="identifier-syntax">save</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Functions::begin</span><span class="plain-syntax">(</span><span class="identifier-syntax">notice</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">dtn_iname</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">local_variable</span><span class="plain-syntax"> *</span><span class="identifier-syntax">loc</span><span class="plain-syntax"> = </span><span class="identifier-syntax">LocalVariables::new_internal_commented</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="string-syntax">"loc"</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"room of actor"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">loc_s</span><span class="plain-syntax"> = </span><span class="identifier-syntax">LocalVariables::declare</span><span class="plain-syntax">(</span><span class="identifier-syntax">loc</span><span class="plain-syntax">);</span>
@@ -237,10 +239,10 @@ have to see or think about these properties.
 <span class="plain-syntax">    </span><span class="identifier-syntax">Functions::end</span><span class="plain-syntax">(</span><span class="identifier-syntax">save</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Found in.</b>And this is a two-element array, simply giving the two rooms <span class="extract"><span class="extract-syntax">R1</span></span> and <span class="extract"><span class="extract-syntax">R2</span></span>
-which the door is found in:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Found in.</b>  And this is a two-element array, simply giving the two rooms <code>R1</code> and <code>R2</code>
+which the door is found in:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="function-syntax">RTDoors::found_in_for_2_sided</span><span class="plain-syntax">(</span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">R1</span><span class="plain-syntax">, </span><span class="identifier-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">R2</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">package_request</span><span class="plain-syntax"> *</span><span class="identifier-syntax">PR</span><span class="plain-syntax"> =</span>

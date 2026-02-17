@@ -20,6 +20,11 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -54,39 +59,41 @@ function togglePopup(material_id) {
     <ul class="crumbs"><li><a href="../index.html">Home</a></li><li><a href="../inbuildn.html">Inbuild Modules</a></li><li><a href="index.html">supervisor</a></li><li><a href="index.html#3">Chapter 3: Incremental Builds</a></li><li><b>Build Methodology</b></li></ul></div>
 <p class="purpose">Whether to run tasks internally in some merged tool, or run via the shell, or simply trace to the standard output what we think ought to be done.</p>
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>This is rather grandly named for what it is: it's just a bundle of settings
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  This is rather grandly named for what it is: it's just a bundle of settings
 about how to carry out build steps. Should we (a) make a dry run, just printing
-hypothetical shell commands, or (b) issue those shell commands via <span class="extract"><span class="extract-syntax">system</span></span>,
+hypothetical shell commands, or (b) issue those shell commands via <code>system</code>,
 or (c) take direct action by calling functions within the current executable?
 If (a) or (b) then we will need to know the locations of the executable files
-for the tools <span class="extract"><span class="extract-syntax">inter</span></span>, <span class="extract"><span class="extract-syntax">inform6</span></span>, <span class="extract"><span class="extract-syntax">inform7</span></span> and <span class="extract"><span class="extract-syntax">inblorb</span></span>.
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">enum</span> <span class="constant-syntax">DRY_RUN_METHODOLOGY</span><span class="plain-syntax"> </span><span class="identifier-syntax">from</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">SHELL_METHODOLOGY</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">INTERNAL_METHODOLOGY</span>
+for the tools <code>inter</code>, <code>inform6</code>, <code>inform7</code> and <code>inblorb</code>.</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="constant-syntax">1</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">build_methodology</span><span class="plain-syntax"> {</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">build_methodology</span><span class="plain-syntax"> {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="identifier-syntax">to_inter</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="identifier-syntax">to_inform6</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="identifier-syntax">to_inform7</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="identifier-syntax">to_inblorb</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">methodology</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">methodology</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">CLASS_DEFINITION</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">build_methodology</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">build_methodology</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>The structure build_methodology is accessed in 3/bs2, 3/is, 3/is2, 3/is3, 3/is4, 4/em, 4/ebm, 4/km, 4/lm, 4/pm, 4/tm, 7/ti and here.</li></ul>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>If the <span class="extract"><span class="extract-syntax">tangled</span></span> flag is set, we expect <span class="extract"><span class="extract-syntax">inform7</span></span>, for example, to be at
-<span class="extract"><span class="extract-syntax">tools_path/inform7/Tangled/inform7</span></span>; if it is clear, we expect it only to
-be <span class="extract"><span class="extract-syntax">tools_path/inform7</span></span>. This is relevant only for the command-line Inbuild,
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  If the <code>tangled</code> flag is set, we expect <code>inform7</code>, for example, to be at
+<code>tools_path/inform7/Tangled/inform7</code>; if it is clear, we expect it only to
+be <code>tools_path/inform7</code>. This is relevant only for the command-line Inbuild,
 which used tangled mode by default, but untangled mode if the user has
-specified an explicit path at the command line.
-</p>
-
+specified an explicit path at the command line.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">build_methodology</span><span class="plain-syntax"> *</span><span class="function-syntax">BuildMethodology::new</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">BuildMethodology::new</span></span>:<br/><a href="3-bm.html#SP3">&#167;3</a><br/>The Installer - <a href="7-ti.html#SP2_5">&#167;2.5</a>, <a href="7-ti.html#SP3_3">&#167;3.3</a>, <a href="7-ti.html#SP9_3">&#167;9.3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="identifier-syntax">tools_path</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">tangled</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">meth</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">build_methodology</span><span class="plain-syntax"> *</span><span class="identifier-syntax">BM</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="reserved-syntax">build_methodology</span><span class="plain-syntax">);</span>
+<span class="identifier-syntax">build_methodology</span><span class="plain-syntax"> *</span><span class="function-syntax">BuildMethodology::new</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">BuildMethodology::new</span></span>:<br/><a href="3-bm.html#SP3">&#167;3</a><br/>The Installer - <a href="7-ti.html#SP2_5">&#167;2.5</a>, <a href="7-ti.html#SP3_3">&#167;3.3</a>, <a href="7-ti.html#SP9_3">&#167;9.3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="identifier-syntax">tools_path</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">tangled</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">meth</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">build_methodology</span><span class="plain-syntax"> *</span><span class="identifier-syntax">BM</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="identifier-syntax">build_methodology</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">BM</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">methodology</span><span class="plain-syntax"> = </span><span class="identifier-syntax">meth</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="identifier-syntax">inter_path</span><span class="plain-syntax"> = </span><span class="identifier-syntax">tools_path</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">tangled</span><span class="plain-syntax">) {</span>
@@ -115,13 +122,13 @@ specified an explicit path at the command line.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">BM</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>The <span class="extract"><span class="extract-syntax">inform7</span></span> tool only ever uses the internal methodology, for which
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  The <code>inform7</code> tool only ever uses the internal methodology, for which
 these filenames are irrelevant, since no shell commands are ever issued.
-It gets its BM by calling the following:
-</p>
-
+It gets its BM by calling the following:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">build_methodology</span><span class="plain-syntax"> *</span><span class="function-syntax">BuildMethodology::stay_in_current_process</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">build_methodology</span><span class="plain-syntax"> *</span><span class="function-syntax">BuildMethodology::stay_in_current_process</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><a href="3-bm.html#SP2" class="function-link"><span class="function-syntax">BuildMethodology::new</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">NULL</span><span class="plain-syntax">, </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">, </span><span class="constant-syntax">INTERNAL_METHODOLOGY</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>

@@ -20,6 +20,11 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -56,44 +61,40 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="3-ep.html#SP1">&#167;1. Pairs and negations</a></li><li><a href="3-ep.html#SP2">&#167;2. Initialising details</a></li><li><a href="3-ep.html#SP3">&#167;3. Requesting new named properties</a></li><li><a href="3-ep.html#SP4">&#167;4. Requesting new nameless properties</a></li><li><a href="3-ep.html#SP5">&#167;5. Dealing with pairs</a></li><li><a href="3-ep.html#SP8">&#167;8. Assertion</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Pairs and negations.</b>Either-or properties may need rather different run-time implementation from
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Pairs and negations.</b>  Either-or properties may need rather different run-time implementation from
 properties with values, but otherwise they might seem nothing special: why
 not simply regard them as properties holding truth state values? And then
-there would just be one type of property.
-</p>
-
-<p class="commentary">The answer is that whereas a computer-science view of the "open" property,
-say, would take exactly this line &mdash; i.e., that it simply holds a truth
-state, and that the word "closed" is only syntactic sugar for saying that
-this value is false &mdash; natural language is different. In natural language,
-the words "open" and "closed" are just as good as each other. One might
-talk equally about "the closed property" as about "the open property".
-</p>
-
-<p class="commentary">We therefore implement these as two <a href="3-prp.html#SP1" class="internal">property</a> instances, each of the
-either-or type. For each one, <span class="extract"><span class="extract-syntax">negation</span></span> points to the other. We call
-this a "pair". It's not required that either-or properties come in pairs;
-sometimes an author simply says that something "can be P" rather than "can be
-P or Q".
-</p>
-
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Initialising details.</b>Each either-or property has the following small block of data attached:
-</p>
-
+there would just be one type of property.</p>
+<p>The answer is that whereas a computer-science view of the &quot;open&quot; property,
+say, would take exactly this line -- i.e., that it simply holds a truth
+state, and that the word &quot;closed&quot; is only syntactic sugar for saying that
+this value is false -- natural language is different. In natural language,
+the words &quot;open&quot; and &quot;closed&quot; are just as good as each other. One might
+talk equally about &quot;the closed property&quot; as about &quot;the open property&quot;.</p>
+<p>We therefore implement these as two <a href="3-prp.html#SP1" class="internal">property</a> instances, each of the
+either-or type. For each one, <code>negation</code> points to the other. We call
+this a &quot;pair&quot;. It's not required that either-or properties come in pairs;
+sometimes an author simply says that something &quot;can be P&quot; rather than &quot;can be
+P or Q&quot;.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Initialising details.</b>  Each either-or property has the following small block of data attached:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">either_or_property_data</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">negation</span><span class="plain-syntax">; </span><span class="comment-syntax"> see above: the other, if it's one of a pair</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">is_default</span><span class="plain-syntax">; </span><span class="comment-syntax"> </span><span class="extract"><span class="extract-syntax">TRUE</span></span><span class="comment-syntax"> if this is a negation and was declared second</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">where_negated</span><span class="plain-syntax">; </span><span class="comment-syntax"> the sentence making these antonyms</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">adjective</span><span class="plain-syntax"> *</span><span class="identifier-syntax">as_adjective</span><span class="plain-syntax">; </span><span class="comment-syntax"> if it is adjectivally used</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">either_or_property_data</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">negation</span><span class="plain-syntax">; </span><span class="comment-syntax">/* see above: the other, if it's one of a pair */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">is_default</span><span class="plain-syntax">; </span><span class="comment-syntax">/* |TRUE| if this is a negation and was declared second */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">where_negated</span><span class="plain-syntax">; </span><span class="comment-syntax">/* the sentence making these antonyms */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">adjective</span><span class="plain-syntax"> *</span><span class="identifier-syntax">as_adjective</span><span class="plain-syntax">; </span><span class="comment-syntax">/* if it is adjectivally used */</span>
 <span class="plain-syntax">    #</span><span class="identifier-syntax">ifdef</span><span class="plain-syntax"> </span><span class="identifier-syntax">IF_MODULE</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">command_grammar</span><span class="plain-syntax"> *</span><span class="identifier-syntax">eo_parsing_grammar</span><span class="plain-syntax">; </span><span class="comment-syntax"> exotic forms used in parsing</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">command_grammar</span><span class="plain-syntax"> *</span><span class="identifier-syntax">eo_parsing_grammar</span><span class="plain-syntax">; </span><span class="comment-syntax">/* exotic forms used in parsing */</span>
 <span class="plain-syntax">    #</span><span class="identifier-syntax">endif</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">CLASS_DEFINITION</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">either_or_property_data</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">either_or_property_data</span><span class="plain-syntax">;</span>
 
-<span class="reserved-syntax">either_or_property_data</span><span class="plain-syntax"> *</span><span class="function-syntax">EitherOrProperties::new_eo_data</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">EitherOrProperties::new_eo_data</span></span>:<br/>Properties - <a href="3-prp.html#SP3_3">&#167;3.3</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prn</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">either_or_property_data</span><span class="plain-syntax"> *</span><span class="identifier-syntax">eod</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="reserved-syntax">either_or_property_data</span><span class="plain-syntax">);</span>
+<span class="identifier-syntax">either_or_property_data</span><span class="plain-syntax"> *</span><span class="function-syntax">EitherOrProperties::new_eo_data</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">EitherOrProperties::new_eo_data</span></span>:<br/>Properties - <a href="3-prp.html#SP3_3">&#167;3.3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prn</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">either_or_property_data</span><span class="plain-syntax"> *</span><span class="identifier-syntax">eod</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="identifier-syntax">either_or_property_data</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">eod</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">negation</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">eod</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">is_default</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">eod</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">where_negated</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
@@ -105,12 +106,12 @@ P or Q".
 <span class="plain-syntax">}</span>
 </pre>
 <ul class="endnotetexts"><li>The structure either_or_property_data is accessed in 2/ins, 2/iaa, 3/epa and here.</li></ul>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Requesting new named properties.</b>The following is called to find an existing property called <span class="extract"><span class="extract-syntax">W</span></span>, or create
-a new one if necessary, and give the subject <span class="extract"><span class="extract-syntax">subj</span></span> permission to have it:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Requesting new named properties.</b>  The following is called to find an existing property called <code>W</code>, or create
+a new one if necessary, and give the subject <code>subj</code> permission to have it:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">property</span><span class="plain-syntax"> *</span><span class="function-syntax">EitherOrProperties::obtain</span><span class="plain-syntax">(</span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">, </span><span class="reserved-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">subj</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="function-syntax">EitherOrProperties::obtain</span><span class="plain-syntax">(</span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">, </span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">subj</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="function-syntax">&lt;k-kind&gt;</span><span class="plain-syntax">(</span><span class="identifier-syntax">W</span><span class="plain-syntax">)) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">StandardProblems::sentence_problem</span><span class="plain-syntax">(</span><span class="identifier-syntax">Task::syntax_tree</span><span class="plain-syntax">(), </span><span class="identifier-syntax">_p_</span><span class="plain-syntax">(</span><span class="identifier-syntax">PM_KindAdjectiveClash</span><span class="plain-syntax">),</span>
 <span class="plain-syntax">            </span><span class="string-syntax">"this tries to create a new either/or adjective with the same name "</span>
@@ -122,40 +123,38 @@ a new one if necessary, and give the subject <span class="extract"><span class="
 <span class="plain-syntax">            </span><span class="string-syntax">"that makes a definite statement."</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    }</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prn</span><span class="plain-syntax"> = </span><a href="3-prp.html#SP2" class="function-link"><span class="function-syntax">Properties::obtain</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">W</span><span class="plain-syntax">, </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prn</span><span class="plain-syntax"> = </span><a href="3-prp.html#SP2" class="function-link"><span class="function-syntax">Properties::obtain</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">W</span><span class="plain-syntax">, </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K</span><span class="plain-syntax"> = </span><a href="4-ks.html#SP3" class="function-link"><span class="function-syntax">KindSubjects::to_kind</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">subj</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="3-epa.html#SP2" class="function-link"><span class="function-syntax">EitherOrPropertyAdjectives::create_for_property</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">prn</span><span class="plain-syntax">, </span><span class="identifier-syntax">W</span><span class="plain-syntax">, </span><span class="identifier-syntax">K</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">prn</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Requesting new nameless properties.</b>These are properties needed for implementation reasons by <a href="../runtime-module/index.html" class="internal">runtime</a>, or by
-features in <a href="../if-module/index.html" class="internal">if</a>, but which have no existence at the Inform 7 source text level &mdash;
-and hence have no names. An author cannot refer to them, knows nothing of them.
-</p>
-
-<p class="commentary">Setting them up as adjectives may seem a little over the top, since they cannot
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Requesting new nameless properties.</b>  These are properties needed for implementation reasons by <a href="../runtime-module/index.html" class="internal">runtime</a>, or by
+features in <a href="../if-module/index.html" class="internal">if</a>, but which have no existence at the Inform 7 source text level --
+and hence have no names. An author cannot refer to them, knows nothing of them.</p>
+<p>Setting them up as adjectives may seem a little over the top, since they cannot
 be encountered in source text, but the world model will have to set these properties
 by asserting propositions to be true; and type-checking of those propositions
-relies on adjectival meanings.
-</p>
-
+relies on adjectival meanings.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">property</span><span class="plain-syntax"> *</span><span class="function-syntax">EitherOrProperties::new_nameless</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">EitherOrProperties::new_nameless</span></span>:<br/>The Model World - <a href="5-tmw.html#SP3">&#167;3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">identifier_text</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="function-syntax">EitherOrProperties::new_nameless</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">EitherOrProperties::new_nameless</span></span>:<br/>The Model World - <a href="5-tmw.html#SP3">&#167;3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">identifier_text</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">package_request</span><span class="plain-syntax"> *</span><span class="identifier-syntax">R</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Hierarchy::completion_package</span><span class="plain-syntax">(</span><span class="identifier-syntax">PROPERTIES_HAP</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prn</span><span class="plain-syntax"> = </span><a href="3-prp.html#SP3" class="function-link"><span class="function-syntax">Properties::create</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">EMPTY_WORDING</span><span class="plain-syntax">, </span><span class="identifier-syntax">R</span><span class="plain-syntax">, </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">, </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">, </span><span class="identifier-syntax">identifier_text</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prn</span><span class="plain-syntax"> = </span><a href="3-prp.html#SP3" class="function-link"><span class="function-syntax">Properties::create</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">EMPTY_WORDING</span><span class="plain-syntax">, </span><span class="identifier-syntax">R</span><span class="plain-syntax">, </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">, </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">, </span><span class="identifier-syntax">identifier_text</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">RTProperties::dont_show_in_index</span><span class="plain-syntax">(</span><span class="identifier-syntax">prn</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="3-epa.html#SP2" class="function-link"><span class="function-syntax">EitherOrPropertyAdjectives::create_for_property</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">prn</span><span class="plain-syntax">, </span><span class="identifier-syntax">EMPTY_WORDING</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_object</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">prn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">Inter_level_only</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">prn</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Dealing with pairs.</b>When created, all properties start out as singletons; the following joins
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Dealing with pairs.</b>  When created, all properties start out as singletons; the following joins
 two together into a pair. It's allowed to rejoin an existing pair (either way
-around), but not to break one.
-</p>
-
+around), but not to break one.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">EitherOrProperties::make_pair</span><span class="plain-syntax">(</span><span class="reserved-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prn</span><span class="plain-syntax">, </span><span class="reserved-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">neg</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">EitherOrProperties::make_pair</span><span class="plain-syntax">(</span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prn</span><span class="plain-syntax">, </span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">neg</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">prn</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) || (</span><span class="identifier-syntax">prn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">either_or_data</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">)) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"non-EO property"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">neg</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) || (</span><span class="identifier-syntax">neg</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">either_or_data</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">)) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"non-EO property"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><a href="3-ep.html#SP6" class="function-link"><span class="function-syntax">EitherOrProperties::get_negation</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">prn</span><span class="plain-syntax">)) ||</span>
@@ -211,7 +210,7 @@ around), but not to break one.
 <span class="plain-syntax">    </span><span class="identifier-syntax">RTProperties::store_in_negation</span><span class="plain-syntax">(</span><span class="identifier-syntax">neg</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">EitherOrProperties::vet_use_as_non_default_property</span><span class="plain-syntax">(</span><span class="reserved-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prn</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">EitherOrProperties::vet_use_as_non_default_property</span><span class="plain-syntax">(</span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prn</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">prn</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) || (</span><span class="identifier-syntax">prn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">either_or_data</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">prn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">either_or_data</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">is_default</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">Problems::quote_source</span><span class="plain-syntax">(1, </span><span class="identifier-syntax">current_sentence</span><span class="plain-syntax">);</span>
@@ -232,40 +231,40 @@ around), but not to break one.
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b></p>
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">property</span><span class="plain-syntax"> *</span><span class="function-syntax">EitherOrProperties::get_negation</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">EitherOrProperties::get_negation</span></span>:<br/><a href="3-ep.html#SP5">&#167;5</a><br/>Properties - <a href="3-prp.html#SP17">&#167;17</a>, <a href="3-prp.html#SP18_3">&#167;18.3</a>, <a href="3-prp.html#SP21">&#167;21</a>, <a href="3-prp.html#SP23">&#167;23</a><br/>Property Permissions - <a href="4-pp.html#SP2">&#167;2</a><br/>Property Inferences - <a href="5-pi.html#SP6">&#167;6</a>, <a href="5-pi.html#SP10">&#167;10</a>, <a href="5-pi.html#SP11">&#167;11</a><br/>The Model World - <a href="5-tmw.html#SP4_2">&#167;4.2</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prn</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="function-syntax">EitherOrProperties::get_negation</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">EitherOrProperties::get_negation</span></span>:<br/><a href="3-ep.html#SP5">&#167;5</a><br/>Properties - <a href="3-prp.html#SP17">&#167;17</a>, <a href="3-prp.html#SP18_3">&#167;18.3</a>, <a href="3-prp.html#SP21">&#167;21</a>, <a href="3-prp.html#SP23">&#167;23</a><br/>Property Permissions - <a href="4-pp.html#SP2">&#167;2</a><br/>Property Inferences - <a href="5-pi.html#SP6">&#167;6</a>, <a href="5-pi.html#SP10">&#167;10</a>, <a href="5-pi.html#SP11">&#167;11</a><br/>The Model World - <a href="5-tmw.html#SP4_2">&#167;4.2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prn</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">prn</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) || (</span><span class="identifier-syntax">prn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">either_or_data</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">prn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">either_or_data</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">negation</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>Miscellaneous details:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  Miscellaneous details:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">#</span><span class="identifier-syntax">ifdef</span><span class="plain-syntax"> </span><span class="identifier-syntax">IF_MODULE</span>
-<span class="identifier-syntax">command_grammar</span><span class="plain-syntax"> *</span><span class="function-syntax">EitherOrProperties::get_parsing_grammar</span><span class="plain-syntax">(</span><span class="reserved-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prn</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">command_grammar</span><span class="plain-syntax"> *</span><span class="function-syntax">EitherOrProperties::get_parsing_grammar</span><span class="plain-syntax">(</span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prn</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">prn</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) || (</span><span class="identifier-syntax">prn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">either_or_data</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">prn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">either_or_data</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">eo_parsing_grammar</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">EitherOrProperties::set_parsing_grammar</span><span class="plain-syntax">(</span><span class="reserved-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prn</span><span class="plain-syntax">, </span><span class="identifier-syntax">command_grammar</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cg</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">EitherOrProperties::set_parsing_grammar</span><span class="plain-syntax">(</span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prn</span><span class="plain-syntax">, </span><span class="identifier-syntax">command_grammar</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cg</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">prn</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) || (</span><span class="identifier-syntax">prn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">either_or_data</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">)) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"non-EO property"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">prn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">either_or_data</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">eo_parsing_grammar</span><span class="plain-syntax"> = </span><span class="identifier-syntax">cg</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 <span class="plain-syntax">#</span><span class="identifier-syntax">endif</span>
 
-<span class="identifier-syntax">adjective</span><span class="plain-syntax"> *</span><span class="function-syntax">EitherOrProperties::as_adjective</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">EitherOrProperties::as_adjective</span></span>:<br/><a href="3-ep.html#SP8">&#167;8</a><br/>Either-Or Property Adjectives - <a href="3-epa.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prn</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">adjective</span><span class="plain-syntax"> *</span><span class="function-syntax">EitherOrProperties::as_adjective</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">EitherOrProperties::as_adjective</span></span>:<br/><a href="3-ep.html#SP8">&#167;8</a><br/>Either-Or Property Adjectives - <a href="3-epa.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prn</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">prn</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) || (</span><span class="identifier-syntax">prn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">either_or_data</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">)) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"non-EO property"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">prn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">either_or_data</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">as_adjective</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Assertion.</b></p>
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Assertion.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">EitherOrProperties::assert</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">EitherOrProperties::assert</span></span>:<br/>The Model World - <a href="5-tmw.html#SP3">&#167;3</a><br/>The Naming Thicket - <a href="5-tnt.html#SP5">&#167;5</a>, <a href="5-tnt.html#SP9_1_4">&#167;9.1.4</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prn</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">owner</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">parity</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">certainty</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">EitherOrProperties::assert</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">EitherOrProperties::assert</span></span>:<br/>The Model World - <a href="5-tmw.html#SP3">&#167;3</a><br/>The Naming Thicket - <a href="5-tnt.html#SP5">&#167;5</a>, <a href="5-tnt.html#SP9_1_4">&#167;9.1.4</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prn</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inference_subject</span><span class="plain-syntax"> *</span><span class="identifier-syntax">owner</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">parity</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">certainty</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">pcalc_prop</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prop</span><span class="plain-syntax"> = </span><span class="identifier-syntax">AdjectivalPredicates::new_atom_on_x</span><span class="plain-syntax">(</span>
 <span class="plain-syntax">        </span><a href="3-ep.html#SP7" class="function-link"><span class="function-syntax">EitherOrProperties::as_adjective</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">prn</span><span class="plain-syntax">), (</span><span class="identifier-syntax">parity</span><span class="plain-syntax">)?</span><span class="identifier-syntax">FALSE:TRUE</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="1-ap.html#SP2" class="function-link"><span class="function-syntax">Assert::true_about</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">prop</span><span class="plain-syntax">, </span><span class="identifier-syntax">owner</span><span class="plain-syntax">, </span><span class="identifier-syntax">certainty</span><span class="plain-syntax">);</span>

@@ -20,6 +20,11 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/ConsoleText-Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
@@ -57,61 +62,63 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="2-pl3.html#SP6">&#167;6. Nodal errors</a></li><li><a href="2-pl3.html#SP10">&#167;10. Handmade problems</a></li><li><a href="2-pl3.html#SP11">&#167;11. Limit problems</a></li><li><a href="2-pl3.html#SP12">&#167;12. Problem messages unlocated in the source text</a></li><li><a href="2-pl3.html#SP14">&#167;14. Problem messages keyed to positions in the source text</a></li><li><a href="2-pl3.html#SP18">&#167;18. Definition problems</a></li><li><a href="2-pl3.html#SP19">&#167;19. Creating the Problems report</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>Internal errors are essentially failed assertions, and they should never
-occur, whatever the provocation: if they do, they are symptoms of a bug.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  Internal errors are essentially failed assertions, and they should never
+occur, whatever the provocation: if they do, they are symptoms of a bug.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">internal_error_thrown</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::internal_errors_have_occurred</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">internal_error_thrown</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::internal_errors_have_occurred</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">internal_error_thrown</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>The internal error "functions" used by the rest of Inform are in fact macros,
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  The internal error &quot;functions&quot; used by the rest of Inform are in fact macros,
 in order that they can supply the current filename and line number
 automatically to the actual internal error functions. The result is, for
-instance,
-</p>
-
+instance,</p>
+</div>
 <pre class="ConsoleText-displayed-code all-displayed-code code-font">
 <span class="ConsoleText-plain-syntax">&gt;--&gt; Problem. An internal error has occurred: Unknown verb code. The current</span>
 <span class="ConsoleText-plain-syntax">  sentence is "A room is a kind"; the error was detected at line 133 of</span>
 <span class="ConsoleText-plain-syntax">  "Chapter 5/Traverse for Objects.w". This should never happen, and I am</span>
 <span class="ConsoleText-plain-syntax">  now halting in abject failure.</span>
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="ConsoleText-identifier-syntax">internal_error_tree_unsafe</span><span class="ConsoleText-plain-syntax">(</span><span class="ConsoleText-identifier-syntax">X</span><span class="ConsoleText-plain-syntax">)</span>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> 
 <span class="ConsoleText-plain-syntax">    </span><a href="2-pl3.html#SP5" class="function-link"><span class="ConsoleText-function-syntax">StandardProblems::internal_error_tu_fn</span></a><span class="ConsoleText-plain-syntax">(</span><span class="ConsoleText-identifier-syntax">NULL</span><span class="ConsoleText-plain-syntax">, </span><span class="ConsoleText-identifier-syntax">X</span><span class="ConsoleText-plain-syntax">, </span><span class="ConsoleText-identifier-syntax">__FILE__</span><span class="ConsoleText-plain-syntax">, </span><span class="ConsoleText-identifier-syntax">__LINE__</span><span class="ConsoleText-plain-syntax">)</span>
-<span class="definition-keyword">define</span> <span class="ConsoleText-identifier-syntax">internal_error_if_node_type_wrong</span><span class="ConsoleText-plain-syntax">(</span><span class="ConsoleText-identifier-syntax">T</span><span class="ConsoleText-plain-syntax">, </span><span class="ConsoleText-identifier-syntax">X</span><span class="ConsoleText-plain-syntax">, </span><span class="ConsoleText-identifier-syntax">Y</span><span class="ConsoleText-plain-syntax">)</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="ConsoleText-identifier-syntax">X</span><span class="ConsoleText-plain-syntax">, </span><span class="ConsoleText-identifier-syntax">Y</span><span class="ConsoleText-plain-syntax">)</span>
 <span class="ConsoleText-plain-syntax">    </span><a href="2-pl3.html#SP7" class="function-link"><span class="ConsoleText-function-syntax">StandardProblems::nodal_check</span></a><span class="ConsoleText-plain-syntax">(</span><span class="ConsoleText-identifier-syntax">T</span><span class="ConsoleText-plain-syntax">, </span><span class="ConsoleText-identifier-syntax">X</span><span class="ConsoleText-plain-syntax">, </span><span class="ConsoleText-identifier-syntax">Y</span><span class="ConsoleText-plain-syntax">, </span><span class="ConsoleText-identifier-syntax">__FILE__</span><span class="ConsoleText-plain-syntax">, </span><span class="ConsoleText-identifier-syntax">__LINE__</span><span class="ConsoleText-plain-syntax">)</span>
-<span class="definition-keyword">define</span> <span class="ConsoleText-identifier-syntax">internal_error_on_node_type</span><span class="ConsoleText-plain-syntax">(</span><span class="ConsoleText-identifier-syntax">X</span><span class="ConsoleText-plain-syntax">)</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> 
 <span class="ConsoleText-plain-syntax">    </span><a href="2-pl3.html#SP8" class="function-link"><span class="ConsoleText-function-syntax">StandardProblems::internal_error_on_node_type_fn</span></a><span class="ConsoleText-plain-syntax">(</span><span class="ConsoleText-identifier-syntax">NULL</span><span class="ConsoleText-plain-syntax">, </span><span class="ConsoleText-identifier-syntax">X</span><span class="ConsoleText-plain-syntax">, </span><span class="ConsoleText-identifier-syntax">__FILE__</span><span class="ConsoleText-plain-syntax">, </span><span class="ConsoleText-identifier-syntax">__LINE__</span><span class="ConsoleText-plain-syntax">)</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>Internal errors are generated much like any other problem message, except
-that we use a variant form of the "end" routine which salvages what it can
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  Internal errors are generated much like any other problem message, except
+that we use a variant form of the &quot;end&quot; routine which salvages what it can
 from the wreckage, then either forces a crash (to make the stack backtrace
 visible in a debugger) or simply exits to the operating system with error
-code 1:
-</p>
-
+code 1:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::internal_error_end</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">StandardProblems::internal_error_end</span></span>:<br/><a href="2-pl3.html#SP4">&#167;4</a>, <a href="2-pl3.html#SP5">&#167;5</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::internal_error_end</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">StandardProblems::internal_error_end</span></span>:<br/><a href="2-pl3.html#SP4">&#167;4</a>, <a href="2-pl3.html#SP5">&#167;5</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP10" class="function-link"><span class="function-syntax">Problems::issue_problem_end</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><a href="2-pl1.html#SP7" class="function-link"><span class="function-syntax">ProblemBuffer::write_reports</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">debugger_mode</span><span class="plain-syntax">) </span><a href="2-pl0.html#SP2" class="function-link"><span class="function-syntax">ProblemSigils::force_crash</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><a href="2-pl0.html#SP1" class="function-link"><span class="function-syntax">ProblemSigils::exit</span></a><span class="plain-syntax">(1);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>And now for the functions which the above macros invoke. There are two
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  And now for the functions which the above macros invoke. There are two
 versions: one which cites the current sentence, and another which doesn't,
 for use if either there is no current sentence (because Inform wasn't traversing
-the parse tree at the time) or if the parse tree is unsafe &mdash; it's possible
+the parse tree at the time) or if the parse tree is unsafe -- it's possible
 that the internal error occurred during parse tree construction, so we need
-to be cautious.
-</p>
-
+to be cautious.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::internal_error_fn</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">StandardProblems::internal_error_fn</span></span>:<br/><a href="2-pl3.html#SP6">&#167;6</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">p</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">filename</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">linenum</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::internal_error_fn</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">StandardProblems::internal_error_fn</span></span>:<br/><a href="2-pl3.html#SP6">&#167;6</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">p</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">filename</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">linenum</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">internal_error_thrown</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">current_sentence</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><a href="2-pl3.html#SP5" class="function-link"><span class="function-syntax">StandardProblems::internal_error_tu_fn</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="identifier-syntax">p</span><span class="plain-syntax">, </span><span class="identifier-syntax">filename</span><span class="plain-syntax">, </span><span class="identifier-syntax">linenum</span><span class="plain-syntax">);</span>
@@ -129,13 +136,13 @@ to be cautious.
 <span class="plain-syntax">    </span><a href="2-pl3.html#SP3" class="function-link"><span class="function-syntax">StandardProblems::internal_error_end</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>This second sort of internal error comes in two sub-versions, one using
-a <span class="extract"><span class="extract-syntax">char *</span></span>, one a <span class="extract"><span class="extract-syntax">text_stream *</span></span>.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  This second sort of internal error comes in two sub-versions, one using
+a <code>char *</code>, one a <code>text_stream *</code>.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::internal_error_tu_fn</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">StandardProblems::internal_error_tu_fn</span></span>:<br/><a href="2-pl3.html#SP2">&#167;2</a>, <a href="2-pl3.html#SP4">&#167;4</a>, <a href="2-pl3.html#SP8">&#167;8</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">p</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">filename</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">linenum</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::internal_error_tu_fn</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">StandardProblems::internal_error_tu_fn</span></span>:<br/><a href="2-pl3.html#SP2">&#167;2</a>, <a href="2-pl3.html#SP4">&#167;4</a>, <a href="2-pl3.html#SP8">&#167;8</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">p</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">filename</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">linenum</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">internal_error_thrown</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP6" class="function-link"><span class="function-syntax">Problems::quote_text</span></a><span class="plain-syntax">(1, </span><span class="identifier-syntax">p</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP6" class="function-link"><span class="function-syntax">Problems::quote_text</span></a><span class="plain-syntax">(2, </span><span class="identifier-syntax">filename</span><span class="plain-syntax">);</span>
@@ -148,8 +155,8 @@ a <span class="extract"><span class="extract-syntax">char *</span></span>, one a
 <span class="plain-syntax">    </span><a href="2-pl3.html#SP3" class="function-link"><span class="function-syntax">StandardProblems::internal_error_end</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::internal_error_tu_fn_S</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">StandardProblems::internal_error_tu_fn_S</span></span>:<br/><a href="2-pl3.html#SP6">&#167;6</a>, <a href="2-pl3.html#SP7">&#167;7</a>, <a href="2-pl3.html#SP9">&#167;9</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">p</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">filename</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">linenum</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::internal_error_tu_fn_S</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">StandardProblems::internal_error_tu_fn_S</span></span>:<br/><a href="2-pl3.html#SP6">&#167;6</a>, <a href="2-pl3.html#SP7">&#167;7</a>, <a href="2-pl3.html#SP9">&#167;9</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">p</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">filename</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">linenum</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">internal_error_thrown</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP6" class="function-link"><span class="function-syntax">Problems::quote_stream</span></a><span class="plain-syntax">(1, </span><span class="identifier-syntax">p</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP6" class="function-link"><span class="function-syntax">Problems::quote_text</span></a><span class="plain-syntax">(2, </span><span class="identifier-syntax">filename</span><span class="plain-syntax">);</span>
@@ -162,34 +169,34 @@ a <span class="extract"><span class="extract-syntax">char *</span></span>, one a
 <span class="plain-syntax">    </span><a href="2-pl3.html#SP3" class="function-link"><span class="function-syntax">StandardProblems::internal_error_end</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Nodal errors.</b>Very many routines are designed to work only on nodes within the parse
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Nodal errors.</b>  Very many routines are designed to work only on nodes within the parse
 tree of a particular node type. If Inform is in working order, then they will
 never be called at any other nodes; but it seems best to check this. Any
 failure of such an invariant produces a form of internal error called a
-"nodal error".
-</p>
-
+&quot;nodal error&quot;.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::nodal_error_fn</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pn</span><span class="plain-syntax">, </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">p</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">filename</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">linenum</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::nodal_error_fn</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pn</span><span class="plain-syntax">, </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">p</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">filename</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">linenum</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"Internal nodal error at:\n"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"$T\n"</span><span class="plain-syntax">, </span><span class="identifier-syntax">pn</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="2-pl3.html#SP4" class="function-link"><span class="function-syntax">StandardProblems::internal_error_fn</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="identifier-syntax">p</span><span class="plain-syntax">, </span><span class="identifier-syntax">filename</span><span class="plain-syntax">, </span><span class="identifier-syntax">linenum</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::nodal_error_fn_S</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">StandardProblems::nodal_error_fn_S</span></span>:<br/><a href="2-pl3.html#SP7">&#167;7</a>, <a href="2-pl3.html#SP8">&#167;8</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pn</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">p</span><span class="plain-syntax">, </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">filename</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">linenum</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::nodal_error_fn_S</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">StandardProblems::nodal_error_fn_S</span></span>:<br/><a href="2-pl3.html#SP7">&#167;7</a>, <a href="2-pl3.html#SP8">&#167;8</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pn</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">p</span><span class="plain-syntax">, </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">filename</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">linenum</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"Internal nodal error at:\n"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"$T\n"</span><span class="plain-syntax">, </span><span class="identifier-syntax">pn</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="2-pl3.html#SP5" class="function-link"><span class="function-syntax">StandardProblems::internal_error_tu_fn_S</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="identifier-syntax">p</span><span class="plain-syntax">, </span><span class="identifier-syntax">filename</span><span class="plain-syntax">, </span><span class="identifier-syntax">linenum</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>Here is a convenient function to check said invariant.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  Here is a convenient function to check said invariant.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::nodal_check</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">StandardProblems::nodal_check</span></span>:<br/><a href="2-pl3.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pn</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">node_type_t</span><span class="plain-syntax"> </span><span class="identifier-syntax">node_type_required</span><span class="plain-syntax">, </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">filename</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">linenum</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::nodal_check</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">StandardProblems::nodal_check</span></span>:<br/><a href="2-pl3.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pn</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">node_type_t</span><span class="plain-syntax"> </span><span class="identifier-syntax">node_type_required</span><span class="plain-syntax">, </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">filename</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">linenum</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">pn</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">TEMPORARY_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">internal_message</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">WRITE_TO</span><span class="plain-syntax">(</span><span class="identifier-syntax">internal_message</span><span class="plain-syntax">, </span><span class="string-syntax">"NULL node found where type %S expected"</span><span class="plain-syntax">,</span>
@@ -206,14 +213,14 @@ failure of such an invariant produces a form of internal error called a
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>Nodal errors also turn up as the default clauses in switch statements which
-act on various selections of node types, and those use the <span class="extract"><span class="extract-syntax">internal_error_on_node_type</span></span>
-macro, which invokes the following:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>  Nodal errors also turn up as the default clauses in switch statements which
+act on various selections of node types, and those use the <code>internal_error_on_node_type</code>
+macro, which invokes the following:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::internal_error_on_node_type_fn</span><button class="popup" onclick="togglePopup('usagePopup7')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup7">Usage of <span class="code-font"><span class="function-syntax">StandardProblems::internal_error_on_node_type_fn</span></span>:<br/><a href="2-pl3.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pn</span><span class="plain-syntax">, </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">filename</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">linenum</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::internal_error_on_node_type_fn</span><button class="popup" onclick="togglePopup('usagePopup7')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup7">Usage of <span class="code-font"><span class="function-syntax">StandardProblems::internal_error_on_node_type_fn</span></span>:<br/><a href="2-pl3.html#SP2">&#167;2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pn</span><span class="plain-syntax">, </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">filename</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">linenum</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">TEMPORARY_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">internal_message</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">pn</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><a href="2-pl3.html#SP5" class="function-link"><span class="function-syntax">StandardProblems::internal_error_tu_fn</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="string-syntax">"Unexpected NULL node found"</span><span class="plain-syntax">,</span>
@@ -224,17 +231,17 @@ macro, which invokes the following:
 <span class="plain-syntax">    </span><span class="identifier-syntax">DISCARD_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">internal_message</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>The following routines are relics of an era of horrific, primordial upheaval,
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>  The following routines are relics of an era of horrific, primordial upheaval,
 when the S-parser was being debugged. An S-subtree is a portion of the parse
-tree which represents a proposition.
-</p>
-
+tree which represents a proposition.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">latest_s_subtree</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::s_subtree_error_set_position</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">p</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::s_subtree_error_set_position</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">p</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">latest_s_subtree</span><span class="plain-syntax"> = </span><span class="identifier-syntax">p</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::s_subtree_error</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">mess</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::s_subtree_error</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">mess</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">TEMPORARY_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">internal_message</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE_TO</span><span class="plain-syntax">(</span><span class="identifier-syntax">internal_message</span><span class="plain-syntax">, </span><span class="string-syntax">"S-subtree error: %s"</span><span class="plain-syntax">, </span><span class="identifier-syntax">mess</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"%S"</span><span class="plain-syntax">, </span><span class="identifier-syntax">internal_message</span><span class="plain-syntax">);</span>
@@ -243,26 +250,26 @@ tree which represents a proposition.
 <span class="plain-syntax">    </span><span class="identifier-syntax">DISCARD_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">internal_message</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. Handmade problems.</b>Those made without using the convenient shorthand forms below:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. Handmade problems.</b>  Those made without using the convenient shorthand forms below:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::handmade_problem</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">SIGIL_ARGUMENTS</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::handmade_problem</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">SIGIL_ARGUMENTS</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="constant-syntax">ACT_ON_SIGIL</span>
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP10" class="function-link"><span class="function-syntax">Problems::issue_problem_begin</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="string-syntax">""</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::handmade_warning</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">SIGIL_ARGUMENTS</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::handmade_warning</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">SIGIL_ARGUMENTS</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="constant-syntax">ACT_ON_SIGIL</span>
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP10" class="function-link"><span class="function-syntax">Problems::issue_warning_begin</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="string-syntax">""</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. Limit problems.</b>Running out of memory, irretrievably: the politest kind of fatal error,
-though let's face it, fatal is fatal.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. Limit problems.</b>  Running out of memory, irretrievably: the politest kind of fatal error,
+though let's face it, fatal is fatal.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::limit_problem</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">SIGIL_ARGUMENTS</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">what_has_run_out</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">how_many</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::limit_problem</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">SIGIL_ARGUMENTS</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">what_has_run_out</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">how_many</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="constant-syntax">ACT_ON_SIGIL</span>
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP6" class="function-link"><span class="function-syntax">Problems::quote_text</span></a><span class="plain-syntax">(1, </span><span class="identifier-syntax">what_has_run_out</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP6" class="function-link"><span class="function-syntax">Problems::quote_number</span></a><span class="plain-syntax">(2, &amp;</span><span class="identifier-syntax">how_many</span><span class="plain-syntax">);</span>
@@ -277,8 +284,8 @@ though let's face it, fatal is fatal.
 <span class="plain-syntax">    </span><a href="2-pl0.html#SP1" class="function-link"><span class="function-syntax">ProblemSigils::exit</span></a><span class="plain-syntax">(1);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::memory_allocation_problem</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">SIGIL_ARGUMENTS</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">what_has_run_out</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::memory_allocation_problem</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">SIGIL_ARGUMENTS</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">what_has_run_out</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="constant-syntax">ACT_ON_SIGIL</span>
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP6" class="function-link"><span class="function-syntax">Problems::quote_text</span></a><span class="plain-syntax">(1, </span><span class="identifier-syntax">what_has_run_out</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP10" class="function-link"><span class="function-syntax">Problems::issue_problem_begin</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="string-syntax">""</span><span class="plain-syntax">);</span>
@@ -293,15 +300,15 @@ though let's face it, fatal is fatal.
 <span class="plain-syntax">    </span><a href="2-pl0.html#SP1" class="function-link"><span class="function-syntax">ProblemSigils::exit</span></a><span class="plain-syntax">(1);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. Problem messages unlocated in the source text.</b>And now the regular problem messages, the ones which are not my fault.
-We begin with lexical problems happening when the run is hardly begun:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. Problem messages unlocated in the source text.</b>  And now the regular problem messages, the ones which are not my fault.
+We begin with lexical problems happening when the run is hardly begun:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::lexical_problem</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">SIGIL_ARGUMENTS</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">message</span><span class="plain-syntax">, </span><span class="identifier-syntax">inchar32_t</span><span class="plain-syntax"> *</span><span class="identifier-syntax">concerning</span><span class="plain-syntax">, </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">exp</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::lexical_problem</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">SIGIL_ARGUMENTS</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">message</span><span class="plain-syntax">, </span><span class="identifier-syntax">inchar32_t</span><span class="plain-syntax"> *</span><span class="identifier-syntax">concerning</span><span class="plain-syntax">, </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">exp</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="constant-syntax">ACT_ON_SIGIL</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">lexical_explanation</span><span class="plain-syntax"> =</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">lexical_explanation</span><span class="plain-syntax"> =</span>
 <span class="plain-syntax">        </span><span class="string-syntax">"This is a low-level problem happening when I am still reading in the "</span>
 <span class="plain-syntax">        </span><span class="string-syntax">"source. Such problems sometimes arise because I have been told to "</span>
 <span class="plain-syntax">        </span><span class="string-syntax">"read a source file which is not text at all."</span><span class="plain-syntax">;</span>
@@ -316,10 +323,10 @@ We begin with lexical problems happening when the run is hardly begun:
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP10" class="function-link"><span class="function-syntax">Problems::issue_problem_end</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::lexical_problem_S</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">SIGIL_ARGUMENTS</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">message</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">concerning</span><span class="plain-syntax">, </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">exp</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::lexical_problem_S</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">SIGIL_ARGUMENTS</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">message</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">concerning</span><span class="plain-syntax">, </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">exp</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="constant-syntax">ACT_ON_SIGIL</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">lexical_explanation</span><span class="plain-syntax"> =</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">lexical_explanation</span><span class="plain-syntax"> =</span>
 <span class="plain-syntax">        </span><span class="string-syntax">"This is a low-level problem happening when I am still reading in the "</span>
 <span class="plain-syntax">        </span><span class="string-syntax">"source. Such problems sometimes arise because I have been told to "</span>
 <span class="plain-syntax">        </span><span class="string-syntax">"read a source file which is not text at all."</span><span class="plain-syntax">;</span>
@@ -334,13 +341,13 @@ We begin with lexical problems happening when the run is hardly begun:
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP10" class="function-link"><span class="function-syntax">Problems::issue_problem_end</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. </b>Clearly lexical problems cannot cite positions in the source text, and some
-other problems can't either, so:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. </b>  Clearly lexical problems cannot cite positions in the source text, and some
+other problems can't either, so:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::unlocated_problem</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">SIGIL_ARGUMENTS</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">message</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::unlocated_problem</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">SIGIL_ARGUMENTS</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">message</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="constant-syntax">ACT_ON_SIGIL</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">do_not_locate_problems</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP10" class="function-link"><span class="function-syntax">Problems::issue_problem_begin</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="identifier-syntax">message</span><span class="plain-syntax">);</span>
@@ -349,8 +356,8 @@ other problems can't either, so:
 <span class="plain-syntax">    </span><span class="identifier-syntax">do_not_locate_problems</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::unlocated_problem_on_file</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">SIGIL_ARGUMENTS</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">message</span><span class="plain-syntax">, </span><span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="identifier-syntax">F</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::unlocated_problem_on_file</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">SIGIL_ARGUMENTS</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">message</span><span class="plain-syntax">, </span><span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="identifier-syntax">F</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="constant-syntax">ACT_ON_SIGIL</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">do_not_locate_problems</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">TEMPORARY_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">fn</span><span class="plain-syntax">)</span>
@@ -363,15 +370,15 @@ other problems can't either, so:
 <span class="plain-syntax">    </span><span class="identifier-syntax">do_not_locate_problems</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. Problem messages keyed to positions in the source text.</b>The following routine is used to produce more than 300 different problem
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. Problem messages keyed to positions in the source text.</b>  The following routine is used to produce more than 300 different problem
 messages, making it the most prolific of all the problem routines: perhaps
 that isn't surprising, since it simply quotes the entire sentence at fault
-(which is always the current sentence) and issues a message.
-</p>
-
+(which is always the current sentence) and issues a message.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::sentence_problem</span><button class="popup" onclick="togglePopup('usagePopup8')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup8">Usage of <span class="code-font"><span class="function-syntax">StandardProblems::sentence_problem</span></span>:<br/><a href="2-pl3.html#SP17">&#167;17</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">SIGIL_ARGUMENTS</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">message</span><span class="plain-syntax">, </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">explanation</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::sentence_problem</span><button class="popup" onclick="togglePopup('usagePopup8')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup8">Usage of <span class="code-font"><span class="function-syntax">StandardProblems::sentence_problem</span></span>:<br/><a href="2-pl3.html#SP17">&#167;17</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">SIGIL_ARGUMENTS</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">message</span><span class="plain-syntax">, </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">explanation</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="constant-syntax">ACT_ON_SIGIL</span>
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP6" class="function-link"><span class="function-syntax">Problems::quote_source</span></a><span class="plain-syntax">(1, </span><span class="identifier-syntax">current_sentence</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP6" class="function-link"><span class="function-syntax">Problems::quote_text</span></a><span class="plain-syntax">(2, </span><span class="identifier-syntax">message</span><span class="plain-syntax">);</span>
@@ -381,12 +388,12 @@ that isn't surprising, since it simply quotes the entire sentence at fault
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP10" class="function-link"><span class="function-syntax">Problems::issue_problem_end</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. </b>And a variant which adds a note in a subsequent paragraph.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. </b>  And a variant which adds a note in a subsequent paragraph.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::sentence_problem_with_note</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">SIGIL_ARGUMENTS</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">message</span><span class="plain-syntax">, </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">explanation</span><span class="plain-syntax">, </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">note</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::sentence_problem_with_note</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">SIGIL_ARGUMENTS</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">message</span><span class="plain-syntax">, </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">explanation</span><span class="plain-syntax">, </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">note</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="constant-syntax">ACT_ON_SIGIL</span>
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP6" class="function-link"><span class="function-syntax">Problems::quote_source</span></a><span class="plain-syntax">(1, </span><span class="identifier-syntax">current_sentence</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP6" class="function-link"><span class="function-syntax">Problems::quote_text</span></a><span class="plain-syntax">(2, </span><span class="identifier-syntax">message</span><span class="plain-syntax">);</span>
@@ -397,13 +404,13 @@ that isn't surprising, since it simply quotes the entire sentence at fault
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP10" class="function-link"><span class="function-syntax">Problems::issue_problem_end</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. </b>And this is a variant which draws particular attention to a word range
-which is part of the current sentence.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. </b>  And this is a variant which draws particular attention to a word range
+which is part of the current sentence.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::sentence_in_detail_problem</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">SIGIL_ARGUMENTS</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">        </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">, </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">message</span><span class="plain-syntax">, </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">explanation</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::sentence_in_detail_problem</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">SIGIL_ARGUMENTS</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">, </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">message</span><span class="plain-syntax">, </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">explanation</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="constant-syntax">ACT_ON_SIGIL</span>
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP6" class="function-link"><span class="function-syntax">Problems::quote_source</span></a><span class="plain-syntax">(1, </span><span class="identifier-syntax">current_sentence</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP6" class="function-link"><span class="function-syntax">Problems::quote_text</span></a><span class="plain-syntax">(2, </span><span class="identifier-syntax">message</span><span class="plain-syntax">);</span>
@@ -415,12 +422,12 @@ which is part of the current sentence.
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP10" class="function-link"><span class="function-syntax">Problems::issue_problem_end</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. </b>A not always helpful problem message which is needed in several places, and
-therefore is kept here:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. </b>  A not always helpful problem message which is needed in several places, and
+therefore is kept here:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::negative_sentence_problem</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">SIGIL_ARGUMENTS</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::negative_sentence_problem</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">SIGIL_ARGUMENTS</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><a href="2-pl3.html#SP14" class="function-link"><span class="function-syntax">StandardProblems::sentence_problem</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">PASS_SIGIL</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">        </span><span class="string-syntax">"assertions about the initial state of play must be positive, not negative"</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">        </span><span class="string-syntax">"so 'The cat is an animal' is fine but not 'The cat is not a container'. "</span>
@@ -428,14 +435,14 @@ therefore is kept here:
 <span class="plain-syntax">        </span><span class="string-syntax">"of a negative statement are obvious to a human reader, but not to me."</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP18" class="paragraph-anchor"></a><b>&#167;18. Definition problems.</b>Sentence problems are a nuisance for "Definition:" definitions, because
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP18" class="paragraph-anchor"></a><b>&#167;18. Definition problems.</b>  Sentence problems are a nuisance for &quot;Definition:&quot; definitions, because
 those usually occur when the current sentence is rather unhelpfully just the
-word "Definition" alone. So we use this routine instead:
-</p>
-
+word &quot;Definition&quot; alone. So we use this routine instead:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::definition_problem</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">SIGIL_ARGUMENTS</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">q</span><span class="plain-syntax">, </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">message</span><span class="plain-syntax">, </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">explanation</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::definition_problem</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">SIGIL_ARGUMENTS</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">q</span><span class="plain-syntax">, </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">message</span><span class="plain-syntax">, </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">explanation</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="constant-syntax">ACT_ON_SIGIL</span>
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP6" class="function-link"><span class="function-syntax">Problems::quote_source</span></a><span class="plain-syntax">(1, </span><span class="identifier-syntax">q</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP6" class="function-link"><span class="function-syntax">Problems::quote_text</span></a><span class="plain-syntax">(2, </span><span class="identifier-syntax">message</span><span class="plain-syntax">);</span>
@@ -446,8 +453,8 @@ word "Definition" alone. So we use this routine instead:
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP10" class="function-link"><span class="function-syntax">Problems::issue_problem_end</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::adjective_problem</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">SIGIL_ARGUMENTS</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">IX</span><span class="plain-syntax">, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">D</span><span class="plain-syntax">, </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">message</span><span class="plain-syntax">, </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">explanation</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::adjective_problem</span><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="constant-syntax">SIGIL_ARGUMENTS</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">IX</span><span class="plain-syntax">, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">D</span><span class="plain-syntax">, </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">message</span><span class="plain-syntax">, </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">explanation</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="constant-syntax">ACT_ON_SIGIL</span>
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP6" class="function-link"><span class="function-syntax">Problems::quote_wording</span></a><span class="plain-syntax">(1, </span><span class="identifier-syntax">IX</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP6" class="function-link"><span class="function-syntax">Problems::quote_wording</span></a><span class="plain-syntax">(2, </span><span class="identifier-syntax">D</span><span class="plain-syntax">);</span>
@@ -461,12 +468,12 @@ word "Definition" alone. So we use this routine instead:
 <span class="plain-syntax">    </span><a href="2-pl2.html#SP10" class="function-link"><span class="function-syntax">Problems::issue_problem_end</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP19" class="paragraph-anchor"></a><b>&#167;19. Creating the Problems report.</b>We are at last able to print the text which appears at the top of the
-Problems report; and this completes the code for errors. In my end is my beginning.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP19" class="paragraph-anchor"></a><b>&#167;19. Creating the Problems report.</b>  We are at last able to print the text which appears at the top of the
+Problems report; and this completes the code for errors. In my end is my beginning.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::start_problems_report</span><span class="plain-syntax">(</span><span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="identifier-syntax">F</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::start_problems_report</span><span class="plain-syntax">(</span><span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="identifier-syntax">F</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">F</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        #</span><span class="identifier-syntax">ifdef</span><span class="plain-syntax"> </span><span class="identifier-syntax">START_PROBLEM_FILE_PROBLEMS_CALLBACK</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">START_PROBLEM_FILE_PROBLEMS_CALLBACK</span><span class="plain-syntax">(</span><span class="identifier-syntax">F</span><span class="plain-syntax">, </span><span class="identifier-syntax">problems_file</span><span class="plain-syntax">);</span>
@@ -477,7 +484,7 @@ Problems report; and this completes the code for errors. In my end is my beginni
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::issue_problems_banner</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">verdict</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">StandardProblems::issue_problems_banner</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">verdict</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">HTML::comment</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUT</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"BANNER BEGINS"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">HTML_OPEN_WITH</span><span class="plain-syntax">(</span><span class="string-syntax">"table"</span><span class="plain-syntax">, </span><span class="string-syntax">"cellspacing=\"3\" border=\"0\" width=\"100%%\""</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">HTML_OPEN_WITH</span><span class="plain-syntax">(</span><span class="string-syntax">"tr"</span><span class="plain-syntax">, </span><span class="string-syntax">"id=\"surround0\""</span><span class="plain-syntax">);</span>

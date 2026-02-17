@@ -20,6 +20,11 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -54,101 +59,93 @@ function togglePopup(material_id) {
     <ul class="crumbs"><li><a href="../index.html">Home</a></li><li><a href="../intern.html">Inter Modules</a></li><li><a href="index.html">building</a></li><li><a href="index.html#3">Chapter 3: Masonry</a></li><li><b>Value Holsters</b></li></ul></div>
 <p class="purpose">Representing compilation contexts, and holding compiled values.</p>
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>Value holsters were created as a shim at a time when almost the entire Inform
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  Value holsters were created as a shim at a time when almost the entire Inform
 code-base had to be turned around. Pre-2017, Inform generated code by writing
 Inform 6 syntax out by hand: but post-2019, Inter bytecode was generated instead.
 Hundreds of subsystems had to be rewritten, a process taking over a year, and
-during this time the compiler had to work in a piebald sort of way &mdash; some
-systems generating bytecode, others still pouring our raw I6 as text.
-</p>
-
-<p class="commentary">The <a href="3-vh.html#SP1" class="internal">value_holster</a> was invented as a way to manage this. It allows the caller
+during this time the compiler had to work in a piebald sort of way -- some
+systems generating bytecode, others still pouring our raw I6 as text.</p>
+<p>The <a href="3-vh.html#SP1" class="internal">value_holster</a> was invented as a way to manage this. It allows the caller
 of a compilation function to ask for code to be made in a particular way: this
-is the <span class="extract"><span class="extract-syntax">vhmode_wanted</span></span> field. These ways are:
-</p>
-
-<ul class="items"><li>&#9679; <span class="extract"><span class="extract-syntax">INTER_VAL_VHMODE</span></span> &mdash; generate Inter bytecode inside a function, producing a value
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">INTER_VOID_VHMODE</span></span> &mdash; generate Inter bytecode inside a function but in
-void context, i.e., not producing a value
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">INTER_DATA_VHMODE</span></span> &mdash; encode a constant value as a pair of Inter values,
-for use in, say, an array entry.
-</li></ul>
-<p class="commentary">So much for what the caller wants. The compilation function, or subsystem, then
-does whatever it does, and sets <span class="extract"><span class="extract-syntax">vhmode_provided</span></span> to the mode it actually compiled
+is the <code>vhmode_wanted</code> field. These ways are:</p>
+<p>(*) <code>INTER_VAL_VHMODE</code> -- generate Inter bytecode inside a function, producing a value</p>
+<p>(*) <code>INTER_VOID_VHMODE</code> -- generate Inter bytecode inside a function but in
+void context, i.e., not producing a value</p>
+<p>(*) <code>INTER_DATA_VHMODE</code> -- encode a constant value as a pair of Inter values,
+for use in, say, an array entry.</p>
+<p>So much for what the caller wants. The compilation function, or subsystem, then
+does whatever it does, and sets <code>vhmode_provided</code> to the mode it actually compiled
 in; the caller can then deal with the situation arising if it wasn't what was
 wanted. During 2017 this often meant that the function would write out some
-raw I6 syntax, and reply <span class="extract"><span class="extract-syntax">INTER_TEXT_VHMODE</span></span> to signal this; the caller would
-then turn this into Inter by wrapping it up as either a "splat" or a "glob".
-</p>
-
-<p class="commentary">With the transition now complete, <span class="extract"><span class="extract-syntax">INTER_TEXT_VHMODE</span></span> no longer exists. But
-value holsters continue to be a useful device.
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">enum</span> <span class="constant-syntax">INTER_DATA_VHMODE</span><span class="plain-syntax"> </span><span class="identifier-syntax">from</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">INTER_VAL_VHMODE</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">INTER_VOID_VHMODE</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">NO_VHMODE</span>
+raw I6 syntax, and reply <code>INTER_TEXT_VHMODE</code> to signal this; the caller would
+then turn this into Inter by wrapping it up as either a &quot;splat&quot; or a &quot;glob&quot;.</p>
+<p>With the transition now complete, <code>INTER_TEXT_VHMODE</code> no longer exists. But
+value holsters continue to be a useful device.</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="constant-syntax">1</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">value_holster</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">vhmode_wanted</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">vhmode_provided</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">value_holster</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">vhmode_wanted</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">vhmode_provided</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inter_pair</span><span class="plain-syntax"> </span><span class="identifier-syntax">val</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">value_holster</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">value_holster</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>The structure value_holster is accessed in 2/eis and here.</li></ul>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b></p>
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">value_holster</span><span class="plain-syntax"> </span><span class="function-syntax">Holsters::new</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">Holsters::new</span></span>:<br/>Emitting Inter Schemas - <a href="2-eis.html#SP3_1_8">&#167;3.1.8</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">vhm</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">value_holster</span><span class="plain-syntax"> </span><span class="identifier-syntax">vh</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">value_holster</span><span class="plain-syntax"> </span><span class="function-syntax">Holsters::new</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">Holsters::new</span></span>:<br/>Emitting Inter Schemas - <a href="2-eis.html#SP3_1_8">&#167;3.1.8</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">vhm</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">value_holster</span><span class="plain-syntax"> </span><span class="identifier-syntax">vh</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">vh</span><span class="plain-syntax">.</span><span class="element-syntax">val</span><span class="plain-syntax"> = </span><span class="identifier-syntax">InterValuePairs::undef</span><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">vh</span><span class="plain-syntax">.</span><span class="element-syntax">vhmode_wanted</span><span class="plain-syntax"> = </span><span class="identifier-syntax">vhm</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">vh</span><span class="plain-syntax">.</span><span class="element-syntax">vhmode_provided</span><span class="plain-syntax"> = </span><span class="constant-syntax">NO_VHMODE</span><span class="plain-syntax">; </span><span class="comment-syntax"> the compilation function has not yet set this</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">vh</span><span class="plain-syntax">.</span><span class="element-syntax">vhmode_provided</span><span class="plain-syntax"> = </span><span class="constant-syntax">NO_VHMODE</span><span class="plain-syntax">; </span><span class="comment-syntax">/* the compilation function has not yet set this */</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">vhm</span><span class="plain-syntax"> == </span><span class="constant-syntax">NO_VHMODE</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"can't want NO_VHMODE"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">vh</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>A compilation function can produce, as its output, a value in either
-<span class="extract"><span class="extract-syntax">INTER_DATA_VHMODE</span></span> (where this is exactly what is wanted) or in <span class="extract"><span class="extract-syntax">INTER_VAL_VHMODE</span></span>
-(where it can easily be adapted).
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  A compilation function can produce, as its output, a value in either
+<code>INTER_DATA_VHMODE</code> (where this is exactly what is wanted) or in <code>INTER_VAL_VHMODE</code>
+(where it can easily be adapted).</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Holsters::value_pair_allowed</span><span class="plain-syntax">(</span><span class="reserved-syntax">value_holster</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vh</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Holsters::value_pair_allowed</span><span class="plain-syntax">(</span><span class="identifier-syntax">value_holster</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vh</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">vh</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"no VH"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">vh</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">vhmode_wanted</span><span class="plain-syntax"> == </span><span class="constant-syntax">INTER_DATA_VHMODE</span><span class="plain-syntax">) ||</span>
 <span class="plain-syntax">        (</span><span class="identifier-syntax">vh</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">vhmode_wanted</span><span class="plain-syntax"> == </span><span class="constant-syntax">INTER_VAL_VHMODE</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>This is how a compilation function "holsters" a value pair:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  This is how a compilation function &quot;holsters&quot; a value pair:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Holsters::holster_pair</span><span class="plain-syntax">(</span><span class="reserved-syntax">value_holster</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vh</span><span class="plain-syntax">, </span><span class="identifier-syntax">inter_pair</span><span class="plain-syntax"> </span><span class="identifier-syntax">val</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Holsters::holster_pair</span><span class="plain-syntax">(</span><span class="identifier-syntax">value_holster</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vh</span><span class="plain-syntax">, </span><span class="identifier-syntax">inter_pair</span><span class="plain-syntax"> </span><span class="identifier-syntax">val</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">vh</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"no VH"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">vh</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">val</span><span class="plain-syntax"> = </span><span class="identifier-syntax">val</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">vh</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">vhmode_provided</span><span class="plain-syntax"> = </span><span class="constant-syntax">INTER_DATA_VHMODE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>And this is how the caller "unholsters" that value, after the function has
-returned. If we find <span class="extract"><span class="extract-syntax">NO_VHMODE</span></span>, we convert that to <span class="extract"><span class="extract-syntax">INTER_DATA_VHMODE</span></span> with
-the literal number value 0.
-</p>
-
-<p class="commentary">On exit, the provided mode is always <span class="extract"><span class="extract-syntax">INTER_DATA_VHMODE</span></span>.
-</p>
-
-<p class="commentary">A second or subsequent call on the same holster does nothing, except to return
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  And this is how the caller &quot;unholsters&quot; that value, after the function has
+returned. If we find <code>NO_VHMODE</code>, we convert that to <code>INTER_DATA_VHMODE</code> with
+the literal number value 0.</p>
+<p>On exit, the provided mode is always <code>INTER_DATA_VHMODE</code>.</p>
+<p>A second or subsequent call on the same holster does nothing, except to return
 the same value pair, which is still stored in it. (In that sense, these aren't
 really like a gunslinger's holster, where a revolver once drawn is no longer
-in the holster.)
-</p>
-
+in the holster.)</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">inter_pair</span><span class="plain-syntax"> </span><span class="function-syntax">Holsters::unholster_to_pair</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">Holsters::unholster_to_pair</span></span>:<br/><a href="3-vh.html#SP6">&#167;6</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">value_holster</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vh</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">inter_pair</span><span class="plain-syntax"> </span><span class="function-syntax">Holsters::unholster_to_pair</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">Holsters::unholster_to_pair</span></span>:<br/><a href="3-vh.html#SP6">&#167;6</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">value_holster</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vh</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">vh</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"no VH"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="identifier-syntax">vh</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">vhmode_provided</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">INTER_DATA_VHMODE:</span>
@@ -167,20 +164,16 @@ in the holster.)
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">vh</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">val</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>If, on the other hand, the caller was asking for <span class="extract"><span class="extract-syntax">INTER_VAL_VHMODE</span></span>, it
-should make use of the following. If we find <span class="extract"><span class="extract-syntax">NO_VHMODE</span></span>, we compile a <span class="extract"><span class="extract-syntax">val</span></span>
-producing the literal value 0; if we find <span class="extract"><span class="extract-syntax">INTER_DATA_VHMODE</span></span>, we compile a
-<span class="extract"><span class="extract-syntax">val</span></span> producing whatever value was holstered.
-</p>
-
-<p class="commentary">On exit, the provided mode is always <span class="extract"><span class="extract-syntax">INTER_VAL_VHMODE</span></span>.
-</p>
-
-<p class="commentary">A second or subsequent call on the same holster does nothing.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  If, on the other hand, the caller was asking for <code>INTER_VAL_VHMODE</code>, it
+should make use of the following. If we find <code>NO_VHMODE</code>, we compile a <code>val</code>
+producing the literal value 0; if we find <code>INTER_DATA_VHMODE</code>, we compile a
+<code>val</code> producing whatever value was holstered.</p>
+<p>On exit, the provided mode is always <code>INTER_VAL_VHMODE</code>.</p>
+<p>A second or subsequent call on the same holster does nothing.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Holsters::unholster_to_code_val</span><span class="plain-syntax">(</span><span class="identifier-syntax">inter_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="reserved-syntax">value_holster</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vh</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Holsters::unholster_to_code_val</span><span class="plain-syntax">(</span><span class="identifier-syntax">inter_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">value_holster</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vh</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">vh</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"no VH"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="identifier-syntax">vh</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">vhmode_provided</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">INTER_DATA_VHMODE:</span>

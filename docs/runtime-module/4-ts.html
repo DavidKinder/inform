@@ -20,6 +20,11 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -56,72 +61,68 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="4-ts.html#SP1">&#167;1. Runtime representation</a></li><li><a href="4-ts.html#SP2">&#167;2. Cues</a></li><li><a href="4-ts.html#SP3">&#167;3. Substitutions</a></li><li><a href="4-ts.html#SP6">&#167;6. Compilation</a></li><li><a href="4-ts.html#SP8">&#167;8. It may be worth adding</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Runtime representation.</b>Text substitutions arise from source text such as:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Runtime representation.</b>  Text substitutions arise from source text such as:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">let</span><span class="plain-syntax"> </span><span class="identifier-syntax">Q</span><span class="plain-syntax"> </span><span class="identifier-syntax">be</span><span class="plain-syntax"> </span><span class="string-syntax">"the [fox speed] brown fox"</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">say</span><span class="plain-syntax"> </span><span class="string-syntax">"Where has that [sleeping animal] got to?"</span><span class="plain-syntax">;</span>
 </pre>
-<p class="commentary">These both look like text substitutions, but only <span class="extract"><span class="extract-syntax">the [fox speed] brown fox</span></span>
-actually is one: <span class="extract"><span class="extract-syntax">say</span></span> phrases are compiled directly, like so:
-</p>
-
+<div class="lsmarkdown">
+<p>These both look like text substitutions, but only <code>the [fox speed] brown fox</code>
+actually is one: <code>say</code> phrases are compiled directly, like so:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">let</span><span class="plain-syntax"> </span><span class="identifier-syntax">Q</span><span class="plain-syntax"> </span><span class="identifier-syntax">be</span><span class="plain-syntax"> </span><span class="string-syntax">"the [fox speed] brown fox"</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">say</span><span class="plain-syntax"> </span><span class="string-syntax">"Where has that "</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">say</span><span class="plain-syntax"> </span><span class="identifier-syntax">sleeping</span><span class="plain-syntax"> </span><span class="identifier-syntax">animal</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">say</span><span class="plain-syntax"> </span><span class="string-syntax">" got to?"</span><span class="plain-syntax">;</span>
 </pre>
-<p class="commentary">So we are concerned only with substitutions used as values. At run-time, these
+<div class="lsmarkdown">
+<p>So we are concerned only with substitutions used as values. At run-time, these
 are essentially the same as <a href="4-tl.html" class="internal">Text Literals</a>, but where the content field in
-the small block is a function pointer:
-</p>
-
+the small block is a function pointer:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">                        </span><span class="identifier-syntax">small</span><span class="plain-syntax"> </span><span class="identifier-syntax">block:</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">Q</span><span class="plain-syntax"> ----------------&gt; </span><span class="identifier-syntax">CONSTANT_PACKED_TEXT_STORAGE</span><span class="plain-syntax"> </span><span class="identifier-syntax">or</span><span class="plain-syntax"> </span><span class="identifier-syntax">CONSTANT_PERISHABLE_TEXT_STORAGE</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">Q</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">---------------&gt; </span><span class="identifier-syntax">CONSTANT_PACKED_TEXT_STORAGE</span><span class="plain-syntax"> </span><span class="identifier-syntax">or</span><span class="plain-syntax"> </span><span class="identifier-syntax">CONSTANT_PERISHABLE_TEXT_STORAGE</span>
 <span class="plain-syntax">                        </span><span class="identifier-syntax">function</span>
 </pre>
-<p class="commentary">It is worth emphasising that this is a function. In an interpreted language
-like Perl, an interpolation such as <span class="extract"><span class="extract-syntax">"Deleted $file_count files"</span></span> is immediately
+<div class="lsmarkdown">
+<p>It is worth emphasising that this is a function. In an interpreted language
+like Perl, an interpolation such as <code>&quot;Deleted $file_count files&quot;</code> is immediately
 converted to text when it is executed; and even in some compiled languages
-like Swift, the same is essentially true &mdash; in that the text is compiled to
-code which immediately produces the expanded version.
-</p>
-
-<p class="commentary">In Inform, however, a text substitution is instead compiled to a function which
+like Swift, the same is essentially true -- in that the text is compiled to
+code which immediately produces the expanded version.</p>
+<p>In Inform, however, a text substitution is instead compiled to a function which
 can at some later time perform that expansion. This means it is, in effect, a
 form of closure, and has to retain some memory of the environment in which it
-came up. Consider for example:
-</p>
-
+came up. Consider for example:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">let</span><span class="plain-syntax"> </span><span class="identifier-syntax">X</span><span class="plain-syntax"> </span><span class="identifier-syntax">be</span><span class="plain-syntax"> </span><span class="constant-syntax">17</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">write</span><span class="plain-syntax"> </span><span class="string-syntax">"remember [X]"</span><span class="plain-syntax"> </span><span class="identifier-syntax">to</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">file</span><span class="plain-syntax"> </span><span class="identifier-syntax">of</span><span class="plain-syntax"> </span><span class="identifier-syntax">Memos</span><span class="plain-syntax">;</span>
 </pre>
-<p class="commentary">This is a context where it's clear what it means to refer to the local variable
-<span class="extract"><span class="extract-syntax">X</span></span> in the text. But this is less clear:
-</p>
-
+<div class="lsmarkdown">
+<p>This is a context where it's clear what it means to refer to the local variable
+<code>X</code> in the text. But this is less clear:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">let</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">cage</span><span class="plain-syntax"> </span><span class="identifier-syntax">be</span><span class="plain-syntax"> </span><span class="identifier-syntax">a</span><span class="plain-syntax"> </span><span class="identifier-syntax">random</span><span class="plain-syntax"> </span><span class="identifier-syntax">container</span><span class="plain-syntax"> </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">Discount</span><span class="plain-syntax"> </span><span class="identifier-syntax">Cage</span><span class="plain-syntax"> </span><span class="identifier-syntax">Warehouse</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">decide</span><span class="plain-syntax"> </span><span class="identifier-syntax">on</span><span class="plain-syntax"> </span><span class="string-syntax">"As bad as [a cage]."</span><span class="plain-syntax">;</span>
 </pre>
-<p class="commentary">The trouble is that <span class="extract"><span class="extract-syntax">decide on</span></span> causes a return out of the current stack frame;
-at which point the local variable <span class="extract"><span class="extract-syntax">cage</span></span> will cease to exist, and it will then
-not be possible to expand <span class="extract"><span class="extract-syntax">"As bad as [a cage]."</span></span>. If we were pursuing closures
-more seriously, we would have to capture <span class="extract"><span class="extract-syntax">cage</span></span>, and then worry about garbage
-collection.
-</p>
-
-<p class="commentary">Instead we call a substitution like this "perishable", and in cases of doubt
-we expand this on the spot, i.e., inside the original stack frame.
-</p>
-
+<div class="lsmarkdown">
+<p>The trouble is that <code>decide on</code> causes a return out of the current stack frame;
+at which point the local variable <code>cage</code> will cease to exist, and it will then
+not be possible to expand <code>&quot;As bad as [a cage].&quot;</code>. If we were pursuing closures
+more seriously, we would have to capture <code>cage</code>, and then worry about garbage
+collection.</p>
+<p>Instead we call a substitution like this &quot;perishable&quot;, and in cases of doubt
+we expand this on the spot, i.e., inside the original stack frame.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">TextSubstitutions::compile_value</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">TextSubstitutions::compile_value</span></span>:<br/><a href="4-ts.html#SP6">&#167;6</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">at</span><span class="plain-syntax">, </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">fn</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">makes_local_references</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">TextSubstitutions::compile_value</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">TextSubstitutions::compile_value</span></span>:<br/><a href="4-ts.html#SP6">&#167;6</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">at</span><span class="plain-syntax">, </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">fn</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">makes_local_references</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">packaging_state</span><span class="plain-syntax"> </span><span class="identifier-syntax">save</span><span class="plain-syntax"> = </span><a href="2-ea.html#SP2" class="function-link"><span class="function-syntax">EmitArrays::begin_unchecked</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">at</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">makes_local_references</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><a href="2-ea.html#SP4" class="function-link"><span class="function-syntax">EmitArrays::iname_entry</span></a><span class="plain-syntax">(</span><a href="2-hrr.html#SP11" class="function-link"><span class="function-syntax">Hierarchy::find</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">CONSTANT_PERISHABLE_TEXT_STORAGE_HL</span><span class="plain-syntax">));</span>
@@ -131,45 +132,44 @@ we expand this on the spot, i.e., inside the original stack frame.
 <span class="plain-syntax">    </span><a href="2-ea.html#SP5" class="function-link"><span class="function-syntax">EmitArrays::end</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">save</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Cues.</b>The "cue" for a text substitution that is not a response is its original appearance:
-like so:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Cues.</b>  The &quot;cue&quot; for a text substitution that is not a response is its original appearance:
+like so:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">let</span><span class="plain-syntax"> </span><span class="identifier-syntax">Q</span><span class="plain-syntax"> </span><span class="identifier-syntax">be</span><span class="plain-syntax"> </span><span class="string-syntax">"the [fox speed] brown fox"</span><span class="plain-syntax">;</span>
 </pre>
-<p class="commentary">When compiling this value, the following is called with <span class="extract"><span class="extract-syntax">W</span></span> being the single-word
-wording <span class="extract"><span class="extract-syntax">"the [fox speed] brown fox"</span></span>.
-</p>
-
+<div class="lsmarkdown">
+<p>When compiling this value, the following is called with <code>W</code> being the single-word
+wording <code>&quot;the [fox speed] brown fox&quot;</code>.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">TextSubstitutions::text_substitution_cue</span><span class="plain-syntax">(</span><span class="identifier-syntax">value_holster</span><span class="plain-syntax"> *</span><span class="identifier-syntax">VH</span><span class="plain-syntax">, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">text_substitution</span><span class="plain-syntax"> *</span><span class="identifier-syntax">ts</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">TextSubstitutions::text_substitution_cue</span><span class="plain-syntax">(</span><span class="identifier-syntax">value_holster</span><span class="plain-syntax"> *</span><span class="identifier-syntax">VH</span><span class="plain-syntax">, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">text_substitution</span><span class="plain-syntax"> *</span><span class="identifier-syntax">ts</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="identifier-syntax">VH</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">vhmode_wanted</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">INTER_VAL_VHMODE:</span><span class="plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="4-ts.html#SP2_1" class="named-paragraph-link"><span class="named-paragraph">Cue in value context</span><span class="named-paragraph-number">2.1</span></a></span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">INTER_DATA_VHMODE:</span><span class="plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="4-ts.html#SP2_2" class="named-paragraph-link"><span class="named-paragraph">Cue in data context</span><span class="named-paragraph-number">2.2</span></a></span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">INTER_VAL_VHMODE:</span><span class="plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="4-ts.html#SP2_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Cue in value context</span></span><span class="named-paragraph-number">2.1</span></a></span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">INTER_DATA_VHMODE:</span><span class="plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="4-ts.html#SP2_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Cue in data context</span></span><span class="named-paragraph-number">2.2</span></a></span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">default:</span><span class="plain-syntax"> </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"cue in void context"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2_1" class="paragraph-anchor"></a><b>&#167;2.1. </b>The function call to TEXT_TY_EXPANDIFPERISHABLE_HL is unnecessary in the
-case of a response to a rule, since those are never perishable.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Cue in value context</span><span class="named-paragraph-number">2.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2_1" class="paragraph-anchor"></a><b>&#167;2.1. </b>  The function call to TEXT_TY_EXPANDIFPERISHABLE_HL is unnecessary in the
+case of a response to a rule, since those are never perishable.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Cue in value context</span><span class="named-paragraph-number">2.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">stack_frame</span><span class="plain-syntax"> *</span><span class="identifier-syntax">frame</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">rule_to_which_this_is_a_response</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="4-ts.html#SP2_1_1" class="named-paragraph-link"><span class="named-paragraph">Make the TS</span><span class="named-paragraph-number">2.1.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="4-ts.html#SP2_1_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Make the TS</span></span><span class="named-paragraph-number">2.1.1</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">tin</span><span class="plain-syntax"> = </span><a href="4-ts.html#SP4" class="function-link"><span class="function-syntax">TextSubstitutions::value_iname</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">ts</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><a href="2-ec.html#SP8" class="function-link"><span class="function-syntax">EmitCode::val_iname</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K_value</span><span class="plain-syntax">, </span><span class="identifier-syntax">tin</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    } </span><span class="reserved-syntax">else</span><span class="plain-syntax"> {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">frame</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">frame</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Frames::current_stack_frame</span><span class="plain-syntax">();</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">downs</span><span class="plain-syntax"> = </span><span class="identifier-syntax">LocalParking::park</span><span class="plain-syntax">(</span><span class="identifier-syntax">frame</span><span class="plain-syntax">, </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">downs</span><span class="plain-syntax"> = </span><span class="identifier-syntax">LocalParking::park</span><span class="plain-syntax">(</span><span class="identifier-syntax">frame</span><span class="plain-syntax">, </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">frame</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Frames::boxed_frame</span><span class="plain-syntax">(</span><span class="identifier-syntax">frame</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="4-ts.html#SP2_1_1" class="named-paragraph-link"><span class="named-paragraph">Make the TS</span><span class="named-paragraph-number">2.1.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="4-ts.html#SP2_1_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Make the TS</span></span><span class="named-paragraph-number">2.1.1</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">tin</span><span class="plain-syntax"> = </span><a href="4-ts.html#SP4" class="function-link"><span class="function-syntax">TextSubstitutions::value_iname</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">ts</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><a href="2-ec.html#SP14" class="function-link"><span class="function-syntax">EmitCode::call</span></a><span class="plain-syntax">(</span><a href="2-hrr.html#SP11" class="function-link"><span class="function-syntax">Hierarchy::find</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">TEXT_TY_EXPANDIFPERISHABLE_HL</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">        </span><a href="2-ec.html#SP3" class="function-link"><span class="function-syntax">EmitCode::down</span></a><span class="plain-syntax">();</span>
@@ -180,72 +180,70 @@ case of a response to a rule, since those are never perishable.
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="4-ts.html#SP2">&#167;2</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP2_2" class="paragraph-anchor"></a><b>&#167;2.2. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Cue in data context</span><span class="named-paragraph-number">2.2</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP2_2" class="paragraph-anchor"></a><b>&#167;2.2. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Cue in data context</span><span class="named-paragraph-number">2.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">stack_frame</span><span class="plain-syntax"> *</span><span class="identifier-syntax">frame</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="4-ts.html#SP2_1_1" class="named-paragraph-link"><span class="named-paragraph">Make the TS</span><span class="named-paragraph-number">2.1.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="4-ts.html#SP2_1_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Make the TS</span></span><span class="named-paragraph-number">2.1.1</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">tin</span><span class="plain-syntax"> = </span><a href="4-ts.html#SP4" class="function-link"><span class="function-syntax">TextSubstitutions::value_iname</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">ts</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="2-emt.html#SP2" class="function-link"><span class="function-syntax">Emit::holster_iname</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">VH</span><span class="plain-syntax">, </span><span class="identifier-syntax">tin</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="4-ts.html#SP2">&#167;2</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP2_1_1" class="paragraph-anchor"></a><b>&#167;2.1.1. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Make the TS</span><span class="named-paragraph-number">2.1.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP2_1_1" class="paragraph-anchor"></a><b>&#167;2.1.1. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Make the TS</span><span class="named-paragraph-number">2.1.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">ts</span><span class="plain-syntax"> = </span><a href="4-ts.html#SP5" class="function-link"><span class="function-syntax">TextSubstitutions::new_text_substitution</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">W</span><span class="plain-syntax">, </span><span class="identifier-syntax">frame</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">rule_to_which_this_is_a_response</span><span class="plain-syntax">, </span><span class="identifier-syntax">response_marker_within_that_rule</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="4-ts.html#SP2_1">&#167;2.1</a> (twice) and <a href="4-ts.html#SP2_2">&#167;2.2</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Substitutions.</b>Each substitution creates an object like so:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Substitutions.</b>  Each substitution creates an object like so:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">text_substitution</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">unsubstituted_text</span><span class="plain-syntax">; </span><span class="comment-syntax"> including the substitutions in squares</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">tr_done_already</span><span class="plain-syntax">; </span><span class="comment-syntax"> has been compiled</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sentence_using_this</span><span class="plain-syntax">; </span><span class="comment-syntax"> where this occurs in source</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">owning_point</span><span class="plain-syntax">; </span><span class="comment-syntax"> shows which compilation unit this belongs to</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">local_names_existed_at_usage_time</span><span class="plain-syntax">; </span><span class="comment-syntax"> remember in case of problems</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">stack_frame</span><span class="plain-syntax"> *</span><span class="identifier-syntax">using_frame</span><span class="plain-syntax">; </span><span class="comment-syntax"> for cases where possible</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_substitution</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">unsubstituted_text</span><span class="plain-syntax">; </span><span class="comment-syntax">/* including the substitutions in squares */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">tr_done_already</span><span class="plain-syntax">; </span><span class="comment-syntax">/* has been compiled */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sentence_using_this</span><span class="plain-syntax">; </span><span class="comment-syntax">/* where this occurs in source */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">owning_point</span><span class="plain-syntax">; </span><span class="comment-syntax">/* shows which compilation unit this belongs to */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">local_names_existed_at_usage_time</span><span class="plain-syntax">; </span><span class="comment-syntax">/* remember in case of problems */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">stack_frame</span><span class="plain-syntax"> *</span><span class="identifier-syntax">using_frame</span><span class="plain-syntax">; </span><span class="comment-syntax">/* for cases where possible */</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">ts_value_iname</span><span class="plain-syntax">; </span><span class="comment-syntax"> the I6 array for this</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">ts_function_iname</span><span class="plain-syntax">; </span><span class="comment-syntax"> the routine to implement it</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">ts_value_iname</span><span class="plain-syntax">; </span><span class="comment-syntax">/* the I6 array for this */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">ts_function_iname</span><span class="plain-syntax">; </span><span class="comment-syntax">/* the routine to implement it */</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">rule</span><span class="plain-syntax"> *</span><span class="identifier-syntax">responding_to_rule</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">responding_to_marker</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">rule</span><span class="plain-syntax"> *</span><span class="identifier-syntax">responding_to_rule</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">responding_to_marker</span><span class="plain-syntax">;</span>
 
 <span class="plain-syntax">    </span><span class="identifier-syntax">CLASS_DEFINITION</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">text_substitution</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">text_substitution</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>The structure text_substitution is accessed in 4/rsp and here.</li></ul>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>Two inames are involved here:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  Two inames are involved here:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">                            </span><span class="identifier-syntax">small</span><span class="plain-syntax"> </span><span class="identifier-syntax">block:</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">value</span><span class="plain-syntax"> ----------------&gt; </span><span class="identifier-syntax">CONSTANT_PACKED_TEXT_STORAGE</span><span class="plain-syntax"> </span><span class="identifier-syntax">or</span><span class="plain-syntax"> </span><span class="identifier-syntax">CONSTANT_PERISHABLE_TEXT_STORAGE</span>
-<span class="plain-syntax">                            </span><span class="identifier-syntax">function</span><span class="plain-syntax"> ----------------------&gt; ...</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">value</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">---------------&gt; </span><span class="identifier-syntax">CONSTANT_PACKED_TEXT_STORAGE</span><span class="plain-syntax"> </span><span class="identifier-syntax">or</span><span class="plain-syntax"> </span><span class="identifier-syntax">CONSTANT_PERISHABLE_TEXT_STORAGE</span>
+<span class="plain-syntax">                            </span><span class="identifier-syntax">function</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">---------------------&gt; ...</span>
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="function-syntax">TextSubstitutions::value_iname</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">TextSubstitutions::value_iname</span></span>:<br/><a href="4-ts.html#SP2_1">&#167;2.1</a>, <a href="4-ts.html#SP2_2">&#167;2.2</a><br/>Responses - <a href="4-rsp.html#SP2">&#167;2</a>, <a href="4-rsp.html#SP6">&#167;6</a><br/>Dialogue Line Instances - <a href="5-dli.html#SP3_5">&#167;3.5</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">text_substitution</span><span class="plain-syntax"> *</span><span class="identifier-syntax">ts</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="function-syntax">TextSubstitutions::value_iname</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">TextSubstitutions::value_iname</span></span>:<br/><a href="4-ts.html#SP2_1">&#167;2.1</a>, <a href="4-ts.html#SP2_2">&#167;2.2</a><br/>Responses - <a href="4-rsp.html#SP2">&#167;2</a>, <a href="4-rsp.html#SP6">&#167;6</a><br/>Dialogue Line Instances - <a href="5-dli.html#SP3_5">&#167;3.5</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">text_substitution</span><span class="plain-syntax"> *</span><span class="identifier-syntax">ts</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">ts</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">ts_value_iname</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="function-syntax">TextSubstitutions::function_iname</span><span class="plain-syntax">(</span><span class="reserved-syntax">text_substitution</span><span class="plain-syntax"> *</span><span class="identifier-syntax">ts</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="function-syntax">TextSubstitutions::function_iname</span><span class="plain-syntax">(</span><span class="identifier-syntax">text_substitution</span><span class="plain-syntax"> *</span><span class="identifier-syntax">ts</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">ts</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">ts_function_iname</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>Note that this function is called both when cues are detected (above), and
-also when responses are created &mdash; see <a href="4-rsp.html" class="internal">Responses</a>.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  Note that this function is called both when cues are detected (above), and
+also when responses are created -- see <a href="4-rsp.html" class="internal">Responses</a>.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">text_substitution</span><span class="plain-syntax"> *</span><span class="function-syntax">TextSubstitutions::new_text_substitution</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">TextSubstitutions::new_text_substitution</span></span>:<br/><a href="4-ts.html#SP2_1_1">&#167;2.1.1</a><br/>Responses - <a href="4-rsp.html#SP2">&#167;2</a><br/>Dialogue Line Instances - <a href="5-dli.html#SP3_5">&#167;3.5</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">stack_frame</span><span class="plain-syntax"> *</span><span class="identifier-syntax">frame</span><span class="plain-syntax">, </span><span class="identifier-syntax">rule</span><span class="plain-syntax"> *</span><span class="identifier-syntax">R</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">marker</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">text_substitution</span><span class="plain-syntax"> *</span><span class="function-syntax">TextSubstitutions::new_text_substitution</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">TextSubstitutions::new_text_substitution</span></span>:<br/><a href="4-ts.html#SP2_1_1">&#167;2.1.1</a><br/>Responses - <a href="4-rsp.html#SP2">&#167;2</a><br/>Dialogue Line Instances - <a href="5-dli.html#SP3_5">&#167;3.5</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">stack_frame</span><span class="plain-syntax"> *</span><span class="identifier-syntax">frame</span><span class="plain-syntax">, </span><span class="identifier-syntax">rule</span><span class="plain-syntax"> *</span><span class="identifier-syntax">R</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">marker</span><span class="plain-syntax">) {</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">text_substitution</span><span class="plain-syntax"> *</span><span class="identifier-syntax">ts</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="reserved-syntax">text_substitution</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">text_substitution</span><span class="plain-syntax"> *</span><span class="identifier-syntax">ts</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="identifier-syntax">text_substitution</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">ts</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">unsubstituted_text</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Wordings::first_word</span><span class="plain-syntax">(</span><span class="identifier-syntax">W</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">ts</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">sentence_using_this</span><span class="plain-syntax"> = </span><span class="identifier-syntax">current_sentence</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">ts</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">using_frame</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
@@ -283,55 +281,54 @@ also when responses are created &mdash; see <a href="4-rsp.html" class="internal
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">ts</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Compilation.</b>Functions for substitutions are then compiled in due course by the following agent
-(see <a href="../core-module/1-htc.html" class="internal">How To Compile (in core)</a>):
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Compilation.</b>  Functions for substitutions are then compiled in due course by the following agent
+(see <a href="../core-module/1-htc.html" class="internal">How To Compile (in core)</a>):</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">compiling_text_routines_mode</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">; </span><span class="comment-syntax"> used for better problem messages</span>
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">TextSubstitutions::compilation_agent</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">TextSubstitutions::compilation_agent</span></span>:<br/><a href="4-ts.html#SP5">&#167;5</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">compilation_subtask</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">text_substitution</span><span class="plain-syntax"> *</span><span class="identifier-syntax">ts</span><span class="plain-syntax"> = </span><span class="identifier-syntax">RETRIEVE_POINTER_text_substitution</span><span class="plain-syntax">(</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">data</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">save</span><span class="plain-syntax"> = </span><span class="identifier-syntax">compiling_text_routines_mode</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">compiling_text_routines_mode</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">; </span><span class="comment-syntax">/* used for better problem messages */</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">TextSubstitutions::compilation_agent</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">TextSubstitutions::compilation_agent</span></span>:<br/><a href="4-ts.html#SP5">&#167;5</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">compilation_subtask</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">text_substitution</span><span class="plain-syntax"> *</span><span class="identifier-syntax">ts</span><span class="plain-syntax"> = </span><span class="identifier-syntax">RETRIEVE_POINTER_text_substitution</span><span class="plain-syntax">(</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">data</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">save</span><span class="plain-syntax"> = </span><span class="identifier-syntax">compiling_text_routines_mode</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">compiling_text_routines_mode</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">makes_local_refs</span><span class="plain-syntax"> = </span><a href="4-ts.html#SP7" class="function-link"><span class="function-syntax">TextSubstitutions::compile_function</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">ts</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">makes_local_refs</span><span class="plain-syntax"> = </span><a href="4-ts.html#SP7" class="function-link"><span class="function-syntax">TextSubstitutions::compile_function</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">ts</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="4-ts.html#SP1" class="function-link"><span class="function-syntax">TextSubstitutions::compile_value</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">ts</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">ts_value_iname</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">ts</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">ts_function_iname</span><span class="plain-syntax">, </span><span class="identifier-syntax">makes_local_refs</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">compiling_text_routines_mode</span><span class="plain-syntax"> = </span><span class="identifier-syntax">save</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">TextSubstitutions::currently_compiling</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">TextSubstitutions::currently_compiling</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">compiling_text_routines_mode</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>The main thing is to copy over references to local variables from the stack
-frame creating this text substitution to the stack frame compiling it.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  The main thing is to copy over references to local variables from the stack
+frame creating this text substitution to the stack frame compiling it.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">text_substitution</span><span class="plain-syntax"> *</span><span class="identifier-syntax">current_ts_being_compiled</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">TextSubstitutions::compile_function</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">TextSubstitutions::compile_function</span></span>:<br/><a href="4-ts.html#SP6">&#167;6</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">text_substitution</span><span class="plain-syntax"> *</span><span class="identifier-syntax">ts</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">text_substitution</span><span class="plain-syntax"> *</span><span class="identifier-syntax">current_ts_being_compiled</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">TextSubstitutions::compile_function</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">TextSubstitutions::compile_function</span></span>:<br/><a href="4-ts.html#SP6">&#167;6</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">text_substitution</span><span class="plain-syntax"> *</span><span class="identifier-syntax">ts</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOGIF</span><span class="plain-syntax">(</span><span class="identifier-syntax">TEXT_SUBSTITUTIONS</span><span class="plain-syntax">, </span><span class="string-syntax">"Compiling text routine %d %W\n"</span><span class="plain-syntax">, </span><span class="identifier-syntax">ts</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">allocation_id</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">ts</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">unsubstituted_text</span><span class="plain-syntax">);</span>
 
 <span class="plain-syntax">    </span><span class="identifier-syntax">current_ts_being_compiled</span><span class="plain-syntax"> = </span><span class="identifier-syntax">ts</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">packaging_state</span><span class="plain-syntax"> </span><span class="identifier-syntax">save</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Functions::begin</span><span class="plain-syntax">(</span><span class="identifier-syntax">ts</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">ts_function_iname</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">stack_frame</span><span class="plain-syntax"> *</span><span class="identifier-syntax">frame</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="4-ts.html#SP7_1" class="named-paragraph-link"><span class="named-paragraph">Give the function access to shared variables visible to its user</span><span class="named-paragraph-number">7.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="4-ts.html#SP7_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Give the function access to shared variables visible to its user</span></span><span class="named-paragraph-number">7.1</span></a></span><span class="plain-syntax">;</span>
 
 <span class="plain-syntax">    </span><span class="identifier-syntax">LocalVariables::monitor_local_parsing</span><span class="plain-syntax">(</span><span class="identifier-syntax">Frames::current_stack_frame</span><span class="plain-syntax">());</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="4-ts.html#SP7_2" class="named-paragraph-link"><span class="named-paragraph">Compile some debugging text</span><span class="named-paragraph-number">7.2</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="4-ts.html#SP7_3" class="named-paragraph-link"><span class="named-paragraph">Compile a say-phrase</span><span class="named-paragraph-number">7.3</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">makes_local_references</span><span class="plain-syntax"> =</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="4-ts.html#SP7_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Compile some debugging text</span></span><span class="named-paragraph-number">7.2</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="4-ts.html#SP7_3" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Compile a say-phrase</span></span><span class="named-paragraph-number">7.3</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">makes_local_references</span><span class="plain-syntax"> =</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">LocalVariables::local_parsed_recently</span><span class="plain-syntax">(</span><span class="identifier-syntax">Frames::current_stack_frame</span><span class="plain-syntax">());</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">makes_local_references</span><span class="plain-syntax">) </span><span class="named-paragraph-container code-font"><a href="4-ts.html#SP7_4" class="named-paragraph-link"><span class="named-paragraph">Insert code at start of function to retrieve parked values</span><span class="named-paragraph-number">7.4</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">makes_local_references</span><span class="plain-syntax">) </span><span class="named-paragraph-container code-font"><a href="4-ts.html#SP7_4" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Insert code at start of function to retrieve parked values</span></span><span class="named-paragraph-number">7.4</span></a></span><span class="plain-syntax">;</span>
 
 <span class="plain-syntax">    </span><span class="identifier-syntax">Functions::end</span><span class="plain-syntax">(</span><span class="identifier-syntax">save</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">current_ts_being_compiled</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">makes_local_references</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7_1" class="paragraph-anchor"></a><b>&#167;7.1. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Give the function access to shared variables visible to its user</span><span class="named-paragraph-number">7.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP7_1" class="paragraph-anchor"></a><b>&#167;7.1. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Give the function access to shared variables visible to its user</span><span class="named-paragraph-number">7.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">frame</span><span class="plain-syntax"> = </span><a href="4-rsp.html#SP3" class="function-link"><span class="function-syntax">Responses::frame_for_response</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">ts</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">responding_to_rule</span><span class="plain-syntax">, </span><span class="identifier-syntax">ts</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">responding_to_marker</span><span class="plain-syntax">);</span>
@@ -339,12 +336,11 @@ frame creating this text substitution to the stack frame compiling it.
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">frame</span><span class="plain-syntax">) </span><span class="identifier-syntax">LocalVariableSlates::append</span><span class="plain-syntax">(</span><span class="identifier-syntax">Frames::current_stack_frame</span><span class="plain-syntax">(), </span><span class="identifier-syntax">frame</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="4-ts.html#SP7">&#167;7</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP7_2" class="paragraph-anchor"></a><b>&#167;7.2. </b>In DEBUG mode, there's an option to print the unsubstituted text instead &mdash;
-note the <span class="extract"><span class="extract-syntax">rtrue</span></span> here, which stops the function from proceeding.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Compile some debugging text</span><span class="named-paragraph-number">7.2</span></span><span class="comment-syntax"> =</span>
-</p>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7_2" class="paragraph-anchor"></a><b>&#167;7.2. </b>  In DEBUG mode, there's an option to print the unsubstituted text instead --
+note the <code>rtrue</code> here, which stops the function from proceeding.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Compile some debugging text</span><span class="named-paragraph-number">7.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">TargetVMs::debug_enabled</span><span class="plain-syntax">(</span><span class="identifier-syntax">Task::vm</span><span class="plain-syntax">())) {</span>
@@ -373,13 +369,12 @@ note the <span class="extract"><span class="extract-syntax">rtrue</span></span> 
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="4-ts.html#SP7">&#167;7</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP7_3" class="paragraph-anchor"></a><b>&#167;7.3. </b>Of course, if we used Inform's standard phrase mechanism exactly, then
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7_3" class="paragraph-anchor"></a><b>&#167;7.3. </b>  Of course, if we used Inform's standard phrase mechanism exactly, then
 the whole thing would be circular, because that would once again generate
-a request for a new text substitution to be compiled later...
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Compile a say-phrase</span><span class="named-paragraph-number">7.3</span></span><span class="comment-syntax"> =</span>
-</p>
+a request for a new text substitution to be compiled later...</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Compile a say-phrase</span><span class="named-paragraph-number">7.3</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">ts_code_block</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Node::new</span><span class="plain-syntax">(</span><span class="identifier-syntax">IMPERATIVE_NT</span><span class="plain-syntax">);</span>
@@ -394,15 +389,14 @@ a request for a new text substitution to be compiled later...
 <span class="plain-syntax">    </span><a href="2-ec.html#SP15" class="function-link"><span class="function-syntax">EmitCode::rtrue</span></a><span class="plain-syntax">();</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="4-ts.html#SP7">&#167;7</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP7_4" class="paragraph-anchor"></a><b>&#167;7.4. </b>Where a text substitution refers to local variables in the caller,
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7_4" class="paragraph-anchor"></a><b>&#167;7.4. </b>  Where a text substitution refers to local variables in the caller,
 <a href="../imperative-module/3-lp.html" class="internal">Local Parking (in imperative)</a> is used to pass it the current values of those
 locals; and this means that the function must begin by retrieving those values.
 But since we have already compiled most of the function, we have to go back to
-the start temporarily to insert this extra code.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Insert code at start of function to retrieve parked values</span><span class="named-paragraph-number">7.4</span></span><span class="comment-syntax"> =</span>
-</p>
+the start temporarily to insert this extra code.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Insert code at start of function to retrieve parked values</span><span class="named-paragraph-number">7.4</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">Produce::push_new_code_position</span><span class="plain-syntax">(</span><a href="2-emt.html#SP1" class="function-link"><span class="function-syntax">Emit::tree</span></a><span class="plain-syntax">(),</span>
@@ -413,29 +407,29 @@ the start temporarily to insert this extra code.
 <span class="plain-syntax">    </span><span class="identifier-syntax">Produce::pop_code_position</span><span class="plain-syntax">(</span><a href="2-emt.html#SP1" class="function-link"><span class="function-syntax">Emit::tree</span></a><span class="plain-syntax">());</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="4-ts.html#SP7">&#167;7</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. It may be worth adding.</b>Finally, the following clarifies problem messages arising from the issue of
-local names being used in substitutions, since this often confuses newcomers:
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">ENDING_MESSAGE_PROBLEMS_CALLBACK</span><span class="plain-syntax"> </span><a href="4-ts.html#SP9" class="function-link"><span class="function-syntax">TextSubstitutions::append_text_substitution_proviso</span></a>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. It may be worth adding.</b>  Finally, the following clarifies problem messages arising from the issue of
+local names being used in substitutions, since this often confuses newcomers:</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <a href="4-ts.html#SP9" class="function-link"><span class="function-syntax">TextSubstitutions::append_text_substitution_proviso</span></a>
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">it_is_not_worth_adding</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">; </span><span class="comment-syntax"> To suppress the "It may be worth adding..."</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">it_is_not_worth_adding</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">; </span><span class="comment-syntax">/* To suppress the "It may be worth adding..." */</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">TextSubstitutions::is_it_worth_adding</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">TextSubstitutions::is_it_worth_adding</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">it_is_not_worth_adding</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">TextSubstitutions::it_is_worth_adding</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">TextSubstitutions::it_is_worth_adding</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">it_is_not_worth_adding</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">TextSubstitutions::it_is_not_worth_adding</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">TextSubstitutions::it_is_not_worth_adding</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">it_is_not_worth_adding</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b></p>
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">TextSubstitutions::append_text_substitution_proviso</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">TextSubstitutions::append_text_substitution_proviso</span></span>:<br/><a href="4-ts.html#SP8">&#167;8</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">TextSubstitutions::append_text_substitution_proviso</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">TextSubstitutions::append_text_substitution_proviso</span></span>:<br/><a href="4-ts.html#SP8">&#167;8</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">it_is_not_worth_adding</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">compiling_text_routines_mode</span><span class="plain-syntax"> == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">current_ts_being_compiled</span><span class="plain-syntax">) &amp;&amp;</span>

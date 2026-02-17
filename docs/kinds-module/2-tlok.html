@@ -14,17 +14,22 @@
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <script>
 MathJax = {
-	tex: {
-		inlineMath: '$', '$'], ['\\(', '\\)'
+    options: {
+    	skipHtmlTags: {'[-]': ['pre']},
+    	processHtmlClass: 'mathjax_process'
+    },
+	loader: {load: ['[tex]/texhtml']},
+  	tex: {
+		inlineMath: [ ['\\INWEBMATH(', '\\INWEBMATH)'] ],
+    	packages: {'[+]': ['texhtml']},
+    	allowTexHTML: true
 	},
 	svg: {
 		fontCache: 'global'
 	}
 };
 </script>
-<script type="text/javascript" id="MathJax-script" async
-	src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
-</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-svg.js"></script>
 
 <script>
 function togglePopup(material_id) {
@@ -75,49 +80,51 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="2-tlok.html#SP1">&#167;1. Conformance</a></li><li><a href="2-tlok.html#SP6">&#167;6. Lattice operations</a></li><li><a href="2-tlok.html#SP8">&#167;8. Compatibility</a></li><li><a href="2-tlok.html#SP13">&#167;13. Common code</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Conformance.</b>If we write \(K\leq L\) to mean that \(K\) conforms to \(L\), then \(\leq\) provides
-an ordering on kinds. For any kinds \(K, L, M\) not making use of kind variables<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>
-it is true that:
-</p>
-
-<ul class="items"><li>&#9679; \(K \leq K\) &mdash; reflexivity.
-</li><li>&#9679; If \(K\leq L\) and \(L\leq M\) then \(K\leq M\) &mdash; transitivity.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">K_nil</span></span> \(\leq K \leq\) <span class="extract"><span class="extract-syntax">value</span></span> &mdash; there are top and bottom elements.<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup>
-</li><li>&#9679; If \(K \leq L\) then a value of kind \(K\) can always be substituted for a
-value of kind \(L\) without modification &mdash; the Liskov substitution principle.<sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup>
-</li><li>&#9679; There is a join \(K\lor L\) and a meet \(K\land L\) such that
-\(K\land L\leq K, L\leq K\lor L\), where \(K\lor L\) is minimal and \(K\land L\)
-maximal with that property.
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Conformance.</b>  If we write \INWEBMATH(K\leq L\INWEBMATH) to mean that \INWEBMATH(K\INWEBMATH) conforms to \INWEBMATH(L\INWEBMATH), then \INWEBMATH(\leq\INWEBMATH) provides
+an ordering on kinds. For any kinds \INWEBMATH(K, L, M\INWEBMATH) not making use of kind variables<sup id="fnred:1"><a href="#fn:1" rel="footnote">1</a></sup>
+it is true that:</p>
+<p>(<em>) \INWEBMATH(K \leq K\INWEBMATH) -- reflexivity.
+(</em>) If \INWEBMATH(K\leq L\INWEBMATH) and \INWEBMATH(L\leq M\INWEBMATH) then \INWEBMATH(K\leq M\INWEBMATH) -- transitivity.
+(<em>) <code>K_nil</code> \INWEBMATH(\leq K \leq\INWEBMATH) <code>value</code> -- there are top and bottom elements.<sup id="fnred:2"><a href="#fn:2" rel="footnote">2</a></sup>
+(</em>) If \INWEBMATH(K \leq L\INWEBMATH) then a value of kind \INWEBMATH(K\INWEBMATH) can always be substituted for a
+value of kind \INWEBMATH(L\INWEBMATH) without modification -- the Liskov substitution principle.<sup id="fnred:3"><a href="#fn:3" rel="footnote">3</a></sup>
+(*) There is a join \INWEBMATH(K\lor L\INWEBMATH) and a meet \INWEBMATH(K\land L\INWEBMATH) such that
+\INWEBMATH(K\land L\leq K, L\leq K\lor L\INWEBMATH), where \INWEBMATH(K\lor L\INWEBMATH) is minimal and \INWEBMATH(K\land L\INWEBMATH)
+maximal with that property.</p>
+<ul class="inwebfootnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>
+Introducing kind variables complicates the picture, because whether or not
+<code>list of K</code> conforms to <code>list of arithmetic values</code> depends on the current
+value of <code>K</code> and therefore on the current context.<a href="#fnref:1" title="return to text"> &#x21A9;</a></p>
+</li>
+<li class="footnote" id="fn:2"><p class="inwebfootnote"><sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup>
+<code>K_nil</code> is a kind which exists only for kind-checking purposes, meaning
+&quot;a member of the empty set&quot;. Clearly no value can ever have this. This
+differs from <code>K_void</code>, which means &quot;the absence of a value&quot;. Neither can ever
+be the kind of a variable, of course.<a href="#fnref:2" title="return to text"> &#x21A9;</a></p>
+</li>
+<li class="footnote" id="fn:3"><p class="inwebfootnote"><sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup>
+Also known as strong behavioural subtyping. This only applies to definite
+kinds, because no value ever has an indefinite kind.<a href="#fnref:3" title="return to text"> &#x21A9;</a></p>
 </li></ul>
-<ul class="footnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> Introducing kind variables complicates the picture, because whether or not
-<span class="extract"><span class="extract-syntax">list of K</span></span> conforms to <span class="extract"><span class="extract-syntax">list of arithmetic values</span></span> depends on the current
-value of <span class="extract"><span class="extract-syntax">K</span></span> and therefore on the current context.
-<a href="#fnref:1" title="return to text"> &#x21A9;</a></p></li><li class="footnote" id="fn:2"><p class="inwebfootnote"><sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup> <span class="extract"><span class="extract-syntax">K_nil</span></span> is a kind which exists only for kind-checking purposes, meaning
-"a member of the empty set". Clearly no value can ever have this. This
-differs from <span class="extract"><span class="extract-syntax">K_void</span></span>, which means "the absence of a value". Neither can ever
-be the kind of a variable, of course.
-<a href="#fnref:2" title="return to text"> &#x21A9;</a></p></li><li class="footnote" id="fn:3"><p class="inwebfootnote"><sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup> Also known as strong behavioural subtyping. This only applies to definite
-kinds, because no value ever has an indefinite kind.
-<a href="#fnref:3" title="return to text"> &#x21A9;</a></p></li></ul>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>In general there is no guarantee of antisymmetry, i.e., that \(K\leq L\)
-and \(L\leq K\) must mean \(K = L\), nor that \(K\lor L\) or \(K\land L\) are unique.
-We could imagine creating indefinite kinds <span class="extract"><span class="extract-syntax">rhyming with lumber value</span></span> and
-<span class="extract"><span class="extract-syntax">calculator value</span></span> such that <span class="extract"><span class="extract-syntax">number</span></span> and <span class="extract"><span class="extract-syntax">real number</span></span> would conform to both.
-If so, then either one of <span class="extract"><span class="extract-syntax">rhyming with lumber value</span></span> and <span class="extract"><span class="extract-syntax">calculator value</span></span>
-could equally well serve as \(K\lor L\). The set of kinds is therefore not
-formally a lattice.
-</p>
-
-<p class="commentary">As it happens, however, Inform's choice of indefinite kinds is made in
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  In general there is no guarantee of antisymmetry, i.e., that \INWEBMATH(K\leq L\INWEBMATH)
+and \INWEBMATH(L\leq K\INWEBMATH) must mean \INWEBMATH(K = L\INWEBMATH), nor that \INWEBMATH(K\lor L\INWEBMATH) or \INWEBMATH(K\land L\INWEBMATH) are unique.
+We could imagine creating indefinite kinds <code>rhyming with lumber value</code> and
+<code>calculator value</code> such that <code>number</code> and <code>real number</code> would conform to both.
+If so, then either one of <code>rhyming with lumber value</code> and <code>calculator value</code>
+could equally well serve as \INWEBMATH(K\lor L\INWEBMATH). The set of kinds is therefore not
+formally a lattice.</p>
+<p>As it happens, however, Inform's choice of indefinite kinds is made in
 such a way that this does not happen. The upshot is that although the set of
 kinds is not necessarily a lattice, it often will be in practice, and we use
-the language of lattices &mdash; hence, words like "join" and "meet" &mdash; as a guide.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>Conformance is tested with the function <a href="2-knd.html#SP28" class="internal">Kinds::conforms_to</a>, and the
-following shows it in action.
-</p>
-
+the language of lattices -- hence, words like &quot;join&quot; and &quot;meet&quot; -- as a guide.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  Conformance is tested with the function <a href="2-knd.html#SP28" class="internal">Kinds::conforms_to</a>, and the
+following shows it in action.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">'</span><span class="element-syntax">new kind thing of object</span><span class="plain-syntax">':</span><span class="string-syntax"> ok</span>
 <span class="plain-syntax">'</span><span class="element-syntax">new kind device of thing</span><span class="plain-syntax">':</span><span class="string-syntax"> ok</span>
@@ -134,10 +141,10 @@ following shows it in action.
 <span class="plain-syntax">'</span><span class="element-syntax">list of devices &lt;= thing?</span><span class="plain-syntax">':</span><span class="string-syntax"> false</span>
 <span class="plain-syntax">'</span><span class="element-syntax">list of devices &lt;= list of things?</span><span class="plain-syntax">':</span><span class="string-syntax"> true</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>The indefinite <span class="extract"><span class="extract-syntax">arithmetic kind</span></span> used by Inform is a good example of what
-in other languages would be called a protocol. Here we see conformance:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  The indefinite <code>arithmetic kind</code> used by Inform is a good example of what
+in other languages would be called a protocol. Here we see conformance:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">'</span><span class="element-syntax">new unit length</span><span class="plain-syntax">':</span><span class="string-syntax"> ok</span>
 <span class="plain-syntax">'</span><span class="element-syntax">number &lt;= arithmetic value?</span><span class="plain-syntax">':</span><span class="string-syntax"> true</span>
@@ -148,9 +155,9 @@ in other languages would be called a protocol. Here we see conformance:
 <span class="plain-syntax">'</span><span class="element-syntax">value &lt;= arithmetic value?</span><span class="plain-syntax">':</span><span class="string-syntax"> false</span>
 <span class="plain-syntax">'</span><span class="element-syntax">arithmetic value &lt;= sayable value?</span><span class="plain-syntax">':</span><span class="string-syntax"> true</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>Here we see covariance versus contravariance:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  Here we see covariance versus contravariance:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">'</span><span class="element-syntax">new kind larger of object</span><span class="plain-syntax">':</span><span class="string-syntax"> ok</span>
 <span class="plain-syntax">'</span><span class="element-syntax">new kind smaller of larger</span><span class="plain-syntax">':</span><span class="string-syntax"> ok</span>
@@ -165,41 +172,37 @@ in other languages would be called a protocol. Here we see conformance:
 <span class="plain-syntax">'</span><span class="element-syntax">phrase text -&gt; larger &lt;= phrase text -&gt; smaller?</span><span class="plain-syntax">':</span><span class="string-syntax"> false</span>
 <span class="plain-syntax">'</span><span class="element-syntax">phrase text -&gt; smaller &lt;= phrase text -&gt; larger?</span><span class="plain-syntax">':</span><span class="string-syntax"> true</span>
 </pre>
-<ul class="items"><li>&#9679; A constructor \(\phi\) is "covariant" &mdash; meaning, goes the same way &mdash; if
-\(K\leq L\) means \(\phi(K)\leq\phi(L)\).
-</li><li>&#9679; It is "contravariant" &mdash; goes the opposite way &mdash; if \(K\leq L\) means
-\(\phi(L)\leq\phi(K)\).
-</li></ul>
-<p class="commentary">Note that "list of ..." is covariant; "phrase ... -&gt; ..." is contravariant in
+<div class="lsmarkdown">
+<p>(<em>) A constructor \INWEBMATH(\phi\INWEBMATH) is &quot;covariant&quot; -- meaning, goes the same way -- if
+\INWEBMATH(K\leq L\INWEBMATH) means \INWEBMATH(\phi(K)\leq\phi(L)\INWEBMATH).
+(</em>) It is &quot;contravariant&quot; -- goes the opposite way -- if \INWEBMATH(K\leq L\INWEBMATH) means
+\INWEBMATH(\phi(L)\leq\phi(K)\INWEBMATH).</p>
+<p>Note that &quot;list of ...&quot; is covariant; &quot;phrase ... -&gt; ...&quot; is contravariant in
 the first term, but covariant in the second. To see why, consider a function
-\(f: K\to L\), and then considering expanding or contracting the sets \(K\) and \(L\).
-It's no problem if \(L\) grows larger &mdash; \(f\) can still be used &mdash; but if \(L\)
-shrinks then \(f\) might map outside it, which is unsafe. But the reverse is true
-for \(K\). If \(K\) shrinks we can still use \(f\), but if it grows then we may not
-be able to. If \(K_1\leq K\leq K_2\) and \(L_1\leq L\leq L_2\), then a function
-\(f:K\to L\) is also a function \(K_1\to L_2\), but not \(K_2\to L_1\).
-</p>
-
-<p class="commentary">See <a href="2-tlok.html#SP13" class="internal">Latticework::order_relation</a> for more.
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">COVARIANT</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span>
-<span class="definition-keyword">define</span> <span class="constant-syntax">CONTRAVARIANT</span><span class="plain-syntax"> -1</span>
+\INWEBMATH(f: K\to L\INWEBMATH), and then considering expanding or contracting the sets \INWEBMATH(K\INWEBMATH) and \INWEBMATH(L\INWEBMATH).
+It's no problem if \INWEBMATH(L\INWEBMATH) grows larger -- \INWEBMATH(f\INWEBMATH) can still be used -- but if \INWEBMATH(L\INWEBMATH)
+shrinks then \INWEBMATH(f\INWEBMATH) might map outside it, which is unsafe. But the reverse is true
+for \INWEBMATH(K\INWEBMATH). If \INWEBMATH(K\INWEBMATH) shrinks we can still use \INWEBMATH(f\INWEBMATH), but if it grows then we may not
+be able to. If \INWEBMATH(K_1\leq K\leq K_2\INWEBMATH) and \INWEBMATH(L_1\leq L\leq L_2\INWEBMATH), then a function
+\INWEBMATH(f:K\to L\INWEBMATH) is also a function \INWEBMATH(K_1\to L_2\INWEBMATH), but not \INWEBMATH(K_2\to L_1\INWEBMATH).</p>
+<p>See <a href="2-tlok.html#SP13" class="internal">Latticework::order_relation</a> for more.</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">1</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Lattice operations.</b>Every \(K\) other than <span class="extract"><span class="extract-syntax">value</span></span>, <span class="extract"><span class="extract-syntax">K_nil</span></span> and <span class="extract"><span class="extract-syntax">K_void</span></span> has a minimal element \(K^+\)
-such that \(K\leq K^+\) but \(K\neq K^+\): we call this the "superkind" of \(K\).
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">-1</span>
+</pre>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Lattice operations.</b>  Every \INWEBMATH(K\INWEBMATH) other than <code>value</code>, <code>K_nil</code> and <code>K_void</code> has a minimal element \INWEBMATH(K^+\INWEBMATH)
+such that \INWEBMATH(K\leq K^+\INWEBMATH) but \INWEBMATH(K\neq K^+\INWEBMATH): we call this the &quot;superkind&quot; of \INWEBMATH(K\INWEBMATH).
 Assuming kinds form a lattice, this will be unique. The following function
-returns the superkind, or <span class="extract"><span class="extract-syntax">NULL</span></span> for special cases which do not have one.
-</p>
-
-<p class="commentary">It is in this function that the basic conformance facts are expressed. We
+returns the superkind, or <code>NULL</code> for special cases which do not have one.</p>
+<p>It is in this function that the basic conformance facts are expressed. We
 hard-code that for the built-in indefinite kinds, and give the client tool
 a chance to provide other conformances. For Inform, for example, the callback
-function is what tells us that the superkind of <span class="extract"><span class="extract-syntax">man</span></span> is <span class="extract"><span class="extract-syntax">person</span></span>.
-</p>
-
+function is what tells us that the superkind of <code>man</code> is <code>person</code>.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">kind</span><span class="plain-syntax"> *</span><span class="function-syntax">Latticework::super</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">Latticework::super</span></span>:<br/><a href="2-tlok.html#SP7">&#167;7</a>, <a href="2-tlok.html#SP15">&#167;15</a><br/>Kinds - <a href="2-knd.html#SP24">&#167;24</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="function-syntax">Latticework::super</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">Latticework::super</span></span>:<br/><a href="2-tlok.html#SP7">&#167;7</a>, <a href="2-tlok.html#SP15">&#167;15</a><br/>Kinds - <a href="2-knd.html#SP24">&#167;24</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-knd.html#SP27" class="function-link"><span class="function-syntax">Kinds::eq</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_real_arithmetic_value</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">K_arithmetic_value</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-knd.html#SP27" class="function-link"><span class="function-syntax">Kinds::eq</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_enumerated_value</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">K_understandable_value</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-knd.html#SP27" class="function-link"><span class="function-syntax">Kinds::eq</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_arithmetic_value</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">K_understandable_value</span><span class="plain-syntax">;</span>
@@ -211,7 +214,7 @@ function is what tells us that the superkind of <span class="extract"><span clas
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-knd.html#SP27" class="function-link"><span class="function-syntax">Kinds::eq</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_nil</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-knd.html#SP27" class="function-link"><span class="function-syntax">Kinds::eq</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_void</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    #</span><span class="identifier-syntax">ifdef</span><span class="plain-syntax"> </span><span class="identifier-syntax">HIERARCHY_GET_SUPER_KINDS_CALLBACK</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">S</span><span class="plain-syntax"> = </span><span class="identifier-syntax">HIERARCHY_GET_SUPER_KINDS_CALLBACK</span><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">S</span><span class="plain-syntax"> = </span><span class="identifier-syntax">HIERARCHY_GET_SUPER_KINDS_CALLBACK</span><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">S</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">S</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    #</span><span class="identifier-syntax">endif</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="4-kc2.html#SP24" class="function-link"><span class="function-syntax">KindConstructors::compatible</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">construct</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_real_arithmetic_value</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">construct</span><span class="plain-syntax">, </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">))</span>
@@ -231,55 +234,55 @@ function is what tells us that the superkind of <span class="extract"><span clas
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">K_value</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>Joins are defined above. So are meets, though in practice they are never useful
-to us except as a way of calculating joins: the two are dual to each other as
-they pass through contravariant constructors.
-</p>
-
-<p class="commentary">The main use of this for Inform is to handle literals such as:
-</p>
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b> </p>
 
 <blockquote>
     <p>{ 1, 2.1415, "frog" }</p>
 </blockquote>
 
-<p class="commentary">The kind of this is by definition the join of the kinds of the values in the
-list, which as it happens is <span class="extract"><span class="extract-syntax">K_sayable_value</span></span> &mdash; an indefinite kind, so that
-such a list can't be constructed as data.
-</p>
-
+<div class="lsmarkdown">
+<p>Joins are defined above. So are meets, though in practice they are never useful
+to us except as a way of calculating joins: the two are dual to each other as
+they pass through contravariant constructors.</p>
+<p>The main use of this for Inform is to handle literals such as:</p>
+</div>
+<div class="lsmarkdown">
+<p>The kind of this is by definition the join of the kinds of the values in the
+list, which as it happens is <code>K_sayable_value</code> -- an indefinite kind, so that
+such a list can't be constructed as data.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">kind</span><span class="plain-syntax"> *</span><span class="function-syntax">Latticework::join</span><span class="plain-syntax">(</span><span class="reserved-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K1</span><span class="plain-syntax">, </span><span class="reserved-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K2</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="function-syntax">Latticework::join</span><span class="plain-syntax">(</span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K1</span><span class="plain-syntax">, </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K2</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><a href="2-tlok.html#SP7" class="function-link"><span class="function-syntax">Latticework::j_or_m</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K1</span><span class="plain-syntax">, </span><span class="identifier-syntax">K2</span><span class="plain-syntax">, </span><span class="constant-syntax">1</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">kind</span><span class="plain-syntax"> *</span><span class="function-syntax">Latticework::meet</span><span class="plain-syntax">(</span><span class="reserved-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K1</span><span class="plain-syntax">, </span><span class="reserved-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K2</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><a href="2-tlok.html#SP7" class="function-link"><span class="function-syntax">Latticework::j_or_m</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K1</span><span class="plain-syntax">, </span><span class="identifier-syntax">K2</span><span class="plain-syntax">, -1);</span>
+<span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="function-syntax">Latticework::meet</span><span class="plain-syntax">(</span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K1</span><span class="plain-syntax">, </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K2</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><a href="2-tlok.html#SP7" class="function-link"><span class="function-syntax">Latticework::j_or_m</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K1</span><span class="plain-syntax">, </span><span class="identifier-syntax">K2</span><span class="plain-syntax">, </span><span class="constant-syntax">-1</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">kind</span><span class="plain-syntax"> *</span><span class="function-syntax">Latticework::j_or_m</span><span class="plain-syntax">(</span><span class="reserved-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K1</span><span class="plain-syntax">, </span><span class="reserved-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K2</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">direction</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="function-syntax">Latticework::j_or_m</span><span class="plain-syntax">(</span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K1</span><span class="plain-syntax">, </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K2</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">direction</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">K1</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">K2</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">K2</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">K1</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">kind_constructor</span><span class="plain-syntax"> *</span><span class="identifier-syntax">con</span><span class="plain-syntax"> = </span><span class="identifier-syntax">K1</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">construct</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">a1</span><span class="plain-syntax"> = </span><a href="4-kc2.html#SP17" class="function-link"><span class="function-syntax">KindConstructors::arity</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">con</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">a2</span><span class="plain-syntax"> = </span><a href="4-kc2.html#SP17" class="function-link"><span class="function-syntax">KindConstructors::arity</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K2</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">construct</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">kind_constructor</span><span class="plain-syntax"> *</span><span class="identifier-syntax">con</span><span class="plain-syntax"> = </span><span class="identifier-syntax">K1</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">construct</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">a1</span><span class="plain-syntax"> = </span><a href="4-kc2.html#SP17" class="function-link"><span class="function-syntax">KindConstructors::arity</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">con</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">a2</span><span class="plain-syntax"> = </span><a href="4-kc2.html#SP17" class="function-link"><span class="function-syntax">KindConstructors::arity</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K2</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">construct</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">a1</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) || (</span><span class="identifier-syntax">a2</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">)) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">K2</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">construct</span><span class="plain-syntax"> != </span><span class="identifier-syntax">con</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">K_value</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">ka</span><span class="plain-syntax">[</span><span class="constant-syntax">MAX_KIND_CONSTRUCTION_ARITY</span><span class="plain-syntax">] = { </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">, };</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;</span><span class="identifier-syntax">a1</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++)</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">ka</span><span class="plain-syntax">[</span><span class="constant-syntax">MAX_KIND_CONSTRUCTION_ARITY</span><span class="plain-syntax">] = { </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">, };</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;</span><span class="identifier-syntax">a1</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++)</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">con</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">variance</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">] == </span><span class="constant-syntax">COVARIANT</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">ka</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">] = </span><a href="2-tlok.html#SP7" class="function-link"><span class="function-syntax">Latticework::j_or_m</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K1</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">kc_args</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">], </span><span class="identifier-syntax">K2</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">kc_args</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">], </span><span class="identifier-syntax">direction</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">else</span>
-<span class="plain-syntax">                </span><span class="identifier-syntax">ka</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">] = </span><a href="2-tlok.html#SP7" class="function-link"><span class="function-syntax">Latticework::j_or_m</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K1</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">kc_args</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">], </span><span class="identifier-syntax">K2</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">kc_args</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">], -</span><span class="identifier-syntax">direction</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">                </span><span class="identifier-syntax">ka</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">] = </span><a href="2-tlok.html#SP7" class="function-link"><span class="function-syntax">Latticework::j_or_m</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K1</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">kc_args</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">], </span><span class="identifier-syntax">K2</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">kc_args</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">], </span><span class="constant-syntax">-</span><span class="identifier-syntax">direction</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">a1</span><span class="plain-syntax"> == </span><span class="constant-syntax">1</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><a href="2-knd.html#SP9" class="function-link"><span class="function-syntax">Kinds::unary_con</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">con</span><span class="plain-syntax">, </span><span class="identifier-syntax">ka</span><span class="plain-syntax">[0]);</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><a href="2-knd.html#SP9" class="function-link"><span class="function-syntax">Kinds::binary_con</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">con</span><span class="plain-syntax">, </span><span class="identifier-syntax">ka</span><span class="plain-syntax">[0], </span><span class="identifier-syntax">ka</span><span class="plain-syntax">[1]);</span>
 <span class="plain-syntax">    } </span><span class="reserved-syntax">else</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="2-tlok.html#SP7_1" class="named-paragraph-link"><span class="named-paragraph">Deal with nil</span><span class="named-paragraph-number">7.1</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="2-tlok.html#SP7_2" class="named-paragraph-link"><span class="named-paragraph">Deal with floating-point promotions</span><span class="named-paragraph-number">7.2</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="2-tlok.html#SP7_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Deal with nil</span></span><span class="named-paragraph-number">7.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="2-tlok.html#SP7_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Deal with floating-point promotions</span></span><span class="named-paragraph-number">7.2</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-knd.html#SP28" class="function-link"><span class="function-syntax">Kinds::conforms_to</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K1</span><span class="plain-syntax">, </span><span class="identifier-syntax">K2</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> (</span><span class="identifier-syntax">direction</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">)?</span><span class="identifier-syntax">K2:K1</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-knd.html#SP28" class="function-link"><span class="function-syntax">Kinds::conforms_to</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K2</span><span class="plain-syntax">, </span><span class="identifier-syntax">K1</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> (</span><span class="identifier-syntax">direction</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">)?</span><span class="identifier-syntax">K1:K2</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">direction</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K</span><span class="plain-syntax"> = </span><span class="identifier-syntax">K1</span><span class="plain-syntax">; </span><span class="identifier-syntax">K</span><span class="plain-syntax">; </span><span class="identifier-syntax">K</span><span class="plain-syntax"> = </span><a href="2-tlok.html#SP6" class="function-link"><span class="function-syntax">Latticework::super</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">))</span>
+<span class="plain-syntax">            </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K</span><span class="plain-syntax"> = </span><span class="identifier-syntax">K1</span><span class="plain-syntax">; </span><span class="identifier-syntax">K</span><span class="plain-syntax">; </span><span class="identifier-syntax">K</span><span class="plain-syntax"> = </span><a href="2-tlok.html#SP6" class="function-link"><span class="function-syntax">Latticework::super</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">))</span>
 <span class="plain-syntax">                </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-knd.html#SP28" class="function-link"><span class="function-syntax">Kinds::conforms_to</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K2</span><span class="plain-syntax">, </span><span class="identifier-syntax">K</span><span class="plain-syntax">))</span>
 <span class="plain-syntax">                    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">K</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">K_value</span><span class="plain-syntax">;</span>
@@ -289,27 +292,25 @@ such a list can't be constructed as data.
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7_1" class="paragraph-anchor"></a><b>&#167;7.1. </b>This ensures that \(K\land\) <span class="extract"><span class="extract-syntax">K_nil</span></span> \( = \) <span class="extract"><span class="extract-syntax">K_nil</span></span>, and that
-\(K\lor\) <span class="extract"><span class="extract-syntax">K_nil</span></span> \( = K\).
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Deal with nil</span><span class="named-paragraph-number">7.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7_1" class="paragraph-anchor"></a><b>&#167;7.1. </b>  This ensures that \INWEBMATH(K\land\INWEBMATH) <code>K_nil</code> \INWEBMATH( = \INWEBMATH) <code>K_nil</code>, and that
+\INWEBMATH(K\lor\INWEBMATH) <code>K_nil</code> \INWEBMATH( = K\INWEBMATH).</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Deal with nil</span><span class="named-paragraph-number">7.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><a href="2-knd.html#SP27" class="function-link"><span class="function-syntax">Kinds::eq</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K1</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_nil</span><span class="plain-syntax">))) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> (</span><span class="identifier-syntax">direction</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">)?</span><span class="identifier-syntax">K2:K1</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><a href="2-knd.html#SP27" class="function-link"><span class="function-syntax">Kinds::eq</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K2</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_nil</span><span class="plain-syntax">))) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> (</span><span class="identifier-syntax">direction</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">)?</span><span class="identifier-syntax">K1:K2</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-tlok.html#SP7">&#167;7</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP7_2" class="paragraph-anchor"></a><b>&#167;7.2. </b>If one of \(K_1\), \(K_2\) uses floating-point and the other doesn't, then
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7_2" class="paragraph-anchor"></a><b>&#167;7.2. </b>  If one of \INWEBMATH(K_1\INWEBMATH), \INWEBMATH(K_2\INWEBMATH) uses floating-point and the other doesn't, then
 we promote the one which doesn't before taking the join. This is useful
 when inferring the kind of a constant list or column which mixes floating-point
-and integer literals; recall that <span class="extract"><span class="extract-syntax">number</span></span> \(\not\leq\) <span class="extract"><span class="extract-syntax">real number</span></span>, so
-without this promotion there would be no way to join such kinds.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Deal with floating-point promotions</span><span class="named-paragraph-number">7.2</span></span><span class="comment-syntax"> =</span>
-</p>
+and integer literals; recall that <code>number</code> \INWEBMATH(\not\leq\INWEBMATH) <code>real number</code>, so
+without this promotion there would be no way to join such kinds.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Deal with floating-point promotions</span><span class="named-paragraph-number">7.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><a href="3-fv.html#SP2" class="function-link"><span class="function-syntax">Kinds::FloatingPoint::uses_floating_point</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K1</span><span class="plain-syntax">) == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">) &amp;&amp;</span>
@@ -322,18 +323,15 @@ without this promotion there would be no way to join such kinds.
 <span class="plain-syntax">        </span><span class="reserved-syntax">return</span><span class="plain-syntax"> (</span><span class="identifier-syntax">direction</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">)?</span><span class="identifier-syntax">K1:K2</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-tlok.html#SP7">&#167;7</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Compatibility.</b>A related but different question is "compatibility". This asks whether a
-value of kind \(K\) can be used where \(L\) is expected, but:
-</p>
-
-<ul class="items"><li>(i) It is now okay if explicit code to perform a conversion would be needed; and
-</li><li>(ii) There are now three possible answers &mdash; always, never and sometimes, where
-"sometimes" means that code can be compiled which would test compatibility at
-run time rather than compile time.
-</li></ul>
-<p class="commentary">Conformance implies compatibility but not vice versa. For example:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Compatibility.</b>  A related but different question is &quot;compatibility&quot;. This asks whether a
+value of kind \INWEBMATH(K\INWEBMATH) can be used where \INWEBMATH(L\INWEBMATH) is expected, but:</p>
+<p>(i) It is now okay if explicit code to perform a conversion would be needed; and
+(ii) There are now three possible answers -- always, never and sometimes, where
+&quot;sometimes&quot; means that code can be compiled which would test compatibility at
+run time rather than compile time.</p>
+<p>Conformance implies compatibility but not vice versa. For example:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">'</span><span class="element-syntax">new kind thing of object</span><span class="plain-syntax">':</span><span class="string-syntax"> ok</span>
 <span class="plain-syntax">'</span><span class="element-syntax">new kind device of thing</span><span class="plain-syntax">':</span><span class="string-syntax"> ok</span>
@@ -359,157 +357,154 @@ run time rather than compile time.
 <span class="plain-syntax">'</span><span class="element-syntax">first term of activity</span><span class="plain-syntax">':</span><span class="string-syntax"> nothing</span>
 <span class="plain-syntax">'</span><span class="element-syntax">activity on numbers compatible with activity on values?</span><span class="plain-syntax">':</span><span class="string-syntax"> never</span>
 </pre>
-<p class="commentary">Note that <span class="extract"><span class="extract-syntax">number</span></span> is compatible with <span class="extract"><span class="extract-syntax">real number</span></span>. Run-time code will be
-needed to convert the value, but the answer is "always". We also see that
-<span class="extract"><span class="extract-syntax">device</span></span> is always compatible with <span class="extract"><span class="extract-syntax">thing</span></span> &mdash; every device is a thing &mdash;
-but also that <span class="extract"><span class="extract-syntax">thing</span></span> is sometimes compatible with <span class="extract"><span class="extract-syntax">device</span></span>. If we pass a
+<div class="lsmarkdown">
+<p>Note that <code>number</code> is compatible with <code>real number</code>. Run-time code will be
+needed to convert the value, but the answer is &quot;always&quot;. We also see that
+<code>device</code> is always compatible with <code>thing</code> -- every device is a thing --
+but also that <code>thing</code> is sometimes compatible with <code>device</code>. If we pass a
 thing to a function expecting to see a device, run-time code can check whether
 the value passed is indeed a device, and reject the call with a run-time error
-if not.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>Kind checking can happen for many reasons, but the most difficult case
-occurs when matching phrase prototypes. This is difficult because it involves
-kind variables:
-</p>
+if not.</p>
+</div>
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b> </p>
 
 <blockquote>
     <p>To add (new entry - K) to (L - list of values of kind K) ...</p>
 </blockquote>
 
-<p class="commentary">This matches "add 23 to U" if "L" is a list of numbers, but not if it
-is a list of times.
-</p>
-
-<p class="commentary">Since kind variables can be changed only when matching phrase prototypes,
+<div class="lsmarkdown">
+<p>Kind checking can happen for many reasons, but the most difficult case
+occurs when matching phrase prototypes. This is difficult because it involves
+kind variables:</p>
+</div>
+<div class="lsmarkdown">
+<p>This matches &quot;add 23 to U&quot; if &quot;L&quot; is a list of numbers, but not if it
+is a list of times.</p>
+<p>Since kind variables can be changed only when matching phrase prototypes,
 and this is not a recursive process, we can store the current definitions
-of A to Z in a single array.
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">MAX_KIND_VARIABLES</span><span class="plain-syntax"> </span><span class="constant-syntax">27</span><span class="plain-syntax"> </span><span class="comment-syntax"> we number them from 1 (A) to 26 (Z)</span>
+of A to Z in a single array.</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">27</span><span class="plain-syntax"> </span><span class="comment-syntax">/* we number them from 1 (A) to 26 (Z) */</span>
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">values_of_kind_variables</span><span class="plain-syntax">[</span><span class="constant-syntax">MAX_KIND_VARIABLES</span><span class="plain-syntax">];</span>
+<span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">values_of_kind_variables</span><span class="plain-syntax">[</span><span class="constant-syntax">MAX_KIND_VARIABLES</span><span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b>In theory the kind-checker only needs to read the values of <span class="extract"><span class="extract-syntax">A</span></span> to <span class="extract"><span class="extract-syntax">Z</span></span>, not
-to write them. If <span class="extract"><span class="extract-syntax">Q</span></span> is currently equal to <span class="extract"><span class="extract-syntax">number</span></span>, then it should check
-kinds against <span class="extract"><span class="extract-syntax">Q</span></span> exactly as if it were checking against <span class="extract"><span class="extract-syntax">number</span></span>. It can
-indeed do this &mdash; that's the <span class="extract"><span class="extract-syntax">MATCH_KIND_VARIABLES_AS_VALUES</span></span> mode. It can
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b>  In theory the kind-checker only needs to read the values of <code>A</code> to <code>Z</code>, not
+to write them. If <code>Q</code> is currently equal to <code>number</code>, then it should check
+kinds against <code>Q</code> exactly as if it were checking against <code>number</code>. It can
+indeed do this -- that's the <code>MATCH_KIND_VARIABLES_AS_VALUES</code> mode. It can
 also ignore the values of kind variables and treat them as names, so that
-<span class="extract"><span class="extract-syntax">Q</span></span> matches only against <span class="extract"><span class="extract-syntax">Q</span></span>, regardless of its current value; that's the
-<span class="extract"><span class="extract-syntax">MATCH_KIND_VARIABLES_AS_SYMBOLS</span></span> mode. Or it can match anything
-against <span class="extract"><span class="extract-syntax">Q</span></span>, which is <span class="extract"><span class="extract-syntax">MATCH_KIND_VARIABLES_AS_UNIVERSAL</span></span> mode.
-</p>
-
-<p class="commentary">More interestingly, the kind-checker can also set the values of <span class="extract"><span class="extract-syntax">A</span></span> to <span class="extract"><span class="extract-syntax">Z</span></span>.
+<code>Q</code> matches only against <code>Q</code>, regardless of its current value; that's the
+<code>MATCH_KIND_VARIABLES_AS_SYMBOLS</code> mode. Or it can match anything
+against <code>Q</code>, which is <code>MATCH_KIND_VARIABLES_AS_UNIVERSAL</code> mode.</p>
+<p>More interestingly, the kind-checker can also set the values of <code>A</code> to <code>Z</code>.
 This is convenient since checking their correctness is more or less the same
 thing as inferring what they seem to be in a given situation. So this is
-<span class="extract"><span class="extract-syntax">MATCH_KIND_VARIABLES_INFERRING_VALUES</span></span> mode.
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">MATCH_KIND_VARIABLES_AS_SYMBOLS</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span>
-<span class="definition-keyword">define</span> <span class="constant-syntax">MATCH_KIND_VARIABLES_INFERRING_VALUES</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span>
-<span class="definition-keyword">define</span> <span class="constant-syntax">MATCH_KIND_VARIABLES_AS_VALUES</span><span class="plain-syntax"> </span><span class="constant-syntax">2</span>
-<span class="definition-keyword">define</span> <span class="constant-syntax">MATCH_KIND_VARIABLES_AS_UNIVERSAL</span><span class="plain-syntax"> </span><span class="constant-syntax">3</span>
+<code>MATCH_KIND_VARIABLES_INFERRING_VALUES</code> mode.</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">0</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">1</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">2</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">3</span>
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">kind_checker_mode</span><span class="plain-syntax"> = </span><span class="constant-syntax">MATCH_KIND_VARIABLES_AS_SYMBOLS</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">kind_checker_mode</span><span class="plain-syntax"> = </span><span class="constant-syntax">MATCH_KIND_VARIABLES_AS_SYMBOLS</span><span class="plain-syntax">;</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. </b>When the kind-checker does choose a value for a variable, it not only
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. </b>  When the kind-checker does choose a value for a variable, it not only
 sets the relevant entry in the above array but also creates a note that
 this has been done. (If a phrase is correctly matched by the specification
 matcher, a linked list of these notes is attached to the results: thus
-a match of "add 23 to U" in the example above would produce a successful
-result plus a note that <span class="extract"><span class="extract-syntax">K</span></span> has to be <span class="extract"><span class="extract-syntax">list of numbers</span></span>.)
-</p>
-
+a match of &quot;add 23 to U&quot; in the example above would produce a successful
+result plus a note that <code>K</code> has to be <code>list of numbers</code>.)</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">kind_variable_declaration</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">kv_number</span><span class="plain-syntax">; </span><span class="comment-syntax"> must be from 1 to 26</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kv_value</span><span class="plain-syntax">; </span><span class="comment-syntax"> must be a definite non-</span><span class="extract"><span class="extract-syntax">NULL</span></span><span class="comment-syntax"> kind</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">kind_variable_declaration</span><span class="plain-syntax"> *</span><span class="identifier-syntax">next</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">kind_variable_declaration</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">kv_number</span><span class="plain-syntax">; </span><span class="comment-syntax">/* must be from 1 to 26 */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kv_value</span><span class="plain-syntax">; </span><span class="comment-syntax">/* must be a definite non-|NULL| kind */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">kind_variable_declaration</span><span class="plain-syntax"> *</span><span class="identifier-syntax">next</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">CLASS_DEFINITION</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">kind_variable_declaration</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">kind_variable_declaration</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>The structure kind_variable_declaration is accessed in 3/dmn and here.</li></ul>
-<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. </b>And this little function unpacks a list of KVDs into an array of values:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. </b>  And this little function unpacks a list of KVDs into an array of values:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Latticework::unpack_kvd</span><span class="plain-syntax">(</span><span class="reserved-syntax">kind</span><span class="plain-syntax"> **</span><span class="identifier-syntax">vals</span><span class="plain-syntax">, </span><span class="reserved-syntax">kind_variable_declaration</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kvd</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;27; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) </span><span class="identifier-syntax">vals</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">] = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Latticework::unpack_kvd</span><span class="plain-syntax">(</span><span class="identifier-syntax">kind</span><span class="plain-syntax"> **</span><span class="identifier-syntax">vals</span><span class="plain-syntax">, </span><span class="identifier-syntax">kind_variable_declaration</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kvd</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;27; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) </span><span class="identifier-syntax">vals</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">] = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (; </span><span class="identifier-syntax">kvd</span><span class="plain-syntax">; </span><span class="identifier-syntax">kvd</span><span class="plain-syntax">=</span><span class="identifier-syntax">kvd</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax">) </span><span class="identifier-syntax">vals</span><span class="plain-syntax">[</span><span class="identifier-syntax">kvd</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">kv_number</span><span class="plain-syntax">] = </span><span class="identifier-syntax">kvd</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">kv_value</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. Common code.</b>So the following routine tests conformance if <span class="extract"><span class="extract-syntax">comp</span></span> is <span class="extract"><span class="extract-syntax">FALSE</span></span>, returning
-<span class="extract"><span class="extract-syntax">ALWAYS_MATCH</span></span> if and only if <span class="extract"><span class="extract-syntax">from</span></span> \(\leq\) <span class="extract"><span class="extract-syntax">to</span></span> holds; and otherwise it tests
-compatibility, returning <span class="extract"><span class="extract-syntax">ALWAYS_MATCH</span></span>, <span class="extract"><span class="extract-syntax">SOMETIMES_MATCH</span></span> or <span class="extract"><span class="extract-syntax">NEVER_MATCH</span></span>
-as appropriate.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. Common code.</b>  So the following routine tests conformance if <code>comp</code> is <code>FALSE</code>, returning
+<code>ALWAYS_MATCH</code> if and only if <code>from</code> \INWEBMATH(\leq\INWEBMATH) <code>to</code> holds; and otherwise it tests
+compatibility, returning <code>ALWAYS_MATCH</code>, <code>SOMETIMES_MATCH</code> or <code>NEVER_MATCH</code>
+as appropriate.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Latticework::order_relation</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">Latticework::order_relation</span></span>:<br/><a href="2-tlok.html#SP13_1">&#167;13.1</a>, <a href="2-tlok.html#SP13_4">&#167;13.4</a>, <a href="2-tlok.html#SP13_5_1">&#167;13.5.1</a>, <a href="2-tlok.html#SP13_5_2">&#167;13.5.2</a><br/>Kinds - <a href="2-knd.html#SP28">&#167;28</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">from</span><span class="plain-syntax">, </span><span class="reserved-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">to</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">allow_casts</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Latticework::order_relation</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">Latticework::order_relation</span></span>:<br/><a href="2-tlok.html#SP13_1">&#167;13.1</a>, <a href="2-tlok.html#SP13_4">&#167;13.4</a>, <a href="2-tlok.html#SP13_5_1">&#167;13.5.1</a>, <a href="2-tlok.html#SP13_5_2">&#167;13.5.2</a><br/>Kinds - <a href="2-knd.html#SP28">&#167;28</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">from</span><span class="plain-syntax">, </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">to</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">allow_casts</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-knd.html#SP15" class="function-link"><span class="function-syntax">Kinds::get_variable_number</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">to</span><span class="plain-syntax">) &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">var_k</span><span class="plain-syntax"> = </span><span class="identifier-syntax">to</span><span class="plain-syntax">, *</span><span class="identifier-syntax">other_k</span><span class="plain-syntax"> = </span><span class="identifier-syntax">from</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="2-tlok.html#SP13_5" class="named-paragraph-link"><span class="named-paragraph">Deal separately with matches against kind variables</span><span class="named-paragraph-number">13.5</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">var_k</span><span class="plain-syntax"> = </span><span class="identifier-syntax">to</span><span class="plain-syntax">, *</span><span class="identifier-syntax">other_k</span><span class="plain-syntax"> = </span><span class="identifier-syntax">from</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="2-tlok.html#SP13_5" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Deal separately with matches against kind variables</span></span><span class="named-paragraph-number">13.5</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-knd.html#SP15" class="function-link"><span class="function-syntax">Kinds::get_variable_number</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">from</span><span class="plain-syntax">) &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">var_k</span><span class="plain-syntax"> = </span><span class="identifier-syntax">from</span><span class="plain-syntax">, *</span><span class="identifier-syntax">other_k</span><span class="plain-syntax"> = </span><span class="identifier-syntax">to</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="2-tlok.html#SP13_5" class="named-paragraph-link"><span class="named-paragraph">Deal separately with matches against kind variables</span><span class="named-paragraph-number">13.5</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">var_k</span><span class="plain-syntax"> = </span><span class="identifier-syntax">from</span><span class="plain-syntax">, *</span><span class="identifier-syntax">other_k</span><span class="plain-syntax"> = </span><span class="identifier-syntax">to</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="2-tlok.html#SP13_5" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Deal separately with matches against kind variables</span></span><span class="named-paragraph-number">13.5</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    }</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-tlok.html#SP13_1" class="named-paragraph-link"><span class="named-paragraph">Deal separately with the sayability of lists</span><span class="named-paragraph-number">13.1</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-tlok.html#SP13_2" class="named-paragraph-link"><span class="named-paragraph">Deal separately with the top and bottom of the lattice</span><span class="named-paragraph-number">13.2</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-tlok.html#SP13_3" class="named-paragraph-link"><span class="named-paragraph">Deal separately with the special role of the unknown kind</span><span class="named-paragraph-number">13.3</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-tlok.html#SP13_4" class="named-paragraph-link"><span class="named-paragraph">The general case of compatibility</span><span class="named-paragraph-number">13.4</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-tlok.html#SP13_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Deal separately with the sayability of lists</span></span><span class="named-paragraph-number">13.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-tlok.html#SP13_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Deal separately with the top and bottom of the lattice</span></span><span class="named-paragraph-number">13.2</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-tlok.html#SP13_3" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Deal separately with the special role of the unknown kind</span></span><span class="named-paragraph-number">13.3</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-tlok.html#SP13_4" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">The general case of compatibility</span></span><span class="named-paragraph-number">13.4</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP13_1" class="paragraph-anchor"></a><b>&#167;13.1. </b>A list is sayable if and only if it is empty, or its contents are sayable.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Deal separately with the sayability of lists</span><span class="named-paragraph-number">13.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP13_1" class="paragraph-anchor"></a><b>&#167;13.1. </b>  A list is sayable if and only if it is empty, or its contents are sayable.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Deal separately with the sayability of lists</span><span class="named-paragraph-number">13.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><a href="2-knd.html#SP14" class="function-link"><span class="function-syntax">Kinds::get_construct</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">from</span><span class="plain-syntax">) == </span><span class="identifier-syntax">CON_list_of</span><span class="plain-syntax">) &amp;&amp;</span>
 <span class="plain-syntax">        (</span><a href="2-knd.html#SP27" class="function-link"><span class="function-syntax">Kinds::eq</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">to</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_sayable_value</span><span class="plain-syntax">))) {</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">CK</span><span class="plain-syntax"> = </span><a href="2-knd.html#SP17" class="function-link"><span class="function-syntax">Kinds::unary_construction_material</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">from</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">CK</span><span class="plain-syntax"> = </span><a href="2-knd.html#SP17" class="function-link"><span class="function-syntax">Kinds::unary_construction_material</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">from</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-knd.html#SP27" class="function-link"><span class="function-syntax">Kinds::eq</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">CK</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_nil</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">ALWAYS_MATCH</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">CK</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">ALWAYS_MATCH</span><span class="plain-syntax">; </span><span class="comment-syntax"> for an internal test case making dodgy lists</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">CK</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">ALWAYS_MATCH</span><span class="plain-syntax">; </span><span class="comment-syntax">/* for an internal test case making dodgy lists */</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><a href="2-tlok.html#SP13" class="function-link"><span class="function-syntax">Latticework::order_relation</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">CK</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_sayable_value</span><span class="plain-syntax">, </span><span class="identifier-syntax">allow_casts</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-tlok.html#SP13">&#167;13</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP13_2" class="paragraph-anchor"></a><b>&#167;13.2. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Deal separately with the top and bottom of the lattice</span><span class="named-paragraph-number">13.2</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP13_2" class="paragraph-anchor"></a><b>&#167;13.2. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Deal separately with the top and bottom of the lattice</span><span class="named-paragraph-number">13.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-knd.html#SP27" class="function-link"><span class="function-syntax">Kinds::eq</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">to</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_value</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">ALWAYS_MATCH</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-knd.html#SP27" class="function-link"><span class="function-syntax">Kinds::eq</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">from</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_nil</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">ALWAYS_MATCH</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-tlok.html#SP13">&#167;13</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP13_3" class="paragraph-anchor"></a><b>&#167;13.3. </b><span class="extract"><span class="extract-syntax">NULL</span></span> as a kind means "unknown". It's compatible only with itself
-and, of course, "value".
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Deal separately with the special role of the unknown kind</span><span class="named-paragraph-number">13.3</span></span><span class="comment-syntax"> =</span>
-</p>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP13_3" class="paragraph-anchor"></a><b>&#167;13.3. </b>  <code>NULL</code> as a kind means &quot;unknown&quot;. It's compatible only with itself
+and, of course, &quot;value&quot;.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Deal separately with the special role of the unknown kind</span><span class="named-paragraph-number">13.3</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">to</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">from</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">ALWAYS_MATCH</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">to</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) || (</span><span class="identifier-syntax">from</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">NEVER_MATCH</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-tlok.html#SP13">&#167;13</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP13_4" class="paragraph-anchor"></a><b>&#167;13.4. </b><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">The general case of compatibility</span><span class="named-paragraph-number">13.4</span></span><span class="comment-syntax"> =</span>
-</p>
+<p class="commentary firstcommentary"><a id="SP13_4" class="paragraph-anchor"></a><b>&#167;13.4. </b> <span class="named-paragraph-container code-font"><span class="named-paragraph-defn">The general case of compatibility</span><span class="named-paragraph-number">13.4</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">f_a</span><span class="plain-syntax"> = </span><a href="4-kc2.html#SP17" class="function-link"><span class="function-syntax">KindConstructors::arity</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">from</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">construct</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">t_a</span><span class="plain-syntax"> = </span><a href="4-kc2.html#SP17" class="function-link"><span class="function-syntax">KindConstructors::arity</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">to</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">construct</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">arity</span><span class="plain-syntax"> = (</span><span class="identifier-syntax">f_a</span><span class="plain-syntax"> &lt; </span><span class="identifier-syntax">t_a</span><span class="plain-syntax">)?</span><span class="identifier-syntax">f_a:t_a</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">o</span><span class="plain-syntax"> = </span><span class="constant-syntax">ALWAYS_MATCH</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">f_a</span><span class="plain-syntax"> = </span><a href="4-kc2.html#SP17" class="function-link"><span class="function-syntax">KindConstructors::arity</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">from</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">construct</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">t_a</span><span class="plain-syntax"> = </span><a href="4-kc2.html#SP17" class="function-link"><span class="function-syntax">KindConstructors::arity</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">to</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">construct</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">arity</span><span class="plain-syntax"> = (</span><span class="identifier-syntax">f_a</span><span class="plain-syntax"> &lt; </span><span class="identifier-syntax">t_a</span><span class="plain-syntax">)?</span><span class="identifier-syntax">f_a:t_a</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">o</span><span class="plain-syntax"> = </span><span class="constant-syntax">ALWAYS_MATCH</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">from</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">construct</span><span class="plain-syntax"> != </span><span class="identifier-syntax">to</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">construct</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">o</span><span class="plain-syntax"> = </span><a href="2-tlok.html#SP15" class="function-link"><span class="function-syntax">Latticework::construct_compatible</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">from</span><span class="plain-syntax">, </span><span class="identifier-syntax">to</span><span class="plain-syntax">, </span><span class="identifier-syntax">allow_casts</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">, </span><span class="identifier-syntax">this_o</span><span class="plain-syntax"> = </span><span class="constant-syntax">NEVER_MATCH</span><span class="plain-syntax">, </span><span class="identifier-syntax">fallen</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">, </span><span class="identifier-syntax">this_o</span><span class="plain-syntax"> = </span><span class="constant-syntax">NEVER_MATCH</span><span class="plain-syntax">, </span><span class="identifier-syntax">fallen</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;</span><span class="identifier-syntax">arity</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><a href="2-tlok.html#SP14" class="function-link"><span class="function-syntax">Latticework::vacuous</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">from</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">kc_args</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">])) &amp;&amp; (</span><a href="2-tlok.html#SP14" class="function-link"><span class="function-syntax">Latticework::vacuous</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">to</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">kc_args</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">])))</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">continue</span><span class="plain-syntax">;</span>
@@ -527,19 +522,19 @@ and, of course, "value".
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">o</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-tlok.html#SP13">&#167;13</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. </b></p>
+<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Latticework::vacuous</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">Latticework::vacuous</span></span>:<br/><a href="2-tlok.html#SP13_4">&#167;13.4</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Latticework::vacuous</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">Latticework::vacuous</span></span>:<br/><a href="2-tlok.html#SP13_4">&#167;13.4</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><a href="2-knd.html#SP27" class="function-link"><span class="function-syntax">Kinds::eq</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_nil</span><span class="plain-syntax">)) || (</span><a href="2-knd.html#SP27" class="function-link"><span class="function-syntax">Kinds::eq</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_void</span><span class="plain-syntax">))) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. </b></p>
+<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Latticework::construct_compatible</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">Latticework::construct_compatible</span></span>:<br/><a href="2-tlok.html#SP13_4">&#167;13.4</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">from</span><span class="plain-syntax">, </span><span class="reserved-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">to</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">allow_casts</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K</span><span class="plain-syntax"> = </span><span class="identifier-syntax">from</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">Latticework::construct_compatible</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">Latticework::construct_compatible</span></span>:<br/><a href="2-tlok.html#SP13_4">&#167;13.4</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">from</span><span class="plain-syntax">, </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">to</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">allow_casts</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K</span><span class="plain-syntax"> = </span><span class="identifier-syntax">from</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">while</span><span class="plain-syntax"> (</span><span class="identifier-syntax">K</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-knd.html#SP27" class="function-link"><span class="function-syntax">Kinds::eq</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">, </span><span class="identifier-syntax">to</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">ALWAYS_MATCH</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">K</span><span class="plain-syntax"> = </span><a href="2-tlok.html#SP6" class="function-link"><span class="function-syntax">Latticework::super</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">);</span>
@@ -562,24 +557,25 @@ and, of course, "value".
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">NEVER_MATCH</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP13_5" class="paragraph-anchor"></a><b>&#167;13.5. </b>Recall that kind variables are identified by a number in the range 1 ("A")
-to 26 ("Z"), and that it is also possible to assign them a domain, or a
-"declaration". This marks that they are free to take on a value, within
-that domain. For example, in
-</p>
+<p class="commentary firstcommentary"><a id="SP13_5" class="paragraph-anchor"></a><b>&#167;13.5. </b> </p>
 
 <blockquote>
     <p>To add (new entry - K) to (L - list of values of kind K) ...</p>
 </blockquote>
 
-<p class="commentary">the first appearance of <span class="extract"><span class="extract-syntax">K</span></span> will be an ordinary use of a kind variable,
-whereas the second has the declaration <span class="extract"><span class="extract-syntax">value</span></span> &mdash; meaning that it can
-become any kind matching <span class="extract"><span class="extract-syntax">value</span></span>. (It could alternatively have had a
-more restrictive declaration like <span class="extract"><span class="extract-syntax">arithmetic value</span></span>.)
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Deal separately with matches against kind variables</span><span class="named-paragraph-number">13.5</span></span><span class="comment-syntax"> =</span>
-</p>
+<div class="lsmarkdown">
+<p>Recall that kind variables are identified by a number in the range 1 (&quot;A&quot;)
+to 26 (&quot;Z&quot;), and that it is also possible to assign them a domain, or a
+&quot;declaration&quot;. This marks that they are free to take on a value, within
+that domain. For example, in</p>
+</div>
+<div class="lsmarkdown">
+<p>the first appearance of <code>K</code> will be an ordinary use of a kind variable,
+whereas the second has the declaration <code>value</code> -- meaning that it can
+become any kind matching <code>value</code>. (It could alternatively have had a
+more restrictive declaration like <code>arithmetic value</code>.)</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Deal separately with matches against kind variables</span><span class="named-paragraph-number">13.5</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax">(</span><span class="identifier-syntax">kind_checker_mode</span><span class="plain-syntax">) {</span>
@@ -589,44 +585,43 @@ more restrictive declaration like <span class="extract"><span class="extract-syn
 <span class="plain-syntax">            </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">NEVER_MATCH</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">MATCH_KIND_VARIABLES_AS_UNIVERSAL:</span><span class="plain-syntax"> </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">ALWAYS_MATCH</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">default:</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">vn</span><span class="plain-syntax"> = </span><a href="2-knd.html#SP15" class="function-link"><span class="function-syntax">Kinds::get_variable_number</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">var_k</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">            </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">vn</span><span class="plain-syntax"> = </span><a href="2-knd.html#SP15" class="function-link"><span class="function-syntax">Kinds::get_variable_number</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">var_k</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="2-knd.html#SP15" class="function-link"><span class="function-syntax">Kinds::get_variable_stipulation</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">var_k</span><span class="plain-syntax">))</span>
-<span class="plain-syntax">                </span><span class="named-paragraph-container code-font"><a href="2-tlok.html#SP13_5_1" class="named-paragraph-link"><span class="named-paragraph">Act on a declaration usage, where inference is allowed</span><span class="named-paragraph-number">13.5.1</span></a></span>
+<span class="plain-syntax">                </span><span class="named-paragraph-container code-font"><a href="2-tlok.html#SP13_5_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Act on a declaration usage, where inference is allowed</span></span><span class="named-paragraph-number">13.5.1</span></a></span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">else</span>
-<span class="plain-syntax">                </span><span class="named-paragraph-container code-font"><a href="2-tlok.html#SP13_5_2" class="named-paragraph-link"><span class="named-paragraph">Act on an ordinary usage, where inference is not allowed</span><span class="named-paragraph-number">13.5.2</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">                </span><span class="named-paragraph-container code-font"><a href="2-tlok.html#SP13_5_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Act on an ordinary usage, where inference is not allowed</span></span><span class="named-paragraph-number">13.5.2</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        }</span>
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-tlok.html#SP13">&#167;13</a> (twice).</li></ul>
-<p class="commentary firstcommentary"><a id="SP13_5_1" class="paragraph-anchor"></a><b>&#167;13.5.1. </b>When the specification matcher works on matching text such as
-</p>
+<p class="commentary firstcommentary"><a id="SP13_5_1" class="paragraph-anchor"></a><b>&#167;13.5.1. </b> </p>
 
 <blockquote>
     <p>add 23 to the scores list;</p>
 </blockquote>
 
-<p class="commentary">it works through the prototype:
-</p>
-
 <blockquote>
     <p>To add (new entry - K) to (L - list of values of kind K) ...</p>
 </blockquote>
 
-<p class="commentary">in two passes. On the first pass, it tries to match the tokens "23" and
-"scores list" against <span class="extract"><span class="extract-syntax">K</span></span> and <span class="extract"><span class="extract-syntax">list of values of kind K</span></span> respectively
-in <span class="extract"><span class="extract-syntax">MATCH_KIND_VARIABLES_INFERRING_VALUES</span></span> mode; on the second pass, it
-does the same in <span class="extract"><span class="extract-syntax">MATCH_KIND_VARIABLES_AS_VALUES</span></span> mode. In this example,
-on the first pass we infer (from the kind of "scores list", which is
-indeed a list of numbers) that <span class="extract"><span class="extract-syntax">K</span></span> must be <span class="extract"><span class="extract-syntax">number</span></span>; on the second pass
-we verify that "23" is a <span class="extract"><span class="extract-syntax">K</span></span>.
-</p>
-
-<p class="commentary">The following shows what happens matching <span class="extract"><span class="extract-syntax">values of kind K</span></span>, which is
-a declaration usage of the variable <span class="extract"><span class="extract-syntax">K</span></span>.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Act on a declaration usage, where inference is allowed</span><span class="named-paragraph-number">13.5.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<div class="lsmarkdown">
+<p>When the specification matcher works on matching text such as</p>
+</div>
+<div class="lsmarkdown">
+<p>it works through the prototype:</p>
+</div>
+<div class="lsmarkdown">
+<p>in two passes. On the first pass, it tries to match the tokens &quot;23&quot; and
+&quot;scores list&quot; against <code>K</code> and <code>list of values of kind K</code> respectively
+in <code>MATCH_KIND_VARIABLES_INFERRING_VALUES</code> mode; on the second pass, it
+does the same in <code>MATCH_KIND_VARIABLES_AS_VALUES</code> mode. In this example,
+on the first pass we infer (from the kind of &quot;scores list&quot;, which is
+indeed a list of numbers) that <code>K</code> must be <code>number</code>; on the second pass
+we verify that &quot;23&quot; is a <code>K</code>.</p>
+<p>The following shows what happens matching <code>values of kind K</code>, which is
+a declaration usage of the variable <code>K</code>.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Act on a declaration usage, where inference is allowed</span><span class="named-paragraph-number">13.5.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax">(</span><span class="identifier-syntax">kind_checker_mode</span><span class="plain-syntax">) {</span>
@@ -637,7 +632,7 @@ a declaration usage of the variable <span class="extract"><span class="extract-s
 <span class="plain-syntax">            </span><span class="identifier-syntax">LOGIF</span><span class="plain-syntax">(</span><span class="identifier-syntax">KIND_CHECKING</span><span class="plain-syntax">, </span><span class="string-syntax">"Inferring kind variable %d from %u (declaration %u)\n"</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">vn</span><span class="plain-syntax">, </span><span class="identifier-syntax">other_k</span><span class="plain-syntax">, </span><a href="2-knd.html#SP15" class="function-link"><span class="function-syntax">Kinds::get_variable_stipulation</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">var_k</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">values_of_kind_variables</span><span class="plain-syntax">[</span><span class="identifier-syntax">vn</span><span class="plain-syntax">] = </span><span class="identifier-syntax">other_k</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">kind_variable_declaration</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kvd</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="reserved-syntax">kind_variable_declaration</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">            </span><span class="identifier-syntax">kind_variable_declaration</span><span class="plain-syntax"> *</span><span class="identifier-syntax">kvd</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="identifier-syntax">kind_variable_declaration</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">kvd</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">kv_number</span><span class="plain-syntax"> = </span><span class="identifier-syntax">vn</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">kvd</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">kv_value</span><span class="plain-syntax"> = </span><span class="identifier-syntax">other_k</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">kvd</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
@@ -646,13 +641,12 @@ a declaration usage of the variable <span class="extract"><span class="extract-s
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-tlok.html#SP13_5">&#167;13.5</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP13_5_2" class="paragraph-anchor"></a><b>&#167;13.5.2. </b>Whereas this is what happens when matching just <span class="extract"><span class="extract-syntax">K</span></span>. On the inference pass,
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP13_5_2" class="paragraph-anchor"></a><b>&#167;13.5.2. </b>  Whereas this is what happens when matching just <code>K</code>. On the inference pass,
 we always make a match, which is legitimate because we know we are going to
-make a value-checking pass later.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Act on an ordinary usage, where inference is not allowed</span><span class="named-paragraph-number">13.5.2</span></span><span class="comment-syntax"> =</span>
-</p>
+make a value-checking pass later.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Act on an ordinary usage, where inference is not allowed</span><span class="named-paragraph-number">13.5.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax">(</span><span class="identifier-syntax">kind_checker_mode</span><span class="plain-syntax">) {</span>
@@ -668,25 +662,25 @@ make a value-checking pass later.
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-tlok.html#SP13_5">&#167;13.5</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. </b>It's easy to confused when writing a type checker, especially with variables
-getting in the way, so these logging functions can be helpful:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. </b>  It's easy to confused when writing a type checker, especially with variables
+getting in the way, so these logging functions can be helpful:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Latticework::show_variables</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Latticework::show_variables</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"Variables: "</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=1; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;=26; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) {</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K</span><span class="plain-syntax"> = </span><span class="identifier-syntax">values_of_kind_variables</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">];</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=1; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;=26; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) {</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K</span><span class="plain-syntax"> = </span><span class="identifier-syntax">values_of_kind_variables</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">];</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">K</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="reserved-syntax">continue</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"%c=%u "</span><span class="plain-syntax">, </span><span class="character-syntax">'A'</span><span class="plain-syntax">+</span><span class="identifier-syntax">i</span><span class="plain-syntax">-1, </span><span class="identifier-syntax">K</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"\n"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Latticework::show_frame_variables</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">shown</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=1; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;=26; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) {</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K</span><span class="plain-syntax"> = </span><a href="2-knd.html#SP26" class="function-link"><span class="function-syntax">Kinds::variable_from_context</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">i</span><span class="plain-syntax">);</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Latticework::show_frame_variables</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">shown</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=1; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;=26; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) {</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">K</span><span class="plain-syntax"> = </span><a href="2-knd.html#SP26" class="function-link"><span class="function-syntax">Kinds::variable_from_context</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">i</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">K</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">shown</span><span class="plain-syntax">++ == </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="identifier-syntax">LOGIF</span><span class="plain-syntax">(</span><span class="identifier-syntax">MATCHING</span><span class="plain-syntax">, </span><span class="string-syntax">"Stack frame uses kind variables: "</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">LOGIF</span><span class="plain-syntax">(</span><span class="identifier-syntax">MATCHING</span><span class="plain-syntax">, </span><span class="string-syntax">"%c=%u "</span><span class="plain-syntax">, </span><span class="character-syntax">'A'</span><span class="plain-syntax">+</span><span class="identifier-syntax">i</span><span class="plain-syntax">-1, </span><span class="identifier-syntax">K</span><span class="plain-syntax">);</span>

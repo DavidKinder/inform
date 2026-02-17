@@ -20,6 +20,11 @@ function togglePopup(material_id) {
 </script>
 
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -56,32 +61,30 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="2-is.html#SP1">&#167;1. Introduction</a></li><li><a href="2-is.html#SP14">&#167;14. Token insertion</a></li><li><a href="2-is.html#SP17">&#167;17. Logging</a></li><li><a href="2-is.html#SP18">&#167;18. Lint</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Introduction.</b>See <a href="P-wtmd.html" class="internal">What This Module Does</a> for an introduction to what an Inter schema is.
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Introduction.</b>  See <a href="P-wtmd.html" class="internal">What This Module Does</a> for an introduction to what an Inter schema is.
 For this section of code, it's sufficient to know that an <a href="2-is.html#SP1" class="internal">inter_schema</a>
-is an annotated syntax tree made up of <a href="2-is.html#SP3" class="internal">inter_schema_node</a> nodes.
-</p>
-
-<p class="commentary">Relatively few inter schemas are generated during Inform's run &mdash; typically a
-few hundred &mdash; so they do not need to be stored compactly or compiled quickly.
-</p>
-
+is an annotated syntax tree made up of <a href="2-is.html#SP3" class="internal">inter_schema_node</a> nodes.</p>
+<p>Relatively few inter schemas are generated during Inform's run -- typically a
+few hundred -- so they do not need to be stored compactly or compiled quickly.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">inter_schema</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">converted_from</span><span class="plain-syntax">; </span><span class="comment-syntax"> a copy of the source notation</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">node_tree</span><span class="plain-syntax">; </span><span class="comment-syntax"> the structure</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">mid_case</span><span class="plain-syntax">; </span><span class="comment-syntax"> does this seem to be used inside a switch case?</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">dereference_mode</span><span class="plain-syntax">; </span><span class="comment-syntax"> emit from this in dereference-pointers mode</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">linked_list</span><span class="plain-syntax"> *</span><span class="identifier-syntax">parsing_errors</span><span class="plain-syntax">; </span><span class="comment-syntax"> of </span><span class="extract"><span class="extract-syntax">schema_parsing_error</span></span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_provenance</span><span class="plain-syntax"> </span><span class="identifier-syntax">provenance</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_schema</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">converted_from</span><span class="plain-syntax">; </span><span class="comment-syntax">/* a copy of the source notation */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">node_tree</span><span class="plain-syntax">; </span><span class="comment-syntax">/* the structure */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">mid_case</span><span class="plain-syntax">; </span><span class="comment-syntax">/* does this seem to be used inside a switch case? */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">dereference_mode</span><span class="plain-syntax">; </span><span class="comment-syntax">/* emit from this in dereference-pointers mode */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">linked_list</span><span class="plain-syntax"> *</span><span class="identifier-syntax">parsing_errors</span><span class="plain-syntax">; </span><span class="comment-syntax">/* of |schema_parsing_error| */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_provenance</span><span class="plain-syntax"> </span><span class="identifier-syntax">provenance</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">CLASS_DEFINITION</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">inter_schema</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">inter_schema</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>The structure inter_schema is accessed in 2/pis, 2/tkn, 2/rmf, 2/eis, 2/i6se and here.</li></ul>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b></p>
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">inter_schema</span><span class="plain-syntax"> *</span><span class="function-syntax">InterSchemas::new</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::new</span></span>:<br/>Parsing Inter Schemas - <a href="2-pis.html#SP5">&#167;5</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">source</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_provenance</span><span class="plain-syntax"> </span><span class="identifier-syntax">provenance</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_schema</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sch</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="reserved-syntax">inter_schema</span><span class="plain-syntax">);</span>
+<span class="identifier-syntax">inter_schema</span><span class="plain-syntax"> *</span><span class="function-syntax">InterSchemas::new</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::new</span></span>:<br/>Parsing Inter Schemas - <a href="2-pis.html#SP5">&#167;5</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">source</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_provenance</span><span class="plain-syntax"> </span><span class="identifier-syntax">provenance</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_schema</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sch</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="identifier-syntax">inter_schema</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">sch</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">converted_from</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Str::duplicate</span><span class="plain-syntax">(</span><span class="identifier-syntax">source</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">sch</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">node_tree</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">sch</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">mid_case</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
@@ -91,55 +94,66 @@ few hundred &mdash; so they do not need to be stored compactly or compiled quick
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">sch</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>Each node has one of the following <span class="extract"><span class="extract-syntax">*_ISNT</span></span> types. (For a while eliminated nodes
-were retained in the tree but given the no-op type <span class="extract"><span class="extract-syntax">OH_NO_IT_ISNT</span></span>, but unfortunately
-we now more efficiently remove them.)
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">enum</span> <span class="constant-syntax">EXPRESSION_ISNT</span><span class="plain-syntax"> </span><span class="identifier-syntax">from</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">CODE_ISNT</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">EVAL_ISNT</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">STATEMENT_ISNT</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">OPERATION_ISNT</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">SUBEXPRESSION_ISNT</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">DIRECTIVE_ISNT</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">ASSEMBLY_ISNT</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">LABEL_ISNT</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">CALL_ISNT</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">MESSAGE_ISNT</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">CALLMESSAGE_ISNT</span>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  Each node has one of the following <code>*_ISNT</code> types. (For a while eliminated nodes
+were retained in the tree but given the no-op type <code>OH_NO_IT_ISNT</code>, but unfortunately
+we now more efficiently remove them.)</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="constant-syntax">1</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">inter_schema_node</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">inter_schema</span><span class="plain-syntax"> *</span><span class="identifier-syntax">parent_schema</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_schema_node</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_schema</span><span class="plain-syntax"> *</span><span class="identifier-syntax">parent_schema</span><span class="plain-syntax">;</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">parent_node</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">child_node</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">next_node</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">node_marked</span><span class="plain-syntax">;                                </span><span class="comment-syntax"> used fleetingly during traverses</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">parent_node</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">child_node</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">next_node</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">node_marked</span><span class="plain-syntax">;                                </span><span class="comment-syntax">/* used fleetingly during traverses */</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">isn_type</span><span class="plain-syntax">;                                   </span><span class="comment-syntax"> one of the </span><span class="extract"><span class="extract-syntax">*_ISNT</span></span><span class="comment-syntax"> values</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">isn_clarifier</span><span class="plain-syntax">;                         </span><span class="comment-syntax"> for </span><span class="extract"><span class="extract-syntax">STATEMENT_ISNT</span></span><span class="comment-syntax"> and </span><span class="extract"><span class="extract-syntax">OPERATION_ISNT</span></span><span class="comment-syntax"> only</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">dir_clarifier</span><span class="plain-syntax">;                              </span><span class="comment-syntax"> for </span><span class="extract"><span class="extract-syntax">DIRECTIVE_ISNT</span></span><span class="comment-syntax"> only</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">expression_tokens</span><span class="plain-syntax">;   </span><span class="comment-syntax"> for </span><span class="extract"><span class="extract-syntax">EXPRESSION_ISNT</span></span><span class="comment-syntax"> only</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">isn_type</span><span class="plain-syntax">;                                   </span><span class="comment-syntax">/* one of the |*_ISNT| values */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">isn_clarifier</span><span class="plain-syntax">;                         </span><span class="comment-syntax">/* for |STATEMENT_ISNT| and |OPERATION_ISNT| only */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">dir_clarifier</span><span class="plain-syntax">;                              </span><span class="comment-syntax">/* for |DIRECTIVE_ISNT| only */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">expression_tokens</span><span class="plain-syntax">;   </span><span class="comment-syntax">/* for |EXPRESSION_ISNT| only */</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">semicolon_terminated</span><span class="plain-syntax">;                       </span><span class="comment-syntax"> for </span><span class="extract"><span class="extract-syntax">EXPRESSION_ISNT</span></span><span class="comment-syntax"> only</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">unclosed</span><span class="plain-syntax">;                                   </span><span class="comment-syntax"> for </span><span class="extract"><span class="extract-syntax">CODE_ISNT</span></span><span class="comment-syntax"> only</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">unopened</span><span class="plain-syntax">;                                   </span><span class="comment-syntax"> for </span><span class="extract"><span class="extract-syntax">CODE_ISNT</span></span><span class="comment-syntax"> only</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">semicolon_terminated</span><span class="plain-syntax">;                       </span><span class="comment-syntax">/* for |EXPRESSION_ISNT| only */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">unclosed</span><span class="plain-syntax">;                                   </span><span class="comment-syntax">/* for |CODE_ISNT| only */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">unopened</span><span class="plain-syntax">;                                   </span><span class="comment-syntax">/* for |CODE_ISNT| only */</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">blocked_by_conditional</span><span class="plain-syntax">;                     </span><span class="comment-syntax"> used in code generation</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">blocked_by_conditional</span><span class="plain-syntax">;                     </span><span class="comment-syntax">/* used in code generation */</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_provenance</span><span class="plain-syntax"> </span><span class="identifier-syntax">provenance</span><span class="plain-syntax">;              </span><span class="comment-syntax"> used for error reporting</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_provenance</span><span class="plain-syntax"> </span><span class="identifier-syntax">provenance</span><span class="plain-syntax">;              </span><span class="comment-syntax">/* used for error reporting */</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">CLASS_DEFINITION</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">inter_schema_node</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">inter_schema_node</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>The structure inter_schema_node is accessed in 2/rmf, 2/eis, 2/i6se and here.</li></ul>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b></p>
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="function-syntax">InterSchemas::new_node</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::new_node</span></span>:<br/><a href="2-is.html#SP6">&#167;6</a>, <a href="2-is.html#SP14">&#167;14</a><br/>Ramification - <a href="2-rmf.html#SP4">&#167;4</a>, <a href="2-rmf.html#SP5">&#167;5</a>, <a href="2-rmf.html#SP7">&#167;7</a>, <a href="2-rmf.html#SP8">&#167;8</a>, <a href="2-rmf.html#SP10">&#167;10</a>, <a href="2-rmf.html#SP12">&#167;12</a>, <a href="2-rmf.html#SP13_1_7_2">&#167;13.1.7.2</a>, <a href="2-rmf.html#SP13_2">&#167;13.2</a>, <a href="2-rmf.html#SP13_3">&#167;13.3</a>, <a href="2-rmf.html#SP13_4_1">&#167;13.4.1</a>, <a href="2-rmf.html#SP13_4_3">&#167;13.4.3</a>, <a href="2-rmf.html#SP14">&#167;14</a>, <a href="2-rmf.html#SP17_1">&#167;17.1</a>, <a href="2-rmf.html#SP18">&#167;18</a>, <a href="2-rmf.html#SP22_2">&#167;22.2</a>, <a href="2-rmf.html#SP22_3">&#167;22.3</a>, <a href="2-rmf.html#SP24_1_1_1">&#167;24.1.1.1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">inter_schema</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sch</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">isnt</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">near_here</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">isn</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="reserved-syntax">inter_schema_node</span><span class="plain-syntax">);</span>
+<span class="identifier-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="function-syntax">InterSchemas::new_node</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::new_node</span></span>:<br/><a href="2-is.html#SP6">&#167;6</a>, <a href="2-is.html#SP14">&#167;14</a><br/>Ramification - <a href="2-rmf.html#SP4">&#167;4</a>, <a href="2-rmf.html#SP5">&#167;5</a>, <a href="2-rmf.html#SP7">&#167;7</a>, <a href="2-rmf.html#SP8">&#167;8</a>, <a href="2-rmf.html#SP10">&#167;10</a>, <a href="2-rmf.html#SP12">&#167;12</a>, <a href="2-rmf.html#SP13_1_7_2">&#167;13.1.7.2</a>, <a href="2-rmf.html#SP13_2">&#167;13.2</a>, <a href="2-rmf.html#SP13_3">&#167;13.3</a>, <a href="2-rmf.html#SP13_4_1">&#167;13.4.1</a>, <a href="2-rmf.html#SP13_4_3">&#167;13.4.3</a>, <a href="2-rmf.html#SP14">&#167;14</a>, <a href="2-rmf.html#SP17_1">&#167;17.1</a>, <a href="2-rmf.html#SP18">&#167;18</a>, <a href="2-rmf.html#SP22_2">&#167;22.2</a>, <a href="2-rmf.html#SP22_3">&#167;22.3</a>, <a href="2-rmf.html#SP24_1_1_1">&#167;24.1.1.1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_schema</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sch</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">isnt</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">near_here</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">isn</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="identifier-syntax">inter_schema_node</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">parent_schema</span><span class="plain-syntax"> = </span><span class="identifier-syntax">sch</span><span class="plain-syntax">;</span>
 
 <span class="plain-syntax">    </span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">parent_node</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
@@ -151,7 +165,7 @@ we now more efficiently remove them.)
 
 <span class="plain-syntax">    </span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">expression_tokens</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">isn_clarifier</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">dir_clarifier</span><span class="plain-syntax"> = -1;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">dir_clarifier</span><span class="plain-syntax"> = </span><span class="constant-syntax">-1</span><span class="plain-syntax">;</span>
 
 <span class="plain-syntax">    </span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">semicolon_terminated</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">unclosed</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
@@ -163,72 +177,70 @@ we now more efficiently remove them.)
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">isn</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="function-syntax">InterSchemas::new_node_near_node</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::new_node_near_node</span></span>:<br/>Ramification - <a href="2-rmf.html#SP15">&#167;15</a>, <a href="2-rmf.html#SP19">&#167;19</a>, <a href="2-rmf.html#SP25">&#167;25</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">inter_schema</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sch</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">isnt</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">near_here</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">isn</span><span class="plain-syntax"> = </span><a href="2-is.html#SP4" class="function-link"><span class="function-syntax">InterSchemas::new_node</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">sch</span><span class="plain-syntax">, </span><span class="identifier-syntax">isnt</span><span class="plain-syntax">, </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">);</span>
+<span class="identifier-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="function-syntax">InterSchemas::new_node_near_node</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::new_node_near_node</span></span>:<br/>Ramification - <a href="2-rmf.html#SP15">&#167;15</a>, <a href="2-rmf.html#SP19">&#167;19</a>, <a href="2-rmf.html#SP25">&#167;25</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_schema</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sch</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">isnt</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">near_here</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">isn</span><span class="plain-syntax"> = </span><a href="2-is.html#SP4" class="function-link"><span class="function-syntax">InterSchemas::new_node</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">sch</span><span class="plain-syntax">, </span><span class="identifier-syntax">isnt</span><span class="plain-syntax">, </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">near_here</span><span class="plain-syntax">) </span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">provenance</span><span class="plain-syntax"> = </span><span class="identifier-syntax">near_here</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">provenance</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">isn</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>Ordinarily, a <span class="extract"><span class="extract-syntax">CODE_ISNT</span></span> node represents a complete block of I6 code.
-For example, in
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  Ordinarily, a <code>CODE_ISNT</code> node represents a complete block of I6 code.
+For example, in</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">x</span><span class="plain-syntax"> == </span><span class="constant-syntax">1</span><span class="plain-syntax">) { </span><span class="reserved-syntax">print</span><span class="plain-syntax"> </span><span class="string-syntax">"Hello</span><span class="comment-syntax">; }</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">x</span><span class="plain-syntax"> == </span><span class="constant-syntax">1</span><span class="plain-syntax">) { </span><span class="reserved-syntax">print</span><span class="plain-syntax"> </span><span class="string-syntax">"Hello!"</span><span class="plain-syntax">; }</span>
 </pre>
-<p class="commentary">the print statement occurs inside a complete block, which will eventually
-be represented as a <span class="extract"><span class="extract-syntax">CODE_ISNT</span></span>. But some inline phrase definitions leave
-blocks half-open. For example,
-</p>
-
+<div class="lsmarkdown">
+<p>the print statement occurs inside a complete block, which will eventually
+be represented as a <code>CODE_ISNT</code>. But some inline phrase definitions leave
+blocks half-open. For example,</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">x</span><span class="plain-syntax"> == </span><span class="constant-syntax">1</span><span class="plain-syntax">)</span>
 </pre>
-<p class="commentary">is a legal phrase definition: we read it as
-</p>
-
+<div class="lsmarkdown">
+<p>is a legal phrase definition: we read it as</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">x</span><span class="plain-syntax"> == </span><span class="constant-syntax">1</span><span class="plain-syntax">) {</span>
 </pre>
-<p class="commentary">and the schema has to contain a <span class="extract"><span class="extract-syntax">CODE_ISNT</span></span> marked as having been left
+<div class="lsmarkdown">
+<p>and the schema has to contain a <code>CODE_ISNT</code> marked as having been left
 unclosed. Similarly, some definitions close an I6 block which is assumed
-as having been opened by an earlier phrase invocation.
-</p>
-
-<p class="commentary">Here we mark a code node as being unclosed. Clearly, if a node is unclosed
+as having been opened by an earlier phrase invocation.</p>
+<p>Here we mark a code node as being unclosed. Clearly, if a node is unclosed
 then any parent code nodes of it must also be unclosed, so we recurse
-upwards.
-</p>
-
+upwards.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InterSchemas::mark_unclosed</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::mark_unclosed</span></span>:<br/>Ramification - <a href="2-rmf.html#SP7">&#167;7</a>, <a href="2-rmf.html#SP10">&#167;10</a>, <a href="2-rmf.html#SP15">&#167;15</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">isn</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InterSchemas::mark_unclosed</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::mark_unclosed</span></span>:<br/>Ramification - <a href="2-rmf.html#SP7">&#167;7</a>, <a href="2-rmf.html#SP10">&#167;10</a>, <a href="2-rmf.html#SP15">&#167;15</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">isn</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">while</span><span class="plain-syntax"> (</span><span class="identifier-syntax">isn</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">isn_type</span><span class="plain-syntax"> == </span><span class="constant-syntax">CODE_ISNT</span><span class="plain-syntax">) </span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">unclosed</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">isn</span><span class="plain-syntax"> = </span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">parent_node</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>The situation with unopened nodes is different: we must ensure that a
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  The situation with unopened nodes is different: we must ensure that a
 single code node is left unopened, even if we have to create a code node
-at the top of the tree to serve that role.
-</p>
-
+at the top of the tree to serve that role.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InterSchemas::mark_unopened</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::mark_unopened</span></span>:<br/>Ramification - <a href="2-rmf.html#SP7">&#167;7</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">isn</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InterSchemas::mark_unopened</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::mark_unopened</span></span>:<br/>Ramification - <a href="2-rmf.html#SP7">&#167;7</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">isn</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">while</span><span class="plain-syntax"> (</span><span class="identifier-syntax">isn</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">isn_type</span><span class="plain-syntax"> == </span><span class="constant-syntax">CODE_ISNT</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">unopened</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        }</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">parent_node</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">inter_schema</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sch</span><span class="plain-syntax"> = </span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">parent_schema</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">top</span><span class="plain-syntax"> = </span><span class="identifier-syntax">sch</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">node_tree</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">code_isn</span><span class="plain-syntax"> =</span>
+<span class="plain-syntax">            </span><span class="identifier-syntax">inter_schema</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sch</span><span class="plain-syntax"> = </span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">parent_schema</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="identifier-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">top</span><span class="plain-syntax"> = </span><span class="identifier-syntax">sch</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">node_tree</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="identifier-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">code_isn</span><span class="plain-syntax"> =</span>
 <span class="plain-syntax">                </span><a href="2-is.html#SP4" class="function-link"><span class="function-syntax">InterSchemas::new_node</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">parent_schema</span><span class="plain-syntax">, </span><span class="constant-syntax">CODE_ISNT</span><span class="plain-syntax">, </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">code_isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">child_node</span><span class="plain-syntax"> = </span><span class="identifier-syntax">top</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">sch</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">node_tree</span><span class="plain-syntax"> = </span><span class="identifier-syntax">code_isn</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">n</span><span class="plain-syntax"> = </span><span class="identifier-syntax">top</span><span class="plain-syntax">; </span><span class="identifier-syntax">n</span><span class="plain-syntax">; </span><span class="identifier-syntax">n</span><span class="plain-syntax"> = </span><span class="identifier-syntax">n</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next_node</span><span class="plain-syntax">)</span>
+<span class="plain-syntax">            </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">n</span><span class="plain-syntax"> = </span><span class="identifier-syntax">top</span><span class="plain-syntax">; </span><span class="identifier-syntax">n</span><span class="plain-syntax">; </span><span class="identifier-syntax">n</span><span class="plain-syntax"> = </span><span class="identifier-syntax">n</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next_node</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">n</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">parent_node</span><span class="plain-syntax"> = </span><span class="identifier-syntax">code_isn</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">code_isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">unopened</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
@@ -237,101 +249,126 @@ at the top of the tree to serve that role.
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>A further complication is that some schemas arise from definitions used
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  A further complication is that some schemas arise from definitions used
 only in the middle of switch statements; they contain neither the start nor
 the end of the construct, so the above mechanisms are not sufficient.
-For example, the inline definition
-</p>
-
+For example, the inline definition</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    {</span><span class="identifier-syntax">X</span><span class="plain-syntax">}:</span>
 </pre>
-<p class="commentary">implies, by use of the colon, that it's a switch case. We can't conveniently
-associate this with any single node, so we mark the schema as a whole.
-</p>
-
+<div class="lsmarkdown">
+<p>implies, by use of the colon, that it's a switch case. We can't conveniently
+associate this with any single node, so we mark the schema as a whole.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InterSchemas::mark_case_closed</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::mark_case_closed</span></span>:<br/>Ramification - <a href="2-rmf.html#SP10">&#167;10</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">isn</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InterSchemas::mark_case_closed</span><button class="popup" onclick="togglePopup('usagePopup6')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup6">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::mark_case_closed</span></span>:<br/>Ramification - <a href="2-rmf.html#SP10">&#167;10</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">isn</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">isn</span><span class="plain-syntax">) </span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">parent_schema</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">mid_case</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b><span class="extract"><span class="extract-syntax">EXPRESSION_ISNT</span></span> nodes carry a linked list of tokens with them. When we
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>  <code>EXPRESSION_ISNT</code> nodes carry a linked list of tokens with them. When we
 begin compiling a schema, we form a single expression node with a long list
 of tokens: gradually this is transformed into a tree of nodes with more,
 but much shorter, expression nodes, and in the process most of the token
 types are eliminated. The following types are present only during the
-compilation process, and never survive into the final schema:
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">enum</span> <span class="constant-syntax">RAW_ISTT</span><span class="plain-syntax"> </span><span class="identifier-syntax">from</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span><span class="plain-syntax">         </span><span class="comment-syntax"> something unidentified as yet</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">WHITE_SPACE_ISTT</span><span class="plain-syntax">            </span><span class="comment-syntax"> a stretch of white space</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">RESERVED_ISTT</span><span class="plain-syntax">           </span><span class="comment-syntax"> am I6 reserved word such as </span><span class="extract"><span class="extract-syntax">while</span></span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">OPERATOR_ISTT</span><span class="plain-syntax">           </span><span class="comment-syntax"> an I6 operator such as </span><span class="extract"><span class="extract-syntax">--&gt;</span></span><span class="comment-syntax"> or </span><span class="extract"><span class="extract-syntax">+</span></span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">DIVIDER_ISTT</span><span class="plain-syntax">                </span><span class="comment-syntax"> a semicolon used to divide I6 statements</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">OPEN_ROUND_ISTT</span><span class="plain-syntax">         </span><span class="comment-syntax"> open round bracket</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">CLOSE_ROUND_ISTT</span><span class="plain-syntax">            </span><span class="comment-syntax"> close round bracket</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">OPEN_BRACE_ISTT</span><span class="plain-syntax">         </span><span class="comment-syntax"> open brace bracket</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">CLOSE_BRACE_ISTT</span><span class="plain-syntax">            </span><span class="comment-syntax"> close brace bracket</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">COMMA_ISTT</span><span class="plain-syntax">              </span><span class="comment-syntax"> comma</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">COLON_ISTT</span><span class="plain-syntax">              </span><span class="comment-syntax"> colon</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">DCOLON_ISTT</span><span class="plain-syntax">             </span><span class="comment-syntax"> double-colon</span>
+compilation process, and never survive into the final schema:</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="constant-syntax">1</span><span class="plain-syntax">           </span><span class="comment-syntax">/* something unidentified as yet */</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>Whereas these token types do make it into the compiled schema:
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">enum</span> <span class="constant-syntax">IDENTIFIER_ISTT</span><span class="plain-syntax">         </span><span class="comment-syntax"> an I6 identifier such as </span><span class="extract"><span class="extract-syntax">my_var12</span></span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">OPCODE_ISTT</span><span class="plain-syntax">             </span><span class="comment-syntax"> an Inform assembly language opcode such as </span><span class="extract"><span class="extract-syntax">@pull</span></span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">DIRECTIVE_ISTT</span><span class="plain-syntax">          </span><span class="comment-syntax"> an Inform compiler directive such as </span><span class="extract"><span class="extract-syntax">#iftrue</span></span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">NUMBER_ISTT</span><span class="plain-syntax">             </span><span class="comment-syntax"> a constant number</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">BIN_NUMBER_ISTT</span><span class="plain-syntax">         </span><span class="comment-syntax"> a constant number</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">HEX_NUMBER_ISTT</span><span class="plain-syntax">         </span><span class="comment-syntax"> a constant number</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">REAL_NUMBER_ISTT</span><span class="plain-syntax">            </span><span class="comment-syntax"> a constant number</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">DQUOTED_ISTT</span><span class="plain-syntax">                </span><span class="comment-syntax"> a constant piece of text </span><span class="extract"><span class="extract-syntax">"like this"</span></span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">SQUOTED_ISTT</span><span class="plain-syntax">                </span><span class="comment-syntax"> a constant piece of text such as </span><span class="extract"><span class="extract-syntax">'x'</span></span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">I7_ISTT</span><span class="plain-syntax">                 </span><span class="comment-syntax"> I7 material in </span><span class="extract"><span class="extract-syntax">(+ ... +)</span></span><span class="comment-syntax"> notation</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">INLINE_ISTT</span><span class="plain-syntax">             </span><span class="comment-syntax"> an inline command such as </span><span class="extract"><span class="extract-syntax">{-my:1}</span></span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">ASM_ARROW_ISTT</span><span class="plain-syntax">          </span><span class="comment-syntax"> the arrow sign </span><span class="extract"><span class="extract-syntax">-&gt;</span></span><span class="comment-syntax"> used in assembly language only</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">ASM_SP_ISTT</span><span class="plain-syntax">             </span><span class="comment-syntax"> the stack pointer pseudo-variable </span><span class="extract"><span class="extract-syntax">sp</span></span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">ASM_LABEL_ISTT</span><span class="plain-syntax">          </span><span class="comment-syntax"> the label sign </span><span class="extract"><span class="extract-syntax">?</span></span><span class="comment-syntax"> used in assembly language only</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">ASM_NEGATED_LABEL_ISTT</span><span class="plain-syntax">   </span><span class="comment-syntax"> the label sign </span><span class="extract"><span class="extract-syntax">?~</span></span><span class="comment-syntax"> used in assembly language only</span>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="comment-syntax">/* a stretch of white space */</span><span class="plain-syntax"> </span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="comment-syntax">/* am I6 reserved word such as |while| */</span><span class="plain-syntax"> </span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="comment-syntax">/* an I6 operator such as |--&gt;| or |+| */</span><span class="plain-syntax"> </span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="comment-syntax">/* a semicolon used to divide I6 statements */</span><span class="plain-syntax"> </span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="comment-syntax">/* open round bracket */</span><span class="plain-syntax"> </span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="comment-syntax">/* close round bracket */</span><span class="plain-syntax"> </span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="comment-syntax">/* open brace bracket */</span><span class="plain-syntax"> </span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="comment-syntax">/* close brace bracket */</span><span class="plain-syntax"> </span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="comment-syntax">/* comma */</span><span class="plain-syntax"> </span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="comment-syntax">/* colon */</span><span class="plain-syntax"> </span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="comment-syntax">/* double-colon */</span><span class="plain-syntax"> </span>
+</pre>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>  Whereas these token types do make it into the compiled schema:</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="comment-syntax">/* an I6 identifier such as |my_var12| */</span><span class="plain-syntax"> </span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="comment-syntax">/* an Inform assembly language opcode such as |@pull| */</span><span class="plain-syntax"> </span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="comment-syntax">/* an Inform compiler directive such as |#iftrue| */</span><span class="plain-syntax"> </span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="comment-syntax">/* a constant number */</span><span class="plain-syntax"> </span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="comment-syntax">/* a constant number */</span><span class="plain-syntax"> </span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="comment-syntax">/* a constant number */</span><span class="plain-syntax"> </span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="comment-syntax">/* a constant number */</span><span class="plain-syntax"> </span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="comment-syntax">/* a constant piece of text |"like this"| */</span><span class="plain-syntax"> </span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="comment-syntax">/* a constant piece of text such as |'x'| */</span><span class="plain-syntax"> </span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="comment-syntax">/* I7 material in |(+ ... +)| notation */</span><span class="plain-syntax"> </span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="comment-syntax">/* an inline command such as |{-my:1}| */</span><span class="plain-syntax"> </span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="comment-syntax">/* the arrow sign |-&gt;| used in assembly language only */</span><span class="plain-syntax"> </span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="comment-syntax">/* the stack pointer pseudo-variable |sp| */</span><span class="plain-syntax"> </span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="comment-syntax">/* the label sign |?| used in assembly language only */</span><span class="plain-syntax"> </span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="comment-syntax">/* the label sign |?~| used in assembly language only */</span><span class="plain-syntax"> </span>
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">inter_schema_token</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">owner</span><span class="plain-syntax">;            </span><span class="comment-syntax"> these form a linked list attached to the owner node</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">next</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_schema_token</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">owner</span><span class="plain-syntax">;            </span><span class="comment-syntax">/* these form a linked list attached to the owner node */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">next</span><span class="plain-syntax">;</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">ist_type</span><span class="plain-syntax">;                               </span><span class="comment-syntax"> one of the </span><span class="extract"><span class="extract-syntax">*_ISTT</span></span><span class="comment-syntax"> values above</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">material</span><span class="plain-syntax">;               </span><span class="comment-syntax"> textual form of token</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">ist_type</span><span class="plain-syntax">;                               </span><span class="comment-syntax">/* one of the |*_ISTT| values above */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">material</span><span class="plain-syntax">;               </span><span class="comment-syntax">/* textual form of token */</span>
 
-<span class="plain-syntax">    </span><span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">operation_primitive</span><span class="plain-syntax">;               </span><span class="comment-syntax"> </span><span class="extract"><span class="extract-syntax">OPERATOR_ISTT</span></span><span class="comment-syntax"> only: e.g. </span><span class="extract"><span class="extract-syntax">PLUS_BIP</span></span><span class="comment-syntax"> for </span><span class="extract"><span class="extract-syntax">+</span></span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">reserved_word</span><span class="plain-syntax">;                          </span><span class="comment-syntax"> </span><span class="extract"><span class="extract-syntax">RESERVED_ISTT</span></span><span class="comment-syntax"> only: which one</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">constant_number</span><span class="plain-syntax">;                        </span><span class="comment-syntax"> </span><span class="extract"><span class="extract-syntax">NUMBER_ISTT</span></span><span class="comment-syntax"> only: if non-negative, value of number</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">as_quoted</span><span class="plain-syntax">;               </span><span class="comment-syntax"> </span><span class="extract"><span class="extract-syntax">IDENTIFIER_ISTT</span></span><span class="comment-syntax"> only: the identified symbol if known</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">inline_command</span><span class="plain-syntax">;                         </span><span class="comment-syntax"> </span><span class="extract"><span class="extract-syntax">INLINE_ISTT</span></span><span class="comment-syntax"> only: one of the </span><span class="extract"><span class="extract-syntax">*_ISINC</span></span><span class="comment-syntax"> values</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">inline_modifiers</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">inline_subcommand</span><span class="plain-syntax">;                      </span><span class="comment-syntax"> </span><span class="extract"><span class="extract-syntax">INLINE_ISTT</span></span><span class="comment-syntax"> only: one of the </span><span class="extract"><span class="extract-syntax">*_ISINSC</span></span><span class="comment-syntax"> values</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">bracing</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">command</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">operand</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">operand2</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">operation_primitive</span><span class="plain-syntax">;               </span><span class="comment-syntax">/* |OPERATOR_ISTT| only: e.g. |PLUS_BIP| for |+| */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">reserved_word</span><span class="plain-syntax">;                          </span><span class="comment-syntax">/* |RESERVED_ISTT| only: which one */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">constant_number</span><span class="plain-syntax">;                        </span><span class="comment-syntax">/* |NUMBER_ISTT| only: if non-negative, value of number */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">as_quoted</span><span class="plain-syntax">;               </span><span class="comment-syntax">/* |IDENTIFIER_ISTT| only: the identified symbol if known */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">inline_command</span><span class="plain-syntax">;                         </span><span class="comment-syntax">/* |INLINE_ISTT| only: one of the |*_ISINC| values */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">inline_modifiers</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">inline_subcommand</span><span class="plain-syntax">;                      </span><span class="comment-syntax">/* |INLINE_ISTT| only: one of the |*_ISINSC| values */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">bracing</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">command</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">operand</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">operand2</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    #</span><span class="identifier-syntax">ifdef</span><span class="plain-syntax"> </span><span class="identifier-syntax">CORE_MODULE</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">extremal_property</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">extremal_property_sign</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">extremal_property</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">extremal_property_sign</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    #</span><span class="identifier-syntax">endif</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">preinsert</span><span class="plain-syntax">;                              </span><span class="comment-syntax"> fleeting markers only</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">postinsert</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">line_offset</span><span class="plain-syntax">;                            </span><span class="comment-syntax"> counting lines for error message use</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">preinsert</span><span class="plain-syntax">;                              </span><span class="comment-syntax">/* fleeting markers only */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">postinsert</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">line_offset</span><span class="plain-syntax">;                            </span><span class="comment-syntax">/* counting lines for error message use */</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">CLASS_DEFINITION</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">inter_schema_token</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="identifier-syntax">inter_schema_token</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>The structure inter_schema_token is accessed in 2/tkn, 2/rmf, 2/eis, 2/if, 2/i6a and here.</li></ul>
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b></p>
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="function-syntax">InterSchemas::new_token</span><button class="popup" onclick="togglePopup('usagePopup7')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup7">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::new_token</span></span>:<br/>Tokenisation - <a href="2-tkn.html#SP1_3">&#167;1.3</a>, <a href="2-tkn.html#SP1_4_1">&#167;1.4.1</a>, <a href="2-tkn.html#SP1_5_1">&#167;1.5.1</a>, <a href="2-tkn.html#SP1_6">&#167;1.6</a>, <a href="2-tkn.html#SP1_3_1_4">&#167;1.3.1.4</a><br/>Ramification - <a href="2-rmf.html#SP3">&#167;3</a>, <a href="2-rmf.html#SP13_1_7_1_1">&#167;13.1.7.1.1</a>, <a href="2-rmf.html#SP13_1_7_2">&#167;13.1.7.2</a>, <a href="2-rmf.html#SP13_4_2">&#167;13.4.2</a>, <a href="2-rmf.html#SP13_4_4">&#167;13.4.4</a>, <a href="2-rmf.html#SP25">&#167;25</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">type</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">material</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">operation_primitive</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">reserved_word</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">n</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">offset</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="reserved-syntax">inter_schema_token</span><span class="plain-syntax">);</span>
+<span class="identifier-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="function-syntax">InterSchemas::new_token</span><button class="popup" onclick="togglePopup('usagePopup7')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup7">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::new_token</span></span>:<br/>Tokenisation - <a href="2-tkn.html#SP1_3">&#167;1.3</a>, <a href="2-tkn.html#SP1_4_1">&#167;1.4.1</a>, <a href="2-tkn.html#SP1_5_1">&#167;1.5.1</a>, <a href="2-tkn.html#SP1_6">&#167;1.6</a>, <a href="2-tkn.html#SP1_3_1_4">&#167;1.3.1.4</a><br/>Ramification - <a href="2-rmf.html#SP3">&#167;3</a>, <a href="2-rmf.html#SP13_1_7_1_1">&#167;13.1.7.1.1</a>, <a href="2-rmf.html#SP13_1_7_2">&#167;13.1.7.2</a>, <a href="2-rmf.html#SP13_4_2">&#167;13.4.2</a>, <a href="2-rmf.html#SP13_4_4">&#167;13.4.4</a>, <a href="2-rmf.html#SP25">&#167;25</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">type</span><span class="plain-syntax">, </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">material</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_ti</span><span class="plain-syntax"> </span><span class="identifier-syntax">operation_primitive</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">reserved_word</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">n</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">offset</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="identifier-syntax">inter_schema_token</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">ist_type</span><span class="plain-syntax"> = </span><span class="identifier-syntax">type</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">material</span><span class="plain-syntax"> = </span><span class="identifier-syntax">Str::duplicate</span><span class="plain-syntax">(</span><span class="identifier-syntax">material</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">bracing</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
@@ -339,8 +376,8 @@ compilation process, and never survive into the final schema:
 <span class="plain-syntax">    </span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">operand</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">operand2</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    #</span><span class="identifier-syntax">ifdef</span><span class="plain-syntax"> </span><span class="identifier-syntax">CORE_MODULE</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">extremal_property</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax"> that is, none given</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">extremal_property_sign</span><span class="plain-syntax"> = </span><span class="identifier-syntax">MEASURE_T_EXACTLY</span><span class="plain-syntax">; </span><span class="comment-syntax"> that is, none given</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">extremal_property</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax">/* that is, none given */</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">extremal_property_sign</span><span class="plain-syntax"> = </span><span class="identifier-syntax">MEASURE_T_EXACTLY</span><span class="plain-syntax">; </span><span class="comment-syntax">/* that is, none given */</span>
 <span class="plain-syntax">    #</span><span class="identifier-syntax">endif</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">inline_command</span><span class="plain-syntax"> = </span><span class="constant-syntax">no_ISINC</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">inline_subcommand</span><span class="plain-syntax"> = </span><span class="constant-syntax">no_ISINSC</span><span class="plain-syntax">;</span>
@@ -356,218 +393,320 @@ compilation process, and never survive into the final schema:
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">t</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. </b>The value of <span class="extract"><span class="extract-syntax">reserved_word</span></span>, in a <span class="extract"><span class="extract-syntax">RESERVED_ISTT</span></span> node, must be one of:
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">enum</span> <span class="constant-syntax">IF_I6RW</span><span class="plain-syntax"> </span><span class="identifier-syntax">from</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">ELSE_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">STYLE_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">RETURN_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">RTRUE_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">RFALSE_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">FOR_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">OBJECTLOOP_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">WHILE_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">DO_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">UNTIL_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">PRINT_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">PRINTRET_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">NEWLINE_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">GIVE_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">MOVE_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">REMOVE_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">JUMP_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">SWITCH_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">DEFAULT_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">FONT_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">BREAK_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">CONTINUE_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">QUIT_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">RESTORE_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">SPACES_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">READ_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">INVERSION_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">IFDEF_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">IFNDEF_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">IFTRUE_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">IFFALSE_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">IFNOT_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">ENDIF_I6RW</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">ORIGSOURCE_I6RW</span>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. </b>  The value of <code>reserved_word</code>, in a <code>RESERVED_ISTT</code> node, must be one of:</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="constant-syntax">1</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. </b>The value of <span class="extract"><span class="extract-syntax">inline_command</span></span>, in an <span class="extract"><span class="extract-syntax">INLINE_ISTT</span></span> node, must be one of:
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">enum</span> <span class="constant-syntax">no_ISINC</span><span class="plain-syntax"> </span><span class="identifier-syntax">from</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">primitive_definition_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">new_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">new_list_of_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">printing_routine_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">next_routine_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">previous_routine_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">ranger_routine_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">indexing_routine_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">strong_kind_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">weak_kind_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">object_kind_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">backspace_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">erase_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">open_brace_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">close_brace_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">label_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">counter_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">counter_storage_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">counter_up_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">counter_down_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">counter_makes_array_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">by_reference_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">by_reference_blank_out_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">reference_exists_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">lvalue_by_reference_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">by_value_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">make_true_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">box_quotation_text_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">try_action_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">try_action_silently_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">return_value_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">return_value_from_rule_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">property_holds_block_value_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">mark_event_used_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">rtp_code_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">rtp_location_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">my_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">unprotect_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">copy_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">initialise_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">match_right_relation_domain_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">match_left_relation_domain_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">matches_description_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">now_matches_description_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">arithmetic_operation_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">say_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">show_me_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">segment_count_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">final_segment_marker_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">list_together_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">rescale_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">unknown_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">substitute_ISINC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">combine_ISINC</span>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
 </pre>
-<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. </b>The value of <span class="extract"><span class="extract-syntax">inline_subcommand</span></span>, in an <span class="extract"><span class="extract-syntax">INLINE_ISTT</span></span> node, must be one of:
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">enum</span> <span class="constant-syntax">no_ISINSC</span><span class="plain-syntax"> </span><span class="identifier-syntax">from</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">unarticled_ISINSC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">articled_ISINSC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">repeat_through_ISINSC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">repeat_through_list_ISINSC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">number_of_ISINSC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">random_of_ISINSC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">total_of_ISINSC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">extremal_ISINSC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">function_application_ISINSC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">description_application_ISINSC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">solve_equation_ISINSC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">switch_ISINSC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">break_ISINSC</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">verbose_checking_ISINSC</span>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
 </pre>
-<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. Token insertion.</b></p>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. </b>  The value of <code>inline_command</code>, in an <code>INLINE_ISTT</code> node, must be one of:</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="constant-syntax">1</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. </b>  The value of <code>inline_subcommand</code>, in an <code>INLINE_ISTT</code> node, must be one of:</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="constant-syntax">1</span>
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+</pre>
+<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. Token insertion.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InterSchemas::add_token</span><button class="popup" onclick="togglePopup('usagePopup8')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup8">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::add_token</span></span>:<br/>Tokenisation - <a href="2-tkn.html#SP1_3">&#167;1.3</a>, <a href="2-tkn.html#SP1_4_1">&#167;1.4.1</a>, <a href="2-tkn.html#SP1_5_1">&#167;1.5.1</a>, <a href="2-tkn.html#SP1_6">&#167;1.6</a>, <a href="2-tkn.html#SP1_3_1_4">&#167;1.3.1.4</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">inter_schema</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sch</span><span class="plain-syntax">, </span><span class="reserved-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InterSchemas::add_token</span><button class="popup" onclick="togglePopup('usagePopup8')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup8">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::add_token</span></span>:<br/>Tokenisation - <a href="2-tkn.html#SP1_3">&#167;1.3</a>, <a href="2-tkn.html#SP1_4_1">&#167;1.4.1</a>, <a href="2-tkn.html#SP1_5_1">&#167;1.5.1</a>, <a href="2-tkn.html#SP1_6">&#167;1.6</a>, <a href="2-tkn.html#SP1_3_1_4">&#167;1.3.1.4</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_schema</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sch</span><span class="plain-syntax">, </span><span class="identifier-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">sch</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">node_tree</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">sch</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">node_tree</span><span class="plain-syntax"> = </span><a href="2-is.html#SP4" class="function-link"><span class="function-syntax">InterSchemas::new_node</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">sch</span><span class="plain-syntax">, </span><span class="constant-syntax">EXPRESSION_ISNT</span><span class="plain-syntax">, </span><span class="identifier-syntax">t</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="2-is.html#SP14" class="function-link"><span class="function-syntax">InterSchemas::add_token_to_node</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">sch</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">node_tree</span><span class="plain-syntax">, </span><span class="identifier-syntax">t</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InterSchemas::add_token_to_node</span><button class="popup" onclick="togglePopup('usagePopup9')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup9">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::add_token_to_node</span></span>:<br/>Ramification - <a href="2-rmf.html#SP13_1_7_2">&#167;13.1.7.2</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">isn</span><span class="plain-syntax">, </span><span class="reserved-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InterSchemas::add_token_to_node</span><button class="popup" onclick="togglePopup('usagePopup9')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup9">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::add_token_to_node</span></span>:<br/>Ramification - <a href="2-rmf.html#SP13_1_7_2">&#167;13.1.7.2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">isn</span><span class="plain-syntax">, </span><span class="identifier-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">expression_tokens</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">expression_tokens</span><span class="plain-syntax"> = </span><span class="identifier-syntax">t</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">else</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">p</span><span class="plain-syntax"> = </span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">expression_tokens</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">p</span><span class="plain-syntax"> = </span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">expression_tokens</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">while</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">p</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">p</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax">)) </span><span class="identifier-syntax">p</span><span class="plain-syntax"> = </span><span class="identifier-syntax">p</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">p</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax"> = </span><span class="identifier-syntax">t</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">owner</span><span class="plain-syntax"> = </span><span class="identifier-syntax">isn</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InterSchemas::add_token_after</span><button class="popup" onclick="togglePopup('usagePopup10')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup10">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::add_token_after</span></span>:<br/>Ramification - <a href="2-rmf.html#SP3">&#167;3</a>, <a href="2-rmf.html#SP13_1_7_1_1">&#167;13.1.7.1.1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax">, </span><span class="reserved-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">existing</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InterSchemas::add_token_after</span><button class="popup" onclick="togglePopup('usagePopup10')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup10">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::add_token_after</span></span>:<br/>Ramification - <a href="2-rmf.html#SP3">&#167;3</a>, <a href="2-rmf.html#SP13_1_7_1_1">&#167;13.1.7.1.1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax">, </span><span class="identifier-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">existing</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">existing</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"can't add after null element"</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">was</span><span class="plain-syntax"> = </span><span class="identifier-syntax">existing</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">was</span><span class="plain-syntax"> = </span><span class="identifier-syntax">existing</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">existing</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax"> = </span><span class="identifier-syntax">t</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax"> = </span><span class="identifier-syntax">was</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">owner</span><span class="plain-syntax"> = </span><span class="identifier-syntax">existing</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">owner</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. </b>When more drastic things happen, we need to fix all the ownership links:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. </b>  When more drastic things happen, we need to fix all the ownership links:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InterSchemas::changed_tokens_on</span><button class="popup" onclick="togglePopup('usagePopup11')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup11">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::changed_tokens_on</span></span>:<br/>Ramification - <a href="2-rmf.html#SP4">&#167;4</a>, <a href="2-rmf.html#SP5">&#167;5</a>, <a href="2-rmf.html#SP7">&#167;7</a>, <a href="2-rmf.html#SP8">&#167;8</a>, <a href="2-rmf.html#SP10">&#167;10</a>, <a href="2-rmf.html#SP12">&#167;12</a>, <a href="2-rmf.html#SP13_2">&#167;13.2</a>, <a href="2-rmf.html#SP13_4_1">&#167;13.4.1</a>, <a href="2-rmf.html#SP13_4_3">&#167;13.4.3</a>, <a href="2-rmf.html#SP13_4_4">&#167;13.4.4</a>, <a href="2-rmf.html#SP17_1">&#167;17.1</a>, <a href="2-rmf.html#SP18">&#167;18</a>, <a href="2-rmf.html#SP22_2">&#167;22.2</a>, <a href="2-rmf.html#SP22_3">&#167;22.3</a>, <a href="2-rmf.html#SP24_1_1_1">&#167;24.1.1.1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">isn</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InterSchemas::changed_tokens_on</span><button class="popup" onclick="togglePopup('usagePopup11')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup11">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::changed_tokens_on</span></span>:<br/>Ramification - <a href="2-rmf.html#SP4">&#167;4</a>, <a href="2-rmf.html#SP5">&#167;5</a>, <a href="2-rmf.html#SP7">&#167;7</a>, <a href="2-rmf.html#SP8">&#167;8</a>, <a href="2-rmf.html#SP10">&#167;10</a>, <a href="2-rmf.html#SP12">&#167;12</a>, <a href="2-rmf.html#SP13_2">&#167;13.2</a>, <a href="2-rmf.html#SP13_4_1">&#167;13.4.1</a>, <a href="2-rmf.html#SP13_4_3">&#167;13.4.3</a>, <a href="2-rmf.html#SP13_4_4">&#167;13.4.4</a>, <a href="2-rmf.html#SP17_1">&#167;17.1</a>, <a href="2-rmf.html#SP18">&#167;18</a>, <a href="2-rmf.html#SP22_2">&#167;22.2</a>, <a href="2-rmf.html#SP22_3">&#167;22.3</a>, <a href="2-rmf.html#SP24_1_1_1">&#167;24.1.1.1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">isn</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">isn</span><span class="plain-syntax">)</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">l</span><span class="plain-syntax"> = </span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">expression_tokens</span><span class="plain-syntax">; </span><span class="identifier-syntax">l</span><span class="plain-syntax">; </span><span class="identifier-syntax">l</span><span class="plain-syntax">=</span><span class="identifier-syntax">l</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax">)</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">l</span><span class="plain-syntax"> = </span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">expression_tokens</span><span class="plain-syntax">; </span><span class="identifier-syntax">l</span><span class="plain-syntax">; </span><span class="identifier-syntax">l</span><span class="plain-syntax">=</span><span class="identifier-syntax">l</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">l</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">owner</span><span class="plain-syntax"> = </span><span class="identifier-syntax">isn</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. </b>These are useful for scanning tokens:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. </b>  These are useful for scanning tokens:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">InterSchemas::opening_reserved_word</span><button class="popup" onclick="togglePopup('usagePopup12')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup12">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::opening_reserved_word</span></span>:<br/>Ramification - <a href="2-rmf.html#SP13_1">&#167;13.1</a>, <a href="2-rmf.html#SP13_1_1">&#167;13.1.1</a>, <a href="2-rmf.html#SP13_1_4">&#167;13.1.4</a>, <a href="2-rmf.html#SP13_1_7">&#167;13.1.7</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">node</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">f</span><span class="plain-syntax"> = </span><a href="2-is.html#SP16" class="function-link"><span class="function-syntax">InterSchemas::first_dark_token</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">node</span><span class="plain-syntax">);</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">InterSchemas::opening_reserved_word</span><button class="popup" onclick="togglePopup('usagePopup12')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup12">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::opening_reserved_word</span></span>:<br/>Ramification - <a href="2-rmf.html#SP13_1">&#167;13.1</a>, <a href="2-rmf.html#SP13_1_1">&#167;13.1.1</a>, <a href="2-rmf.html#SP13_1_4">&#167;13.1.4</a>, <a href="2-rmf.html#SP13_1_7">&#167;13.1.7</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">node</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">f</span><span class="plain-syntax"> = </span><a href="2-is.html#SP16" class="function-link"><span class="function-syntax">InterSchemas::first_dark_token</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">node</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">f</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">f</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">ist_type</span><span class="plain-syntax"> == </span><span class="constant-syntax">RESERVED_ISTT</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">f</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">reserved_word</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">InterSchemas::opening_directive_word</span><button class="popup" onclick="togglePopup('usagePopup13')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup13">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::opening_directive_word</span></span>:<br/>Ramification - <a href="2-rmf.html#SP13_2">&#167;13.2</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">node</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">f</span><span class="plain-syntax"> = </span><a href="2-is.html#SP16" class="function-link"><span class="function-syntax">InterSchemas::first_dark_token</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">node</span><span class="plain-syntax">);</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">InterSchemas::opening_directive_word</span><button class="popup" onclick="togglePopup('usagePopup13')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup13">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::opening_directive_word</span></span>:<br/>Ramification - <a href="2-rmf.html#SP13_2">&#167;13.2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">node</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">f</span><span class="plain-syntax"> = </span><a href="2-is.html#SP16" class="function-link"><span class="function-syntax">InterSchemas::first_dark_token</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">node</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">f</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">f</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">ist_type</span><span class="plain-syntax"> == </span><span class="constant-syntax">DIRECTIVE_ISTT</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">f</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">reserved_word</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="function-syntax">InterSchemas::first_dark_token</span><button class="popup" onclick="togglePopup('usagePopup14')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup14">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::first_dark_token</span></span>:<br/>Ramification - <a href="2-rmf.html#SP13">&#167;13</a>, <a href="2-rmf.html#SP13_1_4">&#167;13.1.4</a>, <a href="2-rmf.html#SP13_3">&#167;13.3</a>, <a href="2-rmf.html#SP17">&#167;17</a>, <a href="2-rmf.html#SP22">&#167;22</a>, <a href="2-rmf.html#SP22_1">&#167;22.1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">node</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="function-syntax">InterSchemas::first_dark_token</span><button class="popup" onclick="togglePopup('usagePopup14')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup14">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::first_dark_token</span></span>:<br/>Ramification - <a href="2-rmf.html#SP13">&#167;13</a>, <a href="2-rmf.html#SP13_1_4">&#167;13.1.4</a>, <a href="2-rmf.html#SP13_3">&#167;13.3</a>, <a href="2-rmf.html#SP17">&#167;17</a>, <a href="2-rmf.html#SP22">&#167;22</a>, <a href="2-rmf.html#SP22_1">&#167;22.1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">node</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">node</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">n</span><span class="plain-syntax"> = </span><span class="identifier-syntax">node</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">expression_tokens</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">n</span><span class="plain-syntax"> = </span><span class="identifier-syntax">node</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">expression_tokens</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">while</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">n</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">n</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">ist_type</span><span class="plain-syntax"> == </span><span class="constant-syntax">WHITE_SPACE_ISTT</span><span class="plain-syntax">)) </span><span class="identifier-syntax">n</span><span class="plain-syntax"> = </span><span class="identifier-syntax">n</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">n</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="function-syntax">InterSchemas::next_dark_token</span><button class="popup" onclick="togglePopup('usagePopup15')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup15">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::next_dark_token</span></span>:<br/>Ramification - <a href="2-rmf.html#SP13_1_3">&#167;13.1.3</a>, <a href="2-rmf.html#SP13_1_5">&#167;13.1.5</a>, <a href="2-rmf.html#SP13_1_7">&#167;13.1.7</a>, <a href="2-rmf.html#SP13_1_8">&#167;13.1.8</a>, <a href="2-rmf.html#SP17">&#167;17</a>, <a href="2-rmf.html#SP22">&#167;22</a>, <a href="2-rmf.html#SP22_1">&#167;22.1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="function-syntax">InterSchemas::next_dark_token</span><button class="popup" onclick="togglePopup('usagePopup15')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup15">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::next_dark_token</span></span>:<br/>Ramification - <a href="2-rmf.html#SP13_1_3">&#167;13.1.3</a>, <a href="2-rmf.html#SP13_1_5">&#167;13.1.5</a>, <a href="2-rmf.html#SP13_1_7">&#167;13.1.7</a>, <a href="2-rmf.html#SP13_1_8">&#167;13.1.8</a>, <a href="2-rmf.html#SP17">&#167;17</a>, <a href="2-rmf.html#SP22">&#167;22</a>, <a href="2-rmf.html#SP22_1">&#167;22.1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">t</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">n</span><span class="plain-syntax"> = </span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">n</span><span class="plain-syntax"> = </span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">while</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">n</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">n</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">ist_type</span><span class="plain-syntax"> == </span><span class="constant-syntax">WHITE_SPACE_ISTT</span><span class="plain-syntax">)) </span><span class="identifier-syntax">n</span><span class="plain-syntax"> = </span><span class="identifier-syntax">n</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">n</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="function-syntax">InterSchemas::second_dark_token</span><button class="popup" onclick="togglePopup('usagePopup16')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup16">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::second_dark_token</span></span>:<br/>Ramification - <a href="2-rmf.html#SP13_1_1">&#167;13.1.1</a>, <a href="2-rmf.html#SP13_1_2">&#167;13.1.2</a>, <a href="2-rmf.html#SP13_1_3">&#167;13.1.3</a>, <a href="2-rmf.html#SP13_1_4">&#167;13.1.4</a>, <a href="2-rmf.html#SP13_1_5">&#167;13.1.5</a>, <a href="2-rmf.html#SP13_1_6">&#167;13.1.6</a>, <a href="2-rmf.html#SP13_1_7">&#167;13.1.7</a>, <a href="2-rmf.html#SP13_1_8">&#167;13.1.8</a>, <a href="2-rmf.html#SP13_2">&#167;13.2</a>, <a href="2-rmf.html#SP13_4_1">&#167;13.4.1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">node</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="function-syntax">InterSchemas::second_dark_token</span><button class="popup" onclick="togglePopup('usagePopup16')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup16">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::second_dark_token</span></span>:<br/>Ramification - <a href="2-rmf.html#SP13_1_1">&#167;13.1.1</a>, <a href="2-rmf.html#SP13_1_2">&#167;13.1.2</a>, <a href="2-rmf.html#SP13_1_3">&#167;13.1.3</a>, <a href="2-rmf.html#SP13_1_4">&#167;13.1.4</a>, <a href="2-rmf.html#SP13_1_5">&#167;13.1.5</a>, <a href="2-rmf.html#SP13_1_6">&#167;13.1.6</a>, <a href="2-rmf.html#SP13_1_7">&#167;13.1.7</a>, <a href="2-rmf.html#SP13_1_8">&#167;13.1.8</a>, <a href="2-rmf.html#SP13_2">&#167;13.2</a>, <a href="2-rmf.html#SP13_4_1">&#167;13.4.1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">node</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><a href="2-is.html#SP16" class="function-link"><span class="function-syntax">InterSchemas::next_dark_token</span></a><span class="plain-syntax">(</span><a href="2-is.html#SP16" class="function-link"><span class="function-syntax">InterSchemas::first_dark_token</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">node</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. Logging.</b>It is invaluable to be able to see compiled schemas in the debugging log, so
-we go to some trouble here.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. Logging.</b>  It is invaluable to be able to see compiled schemas in the debugging log, so
+we go to some trouble here.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InterSchemas::log</span><button class="popup" onclick="togglePopup('usagePopup17')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup17">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::log</span></span>:<br/>Building Module - <a href="1-bm.html#SP3_3">&#167;3.3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="reserved-syntax">void</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vis</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inter_schema</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sch</span><span class="plain-syntax"> = (</span><span class="reserved-syntax">inter_schema</span><span class="plain-syntax"> *) </span><span class="identifier-syntax">vis</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InterSchemas::log</span><button class="popup" onclick="togglePopup('usagePopup17')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup17">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::log</span></span>:<br/>Building Module - <a href="1-bm.html#SP3_3">&#167;3.3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="identifier-syntax">void</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vis</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">inter_schema</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sch</span><span class="plain-syntax"> = (</span><span class="identifier-syntax">inter_schema</span><span class="plain-syntax"> *) </span><span class="identifier-syntax">vis</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">sch</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"&lt;null schema&gt;\n"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">sch</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">node_tree</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"&lt;schema without nodes&gt;\n"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><a href="2-is.html#SP17" class="function-link"><span class="function-syntax">InterSchemas::log_depth</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">sch</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">node_tree</span><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InterSchemas::log_depth</span><span class="plain-syntax">(</span><span class="reserved-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">isn</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">depth</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InterSchemas::log_depth</span><span class="plain-syntax">(</span><span class="identifier-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">isn</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">depth</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (; </span><span class="identifier-syntax">isn</span><span class="plain-syntax">; </span><span class="identifier-syntax">isn</span><span class="plain-syntax">=</span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next_node</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><a href="2-is.html#SP17" class="function-link"><span class="function-syntax">InterSchemas::log_just</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">isn</span><span class="plain-syntax">, </span><span class="identifier-syntax">depth</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InterSchemas::log_just</span><button class="popup" onclick="togglePopup('usagePopup18')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup18">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::log_just</span></span>:<br/>Emitting Inter Schemas - <a href="2-eis.html#SP2_1">&#167;2.1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">isn</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">depth</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InterSchemas::log_just</span><button class="popup" onclick="togglePopup('usagePopup18')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup18">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::log_just</span></span>:<br/>Emitting Inter Schemas - <a href="2-eis.html#SP2_1">&#167;2.1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">isn</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">depth</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Provenance::is_somewhere</span><span class="plain-syntax">(</span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">provenance</span><span class="plain-syntax">)) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"%04d "</span><span class="plain-syntax">, </span><span class="identifier-syntax">Provenance::get_line</span><span class="plain-syntax">(</span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">provenance</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">    } </span><span class="reserved-syntax">else</span><span class="plain-syntax"> {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">".... "</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">blocked_by_conditional</span><span class="plain-syntax">) </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"XX"</span><span class="plain-syntax">); </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"  "</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">d</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">; </span><span class="identifier-syntax">d</span><span class="plain-syntax"> &lt; </span><span class="identifier-syntax">depth</span><span class="plain-syntax">; </span><span class="identifier-syntax">d</span><span class="plain-syntax">++) </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"    "</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">d</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">; </span><span class="identifier-syntax">d</span><span class="plain-syntax"> &lt; </span><span class="identifier-syntax">depth</span><span class="plain-syntax">; </span><span class="identifier-syntax">d</span><span class="plain-syntax">++) </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"    "</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">isn_type</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">STATEMENT_ISNT:</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"* (statement) %S\n"</span><span class="plain-syntax">, </span><a href="1-ip.html#SP5" class="function-link"><span class="function-syntax">Primitives::BIP_to_name</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">isn_clarifier</span><span class="plain-syntax">));</span>
@@ -623,13 +762,13 @@ we go to some trouble here.
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">unopened</span><span class="plain-syntax">) </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">" &gt;"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">expression_tokens</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">" - empty"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"\n"</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax"> = </span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">expression_tokens</span><span class="plain-syntax">; </span><span class="identifier-syntax">t</span><span class="plain-syntax">; </span><span class="identifier-syntax">t</span><span class="plain-syntax">=</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">            </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax"> = </span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">expression_tokens</span><span class="plain-syntax">; </span><span class="identifier-syntax">t</span><span class="plain-syntax">; </span><span class="identifier-syntax">t</span><span class="plain-syntax">=</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">                </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Provenance::is_somewhere</span><span class="plain-syntax">(</span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">provenance</span><span class="plain-syntax">)) {</span>
 <span class="plain-syntax">                    </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"%04d "</span><span class="plain-syntax">, </span><span class="identifier-syntax">Provenance::get_line</span><span class="plain-syntax">(</span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">provenance</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">                } </span><span class="reserved-syntax">else</span><span class="plain-syntax"> {</span>
 <span class="plain-syntax">                    </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">".... "</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">                }</span>
-<span class="plain-syntax">                </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">d</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">; </span><span class="identifier-syntax">d</span><span class="plain-syntax"> &lt; </span><span class="identifier-syntax">depth</span><span class="plain-syntax"> + </span><span class="constant-syntax">1</span><span class="plain-syntax">; </span><span class="identifier-syntax">d</span><span class="plain-syntax">++) </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"    "</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">                </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">d</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">; </span><span class="identifier-syntax">d</span><span class="plain-syntax"> &lt; </span><span class="identifier-syntax">depth</span><span class="plain-syntax"> + </span><span class="constant-syntax">1</span><span class="plain-syntax">; </span><span class="identifier-syntax">d</span><span class="plain-syntax">++) </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"    "</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">                </span><a href="2-is.html#SP17" class="function-link"><span class="function-syntax">InterSchemas::log_ist</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">t</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">                </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">isn</span><span class="plain-syntax"> != </span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">owner</span><span class="plain-syntax">) </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">" !!! ownership incorrect here"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"\n"</span><span class="plain-syntax">);</span>
@@ -639,7 +778,7 @@ we go to some trouble here.
 <span class="plain-syntax">    </span><a href="2-is.html#SP17" class="function-link"><span class="function-syntax">InterSchemas::log_depth</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">child_node</span><span class="plain-syntax">, </span><span class="identifier-syntax">depth</span><span class="plain-syntax">+1);</span>
 <span class="plain-syntax">}</span>
 
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InterSchemas::log_ist</span><span class="plain-syntax">(</span><span class="reserved-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InterSchemas::log_ist</span><span class="plain-syntax">(</span><span class="identifier-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">t</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) { </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"&lt;NULL-IST&gt;"</span><span class="plain-syntax">); </span><span class="reserved-syntax">return</span><span class="plain-syntax">; }</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">ist_type</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">RAW_ISTT:</span><span class="plain-syntax">          </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"RAW         "</span><span class="plain-syntax">); </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
@@ -672,22 +811,22 @@ we go to some trouble here.
 <span class="plain-syntax">        </span><span class="identifier-syntax">default:</span><span class="plain-syntax"> </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"&lt;unknown&gt;"</span><span class="plain-syntax">); </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"%S"</span><span class="plain-syntax">, </span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">material</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">inline_modifiers</span><span class="plain-syntax"> &amp; </span><span class="identifier-syntax">GIVE_KIND_ID_ISSBM</span><span class="plain-syntax">) </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">" GIVE_KIND_ID"</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">inline_modifiers</span><span class="plain-syntax"> &amp; </span><span class="identifier-syntax">GIVE_COMPARISON_ROUTINE_ISSBM</span><span class="plain-syntax">) </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">" GIVE_COMPARISON_ROUTINE"</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">inline_modifiers</span><span class="plain-syntax"> &amp; </span><span class="identifier-syntax">DEREFERENCE_PROPERTY_ISSBM</span><span class="plain-syntax">) </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">" DEREFERENCE_PROPERTY"</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">inline_modifiers</span><span class="plain-syntax"> &amp; </span><span class="identifier-syntax">ADOPT_LOCAL_STACK_FRAME_ISSBM</span><span class="plain-syntax">) </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">" ADOPT_LOCAL_STACK_FRAME"</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">inline_modifiers</span><span class="plain-syntax"> &amp; </span><span class="identifier-syntax">CAST_TO_KIND_OF_OTHER_TERM_ISSBM</span><span class="plain-syntax">) </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">" CAST_TO_KIND_OF_OTHER_TERM"</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">inline_modifiers</span><span class="plain-syntax"> &amp; </span><span class="identifier-syntax">BY_REFERENCE_ISSBM</span><span class="plain-syntax">) </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">" BY_REFERENCE"</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">inline_modifiers</span><span class="plain-syntax"> &amp; </span><span class="constant-syntax">GIVE_KIND_ID_ISSBM</span><span class="plain-syntax">) </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">" GIVE_KIND_ID"</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">inline_modifiers</span><span class="plain-syntax"> &amp; </span><span class="constant-syntax">GIVE_COMPARISON_ROUTINE_ISSBM</span><span class="plain-syntax">) </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">" GIVE_COMPARISON_ROUTINE"</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">inline_modifiers</span><span class="plain-syntax"> &amp; </span><span class="constant-syntax">DEREFERENCE_PROPERTY_ISSBM</span><span class="plain-syntax">) </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">" DEREFERENCE_PROPERTY"</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">inline_modifiers</span><span class="plain-syntax"> &amp; </span><span class="constant-syntax">ADOPT_LOCAL_STACK_FRAME_ISSBM</span><span class="plain-syntax">) </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">" ADOPT_LOCAL_STACK_FRAME"</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">inline_modifiers</span><span class="plain-syntax"> &amp; </span><span class="constant-syntax">CAST_TO_KIND_OF_OTHER_TERM_ISSBM</span><span class="plain-syntax">) </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">" CAST_TO_KIND_OF_OTHER_TERM"</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">inline_modifiers</span><span class="plain-syntax"> &amp; </span><span class="constant-syntax">BY_REFERENCE_ISSBM</span><span class="plain-syntax">) </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">" BY_REFERENCE"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP18" class="paragraph-anchor"></a><b>&#167;18. Lint.</b>As can be seen, the <span class="extract"><span class="extract-syntax">inter_schema</span></span> structure is quite complicated, and there
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP18" class="paragraph-anchor"></a><b>&#167;18. Lint.</b>  As can be seen, the <code>inter_schema</code> structure is quite complicated, and there
 are numerous invariants it has to satisfy. As a precaution, then, we check that
 all of these invariants hold before shipping out a compiled schema. This is
-where the check is done:
-</p>
-
+where the check is done:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InterSchemas::lint</span><button class="popup" onclick="togglePopup('usagePopup19')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup19">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::lint</span></span>:<br/>Parsing Inter Schemas - <a href="2-pis.html#SP5">&#167;5</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">inter_schema</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sch</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">InterSchemas::lint</span><button class="popup" onclick="togglePopup('usagePopup19')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup19">Usage of <span class="code-font"><span class="function-syntax">InterSchemas::lint</span></span>:<br/>Parsing Inter Schemas - <a href="2-pis.html#SP5">&#167;5</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_schema</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sch</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">sch</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">sch</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">parsing_errors</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">)) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">err</span><span class="plain-syntax"> = </span><a href="2-is.html#SP18" class="function-link"><span class="function-syntax">InterSchemas::lint_isn</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">sch</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">node_tree</span><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">err</span><span class="plain-syntax">) {</span>
@@ -698,11 +837,11 @@ where the check is done:
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 
-<span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="function-syntax">InterSchemas::lint_isn</span><span class="plain-syntax">(</span><span class="reserved-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">isn</span><span class="plain-syntax">, </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">depth</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="function-syntax">InterSchemas::lint_isn</span><span class="plain-syntax">(</span><span class="identifier-syntax">inter_schema_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">isn</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">depth</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (; </span><span class="identifier-syntax">isn</span><span class="plain-syntax">; </span><span class="identifier-syntax">isn</span><span class="plain-syntax">=</span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next_node</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">isn_type</span><span class="plain-syntax"> == </span><span class="constant-syntax">EXPRESSION_ISNT</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">asm</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax"> = </span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">expression_tokens</span><span class="plain-syntax">; </span><span class="identifier-syntax">t</span><span class="plain-syntax">; </span><span class="identifier-syntax">t</span><span class="plain-syntax">=</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">            </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">asm</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">inter_schema_token</span><span class="plain-syntax"> *</span><span class="identifier-syntax">t</span><span class="plain-syntax"> = </span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">expression_tokens</span><span class="plain-syntax">; </span><span class="identifier-syntax">t</span><span class="plain-syntax">; </span><span class="identifier-syntax">t</span><span class="plain-syntax">=</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">                </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="identifier-syntax">t</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">ist_type</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">                    </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">OPCODE_ISTT:</span><span class="plain-syntax">       </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">t</span><span class="plain-syntax"> == </span><span class="identifier-syntax">isn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">expression_tokens</span><span class="plain-syntax">) </span><span class="identifier-syntax">asm</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">                                            </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">I</span><span class="string-syntax">"contains loose assembler"</span><span class="plain-syntax">;</span>
