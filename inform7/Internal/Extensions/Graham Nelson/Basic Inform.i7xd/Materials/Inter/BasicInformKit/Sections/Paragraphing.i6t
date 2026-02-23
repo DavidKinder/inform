@@ -108,13 +108,13 @@ only by the prompt:
 =
 To recap, we have five kinds of paragraph break:
 
-(a) Standard breaks at "divide paragraph points", used between rules.
-(b) The "going look break", used before the room description after going to
+- Standard breaks at "divide paragraph points", used between rules.
+- The "going look break", used before the room description after going to
 a new room.
-(c) A "command clarification break", used after text clarifying a command.
-(d) A "run paragraph on" break, used to merge multiple paragraphs into a
+- A "command clarification break", used after text clarifying a command.
+- A "run paragraph on" break, used to merge multiple paragraphs into a
 single block of text.
-(e) The "special look spacing" break, used after the boldface headline of
+- The "special look spacing" break, used after the boldface headline of
 a room description.
 
 We now have to implement all of these behaviours. The code, while very simple,
@@ -133,29 +133,31 @@ where |#Ifdef| on it will have the expected effect: elsewhere, it might not.)
 @h State.
 The current state is stored in a combination of two global variables:
 
-(1) |say__p|, the "say paragraph" flag, which is set if a paragraph break
-needs to be printed before the next text can begin;
-(2) |say__pc|, originally named as the "paragraph completed" flag, but
-which is now a bitmap:
-(-2a) |PARA_COMPLETED| is set if a standard paragraph break has been made
-since the last time the flag was cleared;
-(-2b) |PARA_PROMPTSKIP| is set to indicate that the current printing position
-does not follow a skipped line, and that further material is expected which
-will run on from the previous paragraph, but that if no further material turns
-up then a skipped line would be needed before the next prompt;
-(-2c) |PARA_SUPPRESSPROMPTSKIP| is set to indicate that, despite |PARA_PROMPTSKIP|
-being set, no skipped line is needed before the prompt after all;
-(-2d) |PARA_NORULEBOOKBREAKS| suppresses divide paragraph points in between
-rules in rulebooks; it treats all rulebooks, and in particular action rulebooks,
-the way activity rulebooks are treated. (The flag is used for short periods
-only and never across turn boundaries, prompts and so on.)
-(-2e) |PARA_CONTENTEXPECTED| is set after a paragraph division as a signal
-that if any contents looks likely to be printed soon then |say__p| needs
-to be set, because a successor paragraph will then have started. This
-is checked by calling |ParaContent()| -- while it's slow to have to call
-this routine so often, that's better than compiling inline code with the
-same effect, because minimising compiled code size is more important, and
-speed is never a big deal when printing.
+-	|say__p|, the "say paragraph" flag, which is set if a paragraph break
+	needs to be printed before the next text can begin;
+
+-	|say__pc|, originally named as the "paragraph completed" flag, but
+	which is now a bitmap:
+
+	- |PARA_COMPLETED| is set if a standard paragraph break has been made
+	since the last time the flag was cleared;
+	- |PARA_PROMPTSKIP| is set to indicate that the current printing position
+	does not follow a skipped line, and that further material is expected which
+	will run on from the previous paragraph, but that if no further material turns
+	up then a skipped line would be needed before the next prompt;
+	- |PARA_SUPPRESSPROMPTSKIP| is set to indicate that, despite |PARA_PROMPTSKIP|
+	being set, no skipped line is needed before the prompt after all;
+	- |PARA_NORULEBOOKBREAKS| suppresses divide paragraph points in between
+	rules in rulebooks; it treats all rulebooks, and in particular action rulebooks,
+	the way activity rulebooks are treated. (The flag is used for short periods
+	only and never across turn boundaries, prompts and so on.)
+	- |PARA_CONTENTEXPECTED| is set after a paragraph division as a signal
+	that if any contents looks likely to be printed soon then |say__p| needs
+	to be set, because a successor paragraph will then have started. This
+	is checked by calling |ParaContent()| -- while it's slow to have to call
+	this routine so often, that's better than compiling inline code with the
+	same effect, because minimising compiled code size is more important, and
+	speed is never a big deal when printing.
 
 Not all printing is to the screen: sometimes the output is to a file, or to
 memory, and in that case we want to start the switched output at a clear

@@ -21,13 +21,14 @@ because in Inform 7 all of the many GPRs in a typical story file are compiled
 automatically, so that the story's author is not really aware of them at all.
 
 To compile a GPR, Inform has to:
-(*) work out where to put it, i.e., choose an |inter_name|;
-(*) open a function body there;
-(*) use a //gpr_kit// to give it local variables as needed;
-(*) compile a "GPR head";
-(*) compile code which actually looks at the stream of command words;
-(*) compile a "GPR tail";
-(*) and close the function body.
+
+- work out where to put it, i.e., choose an |inter_name|;
+- open a function body there;
+- use a //gpr_kit// to give it local variables as needed;
+- compile a "GPR head";
+- compile code which actually looks at the stream of command words;
+- compile a "GPR tail";
+- and close the function body.
 
 The "head" and "tail" parts of a GPR come in several sorts, compiled by functions
 below, and they need to match each other.

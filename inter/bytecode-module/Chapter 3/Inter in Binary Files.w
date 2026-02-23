@@ -6,14 +6,14 @@ To read or write inter between memory and binary files.
 (Not the name of a band.) A binary Inter file opens with an 20-byte uncompressed
 header:
 
-(a) The first four bytes store a big-endian 32-bit word. Its numerical value
+- The first four bytes store a big-endian 32-bit word. Its numerical value
 is given by the |INTER_SHIBBOLETH| constant, but in fact this is the same as
 the ASCII encoding of the letters |intr|.
 
-(b) The second four bytes are all 0. This enables us to distinguish a binary
+- The second four bytes are all 0. This enables us to distinguish a binary
 Inter file from a random text file which just happens to begin with those letters.
 
-(c) Words 2, 3 and 4 are then the three numerical parts of the current Inter
+- Words 2, 3 and 4 are then the three numerical parts of the current Inter
 specification's semantic version number. For example, if that were 5.2.4, then
 these words would be 5, 2 and 4 respectively.
 
@@ -459,10 +459,10 @@ After that, the content (and record length) depends on the type.
 
 The first two resources in this table are always:
 
-(i) the symbols table for the root package, which holds global symbols such
+- the symbols table for the root package, which holds global symbols such
 as primitive names; and
 
-(ii) the root package itself.
+- the root package itself.
 
 The sequence is otherwise not meaningful. It should not be assumed that
 resources will be in increasing warehouse ID order.
@@ -793,12 +793,12 @@ void BinaryInter::frame_writer(inter_tree *I, inter_tree_node *P, void *state) {
 
 @ That just leaves the process of correction. We do two things:
 
-(a) Transposition: this means correcting all references to warehouse IDs in the
+- Transposition: this means correcting all references to warehouse IDs in the
 old tree into references to those in the new, by performing |id = grid[id]|.
 We cannot do this without knowing which words in the bytecode are warehouse IDs,
 though, so we must call a method of the construct for the instruction.
 
-(b) Verification: also construct-specific, also done via a method call, this not
+- Verification: also construct-specific, also done via a method call, this not
 only performs sanity checks on the bytecode for the instruction but also
 completes the process of embedding the instruction by, for example, setting
 the definition of any symbol created in the instruction to |P|.

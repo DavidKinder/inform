@@ -1599,8 +1599,8 @@ have the same meaning, so we'll place |v| on the left.
 
 @ The main loop above terminates because on each iteration, either
 
-(i) the tree depth of |v| below |=| decreases by 1, or
-(ii) the tree depth of |v| remains the same but the number of |MINUS_OPERATION| or
+- (i) the tree depth of |v| below |=| decreases by 1, or
+- (ii) the tree depth of |v| remains the same but the number of |MINUS_OPERATION| or
 |DIVIDE_OPERATION| nodes in the tree decreases by 1.
 
 Since at any given time there are a finite number of |MINUS_OPERATION| or

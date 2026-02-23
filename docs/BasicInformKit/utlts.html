@@ -14,18 +14,28 @@
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <script>
 MathJax = {
-	tex: {
-		inlineMath: '$', '$'], ['\\(', '\\)'
+    options: {
+    	skipHtmlTags: {'[-]': ['pre']},
+    	processHtmlClass: 'mathjax_process'
+    },
+	loader: {load: ['[tex]/texhtml']},
+  	tex: {
+		inlineMath: [ ['\\INWEBMATH(', '\\INWEBMATH)'] ],
+    	packages: {'[+]': ['texhtml']},
+    	allowTexHTML: true
 	},
 	svg: {
 		fontCache: 'global'
 	}
 };
 </script>
-<script type="text/javascript" id="MathJax-script" async
-	src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
-</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-svg.js"></script>
 
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -62,7 +72,7 @@ MathJax = {
 
 <ul class="toc"><li><a href="utlts.html#SP1">&#167;1. Miscellany</a></li><li><a href="utlts.html#SP2">&#167;2. Final Code Dependencies</a></li><li><a href="utlts.html#SP3">&#167;3. Firebreak</a></li><li><a href="utlts.html#SP4">&#167;4. Print Decimal Number</a></li><li><a href="utlts.html#SP5">&#167;5. Print Text</a></li><li><a href="utlts.html#SP6">&#167;6. Print Or Run</a></li><li><a href="utlts.html#SP7">&#167;7. Saying Phrases</a></li><li><a href="utlts.html#SP8">&#167;8. Redrawing the Status Window</a></li><li><a href="utlts.html#SP9">&#167;9. GenerateRandomNumber</a></li><li><a href="utlts.html#SP10">&#167;10. PrintSpaces</a></li><li><a href="utlts.html#SP11">&#167;11. SwapWorkflags</a></li><li><a href="utlts.html#SP12">&#167;12. TestUseOption</a></li><li><a href="utlts.html#SP13">&#167;13. ZRegion</a></li><li><a href="utlts.html#SP14">&#167;14. Arrcpy</a></li><li><a href="utlts.html#SP15">&#167;15. Verbs as Values</a></li><li><a href="utlts.html#SP16">&#167;16. Regarding</a></li><li><a href="utlts.html#SP17">&#167;17. Say One Of</a></li><li><a href="utlts.html#SP18">&#167;18. Rounding</a></li><li><a href="utlts.html#SP19">&#167;19. Doing nothing</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Miscellany.</b></p>
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Miscellany.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">#</span><span class="identifier-syntax">Iftrue</span><span class="plain-syntax"> </span><span class="identifier-syntax">WORDSIZE</span><span class="plain-syntax"> == </span><span class="constant-syntax">2</span><span class="plain-syntax">;</span>
@@ -71,25 +81,25 @@ MathJax = {
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">BLOCKV_STACK_SIZE</span><span class="plain-syntax"> = </span><span class="identifier-syntax">BasicInformKit</span><span class="plain-syntax">`</span><span class="identifier-syntax">STACK_FRAME_CAPACITY_CFGV</span><span class="plain-syntax"> / </span><span class="constant-syntax">4</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">#</span><span class="identifier-syntax">endif</span><span class="plain-syntax">;</span>
 
-<span class="reserved-syntax">Array</span><span class="plain-syntax"> </span><span class="identifier-syntax">blockv_stack</span><span class="plain-syntax"> --&gt; </span><span class="identifier-syntax">BLOCKV_STACK_SIZE</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">Array</span><span class="plain-syntax"> </span><span class="identifier-syntax">blockv_stack</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">-&gt; </span><span class="identifier-syntax">BLOCKV_STACK_SIZE</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">I7SFRAME</span><span class="plain-syntax">;</span>
 
 <span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">TEXT_TY_RE_Err</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
-<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">prior_named_noun</span><span class="plain-syntax">; </span><span class="comment-syntax">for adaptive text generation</span>
-<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">prior_named_list</span><span class="plain-syntax">; </span><span class="comment-syntax">ditto: length of list of items</span>
-<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">prior_named_list_gender</span><span class="plain-syntax">; </span><span class="comment-syntax">ditto: common gender of list of items, or -1</span>
-<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">story_tense</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">; </span><span class="comment-syntax">ditto: present tense</span>
-<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">story_viewpoint</span><span class="plain-syntax"> = </span><span class="constant-syntax">2</span><span class="plain-syntax">; </span><span class="comment-syntax">ditto: second person singular</span>
+<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">prior_named_noun</span><span class="plain-syntax">; </span><span class="comment-syntax">! for adaptive text generation</span>
+<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">prior_named_list</span><span class="plain-syntax">; </span><span class="comment-syntax">! ditto: length of list of items</span>
+<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">prior_named_list_gender</span><span class="plain-syntax">; </span><span class="comment-syntax">! ditto: common gender of list of items, or -1</span>
+<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">story_tense</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">; </span><span class="comment-syntax">! ditto: present tense</span>
+<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">story_viewpoint</span><span class="plain-syntax"> = </span><span class="constant-syntax">2</span><span class="plain-syntax">; </span><span class="comment-syntax">! ditto: second person singular</span>
 <span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">say__p</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">; </span><span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">say__pc</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">; </span><span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">say__pc_save</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">say__n</span><span class="plain-syntax">; </span><span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">say__comp</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">los_rv</span><span class="plain-syntax"> = </span><span class="reserved-syntax">false</span><span class="plain-syntax">;</span>
-<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">parameter_object</span><span class="plain-syntax">; </span><span class="comment-syntax">= I7 "parameter-object" = I7 "container in question"</span>
-<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">parameter_value</span><span class="plain-syntax">; </span><span class="comment-syntax">not typesafe in I7</span>
-<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">property_to_be_totalled</span><span class="plain-syntax">; </span><span class="comment-syntax">used to implement "total P of..."</span>
-<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">property_loop_sign</span><span class="plain-syntax">; </span>\(+1\)<span class="comment-syntax"> for increasing order, </span>\(-1\)<span class="comment-syntax"> for decreasing</span>
+<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">parameter_object</span><span class="plain-syntax">; </span><span class="comment-syntax">! = I7 "parameter-object" = I7 "container in question"</span>
+<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">parameter_value</span><span class="plain-syntax">; </span><span class="comment-syntax">! not typesafe in I7</span>
+<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">property_to_be_totalled</span><span class="plain-syntax">; </span><span class="comment-syntax">! used to implement "total P of..."</span>
+<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">property_loop_sign</span><span class="plain-syntax">; </span><span class="comment-syntax">! $+1$ for increasing order, $-1$ for decreasing</span>
 <span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">suppress_scope_loops</span><span class="plain-syntax">;</span>
-<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">temporary_value</span><span class="plain-syntax">; </span><span class="comment-syntax">can be used anywhere side-effects can't occur</span>
-<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">statuswin_current</span><span class="plain-syntax">; </span><span class="comment-syntax">if writing to top window</span>
+<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">temporary_value</span><span class="plain-syntax">; </span><span class="comment-syntax">! can be used anywhere side-effects can't occur</span>
+<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">statuswin_current</span><span class="plain-syntax">; </span><span class="comment-syntax">! if writing to top window</span>
 <span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">suppress_text_substitution</span><span class="plain-syntax"> = </span><span class="reserved-syntax">false</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">deadflag</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 
@@ -99,24 +109,22 @@ MathJax = {
 <span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">debug_dialogue</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">debug_rules</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">debug_rule_nesting</span><span class="plain-syntax">;</span>
-<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">reason_the_action_failed</span><span class="plain-syntax">; </span><span class="comment-syntax">= I7 "reason the action failed"</span>
-<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">indef_mode</span><span class="plain-syntax">;                  </span><span class="comment-syntax">"Indefinite" mode - ie, "take a brick"</span>
-<span class="plain-syntax">                                    </span><span class="comment-syntax">is in this mode</span>
+<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">reason_the_action_failed</span><span class="plain-syntax">; </span><span class="comment-syntax">! = I7 "reason the action failed"</span>
+<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">indef_mode</span><span class="plain-syntax">;                  </span><span class="comment-syntax">! "Indefinite" mode - ie, "take a brick"</span>
+<span class="plain-syntax">                                    </span><span class="comment-syntax">! is in this mode</span>
 
 <span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">standard_interpreter</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 
 <span class="identifier-syntax">Default</span><span class="plain-syntax"> </span><span class="identifier-syntax">LanguageCases</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Final Code Dependencies.</b>This function definition is a little misleading. The idea is that the
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Final Code Dependencies.</b>  This function definition is a little misleading. The idea is that the
 final code-generator can inject code of its own into the body here: for example,
-the final code-generation for Glulx injects code into <span class="extract"><span class="extract-syntax">PLATFORM_SPECIFIC_STARTUP_R</span></span>
-to use accelerated VM support for certain veneer functions.
-</p>
-
-<p class="commentary">The other three are also misleading, in that final code-generation can add more
-helpful code here: the fallbacks here are basic.
-</p>
-
+the final code-generation for Glulx injects code into <code>PLATFORM_SPECIFIC_STARTUP_R</code>
+to use accelerated VM support for certain veneer functions.</p>
+<p>The other three are also misleading, in that final code-generation can add more
+helpful code here: the fallbacks here are basic.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">PLATFORM_SPECIFIC_STARTUP_R</span><span class="plain-syntax"> </span><span class="identifier-syntax">addr</span><span class="plain-syntax"> </span><span class="identifier-syntax">res</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">rfalse</span><span class="plain-syntax">;</span>
@@ -134,49 +142,47 @@ helpful code here: the fallbacks here are basic.
 <span class="plain-syntax">    </span><span class="reserved-syntax">print</span><span class="plain-syntax"> </span><span class="string-syntax">"&lt;property "</span><span class="plain-syntax">, </span><span class="identifier-syntax">p</span><span class="plain-syntax">, </span><span class="string-syntax">"&gt;"</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Firebreak.</b></p>
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Firebreak.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">Array</span><span class="plain-syntax"> </span><span class="identifier-syntax">Protect_I7_Arrays</span><span class="plain-syntax"> --&gt; </span><span class="constant-syntax">16339</span><span class="plain-syntax"> </span><span class="constant-syntax">12345</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">Array</span><span class="plain-syntax"> </span><span class="identifier-syntax">Protect_I7_Arrays</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">-&gt; </span><span class="constant-syntax">16339</span><span class="plain-syntax"> </span><span class="constant-syntax">12345</span><span class="plain-syntax">;</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Print Decimal Number.</b><span class="extract"><span class="extract-syntax">DecimalNumber</span></span> is a trivial function which just prints a number, in decimal
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Print Decimal Number.</b>  <code>DecimalNumber</code> is a trivial function which just prints a number, in decimal
 digits. It is left over from the I6 library's support routines for Glulx,
-where it was intended as a stub to pass to the Glulx <span class="extract"><span class="extract-syntax">Glulx_PrintAnything</span></span> routine
+where it was intended as a stub to pass to the Glulx <code>Glulx_PrintAnything</code> routine
 (which I7 does not use). In I7, however, it's also used as the default
-printing routine for new kinds of value.
-</p>
-
+printing routine for new kinds of value.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">DecimalNumber</span><span class="plain-syntax"> </span><span class="identifier-syntax">num</span><span class="plain-syntax">; </span><span class="reserved-syntax">print</span><span class="plain-syntax"> </span><span class="identifier-syntax">num</span><span class="plain-syntax">; ];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Print Text.</b>The routine for printing an I7 "text" value, which might be text with or
-without substitutions.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Print Text.</b>  The routine for printing an I7 &quot;text&quot; value, which might be text with or
+without substitutions.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">PrintI6Text</span><span class="plain-syntax"> </span><span class="identifier-syntax">x</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">x</span><span class="plain-syntax"> </span><span class="reserved-syntax">ofclass</span><span class="plain-syntax"> </span><span class="identifier-syntax">String</span><span class="plain-syntax">) </span><span class="reserved-syntax">print</span><span class="plain-syntax"> (</span><span class="reserved-syntax">string</span><span class="plain-syntax">) </span><span class="identifier-syntax">x</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">x</span><span class="plain-syntax"> </span><span class="reserved-syntax">ofclass</span><span class="plain-syntax"> </span><span class="reserved-syntax">String</span><span class="plain-syntax">) </span><span class="reserved-syntax">print</span><span class="plain-syntax"> (</span><span class="reserved-syntax">string</span><span class="plain-syntax">) </span><span class="identifier-syntax">x</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">x</span><span class="plain-syntax"> </span><span class="reserved-syntax">ofclass</span><span class="plain-syntax"> </span><span class="identifier-syntax">Routine</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> (</span><span class="identifier-syntax">x</span><span class="plain-syntax">)();</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">x</span><span class="plain-syntax"> == </span><span class="identifier-syntax">EMPTY_TEXT_PACKED</span><span class="plain-syntax">) </span><span class="reserved-syntax">rfalse</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">rtrue</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
-<span class="plain-syntax">[ </span><span class="identifier-syntax">I7_String</span><span class="plain-syntax"> </span><span class="identifier-syntax">x</span><span class="plain-syntax">; </span><span class="identifier-syntax">TEXT_TY_Say</span><span class="plain-syntax">(</span><span class="identifier-syntax">x</span><span class="plain-syntax">); ]; </span><span class="comment-syntax">An alternative name now used only by extensions</span>
+<span class="plain-syntax">[ </span><span class="identifier-syntax">I7_String</span><span class="plain-syntax"> </span><span class="identifier-syntax">x</span><span class="plain-syntax">; </span><span class="identifier-syntax">TEXT_TY_Say</span><span class="plain-syntax">(</span><span class="identifier-syntax">x</span><span class="plain-syntax">); ]; </span><span class="comment-syntax">! An alternative name now used only by extensions</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Print Or Run.</b>This utility remains from the old I6 library: it essentially treats a
-property as textual and prints it where possible. Where the <span class="extract"><span class="extract-syntax">no_break</span></span>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Print Or Run.</b>  This utility remains from the old I6 library: it essentially treats a
+property as textual and prints it where possible. Where the <code>no_break</code>
 flag is set, we expect the text to form only a small part of a paragraph,
 and it's inappropriate to break here: for instance, for printing the
-"printed name" of an object. Where the flag is clear, however, the text
-is expected to form its own paragraph.
-</p>
-
-<p class="commentary">Where <span class="extract"><span class="extract-syntax">PrintOrRun</span></span> is used in breaking mode, which is only for a very few
-properties in I7 (indeed at present only <span class="extract"><span class="extract-syntax">initial</span></span> and <span class="extract"><span class="extract-syntax">description</span></span>),
+&quot;printed name&quot; of an object. Where the flag is clear, however, the text
+is expected to form its own paragraph.</p>
+<p>Where <code>PrintOrRun</code> is used in breaking mode, which is only for a very few
+properties in I7 (indeed at present only <code>initial</code> and <code>description</code>),
 the routine called is given the chance to decide whether to print or not.
-It should return <span class="extract"><span class="extract-syntax">true</span></span> or <span class="extract"><span class="extract-syntax">false</span></span> according to whether it did so; this
-allows us to divide the paragraph or not accordingly.
-</p>
-
+It should return <code>true</code> or <code>false</code> according to whether it did so; this
+allows us to divide the paragraph or not accordingly.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">PrintOrRun</span><span class="plain-syntax"> </span><span class="identifier-syntax">obj</span><span class="plain-syntax"> </span><span class="identifier-syntax">prop</span><span class="plain-syntax"> </span><span class="identifier-syntax">no_break</span><span class="plain-syntax">  </span><span class="identifier-syntax">pv</span><span class="plain-syntax"> </span><span class="identifier-syntax">st</span><span class="plain-syntax"> </span><span class="identifier-syntax">routine_return_value</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    @</span><span class="identifier-syntax">push</span><span class="plain-syntax"> </span><span class="identifier-syntax">self</span><span class="plain-syntax">; </span><span class="identifier-syntax">self</span><span class="plain-syntax"> = </span><span class="identifier-syntax">obj</span><span class="plain-syntax">;</span>
@@ -200,7 +206,7 @@ allows us to divide the paragraph or not accordingly.
 <span class="plain-syntax">[ </span><span class="identifier-syntax">DA_Number</span><span class="plain-syntax"> </span><span class="identifier-syntax">n</span><span class="plain-syntax">; </span><span class="reserved-syntax">print</span><span class="plain-syntax"> </span><span class="identifier-syntax">n</span><span class="plain-syntax">; ];</span>
 <span class="plain-syntax">[ </span><span class="identifier-syntax">DA_TruthState</span><span class="plain-syntax"> </span><span class="identifier-syntax">n</span><span class="plain-syntax">; </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">n</span><span class="plain-syntax">==0) </span><span class="reserved-syntax">print</span><span class="plain-syntax"> </span><span class="string-syntax">"false"</span><span class="plain-syntax">; </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="reserved-syntax">print</span><span class="plain-syntax"> </span><span class="string-syntax">"true"</span><span class="plain-syntax">; ];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Saying Phrases.</b></p>
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Saying Phrases.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">SayPhraseName</span><span class="plain-syntax"> </span><span class="identifier-syntax">closure</span><span class="plain-syntax">;</span>
@@ -208,13 +214,11 @@ allows us to divide the paragraph or not accordingly.
 <span class="plain-syntax">    </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="reserved-syntax">print</span><span class="plain-syntax"> (</span><span class="reserved-syntax">string</span><span class="plain-syntax">) </span><span class="identifier-syntax">closure</span><span class="plain-syntax">--&gt;2;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Redrawing the Status Window.</b>These functions handle the default behaviour of redrawing the status window.
-</p>
-
-<p class="commentary">Status line printing happens on the upper screen window, and outside of the
-paragraph control system.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Redrawing the Status Window.</b>  These functions handle the default behaviour of redrawing the status window.</p>
+<p>Status line printing happens on the upper screen window, and outside of the
+paragraph control system.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">DrawStatusLine</span><span class="plain-syntax"> </span><span class="identifier-syntax">width</span><span class="plain-syntax"> </span><span class="identifier-syntax">posb</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    #</span><span class="identifier-syntax">ifdef</span><span class="plain-syntax"> </span><span class="identifier-syntax">TARGET_GLULX</span><span class="plain-syntax">;</span>
@@ -230,8 +234,8 @@ paragraph control system.
 
 <span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">status_window_table</span><span class="plain-syntax">;</span>
 
-<span class="comment-syntax">A little helper text for getting the length of a value</span>
-<span class="reserved-syntax">Array</span><span class="plain-syntax"> </span><span class="identifier-syntax">status_window_table_temp_text</span><span class="plain-syntax"> --&gt; [ </span><span class="identifier-syntax">CONSTANT_PACKED_TEXT_STORAGE</span><span class="plain-syntax">; </span><span class="identifier-syntax">Print_Status_Window_Entry</span><span class="plain-syntax">; ];</span>
+<span class="comment-syntax">! A little helper text for getting the length of a value</span>
+<span class="reserved-syntax">Array</span><span class="plain-syntax"> </span><span class="identifier-syntax">status_window_table_temp_text</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">-&gt; [ </span><span class="identifier-syntax">CONSTANT_PACKED_TEXT_STORAGE</span><span class="plain-syntax">; </span><span class="identifier-syntax">Print_Status_Window_Entry</span><span class="plain-syntax">; ];</span>
 <span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">status_window_table_kov</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">status_window_table_value</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">[ </span><span class="identifier-syntax">Print_Status_Window_Entry</span><span class="plain-syntax">;</span>
@@ -245,7 +249,7 @@ paragraph control system.
 <span class="plain-syntax">    </span><span class="identifier-syntax">rows</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TableRows</span><span class="plain-syntax">(</span><span class="identifier-syntax">status_window_table</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">VM_StatusLineHeight</span><span class="plain-syntax">(</span><span class="identifier-syntax">rows</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">VM_ClearScreen</span><span class="plain-syntax">(1);</span>
-<span class="plain-syntax">    </span><span class="comment-syntax">Cache the column details in case we have a lot of rows</span>
+<span class="plain-syntax">    </span><span class="comment-syntax">! Cache the column details in case we have a lot of rows</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="identifier-syntax">status_window_table</span><span class="plain-syntax">--&gt;0) {</span>
 <span class="plain-syntax">        </span><span class="constant-syntax">1</span><span class="plain-syntax">:</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">col_num_middle</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
@@ -280,7 +284,7 @@ paragraph control system.
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">status_window_table_value</span><span class="plain-syntax"> ~= </span><span class="identifier-syntax">TABLE_NOVALUE</span><span class="plain-syntax">) || ~~(</span><span class="identifier-syntax">CheckTableEntryIsBlank</span><span class="plain-syntax">(</span><span class="identifier-syntax">status_window_table</span><span class="plain-syntax">, </span><span class="identifier-syntax">col_num_right</span><span class="plain-syntax">, </span><span class="identifier-syntax">row</span><span class="plain-syntax">))) {</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">status_window_table_kov</span><span class="plain-syntax"> = </span><span class="identifier-syntax">col_kov_right</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">chars</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TEXT_TY_BlobAccess</span><span class="plain-syntax">(</span><span class="identifier-syntax">status_window_table_temp_text</span><span class="plain-syntax">, </span><span class="identifier-syntax">CHR_BLOB</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">                </span><span class="identifier-syntax">VM_MoveCursorInStatusLine</span><span class="plain-syntax">(</span><span class="identifier-syntax">row</span><span class="plain-syntax">, </span><span class="identifier-syntax">width</span><span class="plain-syntax"> - </span><span class="identifier-syntax">chars</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">                </span><span class="identifier-syntax">VM_MoveCursorInStatusLine</span><span class="plain-syntax">(</span><span class="identifier-syntax">row</span><span class="plain-syntax">, </span><span class="identifier-syntax">width</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax"> </span><span class="identifier-syntax">chars</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">SayKindValuePair</span><span class="plain-syntax">(</span><span class="identifier-syntax">col_kov_right</span><span class="plain-syntax">, </span><span class="identifier-syntax">status_window_table_value</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            }</span>
 <span class="plain-syntax">        }</span>
@@ -289,7 +293,7 @@ paragraph control system.
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">status_window_table_value</span><span class="plain-syntax"> ~= </span><span class="identifier-syntax">TABLE_NOVALUE</span><span class="plain-syntax">) || ~~(</span><span class="identifier-syntax">CheckTableEntryIsBlank</span><span class="plain-syntax">(</span><span class="identifier-syntax">status_window_table</span><span class="plain-syntax">, </span><span class="identifier-syntax">col_num_middle</span><span class="plain-syntax">, </span><span class="identifier-syntax">row</span><span class="plain-syntax">))) {</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">status_window_table_kov</span><span class="plain-syntax"> = </span><span class="identifier-syntax">col_kov_middle</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">chars</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TEXT_TY_BlobAccess</span><span class="plain-syntax">(</span><span class="identifier-syntax">status_window_table_temp_text</span><span class="plain-syntax">, </span><span class="identifier-syntax">CHR_BLOB</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">                </span><span class="identifier-syntax">VM_MoveCursorInStatusLine</span><span class="plain-syntax">(</span><span class="identifier-syntax">row</span><span class="plain-syntax">, ((</span><span class="identifier-syntax">width</span><span class="plain-syntax"> - </span><span class="identifier-syntax">chars</span><span class="plain-syntax">) / </span><span class="constant-syntax">2</span><span class="plain-syntax">) + </span><span class="constant-syntax">1</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">                </span><span class="identifier-syntax">VM_MoveCursorInStatusLine</span><span class="plain-syntax">(</span><span class="identifier-syntax">row</span><span class="plain-syntax">, ((</span><span class="identifier-syntax">width</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax"> </span><span class="identifier-syntax">chars</span><span class="plain-syntax">) / </span><span class="constant-syntax">2</span><span class="plain-syntax">) + </span><span class="constant-syntax">1</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">SayKindValuePair</span><span class="plain-syntax">(</span><span class="identifier-syntax">col_kov_middle</span><span class="plain-syntax">, </span><span class="identifier-syntax">status_window_table_value</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            }</span>
 <span class="plain-syntax">        }</span>
@@ -297,32 +301,30 @@ paragraph control system.
 <span class="plain-syntax">    </span><span class="reserved-syntax">rtrue</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. GenerateRandomNumber.</b>The following uses the virtual machine's RNG (via the I6 built-in function
-<span class="extract"><span class="extract-syntax">random</span></span>) to produce a uniformly random integer in the range \(n\) to \(m\)
-inclusive, where \(n\) and \(m\) are allowed to be either way around; so that
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. GenerateRandomNumber.</b>  The following uses the virtual machine's RNG (via the I6 built-in function
+<code>random</code>) to produce a uniformly random integer in the range \INWEBMATH(n\INWEBMATH) to \INWEBMATH(m\INWEBMATH)
+inclusive, where \INWEBMATH(n\INWEBMATH) and \INWEBMATH(m\INWEBMATH) are allowed to be either way around; so that
 a random number between 17 and 4 is the same thing as a random number
-between 4 and 17, and there is therefore no pair of \(n\) and \(m\) corresponding
-to an empty range of values.
-</p>
-
-<p class="commentary">The following trick, devised by Zed Lopez in 2023, is designed to work even
-when the range width (here called \(s\)) is larger than the maximum signed
-integer size, so that the signed comparison \(s &gt; 0\) fails. In that case, it
+between 4 and 17, and there is therefore no pair of \INWEBMATH(n\INWEBMATH) and \INWEBMATH(m\INWEBMATH) corresponding
+to an empty range of values.</p>
+<p>The following trick, devised by Zed Lopez in 2023, is designed to work even
+when the range width (here called \INWEBMATH(s\INWEBMATH)) is larger than the maximum signed
+integer size, so that the signed comparison \INWEBMATH(s &gt; 0\INWEBMATH) fails. In that case, it
 appears alarmingly to go into an infinite loop, but the loop terminates with
 a probability of at least 0.5 on each iteration. Even in the worst case of the
 range, the expected number of iterations is only 2, and the probability of taking
 more than 50 iterations is less than 0.0000000000000001, which is obviously
 negligible. But we check the iteration count anyway in case a rigged random
 number generator is being used, e.g. for story testing purposes, which happens
-to be biased in a really unlucky way for us.
-</p>
-
+to be biased in a really unlucky way for us.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">GenerateRandomNumber</span><span class="plain-syntax"> </span><span class="identifier-syntax">n</span><span class="plain-syntax"> </span><span class="identifier-syntax">m</span><span class="plain-syntax"> </span><span class="identifier-syntax">s</span><span class="plain-syntax"> </span><span class="identifier-syntax">it</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">n</span><span class="plain-syntax">==</span><span class="identifier-syntax">m</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">n</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">n</span><span class="plain-syntax">&gt;</span><span class="identifier-syntax">m</span><span class="plain-syntax">) { </span><span class="identifier-syntax">s</span><span class="plain-syntax"> = </span><span class="identifier-syntax">n</span><span class="plain-syntax">; </span><span class="identifier-syntax">n</span><span class="plain-syntax"> = </span><span class="identifier-syntax">m</span><span class="plain-syntax">; </span><span class="identifier-syntax">m</span><span class="plain-syntax"> = </span><span class="identifier-syntax">s</span><span class="plain-syntax">; }</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">n</span><span class="plain-syntax">--;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">s</span><span class="plain-syntax"> = </span><span class="identifier-syntax">m</span><span class="plain-syntax"> - </span><span class="identifier-syntax">n</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">s</span><span class="plain-syntax"> = </span><span class="identifier-syntax">m</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax"> </span><span class="identifier-syntax">n</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">s</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="reserved-syntax">random</span><span class="plain-syntax">(</span><span class="identifier-syntax">s</span><span class="plain-syntax">) + </span><span class="identifier-syntax">n</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">n</span><span class="plain-syntax">++;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">do</span><span class="plain-syntax"> {</span>
@@ -335,22 +337,22 @@ to be biased in a really unlucky way for us.
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">R_DecimalNumber</span><span class="plain-syntax"> = </span><span class="identifier-syntax">GenerateRandomNumber</span><span class="plain-syntax">;</span>
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">R_PrintTimeOfDay</span><span class="plain-syntax"> = </span><span class="identifier-syntax">GenerateRandomNumber</span><span class="plain-syntax">;</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. PrintSpaces.</b>Which prints a row of \(n\) spaces, for \(n\geq 0\).
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. PrintSpaces.</b>  Which prints a row of \INWEBMATH(n\INWEBMATH) spaces, for \INWEBMATH(n\geq 0\INWEBMATH).</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">PrintSpaces</span><span class="plain-syntax"> </span><span class="identifier-syntax">n</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">while</span><span class="plain-syntax"> (</span><span class="identifier-syntax">n</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">print</span><span class="plain-syntax"> </span><span class="string-syntax">" "</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">        </span><span class="identifier-syntax">n</span><span class="plain-syntax"> = </span><span class="identifier-syntax">n</span><span class="plain-syntax"> - </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">n</span><span class="plain-syntax"> = </span><span class="identifier-syntax">n</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. SwapWorkflags.</b>Recall that we have two general-purpose temporary attributes for each object:
-<span class="extract"><span class="extract-syntax">workflag</span></span> and <span class="extract"><span class="extract-syntax">workflag2</span></span>. The following swaps their values over for every
-object at once.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. SwapWorkflags.</b>  Recall that we have two general-purpose temporary attributes for each object:
+<code>workflag</code> and <code>workflag2</code>. The following swaps their values over for every
+object at once.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">SwapWorkflags</span><span class="plain-syntax"> </span><span class="identifier-syntax">obj</span><span class="plain-syntax"> </span><span class="identifier-syntax">lst</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">objectloop</span><span class="plain-syntax"> (</span><span class="identifier-syntax">obj</span><span class="plain-syntax"> </span><span class="reserved-syntax">ofclass</span><span class="plain-syntax"> </span><span class="identifier-syntax">Object</span><span class="plain-syntax">) {</span>
@@ -363,30 +365,30 @@ object at once.
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. TestUseOption.</b>This routine, compiled by Inform, returns <span class="extract"><span class="extract-syntax">true</span></span> if the supplied argument is the
-number of a use option in force for the current run of Inform, and <span class="extract"><span class="extract-syntax">false</span></span>
-otherwise.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. ZRegion.</b>I7 contains many relics from I6, but here's a relic from I5: a routine which
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. TestUseOption.</b>  This routine, compiled by Inform, returns <code>true</code> if the supplied argument is the
+number of a use option in force for the current run of Inform, and <code>false</code>
+otherwise.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. ZRegion.</b>  I7 contains many relics from I6, but here's a relic from I5: a routine which
 used to determine the metaclass of a value, before that concept was given a
-name. In I6 code, it can be implemented simply using <span class="extract"><span class="extract-syntax">metaclass</span></span>, as the
-following shows. (The name is from "region of the Z-machine".)
-</p>
-
+name. In I6 code, it can be implemented simply using <code>metaclass</code>, as the
+following shows. (The name is from &quot;region of the Z-machine&quot;.)</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">ZRegion</span><span class="plain-syntax"> </span><span class="identifier-syntax">addr</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="reserved-syntax">metaclass</span><span class="plain-syntax">(</span><span class="identifier-syntax">addr</span><span class="plain-syntax">)) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">nothing</span><span class="plain-syntax">: </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">        </span><span class="identifier-syntax">Object</span><span class="plain-syntax">, </span><span class="identifier-syntax">Class</span><span class="plain-syntax">: </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">Object</span><span class="plain-syntax">, </span><span class="reserved-syntax">Class</span><span class="plain-syntax">: </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">Routine</span><span class="plain-syntax">: </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">2</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">        </span><span class="identifier-syntax">String</span><span class="plain-syntax">: </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">3</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">String</span><span class="plain-syntax">: </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">3</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. Arrcpy.</b>This is not quite so efficient as Memcpy, but not terrible.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. Arrcpy.</b>  This is not quite so efficient as Memcpy, but not terrible.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">Arrcpy</span><span class="plain-syntax"> </span><span class="identifier-syntax">to_array</span><span class="plain-syntax"> </span><span class="identifier-syntax">to_entry_size</span><span class="plain-syntax"> </span><span class="identifier-syntax">from_array</span><span class="plain-syntax"> </span><span class="identifier-syntax">from_entry_size</span><span class="plain-syntax"> </span><span class="identifier-syntax">no_entries</span><span class="plain-syntax">  </span><span class="identifier-syntax">n</span><span class="plain-syntax"> </span><span class="identifier-syntax">val</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">to_entry_size</span><span class="plain-syntax"> == </span><span class="identifier-syntax">from_entry_size</span><span class="plain-syntax">)</span>
@@ -400,7 +402,7 @@ following shows. (The name is from "region of the Z-machine".)
 <span class="plain-syntax">    } </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="string-syntax">"*** Arrcpy doesn't support this ***"</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. Verbs as Values.</b></p>
+<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. Verbs as Values.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">PrintVerbAsValue</span><span class="plain-syntax"> </span><span class="identifier-syntax">vb</span><span class="plain-syntax">;</span>
@@ -418,26 +420,26 @@ following shows. (The name is from "region of the Z-machine".)
 <span class="plain-syntax">    </span><span class="reserved-syntax">rfalse</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. Regarding.</b>These are used with adaptive text.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. Regarding.</b>  These are used with adaptive text.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">RegardingSingleObject</span><span class="plain-syntax"> </span><span class="identifier-syntax">obj</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">prior_named_list</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">prior_named_list_gender</span><span class="plain-syntax"> = -1;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">prior_named_list_gender</span><span class="plain-syntax"> = </span><span class="constant-syntax">-1</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">prior_named_noun</span><span class="plain-syntax"> = </span><span class="identifier-syntax">obj</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 
 <span class="plain-syntax">[ </span><span class="identifier-syntax">RegardingNumber</span><span class="plain-syntax"> </span><span class="identifier-syntax">n</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">prior_named_list</span><span class="plain-syntax"> = </span><span class="identifier-syntax">n</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">prior_named_list_gender</span><span class="plain-syntax"> = -1;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">prior_named_list_gender</span><span class="plain-syntax"> = </span><span class="constant-syntax">-1</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">prior_named_noun</span><span class="plain-syntax"> = </span><span class="reserved-syntax">nothing</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. Say One Of.</b>These routines are described in the Extensions chapter of the Inform
-documentation.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. Say One Of.</b>  These routines are described in the Extensions chapter of the Inform
+documentation.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">I7_SOO_PAR</span><span class="plain-syntax"> </span><span class="identifier-syntax">oldval</span><span class="plain-syntax"> </span><span class="identifier-syntax">count</span><span class="plain-syntax">; </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">count</span><span class="plain-syntax"> &lt;= </span><span class="constant-syntax">1</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">count</span><span class="plain-syntax">; </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="reserved-syntax">random</span><span class="plain-syntax">(</span><span class="identifier-syntax">count</span><span class="plain-syntax">); ];</span>
 <span class="plain-syntax">[ </span><span class="identifier-syntax">I7_SOO_RAN</span><span class="plain-syntax"> </span><span class="identifier-syntax">oldval</span><span class="plain-syntax"> </span><span class="identifier-syntax">count</span><span class="plain-syntax"> </span><span class="identifier-syntax">v</span><span class="plain-syntax">; </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">count</span><span class="plain-syntax"> &lt;= </span><span class="constant-syntax">1</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">count</span><span class="plain-syntax">;</span>
@@ -446,7 +448,7 @@ documentation.
 <span class="plain-syntax">[ </span><span class="identifier-syntax">I7_SOO_CYC</span><span class="plain-syntax"> </span><span class="identifier-syntax">oldval</span><span class="plain-syntax"> </span><span class="identifier-syntax">count</span><span class="plain-syntax">; </span><span class="identifier-syntax">oldval</span><span class="plain-syntax">++; </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">oldval</span><span class="plain-syntax"> &gt; </span><span class="identifier-syntax">count</span><span class="plain-syntax">) </span><span class="identifier-syntax">oldval</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">; </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">oldval</span><span class="plain-syntax">; ];</span>
 <span class="plain-syntax">[ </span><span class="identifier-syntax">I7_SOO_STOP</span><span class="plain-syntax"> </span><span class="identifier-syntax">oldval</span><span class="plain-syntax"> </span><span class="identifier-syntax">count</span><span class="plain-syntax">; </span><span class="identifier-syntax">oldval</span><span class="plain-syntax">++; </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">oldval</span><span class="plain-syntax"> &gt; </span><span class="identifier-syntax">count</span><span class="plain-syntax">) </span><span class="identifier-syntax">oldval</span><span class="plain-syntax"> = </span><span class="identifier-syntax">count</span><span class="plain-syntax">; </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">oldval</span><span class="plain-syntax">; ];</span>
 <span class="plain-syntax">[ </span><span class="identifier-syntax">I7_SOO_TAP</span><span class="plain-syntax"> </span><span class="identifier-syntax">oldval</span><span class="plain-syntax"> </span><span class="identifier-syntax">count</span><span class="plain-syntax"> </span><span class="identifier-syntax">tn</span><span class="plain-syntax"> </span><span class="identifier-syntax">rn</span><span class="plain-syntax"> </span><span class="identifier-syntax">c</span><span class="plain-syntax">; </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">count</span><span class="plain-syntax"> &lt;= </span><span class="constant-syntax">1</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">count</span><span class="plain-syntax">; </span><span class="identifier-syntax">tn</span><span class="plain-syntax"> = </span><span class="identifier-syntax">count</span><span class="plain-syntax">*(</span><span class="identifier-syntax">count</span><span class="plain-syntax">+1)/2;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">rn</span><span class="plain-syntax"> = </span><span class="reserved-syntax">random</span><span class="plain-syntax">(</span><span class="identifier-syntax">tn</span><span class="plain-syntax">); </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">c</span><span class="plain-syntax">=1:</span><span class="identifier-syntax">c</span><span class="plain-syntax">&lt;=</span><span class="identifier-syntax">count</span><span class="plain-syntax">:</span><span class="identifier-syntax">c</span><span class="plain-syntax">++) { </span><span class="identifier-syntax">rn</span><span class="plain-syntax"> = </span><span class="identifier-syntax">rn</span><span class="plain-syntax"> - </span><span class="identifier-syntax">c</span><span class="plain-syntax">; </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">rn</span><span class="plain-syntax">&lt;=0) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> (</span><span class="identifier-syntax">count</span><span class="plain-syntax">-</span><span class="identifier-syntax">c</span><span class="plain-syntax">+1); } ];</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">rn</span><span class="plain-syntax"> = </span><span class="reserved-syntax">random</span><span class="plain-syntax">(</span><span class="identifier-syntax">tn</span><span class="plain-syntax">); </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">c</span><span class="plain-syntax">=1:</span><span class="identifier-syntax">c</span><span class="plain-syntax">&lt;=</span><span class="identifier-syntax">count</span><span class="plain-syntax">:</span><span class="identifier-syntax">c</span><span class="plain-syntax">++) { </span><span class="identifier-syntax">rn</span><span class="plain-syntax"> = </span><span class="identifier-syntax">rn</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax"> </span><span class="identifier-syntax">c</span><span class="plain-syntax">; </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">rn</span><span class="plain-syntax">&lt;=0) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> (</span><span class="identifier-syntax">count</span><span class="plain-syntax">-</span><span class="identifier-syntax">c</span><span class="plain-syntax">+1); } ];</span>
 <span class="plain-syntax">[ </span><span class="identifier-syntax">I7_SOO_TRAN</span><span class="plain-syntax"> </span><span class="identifier-syntax">oldval</span><span class="plain-syntax"> </span><span class="identifier-syntax">count</span><span class="plain-syntax">; </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">oldval</span><span class="plain-syntax">&lt;</span><span class="identifier-syntax">count</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">oldval</span><span class="plain-syntax">+1;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">count</span><span class="plain-syntax"> + </span><span class="constant-syntax">1</span><span class="plain-syntax"> + </span><span class="identifier-syntax">I7_SOO_RAN</span><span class="plain-syntax">(</span><span class="identifier-syntax">oldval</span><span class="plain-syntax">%(</span><span class="identifier-syntax">count</span><span class="plain-syntax">+1), </span><span class="identifier-syntax">count</span><span class="plain-syntax">); ];</span>
 <span class="plain-syntax">[ </span><span class="identifier-syntax">I7_SOO_TPAR</span><span class="plain-syntax"> </span><span class="identifier-syntax">oldval</span><span class="plain-syntax"> </span><span class="identifier-syntax">count</span><span class="plain-syntax">; </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">oldval</span><span class="plain-syntax">&lt;</span><span class="identifier-syntax">count</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">oldval</span><span class="plain-syntax">+1;</span>
@@ -460,10 +462,10 @@ documentation.
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">count</span><span class="plain-syntax"> &gt; </span><span class="constant-syntax">32</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">I7_SOO_PAR</span><span class="plain-syntax">(</span><span class="identifier-syntax">oldval</span><span class="plain-syntax">, </span><span class="identifier-syntax">count</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">count</span><span class="plain-syntax"> &lt;= </span><span class="constant-syntax">1</span><span class="plain-syntax">) </span><span class="identifier-syntax">v</span><span class="plain-syntax"> = </span><span class="identifier-syntax">count</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">else</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">        </span><span class="comment-syntax">rint "^In v=", v, " ct=", ct, " sd=", sd, "^";</span>
+<span class="plain-syntax">        </span><span class="comment-syntax">!print "^In v=", v, " ct=", ct, " sd=", sd, "^";</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">cc</span><span class="plain-syntax"> = </span><span class="identifier-syntax">base</span><span class="plain-syntax">*</span><span class="identifier-syntax">base</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">scope</span><span class="plain-syntax"> = (</span><span class="identifier-syntax">MAX_POSITIVE_NUMBER</span><span class="plain-syntax">-1)/</span><span class="identifier-syntax">cc</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">        </span><span class="comment-syntax">rint "Scope = ", scope, "^";</span>
+<span class="plain-syntax">        </span><span class="comment-syntax">!print "Scope = ", scope, "^";</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">sd</span><span class="plain-syntax"> == </span><span class="constant-syntax">0</span><span class="plain-syntax">) { </span><span class="identifier-syntax">sd</span><span class="plain-syntax"> = </span><span class="reserved-syntax">random</span><span class="plain-syntax">(</span><span class="identifier-syntax">scope</span><span class="plain-syntax">); </span><span class="identifier-syntax">ct</span><span class="plain-syntax">=0; }</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">i</span><span class="plain-syntax">=0:</span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;</span><span class="identifier-syntax">count</span><span class="plain-syntax">:</span><span class="identifier-syntax">i</span><span class="plain-syntax">++) </span><span class="identifier-syntax">I7_SOO_SHUF</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">i</span><span class="plain-syntax"> = </span><span class="identifier-syntax">i</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">ssd</span><span class="plain-syntax"> = </span><span class="identifier-syntax">sd</span><span class="plain-syntax">;</span>
@@ -471,29 +473,29 @@ documentation.
 <span class="plain-syntax">            </span><span class="identifier-syntax">j</span><span class="plain-syntax"> = (</span><span class="identifier-syntax">sd</span><span class="plain-syntax">)%(</span><span class="identifier-syntax">count</span><span class="plain-syntax">-</span><span class="identifier-syntax">i</span><span class="plain-syntax">)+</span><span class="identifier-syntax">i</span><span class="plain-syntax">; </span><span class="identifier-syntax">sd</span><span class="plain-syntax"> = (</span><span class="identifier-syntax">sd</span><span class="plain-syntax">*31973)+17; </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">sd</span><span class="plain-syntax">&lt;0) </span><span class="identifier-syntax">sd</span><span class="plain-syntax">=-</span><span class="identifier-syntax">sd</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">s</span><span class="plain-syntax"> = </span><span class="identifier-syntax">I7_SOO_SHUF</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">j</span><span class="plain-syntax">; </span><span class="identifier-syntax">I7_SOO_SHUF</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">j</span><span class="plain-syntax"> = </span><span class="identifier-syntax">I7_SOO_SHUF</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">i</span><span class="plain-syntax">; </span><span class="identifier-syntax">I7_SOO_SHUF</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">i</span><span class="plain-syntax"> = </span><span class="identifier-syntax">s</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        }</span>
-<span class="plain-syntax">        </span><span class="comment-syntax">or (i=0:i&lt;count:i++) print I7_SOO_SHUF-&gt;i, " "; print "^";</span>
+<span class="plain-syntax">        </span><span class="comment-syntax">!for (i=0:i&lt;count:i++) print I7_SOO_SHUF-&gt;i, " "; print "^";</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">v</span><span class="plain-syntax"> = (</span><span class="identifier-syntax">I7_SOO_SHUF</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">ct</span><span class="plain-syntax">)+1;</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">ct</span><span class="plain-syntax">++; </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">ct</span><span class="plain-syntax"> &gt;= </span><span class="identifier-syntax">count</span><span class="plain-syntax">) { </span><span class="identifier-syntax">ct</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">; </span><span class="identifier-syntax">ssd</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">; }</span>
 <span class="plain-syntax">    }</span>
-<span class="plain-syntax">    </span><span class="comment-syntax">rint "Out v=", v, " ct=", ct, " ssd=", sd, "^";</span>
-<span class="plain-syntax">    </span><span class="comment-syntax">rint "Return ", v + ct*base + ssd*base*base, "^";</span>
+<span class="plain-syntax">    </span><span class="comment-syntax">!print "Out v=", v, " ct=", ct, " ssd=", sd, "^";</span>
+<span class="plain-syntax">    </span><span class="comment-syntax">!print "Return ", v + ct*base + ssd*base*base, "^";</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">v</span><span class="plain-syntax"> + </span><span class="identifier-syntax">ct</span><span class="plain-syntax">*</span><span class="identifier-syntax">base</span><span class="plain-syntax"> + </span><span class="identifier-syntax">ssd</span><span class="plain-syntax">*</span><span class="identifier-syntax">base</span><span class="plain-syntax">*</span><span class="identifier-syntax">base</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP18" class="paragraph-anchor"></a><b>&#167;18. Rounding.</b>The following rounds a numerical value <span class="extract"><span class="extract-syntax">t1</span></span> to the nearest unit of <span class="extract"><span class="extract-syntax">t2</span></span>;
-for instance, if <span class="extract"><span class="extract-syntax">t2</span></span> is 5 then it rounds to the nearest 5. The name is an
-anachronism, as it's used for all kinds of value.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP18" class="paragraph-anchor"></a><b>&#167;18. Rounding.</b>  The following rounds a numerical value <code>t1</code> to the nearest unit of <code>t2</code>;
+for instance, if <code>t2</code> is 5 then it rounds to the nearest 5. The name is an
+anachronism, as it's used for all kinds of value.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">RoundOffValue</span><span class="plain-syntax"> </span><span class="identifier-syntax">t1</span><span class="plain-syntax"> </span><span class="identifier-syntax">t2</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">t1</span><span class="plain-syntax"> &gt;= </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">t1</span><span class="plain-syntax">+</span><span class="identifier-syntax">t2</span><span class="plain-syntax">/2)/</span><span class="identifier-syntax">t2</span><span class="plain-syntax">)*</span><span class="identifier-syntax">t2</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> -((-</span><span class="identifier-syntax">t1</span><span class="plain-syntax">+</span><span class="identifier-syntax">t2</span><span class="plain-syntax">/2)/</span><span class="identifier-syntax">t2</span><span class="plain-syntax">)*</span><span class="identifier-syntax">t2</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">((-</span><span class="identifier-syntax">t1</span><span class="plain-syntax">+</span><span class="identifier-syntax">t2</span><span class="plain-syntax">/2)/</span><span class="identifier-syntax">t2</span><span class="plain-syntax">)*</span><span class="identifier-syntax">t2</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP19" class="paragraph-anchor"></a><b>&#167;19. Doing nothing.</b>Surprisingly, this function has a use.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP19" class="paragraph-anchor"></a><b>&#167;19. Doing nothing.</b>  Surprisingly, this function has a use.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">DoNothing</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">rfalse</span><span class="plain-syntax">;</span>

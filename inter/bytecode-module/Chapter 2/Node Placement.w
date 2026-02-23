@@ -10,10 +10,10 @@ that child is X), and it would be eaxy to get all this wrong.
 All modifications of the links between nodes must therefore be made by one of
 only three functions:
 
-(*) |NodePlacement::remove(C)| removes the node |C| from the tree.
-(*) |NodePlacement::move_to(C, IBM)| moves the node |C| to the position
+- |NodePlacement::remove(C)| removes the node |C| from the tree.
+- |NodePlacement::move_to(C, IBM)| moves the node |C| to the position
 bookmarked by |IBM|. |C| can but need not already be in the tree.
-(*) |NodePlacement::move_to_moving_bookmark(C, IBM)| moves the node |F| to
+- |NodePlacement::move_to_moving_bookmark(C, IBM)| moves the node |F| to
 the position bookmarked by |IBM|, but also adjusts |IBM| to be the natural
 next write position.
 
@@ -144,7 +144,7 @@ void NodePlacement::set_parent_UNSAFE(inter_tree_node *C, inter_tree_node *V) {
 @ This is more intricate than //NodePlacement::move_to//. The differences are
 basically that:
 
-(*) |IBM| is considered to be a write position which should move along with
+- |IBM| is considered to be a write position which should move along with
 each forwards write that is made, as if it's a sort of cursor. By "forwards
 write", we mean anything other than |BEFORE_NODEPLACEMENT|; the cursor does
 not move backwards. So if we call this function to write A, B, C, ... after R,
@@ -152,7 +152,7 @@ the result is ... R, A, B, C..., the cursor advancing one position each time;
 and if we call it to write A, B, C, ... before R, the result is ... A, B, C, R,
 ..., with the cursor staying put at R.
 
-(*) In the two "after" placements, we look at the level assigned to the new
+- In the two "after" placements, we look at the level assigned to the new
 node |C|, which tells us what hierarchical depth it should be at in the tree;
 if this is a different level from the bookmark's level, the bookmark is moved
 to that new level.

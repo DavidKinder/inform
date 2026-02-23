@@ -7,12 +7,12 @@ Quite a range of data can be held as specifications: see //values: Specification
 Inside the compiler these are stored as |parse_node| pointers. This section of
 code aims to provide a single unified way to compile values, even though:
 
-(*) We may need to compile either an array entry or an Inter |val| opcode.
+- We may need to compile either an array entry or an Inter |val| opcode.
 We abstract this using //building: Value Holsters//, holders into which
 compiled values are placed.
-(*) We sometimes need to compile a value which needs to be converted to a
+- We sometimes need to compile a value which needs to be converted to a
 different kind first, a process called "casting".
-(*) Sometimes a fresh copy of a value is needed, and sometimes a reference to
+- Sometimes a fresh copy of a value is needed, and sometimes a reference to
 its existing copy. 
 
 This complexity was historically managed by having persistent "compilation

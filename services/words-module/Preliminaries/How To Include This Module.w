@@ -18,12 +18,10 @@ A tool can import //words// only if it also imports //foundation//.
 We'll use the term "parent" to mean the tool which is importing //words//,
 that is, which will include its code and be able to use it. As with any
 imported module,
-(*) The contents page of the parent's web must identify and locate the
-module:
-= (text as Inweb)
-Import: somepath/words
-=
-(*) The parent must call |WordsModule::start()| just after it starts up, and
+
+- The contents page of the parent's web must identify and locate the
+module, with a line such as |Import: somepath/words|.
+- The parent must call |WordsModule::start()| just after it starts up, and
 |WordsModule::end()| just before it shuts down. (But just after, and just
 before, the corresponding calls to //foundation//.)
 
@@ -49,19 +47,19 @@ would be
 The words module has only a few callbacks, and they are all optional. The
 following alphabetical list has references to fuller explanations:
 
-(*) |MORE_PREFORM_OPTIMISER_WORDS_CALLBACK| and |PREFORM_OPTIMISER_WORDS_CALLBACK|
+- |MORE_PREFORM_OPTIMISER_WORDS_CALLBACK| and |PREFORM_OPTIMISER_WORDS_CALLBACK|
 have the opportunity to flag certain Preform nonterminals in ways which will
 help //The Optimiser//.
 
-(*) |PREFORM_ERROR_WORDS_CALLBACK| allows the parent to issue errors about
+- |PREFORM_ERROR_WORDS_CALLBACK| allows the parent to issue errors about
 Preform definitions in its own way; they will otherwise by default be standard
 command-line error message written to |STDERR|.
 
-(*) |PROBLEM_WORDS_CALLBACK| is called when a lexical error is found, and can
+- |PROBLEM_WORDS_CALLBACK| is called when a lexical error is found, and can
 prevent this from being issued to the terminal as an error message: see
 //Lexer::lexer_problem_handler//.
 
-(*) |VOCABULARY_MEANING_INITIALISER_WORDS_CALLBACK| is called to attach a
+- |VOCABULARY_MEANING_INITIALISER_WORDS_CALLBACK| is called to attach a
 meaning object to a single //vocabulary_entry//. In this module, meanings are
 not our concern: all we provide is the opportunity for our parent tool to
 attach such meanings to words. See //Vocabulary::vocab_entry_new//.

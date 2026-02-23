@@ -13,7 +13,7 @@ release of the Inform 6 compiler, but this is only a copy.
 
 The Inform 6 compiler repository is here:
 
-(*) https://github.com/DavidKinder/Inform6
+- https://github.com/DavidKinder/Inform6
 
 Note that this is a straight-up C program, and not a literate program needing
 //inweb// to compile.
@@ -21,19 +21,19 @@ Note that this is a straight-up C program, and not a literate program needing
 @ The I7 repository does not contain the Inform 6 "Designer's Manual 4th Edition",
 the "DM4", or the Inform 6 Technical Manual, for which see:
 
-(*) https://www.inform-fiction.org/manual/html/contents.html
+- https://www.inform-fiction.org/manual/html/contents.html
 
-(*) https://www.inform-fiction.org/source/tm/index.html
+- https://www.inform-fiction.org/source/tm/index.html
 
 The I7 repository also does not contain the Inform 6 library, which is not used
 by Inform 7: but see --
 
-(*) https://gitlab.com/DavidGriffith/inform6lib
+- https://gitlab.com/DavidGriffith/inform6lib
 
 @ However, the I7 repository does contain a version of Andrew Plotkin's test suite
 for the I6 compiler:
 
-(*) https://github.com/erkyrath/Inform6-Testing
+- https://github.com/erkyrath/Inform6-Testing
 
 ported to use //intest// rather than the Python script originally supplied. So
 if you've already built the Inform 7 tool chain, and are already using intest

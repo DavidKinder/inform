@@ -195,10 +195,10 @@ prefixed |i7|, and besides, everybody does it.
 
 @ A note about thread safety. Suppose the C program runs multiple threads. Then:
 
-(a) It is perfectly thread-safe for two or more threads to each be running
+- It is perfectly thread-safe for two or more threads to each be running
 Inform processes simultaneously, but
-(b) They must be different |i7process_t| objects, and
-(c) They do not share any data: each process has its own data. If there is an
+- They must be different |i7process_t| objects, and
+- They do not share any data: each process has its own data. If there is an
 Inform variable called "favourite colour", for example, two different |i7process_t|
 processes running at the same time will have two different values of this.
 
@@ -247,20 +247,23 @@ void i7_default_receiver(int id, inchar32_t c, char *style) {
 =
 This receives the text printed by the Inform process, one character at a time.
 
-(*) The |id| is a "window ID", a detail which doesn't matter to a Basic Inform
-project -- it will always in fact be |I7_BODY_TEXT_ID|. For a full Inform project
-such as an IF work, it might be any of three possibilities:
-(-*) |I7_BODY_TEXT_ID|, the main transcript of text in the story;
-(-*) |I7_STATUS_TEXT_ID|, the "status line" header at the top of a traditional
-Terminal-window-style presentation of this text;
-(-*) |I7_BOX_TEXT_ID|, a quotation printed in a box which overlies the main text.
+-	The |id| is a "window ID", a detail which doesn't matter to a Basic Inform
+	project -- it will always in fact be |I7_BODY_TEXT_ID|. For a full Inform project
+	such as an IF work, it might be any of three possibilities:
 
-(*) The |style| is a stylistic markup. It will always be a valid C string, of
-length at most 256, but is often the empty C string and of length 0, meaning
-"this is plain text with no styling applied".
-(-*) The three main styles are |italic|, |bold|, |reverse| and |fixedpitch|.
-(-*) Plain styling and these three can all be combined with a "fixed-pitch type"
-request, thus: |fixedpitch|, |italic,fixedpitch|, |bold,fixedpitch|, |reverse,fixedpitch|.
+	- |I7_BODY_TEXT_ID|, the main transcript of text in the story;
+	- |I7_STATUS_TEXT_ID|, the "status line" header at the top of a traditional
+	Terminal-window-style presentation of this text;
+	- |I7_BOX_TEXT_ID|, a quotation printed in a box which overlies the main text.
+
+-	The |style| is a stylistic markup. It will always be a valid C string, of
+	length at most 256, but is often the empty C string and of length 0, meaning
+	"this is plain text with no styling applied".
+
+	- The three main styles are |italic|, |bold|, |reverse| and |fixedpitch|.
+	- Plain styling and these three can all be combined with a "fixed-pitch type"
+	request, thus: |fixedpitch|, |italic,fixedpitch|, |bold,fixedpitch|,
+	|reverse,fixedpitch|.
 
 As can be seen, the default receiver ignores all text not sent to the main window,
 and ignores all styling even on that.
@@ -518,15 +521,15 @@ altering the Inform data.
 
 First, some functions which can only be applied to instances of |object|:
 
-(*) |i7_move(&proc, obj, to)| moves object |obj| to become a child of |to|;
-(*) |i7_parent(&proc, obj)| returns the current parent object of |obj|;
-(*) |i7_child(&proc, obj)| returns its first child;
-(*) |i7_sibling(&proc, obj)| returns the next child of the same parent as |obj|.
+- |i7_move(&proc, obj, to)| moves object |obj| to become a child of |to|;
+- |i7_parent(&proc, obj)| returns the current parent object of |obj|;
+- |i7_child(&proc, obj)| returns its first child;
+- |i7_sibling(&proc, obj)| returns the next child of the same parent as |obj|.
 
 Second, functions to look at global variables:
 
-(*) |i7_read_variable(&proc, var)| returns the current value of the variable |var|;
-(*) |i7_write_variable(&proc, var, val)| sets the value to |val|.
+- |i7_read_variable(&proc, var)| returns the current value of the variable |var|;
+- |i7_write_variable(&proc, var, val)| sets the value to |val|.
 
 Note that where variables are created by kits such as WorldModelKit, their ID
 constants have names based on the names they have in those kits: thus |i7_V_the_time|
@@ -535,9 +538,9 @@ will usually make things clear, anyway.
 
 Finally, properties of objects can similarly be read or written:
 
-(*) |i7_read_prop_value(&proc, obj, prop)| returns the current value of property
+- |i7_read_prop_value(&proc, obj, prop)| returns the current value of property
 |prop| for the object |obj|;
-(*) |i7_write_prop_value(&proc, obj, prop, val)| sets it to |val|.
+- |i7_write_prop_value(&proc, obj, prop, val)| sets it to |val|.
 
 If you need access to other data inside the Inform program, it's better to
 process it at the Inform end. These functions are just a convenience for what's
@@ -595,19 +598,22 @@ It is approximately 9:00 am, according to a dial showing 2 and 10.
 
 @ The following functions are available:
 
-(*) |i7_read_string(proc, T)| returns a newly-allocated null terminated C
+- |i7_read_string(proc, T)| returns a newly-allocated null terminated C
 string with the contents of the text T. If you're doing a lot of this, you
 may want to |free| the returned string pointer. If memory allocation fails,
 the Inform process halts with a fatal error, so you need not check yourself.
-(*) |i7_write_string(proc, T, string)| sets the text T to the null-terminated
+
+- |i7_write_string(proc, T, string)| sets the text T to the null-terminated
 C string given; if this is |NULL|, T is set to the empty text.
-(*) |i7_read_list(proc, L, length)| returns a newly-allocated C array of |i7word_t|
+
+- |i7_read_list(proc, L, length)| returns a newly-allocated C array of |i7word_t|
 values, which are the current contents of the Inform list (whose address is) |L|.
 If |length| is given, it should be a pointer to an |int|, in which is stored the
 length of the list. If you're doing a lot of this, you may want to |free| the
 returned array pointer. If memory allocation fails, the Inform process halts
 with a fatal error, so you need not check yourself.
-(*) |i7_write_list(proc, L, array, length)| sets the Inform list |L| to have
+
+- |i7_write_list(proc, L, array, length)| sets the Inform list |L| to have
 length |length| and contents given by |array[0], ..., array[length-1]|, where
 the |array| must be of |i7word_t| values. If |array| is |NULL| or |length| is 0,
 then |L| is left as the empty list.

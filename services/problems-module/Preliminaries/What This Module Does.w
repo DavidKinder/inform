@@ -5,13 +5,14 @@ An overview of the problems module's role and abilities.
 @h Prerequisites.
 The problems module is a part of the Inform compiler toolset. It is
 presented as a literate program or "web". Before diving in:
-(a) It helps to have some experience of reading webs: see //inweb// for more.
-(b) The module is written in C, in fact ANSI C99, but this is disguised by the
+
+- It helps to have some experience of reading webs: see //inweb// for more.
+- The module is written in C, in fact ANSI C99, but this is disguised by the
 fact that it uses some extension syntaxes provided by the //inweb// literate
 programming tool, making it a dialect of C called InC. See //inweb// for
 full details, but essentially: it's C without predeclarations or header files,
 and where functions have names like |Tags::add_by_name| rather than |add_by_name|.
-(c) This module uses other modules drawn from the compiler (see //structure//), and also
+- This module uses other modules drawn from the compiler (see //structure//), and also
 uses a module of utility functions called //foundation//.
 For more, see //foundation: A Brief Guide to Foundation//.
 
@@ -29,14 +30,14 @@ Sigils are in practice referred to using a macro |_p_| defined early on in
 Sigils are |char *| constants. The Inform modules use the following naming
 conventions for sigils:
 
-(a) A problem which is thought never to be generated has the sigil
+- A problem which is thought never to be generated has the sigil
 |BelievedImpossible|. Inform is quite defensively coded, so there are several
 dozen of these -- they are safety nets to catch cases we didn't think of.
-(b) A problem which either cannot be tested by //intest//, or is just
+- A problem which either cannot be tested by //intest//, or is just
 impracticable to do so, has the sigil |Untestable|.
-(c) A problem which can be tested, but for which nobody has yet written a
+- A problem which can be tested, but for which nobody has yet written a
 test case, has the sigil |...|.
-(d) Otherwise a problem should have a unique alphanumeric name beginning with
+- Otherwise a problem should have a unique alphanumeric name beginning with
 |PM_|, for "problem message": for example, |PM_NoSuchHieroglyph|. This should
 be the same name as that of the test case which exercises it.
 
@@ -58,12 +59,15 @@ happens?
 
 This depends on how complicated it is. The //problems// system has three
 levels:
+
 (3) //Problems, Level 3// contains functions for problem messages which have
 a commonly-needed shape to them: for example, //StandardProblems::sentence_problem//.
 The functions in question call down to...
+
 (2) //Problems, Level 2//, which contains functions to accept "quotations" and
 a problem message with placeholders in to hold those quotations; after which,
 they call down to...
+
 (1) //Problems, Level 1//, where the text of a message is stored in the
 "problem buffer" and eventually printed or written to a file.
 
@@ -92,11 +96,12 @@ For example:
 	Problems::issue_problem_end();
 =
 What happens, in sequence, is that we
-(a) Establish what material should go into the placeholders |%1| and |%2|,
-(b) Call //StandardProblems::handmade_problem// to begin work,
-(c) Call //Problems::issue_problem_segment// a number of times -- though often
+
+- Establish what material should go into the placeholders |%1| and |%2|,
+- Call //StandardProblems::handmade_problem// to begin work,
+- Call //Problems::issue_problem_segment// a number of times -- though often
 just once -- to put some text into the problem, and
-(d) Call //Problems::issue_problem_end// to signal that we are done.
+- Call //Problems::issue_problem_end// to signal that we are done.
 
 @ As this demonstrates, problem messages are expanded from prototypes using
 a |printf|-like formatting system. Unlike |printf|, though, where |%s| means
@@ -109,10 +114,11 @@ The placeholders do not need to be used contiguously -- if you want to use
 just |%4| and |%7|, feel free.
 
 Four further escape codes switch between problem message versions, as follows:
-(*) |%L| means "long form", the version used the first time this message is
+
+- |%L| means "long form", the version used the first time this message is
 generated,
-(*) |%S| means "short form", for subsequent times,
-(*) |%A| means "both long and short", which is the situation at the start,
+- |%S| means "short form", for subsequent times,
+- |%A| means "both long and short", which is the situation at the start,
 
 Note that the form is reset to |%A| when a new problem message begins, but not
 in between calls to //Problems::issue_problem_segment//: i.e., if one segment
@@ -158,8 +164,9 @@ typically used for filing-system disasters or failed assertions (so-called
 "internal errors").
 
 Facilities for these are very limited:
-(*) //Problems::fatal// for a simple message with fixed wording.
-(*) //Problems::fatal_on_file// for a message relating to a file.
+
+- //Problems::fatal// for a simple message with fixed wording.
+- //Problems::fatal_on_file// for a message relating to a file.
 
 These routines have to be written with care because a file-system disaster
 might mean that the problems file itself cannot be written to.
@@ -169,9 +176,10 @@ This is a text used to hold the problem message as it is assembled from pieces,
 and only Level 2 functions should print to it. Even they should call down to
 two Level 1 functions when they want to write something other than straightforward
 text:
-(*) Source text from the lexer can be quoted into it with //ProblemBuffer::copy_text//,
+
+- Source text from the lexer can be quoted into it with //ProblemBuffer::copy_text//,
 which automatically trims excessive quotes for length.
-(*) References to positions in the source text can be inserted with
+- References to positions in the source text can be inserted with
 //ProblemBuffer::copy_source_reference//: there is a sort of protocol for how
 this is done, with use of the magic |SOURCE_REF_CHAR| which will be
 intercepted later on when the problems file is written out as HTML (see

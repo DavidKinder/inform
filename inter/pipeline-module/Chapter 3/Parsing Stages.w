@@ -117,13 +117,13 @@ void ParsingStages::visit_insertions(inter_tree *I, inter_tree_node *P, void *st
 tangler docket, which is really just a collection of settings for the
 simple tangler. That comes down to:
 
-(a) the place to put any nodes generated,
-(b) what to do with I6 source code, or with commands embedded in it, or errors
+- the place to put any nodes generated,
+- what to do with I6 source code, or with commands embedded in it, or errors
 thrown by bad syntax in it, and
-(c) which file-system paths to look inside when reading from files rather
+- which file-system paths to look inside when reading from files rather
 than raw text in memory.
 
-For (c), note that if a kit is in directory |K| then its source files are
+For the latter, note that if a kit is in directory |K| then its source files are
 in |K/Sections|.
 
 @ =

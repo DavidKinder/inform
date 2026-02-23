@@ -25,14 +25,14 @@ system. There is no completely foolproof, cross-platform way to know this
 (on some Unixes, a program cannot determine its own location), so Inbuild
 decides by the following set of rules:
 
-(a) If the user, at the command line, specified |-at P|, for some path
+- If the user, at the command line, specified |-at P|, for some path
 |P|, then we use that.
-(b) Otherwise, if the host operating system can indeed tell us where the
+- Otherwise, if the host operating system can indeed tell us where the
 executable is, we use that. This is currently implemented only on MacOS,
 Windows and Linux.
-(c) Otherwise, if the environment variable |$INFORM7_PATH| exists and is
+- Otherwise, if the environment variable |$INFORM7_PATH| exists and is
 non-empty, we use that.
-(d) And if all else fails, we assume that the location is indeed |inform7|,
+- And if all else fails, we assume that the location is indeed |inform7|,
 with respect to the current working directory.
 
 @h How the UI apps call Inform 7.
@@ -75,14 +75,14 @@ out where it is installed in the file system. There is no completely foolproof,
 cross-platform way to know this (on some Unixes, a program cannot determine
 its own location), so Inform decides by the following set of rules:
 
-(a) If the user, at the command line, specified |-at P|, for some path
+- If the user, at the command line, specified |-at P|, for some path
 |P|, then we use that.
-(b) Otherwise, if the host operating system can indeed tell us where the
+- Otherwise, if the host operating system can indeed tell us where the
 executable is, we use that. This is currently implemented only on MacOS,
 Windows and Linux.
-(c) Otherwise, if the environment variable |$INFORM7_PATH| exists and is
+- Otherwise, if the environment variable |$INFORM7_PATH| exists and is
 non-empty, we use that.
-(d) And if all else fails, we assume that the location is |inform7|, with
+- And if all else fails, we assume that the location is |inform7|, with
 respect to the current working directory.
 
 The default value for |-internal| is then the subdirectory |Internal| of
@@ -212,18 +212,18 @@ The following switches are used only when testing or maintaining Inform,
 and are unlikely to be useful to end users. Many of these are, however,
 used in the Intest scripts for testing Inform 7 and Inblorb.
 
-(a) |-crash-all| performs a deliberate hard crash, dividing by zero, in
+- |-crash-all| performs a deliberate hard crash, dividing by zero, in
 the event of any Problem message being issues -- this makes it easier to
 obtain stack backtraces in a debugger.
-(b) |-no-index| skips the production of an Index, which reduces file system
+- |-no-index| skips the production of an Index, which reduces file system
 writes in a big testing run, and also saves a little time.
-(c) |-no-progress| suppresses console output of the "++ 26% (Binding rulebooks)"
+- |-no-progress| suppresses console output of the "++ 26% (Binding rulebooks)"
 kind.
-(d) |-sigils| causes each Problem message to be preceded in console output
+- |-sigils| causes each Problem message to be preceded in console output
 by its "sigil", that is, its internal code. A typical sigil is
 |PM_PropertyNameTooLong|, where the ubiquitous PM stands for "problem
 message".
-(e) |-require-problem SIGIL| tells Inform to return an exit code of 0 if
+- |-require-problem SIGIL| tells Inform to return an exit code of 0 if
 exactly this problem message is produced, and 1 otherwise.
 
 @h Expert settings file.

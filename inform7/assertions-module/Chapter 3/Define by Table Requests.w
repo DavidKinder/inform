@@ -54,16 +54,16 @@ int DefineByTable::defined_by_SMF(int task, parse_node *V, wording *NPs) {
 straightforward; if it's wrong, entries making cross-references may sometimes
 be rejected by Inform for what seem very opaque reasons. Here's the timeline:
 
-(a) Names of tables and their columns are created in the pre-pass.
+- Names of tables and their columns are created in the pre-pass.
 
-(b) In pass 1, the names in column 1 of a defined-by table are created: see
+- In pass 1, the names in column 1 of a defined-by table are created: see
 below.
 
-(c) Between pass 1 and 2 there's a process called "stocking", in which
+- Between pass 1 and 2 there's a process called "stocking", in which
 cell values of tables are parsed. This finally settles the kind of any columns
 where this has to be inferred from the contents.
 
-(d) In pass 2, the property values in columns 2 onwards are assigned to
+- In pass 2, the property values in columns 2 onwards are assigned to
 whatever was named in column 1: see below.
 
 =

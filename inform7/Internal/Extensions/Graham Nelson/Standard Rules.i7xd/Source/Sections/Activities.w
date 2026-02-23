@@ -507,19 +507,19 @@ since it needs to be consulted in sub-activities whose rules are outside what
 would be its scope; that doesn't matter, though, since locale descriptions
 are not nested. (If they were, the above table would fail in any case.)
 
-(1) Disaster would ensue if the user tampered with the "initialise locale
+- Disaster would ensue if the user tampered with the "initialise locale
 description rule", but nobody is likely to do this other than intentionally.
-(2) The "find notable locale objects rule" in fact only runs a further
+- The "find notable locale objects rule" in fact only runs a further
 activity, the "choosing notable locale objects" activity. The task here
 is to identify the objects which might by virtue of their location appear
 in the locale, and to assign each of them a priority number.
-(3) The "interesting locale paragraphs rule" goes through all of the
+- The "interesting locale paragraphs rule" goes through all of the
 notable objects chosen at stage (2), in order of priority, and offers each
 to yet another activity: the "printing a locale paragraph about" activity.
 This can either print a paragraph related to the item in question, or
 demote it as being not even nondescript (by changing its priority to 0).
 The default is to do nothing, in which case the item becomes nondescript.
-(4) The "you-can-also-see rule" prints what is, ordinarily, the final
+- The "you-can-also-see rule" prints what is, ordinarily, the final
 paragraph of the locale description, listing the nondescript items. It
 goes to some trouble to find out whether these all have a common object tree
 parent, listing them with "list contents of" if they do: this is so that
@@ -638,46 +638,47 @@ only if it is not "mentioned" already. This will happen if it has been
 named by a previous paragraph, but also if it has been explicitly marked
 as such to get rid of it. In considering an item, we have three basic
 options:
-(a) Print a paragraph about the item and mark it as mentioned -- this
+
+- Print a paragraph about the item and mark it as mentioned -- this
 is good for interesting items deserving a paragraph of their own.
-(b) Print a paragraph, but do not mark it as mentioned -- this is only
+- Print a paragraph, but do not mark it as mentioned -- this is only
 likely to be useful if we want to print information related to the
 item without mentioning the thing itself. (For instance, if the presence
 of a mysterious parcel resulted in a ticking noise, we could print a
 paragraph about the ticking noise without mentioning the parcel, which
 would then appear later.)
-(c) Mark the item as mentioned but print nothing -- this gets rid of the
+- Mark the item as mentioned but print nothing -- this gets rid of the
 item, ensuring that it will not appear in the final "you can also see"
 sentence, and will not be considered by subsequent rules.
-(d) Do nothing at all -- the item then becomes "nondescript" and appears
+- Do nothing at all -- the item then becomes "nondescript" and appears
 in the final "you can also see" sentence, unless somebody else mentions
 it in the mean time.
 
 Briefly, then, the following is the standard method:
 
-(1) The "don't mention player's supporter in room descriptions rule"
+- The "don't mention player's supporter in room descriptions rule"
 excludes anything the player is directly or indirectly standing on or,
 less frequently, in. The header of the room description has probably
 already said something like "Boudoir (on the four-poster bed)", so
 the player can't be unaware of this item.
-(2) The "don't mention scenery in room descriptions rule" excludes
+- The "don't mention scenery in room descriptions rule" excludes
 scenery.
-(3) The "don't mention undescribed items in room descriptions rule"
+- The "don't mention undescribed items in room descriptions rule"
 excludes the player object. (It's redundant to say "You can also see
 yourself here.") At present nothing else in I7 is "undescribed"
 in this sense.
-(4) The "set pronouns from items in room descriptions rule" adjusts
+- The "set pronouns from items in room descriptions rule" adjusts
 the meaning of pronouns like IT and HER to pick up items mentioned.
 Thus if a room description ends "Mme Tourmalet glares at you.", then
 HER would be adjusted to mean Mme Tourmalet.
-(5) The "offer items to writing a paragraph about rule" gives the
+- The "offer items to writing a paragraph about rule" gives the
 "printing a paragraph about" activity a chance to intervene. We detect
 whether it does intervene or not by looking to see if it has printed
 any text.
-(6) The "use initial appearance in room descriptions rule" uses the
+- The "use initial appearance in room descriptions rule" uses the
 initial appearance property of an object which has never been handled
 as a paragraph.
-(7) The "describe what's on scenery supporters in room descriptions rule"
+- The "describe what's on scenery supporters in room descriptions rule"
 is a somewhat controversial feature: whereas the rest of Inform's room
 description conventions are generally consensus, this one is much
 disliked by some users for its occasional inappropriateness. It prints

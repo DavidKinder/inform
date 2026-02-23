@@ -18,12 +18,10 @@ A tool can import //linguistics// only if it also imports //foundation//,
 We'll use the term "parent" to mean the tool which is importing //linguistics//,
 that is, which will include its code and be able to use it. As with any
 imported module,
-(*) The contents page of the parent's web must identify and locate the
-module:
-= (text as Inweb)
-Import: somepath/linguistics
-=
-(*) The parent must call |InflectionsModule::start()| just after it starts up, and
+
+- The contents page of the parent's web must identify and locate the
+module: |Import: somepath/linguistics|
+- The parent must call |InflectionsModule::start()| just after it starts up, and
 |InflectionsModule::end()| just before it shuts down. (But just after, and just
 before, the corresponding calls to //foundation//.)
 
@@ -65,47 +63,47 @@ would be
 The linguistics module has many callbacks, but they are all optional. The
 following alphabetical list has references to fuller explanations:
 
-(*) |ADAPTIVE_PERSON_LINGUISTICS_CALLBACK| returns the default person for adaptive
+- |ADAPTIVE_PERSON_LINGUISTICS_CALLBACK| returns the default person for adaptive
 text generation; in Inform, this tends to be the value of the adaptive text viewpoint
 property for the natural language of play. Similarly, |ADAPTIVE_NUMBER_LINGUISTICS_CALLBACK|
 returns the number (singular or plural). See //VerbUsages::adaptive_person//.
 
-(*) |ADJECTIVE_NAME_VETTING_LINGUISTICS_CALLBACK| should return |TRUE| if the given
+- |ADJECTIVE_NAME_VETTING_LINGUISTICS_CALLBACK| should return |TRUE| if the given
 name is acceptable as an adjective, and should otherwise print some sort of
 error message and return |FALSE|. If this callback is not provided, all non-empty
 names are acceptable. See //Adjectives::declare//.
 
-(*) |ALLOW_VERB_IN_ASSERTIONS_LINGUISTICS_CALLBACK| and |ALLOW_VERB_LINGUISTICS_CALLBACK|
+- |ALLOW_VERB_IN_ASSERTIONS_LINGUISTICS_CALLBACK| and |ALLOW_VERB_LINGUISTICS_CALLBACK|
 give the parent control over which forms of verbs are allowed: for example, //core//
 allows them in assertions only in the third person (singular or plural), whereas
 it allows them in any form in non-assertion contexts. See
 //VerbUsages::register_voices_of_verb//.
 
-(*) |ADJECTIVE_COMPILATION_LINGUISTICS_CALLBACK|, if provided, should accompany a
+- |ADJECTIVE_COMPILATION_LINGUISTICS_CALLBACK|, if provided, should accompany a
 declaration of a structure called |adjecttve_compilation_data|; this function should
 then set up that data for the given adjective -- see //Adjectives::declare//.
 
-(*) |ADJECTIVE_MEANING_LINGUISTICS_CALLBACK|, if provided, should accompany a
+- |ADJECTIVE_MEANING_LINGUISTICS_CALLBACK|, if provided, should accompany a
 declaration of a structure called |adjective_meaning_data|; this function should
 then set up that data for the given adjective -- see //Adjectives::declare//.
 
-(*) |NOUN_COMPILATION_LINGUISTICS_CALLBACK|, if provided, should accompany a
+- |NOUN_COMPILATION_LINGUISTICS_CALLBACK|, if provided, should accompany a
 declaration of a structure called |name_compilation_data|; this function should
 then set up that data for the given noun -- see //Nouns::new_inner//.
 
-(*) |NOUN_DISAMBIGUATION_LINGUISTICS_CALLBACK|, if provided, should accompany a
+- |NOUN_DISAMBIGUATION_LINGUISTICS_CALLBACK|, if provided, should accompany a
 declaration of a structure called |name_resolution_data|; this function should
 decide which possible reading of the meaning of a noun makes the best sense in
 context -- see //Nouns::disambiguate//.
 
-(*) |TRACING_LINGUISTICS_CALLBACK|, if provided, can return |TRUE| to allow
+- |TRACING_LINGUISTICS_CALLBACK|, if provided, can return |TRUE| to allow
 extensive details of verb parsing to be copied to the debugging log. See
 //VerbPhrases::tracing//.
 
-(*) |VERB_COMPILATION_LINGUISTICS_CALLBACK|, if provided, allows the |compilation_data|
+- |VERB_COMPILATION_LINGUISTICS_CALLBACK|, if provided, allows the |compilation_data|
 part of a |verb| to be initialised. See //Verbs::new_verb//.
 
-(*) |VERB_MEANING_REVERSAL_LINGUISTICS_CALLBACK| reverses the meaning of a verb:
+- |VERB_MEANING_REVERSAL_LINGUISTICS_CALLBACK| reverses the meaning of a verb:
 in the sense that the reversal of "A knows B" would be "A is known by B",
 or in other words "B knows A". See //VerbMeanings::reverse_VMT//.
  

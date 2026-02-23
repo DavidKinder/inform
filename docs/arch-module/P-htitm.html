@@ -64,17 +64,14 @@ other modules except for <a href="../foundation/index.html" class="internal">fou
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Importing the module.</b>  We'll use the term &quot;parent&quot; to mean the tool which is importing <a href="index.html" class="internal">arch</a>,
 that is, which will include its code and be able to use it. As with any
-imported module,
-(*) The contents page of the parent's web must identify and locate the
-module:</p>
-</div>
-<pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">Import: somepath/arch</span>
-</pre>
-<div class="lsmarkdown">
-<p>(*) The parent must call <code>ArchModule::start()</code> just after it starts up, and
+imported module,</p>
+<ul>
+<li>The contents page of the parent's web must identify and locate the
+module: <code>Import: somepath/arch</code></li>
+<li>The parent must call <code>ArchModule::start()</code> just after it starts up, and
 <code>ArchModule::end()</code> just before it shuts down. (But just after, and just
-before, the corresponding calls to <a href="../foundation/index.html" class="internal">foundation</a>.)</p>
+before, the corresponding calls to <a href="../foundation/index.html" class="internal">foundation</a>.)</li>
+</ul>
 </div>
 <nav role="progress"><div class="progresscontainer">
     <ul class="progressbar"><li class="progressprev"><a href="P-wtmd.html">&#10094;</a></li><li class="progresscurrentchapter">P</li><li class="progresssection"><a href="P-wtmd.html">wtmd</a></li><li class="progresscurrent">htitm</li><li class="progresschapter"><a href="1-am.html">1</a></li><li class="progresschapter"><a href="2-arc.html">2</a></li><li class="progresschapter"><a href="3-fm.html">3</a></li><li class="progressnext"><a href="1-am.html">&#10095;</a></li></ul></div>

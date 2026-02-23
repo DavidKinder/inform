@@ -395,8 +395,9 @@ void Sequence::queue_at(void (*agent)(struct compilation_subtask *),
 }
 
 @ New entries are inserted in the queue at two write positions:
-(*) after the |last_task|, i.e., at the back, if no task is currently going on; or
-(*) after the |current_horizon| marker, i.e., after the current task finishes.
+
+* after the |last_task|, i.e., at the back, if no task is currently going on; or
+* after the |current_horizon| marker, i.e., after the current task finishes.
 
 In the case where we are currently in the middle of what was the last task
 when it started, these two positions will be the same, so we sometimes need

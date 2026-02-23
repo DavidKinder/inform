@@ -38,8 +38,9 @@ invisible from source text, and construct a loop analogous to:
 	for (v1=D(0), v2=D(v1); v1; v1=v2, v2=D(v1))
 =
 where |D| is a function deferred from the proposition which is such that:
-(*) |D(0)| produces the first $x$ such that $\phi(x)$, and otherwise
-(*) |D(x)| produces either the next match after $x$, or 0 to indicate that
+
+- |D(0)| produces the first $x$ such that $\phi(x)$, and otherwise
+- |D(x)| produces either the next match after $x$, or 0 to indicate that
 there are no further matches.
 
 This arrangement is possible because object values, and enumerated values, are
@@ -258,9 +259,10 @@ This is a quite different kind of loop: for iterating through the members of
 a list (whose contents are not known at compile time).
 
 We need three variables, of which only |val_var| is visible in source text:
-(*) |index_var_s| is the position in the list -- 0, 1, 2, ...;
-(*) |val_var_s| is the entry at that position;
-(*) |copy_var_s| is the list itself -- which we stash into this temporary
+
+- |index_var_s| is the position in the list -- 0, 1, 2, ...;
+- |val_var_s| is the entry at that position;
+- |copy_var_s| is the list itself -- which we stash into this temporary
 variable to avoid having to evaluate it more than once.
 
 =

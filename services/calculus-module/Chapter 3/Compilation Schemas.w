@@ -12,9 +12,9 @@ Code in the Inform compiler is generated largely from "schemas", which are
 small model pieces of code used with variations in different settings. There
 are two different data structures for these:
 
-(a) An |i6_schema| uses textual notation based on the syntax of the C-like
+- An |i6_schema| uses textual notation based on the syntax of the C-like
 language Inform 6; to be used, this must be converted to
-(b) An |inter_schema|, which is a partly compiled form of the same, and
+- An |inter_schema|, which is a partly compiled form of the same, and
 has a tree structure closer to the final Inter code.
 
 For inter schemas and how the conversion of (a) to (b) is done, see the
@@ -151,9 +151,10 @@ void Calculus::Schemas::append(i6_schema *sch, char *fmt, ...) {
 
 @ We recognise only a few escapes here: |%%|, a literal percentage sign; |%d|,
 an integer; |%s|, a C string; |%S|, a text stream; and three which are higher-level:
-(a) |%k| takes a |kind| parameter and expands to its weak ID;
-(b) |%L| takes a |local_variable| and expands to its identifier;
-(c) |%n| takes an |inter_name|, which expands more cautiously in a way which
+
+- |%k| takes a |kind| parameter and expands to its weak ID;
+- |%L| takes a |local_variable| and expands to its identifier;
+- |%n| takes an |inter_name|, which expands more cautiously in a way which
 stores the actual |inter_name| reference: it is possible for two different
 global values to have different |inter_name|s but the same identifier text,
 so it would not be safe to store only the textual identifier.

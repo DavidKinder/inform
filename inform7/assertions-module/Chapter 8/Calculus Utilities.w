@@ -213,12 +213,13 @@ parse the text to find what which property is referred to.
 obvious division of punctuation between the two. What makes matters worse
 is that we do not yet know all the property names, nor do we have the
 ability to discern values. So we seek the division by
-(i) trying to find the longest known property name at the start of the
+
+- trying to find the longest known property name at the start of the
 text; if there is no known name,
-(ii) we see if the final word of the text is a literal, such as a number or
+- we see if the final word of the text is a literal, such as a number or
 a quoted text, and if so we assume this is the entire property value and
 that the rest is property name; and otherwise
-(iii) we assume the property name is one word only.
+- we assume the property name is one word only.
 
 @<Divide the property list entry into property name and value text@> =
 	wording W = Articles::remove_the(Node::get_text(p));

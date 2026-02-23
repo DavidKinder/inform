@@ -13,10 +13,11 @@ Our object code, Inter, is designed for use with virtual machines on which the
 call stack is not directly addressable, so the term "stack frame" here is used
 a little loosely. What we mean is: the collection of everything that is distinctive
 about the function currently being compiled. In particular:
-(*) its local variables;
-(*) what shared variables it can see;
-(*) what interpretations to place on the kind variables |A| to |Z|, if any;
-(*) what kind of value we should be returning, if anything.
+
+- its local variables;
+- what shared variables it can see;
+- what interpretations to place on the kind variables |A| to |Z|, if any;
+- what kind of value we should be returning, if anything.
 
 @ Code can only be compiled "inside" a stack frame, and at any given time
 (when code is being compiled, anyway) there is a "current" frame.

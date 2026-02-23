@@ -12,6 +12,11 @@
 <link href="../docs-assets/Navigation.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Fonts.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -46,9 +51,9 @@
     <ul class="crumbs"><li><a href="../index.html">Home</a></li><li><a href="../extensions.html">Kits</a></li><li><a href="index.html">Architecture32Kit</a></li><li><b>Version Numbers</b></li></ul></div>
 <p class="purpose">Version Numbers  Support for the version number kind.</p>
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>See "Writing with Inform" for details.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  See &quot;Writing with Inform&quot; for details.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">VERSION_NUMBER_MAJOR_F</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">VERSION_NUMBER_MINOR_F</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
@@ -62,7 +67,7 @@
 
 <span class="plain-syntax">[ </span><span class="identifier-syntax">VERSION_NUMBER_TY_Compare</span><span class="plain-syntax"> </span><span class="identifier-syntax">vn1</span><span class="plain-syntax"> </span><span class="identifier-syntax">vn2</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax"> </span><span class="identifier-syntax">d</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">i</span><span class="plain-syntax">=</span><span class="identifier-syntax">VERSION_NUMBER_MAJOR_F</span><span class="plain-syntax">: </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;=</span><span class="identifier-syntax">VERSION_NUMBER_PATCH_F</span><span class="plain-syntax">: </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) {</span>
-<span class="plain-syntax">        </span><span class="identifier-syntax">d</span><span class="plain-syntax"> = </span><span class="identifier-syntax">PVField</span><span class="plain-syntax">(</span><span class="identifier-syntax">vn1</span><span class="plain-syntax">, </span><span class="identifier-syntax">i</span><span class="plain-syntax">) - </span><span class="identifier-syntax">PVField</span><span class="plain-syntax">(</span><span class="identifier-syntax">vn2</span><span class="plain-syntax">, </span><span class="identifier-syntax">i</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">d</span><span class="plain-syntax"> = </span><span class="identifier-syntax">PVField</span><span class="plain-syntax">(</span><span class="identifier-syntax">vn1</span><span class="plain-syntax">, </span><span class="identifier-syntax">i</span><span class="plain-syntax">) </span><span class="constant-syntax">-</span><span class="plain-syntax"> </span><span class="identifier-syntax">PVField</span><span class="plain-syntax">(</span><span class="identifier-syntax">vn2</span><span class="plain-syntax">, </span><span class="identifier-syntax">i</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">d</span><span class="plain-syntax"> ~= </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">d</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>

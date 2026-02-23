@@ -82,16 +82,16 @@ variables, so Inblorb itself has to choose CSS styles for anything interesting
 that is displayed there. We use the following style names, which a CSS file
 is required to define:
 
-(a) |columnhead| -- the heading of a column in a Table in I7 source text
-(b) |comment| -- comments in I7 source text
-(c) |filetype| -- the "(pdf, 150KB)" text annotating links
-(d) |heading| -- heading or top line of a Table in I7 source text
-(e) |i6code| -- verbatim I6 code in I7 source text
-(f) |notecue| -- footnote cues which annotate I7 source text
-(g) |notesheading| -- the little "Notes" subheading above the footnotes to source text
-(h) |notetext| -- texts of footnotes which annotate I7 source text
-(i) |quote| -- double-quoted text in I7 source text
-(j) |substitution| -- text substitution inside double-quoted text in I7 source text
+- |columnhead| -- the heading of a column in a Table in I7 source text
+- |comment| -- comments in I7 source text
+- |filetype| -- the "(pdf, 150KB)" text annotating links
+- |heading| -- heading or top line of a Table in I7 source text
+- |i6code| -- verbatim I6 code in I7 source text
+- |notecue| -- footnote cues which annotate I7 source text
+- |notesheading| -- the little "Notes" subheading above the footnotes to source text
+- |notetext| -- texts of footnotes which annotate I7 source text
+- |quote| -- double-quoted text in I7 source text
+- |substitution| -- text substitution inside double-quoted text in I7 source text
 
 In addition it must provide paragraph classes |indent0| to |indent9| for code
 which begins at tab positions 0 to 9 (see below). Although "Standard.css"

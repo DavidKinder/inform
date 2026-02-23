@@ -24,13 +24,13 @@ int pap_failure_reason; /* one of the above */
 The parser is not contextless, and in particular can run in several globally
 set modes:
 
-(*) When we |PERMIT_TRYING_OMISSION|, we allow "Ganatus going east" as well as the
+- When we |PERMIT_TRYING_OMISSION|, we allow "Ganatus going east" as well as the
 more cumbersome "Ganatus trying going east".
-(*) When we |FORBID_NONCONSTANT_ACTION_PARAMETERS|, we disallow the use of local
+- When we |FORBID_NONCONSTANT_ACTION_PARAMETERS|, we disallow the use of local
 or global variables in action patterns.
-(*) When |SCANNING_ANL_ONLY|, we do not perform a full parse, but only enough to
+- When |SCANNING_ANL_ONLY|, we do not perform a full parse, but only enough to
 get as far as the action name list.
-(*) When we |SUPPRESS_AP_PARSING|, the nonterminal <action-pattern-core> is
+- When we |SUPPRESS_AP_PARSING|, the nonterminal <action-pattern-core> is
 rigged always to fail.
 
 @d PERMIT_TRYING_OMISSION                1
@@ -130,8 +130,8 @@ value called the "meter setting".[1] Clearly the text "meter trying setting"
 would be unambiguous, but if we allow "trying" to be omitted then there are
 two possible readings of "meter setting" as a noun:
 
-(*) the obvious one to a human reader, i.e., the value of the meter setting;
-(*) the action in which the meter is performing a setting.
+- the obvious one to a human reader, i.e., the value of the meter setting;
+- the action in which the meter is performing a setting.
 
 We reject the second option only by testing the actor to make sure it is a
 person: for something inanimate like the meter, it is not.

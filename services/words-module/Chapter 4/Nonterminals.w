@@ -50,8 +50,9 @@ It then tangles this macro usage into //Nonterminals::register// above:
 	REGISTER_NONTERMINAL(U"<competitor>", competitor_NTM);
 =
 And it also tangles matching declarations for:
-(a) the global variable |competitor_NTM|, of type |nonterminal *|;
-(b) the "compositor function" |competitor_NTMC|, which is a function to
+
+- the global variable |competitor_NTM|, of type |nonterminal *|;
+- the "compositor function" |competitor_NTMC|, which is a function to
 deal with what happens when a successful match is made against the grammar --
 this incorporates the material which //inweb// finds to the right of the |==>|
 markers in the Preform definition.
@@ -81,8 +82,9 @@ a nonterminal object of that name even if one does not already exist.
 
 @ The position for internal nonterminals (i.e. those defined by a function
 written by the programmer, not by Preform grammar lines) is similar:
-(a) again there is a global variable, say |any_integer_NTM|, of type |nonterminal *|;
-(b) but now there is no compositor, and instead there is a function |any_integer_NTMR|
+
+- again there is a global variable, say |any_integer_NTM|, of type |nonterminal *|;
+- but now there is no compositor, and instead there is a function |any_integer_NTMR|
 which actually performs the parse directly.
 
 The |INTERNAL_NONTERMINAL| macro similarly initialises and connects these
@@ -130,27 +132,27 @@ typedef struct nonterminal {
 
 @ A few notes on this are in order:
 
-(a) As noted above, every nonterminal is either "internal" or "regular". If
+- As noted above, every nonterminal is either "internal" or "regular". If
 internal, it is defined by a function; if regular, it is defined by lines
 of grammar (called "productions") and a compositor function.
 
-(b) A few internal nonterminals are "voracious". These are given the entire
+- A few internal nonterminals are "voracious". These are given the entire
 word range for their productions to eat, and encouraged to eat as much as they
 like, returning a word number to show how far they got. While this effect
 could be duplicated with non-voracious nonterminals, that would be quite a bit
 slower, since it would have to test every possible word range.
 
-(c) A few regular nonterminals are "multiplicitous". These composite their
+- A few regular nonterminals are "multiplicitous". These composite their
 results in a way special to the Inform compiler's syntax tree, by stacking
 them up as alternative possible readings of the same text. Ordinarily, the
 result of parsing text against a nonterminal is that the first grammar line
 matching that text determines the meaning, but for a multiplicitous nonterminal,
 every line matching the text determines one of perhaps many possible meanings.
 
-(d) For numbering and flagging on regular NTs, see //Nonterminals::make_numbering//
+- For numbering and flagging on regular NTs, see //Nonterminals::make_numbering//
 below.
 
-(e) The optimisation data helps the parser to reject non-matching text quickly.
+- The optimisation data helps the parser to reject non-matching text quickly.
 For example, if the optimiser can determine that <competitor> only ever matches
 texts of between 3 and 7 words in length, it can quickly reject any run of
 words outside that range. (However: note that a maximum of 0 means that the

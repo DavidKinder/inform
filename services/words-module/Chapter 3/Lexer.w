@@ -567,12 +567,10 @@ The lexer takes its input as a stream of characters, sent from a "feeder
 routine": there are two of these, one sending the stream from a file, the
 other from a C string. A feeder routine is required to:
 
-(1) call |Lexer::feed_begins| before sending the first character,
-
-(2) send ISO Latin-1 characters which also exist in ZSCII, in sequence,
+- call |Lexer::feed_begins| before sending the first character,
+- send ISO Latin-1 characters which also exist in ZSCII, in sequence,
 via |Lexer::feed_triplet|,
-
-(3) conclude by calling |Lexer::feed_ends|.
+- conclude by calling |Lexer::feed_ends|.
 
 Only one feeder can be active at a time, as the following routines ensure.
 

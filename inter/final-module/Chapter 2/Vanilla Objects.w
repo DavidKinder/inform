@@ -10,13 +10,14 @@ for example, some either-or properties of objects may be represented as
 simple as possible here.
 
 What we assume is that:
-(a) A property |P| is represented at runtime by a small word array.
-(b) The meaning of the first two words, |P-->0| and |P-->1|, is up to the
+
+- A property |P| is represented at runtime by a small word array.
+- The meaning of the first two words, |P-->0| and |P-->1|, is up to the
 generator. It can put anything it likes in them.
-(c) |P-->2| is 1 for either-or properties, 0 for all others.
-(d) |P-->3| is the printed name of the property, for use in debugging or
+- |P-->2| is 1 for either-or properties, 0 for all others.
+- |P-->3| is the printed name of the property, for use in debugging or
 runtime problem messages.
-(e) |P-->4| onwards is a set of permissions, a concise representation of
+- |P-->4| onwards is a set of permissions, a concise representation of
 which instances can have the property in question. This is 0-terminated.
 
 @ The biggest complication we face is that the linking process has left us, in

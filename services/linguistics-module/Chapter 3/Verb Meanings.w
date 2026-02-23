@@ -81,9 +81,10 @@ verb_meaning VerbMeanings::special(special_meaning_holder *sm) {
 @ You can, however, have neither one, if you instead choose to "indirect" the
 meaning -- this means saying "the same meaning as the regular sense of the base
 form of a given verb", possibly reversed. Note that
-(a) An indirected VM must never be used as the meaning for the base form of a
+
+- An indirected VM must never be used as the meaning for the base form of a
 verb, and therefore
-(b) We can never have a situation where a VM indirects to a verb whose meaning
+- We can never have a situation where a VM indirects to a verb whose meaning
 then indirects to something else.
 
 This might be used, for example, to set the meaning of "liked by" to be the

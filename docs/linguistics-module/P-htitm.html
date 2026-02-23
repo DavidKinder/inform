@@ -66,17 +66,14 @@ other modules except for <a href="../foundation/index.html" class="internal">fou
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Importing the module.</b>  We'll use the term &quot;parent&quot; to mean the tool which is importing <a href="index.html" class="internal">linguistics</a>,
 that is, which will include its code and be able to use it. As with any
-imported module,
-(*) The contents page of the parent's web must identify and locate the
-module:</p>
-</div>
-<pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">Import: somepath/linguistics</span>
-</pre>
-<div class="lsmarkdown">
-<p>(*) The parent must call <code>InflectionsModule::start()</code> just after it starts up, and
+imported module,</p>
+<ul>
+<li>The contents page of the parent's web must identify and locate the
+module: <code>Import: somepath/linguistics</code></li>
+<li>The parent must call <code>InflectionsModule::start()</code> just after it starts up, and
 <code>InflectionsModule::end()</code> just before it shuts down. (But just after, and just
-before, the corresponding calls to <a href="../foundation/index.html" class="internal">foundation</a>.)</p>
+before, the corresponding calls to <a href="../foundation/index.html" class="internal">foundation</a>.)</li>
+</ul>
 </div>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Meaning types.</b>  This module tries to be agnostic about the actual meanings of words: it knows
@@ -117,40 +114,62 @@ would be</p>
 <div class="lsmarkdown">
 <p>The linguistics module has many callbacks, but they are all optional. The
 following alphabetical list has references to fuller explanations:</p>
-<p>(*) <code>ADAPTIVE_PERSON_LINGUISTICS_CALLBACK</code> returns the default person for adaptive
+<ul>
+<li>
+<p><code>ADAPTIVE_PERSON_LINGUISTICS_CALLBACK</code> returns the default person for adaptive
 text generation; in Inform, this tends to be the value of the adaptive text viewpoint
 property for the natural language of play. Similarly, <code>ADAPTIVE_NUMBER_LINGUISTICS_CALLBACK</code>
 returns the number (singular or plural). See <a href="3-vu.html#SP24" class="internal">VerbUsages::adaptive_person</a>.</p>
-<p>(*) <code>ADJECTIVE_NAME_VETTING_LINGUISTICS_CALLBACK</code> should return <code>TRUE</code> if the given
+</li>
+<li>
+<p><code>ADJECTIVE_NAME_VETTING_LINGUISTICS_CALLBACK</code> should return <code>TRUE</code> if the given
 name is acceptable as an adjective, and should otherwise print some sort of
 error message and return <code>FALSE</code>. If this callback is not provided, all non-empty
 names are acceptable. See <a href="2-adj.html#SP3" class="internal">Adjectives::declare</a>.</p>
-<p>(*) <code>ALLOW_VERB_IN_ASSERTIONS_LINGUISTICS_CALLBACK</code> and <code>ALLOW_VERB_LINGUISTICS_CALLBACK</code>
+</li>
+<li>
+<p><code>ALLOW_VERB_IN_ASSERTIONS_LINGUISTICS_CALLBACK</code> and <code>ALLOW_VERB_LINGUISTICS_CALLBACK</code>
 give the parent control over which forms of verbs are allowed: for example, <a href="../core-module/index.html" class="internal">core</a>
 allows them in assertions only in the third person (singular or plural), whereas
 it allows them in any form in non-assertion contexts. See
 <a href="3-vu.html#SP7" class="internal">VerbUsages::register_voices_of_verb</a>.</p>
-<p>(*) <code>ADJECTIVE_COMPILATION_LINGUISTICS_CALLBACK</code>, if provided, should accompany a
+</li>
+<li>
+<p><code>ADJECTIVE_COMPILATION_LINGUISTICS_CALLBACK</code>, if provided, should accompany a
 declaration of a structure called <code>adjecttve_compilation_data</code>; this function should
 then set up that data for the given adjective -- see <a href="2-adj.html#SP3" class="internal">Adjectives::declare</a>.</p>
-<p>(*) <code>ADJECTIVE_MEANING_LINGUISTICS_CALLBACK</code>, if provided, should accompany a
+</li>
+<li>
+<p><code>ADJECTIVE_MEANING_LINGUISTICS_CALLBACK</code>, if provided, should accompany a
 declaration of a structure called <code>adjective_meaning_data</code>; this function should
 then set up that data for the given adjective -- see <a href="2-adj.html#SP3" class="internal">Adjectives::declare</a>.</p>
-<p>(*) <code>NOUN_COMPILATION_LINGUISTICS_CALLBACK</code>, if provided, should accompany a
+</li>
+<li>
+<p><code>NOUN_COMPILATION_LINGUISTICS_CALLBACK</code>, if provided, should accompany a
 declaration of a structure called <code>name_compilation_data</code>; this function should
 then set up that data for the given noun -- see <a href="2-nns.html#SP8" class="internal">Nouns::new_inner</a>.</p>
-<p>(*) <code>NOUN_DISAMBIGUATION_LINGUISTICS_CALLBACK</code>, if provided, should accompany a
+</li>
+<li>
+<p><code>NOUN_DISAMBIGUATION_LINGUISTICS_CALLBACK</code>, if provided, should accompany a
 declaration of a structure called <code>name_resolution_data</code>; this function should
 decide which possible reading of the meaning of a noun makes the best sense in
 context -- see <a href="2-nns.html#SP14" class="internal">Nouns::disambiguate</a>.</p>
-<p>(*) <code>TRACING_LINGUISTICS_CALLBACK</code>, if provided, can return <code>TRUE</code> to allow
+</li>
+<li>
+<p><code>TRACING_LINGUISTICS_CALLBACK</code>, if provided, can return <code>TRUE</code> to allow
 extensive details of verb parsing to be copied to the debugging log. See
 <a href="4-vp.html#SP3" class="internal">VerbPhrases::tracing</a>.</p>
-<p>(*) <code>VERB_COMPILATION_LINGUISTICS_CALLBACK</code>, if provided, allows the <code>compilation_data</code>
+</li>
+<li>
+<p><code>VERB_COMPILATION_LINGUISTICS_CALLBACK</code>, if provided, allows the <code>compilation_data</code>
 part of a <code>verb</code> to be initialised. See <a href="3-vrb.html#SP3" class="internal">Verbs::new_verb</a>.</p>
-<p>(*) <code>VERB_MEANING_REVERSAL_LINGUISTICS_CALLBACK</code> reverses the meaning of a verb:
+</li>
+<li>
+<p><code>VERB_MEANING_REVERSAL_LINGUISTICS_CALLBACK</code> reverses the meaning of a verb:
 in the sense that the reversal of &quot;A knows B&quot; would be &quot;A is known by B&quot;,
 or in other words &quot;B knows A&quot;. See <a href="3-vm.html#SP2" class="internal">VerbMeanings::reverse_VMT</a>.</p>
+</li>
+</ul>
 </div>
 <nav role="progress"><div class="progresscontainer">
     <ul class="progressbar"><li class="progressprev"><a href="P-asd.html">&#10094;</a></li><li class="progresscurrentchapter">P</li><li class="progresssection"><a href="P-wtmd.html">wtmd</a></li><li class="progresssection"><a href="P-asd.html">asd</a></li><li class="progresscurrent">htitm</li><li class="progresschapter"><a href="1-lm.html">1</a></li><li class="progresschapter"><a href="2-adj.html">2</a></li><li class="progresschapter"><a href="3-vrb.html">3</a></li><li class="progresschapter"><a href="4-np.html">4</a></li><li class="progressnext"><a href="1-lm.html">&#10095;</a></li></ul></div>

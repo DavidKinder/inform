@@ -55,16 +55,18 @@
 
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Prerequisites.</b>  The problems module is a part of the Inform compiler toolset. It is
-presented as a literate program or &quot;web&quot;. Before diving in:
-(a) It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.
-(b) The module is written in C, in fact ANSI C99, but this is disguised by the
+presented as a literate program or &quot;web&quot;. Before diving in:</p>
+<ul>
+<li>It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.</li>
+<li>The module is written in C, in fact ANSI C99, but this is disguised by the
 fact that it uses some extension syntaxes provided by the <a href="../inweb/index.html" class="internal">inweb</a> literate
 programming tool, making it a dialect of C called InC. See <a href="../inweb/index.html" class="internal">inweb</a> for
 full details, but essentially: it's C without predeclarations or header files,
-and where functions have names like <code>Tags::add_by_name</code> rather than <code>add_by_name</code>.
-(c) This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
+and where functions have names like <code>Tags::add_by_name</code> rather than <code>add_by_name</code>.</li>
+<li>This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
 uses a module of utility functions called <a href="../foundation/index.html" class="internal">foundation</a>.
-For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.</p>
+For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.</li>
+</ul>
 </div>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Problems and their sigils.</b>  The task of this module is to issue error messages which may be lengthy and
@@ -77,16 +79,18 @@ Sigils are in practice referred to using a macro <code>_p_</code> defined early 
 <a href="2-pl0.html" class="internal">Problems, Level 0</a>.</p>
 <p>Sigils are <code>char *</code> constants. The Inform modules use the following naming
 conventions for sigils:</p>
-<p>(a) A problem which is thought never to be generated has the sigil
+<ul>
+<li>A problem which is thought never to be generated has the sigil
 <code>BelievedImpossible</code>. Inform is quite defensively coded, so there are several
-dozen of these -- they are safety nets to catch cases we didn't think of.
-(b) A problem which either cannot be tested by <a href="../intest/index.html" class="internal">intest</a>, or is just
-impracticable to do so, has the sigil <code>Untestable</code>.
-(c) A problem which can be tested, but for which nobody has yet written a
-test case, has the sigil <code>...</code>.
-(d) Otherwise a problem should have a unique alphanumeric name beginning with
+dozen of these -- they are safety nets to catch cases we didn't think of.</li>
+<li>A problem which either cannot be tested by <a href="../intest/index.html" class="internal">intest</a>, or is just
+impracticable to do so, has the sigil <code>Untestable</code>.</li>
+<li>A problem which can be tested, but for which nobody has yet written a
+test case, has the sigil <code>...</code>.</li>
+<li>Otherwise a problem should have a unique alphanumeric name beginning with
 <code>PM_</code>, for &quot;problem message&quot;: for example, <code>PM_NoSuchHieroglyph</code>. This should
-be the same name as that of the test case which exercises it.</p>
+be the same name as that of the test case which exercises it.</li>
+</ul>
 <p>Because sigils correspond to test case names, they also have to follow the
 conventions on test case naming: in particular, the suffix <code>-G</code> means &quot;for
 the Glulx virtual machine only&quot;, and similarly for <code>-Z</code>.</p>
@@ -103,14 +107,14 @@ or <a href="2-pl0.html#SP5" class="internal">ProblemSigils::crash_on_problems</a
 <p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. The story of a non-fatal problem message.</b>  Suppose that the <a href="../core-module/index.html" class="internal">core</a> module wants to issue a problem message: what
 happens?</p>
 <p>This depends on how complicated it is. The <a href="index.html" class="internal">problems</a> system has three
-levels:
-(3) <a href="2-pl3.html" class="internal">Problems, Level 3</a> contains functions for problem messages which have
+levels:</p>
+<p>(3) <a href="2-pl3.html" class="internal">Problems, Level 3</a> contains functions for problem messages which have
 a commonly-needed shape to them: for example, <a href="2-pl3.html#SP14" class="internal">StandardProblems::sentence_problem</a>.
-The functions in question call down to...
-(2) <a href="2-pl2.html" class="internal">Problems, Level 2</a>, which contains functions to accept &quot;quotations&quot; and
+The functions in question call down to...</p>
+<p>(2) <a href="2-pl2.html" class="internal">Problems, Level 2</a>, which contains functions to accept &quot;quotations&quot; and
 a problem message with placeholders in to hold those quotations; after which,
-they call down to...
-(1) <a href="2-pl1.html" class="internal">Problems, Level 1</a>, where the text of a message is stored in the
+they call down to...</p>
+<p>(1) <a href="2-pl1.html" class="internal">Problems, Level 1</a>, where the text of a message is stored in the
 &quot;problem buffer&quot; and eventually printed or written to a file.</p>
 <p>Most of the problems issued by Inform look like this:</p>
 </div>
@@ -139,12 +143,14 @@ For example:</p>
 <span class="plain-syntax">    </span><span class="function-syntax">Problems::issue_problem_end</span><span class="plain-syntax">();</span>
 </pre>
 <div class="lsmarkdown">
-<p>What happens, in sequence, is that we
-(a) Establish what material should go into the placeholders <code>%1</code> and <code>%2</code>,
-(b) Call <a href="2-pl3.html#SP10" class="internal">StandardProblems::handmade_problem</a> to begin work,
-(c) Call <a href="2-pl2.html#SP13" class="internal">Problems::issue_problem_segment</a> a number of times -- though often
-just once -- to put some text into the problem, and
-(d) Call <a href="2-pl2.html#SP10" class="internal">Problems::issue_problem_end</a> to signal that we are done.</p>
+<p>What happens, in sequence, is that we</p>
+<ul>
+<li>Establish what material should go into the placeholders <code>%1</code> and <code>%2</code>,</li>
+<li>Call <a href="2-pl3.html#SP10" class="internal">StandardProblems::handmade_problem</a> to begin work,</li>
+<li>Call <a href="2-pl2.html#SP13" class="internal">Problems::issue_problem_segment</a> a number of times -- though often
+just once -- to put some text into the problem, and</li>
+<li>Call <a href="2-pl2.html#SP10" class="internal">Problems::issue_problem_end</a> to signal that we are done.</li>
+</ul>
 </div>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  As this demonstrates, problem messages are expanded from prototypes using
@@ -155,11 +161,13 @@ horrendous crashes when type mismatches occur: using a pointer to a phrase
 when trying to print a source code reference, for instance.</p>
 <p>The placeholders do not need to be used contiguously -- if you want to use
 just <code>%4</code> and <code>%7</code>, feel free.</p>
-<p>Four further escape codes switch between problem message versions, as follows:
-(<em>) <code>%L</code> means &quot;long form&quot;, the version used the first time this message is
-generated,
-(</em>) <code>%S</code> means &quot;short form&quot;, for subsequent times,
-(*) <code>%A</code> means &quot;both long and short&quot;, which is the situation at the start,</p>
+<p>Four further escape codes switch between problem message versions, as follows:</p>
+<ul>
+<li><code>%L</code> means &quot;long form&quot;, the version used the first time this message is
+generated,</li>
+<li><code>%S</code> means &quot;short form&quot;, for subsequent times,</li>
+<li><code>%A</code> means &quot;both long and short&quot;, which is the situation at the start,</li>
+</ul>
 <p>Note that the form is reset to <code>%A</code> when a new problem message begins, but not
 in between calls to <a href="2-pl2.html#SP13" class="internal">Problems::issue_problem_segment</a>: i.e., if one segment
 leaves things in <code>%L</code>, the next segment, if there is one, resumes that way.</p>
@@ -201,9 +209,11 @@ at Level 1.</p>
 cause an immediate exit of the program as soon as they are issued, and are
 typically used for filing-system disasters or failed assertions (so-called
 &quot;internal errors&quot;).</p>
-<p>Facilities for these are very limited:
-(<em>) <a href="2-pl2.html#SP15" class="internal">Problems::fatal</a> for a simple message with fixed wording.
-(</em>) <a href="2-pl2.html#SP15" class="internal">Problems::fatal_on_file</a> for a message relating to a file.</p>
+<p>Facilities for these are very limited:</p>
+<ul>
+<li><a href="2-pl2.html#SP15" class="internal">Problems::fatal</a> for a simple message with fixed wording.</li>
+<li><a href="2-pl2.html#SP15" class="internal">Problems::fatal_on_file</a> for a message relating to a file.</li>
+</ul>
 <p>These routines have to be written with care because a file-system disaster
 might mean that the problems file itself cannot be written to.</p>
 </div>
@@ -212,14 +222,16 @@ might mean that the problems file itself cannot be written to.</p>
 This is a text used to hold the problem message as it is assembled from pieces,
 and only Level 2 functions should print to it. Even they should call down to
 two Level 1 functions when they want to write something other than straightforward
-text:
-(<em>) Source text from the lexer can be quoted into it with <a href="2-pl1.html#SP2" class="internal">ProblemBuffer::copy_text</a>,
-which automatically trims excessive quotes for length.
-(</em>) References to positions in the source text can be inserted with
+text:</p>
+<ul>
+<li>Source text from the lexer can be quoted into it with <a href="2-pl1.html#SP2" class="internal">ProblemBuffer::copy_text</a>,
+which automatically trims excessive quotes for length.</li>
+<li>References to positions in the source text can be inserted with
 <a href="2-pl1.html#SP4" class="internal">ProblemBuffer::copy_source_reference</a>: there is a sort of protocol for how
 this is done, with use of the magic <code>SOURCE_REF_CHAR</code> which will be
 intercepted later on when the problems file is written out as HTML (see
-<a href="../foundation/5-htm.html" class="internal">HTML (in foundation)</a> for details).</p>
+<a href="../foundation/5-htm.html" class="internal">HTML (in foundation)</a> for details).</li>
+</ul>
 </div>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>  When a portion of text has been buffered which Level 2 wants to get shot of,

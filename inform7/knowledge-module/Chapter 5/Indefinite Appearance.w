@@ -48,9 +48,9 @@ ambiguously.
 about what property the indefinite appearance text should go into. This is
 called "reallocation", and as can be seen the method is:
 
-(a) See if any plugin wants to take action;
-(b) Otherwise reallocate to the "description" property, if available;
-(c) Otherwise give up and issue a problem message.
+- See if any plugin wants to take action;
+- Otherwise reallocate to the "description" property, if available;
+- Otherwise give up and issue a problem message.
 
 =
 void Properties::Appearance::reallocate(inference_subject *infs) {

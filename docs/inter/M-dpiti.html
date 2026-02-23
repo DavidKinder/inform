@@ -53,585 +53,605 @@
 
 <ul class="toc"><li><a href="M-dpiti.html#SP1">&#167;1. Data packages</a></li><li><a href="M-dpiti.html#SP2">&#167;2. Variable and values</a></li><li><a href="M-dpiti.html#SP6">&#167;6. Constant and extended values</a></li><li><a href="M-dpiti.html#SP11">&#167;11. URL notation</a></li><li><a href="M-dpiti.html#SP12">&#167;12. Annotations</a></li><li><a href="M-dpiti.html#SP13">&#167;13. Metadata constants</a></li><li><a href="M-dpiti.html#SP14">&#167;14. Types in Inter</a></li><li><a href="M-dpiti.html#SP20">&#167;20. Enumerations and instances</a></li><li><a href="M-dpiti.html#SP21">&#167;21. Subtypes</a></li><li><a href="M-dpiti.html#SP22">&#167;22. Properties</a></li><li><a href="M-dpiti.html#SP24">&#167;24. Insert</a></li><li><a href="M-dpiti.html#SP26">&#167;26. Splats</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Data packages.</b>To recap from <a href="M-ti.html" class="internal">Textual Inter</a>: an Inter program is a nested hierarchy of
-packages. Some are special <span class="extract"><span class="extract-syntax">_code</span></span> packages which define functions; the rest
-we will call "data packages".<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> Note that the compulsory outer <span class="extract"><span class="extract-syntax">main</span></span> package
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Data packages.</b>  To recap from <a href="M-ti.html" class="internal">Textual Inter</a>: an Inter program is a nested hierarchy of
+packages. Some are special <code>_code</code> packages which define functions; the rest
+we will call &quot;data packages&quot;.<sup id="fnred:1"><a href="#fn:1" rel="footnote">1</a></sup> Note that the compulsory outer <code>main</code> package
 is a data package. The instructions which can appear in data packages are the
-subject of this section.
-</p>
-
-<ul class="footnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> The term "data" is used rather loosely here. "Anything else packages"
-might be a fairer description.
-<a href="#fnref:1" title="return to text"> &#x21A9;</a></p></li></ul>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Variable and values.</b>The instruction <span class="extract"><span class="extract-syntax">variable</span></span> seems a good place to begin, since it creates an
-easily-understood piece of data. For example:
-</p>
-
-<pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">variable</span><span class="plain-syntax"> </span><span class="identifier-syntax">V_score</span><span class="plain-syntax"> = </span><span class="constant-syntax">10</span>
-</pre>
-<p class="commentary">declares a new variable <span class="extract"><span class="extract-syntax">V_score</span></span>, and assigns it the initial value 10. This
-is a global variable, accessible across the whole program.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>A number of different notations are allowed as numerical values:
-</p>
-
-<ul class="items"><li>&#9679; A decimal integer, which may begin with a minus sign (and, if so, will be
-stored as twos-complement signed); for example, <span class="extract"><span class="extract-syntax">-231</span></span>.
-</li><li>&#9679; A hexadecimal integer prefixed with <span class="extract"><span class="extract-syntax">0x</span></span>, which can write the digits
-<span class="extract"><span class="extract-syntax">A</span></span> to <span class="extract"><span class="extract-syntax">F</span></span> in either upper or lower case form, but cannot take a minus sign;
-for example, <span class="extract"><span class="extract-syntax">0x21BC</span></span>.
-</li><li>&#9679; A binary integer prefixed with <span class="extract"><span class="extract-syntax">0b</span></span>, which cannot take a minus sign;
-for example, <span class="extract"><span class="extract-syntax">0b1001001</span></span>.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">r"text"</span></span> makes a literal real number: the text is required to use the
-same syntax as a literal real number in Inform 6. For example, <span class="extract"><span class="extract-syntax">r"+1.027E+5"</span></span>.
-The <span class="extract"><span class="extract-syntax">E+n</span></span> or <span class="extract"><span class="extract-syntax">E-n</span></span> exponent is optional, but if it is used, a <span class="extract"><span class="extract-syntax">+</span></span> or <span class="extract"><span class="extract-syntax">-</span></span> sign
-is required; similarly, a <span class="extract"><span class="extract-syntax">+</span></span> or <span class="extract"><span class="extract-syntax">-</span></span> sign is required up front. So <span class="extract"><span class="extract-syntax">r"1.0"</span></span>
-and <span class="extract"><span class="extract-syntax">r"3.7E7"</span></span> are both illegal.
+subject of this section.</p>
+<ul class="inwebfootnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>
+The term &quot;data&quot; is used rather loosely here. &quot;Anything else packages&quot;
+might be a fairer description.<a href="#fnref:1" title="return to text"> &#x21A9;</a></p>
 </li></ul>
-<p class="commentary">Note that Inter does not specify the word size, that is, the maximum range
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Variable and values.</b>  The instruction <code>variable</code> seems a good place to begin, since it creates an
+easily-understood piece of data. For example:</p>
+</div>
+<pre class="displayed-code all-displayed-code code-font">
+<span class="plain-syntax">    </span><span class="type-syntax">variable</span><span class="plain-syntax"> </span><span class="identifier-syntax">V_score</span><span class="plain-syntax"> = </span><span class="constant-syntax">10</span>
+</pre>
+<div class="lsmarkdown">
+<p>declares a new variable <code>V_score</code>, and assigns it the initial value 10. This
+is a global variable, accessible across the whole program.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  A number of different notations are allowed as numerical values:</p>
+<ul>
+<li>
+<p>A decimal integer, which may begin with a minus sign (and, if so, will be
+stored as twos-complement signed); for example, <code>-231</code>.</p>
+</li>
+<li>
+<p>A hexadecimal integer prefixed with <code>0x</code>, which can write the digits
+<code>A</code> to <code>F</code> in either upper or lower case form, but cannot take a minus sign;
+for example, <code>0x21BC</code>.</p>
+</li>
+<li>
+<p>A binary integer prefixed with <code>0b</code>, which cannot take a minus sign;
+for example, <code>0b1001001</code>.</p>
+</li>
+<li>
+<p><code>r&quot;text&quot;</code> makes a literal real number: the text is required to use the
+same syntax as a literal real number in Inform 6. For example, <code>r&quot;+1.027E+5&quot;</code>.
+The <code>E+n</code> or <code>E-n</code> exponent is optional, but if it is used, a <code>+</code> or <code>-</code> sign
+is required; similarly, a <code>+</code> or <code>-</code> sign is required up front. So <code>r&quot;1.0&quot;</code>
+and <code>r&quot;3.7E7&quot;</code> are both illegal.</p>
+</li>
+</ul>
+<p>Note that Inter does not specify the word size, that is, the maximum range
 of integers; many Inter programs are written on the assumption that this will
 be 16-bit and would fail if that assumption were wrong, or vice versa, but
 other Inter programs work fine whichever is the case. Real numbers, however,
 can only be used in 32-bit programs, and even then only have the accuracy
-of <span class="extract"><span class="extract-syntax">float</span></span>, not <span class="extract"><span class="extract-syntax">double</span></span>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>There are also several forms of text:
-</p>
-
-<ul class="items"><li>&#9679; Literal text is written in double quotes, <span class="extract"><span class="extract-syntax">"like so"</span></span>. All characters
+of <code>float</code>, not <code>double</code>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  There are also several forms of text:</p>
+<ul>
+<li>
+<p>Literal text is written in double quotes, <code>&quot;like so&quot;</code>. All characters
 within such text must have Unicode values of 32 or above, except for tab (9),
-written <span class="extract"><span class="extract-syntax">\t</span></span>, and newline (10), written <span class="extract"><span class="extract-syntax">\n</span></span>. In addition, <span class="extract"><span class="extract-syntax">\"</span></span> denotes a
-literal double-quote, and <span class="extract"><span class="extract-syntax">\\</span></span> a literal backslash, but these are the only
-backslash notations at present allowed.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">dw"text"</span></span> is meaningful only for interactive fiction, and represents the
-command parser dictionary entry for the word <span class="extract"><span class="extract-syntax">text</span></span>. This is equivalent
-to the Inform 6 constant <span class="extract"><span class="extract-syntax">'text//'</span></span>.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">dwp"text"</span></span> is the same, but pluralised, equivalent to Inform 6 <span class="extract"><span class="extract-syntax">'text//p'</span></span>.
-</li></ul>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>There are two oddball value notations which should be used as little as possible:
-</p>
-
-<ul class="items"><li>&#9679; <span class="extract"><span class="extract-syntax">!undef</span></span> makes a special "this is not a value" value.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">glob"raw syntax"</span></span> is a feature allowing raw code for the final target
+written <code>\t</code>, and newline (10), written <code>\n</code>. In addition, <code>\&quot;</code> denotes a
+literal double-quote, and <code>\\</code> a literal backslash, but these are the only
+backslash notations at present allowed.</p>
+</li>
+<li>
+<p><code>dw&quot;text&quot;</code> is meaningful only for interactive fiction, and represents the
+command parser dictionary entry for the word <code>text</code>. This is equivalent
+to the Inform 6 constant <code>'text//'</code>.</p>
+</li>
+<li>
+<p><code>dwp&quot;text&quot;</code> is the same, but pluralised, equivalent to Inform 6 <code>'text//p'</code>.</p>
+</li>
+</ul>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  There are two oddball value notations which should be used as little as possible:</p>
+<ul>
+<li>
+<p><code>!undef</code> makes a special &quot;this is not a value&quot; value.</p>
+</li>
+<li>
+<p><code>glob&quot;raw syntax&quot;</code> is a feature allowing raw code for the final target
 language to be smuggled into Inter, which is supposedly target-independent.
-For example, <span class="extract"><span class="extract-syntax">glob"#$magic"</span></span> says that the final code-generator should just
-print out <span class="extract"><span class="extract-syntax">#$magic</span></span>, in blind faith that this will mean something, when it
+For example, <code>glob&quot;#$magic&quot;</code> says that the final code-generator should just
+print out <code>#$magic</code>, in blind faith that this will mean something, when it
 wants the value in question. Glob is not a respectful term, but this feature
-does not deserve respect, and is not used anywhere in the Inform tool chain.
-</li></ul>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Constant and extended values.</b>The instruction <span class="extract"><span class="extract-syntax">constant</span></span> defines a name for a given value. For example:
-</p>
-
+does not deserve respect, and is not used anywhere in the Inform tool chain.</p>
+</li>
+</ul>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Constant and extended values.</b>  The instruction <code>constant</code> defines a name for a given value. For example:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> SPEED_LIMIT = </span><span class="constant-syntax">70</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> SPEED_LIMIT = </span><span class="constant-syntax">70</span>
 </pre>
-<p class="commentary">The name of this constant can then be used wherever a value is needed. Thus:
-</p>
-
+<div class="lsmarkdown">
+<p>The name of this constant can then be used wherever a value is needed. Thus:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">package</span><span class="plain-syntax"> main _plain</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> SPEED_LIMIT = </span><span class="constant-syntax">70</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">variable</span><span class="plain-syntax"> </span><span class="identifier-syntax">V_speed</span><span class="plain-syntax"> = SPEED_LIMIT</span>
+<span class="plain-syntax">    </span><span class="type-syntax">package</span><span class="plain-syntax"> main _plain</span>
+<span class="plain-syntax">        </span><span class="type-syntax">constant</span><span class="plain-syntax"> SPEED_LIMIT = </span><span class="constant-syntax">70</span>
+<span class="plain-syntax">        </span><span class="type-syntax">variable</span><span class="plain-syntax"> </span><span class="identifier-syntax">V_speed</span><span class="plain-syntax"> = SPEED_LIMIT</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>Constants also allow us to write more elaborate values than are normally
-allowed &mdash; so-called "extended values". In particular:
-</p>
-
-<ul class="items"><li>&#9679; A literal <span class="extract"><span class="extract-syntax">list</span></span> is written in braces: <span class="extract"><span class="extract-syntax">{ V1, V2, ..., Vn }</span></span>, where <span class="extract"><span class="extract-syntax">V1</span></span>,
-<span class="extract"><span class="extract-syntax">V2</span></span> and so on are all (unextended) values. The empty list is <span class="extract"><span class="extract-syntax">{ }</span></span>.
-</li><li>&#9679; A list of bytes, rather than words, is written <span class="extract"><span class="extract-syntax">bytes{ V1, V2, ..., Vn}</span></span>,
-in the same way.
-</li><li>&#9679; Either sort of list can be given with an extent instead. <span class="extract"><span class="extract-syntax">list of N words</span></span>
-or <span class="extract"><span class="extract-syntax">list of N bytes</span></span> constructs a list of <span class="extract"><span class="extract-syntax">N</span></span> zero entries. This is not simply
-an abbreviation for typing something like <span class="extract"><span class="extract-syntax">{ 0, 0, 0, 0, 0, 0, 0, 0 }</span></span>, because <span class="extract"><span class="extract-syntax">N</span></span>
-does not have to be a literal number &mdash; it can be a named symbol defined elsewhere,
-or even defined in a different Inter tree to be linked in later.
-</li><li>&#9679; Prefixing either sort of list with the keyword <span class="extract"><span class="extract-syntax">bounded</span></span> tells Inter that
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  Constants also allow us to write more elaborate values than are normally
+allowed -- so-called &quot;extended values&quot;. In particular:</p>
+<ul>
+<li>
+<p>A literal <code>list</code> is written in braces: <code>{ V1, V2, ..., Vn }</code>, where <code>V1</code>,
+<code>V2</code> and so on are all (unextended) values. The empty list is <code>{ }</code>.</p>
+</li>
+<li>
+<p>A list of bytes, rather than words, is written <code>bytes{ V1, V2, ..., Vn}</code>,
+in the same way.</p>
+</li>
+<li>
+<p>Either sort of list can be given with an extent instead. <code>list of N words</code>
+or <code>list of N bytes</code> constructs a list of <code>N</code> zero entries. This is not simply
+an abbreviation for typing something like <code>{ 0, 0, 0, 0, 0, 0, 0, 0 }</code>, because <code>N</code>
+does not have to be a literal number -- it can be a named symbol defined elsewhere,
+or even defined in a different Inter tree to be linked in later.</p>
+</li>
+<li>
+<p>Prefixing either sort of list with the keyword <code>bounded</code> tells Inter that
 the first entry (i.e., at index 0) should be the number of entries, not counting
-that first entry. (This number is the list's "bound".) Thus <span class="extract"><span class="extract-syntax">bounded { 70, 15 }</span></span>
-is equivalent to <span class="extract"><span class="extract-syntax">{ 2, 70, 15 }</span></span>, and <span class="extract"><span class="extract-syntax">bounded list of 50 bytes</span></span> produces a list
-of 51 bytes, the first being 50, the next fifty all being 0.
-</li><li>&#9679; A structure is written <span class="extract"><span class="extract-syntax">struct{ V1, V2, ..., Vn }</span></span>. The empty <span class="extract"><span class="extract-syntax">struct</span></span>
-is not legal, and the keyword <span class="extract"><span class="extract-syntax">bounded</span></span> cannot be used.
-</li><li>&#9679; Calculated values are written <span class="extract"><span class="extract-syntax">sum{ V1, V2, ..., Vn }</span></span>, and similarly
-for <span class="extract"><span class="extract-syntax">product{ }</span></span>, <span class="extract"><span class="extract-syntax">difference{ }</span></span> and <span class="extract"><span class="extract-syntax">quotient{ }</span></span>. Empty calculated values
-are not legal.
-</li><li>&#9679; Finally, two special forms of list which are used only in interactive fiction
+that first entry. (This number is the list's &quot;bound&quot;.) Thus <code>bounded { 70, 15 }</code>
+is equivalent to <code>{ 2, 70, 15 }</code>, and <code>bounded list of 50 bytes</code> produces a list
+of 51 bytes, the first being 50, the next fifty all being 0.</p>
+</li>
+<li>
+<p>A structure is written <code>struct{ V1, V2, ..., Vn }</code>. The empty <code>struct</code>
+is not legal, and the keyword <code>bounded</code> cannot be used.</p>
+</li>
+<li>
+<p>Calculated values are written <code>sum{ V1, V2, ..., Vn }</code>, and similarly
+for <code>product{ }</code>, <code>difference{ }</code> and <code>quotient{ }</code>. Empty calculated values
+are not legal.</p>
+</li>
+<li>
+<p>Finally, two special forms of list which are used only in interactive fiction
 projects, and whose semantics are identical to regular lists except for the special
-ways they are compiled: <span class="extract"><span class="extract-syntax">grammar{ ... }</span></span> makes a list which is the command-parser
-grammar for a command verb, and <span class="extract"><span class="extract-syntax">inline{ ... }</span></span> makes a list which is to be the
-value of a property compiled "inline".
-</li></ul>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>Readers with experience of Inform 6 will recognise that <span class="extract"><span class="extract-syntax">{ ... }</span></span> and <span class="extract"><span class="extract-syntax">bytes{ ... }</span></span>
-correspond to I6's <span class="extract"><span class="extract-syntax">Array --&gt;</span></span> and <span class="extract"><span class="extract-syntax">Array -&gt;</span></span> respectively, that <span class="extract"><span class="extract-syntax">bounded { ... }</span></span>
-and <span class="extract"><span class="extract-syntax">bounded bytes{ ... }</span></span> correspond to <span class="extract"><span class="extract-syntax">Array table</span></span> and <span class="extract"><span class="extract-syntax">Array buffer</span></span>, and
-that <span class="extract"><span class="extract-syntax">list of N words</span></span> and <span class="extract"><span class="extract-syntax">list of N bytes</span></span> correspond to <span class="extract"><span class="extract-syntax">Array --&gt; N</span></span> and
-<span class="extract"><span class="extract-syntax">Array -&gt; N</span></span>. Note, however, that Inter does not suffer from the ambiguity of
-Inform 6's old syntax here. The Inter list <span class="extract"><span class="extract-syntax">{ 20 }</span></span> is unambiguously a one-entry
-list whose one entry is 20; it is quite different from <span class="extract"><span class="extract-syntax">list of 20 words</span></span>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>Lists are obviously useful. Here are some examples:
-</p>
-
+ways they are compiled: <code>grammar{ ... }</code> makes a list which is the command-parser
+grammar for a command verb, and <code>inline{ ... }</code> makes a list which is to be the
+value of a property compiled &quot;inline&quot;.</p>
+</li>
+</ul>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>  Readers with experience of Inform 6 will recognise that <code>{ ... }</code> and <code>bytes{ ... }</code>
+correspond to I6's <code>Array --&gt;</code> and <code>Array -&gt;</code> respectively, that <code>bounded { ... }</code>
+and <code>bounded bytes{ ... }</code> correspond to <code>Array table</code> and <code>Array buffer</code>, and
+that <code>list of N words</code> and <code>list of N bytes</code> correspond to <code>Array --&gt; N</code> and
+<code>Array -&gt; N</code>. Note, however, that Inter does not suffer from the ambiguity of
+Inform 6's old syntax here. The Inter list <code>{ 20 }</code> is unambiguously a one-entry
+list whose one entry is 20; it is quite different from <code>list of 20 words</code>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>  Lists are obviously useful. Here are some examples:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> squares = { </span><span class="constant-syntax">1</span><span class="plain-syntax">, </span><span class="constant-syntax">4</span><span class="plain-syntax">, </span><span class="constant-syntax">9</span><span class="plain-syntax">, </span><span class="constant-syntax">16</span><span class="plain-syntax">, </span><span class="constant-syntax">25</span><span class="plain-syntax">, </span><span class="constant-syntax">36</span><span class="plain-syntax">, </span><span class="constant-syntax">49</span><span class="plain-syntax">, </span><span class="constant-syntax">64</span><span class="plain-syntax">, </span><span class="constant-syntax">81</span><span class="plain-syntax">, </span><span class="constant-syntax">100</span><span class="plain-syntax"> }</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> colours = { </span><span class="string-syntax">"red"</span><span class="plain-syntax">, </span><span class="string-syntax">"green"</span><span class="plain-syntax">, </span><span class="string-syntax">"blue"</span><span class="plain-syntax"> }</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> lists = { squares, colours }</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> squares = { </span><span class="constant-syntax">1</span><span class="plain-syntax">, </span><span class="constant-syntax">4</span><span class="plain-syntax">, </span><span class="constant-syntax">9</span><span class="plain-syntax">, </span><span class="constant-syntax">16</span><span class="plain-syntax">, </span><span class="constant-syntax">25</span><span class="plain-syntax">, </span><span class="constant-syntax">36</span><span class="plain-syntax">, </span><span class="constant-syntax">49</span><span class="plain-syntax">, </span><span class="constant-syntax">64</span><span class="plain-syntax">, </span><span class="constant-syntax">81</span><span class="plain-syntax">, </span><span class="constant-syntax">100</span><span class="plain-syntax"> }</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> colours = { </span><span class="string-syntax">"red"</span><span class="plain-syntax">, </span><span class="string-syntax">"green"</span><span class="plain-syntax">, </span><span class="string-syntax">"blue"</span><span class="plain-syntax"> }</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> lists = { squares, colours }</span>
 </pre>
-<p class="commentary">The distinction between a <span class="extract"><span class="extract-syntax">struct</span></span> and a <span class="extract"><span class="extract-syntax">list</span></span> is only visible if typechecking
+<div class="lsmarkdown">
+<p>The distinction between a <code>struct</code> and a <code>list</code> is only visible if typechecking
 is used (see below); the expectation is that a list would contain a varying
 number of entries all of the same type, whereas a struct would contain a fixed
-number of entries of perhaps different but predetermined types.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b>Calculated values are an unusual but very useful feature of Inter. Consider:
-</p>
-
+number of entries of perhaps different but predetermined types.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b>  Calculated values are an unusual but very useful feature of Inter. Consider:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> SPEED_LIMIT = </span><span class="constant-syntax">70</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> SAFE_SPEED = difference{ SPEED_LIMIT, </span><span class="constant-syntax">5</span><span class="plain-syntax"> }</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> SPEED_LIMIT = </span><span class="constant-syntax">70</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> SAFE_SPEED = difference{ SPEED_LIMIT, </span><span class="constant-syntax">5</span><span class="plain-syntax"> }</span>
 </pre>
-<p class="commentary">This effectively declares that <span class="extract"><span class="extract-syntax">SAFE_SPEED</span></span> will be 65. What makes this useful
-is that when two Inter programs are linked together, <span class="extract"><span class="extract-syntax">SAFE_SPEED</span></span> might be
-declared in one and <span class="extract"><span class="extract-syntax">SPEED_LIMIT</span></span> in the other, and it all works even though
+<div class="lsmarkdown">
+<p>This effectively declares that <code>SAFE_SPEED</code> will be 65. What makes this useful
+is that when two Inter programs are linked together, <code>SAFE_SPEED</code> might be
+declared in one and <code>SPEED_LIMIT</code> in the other, and it all works even though
 the compiler of one could see the 70 but not the 5, and the compiler of the
-other could see the 5 but not the 70.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. URL notation.</b>All identifier names are local to their own packages. So, for example, this:
-</p>
-
+other could see the 5 but not the 70.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. URL notation.</b>  All identifier names are local to their own packages. So, for example, this:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">package</span><span class="plain-syntax"> main _plain</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">package</span><span class="plain-syntax"> one _plain</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> SPEED_LIMIT = </span><span class="constant-syntax">70</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">variable</span><span class="plain-syntax"> </span><span class="identifier-syntax">V_speed</span><span class="plain-syntax"> = SPEED_LIMIT</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">package</span><span class="plain-syntax"> two _plain</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">variable</span><span class="plain-syntax"> </span><span class="identifier-syntax">V_speed</span><span class="plain-syntax"> = </span><span class="constant-syntax">12</span>
+<span class="plain-syntax">    </span><span class="type-syntax">package</span><span class="plain-syntax"> main _plain</span>
+<span class="plain-syntax">        </span><span class="type-syntax">package</span><span class="plain-syntax"> one _plain</span>
+<span class="plain-syntax">            </span><span class="type-syntax">constant</span><span class="plain-syntax"> SPEED_LIMIT = </span><span class="constant-syntax">70</span>
+<span class="plain-syntax">            </span><span class="type-syntax">variable</span><span class="plain-syntax"> </span><span class="identifier-syntax">V_speed</span><span class="plain-syntax"> = SPEED_LIMIT</span>
+<span class="plain-syntax">        </span><span class="type-syntax">package</span><span class="plain-syntax"> two _plain</span>
+<span class="plain-syntax">            </span><span class="type-syntax">variable</span><span class="plain-syntax"> </span><span class="identifier-syntax">V_speed</span><span class="plain-syntax"> = </span><span class="constant-syntax">12</span>
 </pre>
-<p class="commentary">is a legal Inter program and contains two different variables. But this:
-</p>
-
+<div class="lsmarkdown">
+<p>is a legal Inter program and contains two different variables. But this:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">package</span><span class="plain-syntax"> main _plain</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">package</span><span class="plain-syntax"> one _plain</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> SPEED_LIMIT = </span><span class="constant-syntax">70</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">package</span><span class="plain-syntax"> two _plain</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">variable</span><span class="plain-syntax"> </span><span class="identifier-syntax">V_speed</span><span class="plain-syntax"> = SPEED_LIMIT</span>
+<span class="plain-syntax">    </span><span class="type-syntax">package</span><span class="plain-syntax"> main _plain</span>
+<span class="plain-syntax">        </span><span class="type-syntax">package</span><span class="plain-syntax"> one _plain</span>
+<span class="plain-syntax">            </span><span class="type-syntax">constant</span><span class="plain-syntax"> SPEED_LIMIT = </span><span class="constant-syntax">70</span>
+<span class="plain-syntax">        </span><span class="type-syntax">package</span><span class="plain-syntax"> two _plain</span>
+<span class="plain-syntax">            </span><span class="type-syntax">variable</span><span class="plain-syntax"> </span><span class="identifier-syntax">V_speed</span><span class="plain-syntax"> = SPEED_LIMIT</span>
 </pre>
-<p class="commentary">...does not work. The variable <span class="extract"><span class="extract-syntax">V_speed</span></span> is declared in package <span class="extract"><span class="extract-syntax">two</span></span>, where
-the constant <span class="extract"><span class="extract-syntax">SPEED_LIMIT</span></span> does not exist.
-</p>
-
-<p class="commentary">This might seem to make it impossible for material in one package to refer
-to material in any other, but in fact we can, using URL notation:
-</p>
-
+<div class="lsmarkdown">
+<p>...does not work. The variable <code>V_speed</code> is declared in package <code>two</code>, where
+the constant <code>SPEED_LIMIT</code> does not exist.</p>
+<p>This might seem to make it impossible for material in one package to refer
+to material in any other, but in fact we can, using URL notation:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">package</span><span class="plain-syntax"> main _plain</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">package</span><span class="plain-syntax"> one _plain</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> SPEED_LIMIT = </span><span class="constant-syntax">70</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">package</span><span class="plain-syntax"> two _plain</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">variable</span><span class="plain-syntax"> </span><span class="identifier-syntax">V_speed</span><span class="plain-syntax"> = /main/one/SPEED_LIMIT</span>
+<span class="plain-syntax">    </span><span class="type-syntax">package</span><span class="plain-syntax"> main _plain</span>
+<span class="plain-syntax">        </span><span class="type-syntax">package</span><span class="plain-syntax"> one _plain</span>
+<span class="plain-syntax">            </span><span class="type-syntax">constant</span><span class="plain-syntax"> SPEED_LIMIT = </span><span class="constant-syntax">70</span>
+<span class="plain-syntax">        </span><span class="type-syntax">package</span><span class="plain-syntax"> two _plain</span>
+<span class="plain-syntax">            </span><span class="type-syntax">variable</span><span class="plain-syntax"> </span><span class="identifier-syntax">V_speed</span><span class="plain-syntax"> = /main/one/SPEED_LIMIT</span>
 </pre>
-<p class="commentary">Here <span class="extract"><span class="extract-syntax">/main/one/SPEED_LIMIT</span></span> is an absolute "URL" of the symbol <span class="extract"><span class="extract-syntax">SPEED_LIMIT</span></span>.
-If we return to the example:
-</p>
-
+<div class="lsmarkdown">
+<p>Here <code>/main/one/SPEED_LIMIT</code> is an absolute &quot;URL&quot; of the symbol <code>SPEED_LIMIT</code>.
+If we return to the example:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">package</span><span class="plain-syntax"> main _plain</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">package</span><span class="plain-syntax"> one _plain</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> SPEED_LIMIT = </span><span class="constant-syntax">70</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">variable</span><span class="plain-syntax"> </span><span class="identifier-syntax">V_speed</span><span class="plain-syntax"> = SPEED_LIMIT</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">package</span><span class="plain-syntax"> two _plain</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">variable</span><span class="plain-syntax"> </span><span class="identifier-syntax">V_speed</span><span class="plain-syntax"> = </span><span class="constant-syntax">12</span>
+<span class="plain-syntax">    </span><span class="type-syntax">package</span><span class="plain-syntax"> main _plain</span>
+<span class="plain-syntax">        </span><span class="type-syntax">package</span><span class="plain-syntax"> one _plain</span>
+<span class="plain-syntax">            </span><span class="type-syntax">constant</span><span class="plain-syntax"> SPEED_LIMIT = </span><span class="constant-syntax">70</span>
+<span class="plain-syntax">            </span><span class="type-syntax">variable</span><span class="plain-syntax"> </span><span class="identifier-syntax">V_speed</span><span class="plain-syntax"> = SPEED_LIMIT</span>
+<span class="plain-syntax">        </span><span class="type-syntax">package</span><span class="plain-syntax"> two _plain</span>
+<span class="plain-syntax">            </span><span class="type-syntax">variable</span><span class="plain-syntax"> </span><span class="identifier-syntax">V_speed</span><span class="plain-syntax"> = </span><span class="constant-syntax">12</span>
 </pre>
-<p class="commentary">we see that the two variables have different URLs, <span class="extract"><span class="extract-syntax">/main/one/V_speed</span></span> and
-<span class="extract"><span class="extract-syntax">/main/two/V_speed</span></span>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. Annotations.</b>A few of the defined names in Inter can be "annotated".
-</p>
-
-<p class="commentary">Many annotations are simply markers temporarily given to these names during
+<div class="lsmarkdown">
+<p>we see that the two variables have different URLs, <code>/main/one/V_speed</code> and
+<code>/main/two/V_speed</code>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. Annotations.</b>  A few of the defined names in Inter can be &quot;annotated&quot;.</p>
+<p>Many annotations are simply markers temporarily given to these names during
 the compilation process, and they usually do not change the meaning of the
 program. For example, the final C code generator annotates the names of arrays
-with their addresses in (virtual) memory, with the <span class="extract"><span class="extract-syntax">__array_address</span></span> annotation.
-In textual format:
-</p>
-
+with their addresses in (virtual) memory, with the <code>__array_address</code> annotation.
+In textual format:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> my_array = { </span><span class="constant-syntax">1</span><span class="plain-syntax">, </span><span class="constant-syntax">2</span><span class="plain-syntax">, </span><span class="constant-syntax">4</span><span class="plain-syntax">, </span><span class="constant-syntax">8</span><span class="plain-syntax"> } </span><span class="identifier-syntax">__array_address</span><span class="plain-syntax">=7718</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> my_array = { </span><span class="constant-syntax">1</span><span class="plain-syntax">, </span><span class="constant-syntax">2</span><span class="plain-syntax">, </span><span class="constant-syntax">4</span><span class="plain-syntax">, </span><span class="constant-syntax">8</span><span class="plain-syntax"> } </span><span class="identifier-syntax">__array_address</span><span class="plain-syntax">=7718</span>
 </pre>
-<p class="commentary">All annotation names begin with a double underscore, <span class="extract"><span class="extract-syntax">__</span></span>. They do not all
-express a value: some are boolean flags, where no <span class="extract"><span class="extract-syntax">=...</span></span> part is written.
-</p>
-
-<p class="commentary">For the list of standard annotation names in use, see <a href="M-ia.html" class="internal">Inform Annotations</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. Metadata constants.</b>If constant names begin with the magic character <span class="extract"><span class="extract-syntax">^</span></span> then they represent
-"metadata", describing the program rather than what it does. They are not
-data in the program at all. Thus:
-</p>
-
+<div class="lsmarkdown">
+<p>All annotation names begin with a double underscore, <code>__</code>. They do not all
+express a value: some are boolean flags, where no <code>=...</code> part is written.</p>
+<p>For the list of standard annotation names in use, see <a href="M-ia.html" class="internal">Inform Annotations</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. Metadata constants.</b>  If constant names begin with the magic character <code>^</code> then they represent
+&quot;metadata&quot;, describing the program rather than what it does. They are not
+data in the program at all. Thus:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> ^author = </span><span class="string-syntax">"Jonas Q. Duckling"</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> ^author = </span><span class="string-syntax">"Jonas Q. Duckling"</span>
 </pre>
-<p class="commentary">is legal, but:
-</p>
-
+<div class="lsmarkdown">
+<p>is legal, but:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> ^author = </span><span class="string-syntax">"Jonas Q. Duckling"</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">variable</span><span class="plain-syntax"> </span><span class="identifier-syntax">V_high_scorer</span><span class="plain-syntax"> = ^author</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> ^author = </span><span class="string-syntax">"Jonas Q. Duckling"</span>
+<span class="plain-syntax">    </span><span class="type-syntax">variable</span><span class="plain-syntax"> </span><span class="identifier-syntax">V_high_scorer</span><span class="plain-syntax"> = ^author</span>
 </pre>
-<p class="commentary">is not, because it tries to use a piece of metadata as if it were data.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. Types in Inter.</b>Inter is an exceptionally weakly typed language. It allows the user to choose
-how much type-checking is done.
-</p>
-
-<p class="commentary">Inter assigns a type to every constant, variable and so on. But by default those
-types are always a special type called <span class="extract"><span class="extract-syntax">unchecked</span></span>, which means that nothing
-is ever forbidden. This is true even if the type seems obvious:
-</p>
-
+<div class="lsmarkdown">
+<p>is not, because it tries to use a piece of metadata as if it were data.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. Types in Inter.</b>  Inter is an exceptionally weakly typed language. It allows the user to choose
+how much type-checking is done.</p>
+<p>Inter assigns a type to every constant, variable and so on. But by default those
+types are always a special type called <code>unchecked</code>, which means that nothing
+is ever forbidden. This is true even if the type seems obvious:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> SPEED_LIMIT = </span><span class="constant-syntax">20</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> SPEED_LIMIT = </span><span class="constant-syntax">20</span>
 </pre>
-<p class="commentary">gives <span class="extract"><span class="extract-syntax">SPEED_LIMIT</span></span> the type <span class="extract"><span class="extract-syntax">unchecked</span></span>, not (say) <span class="extract"><span class="extract-syntax">int32</span></span>. If a storage object
-such as a variable has type <span class="extract"><span class="extract-syntax">unchecked</span></span>, then anything can be put into it; and
-conversely an <span class="extract"><span class="extract-syntax">unchecked</span></span> value can always be used in any context.
-</p>
-
-<p class="commentary">So if we want a constant or variable to have a type, we must give it explicitly:
-</p>
-
+<div class="lsmarkdown">
+<p>gives <code>SPEED_LIMIT</code> the type <code>unchecked</code>, not (say) <code>int32</code>. If a storage object
+such as a variable has type <code>unchecked</code>, then anything can be put into it; and
+conversely an <code>unchecked</code> value can always be used in any context.</p>
+<p>So if we want a constant or variable to have a type, we must give it explicitly:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int32</span><span class="plain-syntax">) SPEED_LIMIT = </span><span class="constant-syntax">20</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">variable</span><span class="plain-syntax"> (</span><span class="reserved-syntax">text</span><span class="plain-syntax">) WARNING = </span><span class="string-syntax">"Slow down."</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> (</span><span class="type-syntax">int32</span><span class="plain-syntax">) SPEED_LIMIT = </span><span class="constant-syntax">20</span>
+<span class="plain-syntax">    </span><span class="type-syntax">variable</span><span class="plain-syntax"> (</span><span class="type-syntax">text</span><span class="plain-syntax">) WARNING = </span><span class="string-syntax">"Slow down."</span>
 </pre>
-<p class="commentary">The "type marker" <span class="extract"><span class="extract-syntax">(int32)</span></span>, which is intended to look like the C notation for
-a cast, gives an explicit type. The following, however, will be rejected:
-</p>
-
+<div class="lsmarkdown">
+<p>The &quot;type marker&quot; <code>(int32)</code>, which is intended to look like the C notation for
+a cast, gives an explicit type. The following, however, will be rejected:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int32</span><span class="plain-syntax">) SPEED_LIMIT = </span><span class="constant-syntax">20</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">variable</span><span class="plain-syntax"> (</span><span class="reserved-syntax">text</span><span class="plain-syntax">) WARNING = SPEED_LIMIT</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> (</span><span class="type-syntax">int32</span><span class="plain-syntax">) SPEED_LIMIT = </span><span class="constant-syntax">20</span>
+<span class="plain-syntax">    </span><span class="type-syntax">variable</span><span class="plain-syntax"> (</span><span class="type-syntax">text</span><span class="plain-syntax">) WARNING = SPEED_LIMIT</span>
 </pre>
-<p class="commentary">This is because <span class="extract"><span class="extract-syntax">WARNING</span></span> has type <span class="extract"><span class="extract-syntax">text</span></span> and cannot hold an <span class="extract"><span class="extract-syntax">int32</span></span>. This is
+<div class="lsmarkdown">
+<p>This is because <code>WARNING</code> has type <code>text</code> and cannot hold an <code>int32</code>. This is
 typechecking in action, and although you must volunteer for it, it is real.
 By conscientiously applying type markers throughout your program, you can
-use Inter as if it were a typed language.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. </b>An intentional hole in this type system is that literals which look wrong for
-a given type can often be used as them. This, for instance, is perfectly legal:
-</p>
-
+use Inter as if it were a typed language.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. </b>  An intentional hole in this type system is that literals which look wrong for
+a given type can often be used as them. This, for instance, is perfectly legal:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> (</span><span class="reserved-syntax">text</span><span class="plain-syntax">) SPEED_LIMIT = </span><span class="constant-syntax">20</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">variable</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int32</span><span class="plain-syntax">) WARNING = </span><span class="string-syntax">"Slow down."</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> (</span><span class="type-syntax">text</span><span class="plain-syntax">) SPEED_LIMIT = </span><span class="constant-syntax">20</span>
+<span class="plain-syntax">    </span><span class="type-syntax">variable</span><span class="plain-syntax"> (</span><span class="type-syntax">int32</span><span class="plain-syntax">) WARNING = </span><span class="string-syntax">"Slow down."</span>
 </pre>
-<p class="commentary">The type of a constant or variable is always either <span class="extract"><span class="extract-syntax">unchecked</span></span> or else is
+<div class="lsmarkdown">
+<p>The type of a constant or variable is always either <code>unchecked</code> or else is
 exactly what is declared in brackets, regardless of what the value after the
 equals sign looks as if it ought to be. However, a weaker form of checking
-is actually going on under the hood: numerical data has to fit. So for example:
-</p>
-
+is actually going on under the hood: numerical data has to fit. So for example:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> (int2) true = </span><span class="constant-syntax">1</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> (int2) false = </span><span class="constant-syntax">0</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> (int2) dunno = </span><span class="constant-syntax">2</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> (int2) true = </span><span class="constant-syntax">1</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> (int2) false = </span><span class="constant-syntax">0</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> (int2) dunno = </span><span class="constant-syntax">2</span>
 </pre>
-<p class="commentary">allows <span class="extract"><span class="extract-syntax">true</span></span> and <span class="extract"><span class="extract-syntax">false</span></span> to be declared, but throws an error on <span class="extract"><span class="extract-syntax">dunno</span></span>,
-because 2 is too large a value to be stored in an <span class="extract"><span class="extract-syntax">int2</span></span>. Even this checking
-can be circumvented with a named constant of type <span class="extract"><span class="extract-syntax">unchecked</span></span>, as here:
-</p>
-
+<div class="lsmarkdown">
+<p>allows <code>true</code> and <code>false</code> to be declared, but throws an error on <code>dunno</code>,
+because 2 is too large a value to be stored in an <code>int2</code>. Even this checking
+can be circumvented with a named constant of type <code>unchecked</code>, as here:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> dangerous = </span><span class="constant-syntax">17432</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> (int2) safe = dangerous</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> dangerous = </span><span class="constant-syntax">17432</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> (int2) safe = dangerous</span>
 </pre>
-<p class="commentary">This is allowed, and the result may be unhappy, but the user asked for it.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. </b>Types are like values in that simple ones can be used directly, but to
+<div class="lsmarkdown">
+<p>This is allowed, and the result may be unhappy, but the user asked for it.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. </b>  Types are like values in that simple ones can be used directly, but to
 make more complicated ones you need to give them names. The analogous
-instruction to <span class="extract"><span class="extract-syntax">constant</span></span>, which names a value, is <span class="extract"><span class="extract-syntax">typename</span></span>, which names
-a type.
-</p>
-
-<p class="commentary">The basic types are very limited: <span class="extract"><span class="extract-syntax">int2</span></span>, <span class="extract"><span class="extract-syntax">int8</span></span>, <span class="extract"><span class="extract-syntax">int16</span></span>, <span class="extract"><span class="extract-syntax">int32</span></span>, <span class="extract"><span class="extract-syntax">real</span></span>
-and <span class="extract"><span class="extract-syntax">text</span></span>. These are all different from each other, except that an <span class="extract"><span class="extract-syntax">int16</span></span>
-can always be used as an <span class="extract"><span class="extract-syntax">int32</span></span> without typechecking errors, but not vice
-versa; and so on for other types of integer.
-</p>
-
-<p class="commentary">Note that Inter takes no position on whether or not these are signed; the
-literal <span class="extract"><span class="extract-syntax">-6</span></span> would be written into an <span class="extract"><span class="extract-syntax">int8</span></span>, an <span class="extract"><span class="extract-syntax">int16</span></span> or an <span class="extract"><span class="extract-syntax">int32</span></span> in
-a twos-complement signed way, but Inter treats all these just as bits.
-</p>
-
-<p class="commentary">With just five types it really seems only cosmetic to use <span class="extract"><span class="extract-syntax">typename</span></span>:
-</p>
-
+instruction to <code>constant</code>, which names a value, is <code>typename</code>, which names
+a type.</p>
+<p>The basic types are very limited: <code>int2</code>, <code>int8</code>, <code>int16</code>, <code>int32</code>, <code>real</code>
+and <code>text</code>. These are all different from each other, except that an <code>int16</code>
+can always be used as an <code>int32</code> without typechecking errors, but not vice
+versa; and so on for other types of integer.</p>
+<p>Note that Inter takes no position on whether or not these are signed; the
+literal <code>-6</code> would be written into an <code>int8</code>, an <code>int16</code> or an <code>int32</code> in
+a twos-complement signed way, but Inter treats all these just as bits.</p>
+<p>With just five types it really seems only cosmetic to use <code>typename</code>:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    typename boolean = int2</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> (boolean) true = </span><span class="constant-syntax">1</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">variable</span><span class="plain-syntax"> (boolean) </span><span class="identifier-syntax">V_flag</span><span class="plain-syntax"> = true</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> (boolean) true = </span><span class="constant-syntax">1</span>
+<span class="plain-syntax">    </span><span class="type-syntax">variable</span><span class="plain-syntax"> (boolean) </span><span class="identifier-syntax">V_flag</span><span class="plain-syntax"> = true</span>
 <span class="plain-syntax">    typename truth_state = boolean</span>
 </pre>
-<p class="commentary">But what brings <span class="extract"><span class="extract-syntax">typename</span></span> into its own is that it allows the writing of
-more complex types. For example:
-</p>
-
+<div class="lsmarkdown">
+<p>But what brings <code>typename</code> into its own is that it allows the writing of
+more complex types. For example:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    typename bit_stream = </span><span class="reserved-syntax">list</span><span class="plain-syntax"> </span><span class="reserved-syntax">of</span><span class="plain-syntax"> int2</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> (bit_stream) signal = { </span><span class="constant-syntax">1</span><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="constant-syntax">1</span><span class="plain-syntax">, </span><span class="constant-syntax">1</span><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="constant-syntax">1</span><span class="plain-syntax"> }</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">variable</span><span class="plain-syntax"> (bit_stream) </span><span class="identifier-syntax">V_buffer</span><span class="plain-syntax"> = signal</span>
+<span class="plain-syntax">    typename bit_stream = </span><span class="type-syntax">list</span><span class="plain-syntax"> </span><span class="type-syntax">of</span><span class="plain-syntax"> int2</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> (bit_stream) signal = { </span><span class="constant-syntax">1</span><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="constant-syntax">1</span><span class="plain-syntax">, </span><span class="constant-syntax">1</span><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="constant-syntax">1</span><span class="plain-syntax"> }</span>
+<span class="plain-syntax">    </span><span class="type-syntax">variable</span><span class="plain-syntax"> (bit_stream) </span><span class="identifier-syntax">V_buffer</span><span class="plain-syntax"> = signal</span>
 </pre>
-<p class="commentary"><span class="extract"><span class="extract-syntax">list of T</span></span> is allowed only for simple types <span class="extract"><span class="extract-syntax">T</span></span>, so <span class="extract"><span class="extract-syntax">list of list of int32</span></span>,
-say, is not allowed: but note that a typename is itself a simple type. So:
-</p>
-
+<div class="lsmarkdown">
+<p><code>list of T</code> is allowed only for simple types <code>T</code>, so <code>list of list of int32</code>,
+say, is not allowed: but note that a typename is itself a simple type. So:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    typename bit_stream = </span><span class="reserved-syntax">list</span><span class="plain-syntax"> </span><span class="reserved-syntax">of</span><span class="plain-syntax"> int2</span>
-<span class="plain-syntax">    typename signal_list = </span><span class="reserved-syntax">list</span><span class="plain-syntax"> </span><span class="reserved-syntax">of</span><span class="plain-syntax"> bit_stream</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> (bit_stream) signal1 = { </span><span class="constant-syntax">1</span><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="constant-syntax">1</span><span class="plain-syntax">, </span><span class="constant-syntax">1</span><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="constant-syntax">1</span><span class="plain-syntax"> }</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> (bit_stream) signal2 = { }</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> (bit_stream) signal3 = { </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="constant-syntax">1</span><span class="plain-syntax">, </span><span class="constant-syntax">1</span><span class="plain-syntax"> }</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> (signal_list) log = { signal1, signal2, signal3 }</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">variable</span><span class="plain-syntax"> (signal_list) </span><span class="identifier-syntax">V_buffer</span><span class="plain-syntax"> = log</span>
+<span class="plain-syntax">    typename bit_stream = </span><span class="type-syntax">list</span><span class="plain-syntax"> </span><span class="type-syntax">of</span><span class="plain-syntax"> int2</span>
+<span class="plain-syntax">    typename signal_list = </span><span class="type-syntax">list</span><span class="plain-syntax"> </span><span class="type-syntax">of</span><span class="plain-syntax"> bit_stream</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> (bit_stream) signal1 = { </span><span class="constant-syntax">1</span><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="constant-syntax">1</span><span class="plain-syntax">, </span><span class="constant-syntax">1</span><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="constant-syntax">1</span><span class="plain-syntax"> }</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> (bit_stream) signal2 = { }</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> (bit_stream) signal3 = { </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="constant-syntax">1</span><span class="plain-syntax">, </span><span class="constant-syntax">1</span><span class="plain-syntax"> }</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> (signal_list) log = { signal1, signal2, signal3 }</span>
+<span class="plain-syntax">    </span><span class="type-syntax">variable</span><span class="plain-syntax"> (signal_list) </span><span class="identifier-syntax">V_buffer</span><span class="plain-syntax"> = log</span>
 </pre>
-<p class="commentary">will create a variable whose initial contents are a list of three lists of <span class="extract"><span class="extract-syntax">int2</span></span>
-values.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. </b>The "type constructions" allowed are as follows:
-</p>
-
-<ul class="items"><li>&#9679; <span class="extract"><span class="extract-syntax">list of T</span></span> for any simple type or typename <span class="extract"><span class="extract-syntax">T</span></span>;
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">function T1 T2 ... Tn -&gt; T</span></span> for any simple types <span class="extract"><span class="extract-syntax">T1</span></span>, <span class="extract"><span class="extract-syntax">T2</span></span>, and so on.
-In the special case of no arguments, or no result, the notation <span class="extract"><span class="extract-syntax">void</span></span> is
-used, but <span class="extract"><span class="extract-syntax">void</span></span> is not a type.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">struct T1 T2 ... Tn</span></span> for any simple types <span class="extract"><span class="extract-syntax">T1</span></span>, <span class="extract"><span class="extract-syntax">T2</span></span>, and so on. There
-must be at least one of these, so <span class="extract"><span class="extract-syntax">struct void</span></span> is not allowed.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">enum</span></span>, for which see below;
-</li><li>&#9679; and then a raft of constructions convenient for Inform but which Inter
-really knows nothing about: <span class="extract"><span class="extract-syntax">activity on T</span></span>, <span class="extract"><span class="extract-syntax">column of T</span></span>, <span class="extract"><span class="extract-syntax">table of T</span></span>,
-<span class="extract"><span class="extract-syntax">relation of T1 to T2</span></span>, <span class="extract"><span class="extract-syntax">description of T</span></span>, <span class="extract"><span class="extract-syntax">rulebook of T</span></span>, and <span class="extract"><span class="extract-syntax">rule T1 -&gt; T2</span></span>.
+<div class="lsmarkdown">
+<p>will create a variable whose initial contents are a list of three lists of <code>int2</code>
+values.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. </b>  The &quot;type constructions&quot; allowed are as follows:</p>
+<ul>
+<li>
+<p><code>list of T</code> for any simple type or typename <code>T</code>;</p>
+</li>
+<li>
+<p><code>function T1 T2 ... Tn -&gt; T</code> for any simple types <code>T1</code>, <code>T2</code>, and so on.
+In the special case of no arguments, or no result, the notation <code>void</code> is
+used, but <code>void</code> is not a type.</p>
+</li>
+<li>
+<p><code>struct T1 T2 ... Tn</code> for any simple types <code>T1</code>, <code>T2</code>, and so on. There
+must be at least one of these, so <code>struct void</code> is not allowed.</p>
+</li>
+<li>
+<p><code>enum</code>, for which see below;</p>
+</li>
+<li>
+<p>and then a raft of constructions convenient for Inform but which Inter
+really knows nothing about: <code>activity on T</code>, <code>column of T</code>, <code>table of T</code>,
+<code>relation of T1 to T2</code>, <code>description of T</code>, <code>rulebook of T</code>, and <code>rule T1 -&gt; T2</code>.
 Perhaps these ought to work via a general way for users to create new constructors,
 but for now they are hard-wired. They do nothing except to be distinct from each other,
-so that Inform can label its data.
-</li></ul>
-<p class="commentary">Inter applies the usual rules of covariance and contravariance when matching
-these types. For example:
-</p>
-
-<ul class="items"><li>&#9679; <span class="extract"><span class="extract-syntax">list of int2</span></span> matches <span class="extract"><span class="extract-syntax">list of int32</span></span> but not vice versa (covariance
-in the entry type);
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">function int32 -&gt; void</span></span> matches <span class="extract"><span class="extract-syntax">function int2 -&gt; void</span></span> but not vice versa
-(contravariance in argument types);
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">function text -&gt; int2</span></span> matches <span class="extract"><span class="extract-syntax">function text -&gt; int32</span></span> but not vice versa
-(covariance in result types).
-</li></ul>
-<p class="commentary firstcommentary"><a id="SP18" class="paragraph-anchor"></a><b>&#167;18. </b>This enables us to declare the type of a function. A typed version of <span class="extract"><span class="extract-syntax">Hello</span></span>
-might look like this:
-</p>
-
+so that Inform can label its data.</p>
+</li>
+</ul>
+<p>Inter applies the usual rules of covariance and contravariance when matching
+these types. For example:</p>
+<ul>
+<li>
+<p><code>list of int2</code> matches <code>list of int32</code> but not vice versa (covariance
+in the entry type);</p>
+</li>
+<li>
+<p><code>function int32 -&gt; void</code> matches <code>function int2 -&gt; void</code> but not vice versa
+(contravariance in argument types);</p>
+</li>
+<li>
+<p><code>function text -&gt; int2</code> matches <code>function text -&gt; int32</code> but not vice versa
+(covariance in result types).</p>
+</li>
+</ul>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP18" class="paragraph-anchor"></a><b>&#167;18. </b>  This enables us to declare the type of a function. A typed version of <code>Hello</code>
+might look like this:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">package</span><span class="plain-syntax"> main _plain</span>
-<span class="plain-syntax">    typename void_function = function </span><span class="reserved-syntax">void</span><span class="plain-syntax"> -&gt; </span><span class="reserved-syntax">void</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">package</span><span class="plain-syntax"> (void_function) Main _code</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">code</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!enableprinting</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!print</span>
-<span class="plain-syntax">                </span><span class="reserved-syntax">val</span><span class="plain-syntax"> </span><span class="string-syntax">"Hello, world.\n"</span>
+<span class="type-syntax">package</span><span class="plain-syntax"> main _plain</span>
+<span class="plain-syntax">    typename void_function = function </span><span class="type-syntax">void</span><span class="plain-syntax"> </span><span class="type-syntax">-&gt;</span><span class="plain-syntax"> </span><span class="type-syntax">void</span>
+<span class="plain-syntax">    </span><span class="type-syntax">package</span><span class="plain-syntax"> (void_function) Main _code</span>
+<span class="plain-syntax">        </span><span class="type-syntax">code</span>
+<span class="plain-syntax">            </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!enableprinting</span>
+<span class="plain-syntax">            </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!print</span>
+<span class="plain-syntax">                </span><span class="type-syntax">val</span><span class="plain-syntax"> </span><span class="string-syntax">"Hello, world.\n"</span>
 </pre>
-<p class="commentary">And similarly:
-</p>
-
+<div class="lsmarkdown">
+<p>And similarly:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    typename ii_i_function = function </span><span class="reserved-syntax">int32</span><span class="plain-syntax"> </span><span class="reserved-syntax">int32</span><span class="plain-syntax"> -&gt; </span><span class="reserved-syntax">int32</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">package</span><span class="plain-syntax"> (ii_i_function) gcd _code</span>
+<span class="plain-syntax">    typename ii_i_function = function </span><span class="type-syntax">int32</span><span class="plain-syntax"> </span><span class="type-syntax">int32</span><span class="plain-syntax"> </span><span class="type-syntax">-&gt;</span><span class="plain-syntax"> </span><span class="type-syntax">int32</span>
+<span class="plain-syntax">    </span><span class="type-syntax">package</span><span class="plain-syntax"> (ii_i_function) gcd _code</span>
 <span class="plain-syntax">        ...</span>
 </pre>
-<p class="commentary">creates a function called <span class="extract"><span class="extract-syntax">gcd</span></span> whose type is <span class="extract"><span class="extract-syntax">int32 int32 -&gt; int32</span></span>.
-Note that only <span class="extract"><span class="extract-syntax">_code</span></span> packages are allowed to be marked with a type, because
-only <span class="extract"><span class="extract-syntax">_code</span></span> package names are values.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP19" class="paragraph-anchor"></a><b>&#167;19. </b>As an example of structures:
-</p>
-
+<div class="lsmarkdown">
+<p>creates a function called <code>gcd</code> whose type is <code>int32 int32 -&gt; int32</code>.
+Note that only <code>_code</code> packages are allowed to be marked with a type, because
+only <code>_code</code> package names are values.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP19" class="paragraph-anchor"></a><b>&#167;19. </b>  As an example of structures:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    typename city_data = struct real real </span><span class="reserved-syntax">text</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> (city_data) L = struct{ r</span><span class="string-syntax">"+51.507"</span><span class="plain-syntax">, r</span><span class="string-syntax">"-0.1275"</span><span class="plain-syntax">, </span><span class="string-syntax">"London"</span><span class="plain-syntax"> }</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> (city_data) P = struct{ r</span><span class="string-syntax">"+48.857"</span><span class="plain-syntax">, r</span><span class="string-syntax">"+2.3522"</span><span class="plain-syntax">, </span><span class="string-syntax">"Paris"</span><span class="plain-syntax"> }</span>
+<span class="plain-syntax">    typename city_data = struct real real </span><span class="type-syntax">text</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> (city_data) L = struct{ r</span><span class="string-syntax">"+51.507"</span><span class="plain-syntax">, r</span><span class="string-syntax">"-0.1275"</span><span class="plain-syntax">, </span><span class="string-syntax">"London"</span><span class="plain-syntax"> }</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> (city_data) P = struct{ r</span><span class="string-syntax">"+48.857"</span><span class="plain-syntax">, r</span><span class="string-syntax">"+2.3522"</span><span class="plain-syntax">, </span><span class="string-syntax">"Paris"</span><span class="plain-syntax"> }</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP20" class="paragraph-anchor"></a><b>&#167;20. Enumerations and instances.</b>That leaves enumerations, which have the enigmatically concise type <span class="extract"><span class="extract-syntax">enum</span></span>.
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP20" class="paragraph-anchor"></a><b>&#167;20. Enumerations and instances.</b>  That leaves enumerations, which have the enigmatically concise type <code>enum</code>.
 Only a typename can have this type: it may be concise but it is not simple. (So
-<span class="extract"><span class="extract-syntax">list of enum</span></span> is not allowed.) <span class="extract"><span class="extract-syntax">enum</span></span> is special in that each different time
-it is declared, it makes a different type. For example:
-</p>
-
+<code>list of enum</code> is not allowed.) <code>enum</code> is special in that each different time
+it is declared, it makes a different type. For example:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    typename city = </span><span class="reserved-syntax">enum</span>
-<span class="plain-syntax">    typename country = </span><span class="reserved-syntax">enum</span>
+<span class="plain-syntax">    typename city = </span><span class="type-syntax">enum</span>
+<span class="plain-syntax">    typename country = </span><span class="type-syntax">enum</span>
 <span class="plain-syntax">    typename nation = country</span>
 </pre>
-<p class="commentary">Here there are two different enumerated types: <span class="extract"><span class="extract-syntax">city</span></span> and another one which
-can be called either <span class="extract"><span class="extract-syntax">country</span></span> or <span class="extract"><span class="extract-syntax">nation</span></span>.
-</p>
-
-<p class="commentary">As in many programming languages, an enumerated type is one which can hold only
+<div class="lsmarkdown">
+<p>Here there are two different enumerated types: <code>city</code> and another one which
+can be called either <code>country</code> or <code>nation</code>.</p>
+<p>As in many programming languages, an enumerated type is one which can hold only
 a fixed range of values known at compile time: for example, perhaps it can hold
 only the values 1, 2, 3, 4. An unusual feature of Inter is that the declaration
 does not specify these permitted values. Instead, they must be declared
-individually using the <span class="extract"><span class="extract-syntax">instance</span></span> instruction. For example:
-</p>
-
+individually using the <code>instance</code> instruction. For example:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    typename city = </span><span class="reserved-syntax">enum</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">instance</span><span class="plain-syntax"> (city) Berlin</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">instance</span><span class="plain-syntax"> (city) Madrid</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">instance</span><span class="plain-syntax"> (city) Lisbon</span>
+<span class="plain-syntax">    typename city = </span><span class="type-syntax">enum</span>
+<span class="plain-syntax">    </span><span class="type-syntax">instance</span><span class="plain-syntax"> (city) Berlin</span>
+<span class="plain-syntax">    </span><span class="type-syntax">instance</span><span class="plain-syntax"> (city) Madrid</span>
+<span class="plain-syntax">    </span><span class="type-syntax">instance</span><span class="plain-syntax"> (city) Lisbon</span>
 </pre>
-<p class="commentary">For obvious reasons, the type marker &mdash; in this case <span class="extract"><span class="extract-syntax">(city)</span></span> &mdash; is compulsory,
-not optional as it was for <span class="extract"><span class="extract-syntax">constant</span></span>, <span class="extract"><span class="extract-syntax">variable</span></span> and <span class="extract"><span class="extract-syntax">package</span></span> declarations.
-</p>
-
-<p class="commentary">At runtime, the values representing these instances are guaranteed to be different,
+<div class="lsmarkdown">
+<p>For obvious reasons, the type marker -- in this case <code>(city)</code> -- is compulsory,
+not optional as it was for <code>constant</code>, <code>variable</code> and <code>package</code> declarations.</p>
+<p>At runtime, the values representing these instances are guaranteed to be different,
 but we should not assume anything else about those values. The final code-generator
 may choose to number them 1, 2, 3, but it may not. (When enumerations are used by
 the Inform 7 tool-chain for objects, the runtime values will be object IDs in the
-Z-machine or pointers to objects in Glulx or C, for instance.)
-</p>
-
-<p class="commentary">If we need specific numerical values (which must be non-negative), we can specify
-that explicitly:
-</p>
-
+Z-machine or pointers to objects in Glulx or C, for instance.)</p>
+<p>If we need specific numerical values (which must be non-negative), we can specify
+that explicitly:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    typename city = </span><span class="reserved-syntax">enum</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">instance</span><span class="plain-syntax"> (city) Berlin = </span><span class="constant-syntax">1</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">instance</span><span class="plain-syntax"> (city) Madrid = </span><span class="constant-syntax">17</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">instance</span><span class="plain-syntax"> (city) Lisbon = </span><span class="constant-syntax">201</span>
+<span class="plain-syntax">    typename city = </span><span class="type-syntax">enum</span>
+<span class="plain-syntax">    </span><span class="type-syntax">instance</span><span class="plain-syntax"> (city) Berlin = </span><span class="constant-syntax">1</span>
+<span class="plain-syntax">    </span><span class="type-syntax">instance</span><span class="plain-syntax"> (city) Madrid = </span><span class="constant-syntax">17</span>
+<span class="plain-syntax">    </span><span class="type-syntax">instance</span><span class="plain-syntax"> (city) Lisbon = </span><span class="constant-syntax">201</span>
 </pre>
-<p class="commentary">You should either specify values for all instances of a given enumeration, or none.
-</p>
-
-<p class="commentary">Note that instances do not have to be declared in the same package, or even the
-same program, as the enumeration they belong to.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP21" class="paragraph-anchor"></a><b>&#167;21. Subtypes.</b>Enumerated types, but no others, can be "subtypes". For example:
-</p>
-
+<div class="lsmarkdown">
+<p>You should either specify values for all instances of a given enumeration, or none.</p>
+<p>Note that instances do not have to be declared in the same package, or even the
+same program, as the enumeration they belong to.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP21" class="paragraph-anchor"></a><b>&#167;21. Subtypes.</b>  Enumerated types, but no others, can be &quot;subtypes&quot;. For example:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    typename </span><span class="identifier-syntax">K_thing</span><span class="plain-syntax"> = </span><span class="reserved-syntax">enum</span>
+<span class="plain-syntax">    typename </span><span class="identifier-syntax">K_thing</span><span class="plain-syntax"> = </span><span class="type-syntax">enum</span>
 <span class="plain-syntax">    typename </span><span class="identifier-syntax">K_vehicle</span><span class="plain-syntax"> &lt;= </span><span class="identifier-syntax">K_thing</span>
 <span class="plain-syntax">    typename </span><span class="identifier-syntax">K_tractor</span><span class="plain-syntax"> &lt;= </span><span class="identifier-syntax">K_vehicle</span>
 </pre>
-<p class="commentary">An instance of <span class="extract"><span class="extract-syntax">K_tractor</span></span> is now automatically also an instance of <span class="extract"><span class="extract-syntax">K_vehicle</span></span>,
-but the converse is not necessarily true.
-</p>
-
-<p class="commentary">The right-hand side of the <span class="extract"><span class="extract-syntax">&lt;=</span></span> sign is only allowed to be an enumerated typename,
-and a new typename created in this way is, for obvious reasons, also enumerated.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP22" class="paragraph-anchor"></a><b>&#167;22. Properties.</b>Inter supports a simple model of properties and values. (An enumerated typename
-is in effect a class, and this is why instances are so called.)
-</p>
-
-<p class="commentary">A property is a set of similarly-named variables belonging, potentially, to
+<div class="lsmarkdown">
+<p>An instance of <code>K_tractor</code> is now automatically also an instance of <code>K_vehicle</code>,
+but the converse is not necessarily true.</p>
+<p>The right-hand side of the <code>&lt;=</code> sign is only allowed to be an enumerated typename,
+and a new typename created in this way is, for obvious reasons, also enumerated.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP22" class="paragraph-anchor"></a><b>&#167;22. Properties.</b>  Inter supports a simple model of properties and values. (An enumerated typename
+is in effect a class, and this is why instances are so called.)</p>
+<p>A property is a set of similarly-named variables belonging, potentially, to
 any number of owners, each having their own value. As with constants and
-variables, properties can optionally have types. For example:
-</p>
-
+variables, properties can optionally have types. For example:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">property</span><span class="plain-syntax"> population</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">property</span><span class="plain-syntax"> (</span><span class="reserved-syntax">text</span><span class="plain-syntax">) motto</span>
+<span class="plain-syntax">    </span><span class="type-syntax">property</span><span class="plain-syntax"> population</span>
+<span class="plain-syntax">    </span><span class="type-syntax">property</span><span class="plain-syntax"> (</span><span class="type-syntax">text</span><span class="plain-syntax">) motto</span>
 </pre>
-<p class="commentary">Any instance can in principle have its own copy of any property, and so can
+<div class="lsmarkdown">
+<p>Any instance can in principle have its own copy of any property, and so can
 an enumerated type as a whole. But this is allowed only if an explicit
-permission is granted:
-</p>
-
+permission is granted:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    typename city = </span><span class="reserved-syntax">enum</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">instance</span><span class="plain-syntax"> (city) Stockholm</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">instance</span><span class="plain-syntax"> (city) Odessa</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">permission</span><span class="plain-syntax"> for city to have population</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">permission</span><span class="plain-syntax"> for Odessa to have motto</span>
+<span class="plain-syntax">    typename city = </span><span class="type-syntax">enum</span>
+<span class="plain-syntax">    </span><span class="type-syntax">instance</span><span class="plain-syntax"> (city) Stockholm</span>
+<span class="plain-syntax">    </span><span class="type-syntax">instance</span><span class="plain-syntax"> (city) Odessa</span>
+<span class="plain-syntax">    </span><span class="type-syntax">permission</span><span class="plain-syntax"> for city to have population</span>
+<span class="plain-syntax">    </span><span class="type-syntax">permission</span><span class="plain-syntax"> for Odessa to have motto</span>
 </pre>
-<p class="commentary">And we can now use the <span class="extract"><span class="extract-syntax">propertyvalue</span></span> instruction to set these:
-</p>
-
+<div class="lsmarkdown">
+<p>And we can now use the <code>propertyvalue</code> instruction to set these:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">propertyvalue</span><span class="plain-syntax"> population </span><span class="reserved-syntax">of</span><span class="plain-syntax"> Stockholm = </span><span class="constant-syntax">978770</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">propertyvalue</span><span class="plain-syntax"> population </span><span class="reserved-syntax">of</span><span class="plain-syntax"> Odessa = </span><span class="constant-syntax">1015826</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">propertyvalue</span><span class="plain-syntax"> motto </span><span class="reserved-syntax">of</span><span class="plain-syntax"> Odessa = </span><span class="string-syntax">"Pearl of the Black Sea"</span>
+<span class="plain-syntax">    </span><span class="type-syntax">propertyvalue</span><span class="plain-syntax"> population </span><span class="type-syntax">of</span><span class="plain-syntax"> Stockholm = </span><span class="constant-syntax">978770</span>
+<span class="plain-syntax">    </span><span class="type-syntax">propertyvalue</span><span class="plain-syntax"> population </span><span class="type-syntax">of</span><span class="plain-syntax"> Odessa = </span><span class="constant-syntax">1015826</span>
+<span class="plain-syntax">    </span><span class="type-syntax">propertyvalue</span><span class="plain-syntax"> motto </span><span class="type-syntax">of</span><span class="plain-syntax"> Odessa = </span><span class="string-syntax">"Pearl of the Black Sea"</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP23" class="paragraph-anchor"></a><b>&#167;23. </b>An optional extended form of <span class="extract"><span class="extract-syntax">permission</span></span> is allowed which enables us to say
-that we want the storage for a property to be in a given list. Thus:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP23" class="paragraph-anchor"></a><b>&#167;23. </b>  An optional extended form of <code>permission</code> is allowed which enables us to say
+that we want the storage for a property to be in a given list. Thus:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> population_storage = { </span><span class="constant-syntax">2</span><span class="plain-syntax">, </span><span class="constant-syntax">978770</span><span class="plain-syntax">, </span><span class="constant-syntax">1015826</span><span class="plain-syntax"> }</span>
-<span class="plain-syntax">    typename city = </span><span class="reserved-syntax">enum</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">instance</span><span class="plain-syntax"> (city) Stockholm</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">instance</span><span class="plain-syntax"> (city) Odessa</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">property</span><span class="plain-syntax"> population</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">permission</span><span class="plain-syntax"> for city to have population population_storage</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> population_storage = { </span><span class="constant-syntax">2</span><span class="plain-syntax">, </span><span class="constant-syntax">978770</span><span class="plain-syntax">, </span><span class="constant-syntax">1015826</span><span class="plain-syntax"> }</span>
+<span class="plain-syntax">    typename city = </span><span class="type-syntax">enum</span>
+<span class="plain-syntax">    </span><span class="type-syntax">instance</span><span class="plain-syntax"> (city) Stockholm</span>
+<span class="plain-syntax">    </span><span class="type-syntax">instance</span><span class="plain-syntax"> (city) Odessa</span>
+<span class="plain-syntax">    </span><span class="type-syntax">property</span><span class="plain-syntax"> population</span>
+<span class="plain-syntax">    </span><span class="type-syntax">permission</span><span class="plain-syntax"> for city to have population population_storage</span>
 </pre>
-<p class="commentary">But this is finicky, and has to be set up just right in order to work.<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup>
-</p>
-
-<ul class="footnotetexts"><li class="footnote" id="fn:2"><p class="inwebfootnote"><sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup> The feature exists in Inter because of Inform 7's ability to define kinds
+<div class="lsmarkdown">
+<p>But this is finicky, and has to be set up just right in order to work.<sup id="fnred:2"><a href="#fn:2" rel="footnote">1</a></sup></p>
+<li class="footnote" id="fn:2"><p class="inwebfootnote"><sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup>
+The feature exists in Inter because of Inform 7's ability to define kinds
 with tables, so that the storage lists are the columns of the table in
 question. Because I7 allows those properties to be modified or read either
 qua properties or qua table entries, we cannot avoid giving Inter a similar
-ability, even though we might prefer not to.
-<a href="#fnref:2" title="return to text"> &#x21A9;</a></p></li></ul>
-<p class="commentary firstcommentary"><a id="SP24" class="paragraph-anchor"></a><b>&#167;24. Insert.</b>Never use <span class="extract"><span class="extract-syntax">insert</span></span>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP25" class="paragraph-anchor"></a><b>&#167;25. </b>Well, okay then. This exists to implement very low-level features of Inform 7,
+ability, even though we might prefer not to.<a href="#fnref:2" title="return to text"> &#x21A9;</a></p>
+</li></ul>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP24" class="paragraph-anchor"></a><b>&#167;24. Insert.</b>  Never use <code>insert</code>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP25" class="paragraph-anchor"></a><b>&#167;25. </b>  Well, okay then. This exists to implement very low-level features of Inform 7,
 going back to its earliest days as a programming language, when people were
-still writing strange hybrid programs partly in I6.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">insert</span></span> tells Inter that it needs to add this raw I6-syntax material to the
-program:
-</p>
-
+still writing strange hybrid programs partly in I6.</p>
+<p><code>insert</code> tells Inter that it needs to add this raw I6-syntax material to the
+program:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    insert </span><span class="string-syntax">"\n[ LITTLE_USED_DO_NOTHING_R; rfalse; ];\n"</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP26" class="paragraph-anchor"></a><b>&#167;26. Splats.</b>And never use <span class="extract"><span class="extract-syntax">splat</span></span> either.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP27" class="paragraph-anchor"></a><b>&#167;27. </b>Well, okay then. We do in fact temporarily make splats when compiling kit
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP26" class="paragraph-anchor"></a><b>&#167;26. Splats.</b>  And never use <code>splat</code> either.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP27" class="paragraph-anchor"></a><b>&#167;27. </b>  Well, okay then. We do in fact temporarily make splats when compiling kit
 source, written in Inform 6 syntax, into Inter. During that process, there are
 times when the source code is only partially digested. Each individual I6-syntax
-directive is converted into a "splat" holding its raw text. But this is then
+directive is converted into a &quot;splat&quot; holding its raw text. But this is then
 later translated into better Inter, and the splat removed again. For details,
-if you really must, see <a href="../bytecode-module/5-tsc.html" class="internal">The Splat Construct (in bytecode)</a>.
-</p>
-
-<p class="commentary">The name "splat" is chosen as a psychological ploy, to make people feel queasy
-about using this. See also "glob" above, which is the analogous construction
-for values rather than void-context material.
-</p>
-
+if you really must, see <a href="../bytecode-module/5-tsc.html" class="internal">The Splat Construct (in bytecode)</a>.</p>
+<p>The name &quot;splat&quot; is chosen as a psychological ploy, to make people feel queasy
+about using this. See also &quot;glob&quot; above, which is the analogous construction
+for values rather than void-context material.</p>
+</div>
 <nav role="progress"><div class="progresscontainer">
     <ul class="progressbar"><li class="progressprev"><a href="M-ti.html">&#10094;</a></li><li class="progresscurrentchapter">M</li><li class="progresssection"><a href="M-ui.html">ui</a></li><li class="progresssection"><a href="M-ti.html">ti</a></li><li class="progresscurrent">dpiti</li><li class="progresssection"><a href="M-cpiti.html">cpiti</a></li><li class="progresssection"><a href="M-ip.html">ip</a></li><li class="progresssection"><a href="M-ia.html">ia</a></li><li class="progresssection"><a href="M-io.html">io</a></li><li class="progresssection"><a href="M-pas.html">pas</a></li><li class="progresssection"><a href="M-rc.html">rc</a></li><li class="progresschapter"><a href="1-mn.html">1</a></li><li class="progressnext"><a href="M-cpiti.html">&#10095;</a></li></ul></div>
 </nav><!-- End of weave -->

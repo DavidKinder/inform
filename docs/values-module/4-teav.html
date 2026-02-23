@@ -235,7 +235,7 @@ higher up in Inform. Ultimately, the text must match &lt;k-kind&gt; in each case
 written out in the phrase, such as here:</p>
 </div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">let_equation_mode</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
+<span class="type-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">let_equation_mode</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">kind</span><span class="plain-syntax"> *</span><span class="identifier-syntax">probable_noun_phrase_context</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 </pre>
 <div class="lsmarkdown">
@@ -282,39 +282,57 @@ but otherwise changes little.</p>
 <ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. Values.</b>  The sequence here is important, in that it resolves ambiguities:</p>
-<p>(<em>) Variable names have highest priority, in order to allow temporary &quot;let&quot;
-names to mask existing meanings.
-(</em>) Constants come next: these include literals, but also named constants,
-such as names of rooms or things.
-(<em>) Equations are an oddball exceptional case, seldom arising.
-(</em>) Property names are not constants and, as values, they are usually read
+<ul>
+<li>
+<p>Variable names have highest priority, in order to allow temporary &quot;let&quot;
+names to mask existing meanings.</p>
+</li>
+<li>
+<p>Constants come next: these include literals, but also named constants,
+such as names of rooms or things.</p>
+</li>
+<li>
+<p>Equations are an oddball exceptional case, seldom arising.</p>
+</li>
+<li>
+<p>Property names are not constants and, as values, they are usually read
 as implicitly referring to a property value of something, not as a reference
 to the property itself: thus &quot;description&quot; means the actual description of
-some object clear from context, not the description property in the abstract.
-(<em>) Table column names present a particular ambiguity arising from tables
+some object clear from context, not the description property in the abstract.</p>
+</li>
+<li>
+<p>Table column names present a particular ambiguity arising from tables
 which are used to construct instances. In tables like that, the column names
 become names of properties owned by those instances; and then there are also
 ambiguities like those with property names, as between the column's identity
-and the actual contents of the current row.
-(</em>) Phrases to decide a value whose wording mimics a property cause trouble.
+and the actual contents of the current row.</p>
+</li>
+<li>
+<p>Phrases to decide a value whose wording mimics a property cause trouble.
 I sometimes think it would be better to penalise this sort of wording by
 treating it badly, but since the Standard Rules are as guilty as anyone else,
 Inform instead tries to cope. Here we parse any phrase whose wording doesn't
 look like a property lookup in the form &quot;X of Y&quot;; later we will pick up
-any phrase whose wording does.
-(<em>) Similarly we parse descriptions in two rounds: those referring to
+any phrase whose wording does.</p>
+</li>
+<li>
+<p>Similarly we parse descriptions in two rounds: those referring to
 physical objects, and others later on. This is because English tends to give
 metaphorically physical names to abstract things: for example, the word
 &quot;table&quot; for an array of data. We want to make sure sentences like &quot;The
 ball is on the table&quot; are not misread through parsing &quot;table&quot; as the
 name of the kind. (Type expressions have the opposite convention: there,
-kind names always take priority over mere names of things. See above.)
-(</em>) The &quot;member of...&quot; productions are to make it possible to write
+kind names always take priority over mere names of things. See above.)</p>
+</li>
+<li>
+<p>The &quot;member of...&quot; productions are to make it possible to write
 description comprehensions without ambiguity or grammatical oddness; for
 instance if a &quot;let&quot; name &quot;D&quot; holds a description, it enables us to
 write &quot;members of D&quot; instead of just &quot;D&quot;, making the wording of some
 phrases much more natural. It's the difference between a set and its
 membership, which is to say, not really a difference at all.</p>
+</li>
+</ul>
 </div>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-function-syntax">&lt;s-value-uncached&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
@@ -558,17 +576,19 @@ anything including the word &quot;of&quot;:</p>
 <ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP20" class="paragraph-anchor"></a><b>&#167;20. Table references.</b>  Table references come in five different forms:</p>
-<p>(a) For instance, &quot;atomic number entry&quot;, meaning the entry in that column
-and implicitly in the table and row currently selected.
-(b) For instance, &quot;atomic number in row 4 of the Table of Elements&quot;.
-(c) For instance, &quot;an atomic number listed in the Table of Elements&quot; in the
+<ul>
+<li>For instance, &quot;atomic number entry&quot;, meaning the entry in that column
+and implicitly in the table and row currently selected.</li>
+<li>For instance, &quot;atomic number in row 4 of the Table of Elements&quot;.</li>
+<li>For instance, &quot;an atomic number listed in the Table of Elements&quot; in the
 sentence &quot;if 101 is an atomic number listed in the Table of Elements&quot;. This
-is part of a condition, and can't evaluate.
-(d) For instance, &quot;atomic weight corresponding to an atomic number of 57 in
-the Table of Elements&quot;.
-(e) For instance, &quot;atomic weight of 20 in the Table of Elements&quot; in the
+is part of a condition, and can't evaluate.</li>
+<li>For instance, &quot;atomic weight corresponding to an atomic number of 57 in
+the Table of Elements&quot;.</li>
+<li>For instance, &quot;atomic weight of 20 in the Table of Elements&quot; in the
 sentence &quot;if there is an atomic weight of 20 in the Table of Elements&quot;.
-Again, this is part of a condition, and can't evaluate.</p>
+Again, this is part of a condition, and can't evaluate.</li>
+</ul>
 </div>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-function-syntax">&lt;s-table-reference&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>

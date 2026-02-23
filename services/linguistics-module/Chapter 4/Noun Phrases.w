@@ -6,10 +6,10 @@ To construct noun-phrase subtrees for assertion sentences.
 Noun phrase nodes are built at four levels of elaboration, which we take in
 turn:
 
-(-NP1) Raw: where the text is entirely untouched and unannotated.
-(-NP2) Articled: where any initial article is converted to an annotation.
-(-NP3) List-divided: where, in addition, a list is broken up into individual items.
-(-NP4) Full: where, in addition, pronouns, relative phrases establishing
+- (NP1) Raw: where the text is entirely untouched and unannotated.
+- (NP2) Articled: where any initial article is converted to an annotation.
+- (NP3) List-divided: where, in addition, a list is broken up into individual items.
+- (NP4) Full: where, in addition, pronouns, relative phrases establishing
 relationships and properties, and so on are parsed.
 
 @h Raw nounphrases (NP1).
@@ -38,13 +38,14 @@ used in a balanced way: thus |frogs ( and toads )| would match, but
 @h Articled nounphrases (NP2).
 Now an initial article becomes an annotation and is removed from the text.
 Note that
-(a) Unexpectedly upper-case articles are left well alone, as in the sentence:
+
+- Unexpectedly upper-case articles are left well alone, as in the sentence:
 
 >> On the table is a thing called A Town Called Alice.
 
-(b) Articles are not removed if that would leave the text empty.
+- Articles are not removed if that would leave the text empty.
 
-(c) If we are in a language where the same word might either be definite or
+- If we are in a language where the same word might either be definite or
 indefinite, the latter has precedence.
 
 =
@@ -118,15 +119,16 @@ here we have --
 =
 That is, relative clauses take precedence over callings, and so on. The
 above hierarchy is arrived at thus:
-(a) We need |RELATIONSHIP_NT > WITH_NT| so that "X is in a container with
+
+- We need |RELATIONSHIP_NT > WITH_NT| so that "X is in a container with
 carrying capacity 10" will work.
-(b) We need |WITH_NT > AND_NT| so that "X is a container with carrying
+- We need |WITH_NT > AND_NT| so that "X is a container with carrying
 capacity 10 and diameter 12" will work.
-(c) We need |CALLED_NT > WITH_NT| so that "X is a container called the flask
+- We need |CALLED_NT > WITH_NT| so that "X is a container called the flask
 with flange" will work.
-(d) We need |RELATIONSHIP_NT > CALLED_NT| so that "A man called Horse is in
+- We need |RELATIONSHIP_NT > CALLED_NT| so that "A man called Horse is in
 the High Sierra" will work.
-(e) We want |KIND_NT| to be of low precedence because it is always either
+- We want |KIND_NT| to be of low precedence because it is always either
 the word "kind" alone, or "kind of N" for some atomic noun N.
 
 See //About Sentence Diagrams// for numerous examples.
@@ -136,10 +138,10 @@ phrase, i.e., whether it is in the subject or object position. Thus "X is Y"
 or "X is in Y" would lead to X being parsed by <np-as-subject>, Y by <np-as-object>.
 They are identical except that:
 
-(a) In subject position, a full nounphrase can use "there" to indicate
+- In subject position, a full nounphrase can use "there" to indicate
 an existential sentence such as "there is a hair in my soup"; and
 
-(b) In subject position, a relative phrase cannot begin with a word which
+- In subject position, a relative phrase cannot begin with a word which
 looks like a participle.
 
 =
@@ -246,10 +248,11 @@ directions, in particular, a little better. But it means we do not recognise
 	CALLED_NT > WITH_NT > AND_NT > KIND_NT
 =
 These are all handled by <np-nonrelative>. Two points to note:
-(a) The first production accepts arbitrary text quickly and without allocating
+
+- The first production accepts arbitrary text quickly and without allocating
 memory if we're in lookahead mode -- an important economy since otherwise
 parsing a list of $n$ items would have running time and memory of order $2^n$.
-(b) If we regard the above constructs as being like operators in arithmetic,
+- If we regard the above constructs as being like operators in arithmetic,
 then the operands have to match <np-operand>, and this requires text which has
 balanced brackets. That ensures that, for example, "frog (called toad)"
 is not misread as saying that "frog (" is called "toad )". But note that

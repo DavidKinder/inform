@@ -111,19 +111,19 @@ within their own packages, which are in effect namespaces. But translated
 identifiers have to be unique across the whole compiled program. Several
 different strategies are used to concoct these translated identifiers:
 
-(*) |H_C_T| means the constant is a one-off, and the translation is the same
+- |H_C_T| means the constant is a one-off, and the translation is the same
 as the Inter identifier, unless Inform source text has intervened to change
 that translation.
-(*) |H_C_G| means that the constant will appear in multiple packages, and that
+- |H_C_G| means that the constant will appear in multiple packages, and that
 Inform should generate unique names for it based on the one given, e.g., by
 suffixing |_1|, |_2|, ...
-(*) |H_C_S| is like |H_C_G|, except that the name is taken from the parent
+- |H_C_S| is like |H_C_G|, except that the name is taken from the parent
 package with a suffix;
-(*) |H_C_P| is like |H_C_G|, except that the name is taken from the parent
+- |H_C_P| is like |H_C_G|, except that the name is taken from the parent
 package with a prefix;
-(*) |H_C_U| is like |H_C_G|, except that this "unique-ization" should be done
+- |H_C_U| is like |H_C_G|, except that this "unique-ization" should be done
 at the linking stage, not in the main compiler.
-(*) |H_C_I| says that Inform will impose a choice of its own which is not
+- |H_C_I| says that Inform will impose a choice of its own which is not
 expressible here. This is used very little, but for example to make sure that
 kind IDs for kinds supplied by kits have the names given for them in Neptune files.
 
@@ -152,6 +152,7 @@ The eventual hierarchy will contain both
 
 (1) material generated in the main compiler, such as functions derived from rule
 definitions, and also
+
 (2) material added later in linking, for example from kits like //WorldModelKit//.
 
 The following catalogue contains location and naming conventions for everything

@@ -170,14 +170,14 @@ set of semi-simple type descriptions.
 
 The following definitions look circular, but are not:[1]
 
-(*) A "simple type description" is either a constructor for which all type
+- A "simple type description" is either a constructor for which all type
 operands are |unchecked|, such as |int32| or |list of unchecked|, or else a
 "type name".
 
-(*) A "semi-simple type description" is either a constructor for which all
+- A "semi-simple type description" is either a constructor for which all
 type operands are simple, or else a "type name".
 
-(*) A "type name" is a name defined with a specific semi-simple type description.
+- A "type name" is a name defined with a specific semi-simple type description.
 
 [1] Because the hierarchy of definitions of type names must be well-founded.
 You cannot define |K_apple| to equal |K_pear| and vice versa. Each type name
@@ -189,10 +189,10 @@ itself.
 any of the representations above. For example, |list of list of int32| is neither
 simple nor semi-simple, but we can get to it by:
 
-(1) Defining |K_list_of_int32| as a type name for |list of int32|, which is
+- Defining |K_list_of_int32| as a type name for |list of int32|, which is
 semi-simple.
 
-(2) Defining |K_list_of_list_of_int32| as a type name for |list of K_list_of_int32|,
+- Defining |K_list_of_list_of_int32| as a type name for |list of K_list_of_int32|,
 which is semi-simple.
 
 And we now have |K_list_of_list_of_int32|, which is simple since it is a bare

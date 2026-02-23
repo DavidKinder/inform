@@ -155,9 +155,9 @@ int I6Operators::arity(inter_ti BIP) {
 
 @ Returns:
 
-(*) |TRUE| for a prefix operator, e.g., |++alpha|;
-(*) |FALSE| for a postfix operator, e.g., |alpha--|;
-(*) |NOT_APPLICABLE| for an infix operator, e.g., |alpha + beta|, or for
+- |TRUE| for a prefix operator, e.g., |++alpha|;
+- |FALSE| for a postfix operator, e.g., |alpha--|;
+- |NOT_APPLICABLE| for an infix operator, e.g., |alpha + beta|, or for
 something which is not an operator at all.
 
 =

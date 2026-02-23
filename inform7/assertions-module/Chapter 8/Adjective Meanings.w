@@ -125,9 +125,9 @@ void AdjectiveMeanings::negate_task_data(adjective_meaning *am, adjective_meanin
 
 @ The schema for a task generates code to perform it. There are three strategies:
 
-(*) produce a problem message, saying this is impossible;
-(*) compile direct inline code;
-(*) compile a function call to a function, which actually performs the task;
+- produce a problem message, saying this is impossible;
+- compile direct inline code;
+- compile a function call to a function, which actually performs the task;
 
 Those strategies correspond to the three |*_TASKMODE| constants.
 

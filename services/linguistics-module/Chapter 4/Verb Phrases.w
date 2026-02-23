@@ -133,9 +133,10 @@ are some example viability maps:
 = (undisplayed text from Figures/solomon-viability.txt)
 
 The scoring system is:
-(a) Words definitely not part of a verb score 0 and are marked |--| above.
-(b) Verb words outside brackets score 1, and inside brackets 2, except that
-(c) Words which are part of a negated verb other than "to be" score 3.
+
+- Words definitely not part of a verb score 0 and are marked |--| above.
+- Verb words outside brackets score 1, and inside brackets 2, except that
+- Words which are part of a negated verb other than "to be" score 3.
 
 The viability map contains occasional false positives (i.e., words having positive
 score which should be zero), but never has false zeroes.

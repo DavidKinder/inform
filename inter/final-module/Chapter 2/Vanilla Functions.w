@@ -5,8 +5,8 @@ How the vanilla code generation strategy declares functions.
 @ The following traverses the Inter tree to discover all of the functions
 defined within it, and does two important things for each:
 
-(a) Assigns it a //vanilla_function// of metadata, and then
-(b) Calls //Generators::predeclare_function// to let the generator know that
+- Assigns it a //vanilla_function// of metadata, and then
+- Calls //Generators::predeclare_function// to let the generator know that
 the function exists. Not all target languages require functions to be predeclared,
 so generators can if they choose ignore this.
 
@@ -27,16 +27,19 @@ void VanillaFunctions::predeclare_this(inter_tree *I, inter_tree_node *P, void *
 
 @ Each function has metadata as follows. Note that:
 
-(a) Phrase syntax will only exist for functions which originated in Inform 7
+- Phrase syntax will only exist for functions which originated in Inform 7
 source text; so for functions coming from kits, |phrase_syntax| will be empty
 and |formal_arity| will be 0.
-(b) For I7 functions, |formal_arity| will be the number of arguments in the
+
+- For I7 functions, |formal_arity| will be the number of arguments in the
 phrase preamble.
-(c) For all functions, |max_arity| is the total number of local variables in
+
+- For all functions, |max_arity| is the total number of local variables in
 the function, and that is by definition the largest number of arguments which
 could possibly be passed to this function by a call. Note that it will always
 be true that |max_arity >= formal_arity|.
-(d) Calling conventions for Inter functions are not entirely simple: see
+
+- Calling conventions for Inter functions are not entirely simple: see
 //C Function Model// for discussion of how they differ from regular C functions.
 In particular, any function with a local variable called |_vararg_count| is
 called with a variable number of arguments, placed on the stack before the call,

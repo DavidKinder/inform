@@ -5,13 +5,14 @@ An overview of the kinds module's role and abilities.
 @h Prerequisites.
 The kinds module is a part of the Inform compiler toolset. It is
 presented as a literate program or "web". Before diving in:
-(a) It helps to have some experience of reading webs: see //inweb// for more.
-(b) The module is written in C, in fact ANSI C99, but this is disguised by the
+
+- It helps to have some experience of reading webs: see //inweb// for more.
+- The module is written in C, in fact ANSI C99, but this is disguised by the
 fact that it uses some extension syntaxes provided by the //inweb// literate
 programming tool, making it a dialect of C called InC. See //inweb// for
 full details, but essentially: it's C without predeclarations or header files,
 and where functions have names like |Tags::add_by_name| rather than |add_by_name|.
-(c) This module uses other modules drawn from the compiler (see //structure//), and also
+- This module uses other modules drawn from the compiler (see //structure//), and also
 uses a module of utility functions called //foundation//.
 For more, see //foundation: A Brief Guide to Foundation//.
 
@@ -59,17 +60,17 @@ constant monitoring of their kinds of all values being dealt with.
 
 Inform is a high-level language designed for ease of use. Accordingly:
 
-(a) Inform does not trade safety for efficiency, as low-level languages
+- Inform does not trade safety for efficiency, as low-level languages
 like C do. There are no pointers, no arrays with unchecked boundaries, no
 union kinds, no exceptions, no labels, and no explicit type coercions.
 
-(b) All values are first-class, whatever their kind, meaning that they can
+- All values are first-class, whatever their kind, meaning that they can
 be passed to phrases, returned by phrases or stored in variables. All
 copies and comparisons are deep: that is, to copy a pointer value
 replicates its entire contents, and to compare two pointer values is to
 examine their complete contents.
 
-(c) All memory management is automatic. The author of an Inform source text
+- All memory management is automatic. The author of an Inform source text
 never needs to know whether a given value is stored as a word or as a pointer
 to data on the heap. (Indeed, this isn't even shown on the Kinds index page.)
 
@@ -110,10 +111,10 @@ types are checked, with statically typed languages being checked at compile
 time, dynamically typed languages being checked at run-time. Both strong/weak
 and static/dynamic are really ranges of possibilities.
 
-(a) Inform is a strongly typed language, in that any source text which
+- Inform is a strongly typed language, in that any source text which
 produces no Problem messages is guaranteed safe.
 
-(b) Inform is a hybrid between being statically and dynamically typed. At
+- Inform is a hybrid between being statically and dynamically typed. At
 compile time, Inform determines that the usage is either certainly safe or
 else conditionally safe dependent on specific checks to be made at
 run-time, which it compiles explicit code to carry out. Because of this,
@@ -174,12 +175,13 @@ Phrase definitions in the standard Inform extensions use only K and L.
 The meaning of text like "list of K" depends on context. If K is currently set to,
 say, |number|, then "list of K" means |list of number|; if it has no current
 setting, then K remains a placeholder and the result is |list of K|. Note that:
-(a) The same variable can occur more than once, as in |phrase K -> K|.
-(b) Variables can be constrained to conform to something, as in |arithmetic value of kind K|,
+
+- The same variable can occur more than once, as in |phrase K -> K|.
+- Variables can be constrained to conform to something, as in |arithmetic value of kind K|,
 where |K| remains a placeholder but can only be a kind conforming to |arithmetic value|.
-(c) If |K| remains unknown then any kind using |K| is necessarily indefinite.
+- If |K| remains unknown then any kind using |K| is necessarily indefinite.
 So a variable cannot have the kind |list of K|, for example.
-(d) A process called "substitution" enables |list of K| to be transformed to
+- A process called "substitution" enables |list of K| to be transformed to
 |list of numbers|, or whatever may be. See //Kinds::substitute//.
 
 [1] Using letters seemed the nearest point of contact with natural
@@ -219,12 +221,12 @@ constructed out of others: thus |list of texts| is the result of applying the
 "list of ..." construction to the kind |text|.[1] Kinds not constructed from
 other kinds are called "base kinds". Briefly:
 
-(*) By convention the |NULL| pointer means "kind unknown".
+- By convention the |NULL| pointer means "kind unknown".
 
-(*) Commonly needed base kinds, like |number| or |text|, have global variables
+- Commonly needed base kinds, like |number| or |text|, have global variables
 set equal to them, like |K_number| or |K_text|. See //Familiar Kinds//.
 
-(*) Kinds can otherwise be made with //Kinds::base_construction//,
+- Kinds can otherwise be made with //Kinds::base_construction//,
 //Kinds::unary_con// or //Kinds::binary_con//. For example,
 |list of numbers| and |relation of numbers to texts| can be made by:
 = (text)
@@ -232,44 +234,44 @@ set equal to them, like |K_number| or |K_text|. See //Familiar Kinds//.
 	Kinds::binary_con(CON_relation, K_number, K_text)
 =
 
-(*) Kinds for functions are a bit laborious to put together, so //Kinds::function_kind//
+- Kinds for functions are a bit laborious to put together, so //Kinds::function_kind//
 is a convenience.
 
-(*) As with kinds, commonly needed constructors, like |CON_list_of| or
+- As with kinds, commonly needed constructors, like |CON_list_of| or
 |CON_relation|, are available as global values. Again see //Familiar Kinds//.
 
-(*) Two different |kind *| values can represent the same kind, so don't test
+- Two different |kind *| values can represent the same kind, so don't test
 whether $K$ is the same kind as $L$ by the pointer comparison |K == L|. Instead
 call //Kinds::eq// or its negation //Kinds::ne//.
 
-(*) Call //Kinds::conforms_to// to test whether $K$ conforms to $L$. This is
+- Call //Kinds::conforms_to// to test whether $K$ conforms to $L$. This is
 either true or not true. To find a kind able to hold values of either $K$ or $L$,
 call //Latticework::join//.
 
-(*) Call //Kinds::compatible// to test whether $K$ is compatible with $L$,
+- Call //Kinds::compatible// to test whether $K$ is compatible with $L$,
 but note that the reply is three-valued: always, sometimes or never.
 
-(*) Inform makes frequent use of "weakening", where we deliberately weaken a
+- Inform makes frequent use of "weakening", where we deliberately weaken a
 kind (i.e., make it less restrictive) by ignoring distinctions between subkinds
 of some $W$. For example, the weakening of |list of things| with respect to
 |object| is |list of objects|. See //Kinds::weaken//.
 
-(*) An extensive API of functions is provided in //Using Kinds// to test whether
+- An extensive API of functions is provided in //Using Kinds// to test whether
 given kinds have given properties. The most important is //Kinds::Behaviour::definite//,
 which determines whether $K$ is definite.
 
-(*) New base kinds can be created either by calling //Kinds::new_base//,[2] or in
+- New base kinds can be created either by calling //Kinds::new_base//,[2] or in
 the process of reading in "Neptune files".[3] New constructors can only
 be made the latter way. See //NeptuneFiles::load//, which sends individual commands
 to //NeptuneFiles::read_command//, which in turn deals with the low-level code in
 the //Kind Constructors// section.[4] See //A Brief Guide to Neptune// for a
 manual to the syntax.
 
-(*) It is possible to move kinds within the lattice of kinds, i.e., to change
+- It is possible to move kinds within the lattice of kinds, i.e., to change
 their hierarchical relationship, even after creation. See //Kinds::make_subkind//.
 Inform does this very sparingly and only with kinds of object.[5]
 
-(*) Use //Kinds::Dimensions::arithmetic_on_kinds// to determine what kind, if
+- Use //Kinds::Dimensions::arithmetic_on_kinds// to determine what kind, if
 any, results from performing an arithmetic operation.
 
 [1] "List of ..." is what is called a "kind constructor". This term follows the

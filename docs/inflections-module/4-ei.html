@@ -576,13 +576,21 @@ text. But of course there's a great deal of duplication in this, and
 almost all of the versions can be made using a much smaller number of
 genuinely different inflected versions of the word.</p>
 <p>Our general strategy works like this:</p>
-<p>(a) Identify one or more verbs as being too irregular to fit into any
+<ul>
+<li>
+<p>Identify one or more verbs as being too irregular to fit into any
 pattern, and handle those as special cases.</p>
-<p>(b) For all other verbs, identify a set of inflected forms which covers all
+</li>
+<li>
+<p>For all other verbs, identify a set of inflected forms which covers all
 of the possibilities we need to make, and write a trie to handle each one.</p>
-<p>(c) Try to use a single conjugation to show how these forms are used, that
+</li>
+<li>
+<p>Try to use a single conjugation to show how these forms are used, that
 is, how the different word forms map onto the possible tenses, persons,
 numbers, and so on.</p>
+</li>
+</ul>
 </div>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. </b>  This gives us a certain amount of choice. What exactly is &quot;too irregular&quot;?
@@ -599,11 +607,13 @@ handle as a special case.</p>
 <p>All other English verbs have five form types, though in many cases two or more
 of these have the same spelling. These we will number as follows, for reasons
 which will become clear below:</p>
-<p>(1) Infinitive: flaunt.
-(2) Present participle: flaunting.
-(3) Past participle: flaunted.
-(5) Third person singular present (or just &quot;present&quot;): flaunts.
-(6) Third person singular past (or just &quot;past&quot;): flaunted.</p>
+<ul>
+<li>Infinitive: flaunt.</li>
+<li>Present participle: flaunting.</li>
+<li>Past participle: flaunted.</li>
+<li>Third person singular present (or just &quot;present&quot;): flaunts.</li>
+<li>Third person singular past (or just &quot;past&quot;): flaunted.</li>
+</ul>
 <p>In regular verbs the past and past participle are the same, as they are here:
 he flaunted (past); he had flaunted (past participle). But English has around
 600 commonly occurring irregular verbs in which they are different, sometimes
@@ -628,17 +638,17 @@ be the &quot;adjoint infinitive&quot;. For most verbs, we won't use it.</p>
 <p>That means that form types 5 and upward are free to be used as needed by
 each language. English needs two: the present (5) and past (6) forms.</p>
 </div>
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="Preform-constant-syntax">0</span>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">BASE_FORM_TYPE</span> <span class="Preform-constant-syntax">0</span>
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="Preform-constant-syntax">1</span>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">INFINITIVE_FORM_TYPE</span> <span class="Preform-constant-syntax">1</span>
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="Preform-constant-syntax">2</span>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">PRESENT_PARTICIPLE_FORM_TYPE</span> <span class="Preform-constant-syntax">2</span>
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="Preform-constant-syntax">3</span>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">PAST_PARTICIPLE_FORM_TYPE</span> <span class="Preform-constant-syntax">3</span>
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="Preform-constant-syntax">4</span>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">ADJOINT_INFINITIVE_FORM_TYPE</span> <span class="Preform-constant-syntax">4</span>
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="Preform-constant-syntax">123</span>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">MAX_FORM_TYPES</span> <span class="Preform-constant-syntax">123</span>
 </pre>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. </b>  We're now ready to write the <code>&lt;verb-conjugation-instructions&gt;</code>. This is
@@ -650,13 +660,19 @@ cases for -er, -ir, and -re verbs.</p>
 <p>Each row takes the form of a pattern of words to match, followed by a
 nonterminal giving the conjugation to use if a match is made. Matches
 are literal except:</p>
-<p>(a) The tail <code>...</code> means any string of one or more words, but can only be used
+<ul>
+<li>
+<p>The tail <code>...</code> means any string of one or more words, but can only be used
 as the tail. Any text matching it is written into the adjoint infinitive.
 So <code>be able to ...</code> matches &quot;be able to touch&quot; and sets the adjoint
 infinitive to &quot;touch&quot;.</p>
-<p>(b) A pattern written in the form <code>-xyz</code> matches the tail of a verb. This
+</li>
+<li>
+<p>A pattern written in the form <code>-xyz</code> matches the tail of a verb. This
 isn't useful for English, but in French it neatly spots classes of verbs:
 for example, <code>-er</code> detects first-conjugation verbs such as &quot;donner&quot;.</p>
+</li>
+</ul>
 <p>Note that we have to make sure every possible infinitive text matches at
 least one line, and the best way to ensure that is to finish up with <code>...</code>
 as the last pattern -- this matches anything.</p>

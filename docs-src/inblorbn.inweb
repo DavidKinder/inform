@@ -9,11 +9,11 @@ a "blurb". See //structure// for where this fits into the bigger picture.
 
 Inblorb is a single literate program, and is not divided into modules.
 
-(*) The contents page for the Inblorb web is here: //inblorb//.
+- The contents page for the Inblorb web is here: //inblorb//.
 
-(*) See //inblorb: Manual// and //inblorb: Reference Card// for usage.
+- See //inblorb: Manual// and //inblorb: Reference Card// for usage.
 
-(*) See //inblorb: The Blurb Language// for a specification of blurb files.
+- See //inblorb: The Blurb Language// for a specification of blurb files.
 
 Blurb files are generated inside the main Inform compiler at //if: The Blurb File//.
 

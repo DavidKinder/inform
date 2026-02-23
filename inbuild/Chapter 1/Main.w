@@ -81,15 +81,18 @@ int main(int argc, char **argv) {
 	SupervisorModule::start();
 
 @ Targets can arise in three ways:
-(1) They can be specified at the command line, either as bare names of files
+
+- They can be specified at the command line, either as bare names of files
 or paths, or with |-contents-of D| for a directory |D|. By the time the code
 in this paragraph runs, those targets are already in the list.
-(2) They can be specified by a search request |-matching R| where |R| is a
+
+- They can be specified by a search request |-matching R| where |R| is a
 list of requirements to match. We now add anything found that way. (We didn't
 do so when reading the command line because at that time the search path for
 nests did not yet exist: it is created when |Supervisor::optioneering_complete|
 is called.)
-(3) One copy is always special to Inbuild: the "project", usually an Inform
+
+- One copy is always special to Inbuild: the "project", usually an Inform
 project bundle with a pathname like |Counterfeit Monkey.inform|. We go
 through a little dance with |Supervisor::optioneering_complete| to ensure that
 if a project is already in the target list, Inbuild will use that; and if not,

@@ -28,9 +28,10 @@ to refer to them.
 
 We need to remember what we have already declared, so that we don't declare the
 same kind over and over. We use two different mechanisms for this:
-(*) for base kinds, storing the iname as the identifier for the associated noun,
+
+- for base kinds, storing the iname as the identifier for the associated noun,
 which is quicker to look up;
-(*) for constructed kinds, storing it in a |cached_kind_declaration|, which is
+- for constructed kinds, storing it in a |cached_kind_declaration|, which is
 slower but occurs considerably less often -- there are in practice relatively
 few |cached_kind_declaration| objects created.
 

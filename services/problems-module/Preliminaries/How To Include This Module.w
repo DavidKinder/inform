@@ -17,12 +17,11 @@ A tool can import //problems// only if it also imports //foundation//,
 We'll use the term "parent" to mean the tool which is importing //problems//,
 that is, which will include its code and be able to use it. As with any
 imported module,
-(*) The contents page of the parent's web must identify and locate the
-module:
-= (text as Inweb)
-Import: somepath/problems
-=
-(*) The parent must call |ProblemsModule::start()| just after it starts up, and
+
+- The contents page of the parent's web must identify and locate the
+module: |Import: somepath/problems|.
+
+- The parent must call |ProblemsModule::start()| just after it starts up, and
 |ProblemsModule::end()| just before it shuts down. (But just after, and just
 before, the corresponding calls to //foundation//.)
 

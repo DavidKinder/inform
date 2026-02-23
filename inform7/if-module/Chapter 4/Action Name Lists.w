@@ -149,13 +149,13 @@ void ActionNameLists::join_to(anl_entry *earlier, anl_entry *later) {
 
 @ Which uses the following function:
 
-(*) Results in later word positions come first, and if that doesn't decide it
-(*) NAPs come before actions, and if that doesn't decide it
-(*) Older NAPs come before younger ones, and if that doesn't decide it
-(*) Less abbreviated results come first, and if that doesn't decide it
-(*) Action names with longer non-it-length come before shorter, and if that doesn't decide it
-(*) Older action names come before younger, and if that doesn't decide it
-(*) Later-discovered results come before earlier ones -- which because of the
+- Results in later word positions come first, and if that doesn't decide it
+- NAPs come before actions, and if that doesn't decide it
+- Older NAPs come before younger ones, and if that doesn't decide it
+- Less abbreviated results come first, and if that doesn't decide it
+- Action names with longer non-it-length come before shorter, and if that doesn't decide it
+- Older action names come before younger, and if that doesn't decide it
+- Later-discovered results come before earlier ones -- which because of the
 way we parse them means that results with more fixed words in clauses come
 before those with fewer.
 

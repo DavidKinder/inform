@@ -5,9 +5,10 @@ To provide debugging and tuning data on the Preform parser's performance.
 @h What data we collect.
 This ought to be a privacy policy under GDPR, somehow. If so, our justification
 for logging usage data would be this:
-(a) the Preform parser does something very complicated and has to be tuned just
+
+- the Preform parser does something very complicated and has to be tuned just
 right to be efficient, so debugging logs are helpful;
-(b) but it runs millions of times in each Inform compilation, in a wide variety
+- but it runs millions of times in each Inform compilation, in a wide variety
 of ways, and any kind of complete log would be both too large and too complex
 to take in. We want to be selective, and to be able to summarise.
 

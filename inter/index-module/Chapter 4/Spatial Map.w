@@ -18,9 +18,9 @@ in the debugging layout", and the internal test cases with names in the form
 nonempty collections of rooms joined together by proximity. Proximity comes
 about in two ways:
 
-(i) Map connections in directions along lattice lines (EAST, UP, and so on
+- Map connections in directions along lattice lines (EAST, UP, and so on
 but not INSIDE or OUTSIDE);
-(ii) Locks placed between rooms by sentences intended to give this algorithm
+- Locks placed between rooms by sentences intended to give this algorithm
 hints about layout.
 
 As we will see, we will map rooms using a symmetric form of relationships:
@@ -146,12 +146,12 @@ map_calculation_data SpatialMap::fresh_data(void) {
 Here is the six-stage strategy. I estimate that the running time is as
 follows, where $R$ is the number of rooms:
 
-(1) Linear time, $O(R)$, so essentially instant.
-(2) Linear time, $O(R)$, so essentially instant.
-(3) About $O(R^2\log R)$, at worst, but generally better in practical cases.
-(4) This could be as bad as $O(R^2)$, but only in bizarre circumstances.
-(5) Linear time, $O(R)$, so essentially instant.
-(6) In theory about $O(R^{4/3})$, but in practice $O(R)$.
+- Linear time, $O(R)$, so essentially instant.
+- Linear time, $O(R)$, so essentially instant.
+- About $O(R^2\log R)$, at worst, but generally better in practical cases.
+- This could be as bad as $O(R^2)$, but only in bizarre circumstances.
+- Linear time, $O(R)$, so essentially instant.
+- In theory about $O(R^{4/3})$, but in practice $O(R)$.
 
 We allow this function to be called more than once only for the convenience of
 the unit test below, which makes spatial positioning happen early in order

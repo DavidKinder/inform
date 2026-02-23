@@ -234,15 +234,15 @@ being compiled to. These always exist, and their values are known at compile tim
 
 They mostly have obvious meanings, but a few notes:
 
-(1) |WORDSIZE| is the number of bytes in a word.
+- |WORDSIZE| is the number of bytes in a word.
 
-(2) |NULL|, in our runtime, is -1, and not 0 as it would be in C.
+- |NULL|, in our runtime, is -1, and not 0 as it would be in C.
 
-(3) |IMPROBABLE_VALUE| is one which is unlikely even if possible to be a
+- |IMPROBABLE_VALUE| is one which is unlikely even if possible to be a
 genuine I7 value. The efficiency of runtime code handling tables depends on
 how well chosen this is: it would ran badly if we chose 1, for instance.
 
-(4) Exactly one of the symbols |TARGET_ZCODE| or |TARGET_GLULX| is defined,
+- Exactly one of the symbols |TARGET_ZCODE| or |TARGET_GLULX| is defined,
 and given the notional value 1, though its only purpose is to enable conditional
 compilation to work (see //pipeline: Resolve Conditional Compilation Stage//);
 so its importance is whether or not it is defined, not what value it has. Note
@@ -251,7 +251,7 @@ renamed |TARGET_16BIT| and |TARGET_32BIT| respectively. For example, C code
 can happily be generated from an Inter tree containing |TARGET_GLULX|, even
 though that code will never produce a program running on the Glulx VM.
 
-(5) And similarly for |DEBUG|, which again exists to enable conditional
+- And similarly for |DEBUG|, which again exists to enable conditional
 compilation when building kits.
 
 =

@@ -75,15 +75,17 @@ style rules.</p>
 system. There is no completely foolproof, cross-platform way to know this
 (on some Unixes, a program cannot determine its own location), so Inpolicy
 decides by the following set of rules:</p>
-<p>(a) If the user, at the command line, specified <code>-at P</code>, for some path
-<code>P</code>, then we use that.
-(b) Otherwise, if the host operating system can indeed tell us where the
+<ul>
+<li>If the user, at the command line, specified <code>-at P</code>, for some path
+<code>P</code>, then we use that.</li>
+<li>Otherwise, if the host operating system can indeed tell us where the
 executable is, we use that. This is currently implemented only on MacOS,
-Windows and Linux.
-(c) Otherwise, if the environment variable <code>$INPOLICY_PATH</code> exists and is
-non-empty, we use that.
-(d) And if all else fails, we assume that the location is <code>inpolicy</code>, with
-respect to the current working directory.</p>
+Windows and Linux.</li>
+<li>Otherwise, if the environment variable <code>$INPOLICY_PATH</code> exists and is
+non-empty, we use that.</li>
+<li>And if all else fails, we assume that the location is <code>inpolicy</code>, with
+respect to the current working directory.</li>
+</ul>
 <p>If you're not sure what Inpolicy has decided and suspect it may be wrong,
 running Inpolicy with the <code>-verbose</code> switch will cause it to print its belief
 about its location as it starts up.</p>

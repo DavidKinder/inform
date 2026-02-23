@@ -108,8 +108,9 @@ because it occurs pretty often as an integer. Instead we use the constant
 machine, and which is declared in "Definitions.i6t".
 
 An entry is therefore blank if and only if either
-(a) its column has no blanks bitmap and the stored entry is |TABLE_NOVALUE|, or
-(b) its column does have a blanks bitmap, the blanks bit for this entry is set,
+
+- its column has no blanks bitmap and the stored entry is |TABLE_NOVALUE|, or
+- its column does have a blanks bitmap, the blanks bit for this entry is set,
 and the stored entry is also |TABLE_NOVALUE|.
 
 To look up the blanks bitmap is a little slower than to access the stored
@@ -612,9 +613,9 @@ a legal row number.)
 @h Compare Rows.
 |TableCompareRows(T, C, R1, R2, D)| returns:
 
-(a) $+1$ if the entry at row R1 of column C is $>$ the entry at row R2,
-(b) 0 if they are equal, and
-(c) $-1$ if entry at R1 $<$ entry at R2.
+- $+1$ if the entry at row R1 of column C is $>$ the entry at row R2,
+- 0 if they are equal, and
+- $-1$ if entry at R1 $<$ entry at R2.
 
 When $D = +1$, a blank value is greater than all other values, so that in
 an ascending sort the blanks come last; when $D = -1$, a blank value is

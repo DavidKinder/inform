@@ -759,10 +759,10 @@ whether the relation is empty at the end of the call. For relations in groups,
 The general problem we have to solve here is: given $x, y\in D$, where $\sim$
 is a relation on a domain set $D$ of objects,
 
-(i) find the smallest $n$ such that there exist $x = r_1\sim r_2\sim ...\sim
+- find the smallest $n$ such that there exist $x = r_1\sim r_2\sim ...\sim
 r_n = y\in D$ such that $r_i\sim r_{i+1}$, or determine that no such $n$ exists,
 and if so
-(ii) find a value of $r_2$ in such a "route" between $x$ and $y$, or
+- find a value of $r_2$ in such a "route" between $x$ and $y$, or
 set $r_2=0$ if $x=y$ so that $n=1$.
 
 While in general a relation can have different left and right domains (a

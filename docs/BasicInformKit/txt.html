@@ -12,6 +12,11 @@
 <link href="../docs-assets/Navigation.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Fonts.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -48,78 +53,70 @@
 
 <ul class="toc"><li><a href="txt.html#SP1">&#167;1. Block Format</a></li><li><a href="txt.html#SP2">&#167;2. Extent Of Long Block</a></li><li><a href="txt.html#SP3">&#167;3. Character Set</a></li><li><a href="txt.html#SP4">&#167;4. Debugging</a></li><li><a href="txt.html#SP5">&#167;5. Creation</a></li><li><a href="txt.html#SP6">&#167;6. Copy</a></li><li><a href="txt.html#SP7">&#167;7. Copy Short Block</a></li><li><a href="txt.html#SP8">&#167;8. Transmutation</a></li><li><a href="txt.html#SP9">&#167;9. Mutability</a></li><li><a href="txt.html#SP10">&#167;10. Casting</a></li><li><a href="txt.html#SP11">&#167;11. Data Conversion</a></li><li><a href="txt.html#SP12">&#167;12. Z Version</a></li><li><a href="txt.html#SP13">&#167;13. Glulx Version</a></li><li><a href="txt.html#SP14">&#167;14. Comparison</a></li><li><a href="txt.html#SP15">&#167;15. Hashing</a></li><li><a href="txt.html#SP16">&#167;16. Printing</a></li><li><a href="txt.html#SP17">&#167;17. Capitalised printing</a></li><li><a href="txt.html#SP18">&#167;18. Serialisation</a></li><li><a href="txt.html#SP19">&#167;19. Unserialisation</a></li><li><a href="txt.html#SP20">&#167;20. Substitution</a></li><li><a href="txt.html#SP21">&#167;21. Perishability</a></li><li><a href="txt.html#SP22">&#167;22. Blobs</a></li><li><a href="txt.html#SP23">&#167;23. Blob Access</a></li><li><a href="txt.html#SP24">&#167;24. Get Blob</a></li><li><a href="txt.html#SP25">&#167;25. Replace Blob</a></li><li><a href="txt.html#SP26">&#167;26. Replace Text</a></li><li><a href="txt.html#SP27">&#167;27. Character Length</a></li><li><a href="txt.html#SP28">&#167;28. Get Character</a></li><li><a href="txt.html#SP29">&#167;29. Casing</a></li><li><a href="txt.html#SP30">&#167;30. Change Case</a></li><li><a href="txt.html#SP31">&#167;31. Concatenation</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Block Format.</b>The short block for a text is two words long: the first word selects which
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Block Format.</b>  The short block for a text is two words long: the first word selects which
 form of storage will be used to represent the content, and the second word
 is a reference to that content. This reference is an I6 String or Routine
 in all cases except one, when it's a pointer to a long block containing
-a null-terminated array of characters, like a C string.
-</p>
-
-<p class="commentary">Clearly we need <span class="extract"><span class="extract-syntax">PACKED_TEXT_STORAGE</span></span> and <span class="extract"><span class="extract-syntax">UNPACKED_TEXT_STORAGE</span></span> to
+a null-terminated array of characters, like a C string.</p>
+<p>Clearly we need <code>PACKED_TEXT_STORAGE</code> and <code>UNPACKED_TEXT_STORAGE</code> to
 distinguish between the two basic methods of text storage, roughly
-equivalent to the pre-2013 kinds "text" and "indexed text". But why
-do we need four?
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">CONSTANT_PACKED_TEXT_STORAGE</span></span> is easy to explain: the BlkValue routines
+equivalent to the pre-2013 kinds &quot;text&quot; and &quot;indexed text&quot;. But why
+do we need four?</p>
+<p><code>CONSTANT_PACKED_TEXT_STORAGE</code> is easy to explain: the BlkValue routines
 normally detect constants using metadata in their long blocks, but of
 course that won't work for values which haven't got any long blocks.
-We use this instead. We don't need a <span class="extract"><span class="extract-syntax">CONSTANT_UNPACKED_TEXT_STORAGE</span></span>
-because I7 never compiles constant text in unpacked form.
-</p>
-
-<p class="commentary">The surprising one is <span class="extract"><span class="extract-syntax">CONSTANT_PERISHABLE_TEXT_STORAGE</span></span>. This is a
+We use this instead. We don't need a <code>CONSTANT_UNPACKED_TEXT_STORAGE</code>
+because I7 never compiles constant text in unpacked form.</p>
+<p>The surprising one is <code>CONSTANT_PERISHABLE_TEXT_STORAGE</code>. This is a
 constant created by the I7 compiler which is marked as being tricky
 because its value is a text substitution containing references to local
 variables. Unlike other text substitutions, this can't meaningfully be
 stored away to be expanded later: it must be expanded into unpacked
-text before it perishes.
-</p>
-
+text before it perishes.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">CONSTANT_PACKED_TEXT_STORAGE</span><span class="plain-syntax">     = </span><span class="identifier-syntax">BLK_BVBITMAP_TEXT</span><span class="plain-syntax"> + </span><span class="identifier-syntax">BLK_BVBITMAP_CONSTANT</span><span class="plain-syntax"> + </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">CONSTANT_PERISHABLE_TEXT_STORAGE</span><span class="plain-syntax"> = </span><span class="identifier-syntax">BLK_BVBITMAP_TEXT</span><span class="plain-syntax"> + </span><span class="identifier-syntax">BLK_BVBITMAP_CONSTANT</span><span class="plain-syntax"> + </span><span class="constant-syntax">2</span><span class="plain-syntax">;</span>
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">PACKED_TEXT_STORAGE</span><span class="plain-syntax">              = </span><span class="identifier-syntax">BLK_BVBITMAP_TEXT</span><span class="plain-syntax"> + </span><span class="constant-syntax">3</span><span class="plain-syntax">;</span>
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">UNPACKED_TEXT_STORAGE</span><span class="plain-syntax">            = </span><span class="identifier-syntax">BLK_BVBITMAP_TEXT</span><span class="plain-syntax"> + </span><span class="identifier-syntax">BLK_BVBITMAP_LONGBLOCK</span><span class="plain-syntax"> + </span><span class="constant-syntax">4</span><span class="plain-syntax">;</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Extent Of Long Block.</b>When there's a long block, we need enough of the entries to store the
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Extent Of Long Block.</b>  When there's a long block, we need enough of the entries to store the
 number of characters, plus one for the null terminator. This is called only
-in the course of a deep copy, so, not very often.
-</p>
-
+in the course of a deep copy, so, not very often.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TEXT_TY_LongBlockSize</span><span class="plain-syntax"> </span><span class="identifier-syntax">arg1</span><span class="plain-syntax"> </span><span class="identifier-syntax">x</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">x</span><span class="plain-syntax"> = </span><span class="identifier-syntax">BlkValueSeekZeroEntry</span><span class="plain-syntax">(</span><span class="identifier-syntax">arg1</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">x</span><span class="plain-syntax"> &lt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> -1; </span><span class="comment-syntax">should not happen, of course</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">x</span><span class="plain-syntax"> &lt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">-1</span><span class="plain-syntax">; </span><span class="comment-syntax">! should not happen, of course</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">x</span><span class="plain-syntax">+1;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Character Set.</b>On the Z-machine, we use the 8-bit ZSCII character set, stored in bytes;
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Character Set.</b>  On the Z-machine, we use the 8-bit ZSCII character set, stored in bytes;
 on Glulx, we use full 32-bit Unicode, stored in words. (Until May 2023,
 16-bit half-words were used, but that restricted the range of Unicode points
-so as to omit such essentials as "Smiling Cat Face With Heart-Shaped Eyes".)
-</p>
-
-<p class="commentary">The Z-machine does have very partial Unicode support, but not in a way that
+so as to omit such essentials as &quot;Smiling Cat Face With Heart-Shaped Eyes&quot;.)</p>
+<p>The Z-machine does have very partial Unicode support, but not in a way that
 can help us here. It is capable of printing a wide range of Unicode
 characters, and on a good interpreter with a good font (such as Zoom for Mac
 OS X, using the Lucida Grande font) can produce many thousands of glyphs. But
 it is not capable of printing those characters into memory rather than the
 screen, an essential technique for texts: it can only write each character to
 a single byte, and it does so in ZSCII. That forces our hand when it comes to
-choosing the character set here. For Unicode, use Glulx.
-</p>
-
+choosing the character set here. For Unicode, use Glulx.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">#</span><span class="identifier-syntax">Iftrue</span><span class="plain-syntax"> </span><span class="identifier-syntax">CHARSIZE</span><span class="plain-syntax"> == </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">TEXT_TY_Storage_Flags</span><span class="plain-syntax"> = </span><span class="identifier-syntax">BLK_FLAG_MULTIPLE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">#</span><span class="identifier-syntax">Ifnot</span><span class="plain-syntax">;</span>
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">TEXT_TY_Storage_Flags</span><span class="plain-syntax"> = </span><span class="identifier-syntax">BLK_FLAG_MULTIPLE</span><span class="plain-syntax"> + </span><span class="identifier-syntax">BLK_FLAG_WORD</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">#</span><span class="identifier-syntax">Endif</span><span class="plain-syntax">; </span><span class="comment-syntax">CHARSIZE</span>
+<span class="plain-syntax">#</span><span class="identifier-syntax">Endif</span><span class="plain-syntax">; </span><span class="comment-syntax">! CHARSIZE</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Debugging.</b>This shows the various forms a text's short block can take:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Debugging.</b>  This shows the various forms a text's short block can take:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TEXT_TY_Debug</span><span class="plain-syntax"> </span><span class="identifier-syntax">txt</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="identifier-syntax">txt</span><span class="plain-syntax">--&gt;0) {</span>
@@ -131,11 +128,11 @@ choosing the character set here. For Unicode, use Glulx.
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Creation.</b>A newly created text is a two-word short block with no long block, like this:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Creation.</b>  A newly created text is a two-word short block with no long block, like this:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">Array</span><span class="plain-syntax"> </span><span class="identifier-syntax">ThisIsAText</span><span class="plain-syntax"> --&gt; </span><span class="identifier-syntax">PACKED_TEXT_STORAGE</span><span class="plain-syntax"> </span><span class="identifier-syntax">EMPTY_TEXT_PACKED</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">Array</span><span class="plain-syntax"> </span><span class="identifier-syntax">ThisIsAText</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">-&gt; </span><span class="identifier-syntax">PACKED_TEXT_STORAGE</span><span class="plain-syntax"> </span><span class="identifier-syntax">EMPTY_TEXT_PACKED</span><span class="plain-syntax">;</span>
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TEXT_TY_Create</span><span class="plain-syntax"> </span><span class="identifier-syntax">kind_id</span><span class="plain-syntax"> </span><span class="identifier-syntax">sb_address</span>
@@ -146,29 +143,29 @@ choosing the character set here. For Unicode, use Glulx.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">short_block</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Copy.</b></p>
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Copy.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TEXT_TY_Copy</span><span class="plain-syntax"> </span><span class="identifier-syntax">to_bv</span><span class="plain-syntax"> </span><span class="identifier-syntax">from_bv</span><span class="plain-syntax"> </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> </span><span class="identifier-syntax">recycling</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">CopyPVRawData</span><span class="plain-syntax">(</span><span class="identifier-syntax">to_bv</span><span class="plain-syntax">, </span><span class="identifier-syntax">from_bv</span><span class="plain-syntax">, </span><span class="identifier-syntax">kind</span><span class="plain-syntax">, </span><span class="identifier-syntax">recycling</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Copy Short Block.</b>When a short block for a constant is copied, the new copy isn't a constant
-any more.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Copy Short Block.</b>  When a short block for a constant is copied, the new copy isn't a constant
+any more.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TEXT_TY_CopyShortBlock</span><span class="plain-syntax"> </span><span class="identifier-syntax">to_bv</span><span class="plain-syntax"> </span><span class="identifier-syntax">from_bv</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">CopyPVShortBlock</span><span class="plain-syntax">(</span><span class="identifier-syntax">to_bv</span><span class="plain-syntax">, </span><span class="identifier-syntax">from_bv</span><span class="plain-syntax">, </span><span class="constant-syntax">2</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">to_bv</span><span class="plain-syntax">--&gt;0 &amp; </span><span class="identifier-syntax">BLK_BVBITMAP_CONSTANTMASK</span><span class="plain-syntax">) </span><span class="identifier-syntax">to_bv</span><span class="plain-syntax">--&gt;0 = </span><span class="identifier-syntax">PACKED_TEXT_STORAGE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Transmutation.</b>What happens if a text is stored in packed form, but we need to access or
-change its individual characters? The answer is that we have to "transmute"
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Transmutation.</b>  What happens if a text is stored in packed form, but we need to access or
+change its individual characters? The answer is that we have to &quot;transmute&quot;
 it into long block form. Sometimes this is a permanent change, but often
-it's only temporary, and will soon be followed by an un-transmutation.
-</p>
-
+it's only temporary, and will soon be followed by an un-transmutation.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TEXT_TY_Transmute</span><span class="plain-syntax"> </span><span class="identifier-syntax">txt</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">TEXT_TY_Temporarily_Transmute</span><span class="plain-syntax">(</span><span class="identifier-syntax">txt</span><span class="plain-syntax">);</span>
@@ -176,7 +173,7 @@ it's only temporary, and will soon be followed by an un-transmutation.
 
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TEXT_TY_Temporarily_Transmute</span><span class="plain-syntax"> </span><span class="identifier-syntax">txt</span><span class="plain-syntax">  </span><span class="identifier-syntax">x</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">txt</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">txt</span><span class="plain-syntax">--&gt;0 &amp; </span><span class="identifier-syntax">BLK_BVBITMAP_LONGBLOCKMASK</span><span class="plain-syntax"> == </span><span class="constant-syntax">0</span><span class="plain-syntax">)) {</span>
-<span class="plain-syntax">        </span><span class="identifier-syntax">x</span><span class="plain-syntax"> = </span><span class="identifier-syntax">txt</span><span class="plain-syntax">--&gt;1; </span><span class="comment-syntax">The old value was a packed string</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">x</span><span class="plain-syntax"> = </span><span class="identifier-syntax">txt</span><span class="plain-syntax">--&gt;1; </span><span class="comment-syntax">! The old value was a packed string</span>
 
 <span class="plain-syntax">        </span><span class="identifier-syntax">txt</span><span class="plain-syntax">--&gt;0 = </span><span class="identifier-syntax">UNPACKED_TEXT_STORAGE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">txt</span><span class="plain-syntax">--&gt;1 = </span><span class="identifier-syntax">FlexAllocate</span><span class="plain-syntax">(32, </span><span class="identifier-syntax">TEXT_TY</span><span class="plain-syntax">, </span><span class="identifier-syntax">TEXT_TY_Storage_Flags</span><span class="plain-syntax">);</span>
@@ -189,32 +186,32 @@ it's only temporary, and will soon be followed by an un-transmutation.
 
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TEXT_TY_Untransmute</span><span class="plain-syntax"> </span><span class="identifier-syntax">txt</span><span class="plain-syntax"> </span><span class="identifier-syntax">pk</span><span class="plain-syntax"> </span><span class="identifier-syntax">cp</span><span class="plain-syntax"> </span><span class="identifier-syntax">x</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">pk</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">txt</span><span class="plain-syntax">--&gt;0 == </span><span class="identifier-syntax">UNPACKED_TEXT_STORAGE</span><span class="plain-syntax">)) {</span>
-<span class="plain-syntax">        </span><span class="identifier-syntax">x</span><span class="plain-syntax"> = </span><span class="identifier-syntax">txt</span><span class="plain-syntax">--&gt;1; </span><span class="comment-syntax">The old value was an unpacked string</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">x</span><span class="plain-syntax"> = </span><span class="identifier-syntax">txt</span><span class="plain-syntax">--&gt;1; </span><span class="comment-syntax">! The old value was an unpacked string</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">FlexFree</span><span class="plain-syntax">(</span><span class="identifier-syntax">x</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">txt</span><span class="plain-syntax">--&gt;0 = </span><span class="identifier-syntax">cp</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">        </span><span class="identifier-syntax">txt</span><span class="plain-syntax">--&gt;1 = </span><span class="identifier-syntax">pk</span><span class="plain-syntax">; </span><span class="comment-syntax">The value earlier returned by TEXT_TY_Temporarily_Transmute</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">txt</span><span class="plain-syntax">--&gt;1 = </span><span class="identifier-syntax">pk</span><span class="plain-syntax">; </span><span class="comment-syntax">! The value earlier returned by TEXT_TY_Temporarily_Transmute</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">txt</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. Mutability.</b>That neatly handles the question of how to make a text mutable. (Note that
-constants are never created in unpacked form.)
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. Mutability.</b>  That neatly handles the question of how to make a text mutable. (Note that
+constants are never created in unpacked form.)</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TEXT_TY_Mutable</span><span class="plain-syntax"> </span><span class="identifier-syntax">txt</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">txt</span><span class="plain-syntax">--&gt;0 &amp; </span><span class="identifier-syntax">BLK_BVBITMAP_LONGBLOCKMASK</span><span class="plain-syntax"> == </span><span class="constant-syntax">0</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">TEXT_TY_Transmute</span><span class="plain-syntax">(</span><span class="identifier-syntax">txt</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">rfalse</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    }</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">rtrue</span><span class="plain-syntax">; </span><span class="comment-syntax">Tell BlockValue there's a long block pointer</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">rtrue</span><span class="plain-syntax">; </span><span class="comment-syntax">! Tell BlockValue there's a long block pointer</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. Casting.</b>In general computing, "casting" is the process of translating data in one
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. Casting.</b>  In general computing, &quot;casting&quot; is the process of translating data in one
 type into semantically equivalent data in another: the only interesting
-cast here is that a snippet can be turned into a text.
-</p>
-
+cast here is that a snippet can be turned into a text.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TEXT_TY_Cast</span><span class="plain-syntax"> </span><span class="identifier-syntax">to_txt</span><span class="plain-syntax"> </span><span class="identifier-syntax">from_kind</span><span class="plain-syntax"> </span><span class="identifier-syntax">from_value</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">from_kind</span><span class="plain-syntax"> == </span><span class="identifier-syntax">TEXT_TY</span><span class="plain-syntax">) {</span>
@@ -229,19 +226,16 @@ cast here is that a snippet can be turned into a text.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">CastPV</span><span class="plain-syntax">(</span><span class="identifier-syntax">to_txt</span><span class="plain-syntax">, </span><span class="identifier-syntax">SNIPPET_TY</span><span class="plain-syntax">, </span><span class="identifier-syntax">snippet</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. Data Conversion.</b>We use a single routine to handle two kinds of format translation: a
-packed I6 string into an unpacked text, or a snippet into an unpacked text.
-</p>
-
-<p class="commentary">In each case, what we do is simply to print out the value we have, but with
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. Data Conversion.</b>  We use a single routine to handle two kinds of format translation: a
+packed I6 string into an unpacked text, or a snippet into an unpacked text.</p>
+<p>In each case, what we do is simply to print out the value we have, but with
 the output stream set to memory rather than the screen. That gives us the
 character by character version, neatly laid out in an array, and all we have
-to do is to copy it into the text and add a null termination byte.
-</p>
-
-<p class="commentary">What complicates things is that the two virtual machines handle printing
+to do is to copy it into the text and add a null termination byte.</p>
+<p>What complicates things is that the two virtual machines handle printing
 to memory quite differently, and that the original text has unpredictable
-length. We are going to try printing it into the array <span class="extract"><span class="extract-syntax">TEXT_TY_Buffers</span></span>,
+length. We are going to try printing it into the array <code>TEXT_TY_Buffers</code>,
 but what if the text is too big? Disastrously, the Z-machine simply
 writes on in memory, corrupting all subsequent arrays and almost certainly
 causing the story file to crash soon after. There is nothing we can do
@@ -249,17 +243,16 @@ to predict or avoid this, or to repair the damage: this is why the Inform
 documentation warns users to be wary of using text with large
 strings in the Z-machine, and advises the use of Glulx instead. Glulx
 does handle overruns safely, and indeed allows us to dynamically allocate
-memory as necessary so that we can always avoid overruns entirely.
-</p>
-
+memory as necessary so that we can always avoid overruns entirely.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">TEXT_TY_BufferSize</span><span class="plain-syntax"> = </span><span class="identifier-syntax">BasicInformKit</span><span class="plain-syntax">`</span><span class="identifier-syntax">TEXT_BUFFER_SIZE_CFGV</span><span class="plain-syntax"> + </span><span class="constant-syntax">3</span><span class="plain-syntax">;</span>
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">TEXT_TY_NoBuffers</span><span class="plain-syntax"> = </span><span class="constant-syntax">2</span><span class="plain-syntax">;</span>
 
 <span class="plain-syntax">#</span><span class="identifier-syntax">Iftrue</span><span class="plain-syntax"> </span><span class="identifier-syntax">CHARSIZE</span><span class="plain-syntax"> == </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
-<span class="reserved-syntax">Array</span><span class="plain-syntax"> </span><span class="identifier-syntax">TEXT_TY_Buffers</span><span class="plain-syntax"> -&gt; </span><span class="identifier-syntax">TEXT_TY_BufferSize</span><span class="plain-syntax">*</span><span class="identifier-syntax">TEXT_TY_NoBuffers</span><span class="plain-syntax">; </span><span class="comment-syntax">Where characters are bytes</span>
+<span class="reserved-syntax">Array</span><span class="plain-syntax"> </span><span class="identifier-syntax">TEXT_TY_Buffers</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">TEXT_TY_BufferSize</span><span class="plain-syntax">*</span><span class="identifier-syntax">TEXT_TY_NoBuffers</span><span class="plain-syntax">; </span><span class="comment-syntax">! Where characters are bytes</span>
 <span class="plain-syntax">#</span><span class="identifier-syntax">Ifnot</span><span class="plain-syntax">;</span>
-<span class="reserved-syntax">Array</span><span class="plain-syntax"> </span><span class="identifier-syntax">TEXT_TY_Buffers</span><span class="plain-syntax"> --&gt; (</span><span class="identifier-syntax">TEXT_TY_BufferSize</span><span class="plain-syntax">+2)*</span><span class="identifier-syntax">TEXT_TY_NoBuffers</span><span class="plain-syntax">; </span><span class="comment-syntax">Where characters are words</span>
+<span class="reserved-syntax">Array</span><span class="plain-syntax"> </span><span class="identifier-syntax">TEXT_TY_Buffers</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">-&gt; (</span><span class="identifier-syntax">TEXT_TY_BufferSize</span><span class="plain-syntax">+2)*</span><span class="identifier-syntax">TEXT_TY_NoBuffers</span><span class="plain-syntax">; </span><span class="comment-syntax">! Where characters are words</span>
 <span class="plain-syntax">#</span><span class="identifier-syntax">Endif</span><span class="plain-syntax">;</span>
 
 <span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">RawBufferAddress</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TEXT_TY_Buffers</span><span class="plain-syntax">;</span>
@@ -267,11 +260,11 @@ memory as necessary so that we can always avoid overruns entirely.
 
 <span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">TEXT_TY_CastPrimitiveNesting</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. Z Version.</b>The two versions of this routine, one for each virtual machine, are in all
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. Z Version.</b>  The two versions of this routine, one for each virtual machine, are in all
 important respects the same, but there are enough fiddly differences that
-it's clearer to give two definitions, so:
-</p>
-
+it's clearer to give two definitions, so:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">#</span><span class="identifier-syntax">ifdef</span><span class="plain-syntax"> </span><span class="identifier-syntax">TARGET_ZCODE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TEXT_TY_CastPrimitive</span><span class="plain-syntax"> </span><span class="identifier-syntax">to_txt</span><span class="plain-syntax"> </span><span class="identifier-syntax">from_snippet</span><span class="plain-syntax"> </span><span class="identifier-syntax">from_value</span><span class="plain-syntax">  </span><span class="identifier-syntax">len</span><span class="plain-syntax"> </span><span class="identifier-syntax">news</span><span class="plain-syntax"> </span><span class="identifier-syntax">buffer</span><span class="plain-syntax">;</span>
@@ -288,7 +281,7 @@ it's clearer to give two definitions, so:
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">from_snippet</span><span class="plain-syntax">) </span><span class="reserved-syntax">print</span><span class="plain-syntax"> (</span><span class="identifier-syntax">PrintSnippet</span><span class="plain-syntax">) </span><span class="identifier-syntax">from_value</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="reserved-syntax">print</span><span class="plain-syntax"> (</span><span class="identifier-syntax">PrintI6Text</span><span class="plain-syntax">) </span><span class="identifier-syntax">from_value</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    }</span>
-<span class="plain-syntax">    @</span><span class="identifier-syntax">output_stream</span><span class="plain-syntax"> -3;</span>
+<span class="plain-syntax">    @</span><span class="identifier-syntax">output_stream</span><span class="plain-syntax"> </span><span class="constant-syntax">-3</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    @</span><span class="identifier-syntax">pull</span><span class="plain-syntax"> </span><span class="identifier-syntax">say__pc</span><span class="plain-syntax">; @</span><span class="identifier-syntax">pull</span><span class="plain-syntax"> </span><span class="identifier-syntax">say__p</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">ResumeRTP</span><span class="plain-syntax">();</span>
 
@@ -300,10 +293,10 @@ it's clearer to give two definitions, so:
 <span class="plain-syntax">    </span><span class="identifier-syntax">WritePVFieldsFromByteArray</span><span class="plain-syntax">(</span><span class="identifier-syntax">to_txt</span><span class="plain-syntax">, </span><span class="identifier-syntax">buffer</span><span class="plain-syntax">+2, </span><span class="identifier-syntax">len</span><span class="plain-syntax">+1);</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. Glulx Version.</b></p>
+<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. Glulx Version.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">#</span><span class="identifier-syntax">ifnot</span><span class="plain-syntax">; </span><span class="comment-syntax">TARGET_ZCODE</span>
+<span class="plain-syntax">#</span><span class="identifier-syntax">ifnot</span><span class="plain-syntax">; </span><span class="comment-syntax">! TARGET_ZCODE</span>
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TEXT_TY_CastPrimitive</span><span class="plain-syntax"> </span><span class="identifier-syntax">to_txt</span><span class="plain-syntax"> </span><span class="identifier-syntax">from_snippet</span><span class="plain-syntax"> </span><span class="identifier-syntax">from_value</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">len</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax"> </span><span class="identifier-syntax">stream</span><span class="plain-syntax"> </span><span class="identifier-syntax">saved_stream</span><span class="plain-syntax"> </span><span class="identifier-syntax">news</span><span class="plain-syntax"> </span><span class="identifier-syntax">buffer</span><span class="plain-syntax"> </span><span class="identifier-syntax">buffer_size</span><span class="plain-syntax"> </span><span class="identifier-syntax">memory_to_free</span><span class="plain-syntax"> </span><span class="identifier-syntax">results</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">buffer_size</span><span class="plain-syntax"> = (</span><span class="identifier-syntax">TEXT_TY_BufferSize</span><span class="plain-syntax"> + </span><span class="constant-syntax">2</span><span class="plain-syntax">)*</span><span class="identifier-syntax">WORDSIZE</span><span class="plain-syntax">;</span>
@@ -329,15 +322,15 @@ it's clearer to give two definitions, so:
 <span class="plain-syntax">    </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="reserved-syntax">print</span><span class="plain-syntax"> (</span><span class="identifier-syntax">PrintI6Text</span><span class="plain-syntax">) </span><span class="identifier-syntax">from_value</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    @</span><span class="identifier-syntax">pull</span><span class="plain-syntax"> </span><span class="identifier-syntax">say__pc</span><span class="plain-syntax">; @</span><span class="identifier-syntax">pull</span><span class="plain-syntax"> </span><span class="identifier-syntax">say__p</span><span class="plain-syntax">;</span>
 
-<span class="plain-syntax">    </span><span class="identifier-syntax">results</span><span class="plain-syntax"> = </span><span class="identifier-syntax">buffer</span><span class="plain-syntax"> + </span><span class="identifier-syntax">buffer_size</span><span class="plain-syntax"> - </span><span class="constant-syntax">2</span><span class="plain-syntax">*</span><span class="identifier-syntax">WORDSIZE</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">results</span><span class="plain-syntax"> = </span><span class="identifier-syntax">buffer</span><span class="plain-syntax"> + </span><span class="identifier-syntax">buffer_size</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax"> </span><span class="constant-syntax">2</span><span class="plain-syntax">*</span><span class="identifier-syntax">WORDSIZE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">glk_stream_close</span><span class="plain-syntax">(</span><span class="identifier-syntax">stream</span><span class="plain-syntax">, </span><span class="identifier-syntax">results</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">saved_stream</span><span class="plain-syntax">) </span><span class="identifier-syntax">glk_stream_set_current</span><span class="plain-syntax">(</span><span class="identifier-syntax">saved_stream</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">ResumeRTP</span><span class="plain-syntax">();</span>
 
 <span class="plain-syntax">    </span><span class="identifier-syntax">len</span><span class="plain-syntax"> = </span><span class="identifier-syntax">results</span><span class="plain-syntax">--&gt;1;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">len</span><span class="plain-syntax"> &gt; </span><span class="identifier-syntax">RawBufferSize</span><span class="plain-syntax">-1) {</span>
-<span class="plain-syntax">        </span><span class="comment-syntax">Glulx had to truncate text output because the buffer ran out:</span>
-<span class="plain-syntax">        </span><span class="comment-syntax">len is the number of characters which it tried to print</span>
+<span class="plain-syntax">        </span><span class="comment-syntax">! Glulx had to truncate text output because the buffer ran out:</span>
+<span class="plain-syntax">        </span><span class="comment-syntax">! len is the number of characters which it tried to print</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">news</span><span class="plain-syntax"> = </span><span class="identifier-syntax">RawBufferSize</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">while</span><span class="plain-syntax"> (</span><span class="identifier-syntax">news</span><span class="plain-syntax"> &lt; </span><span class="identifier-syntax">len</span><span class="plain-syntax">) </span><span class="identifier-syntax">news</span><span class="plain-syntax">=</span><span class="identifier-syntax">news</span><span class="plain-syntax">*2;</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">i</span><span class="plain-syntax"> = </span><span class="identifier-syntax">VM_AllocateMemory</span><span class="plain-syntax">(</span><span class="identifier-syntax">news</span><span class="plain-syntax">*</span><span class="identifier-syntax">WORDSIZE</span><span class="plain-syntax">);</span>
@@ -349,7 +342,7 @@ it's clearer to give two definitions, so:
 <span class="plain-syntax">            </span><span class="identifier-syntax">buffer_size</span><span class="plain-syntax"> = (</span><span class="identifier-syntax">RawBufferSize</span><span class="plain-syntax"> + </span><span class="constant-syntax">2</span><span class="plain-syntax">)*</span><span class="identifier-syntax">WORDSIZE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">jump</span><span class="plain-syntax"> </span><span class="identifier-syntax">RetryWithLargerBuffer</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        }</span>
-<span class="plain-syntax">        </span><span class="comment-syntax">Memory allocation refused: all we can do is to truncate the text</span>
+<span class="plain-syntax">        </span><span class="comment-syntax">! Memory allocation refused: all we can do is to truncate the text</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">len</span><span class="plain-syntax"> = </span><span class="identifier-syntax">RawBufferSize</span><span class="plain-syntax">-1;</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">buffer</span><span class="plain-syntax">--&gt;(</span><span class="identifier-syntax">len</span><span class="plain-syntax">) = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
@@ -360,15 +353,16 @@ it's clearer to give two definitions, so:
 <span class="plain-syntax">];</span>
 <span class="plain-syntax">#</span><span class="identifier-syntax">endif</span><span class="plain-syntax">;</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. Comparison.</b>This is more or less <span class="extract"><span class="extract-syntax">strcmp</span></span>, the traditional C library routine for comparing
-strings, but it does pose a few interesting questions. The answers are:
-</p>
-
-<ul class="items"><li>(a) Two different unexpanded texts with substitutions are never equal, so
-"[X]" and "[Y]" aren't equal as texts even if X and Y are equal.
-</li><li>(b) Otherwise we test the current value of the text as expanded, so "[X]"
-and "17" can be equal as texts if X is 17.
-</li></ul>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. Comparison.</b>  This is more or less <code>strcmp</code>, the traditional C library routine for comparing
+strings, but it does pose a few interesting questions. The answers are:</p>
+<ul>
+<li>Two different unexpanded texts with substitutions are never equal, so
+&quot;[X]&quot; and &quot;[Y]&quot; aren't equal as texts even if X and Y are equal.</li>
+<li>Otherwise we test the current value of the text as expanded, so &quot;[X]&quot;
+and &quot;17&quot; can be equal as texts if X is 17.</li>
+</ul>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TEXT_TY_Compare</span><span class="plain-syntax"> </span><span class="identifier-syntax">left_txt</span><span class="plain-syntax"> </span><span class="identifier-syntax">right_txt</span><span class="plain-syntax"> </span><span class="identifier-syntax">rv</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    @</span><span class="identifier-syntax">push</span><span class="plain-syntax"> </span><span class="identifier-syntax">say__comp</span><span class="plain-syntax">;</span>
@@ -384,8 +378,8 @@ and "17" can be equal as texts if X is 17.
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">right_txt</span><span class="plain-syntax">--&gt;0 &amp; </span><span class="identifier-syntax">BLK_BVBITMAP_LONGBLOCKMASK</span><span class="plain-syntax"> == </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="identifier-syntax">fr</span><span class="plain-syntax"> = </span><span class="reserved-syntax">true</span><span class="plain-syntax">;</span>
 
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">fl</span><span class="plain-syntax"> &amp;&amp; </span><span class="identifier-syntax">fr</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">left_txt</span><span class="plain-syntax">--&gt;1 </span><span class="reserved-syntax">ofclass</span><span class="plain-syntax"> </span><span class="identifier-syntax">String</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">right_txt</span><span class="plain-syntax">--&gt;1 </span><span class="reserved-syntax">ofclass</span><span class="plain-syntax"> </span><span class="identifier-syntax">String</span><span class="plain-syntax">))</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">left_txt</span><span class="plain-syntax">--&gt;1 - </span><span class="identifier-syntax">right_txt</span><span class="plain-syntax">--&gt;1;</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">left_txt</span><span class="plain-syntax">--&gt;1 </span><span class="reserved-syntax">ofclass</span><span class="plain-syntax"> </span><span class="reserved-syntax">String</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">right_txt</span><span class="plain-syntax">--&gt;1 </span><span class="reserved-syntax">ofclass</span><span class="plain-syntax"> </span><span class="reserved-syntax">String</span><span class="plain-syntax">))</span>
+<span class="plain-syntax">            </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">left_txt</span><span class="plain-syntax">--&gt;1 </span><span class="constant-syntax">-</span><span class="plain-syntax"> </span><span class="identifier-syntax">right_txt</span><span class="plain-syntax">--&gt;1;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">left_txt</span><span class="plain-syntax">--&gt;1 </span><span class="reserved-syntax">ofclass</span><span class="plain-syntax"> </span><span class="identifier-syntax">Routine</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">right_txt</span><span class="plain-syntax">--&gt;1 </span><span class="reserved-syntax">ofclass</span><span class="plain-syntax"> </span><span class="identifier-syntax">Routine</span><span class="plain-syntax">))</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">left_txt</span><span class="plain-syntax">--&gt;1 == </span><span class="identifier-syntax">right_txt</span><span class="plain-syntax">--&gt;1) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">cpl</span><span class="plain-syntax"> = </span><span class="identifier-syntax">left_txt</span><span class="plain-syntax">--&gt;0; </span><span class="identifier-syntax">cl</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TEXT_TY_Temporarily_Transmute</span><span class="plain-syntax">(</span><span class="identifier-syntax">left_txt</span><span class="plain-syntax">);</span>
@@ -409,7 +403,7 @@ and "17" can be equal as texts if X is 17.
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">ch1</span><span class="plain-syntax"> ~= </span><span class="identifier-syntax">ch2</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">ch1</span><span class="plain-syntax">-</span><span class="identifier-syntax">ch2</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">ch1</span><span class="plain-syntax"> == </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    }</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">pos</span><span class="plain-syntax"> == </span><span class="identifier-syntax">capacity_left</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> -1;</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">pos</span><span class="plain-syntax"> == </span><span class="identifier-syntax">capacity_left</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">-1</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 
@@ -418,9 +412,9 @@ and "17" can be equal as texts if X is 17.
 <span class="plain-syntax">    </span><span class="reserved-syntax">rtrue</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. Hashing.</b>This calculates a hash value for the string, using Bernstein's algorithm.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. Hashing.</b>  This calculates a hash value for the string, using Bernstein's algorithm.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TEXT_TY_Hash</span><span class="plain-syntax"> </span><span class="identifier-syntax">txt</span><span class="plain-syntax">  </span><span class="identifier-syntax">rv</span><span class="plain-syntax"> </span><span class="identifier-syntax">len</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax"> </span><span class="identifier-syntax">p</span><span class="plain-syntax"> </span><span class="identifier-syntax">cp</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">cp</span><span class="plain-syntax"> = </span><span class="identifier-syntax">txt</span><span class="plain-syntax">--&gt;0; </span><span class="identifier-syntax">p</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TEXT_TY_Temporarily_Transmute</span><span class="plain-syntax">(</span><span class="identifier-syntax">txt</span><span class="plain-syntax">);</span>
@@ -432,7 +426,7 @@ and "17" can be equal as texts if X is 17.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">rv</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. Printing.</b></p>
+<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. Printing.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TEXT_TY_Say</span><span class="plain-syntax"> </span><span class="identifier-syntax">txt</span><span class="plain-syntax">  </span><span class="identifier-syntax">ch</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax"> </span><span class="identifier-syntax">dsize</span><span class="plain-syntax">;</span>
@@ -448,9 +442,9 @@ and "17" can be equal as texts if X is 17.
 <span class="plain-syntax">    </span><span class="reserved-syntax">rtrue</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. Capitalised printing.</b>It turns out to be useful to have a variation on this:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. Capitalised printing.</b>  It turns out to be useful to have a variation on this:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TEXT_TY_Say_Capitalised</span><span class="plain-syntax"> </span><span class="identifier-syntax">txt</span><span class="plain-syntax"> </span><span class="identifier-syntax">mod</span><span class="plain-syntax"> </span><span class="identifier-syntax">rc</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">mod</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CreatePV</span><span class="plain-syntax">(</span><span class="identifier-syntax">TEXT_TY</span><span class="plain-syntax">);</span>
@@ -465,16 +459,14 @@ and "17" can be equal as texts if X is 17.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">rc</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP18" class="paragraph-anchor"></a><b>&#167;18. Serialisation.</b>Here we print a serialised form of a text which can later be used
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP18" class="paragraph-anchor"></a><b>&#167;18. Serialisation.</b>  Here we print a serialised form of a text which can later be used
 to reconstruct the original text. The printing is apparently to the screen,
-but in fact always takes place when the output stream is a file.
-</p>
-
-<p class="commentary">The format chosen is a letter "S" for string, then a comma-separated list
+but in fact always takes place when the output stream is a file.</p>
+<p>The format chosen is a letter &quot;S&quot; for string, then a comma-separated list
 of decimal character codes, ending with the null terminator, and followed by
-a semicolon: thus <span class="extract"><span class="extract-syntax">S65,66,67,0;</span></span> is the serialised form of the text "ABC".
-</p>
-
+a semicolon: thus <code>S65,66,67,0;</code> is the serialised form of the text &quot;ABC&quot;.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TEXT_TY_Serialise</span><span class="plain-syntax"> </span><span class="identifier-syntax">txt</span><span class="plain-syntax"> </span><span class="identifier-syntax">len</span><span class="plain-syntax"> </span><span class="identifier-syntax">pos</span><span class="plain-syntax"> </span><span class="identifier-syntax">ch</span><span class="plain-syntax"> </span><span class="identifier-syntax">p</span><span class="plain-syntax"> </span><span class="identifier-syntax">cp</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">cp</span><span class="plain-syntax"> = </span><span class="identifier-syntax">txt</span><span class="plain-syntax">--&gt;0; </span><span class="identifier-syntax">p</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TEXT_TY_Temporarily_Transmute</span><span class="plain-syntax">(</span><span class="identifier-syntax">txt</span><span class="plain-syntax">);</span>
@@ -491,17 +483,17 @@ a semicolon: thus <span class="extract"><span class="extract-syntax">S65,66,67,0
 <span class="plain-syntax">    </span><span class="identifier-syntax">TEXT_TY_Untransmute</span><span class="plain-syntax">(</span><span class="identifier-syntax">txt</span><span class="plain-syntax">, </span><span class="identifier-syntax">p</span><span class="plain-syntax">, </span><span class="identifier-syntax">cp</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP19" class="paragraph-anchor"></a><b>&#167;19. Unserialisation.</b>If that's the word: the reverse process, in which we read a stream of
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP19" class="paragraph-anchor"></a><b>&#167;19. Unserialisation.</b>  If that's the word: the reverse process, in which we read a stream of
 characters from a file and reconstruct the text which gave rise to
-them.
-</p>
-
+them.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TEXT_TY_Unserialise</span><span class="plain-syntax"> </span><span class="identifier-syntax">txt</span><span class="plain-syntax"> </span><span class="identifier-syntax">auxf</span><span class="plain-syntax"> </span><span class="identifier-syntax">ch</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax"> </span><span class="identifier-syntax">v</span><span class="plain-syntax"> </span><span class="identifier-syntax">dg</span><span class="plain-syntax"> </span><span class="identifier-syntax">pos</span><span class="plain-syntax"> </span><span class="identifier-syntax">tsize</span><span class="plain-syntax"> </span><span class="identifier-syntax">p</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">ch</span><span class="plain-syntax"> == -1) </span><span class="reserved-syntax">rtrue</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">ch</span><span class="plain-syntax"> == </span><span class="constant-syntax">-1</span><span class="plain-syntax">) </span><span class="reserved-syntax">rtrue</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">TEXT_TY_Transmute</span><span class="plain-syntax">(</span><span class="identifier-syntax">txt</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">tsize</span><span class="plain-syntax"> = </span><span class="identifier-syntax">PVFieldCapacity</span><span class="plain-syntax">(</span><span class="identifier-syntax">txt</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">while</span><span class="plain-syntax"> (</span><span class="identifier-syntax">ch</span><span class="plain-syntax"> ~= </span><span class="constant-syntax">32</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="constant-syntax">9</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="constant-syntax">10</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="constant-syntax">13</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> -1) {</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">while</span><span class="plain-syntax"> (</span><span class="identifier-syntax">ch</span><span class="plain-syntax"> ~= </span><span class="constant-syntax">32</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="constant-syntax">9</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="constant-syntax">10</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="constant-syntax">13</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="constant-syntax">-1</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">ch</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FileIO_GetC</span><span class="plain-syntax">(</span><span class="identifier-syntax">auxf</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">ch</span><span class="plain-syntax"> == </span><span class="character-syntax">','</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="character-syntax">';'</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">pos</span><span class="plain-syntax">+1 &gt;= </span><span class="identifier-syntax">tsize</span><span class="plain-syntax">) {</span>
@@ -512,7 +504,7 @@ them.
 <span class="plain-syntax">            </span><span class="identifier-syntax">v</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">ch</span><span class="plain-syntax"> == </span><span class="character-syntax">';'</span><span class="plain-syntax">) </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        } </span><span class="reserved-syntax">else</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">            </span><span class="identifier-syntax">dg</span><span class="plain-syntax"> = </span><span class="identifier-syntax">ch</span><span class="plain-syntax"> - </span><span class="character-syntax">'0'</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="identifier-syntax">dg</span><span class="plain-syntax"> = </span><span class="identifier-syntax">ch</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax"> </span><span class="character-syntax">'0'</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">v</span><span class="plain-syntax"> = </span><span class="identifier-syntax">v</span><span class="plain-syntax">*10 + </span><span class="identifier-syntax">dg</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        }</span>
 <span class="plain-syntax">    }</span>
@@ -520,7 +512,7 @@ them.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">txt</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP20" class="paragraph-anchor"></a><b>&#167;20. Substitution.</b></p>
+<p class="commentary firstcommentary"><a id="SP20" class="paragraph-anchor"></a><b>&#167;20. Substitution.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TEXT_TY_SubstitutedForm</span><span class="plain-syntax"> </span><span class="reserved-syntax">to</span><span class="plain-syntax"> </span><span class="identifier-syntax">txt</span><span class="plain-syntax">;</span>
@@ -538,10 +530,10 @@ them.
 <span class="plain-syntax">    </span><span class="reserved-syntax">rtrue</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP21" class="paragraph-anchor"></a><b>&#167;21. Perishability.</b>As noted above, a perishable constant is one which must be expanded before
-the values it refers to vanish from existence.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP21" class="paragraph-anchor"></a><b>&#167;21. Perishability.</b>  As noted above, a perishable constant is one which must be expanded before
+the values it refers to vanish from existence.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TEXT_TY_ExpandIfPerishable</span><span class="plain-syntax"> </span><span class="reserved-syntax">to</span><span class="plain-syntax"> </span><span class="identifier-syntax">from</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">from</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">from</span><span class="plain-syntax">--&gt;0 == </span><span class="identifier-syntax">CONSTANT_PERISHABLE_TEXT_STORAGE</span><span class="plain-syntax">))</span>
@@ -549,46 +541,42 @@ the values it refers to vanish from existence.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">from</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP22" class="paragraph-anchor"></a><b>&#167;22. Blobs.</b>That completes the compulsory services required for this KOV to function:
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP22" class="paragraph-anchor"></a><b>&#167;22. Blobs.</b>  That completes the compulsory services required for this KOV to function:
 from here on, the remaining routines provide definitions of text-related
-phrases in the Standard Rules.
-</p>
-
-<p class="commentary">What are the basic operations of text-handling? Clearly we want to be able
-to search, and replace, but that is left for the segment "RegExp.i6t"
+phrases in the Standard Rules.</p>
+<p>What are the basic operations of text-handling? Clearly we want to be able
+to search, and replace, but that is left for the segment &quot;RegExp.i6t&quot;
 to handle. More basically we would like to be able to read and write
 characters from the text. But texts in I7 tend to be of natural language,
-rather than containing arbitrary material &mdash; that's indeed why we call them
+rather than containing arbitrary material -- that's indeed why we call them
 texts rather than strings. This means they are likely to be punctuated
-sequences of words, divided up perhaps into sentences and even paragraphs.
-</p>
-
-<p class="commentary">So we provide facilities which regard a text as being an array of "blobs",
-where a "blob" is a unit of text. The user can choose whether to see it
+sequences of words, divided up perhaps into sentences and even paragraphs.</p>
+<p>So we provide facilities which regard a text as being an array of &quot;blobs&quot;,
+where a &quot;blob&quot; is a unit of text. The user can choose whether to see it
 as an array of characters, or words (of three different sorts: see the
-Inform documentation for details), or paragraphs, or lines.
-</p>
-
+Inform documentation for details), or paragraphs, or lines.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">CHR_BLOB</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">; </span><span class="comment-syntax">Construe as an array of characters</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">WORD_BLOB</span><span class="plain-syntax"> = </span><span class="constant-syntax">2</span><span class="plain-syntax">; </span><span class="comment-syntax">Of words</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">PWORD_BLOB</span><span class="plain-syntax"> = </span><span class="constant-syntax">3</span><span class="plain-syntax">; </span><span class="comment-syntax">Of punctuated words</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">UWORD_BLOB</span><span class="plain-syntax"> = </span><span class="constant-syntax">4</span><span class="plain-syntax">; </span><span class="comment-syntax">Of unpunctuated words</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">PARA_BLOB</span><span class="plain-syntax"> = </span><span class="constant-syntax">5</span><span class="plain-syntax">; </span><span class="comment-syntax">Of paragraphs</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">LINE_BLOB</span><span class="plain-syntax"> = </span><span class="constant-syntax">6</span><span class="plain-syntax">; </span><span class="comment-syntax">Of lines</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">CHR_BLOB</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">; </span><span class="comment-syntax">! Construe as an array of characters</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">WORD_BLOB</span><span class="plain-syntax"> = </span><span class="constant-syntax">2</span><span class="plain-syntax">; </span><span class="comment-syntax">! Of words</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">PWORD_BLOB</span><span class="plain-syntax"> = </span><span class="constant-syntax">3</span><span class="plain-syntax">; </span><span class="comment-syntax">! Of punctuated words</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">UWORD_BLOB</span><span class="plain-syntax"> = </span><span class="constant-syntax">4</span><span class="plain-syntax">; </span><span class="comment-syntax">! Of unpunctuated words</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">PARA_BLOB</span><span class="plain-syntax"> = </span><span class="constant-syntax">5</span><span class="plain-syntax">; </span><span class="comment-syntax">! Of paragraphs</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">LINE_BLOB</span><span class="plain-syntax"> = </span><span class="constant-syntax">6</span><span class="plain-syntax">; </span><span class="comment-syntax">! Of lines</span>
 
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">REGEXP_BLOB</span><span class="plain-syntax"> = </span><span class="constant-syntax">7</span><span class="plain-syntax">; </span><span class="comment-syntax">Not a blob type as such, but needed as a distinct value</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">REGEXP_BLOB</span><span class="plain-syntax"> = </span><span class="constant-syntax">7</span><span class="plain-syntax">; </span><span class="comment-syntax">! Not a blob type as such, but needed as a distinct value</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP23" class="paragraph-anchor"></a><b>&#167;23. Blob Access.</b>The following routine runs a small finite-state-machine to count the number
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP23" class="paragraph-anchor"></a><b>&#167;23. Blob Access.</b>  The following routine runs a small finite-state-machine to count the number
 of blobs in a text, using any of the above blob types (except
-<span class="extract"><span class="extract-syntax">REGEXP_BLOB</span></span>, which is used for other purposes). If the optional arguments
-<span class="extract"><span class="extract-syntax">ctxt</span></span> and <span class="extract"><span class="extract-syntax">wanted</span></span> are supplied, it also copies the text of blob number
-<span class="extract"><span class="extract-syntax">wanted</span></span> (counting upwards from 1 at the start of the text) into the
-text <span class="extract"><span class="extract-syntax">ctxt</span></span>. If the further optional argument <span class="extract"><span class="extract-syntax">rtxt</span></span> is supplied,
-then <span class="extract"><span class="extract-syntax">ctxt</span></span> is instead written with the original text <span class="extract"><span class="extract-syntax">txt</span></span> as it would
-read if the blob in question were replaced with the text in <span class="extract"><span class="extract-syntax">rtxt</span></span>.
-</p>
-
+<code>REGEXP_BLOB</code>, which is used for other purposes). If the optional arguments
+<code>ctxt</code> and <code>wanted</code> are supplied, it also copies the text of blob number
+<code>wanted</code> (counting upwards from 1 at the start of the text) into the
+text <code>ctxt</code>. If the further optional argument <code>rtxt</code> is supplied,
+then <code>ctxt</code> is instead written with the original text <code>txt</code> as it would
+read if the blob in question were replaced with the text in <code>rtxt</code>.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">WS_BRM</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">SKIPPED_BRM</span><span class="plain-syntax"> = </span><span class="constant-syntax">2</span><span class="plain-syntax">;</span>
@@ -734,10 +722,10 @@ read if the blob in question were replaced with the text in <span class="extract
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">blobcount</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP24" class="paragraph-anchor"></a><b>&#167;24. Get Blob.</b>The front end which uses the above routine to read a blob. (Note that, for
-efficiency's sake, we read characters more directly.)
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP24" class="paragraph-anchor"></a><b>&#167;24. Get Blob.</b>  The front end which uses the above routine to read a blob. (Note that, for
+efficiency's sake, we read characters more directly.)</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TEXT_TY_GetBlob</span><span class="plain-syntax"> </span><span class="identifier-syntax">ctxt</span><span class="plain-syntax"> </span><span class="identifier-syntax">txt</span><span class="plain-syntax"> </span><span class="identifier-syntax">wanted</span><span class="plain-syntax"> </span><span class="identifier-syntax">blobtype</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">txt</span><span class="plain-syntax">==0) </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
@@ -746,10 +734,10 @@ efficiency's sake, we read characters more directly.)
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">ctxt</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP25" class="paragraph-anchor"></a><b>&#167;25. Replace Blob.</b>The front end which uses the above routine to replace a blob. (Once again,
-characters are handled directly to avoid incurring all that overhead.)
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP25" class="paragraph-anchor"></a><b>&#167;25. Replace Blob.</b>  The front end which uses the above routine to replace a blob. (Once again,
+characters are handled directly to avoid incurring all that overhead.)</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TEXT_TY_ReplaceBlob</span><span class="plain-syntax"> </span><span class="identifier-syntax">blobtype</span><span class="plain-syntax"> </span><span class="identifier-syntax">txt</span><span class="plain-syntax"> </span><span class="identifier-syntax">wanted</span><span class="plain-syntax"> </span><span class="identifier-syntax">rtxt</span><span class="plain-syntax"> </span><span class="identifier-syntax">ctxt</span><span class="plain-syntax"> </span><span class="identifier-syntax">ilen</span><span class="plain-syntax"> </span><span class="identifier-syntax">rlen</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax"> </span><span class="identifier-syntax">p</span><span class="plain-syntax"> </span><span class="identifier-syntax">cp</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">TEXT_TY_Transmute</span><span class="plain-syntax">(</span><span class="identifier-syntax">txt</span><span class="plain-syntax">);</span>
@@ -786,17 +774,17 @@ characters are handled directly to avoid incurring all that overhead.)
 <span class="plain-syntax">    </span><span class="identifier-syntax">TEXT_TY_Untransmute</span><span class="plain-syntax">(</span><span class="identifier-syntax">rtxt</span><span class="plain-syntax">, </span><span class="identifier-syntax">p</span><span class="plain-syntax">, </span><span class="identifier-syntax">cp</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP26" class="paragraph-anchor"></a><b>&#167;26. Replace Text.</b>This is the general routine which searches for any instance of <span class="extract"><span class="extract-syntax">ftxt</span></span>,
-as a blob, in <span class="extract"><span class="extract-syntax">txt</span></span>, and replaces it with the text <span class="extract"><span class="extract-syntax">rtxt</span></span>. It works on
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP26" class="paragraph-anchor"></a><b>&#167;26. Replace Text.</b>  This is the general routine which searches for any instance of <code>ftxt</code>,
+as a blob, in <code>txt</code>, and replaces it with the text <code>rtxt</code>. It works on
 any of the above blob-types, but two cases are special: first, if the
-blob-type is <span class="extract"><span class="extract-syntax">CHR_BLOB</span></span>, then it can do more than search and replace
+blob-type is <code>CHR_BLOB</code>, then it can do more than search and replace
 for any instance of a single character: it can search and replace any
-instance of a substring, so that <span class="extract"><span class="extract-syntax">ftxt</span></span> is not required to be only a
+instance of a substring, so that <code>ftxt</code> is not required to be only a
 single character. Second, if the blob-type is the special value
-<span class="extract"><span class="extract-syntax">REGEXP_BLOB</span></span> then <span class="extract"><span class="extract-syntax">ftxt</span></span> is interpreted as a regular expression rather
-than something literal to find: see "RegExp.i6t" for what happens next.
-</p>
-
+<code>REGEXP_BLOB</code> then <code>ftxt</code> is interpreted as a regular expression rather
+than something literal to find: see &quot;RegExp.i6t&quot; for what happens next.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TEXT_TY_ReplaceText</span><span class="plain-syntax"> </span><span class="identifier-syntax">blobtype</span><span class="plain-syntax"> </span><span class="identifier-syntax">txt</span><span class="plain-syntax"> </span><span class="identifier-syntax">ftxt</span><span class="plain-syntax"> </span><span class="identifier-syntax">rtxt</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">r</span><span class="plain-syntax"> </span><span class="identifier-syntax">p1</span><span class="plain-syntax"> </span><span class="identifier-syntax">p2</span><span class="plain-syntax"> </span><span class="identifier-syntax">cp1</span><span class="plain-syntax"> </span><span class="identifier-syntax">cp2</span><span class="plain-syntax">;</span>
@@ -829,7 +817,7 @@ than something literal to find: see "RegExp.i6t" for what happens next.
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">mpos</span><span class="plain-syntax"> == </span><span class="constant-syntax">1</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="identifier-syntax">blobtype</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">WORD_BLOB</span><span class="plain-syntax">:</span>
-<span class="plain-syntax">                    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">whitespace</span><span class="plain-syntax"> == </span><span class="reserved-syntax">false</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">punctuation</span><span class="plain-syntax"> == </span><span class="reserved-syntax">false</span><span class="plain-syntax">)) </span><span class="identifier-syntax">chm</span><span class="plain-syntax"> = -1;</span>
+<span class="plain-syntax">                    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">whitespace</span><span class="plain-syntax"> == </span><span class="reserved-syntax">false</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">punctuation</span><span class="plain-syntax"> == </span><span class="reserved-syntax">false</span><span class="plain-syntax">)) </span><span class="identifier-syntax">chm</span><span class="plain-syntax"> = </span><span class="constant-syntax">-1</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            }</span>
 <span class="plain-syntax">        }</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">whitespace</span><span class="plain-syntax"> = </span><span class="reserved-syntax">false</span><span class="plain-syntax">;</span>
@@ -838,7 +826,7 @@ than something literal to find: see "RegExp.i6t" for what happens next.
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">ch</span><span class="plain-syntax"> == </span><span class="character-syntax">'.'</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="character-syntax">','</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="character-syntax">'!'</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="character-syntax">'?'</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="character-syntax">'-'</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="character-syntax">'/'</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="character-syntax">'"'</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="character-syntax">':'</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="character-syntax">';'</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="character-syntax">'('</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="character-syntax">')'</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="character-syntax">'['</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="character-syntax">']'</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="character-syntax">'{'</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="character-syntax">'}'</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">blobtype</span><span class="plain-syntax"> == </span><span class="identifier-syntax">WORD_BLOB</span><span class="plain-syntax">) </span><span class="identifier-syntax">chm</span><span class="plain-syntax"> = -1;</span>
+<span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">blobtype</span><span class="plain-syntax"> == </span><span class="identifier-syntax">WORD_BLOB</span><span class="plain-syntax">) </span><span class="identifier-syntax">chm</span><span class="plain-syntax"> = </span><span class="constant-syntax">-1</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">punctuation</span><span class="plain-syntax"> = </span><span class="reserved-syntax">true</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        }</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">ch</span><span class="plain-syntax"> == </span><span class="identifier-syntax">chm</span><span class="plain-syntax">) {</span>
@@ -851,7 +839,7 @@ than something literal to find: see "RegExp.i6t" for what happens next.
 <span class="plain-syntax">                        </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="character-syntax">'-'</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="character-syntax">'/'</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="character-syntax">'"'</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="character-syntax">':'</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="character-syntax">';'</span>
 <span class="plain-syntax">                        </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="character-syntax">'('</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="character-syntax">')'</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="character-syntax">'['</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="character-syntax">']'</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="character-syntax">'{'</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="character-syntax">'}'</span><span class="plain-syntax">)) {</span>
 <span class="plain-syntax">                    </span><span class="identifier-syntax">mpos</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">                    </span><span class="identifier-syntax">cl</span><span class="plain-syntax"> = </span><span class="identifier-syntax">cl</span><span class="plain-syntax"> - (</span><span class="identifier-syntax">flen</span><span class="plain-syntax">-1);</span>
+<span class="plain-syntax">                    </span><span class="identifier-syntax">cl</span><span class="plain-syntax"> = </span><span class="identifier-syntax">cl</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax"> (</span><span class="identifier-syntax">flen</span><span class="plain-syntax">-1);</span>
 <span class="plain-syntax">                    </span><span class="identifier-syntax">WritePVField</span><span class="plain-syntax">(</span><span class="identifier-syntax">ctxt</span><span class="plain-syntax">, </span><span class="identifier-syntax">cl</span><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">                    </span><span class="identifier-syntax">TEXT_TY_Concatenate</span><span class="plain-syntax">(</span><span class="identifier-syntax">ctxt</span><span class="plain-syntax">, </span><span class="identifier-syntax">rtxt</span><span class="plain-syntax">, </span><span class="identifier-syntax">CHR_BLOB</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">                    </span><span class="identifier-syntax">csize</span><span class="plain-syntax"> = </span><span class="identifier-syntax">PVFieldCapacity</span><span class="plain-syntax">(</span><span class="identifier-syntax">ctxt</span><span class="plain-syntax">);</span>
@@ -872,10 +860,10 @@ than something literal to find: see "RegExp.i6t" for what happens next.
 <span class="plain-syntax">    </span><span class="identifier-syntax">DestroyPV</span><span class="plain-syntax">(</span><span class="identifier-syntax">ctxt</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP27" class="paragraph-anchor"></a><b>&#167;27. Character Length.</b>When accessing at the character-by-character level, things are much easier
-and we needn't go through any finite state machine palaver.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP27" class="paragraph-anchor"></a><b>&#167;27. Character Length.</b>  When accessing at the character-by-character level, things are much easier
+and we needn't go through any finite state machine palaver.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TEXT_TY_CharacterLength</span><span class="plain-syntax"> </span><span class="identifier-syntax">txt</span><span class="plain-syntax"> </span><span class="identifier-syntax">ch</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax"> </span><span class="identifier-syntax">dsize</span><span class="plain-syntax"> </span><span class="identifier-syntax">p</span><span class="plain-syntax"> </span><span class="identifier-syntax">cp</span><span class="plain-syntax"> </span><span class="identifier-syntax">r</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">txt</span><span class="plain-syntax">==0) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
@@ -899,11 +887,11 @@ and we needn't go through any finite state machine palaver.
 <span class="plain-syntax">    </span><span class="reserved-syntax">rfalse</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP28" class="paragraph-anchor"></a><b>&#167;28. Get Character.</b>Characters in a text are numbered upwards from 1 by the users of this
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP28" class="paragraph-anchor"></a><b>&#167;28. Get Character.</b>  Characters in a text are numbered upwards from 1 by the users of this
 routine: which is why we subtract 1 when reading the array in the
-block-value, which counts from 0.
-</p>
-
+block-value, which counts from 0.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TEXT_TY_GetCharacter</span><span class="plain-syntax"> </span><span class="identifier-syntax">ctxt</span><span class="plain-syntax"> </span><span class="identifier-syntax">txt</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax"> </span><span class="identifier-syntax">ch</span><span class="plain-syntax"> </span><span class="identifier-syntax">p</span><span class="plain-syntax"> </span><span class="identifier-syntax">cp</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">txt</span><span class="plain-syntax">==0) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
@@ -917,22 +905,18 @@ block-value, which counts from 0.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">ctxt</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP29" class="paragraph-anchor"></a><b>&#167;29. Casing.</b>In many programming languages, characters are a distinct data type from
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP29" class="paragraph-anchor"></a><b>&#167;29. Casing.</b>  In many programming languages, characters are a distinct data type from
 strings, but not in I7. To I7, a character is simply a text which
-happens to have length 1 &mdash; this has its inefficiencies, but is conceptually
-easy for the user.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">TEXT_TY_CharactersOfCase(txt, case)</span></span> determines whether all the characters in <span class="extract"><span class="extract-syntax">txt</span></span>
+happens to have length 1 -- this has its inefficiencies, but is conceptually
+easy for the user.</p>
+<p><code>TEXT_TY_CharactersOfCase(txt, case)</code> determines whether all the characters in <code>txt</code>
 are letters of the given casing: 0 for lower case, 1 for upper case. In the
 case of ZSCII, this is done correctly handling all of the European accented
-letters; in the case of Unicode, it follows the Unicode standard.
-</p>
-
-<p class="commentary">Note that there is no requirement for <span class="extract"><span class="extract-syntax">txt</span></span> to be only a single character
-long.
-</p>
-
+letters; in the case of Unicode, it follows the Unicode standard.</p>
+<p>Note that there is no requirement for <code>txt</code> to be only a single character
+long.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TEXT_TY_CharactersOfCase</span><span class="plain-syntax"> </span><span class="identifier-syntax">txt</span><span class="plain-syntax"> </span><span class="identifier-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax"> </span><span class="identifier-syntax">ch</span><span class="plain-syntax"> </span><span class="identifier-syntax">len</span><span class="plain-syntax"> </span><span class="identifier-syntax">p</span><span class="plain-syntax"> </span><span class="identifier-syntax">cp</span><span class="plain-syntax"> </span><span class="identifier-syntax">r</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">txt</span><span class="plain-syntax">==0) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
@@ -947,12 +931,12 @@ long.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">r</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP30" class="paragraph-anchor"></a><b>&#167;30. Change Case.</b>We set <span class="extract"><span class="extract-syntax">ctxt</span></span> to the text in <span class="extract"><span class="extract-syntax">txt</span></span>, except that all the letters are
-converted to the <span class="extract"><span class="extract-syntax">case</span></span> given (0 for lower, 1 for upper). The definition
-of what is a "letter", what case it has and what the other-case form is
-are as specified in the ZSCII and Unicode standards.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP30" class="paragraph-anchor"></a><b>&#167;30. Change Case.</b>  We set <code>ctxt</code> to the text in <code>txt</code>, except that all the letters are
+converted to the <code>case</code> given (0 for lower, 1 for upper). The definition
+of what is a &quot;letter&quot;, what case it has and what the other-case form is
+are as specified in the ZSCII and Unicode standards.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TEXT_TY_CharactersToCase</span><span class="plain-syntax"> </span><span class="identifier-syntax">ctxt</span><span class="plain-syntax"> </span><span class="identifier-syntax">txt</span><span class="plain-syntax"> </span><span class="identifier-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax"> </span><span class="identifier-syntax">ch</span><span class="plain-syntax"> </span><span class="identifier-syntax">len</span><span class="plain-syntax"> </span><span class="identifier-syntax">bnd</span><span class="plain-syntax"> </span><span class="identifier-syntax">pk</span><span class="plain-syntax"> </span><span class="identifier-syntax">cp</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">txt</span><span class="plain-syntax">==0) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
@@ -990,17 +974,15 @@ are as specified in the ZSCII and Unicode standards.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">ctxt</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP31" class="paragraph-anchor"></a><b>&#167;31. Concatenation.</b>To concatenate two texts is to place one after the other: thus "green"
-concatenated with "horn" makes "greenhorn". In this routine, <span class="extract"><span class="extract-syntax">from_txt</span></span>
-would be "horn", and is added at the end of <span class="extract"><span class="extract-syntax">to_txt</span></span>, which is returned in
-its expanded state.
-</p>
-
-<p class="commentary">When the blob type is <span class="extract"><span class="extract-syntax">REGEXP_BLOB</span></span>, the routine is used not for simple
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP31" class="paragraph-anchor"></a><b>&#167;31. Concatenation.</b>  To concatenate two texts is to place one after the other: thus &quot;green&quot;
+concatenated with &quot;horn&quot; makes &quot;greenhorn&quot;. In this routine, <code>from_txt</code>
+would be &quot;horn&quot;, and is added at the end of <code>to_txt</code>, which is returned in
+its expanded state.</p>
+<p>When the blob type is <code>REGEXP_BLOB</code>, the routine is used not for simple
 concatenation but to handle the concatenations occurring when a regular
-expression search-and-replace is going on: see "RegExp.i6t".
-</p>
-
+expression search-and-replace is going on: see &quot;RegExp.i6t&quot;.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TEXT_TY_Concatenate</span><span class="plain-syntax"> </span><span class="identifier-syntax">to_txt</span><span class="plain-syntax"> </span><span class="identifier-syntax">from_txt</span><span class="plain-syntax"> </span><span class="identifier-syntax">blobtype</span><span class="plain-syntax"> </span><span class="identifier-syntax">ref_txt</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">p</span><span class="plain-syntax"> </span><span class="identifier-syntax">cp</span><span class="plain-syntax"> </span><span class="identifier-syntax">r</span><span class="plain-syntax">;</span>

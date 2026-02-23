@@ -27,9 +27,10 @@ inter_bookmark *EmitCode::at(void) {
 }
 
 @ These should always be used in ways guaranteed to match:
-(*) //EmitCode::down// shifts us so that we are now creating bytecode below the
+
+- //EmitCode::down// shifts us so that we are now creating bytecode below the
 instruction last emitted, not after it.
-(*) //EmitCode::up// then returns us back to where we were.
+- //EmitCode::up// then returns us back to where we were.
 
 =
 void EmitCode::up(void) {

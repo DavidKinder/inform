@@ -107,10 +107,11 @@ sequence of all levels so far:
 $$ i_n = i_m + 1 \qquad {\rm where}\qquad m = {\rm max} \lbrace j \mid 0\leq j < n, \ell_j < \ell_n \rbrace $$
 where $\ell_0 = i_0 = -1$, so that this set always contains 0 and is
 therefore not empty. We deduce that
-(a) $i_1 = 0$ and thereafter $i_n \geq 0$, since $\ell_n$ is never negative again,
-(b) if $\ell_k = \ell_{k+1}$ then $i_k = i_{k+1}$, since the set over which
+
+- $i_1 = 0$ and thereafter $i_n \geq 0$, since $\ell_n$ is never negative again,
+- if $\ell_k = \ell_{k+1}$ then $i_k = i_{k+1}$, since the set over which
 the maximum is taken is the same,
-(c) if $\ell_{k+1} > \ell_k$, a subheading of its predecessor, then
+- if $\ell_{k+1} > \ell_k$, a subheading of its predecessor, then
 $i_{k+1} = i_k + 1$, a single tab step outward.
 
 That establishes the other properties we wanted, and shows that $i_n$ is

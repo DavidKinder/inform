@@ -227,7 +227,7 @@ int RTShowmeCommand::SHOWME_primitive(inference_subject *subj, property *prn, in
 default value for the property's kind. For instance, we would print a "number"
 property even if its value is 0. But we make two exceptions:
 
-(a) We don't print "nothing" for an object property. The reason for this is
+- We don't print "nothing" for an object property. The reason for this is
 pragmatic: the "matching key" property in the Standard Rules rather
 awkwardly has "thing" as its domain, even though it's only meaningful for
 lockable things. This has to be true because it's used as the left domain of
@@ -235,7 +235,7 @@ a relation, and relation domains have to be kinds, not unions of kinds. But
 that means that, for example, the player has a "matching key" property,
 which is never likely to be used. We don't want to print this.
 
-(b) We don't print a 0 value for a property used to store a relation whose
+- We don't print a 0 value for a property used to store a relation whose
 relevant domain is enumerative. For instance, if P holds a colour to which
 an object is related, then P can validly be 0 at run-time (meaning: there's
 no relation to any colour) even though this is not typesafe because 0 is

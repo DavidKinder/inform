@@ -5,13 +5,14 @@ An overview of the inflections module's role and abilities.
 @h Prerequisites.
 The inflections module is a part of the Inform compiler toolset. It is
 presented as a literate program or "web". Before diving in:
-(a) It helps to have some experience of reading webs: see //inweb// for more.
-(b) The module is written in C, in fact ANSI C99, but this is disguised by the
+
+- It helps to have some experience of reading webs: see //inweb// for more.
+- The module is written in C, in fact ANSI C99, but this is disguised by the
 fact that it uses some extension syntaxes provided by the //inweb// literate
 programming tool, making it a dialect of C called InC. See //inweb// for
 full details, but essentially: it's C without predeclarations or header files,
 and where functions have names like |Tags::add_by_name| rather than |add_by_name|.
-(c) This module uses other modules drawn from the compiler (see //structure//), and also
+- This module uses other modules drawn from the compiler (see //structure//), and also
 uses a module of utility functions called //foundation//.
 For more, see //foundation: A Brief Guide to Foundation//.
 
@@ -87,19 +88,19 @@ For the implementation of these rules, see //Tries and Inflections//.
 do becomes a simple matter of writing wrapper functions for tries, and these
 occupy the rest of //Chapter 2//.
 
-(*) //ArticleInflection::preface_by_article// handles the variation of articles:
+- //ArticleInflection::preface_by_article// handles the variation of articles:
 for example, mutating "a" to "an" when it comes before "orange", thus making
 "an orange" rather than "a orange".
 
-(*) //Grading::make_comparative// turns "tall" into "taller".
+- //Grading::make_comparative// turns "tall" into "taller".
 
-(*) //Grading::make_superlative// turns "tall" into "tallest".
+- //Grading::make_superlative// turns "tall" into "tallest".
 
-(*) //Grading::make_quiddity// turns "tall" into "tallness".
+- //Grading::make_quiddity// turns "tall" into "tallness".
 
-(*) //PastParticiples::pasturise_wording// turns "looking away" to "looked away".
+- //PastParticiples::pasturise_wording// turns "looking away" to "looked away".
 
-(*) //Pluralisation::make// produces a series of allowable plurals for a
+- //Pluralisation::make// produces a series of allowable plurals for a
 word, using a combination of a trie to handle regular pluralisation (for
 English, we use Conway's algorithm) and a dictionary of user-supplied
 exceptions. 
@@ -127,10 +128,10 @@ respectively; these are currently the only two "declension NTs".
 The rule for a "declension NT" is that it must provide a list of possibilities
 in the form either |gender table| or |gender grouper table|, where |gender| is:
 
-(*) the letter |m| for masculine,
-(*) the letter |f| for feminine,
-(*) the letter |n| for neuter/common,
-(*) the asterisk |*| for "any gender".
+- the letter |m| for masculine,
+- the letter |f| for feminine,
+- the letter |n| for neuter/common,
+- the asterisk |*| for "any gender".
 
 In the two-token form |gender table|, the |table| is a nonterminal for
 irregular forms; if the three-token form |gender grouper table|, the |grouper|

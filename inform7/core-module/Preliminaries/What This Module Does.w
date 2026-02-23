@@ -5,13 +5,14 @@ An overview of the core module's role and abilities.
 @h Prerequisites.
 The core module is a part of the Inform compiler toolset. It is
 presented as a literate program or "web". Before diving in:
-(a) It helps to have some experience of reading webs: see //inweb// for more.
-(b) The module is written in C, in fact ANSI C99, but this is disguised by the
+
+- It helps to have some experience of reading webs: see //inweb// for more.
+- The module is written in C, in fact ANSI C99, but this is disguised by the
 fact that it uses some extension syntaxes provided by the //inweb// literate
 programming tool, making it a dialect of C called InC. See //inweb// for
 full details, but essentially: it's C without predeclarations or header files,
 and where functions have names like |Tags::add_by_name| rather than just |add_by_name|.
-(c) This module uses other modules drawn from the compiler (see //structure//), and also
+- This module uses other modules drawn from the compiler (see //structure//), and also
 uses a module of utility functions called //foundation//.
 For more, see //foundation: A Brief Guide to Foundation//.
 
@@ -27,17 +28,22 @@ don't need to deal with any of that. For //core//, the business starts when
 //supervisor// calls //Task::carry_out//. The process is a long multi-stage one,
 run as a production line: see //How To Compile// for a detailed list of steps,
 but roughly:
-(*) The //assertions// module converts top-level declarations -- sentences like
+
+- The //assertions// module converts top-level declarations -- sentences like
 "The cat is in the hat" or "A truck is a kind of vehicle", for example -- into
 a series of logical propositions, making heavy use of the //linguistics// and
 //calculus// service modules.
-(*) Those propositions are "asserted" as being true by the //knowledge// module,
+
+- Those propositions are "asserted" as being true by the //knowledge// module,
 which draws inferences and then reconciles these into a world model.
-(*) Both of those modules are helped by the //values// module, which handles how
+
+- Both of those modules are helped by the //values// module, which handles how
 values and descriptions are parsed and then stored within the compiler.
-(*) Imperative code inside phrase or rule definitions is the business of the
+
+- Imperative code inside phrase or rule definitions is the business of the
 //imperative// module, the part of Inform most resembling a conventional compiler.
-(*) The //runtime// module compiles run-time support functions and data structures
+
+- The //runtime// module compiles run-time support functions and data structures
 needed to make Inform's many concepts work at run-time.
 
 There are then two expansion packs, as it were: the //if// and //multimedia//

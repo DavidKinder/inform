@@ -12,6 +12,11 @@
 <link href="../docs-assets/Navigation.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Fonts.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -48,26 +53,22 @@
 
 <ul class="toc"><li><a href="tsts.html#SP1">&#167;1. All testy</a></li><li><a href="tsts.html#SP2">&#167;2. Abstract Command</a></li><li><a href="tsts.html#SP3">&#167;3. Actions Command</a></li><li><a href="tsts.html#SP4">&#167;4. Banish Command</a></li><li><a href="tsts.html#SP5">&#167;5. Gonear Command</a></li><li><a href="tsts.html#SP6">&#167;6. Purloin Command</a></li><li><a href="tsts.html#SP7">&#167;7. Random Command</a></li><li><a href="tsts.html#SP8">&#167;8. Relations Command</a></li><li><a href="tsts.html#SP9">&#167;9. Responses Command</a></li><li><a href="tsts.html#SP10">&#167;10. Rules Command</a></li><li><a href="tsts.html#SP11">&#167;11. Dialogue Command</a></li><li><a href="tsts.html#SP12">&#167;12. Scenes Command</a></li><li><a href="tsts.html#SP13">&#167;13. Scope Command</a></li><li><a href="tsts.html#SP14">&#167;14. Showheap Command</a></li><li><a href="tsts.html#SP15">&#167;15. ShowMe Command</a></li><li><a href="tsts.html#SP16">&#167;16. Showverb Command</a></li><li><a href="tsts.html#SP17">&#167;17. Test Command</a></li><li><a href="tsts.html#SP18">&#167;18. Trace Command</a></li><li><a href="tsts.html#SP19">&#167;19. Tree Command</a></li><li><a href="tsts.html#SP20">&#167;20. GlkList Command</a></li><li><a href="tsts.html#SP21">&#167;21. Grammar</a></li><li><a href="tsts.html#SP22">&#167;22. End testy</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. All testy.</b></p>
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. All testy.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">#</span><span class="identifier-syntax">Ifdef</span><span class="plain-syntax"> </span><span class="identifier-syntax">DEBUG</span><span class="plain-syntax">;</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Abstract Command.</b>The code below is compiled only if the symbol <span class="extract"><span class="extract-syntax">DEBUG</span></span> is defined, which it
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Abstract Command.</b>  The code below is compiled only if the symbol <code>DEBUG</code> is defined, which it
 always is for normal runs in the Inform user interface, but not for Release
-runs.
-</p>
-
-<p class="commentary">Not all of these commands are documented; this is intentional. They may be
+runs.</p>
+<p>Not all of these commands are documented; this is intentional. They may be
 changed in name or function. This is all of the testing commands except for
 the GLKLIST command, which is in Glulx.i6t (and does not exist when the
-target VM is the Z-machine).
-</p>
-
-<p class="commentary">We take the commands in alphabetical order, beginning with ABSTRACT, which
-moves an object to a new position in the object tree.
-</p>
-
+target VM is the Z-machine).</p>
+<p>We take the commands in alphabetical order, beginning with ABSTRACT, which
+moves an object to a new position in the object tree.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">XAbstractSub</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">XTestMove</span><span class="plain-syntax">(</span><span class="identifier-syntax">noun</span><span class="plain-syntax">, </span><span class="identifier-syntax">second</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
@@ -86,16 +87,16 @@ moves an object to a new position in the object tree.
 <span class="plain-syntax">    </span><span class="reserved-syntax">rfalse</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Actions Command.</b>ACTIONS turns tracing of actions on.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Actions Command.</b>  ACTIONS turns tracing of actions on.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">ActionsOnSub</span><span class="plain-syntax">; </span><span class="identifier-syntax">trace_actions</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">; </span><span class="identifier-syntax">say__p</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">; </span><span class="string-syntax">"Actions listing on."</span><span class="plain-syntax">; ];</span>
 <span class="plain-syntax">[ </span><span class="identifier-syntax">ActionsOffSub</span><span class="plain-syntax">; </span><span class="identifier-syntax">trace_actions</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">; </span><span class="identifier-syntax">say__p</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">; </span><span class="string-syntax">"Actions listing off."</span><span class="plain-syntax">; ];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Banish Command.</b>Like ABSTRACT, except that it removes something from play.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Banish Command.</b>  Like ABSTRACT, except that it removes something from play.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">XBanishSub</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">XTestMove</span><span class="plain-syntax">(</span><span class="identifier-syntax">noun</span><span class="plain-syntax">, </span><span class="reserved-syntax">nothing</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
@@ -104,17 +105,17 @@ moves an object to a new position in the object tree.
 <span class="plain-syntax">    </span><span class="identifier-syntax">say__p</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">; </span><span class="string-syntax">"[Banished.]"</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Gonear Command.</b>GONEAR teleports the player to the vicinity of some named item.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Gonear Command.</b>  GONEAR teleports the player to the vicinity of some named item.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">GonearSub</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">PlayerTo</span><span class="plain-syntax">(</span><span class="identifier-syntax">LocationOf</span><span class="plain-syntax">(</span><span class="identifier-syntax">noun</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Purloin Command.</b>To PURLOIN is to acquire something without reference to any rules on accessibility.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Purloin Command.</b>  To PURLOIN is to acquire something without reference to any rules on accessibility.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">XPurloinSub</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">XTestMove</span><span class="plain-syntax">(</span><span class="identifier-syntax">noun</span><span class="plain-syntax">, </span><span class="identifier-syntax">player</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
@@ -124,9 +125,9 @@ moves an object to a new position in the object tree.
 <span class="plain-syntax">    </span><span class="string-syntax">"[Purloined.]"</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Random Command.</b>RANDOM forces the random-number generator to a predictable seed value.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Random Command.</b>  RANDOM forces the random-number generator to a predictable seed value.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">PredictableSub</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">VM_Seed_RNG</span><span class="plain-syntax">(-100);</span>
@@ -134,9 +135,9 @@ moves an object to a new position in the object tree.
 <span class="plain-syntax">    </span><span class="string-syntax">"[Random number generator now predictable.]"</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Relations Command.</b>RELATIONS lists the current state of the mutable relations.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Relations Command.</b>  RELATIONS lists the current state of the mutable relations.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">ShowRelationsSub</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">   </span><span class="identifier-syntax">IterateRelations</span><span class="plain-syntax">(</span><span class="identifier-syntax">ShowOneRelation</span><span class="plain-syntax">);</span>
@@ -148,9 +149,9 @@ moves an object to a new position in the object tree.
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. Responses Command.</b>RESPONSES lists the known responses.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. Responses Command.</b>  RESPONSES lists the known responses.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">ShowResponsesSub</span><span class="plain-syntax"> </span><span class="identifier-syntax">a</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax"> </span><span class="identifier-syntax">j</span><span class="plain-syntax"> </span><span class="identifier-syntax">reg</span><span class="plain-syntax"> </span><span class="identifier-syntax">wd</span><span class="plain-syntax"> </span><span class="identifier-syntax">set_mode</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">NO_RESPONSES</span><span class="plain-syntax"> == </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="string-syntax">"There are no lettered responses."</span><span class="plain-syntax">;</span>
@@ -160,8 +161,8 @@ moves an object to a new position in the object tree.
 <span class="plain-syntax">    </span><span class="identifier-syntax">wd</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NextWordStopped</span><span class="plain-syntax">(); </span><span class="identifier-syntax">wn</span><span class="plain-syntax">--;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">wd</span><span class="plain-syntax"> == </span><span class="character-syntax">'all'</span><span class="plain-syntax">) </span><span class="identifier-syntax">reg</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">else</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">        </span><span class="identifier-syntax">reg</span><span class="plain-syntax"> = -1;</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">wd</span><span class="plain-syntax"> ~= -1) </span><span class="identifier-syntax">reg</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TryNumber</span><span class="plain-syntax">(</span><span class="identifier-syntax">wn</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">reg</span><span class="plain-syntax"> = </span><span class="constant-syntax">-1</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">wd</span><span class="plain-syntax"> ~= </span><span class="constant-syntax">-1</span><span class="plain-syntax">) </span><span class="identifier-syntax">reg</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TryNumber</span><span class="plain-syntax">(</span><span class="identifier-syntax">wn</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">reg</span><span class="plain-syntax"> &lt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">say__p</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">print</span><span class="plain-syntax"> </span><span class="string-syntax">"&gt;--&gt; The following sets of responses are available:^"</span><span class="plain-syntax">;</span>
@@ -213,9 +214,9 @@ moves an object to a new position in the object tree.
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. Rules Command.</b>RULES changes the level of rule tracing.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. Rules Command.</b>  RULES changes the level of rule tracing.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">RulesOnSub</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">debug_rules</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">; </span><span class="identifier-syntax">say__p</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
@@ -231,9 +232,9 @@ moves an object to a new position in the object tree.
 <span class="plain-syntax">    </span><span class="string-syntax">"Rules tracing now switched off. Type ~rules~ to switch it on again."</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. Dialogue Command.</b>DIALOGUE changes the level of dialogue tracing.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. Dialogue Command.</b>  DIALOGUE changes the level of dialogue tracing.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">DialogueOnSub</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">debug_dialogue</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">; </span><span class="identifier-syntax">say__p</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
@@ -249,9 +250,9 @@ moves an object to a new position in the object tree.
 <span class="plain-syntax">    </span><span class="string-syntax">"(Dialogue tracing now switched off. Type ~dialogue~ to switch it on again.)"</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. Scenes Command.</b>SCENES switches scene-change tracing on or off, and also shows the current position.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. Scenes Command.</b>  SCENES switches scene-change tracing on or off, and also shows the current position.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">ScenesOnSub</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">debug_scenes</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
@@ -263,9 +264,9 @@ moves an object to a new position in the object tree.
 <span class="plain-syntax">    </span><span class="string-syntax">"(Scene monitoring now switched off. Type ~scenes~ to switch it on again.)"</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. Scope Command.</b>SCOPE prints a numbered list of all objects in scope to the player.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. Scope Command.</b>  SCOPE prints a numbered list of all objects in scope to the player.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">x_scope_count</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">[ </span><span class="identifier-syntax">ScopeSub</span><span class="plain-syntax">;</span>
@@ -275,19 +276,19 @@ moves an object to a new position in the object tree.
 <span class="plain-syntax">];</span>
 <span class="plain-syntax">[ </span><span class="identifier-syntax">Print_ScL</span><span class="plain-syntax"> </span><span class="identifier-syntax">obj</span><span class="plain-syntax">; </span><span class="reserved-syntax">print_ret</span><span class="plain-syntax"> ++</span><span class="identifier-syntax">x_scope_count</span><span class="plain-syntax">, </span><span class="string-syntax">": "</span><span class="plain-syntax">, (</span><span class="identifier-syntax">a</span><span class="plain-syntax">) </span><span class="identifier-syntax">obj</span><span class="plain-syntax">, </span><span class="string-syntax">" ("</span><span class="plain-syntax">, </span><span class="identifier-syntax">obj</span><span class="plain-syntax">, </span><span class="string-syntax">")"</span><span class="plain-syntax">; ];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. Showheap Command.</b>SHOWHEAP is for debugging the memory heap, and is intended for Inform
-maintainers rather than users.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. Showheap Command.</b>  SHOWHEAP is for debugging the memory heap, and is intended for Inform
+maintainers rather than users.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">ShowHeapSub</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">HeapDebug</span><span class="plain-syntax">();</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. ShowMe Command.</b>SHOWME is probably the most useful testing command: it shows the state of the
-current room, or a named item.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. ShowMe Command.</b>  SHOWME is probably the most useful testing command: it shows the state of the
+current room, or a named item.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">ShowMeSub</span><span class="plain-syntax"> </span><span class="identifier-syntax">t_0</span><span class="plain-syntax"> </span><span class="identifier-syntax">na</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">t_0</span><span class="plain-syntax"> = </span><span class="identifier-syntax">noun</span><span class="plain-syntax">;</span>
@@ -366,10 +367,10 @@ current room, or a named item.
 <span class="plain-syntax">    </span><span class="reserved-syntax">rtrue</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. Showverb Command.</b>SHOWVERB is a holdover from old I6 days, but still quite useful. It writes
-out the I6 command verb grammar for the supplied command.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. Showverb Command.</b>  SHOWVERB is a holdover from old I6 days, but still quite useful. It writes
+out the I6 command verb grammar for the supplied command.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">ShowVerbSub</span><span class="plain-syntax"> </span><span class="identifier-syntax">address</span><span class="plain-syntax"> </span><span class="identifier-syntax">lines</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax"> </span><span class="identifier-syntax">x</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">wn</span><span class="plain-syntax"> = </span><span class="constant-syntax">2</span><span class="plain-syntax">; </span><span class="identifier-syntax">x</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NextWordStopped</span><span class="plain-syntax">();</span>
@@ -433,9 +434,9 @@ out the I6 command verb grammar for the supplied command.
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. Test Command.</b>TEST runs a short script of commands from the source text.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. Test Command.</b>  TEST runs a short script of commands from the source text.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">#</span><span class="identifier-syntax">ifdef</span><span class="plain-syntax"> </span><span class="identifier-syntax">DEBUG</span><span class="plain-syntax">;</span>
 
@@ -445,7 +446,7 @@ out the I6 command verb grammar for the supplied command.
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">TEST_STACK_SIZE</span><span class="plain-syntax"> = </span><span class="constant-syntax">128</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">#</span><span class="identifier-syntax">endif</span><span class="plain-syntax">;</span>
 
-<span class="reserved-syntax">Array</span><span class="plain-syntax"> </span><span class="identifier-syntax">test_stack</span><span class="plain-syntax"> --&gt; </span><span class="identifier-syntax">TEST_STACK_SIZE</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">Array</span><span class="plain-syntax"> </span><span class="identifier-syntax">test_stack</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">-&gt; </span><span class="identifier-syntax">TEST_STACK_SIZE</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">test_sp</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TestStart</span><span class="plain-syntax"> </span><span class="identifier-syntax">T</span><span class="plain-syntax"> </span><span class="identifier-syntax">R</span><span class="plain-syntax"> </span><span class="identifier-syntax">l</span><span class="plain-syntax"> </span><span class="identifier-syntax">k</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">test_sp</span><span class="plain-syntax"> &gt;= </span><span class="identifier-syntax">TEST_STACK_SIZE</span><span class="plain-syntax">) </span><span class="string-syntax">"&gt;--&gt; Testing too many levels deep"</span><span class="plain-syntax">;</span>
@@ -518,17 +519,17 @@ out the I6 command verb grammar for the supplied command.
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">p</span><span class="plain-syntax">--&gt;</span><span class="identifier-syntax">i</span><span class="plain-syntax"> == </span><span class="character-syntax">'/'</span><span class="plain-syntax">) </span><span class="identifier-syntax">i</span><span class="plain-syntax">++;</span>
 <span class="plain-syntax">        #</span><span class="identifier-syntax">endif</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">i</span><span class="plain-syntax"> &gt;= </span><span class="identifier-syntax">l</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">            </span><span class="identifier-syntax">test_sp</span><span class="plain-syntax"> = </span><span class="identifier-syntax">test_sp</span><span class="plain-syntax"> - </span><span class="constant-syntax">4</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="identifier-syntax">test_sp</span><span class="plain-syntax"> = </span><span class="identifier-syntax">test_sp</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax"> </span><span class="constant-syntax">4</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        } </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="identifier-syntax">test_stack</span><span class="plain-syntax">--&gt;(</span><span class="identifier-syntax">test_sp</span><span class="plain-syntax">-3) = </span><span class="identifier-syntax">i</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">];</span>
 
 <span class="plain-syntax">#</span><span class="identifier-syntax">ENDIF</span><span class="plain-syntax">;</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP18" class="paragraph-anchor"></a><b>&#167;18. Trace Command.</b>Another holdover from I6: TRACE sets the level of parser tracing, on a scale
-of 0 (off, the default) to 5.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP18" class="paragraph-anchor"></a><b>&#167;18. Trace Command.</b>  Another holdover from I6: TRACE sets the level of parser tracing, on a scale
+of 0 (off, the default) to 5.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TraceOnSub</span><span class="plain-syntax">; </span><span class="identifier-syntax">parser_trace</span><span class="plain-syntax">=1; </span><span class="identifier-syntax">say__p</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">; </span><span class="string-syntax">"[Trace on.]"</span><span class="plain-syntax">; ];</span>
 
@@ -539,10 +540,10 @@ of 0 (off, the default) to 5.
 
 <span class="plain-syntax">[ </span><span class="identifier-syntax">TraceOffSub</span><span class="plain-syntax">; </span><span class="identifier-syntax">parser_trace</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">say__p</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">; </span><span class="string-syntax">"Trace off."</span><span class="plain-syntax">; ];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP19" class="paragraph-anchor"></a><b>&#167;19. Tree Command.</b>SHOWTREE prints out the I6 object tree, though this is not always very helpful
-in I7 terms. It should arguably be withdrawn, but doesn't seem to do any harm.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP19" class="paragraph-anchor"></a><b>&#167;19. Tree Command.</b>  SHOWTREE prints out the I6 object tree, though this is not always very helpful
+in I7 terms. It should arguably be withdrawn, but doesn't seem to do any harm.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">XTreeSub</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">noun</span><span class="plain-syntax"> == </span><span class="constant-syntax">0</span><span class="plain-syntax">) {</span>
@@ -559,17 +560,17 @@ in I7 terms. It should arguably be withdrawn, but doesn't seem to do any harm.
 <span class="plain-syntax">        </span><span class="reserved-syntax">print</span><span class="plain-syntax"> </span><span class="string-syntax">"(in "</span><span class="plain-syntax">, (</span><span class="identifier-syntax">name</span><span class="plain-syntax">) </span><span class="reserved-syntax">parent</span><span class="plain-syntax">(</span><span class="identifier-syntax">obj</span><span class="plain-syntax">), </span><span class="string-syntax">" "</span><span class="plain-syntax">, </span><span class="reserved-syntax">parent</span><span class="plain-syntax">(</span><span class="identifier-syntax">obj</span><span class="plain-syntax">), </span><span class="string-syntax">")"</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">new_line</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="reserved-syntax">child</span><span class="plain-syntax">(</span><span class="identifier-syntax">obj</span><span class="plain-syntax">) == </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">rtrue</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">obj</span><span class="plain-syntax"> == </span><span class="identifier-syntax">Class</span><span class="plain-syntax">)</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">obj</span><span class="plain-syntax"> == </span><span class="reserved-syntax">Class</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">WriteListFrom</span><span class="plain-syntax">(</span><span class="reserved-syntax">child</span><span class="plain-syntax">(</span><span class="identifier-syntax">obj</span><span class="plain-syntax">), </span><span class="identifier-syntax">NEWLINE_BIT</span><span class="plain-syntax">+</span><span class="identifier-syntax">INDENT_BIT</span><span class="plain-syntax">+</span><span class="identifier-syntax">ALWAYS_BIT</span><span class="plain-syntax">+</span><span class="identifier-syntax">NOARTICLE_BIT</span><span class="plain-syntax">, </span><span class="constant-syntax">1</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">else</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">WriteListFrom</span><span class="plain-syntax">(</span><span class="reserved-syntax">child</span><span class="plain-syntax">(</span><span class="identifier-syntax">obj</span><span class="plain-syntax">), </span><span class="identifier-syntax">NEWLINE_BIT</span><span class="plain-syntax">+</span><span class="identifier-syntax">INDENT_BIT</span><span class="plain-syntax">+</span><span class="identifier-syntax">ALWAYS_BIT</span><span class="plain-syntax">+</span><span class="identifier-syntax">FULLINV_BIT</span><span class="plain-syntax">, </span><span class="constant-syntax">1</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP20" class="paragraph-anchor"></a><b>&#167;20. GlkList Command.</b>GLKLIST is a testing command best used by those who understand Glulx and its
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP20" class="paragraph-anchor"></a><b>&#167;20. GlkList Command.</b>  GLKLIST is a testing command best used by those who understand Glulx and its
 ways: it isn't documented in the I7 manual, because it is pretty inscrutable
-for "real" users, but it's probably worth keeping just the same.
-</p>
-
+for &quot;real&quot; users, but it's probably worth keeping just the same.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">#</span><span class="identifier-syntax">Ifdef</span><span class="plain-syntax"> </span><span class="identifier-syntax">TARGET_GLULX</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">[ </span><span class="identifier-syntax">GlkListSub</span><span class="plain-syntax">;</span>
@@ -577,19 +578,19 @@ for "real" users, but it's probably worth keeping just the same.
 <span class="plain-syntax">];</span>
 <span class="plain-syntax">#</span><span class="identifier-syntax">Endif</span><span class="plain-syntax">;</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP21" class="paragraph-anchor"></a><b>&#167;21. Grammar.</b>In the old I6 parser, testing commands had their own scope hardwired in to the
-code: this worked by comparing the verb command word directly against <span class="extract"><span class="extract-syntax">'scope'</span></span>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP21" class="paragraph-anchor"></a><b>&#167;21. Grammar.</b>  In the old I6 parser, testing commands had their own scope hardwired in to the
+code: this worked by comparing the verb command word directly against <code>'scope'</code>
 and the like. That would go wrong if the testing commands were translated into
 other languages, and was a crude design at best. The following scope token is
-better: using this token instead of <span class="extract"><span class="extract-syntax">multi</span></span> provides a noun with universal
-scope (but restricted to I7 objects, so I6 pseudo-objects like <span class="extract"><span class="extract-syntax">compass</span></span> are
-not picked up) and able to accept multiple objects.
-</p>
-
+better: using this token instead of <code>multi</code> provides a noun with universal
+scope (but restricted to I7 objects, so I6 pseudo-objects like <code>compass</code> are
+not picked up) and able to accept multiple objects.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">testcommandnoun</span><span class="plain-syntax"> </span><span class="identifier-syntax">obj</span><span class="plain-syntax"> </span><span class="identifier-syntax">o2</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="identifier-syntax">scope_stage</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">        </span><span class="constant-syntax">1</span><span class="plain-syntax">: </span><span class="reserved-syntax">rtrue</span><span class="plain-syntax">; </span><span class="comment-syntax">allow multiple objects</span>
+<span class="plain-syntax">        </span><span class="constant-syntax">1</span><span class="plain-syntax">: </span><span class="reserved-syntax">rtrue</span><span class="plain-syntax">; </span><span class="comment-syntax">! allow multiple objects</span>
 <span class="plain-syntax">        </span><span class="constant-syntax">2</span><span class="plain-syntax">: </span><span class="reserved-syntax">objectloop</span><span class="plain-syntax"> (</span><span class="identifier-syntax">obj</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">obj</span><span class="plain-syntax"> </span><span class="reserved-syntax">ofclass</span><span class="plain-syntax"> </span><span class="identifier-syntax">Object</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">obj</span><span class="plain-syntax"> </span><span class="reserved-syntax">provides</span><span class="plain-syntax"> </span><span class="identifier-syntax">KD_Count</span><span class="plain-syntax">))</span>
 <span class="plain-syntax">                </span><span class="identifier-syntax">PlaceInScope</span><span class="plain-syntax">(</span><span class="identifier-syntax">obj</span><span class="plain-syntax">, </span><span class="reserved-syntax">true</span><span class="plain-syntax">);</span>
@@ -598,67 +599,67 @@ not picked up) and able to accept multiple objects.
 <span class="plain-syntax">];</span>
 
 <span class="identifier-syntax">Verb</span><span class="plain-syntax"> </span><span class="identifier-syntax">meta</span><span class="plain-syntax"> </span><span class="character-syntax">'abstract'</span>
-<span class="plain-syntax">    * </span><span class="identifier-syntax">scope</span><span class="plain-syntax">=</span><span class="identifier-syntax">testcommandnoun</span><span class="plain-syntax"> </span><span class="character-syntax">'to'</span><span class="plain-syntax"> </span><span class="identifier-syntax">scope</span><span class="plain-syntax">=</span><span class="identifier-syntax">testcommandnoun</span><span class="plain-syntax"> -&gt; </span><span class="identifier-syntax">XAbstract</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    * </span><span class="identifier-syntax">scope</span><span class="plain-syntax">=</span><span class="identifier-syntax">testcommandnoun</span><span class="plain-syntax"> </span><span class="character-syntax">'to'</span><span class="plain-syntax"> </span><span class="identifier-syntax">scope</span><span class="plain-syntax">=</span><span class="identifier-syntax">testcommandnoun</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">XAbstract</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">Verb</span><span class="plain-syntax"> </span><span class="identifier-syntax">meta</span><span class="plain-syntax"> </span><span class="character-syntax">'banish'</span>
-<span class="plain-syntax">    * </span><span class="identifier-syntax">scope</span><span class="plain-syntax">=</span><span class="identifier-syntax">testcommandnoun</span><span class="plain-syntax">                     -&gt; </span><span class="identifier-syntax">XBanish</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    * </span><span class="identifier-syntax">scope</span><span class="plain-syntax">=</span><span class="identifier-syntax">testcommandnoun</span><span class="plain-syntax">                     </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">XBanish</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">Verb</span><span class="plain-syntax"> </span><span class="identifier-syntax">meta</span><span class="plain-syntax"> </span><span class="character-syntax">'actions'</span>
-<span class="plain-syntax">    *                                           -&gt; </span><span class="identifier-syntax">ActionsOn</span>
-<span class="plain-syntax">    * </span><span class="character-syntax">'on'</span><span class="plain-syntax">                                      -&gt; </span><span class="identifier-syntax">ActionsOn</span>
-<span class="plain-syntax">    * </span><span class="character-syntax">'off'</span><span class="plain-syntax">                                     -&gt; </span><span class="identifier-syntax">ActionsOff</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    *                                           </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">ActionsOn</span>
+<span class="plain-syntax">    * </span><span class="character-syntax">'on'</span><span class="plain-syntax">                                      </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">ActionsOn</span>
+<span class="plain-syntax">    * </span><span class="character-syntax">'off'</span><span class="plain-syntax">                                     </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">ActionsOff</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">Verb</span><span class="plain-syntax"> </span><span class="identifier-syntax">meta</span><span class="plain-syntax"> </span><span class="character-syntax">'gonear'</span>
-<span class="plain-syntax">    * </span><span class="identifier-syntax">scope</span><span class="plain-syntax">=</span><span class="identifier-syntax">testcommandnoun</span><span class="plain-syntax">                     -&gt; </span><span class="identifier-syntax">Gonear</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    * </span><span class="identifier-syntax">scope</span><span class="plain-syntax">=</span><span class="identifier-syntax">testcommandnoun</span><span class="plain-syntax">                     </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">Gonear</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">Verb</span><span class="plain-syntax"> </span><span class="identifier-syntax">meta</span><span class="plain-syntax"> </span><span class="character-syntax">'purloin'</span>
-<span class="plain-syntax">    * </span><span class="identifier-syntax">scope</span><span class="plain-syntax">=</span><span class="identifier-syntax">testcommandnoun</span><span class="plain-syntax">                     -&gt; </span><span class="identifier-syntax">XPurloin</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    * </span><span class="identifier-syntax">scope</span><span class="plain-syntax">=</span><span class="identifier-syntax">testcommandnoun</span><span class="plain-syntax">                     </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">XPurloin</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">Verb</span><span class="plain-syntax"> </span><span class="identifier-syntax">meta</span><span class="plain-syntax"> </span><span class="character-syntax">'random'</span>
-<span class="plain-syntax">    *                                           -&gt; </span><span class="identifier-syntax">Predictable</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    *                                           </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">Predictable</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">Verb</span><span class="plain-syntax"> </span><span class="identifier-syntax">meta</span><span class="plain-syntax"> </span><span class="character-syntax">'relations'</span>
-<span class="plain-syntax">    *                                           -&gt; </span><span class="identifier-syntax">ShowRelations</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    *                                           </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">ShowRelations</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">Verb</span><span class="plain-syntax"> </span><span class="identifier-syntax">meta</span><span class="plain-syntax"> </span><span class="character-syntax">'responses'</span>
-<span class="plain-syntax">    *                                           -&gt; </span><span class="identifier-syntax">ShowResponses</span>
-<span class="plain-syntax">    * </span><span class="identifier-syntax">special</span><span class="plain-syntax">                                   -&gt; </span><span class="identifier-syntax">ShowResponses</span>
-<span class="plain-syntax">    * </span><span class="character-syntax">'now'</span><span class="plain-syntax"> </span><span class="identifier-syntax">special</span><span class="plain-syntax">                             -&gt; </span><span class="identifier-syntax">ShowResponses</span>
-<span class="plain-syntax">    * </span><span class="character-syntax">'set'</span><span class="plain-syntax"> </span><span class="identifier-syntax">special</span><span class="plain-syntax">                             -&gt; </span><span class="identifier-syntax">ShowResponses</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    *                                           </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">ShowResponses</span>
+<span class="plain-syntax">    * </span><span class="identifier-syntax">special</span><span class="plain-syntax">                                   </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">ShowResponses</span>
+<span class="plain-syntax">    * </span><span class="character-syntax">'now'</span><span class="plain-syntax"> </span><span class="identifier-syntax">special</span><span class="plain-syntax">                             </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">ShowResponses</span>
+<span class="plain-syntax">    * </span><span class="character-syntax">'set'</span><span class="plain-syntax"> </span><span class="identifier-syntax">special</span><span class="plain-syntax">                             </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">ShowResponses</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">Verb</span><span class="plain-syntax"> </span><span class="identifier-syntax">meta</span><span class="plain-syntax"> </span><span class="character-syntax">'rules'</span>
-<span class="plain-syntax">    *                                           -&gt; </span><span class="identifier-syntax">RulesOn</span>
-<span class="plain-syntax">    * </span><span class="character-syntax">'all'</span><span class="plain-syntax">                                     -&gt; </span><span class="identifier-syntax">RulesAll</span>
-<span class="plain-syntax">    * </span><span class="character-syntax">'on'</span><span class="plain-syntax">                                      -&gt; </span><span class="identifier-syntax">RulesOn</span>
-<span class="plain-syntax">    * </span><span class="character-syntax">'off'</span><span class="plain-syntax">                                     -&gt; </span><span class="identifier-syntax">RulesOff</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    *                                           </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">RulesOn</span>
+<span class="plain-syntax">    * </span><span class="character-syntax">'all'</span><span class="plain-syntax">                                     </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">RulesAll</span>
+<span class="plain-syntax">    * </span><span class="character-syntax">'on'</span><span class="plain-syntax">                                      </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">RulesOn</span>
+<span class="plain-syntax">    * </span><span class="character-syntax">'off'</span><span class="plain-syntax">                                     </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">RulesOff</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">Verb</span><span class="plain-syntax"> </span><span class="identifier-syntax">meta</span><span class="plain-syntax"> </span><span class="character-syntax">'dialogue'</span>
-<span class="plain-syntax">    *                                           -&gt; </span><span class="identifier-syntax">DialogueOn</span>
-<span class="plain-syntax">    * </span><span class="character-syntax">'all'</span><span class="plain-syntax">                                     -&gt; </span><span class="identifier-syntax">DialogueAll</span>
-<span class="plain-syntax">    * </span><span class="character-syntax">'on'</span><span class="plain-syntax">                                      -&gt; </span><span class="identifier-syntax">DialogueOn</span>
-<span class="plain-syntax">    * </span><span class="character-syntax">'off'</span><span class="plain-syntax">                                     -&gt; </span><span class="identifier-syntax">DialogueOff</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    *                                           </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">DialogueOn</span>
+<span class="plain-syntax">    * </span><span class="character-syntax">'all'</span><span class="plain-syntax">                                     </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">DialogueAll</span>
+<span class="plain-syntax">    * </span><span class="character-syntax">'on'</span><span class="plain-syntax">                                      </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">DialogueOn</span>
+<span class="plain-syntax">    * </span><span class="character-syntax">'off'</span><span class="plain-syntax">                                     </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">DialogueOff</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">Verb</span><span class="plain-syntax"> </span><span class="identifier-syntax">meta</span><span class="plain-syntax"> </span><span class="character-syntax">'scenes'</span>
-<span class="plain-syntax">    *                                           -&gt; </span><span class="identifier-syntax">ScenesOn</span>
-<span class="plain-syntax">    * </span><span class="character-syntax">'on'</span><span class="plain-syntax">                                      -&gt; </span><span class="identifier-syntax">ScenesOn</span>
-<span class="plain-syntax">    * </span><span class="character-syntax">'off'</span><span class="plain-syntax">                                     -&gt; </span><span class="identifier-syntax">ScenesOff</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    *                                           </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">ScenesOn</span>
+<span class="plain-syntax">    * </span><span class="character-syntax">'on'</span><span class="plain-syntax">                                      </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">ScenesOn</span>
+<span class="plain-syntax">    * </span><span class="character-syntax">'off'</span><span class="plain-syntax">                                     </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">ScenesOff</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">Verb</span><span class="plain-syntax"> </span><span class="identifier-syntax">meta</span><span class="plain-syntax"> </span><span class="character-syntax">'scope'</span>
-<span class="plain-syntax">    *                                           -&gt; </span><span class="identifier-syntax">Scope</span>
-<span class="plain-syntax">    * </span><span class="identifier-syntax">scope</span><span class="plain-syntax">=</span><span class="identifier-syntax">testcommandnoun</span><span class="plain-syntax">                     -&gt; </span><span class="identifier-syntax">Scope</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    *                                           </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">Scope</span>
+<span class="plain-syntax">    * </span><span class="identifier-syntax">scope</span><span class="plain-syntax">=</span><span class="identifier-syntax">testcommandnoun</span><span class="plain-syntax">                     </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">Scope</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">Verb</span><span class="plain-syntax"> </span><span class="identifier-syntax">meta</span><span class="plain-syntax"> </span><span class="character-syntax">'showheap'</span>
-<span class="plain-syntax">    *                                           -&gt; </span><span class="identifier-syntax">ShowHeap</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    *                                           </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">ShowHeap</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">Verb</span><span class="plain-syntax"> </span><span class="identifier-syntax">meta</span><span class="plain-syntax"> </span><span class="character-syntax">'showme'</span>
-<span class="plain-syntax">    *                                           -&gt; </span><span class="identifier-syntax">ShowMe</span>
-<span class="plain-syntax">    * </span><span class="identifier-syntax">scope</span><span class="plain-syntax">=</span><span class="identifier-syntax">testcommandnoun</span><span class="plain-syntax">                     -&gt; </span><span class="identifier-syntax">ShowMe</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    *                                           </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">ShowMe</span>
+<span class="plain-syntax">    * </span><span class="identifier-syntax">scope</span><span class="plain-syntax">=</span><span class="identifier-syntax">testcommandnoun</span><span class="plain-syntax">                     </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">ShowMe</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">Verb</span><span class="plain-syntax"> </span><span class="identifier-syntax">meta</span><span class="plain-syntax"> </span><span class="character-syntax">'showverb'</span>
-<span class="plain-syntax">    * </span><span class="identifier-syntax">special</span><span class="plain-syntax">                                   -&gt; </span><span class="identifier-syntax">ShowVerb</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    * </span><span class="identifier-syntax">special</span><span class="plain-syntax">                                   </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">ShowVerb</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">Verb</span><span class="plain-syntax"> </span><span class="identifier-syntax">meta</span><span class="plain-syntax"> </span><span class="character-syntax">'test'</span>
-<span class="plain-syntax">    *                                           -&gt; </span><span class="identifier-syntax">TestScript</span>
-<span class="plain-syntax">    * </span><span class="identifier-syntax">special</span><span class="plain-syntax">                                   -&gt; </span><span class="identifier-syntax">TestScript</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    *                                           </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">TestScript</span>
+<span class="plain-syntax">    * </span><span class="identifier-syntax">special</span><span class="plain-syntax">                                   </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">TestScript</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">Verb</span><span class="plain-syntax"> </span><span class="identifier-syntax">meta</span><span class="plain-syntax"> </span><span class="character-syntax">'trace'</span>
-<span class="plain-syntax">    *                                           -&gt; </span><span class="identifier-syntax">TraceOn</span>
-<span class="plain-syntax">    * </span><span class="identifier-syntax">number</span><span class="plain-syntax">                                    -&gt; </span><span class="identifier-syntax">TraceLevel</span>
-<span class="plain-syntax">    * </span><span class="character-syntax">'on'</span><span class="plain-syntax">                                      -&gt; </span><span class="identifier-syntax">TraceOn</span>
-<span class="plain-syntax">    * </span><span class="character-syntax">'off'</span><span class="plain-syntax">                                     -&gt; </span><span class="identifier-syntax">TraceOff</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    *                                           </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">TraceOn</span>
+<span class="plain-syntax">    * </span><span class="identifier-syntax">number</span><span class="plain-syntax">                                    </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">TraceLevel</span>
+<span class="plain-syntax">    * </span><span class="character-syntax">'on'</span><span class="plain-syntax">                                      </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">TraceOn</span>
+<span class="plain-syntax">    * </span><span class="character-syntax">'off'</span><span class="plain-syntax">                                     </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">TraceOff</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">Verb</span><span class="plain-syntax"> </span><span class="identifier-syntax">meta</span><span class="plain-syntax"> </span><span class="character-syntax">'showtree'</span>
-<span class="plain-syntax">    *                                           -&gt; </span><span class="identifier-syntax">XTree</span>
-<span class="plain-syntax">    * </span><span class="identifier-syntax">scope</span><span class="plain-syntax">=</span><span class="identifier-syntax">testcommandnoun</span><span class="plain-syntax">                     -&gt; </span><span class="identifier-syntax">XTree</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    *                                           </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">XTree</span>
+<span class="plain-syntax">    * </span><span class="identifier-syntax">scope</span><span class="plain-syntax">=</span><span class="identifier-syntax">testcommandnoun</span><span class="plain-syntax">                     </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">XTree</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">#</span><span class="identifier-syntax">Ifdef</span><span class="plain-syntax"> </span><span class="identifier-syntax">TARGET_GLULX</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">Verb</span><span class="plain-syntax"> </span><span class="identifier-syntax">meta</span><span class="plain-syntax"> </span><span class="character-syntax">'glklist'</span>
-<span class="plain-syntax">    *                                           -&gt; </span><span class="identifier-syntax">GlkList</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    *                                           </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; </span><span class="identifier-syntax">GlkList</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">#</span><span class="identifier-syntax">Endif</span><span class="plain-syntax">;</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP22" class="paragraph-anchor"></a><b>&#167;22. End testy.</b></p>
+<p class="commentary firstcommentary"><a id="SP22" class="paragraph-anchor"></a><b>&#167;22. End testy.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">#</span><span class="identifier-syntax">Endif</span><span class="plain-syntax">;</span>

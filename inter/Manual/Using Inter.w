@@ -105,10 +105,10 @@ above are, in fact, running pipelines, albeit short ones:
 =
 As this shows, a one or two-step pipeline was running:
 
-(1) The first step used the |read| compilation stage, which reads some Inter
+- The first step used the |read| compilation stage, which reads some Inter
 code into memory. Here, it comes from the file |my.intert|.
 
-(2) The second step used the |generate| stage, which writes out Inter code
+- The second step used the |generate| stage, which writes out Inter code
 in the format of one's choice -- here "binary".
 
 @ However, we don't have to use this default pipeline. |-pipeline-text 'PIPELINE'|

@@ -85,12 +85,12 @@ called from below, with invocations of the <code>REGISTER_NONTERMINAL</code> and
 to code which sets up <code>any_integer_NTM</code> -- see below.</p>
 </div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Nonterminals::register</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">Nonterminals::register</span></span>:<br/>Words Module - <a href="1-wm.html#SP3">&#167;3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="type-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Nonterminals::register</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">Nonterminals::register</span></span>:<br/>Words Module - <a href="1-wm.html#SP3">&#167;3</a></span></button><span class="plain-syntax">(</span><span class="type-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="comment-syntax">/* The following is not valid C, but causes Inweb to insert lines which are */</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">Inweb_InC_register_nonterminals</span><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="comment-syntax">/* Back to regular C now */</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">nonterminal</span><span class="plain-syntax"> *</span><span class="identifier-syntax">nt</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">nt</span><span class="plain-syntax">, </span><span class="identifier-syntax">nonterminal</span><span class="plain-syntax">)</span>
+<span class="plain-syntax">    </span><span class="type-syntax">nonterminal</span><span class="plain-syntax"> *</span><span class="identifier-syntax">nt</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">nt</span><span class="plain-syntax">, </span><span class="type-syntax">nonterminal</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">nt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">marked_internal</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">nt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">internal_definition</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">))</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"internal nonterminal has no definition function"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
@@ -114,12 +114,14 @@ suppose <a href="../inweb/index.html" class="internal">inweb</a> sees the follow
 <span class="plain-syntax">    </span><span class="identifier-syntax">REGISTER_NONTERMINAL</span><span class="plain-syntax">(</span><span class="identifier-syntax">U</span><span class="string-syntax">"&lt;competitor&gt;"</span><span class="plain-syntax">, </span><span class="identifier-syntax">competitor_NTM</span><span class="plain-syntax">);</span>
 </pre>
 <div class="lsmarkdown">
-<p>And it also tangles matching declarations for:
-(a) the global variable <code>competitor_NTM</code>, of type <code>nonterminal *</code>;
-(b) the &quot;compositor function&quot; <code>competitor_NTMC</code>, which is a function to
+<p>And it also tangles matching declarations for:</p>
+<ul>
+<li>the global variable <code>competitor_NTM</code>, of type <code>nonterminal *</code>;</li>
+<li>the &quot;compositor function&quot; <code>competitor_NTMC</code>, which is a function to
 deal with what happens when a successful match is made against the grammar --
 this incorporates the material which <a href="../inweb/index.html" class="internal">inweb</a> finds to the right of the <code>==&gt;</code>
-markers in the Preform definition.</p>
+markers in the Preform definition.</li>
+</ul>
 <p>But if we left things at that, we would find ourselves at run-time with
 a null variable, a function not called from anywhere, and an instance
 somewhere in memory of a nonterminal read in from Preform syntax and
@@ -129,7 +131,7 @@ the function or the variable. We clearly need to join these together.</p>
 variable to the nonterminal having its name, and then connects that to the
 compositor function:</p>
 </div>
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">identifier</span><span class="plain-syntax">)</span>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">REGISTER_NONTERMINAL(quotedname,</span> <span class="identifier-syntax">identifier</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">identifier</span><span class="plain-syntax"> = </span><a href="4-nnt.html#SP8" class="function-link"><span class="function-syntax">Nonterminals::find</span></a><span class="plain-syntax">(</span><a href="2-vcb.html#SP15" class="function-link"><span class="function-syntax">Vocabulary::entry_for_text</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">quotedname</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">identifier</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">compositor_fn</span><span class="plain-syntax"> = </span><span class="identifier-syntax">identifier</span><span class="plain-syntax">##</span><span class="identifier-syntax">C</span><span class="plain-syntax">;</span>
 </pre>
@@ -147,10 +149,12 @@ a nonterminal object of that name even if one does not already exist.</p>
 </div>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  The position for internal nonterminals (i.e. those defined by a function
-written by the programmer, not by Preform grammar lines) is similar:
-(a) again there is a global variable, say <code>any_integer_NTM</code>, of type <code>nonterminal *</code>;
-(b) but now there is no compositor, and instead there is a function <code>any_integer_NTMR</code>
-which actually performs the parse directly.</p>
+written by the programmer, not by Preform grammar lines) is similar:</p>
+<ul>
+<li>again there is a global variable, say <code>any_integer_NTM</code>, of type <code>nonterminal *</code>;</li>
+<li>but now there is no compositor, and instead there is a function <code>any_integer_NTMR</code>
+which actually performs the parse directly.</li>
+</ul>
 <p>The <code>INTERNAL_NONTERMINAL</code> macro similarly initialises and connects these
 declarations. <code>min</code> and <code>max</code> are conveniences for speedy parsing, and supply
 the minimum and maximum number of words that the nonterminal can match; these
@@ -158,7 +162,7 @@ are needed because the Preform optimiser can't see inside <code>any_integer_NTMR
 calculate those bounds for itself. <code>max</code> can be infinity, in which case we
 use the constant <code>INFINITE_WORD_COUNT</code> for it.</p>
 </div>
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">identifier</span><span class="plain-syntax">, </span><span class="identifier-syntax">min</span><span class="plain-syntax">, </span><span class="identifier-syntax">max</span><span class="plain-syntax">)</span>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">INTERNAL_NONTERMINAL(quotedname,</span> <span class="identifier-syntax">identifier</span><span class="plain-syntax">, </span><span class="identifier-syntax">min</span><span class="plain-syntax">, </span><span class="identifier-syntax">max</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">identifier</span><span class="plain-syntax"> = </span><a href="4-nnt.html#SP8" class="function-link"><span class="function-syntax">Nonterminals::find</span></a><span class="plain-syntax">(</span><a href="2-vcb.html#SP15" class="function-link"><span class="function-syntax">Vocabulary::entry_for_text</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">quotedname</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">identifier</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">opt</span><span class="plain-syntax">.</span><span class="element-syntax">nt_extremes</span><span class="plain-syntax"> = </span><a href="4-le.html#SP3" class="function-link"><span class="function-syntax">LengthExtremes::new</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">min</span><span class="plain-syntax">, </span><span class="identifier-syntax">max</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">identifier</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">internal_definition</span><span class="plain-syntax"> = </span><span class="identifier-syntax">identifier</span><span class="plain-syntax">##</span><span class="identifier-syntax">R</span><span class="plain-syntax">;</span>
@@ -171,55 +175,67 @@ names: there can be only one called, say, &lt;any-integer&gt;. This is why its
 textual name is referred to as an &quot;ID&quot;.</p>
 </div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">nonterminal</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">vocabulary_entry</span><span class="plain-syntax"> *</span><span class="identifier-syntax">nonterminal_id</span><span class="plain-syntax">; </span><span class="comment-syntax">/* e.g. |"</span><span class="function-syntax">&lt;any-integer&gt;</span><span class="comment-syntax">"| */</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="type-syntax">struct</span><span class="plain-syntax"> </span><span class="type-syntax">nonterminal</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="type-syntax">struct</span><span class="plain-syntax"> </span><span class="type-syntax">vocabulary_entry</span><span class="plain-syntax"> *</span><span class="identifier-syntax">nonterminal_id</span><span class="plain-syntax">; </span><span class="comment-syntax">/* e.g. |"</span><span class="function-syntax">&lt;any-integer&gt;</span><span class="comment-syntax">"| */</span>
 
 <span class="plain-syntax">    </span><span class="comment-syntax">/* For internal nonterminals */</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">marked_internal</span><span class="plain-syntax">; </span><span class="comment-syntax">/* has, or will be given, an internal definition... */</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> (*</span><span class="identifier-syntax">internal_definition</span><span class="plain-syntax">)(</span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> *</span><span class="identifier-syntax">result</span><span class="plain-syntax">, </span><span class="identifier-syntax">void</span><span class="plain-syntax"> **</span><span class="identifier-syntax">result_p</span><span class="plain-syntax">); </span><span class="comment-syntax">/* ...this one */</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">voracious</span><span class="plain-syntax">; </span><span class="comment-syntax">/* if true, scans whole rest of word range */</span>
+<span class="plain-syntax">    </span><span class="type-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">marked_internal</span><span class="plain-syntax">; </span><span class="comment-syntax">/* has, or will be given, an internal definition... */</span>
+<span class="plain-syntax">    </span><span class="type-syntax">int</span><span class="plain-syntax"> (*</span><span class="identifier-syntax">internal_definition</span><span class="plain-syntax">)(</span><span class="type-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">, </span><span class="type-syntax">int</span><span class="plain-syntax"> *</span><span class="identifier-syntax">result</span><span class="plain-syntax">, </span><span class="type-syntax">void</span><span class="plain-syntax"> **</span><span class="identifier-syntax">result_p</span><span class="plain-syntax">); </span><span class="comment-syntax">/* ...this one */</span>
+<span class="plain-syntax">    </span><span class="type-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">voracious</span><span class="plain-syntax">; </span><span class="comment-syntax">/* if true, scans whole rest of word range */</span>
 
 <span class="plain-syntax">    </span><span class="comment-syntax">/* For regular nonterminals */</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">production_list</span><span class="plain-syntax"> *</span><span class="identifier-syntax">first_pl</span><span class="plain-syntax">; </span><span class="comment-syntax">/* if not internal, this defines it */</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> (*</span><span class="identifier-syntax">compositor_fn</span><span class="plain-syntax">)(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> *</span><span class="identifier-syntax">r</span><span class="plain-syntax">, </span><span class="identifier-syntax">void</span><span class="plain-syntax"> **</span><span class="identifier-syntax">rp</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> *</span><span class="identifier-syntax">i_s</span><span class="plain-syntax">, </span><span class="identifier-syntax">void</span><span class="plain-syntax"> **</span><span class="identifier-syntax">i_ps</span><span class="plain-syntax">, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> *</span><span class="identifier-syntax">i_W</span><span class="plain-syntax">, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">multiplicitous</span><span class="plain-syntax">; </span><span class="comment-syntax">/* if true, matches are alternative syntax tree readings */</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">number_words_by_production</span><span class="plain-syntax">; </span><span class="comment-syntax">/* this parses names for numbers, like "huit" or "zwei" */</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">unsigned</span><span class="plain-syntax"> </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">flag_words_in_production</span><span class="plain-syntax">; </span><span class="comment-syntax">/* all words in the production should get these flags */</span>
+<span class="plain-syntax">    </span><span class="type-syntax">struct</span><span class="plain-syntax"> </span><span class="type-syntax">production_list</span><span class="plain-syntax"> *</span><span class="identifier-syntax">first_pl</span><span class="plain-syntax">; </span><span class="comment-syntax">/* if not internal, this defines it */</span>
+<span class="plain-syntax">    </span><span class="type-syntax">int</span><span class="plain-syntax"> (*</span><span class="identifier-syntax">compositor_fn</span><span class="plain-syntax">)(</span><span class="type-syntax">int</span><span class="plain-syntax"> *</span><span class="identifier-syntax">r</span><span class="plain-syntax">, </span><span class="type-syntax">void</span><span class="plain-syntax"> **</span><span class="identifier-syntax">rp</span><span class="plain-syntax">, </span><span class="type-syntax">int</span><span class="plain-syntax"> *</span><span class="identifier-syntax">i_s</span><span class="plain-syntax">, </span><span class="type-syntax">void</span><span class="plain-syntax"> **</span><span class="identifier-syntax">i_ps</span><span class="plain-syntax">, </span><span class="type-syntax">wording</span><span class="plain-syntax"> *</span><span class="identifier-syntax">i_W</span><span class="plain-syntax">, </span><span class="type-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="type-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">multiplicitous</span><span class="plain-syntax">; </span><span class="comment-syntax">/* if true, matches are alternative syntax tree readings */</span>
+<span class="plain-syntax">    </span><span class="type-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">number_words_by_production</span><span class="plain-syntax">; </span><span class="comment-syntax">/* this parses names for numbers, like "huit" or "zwei" */</span>
+<span class="plain-syntax">    </span><span class="type-syntax">unsigned</span><span class="plain-syntax"> </span><span class="type-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">flag_words_in_production</span><span class="plain-syntax">; </span><span class="comment-syntax">/* all words in the production should get these flags */</span>
 
 <span class="plain-syntax">    </span><span class="comment-syntax">/* Storage for most recent correct match */</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">range_result</span><span class="plain-syntax">[</span><span class="constant-syntax">MAX_RANGES_PER_PRODUCTION</span><span class="plain-syntax">]; </span><span class="comment-syntax">/* storage for word ranges matched */</span>
+<span class="plain-syntax">    </span><span class="type-syntax">struct</span><span class="plain-syntax"> </span><span class="type-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">range_result</span><span class="plain-syntax">[</span><span class="constant-syntax">MAX_RANGES_PER_PRODUCTION</span><span class="plain-syntax">]; </span><span class="comment-syntax">/* storage for word ranges matched */</span>
 
-<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">nonterminal_optimisation_data</span><span class="plain-syntax"> </span><span class="identifier-syntax">opt</span><span class="plain-syntax">; </span><span class="comment-syntax">/* see //The Optimiser// */</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">nonterminal_instrumentation_data</span><span class="plain-syntax"> </span><span class="identifier-syntax">ins</span><span class="plain-syntax">; </span><span class="comment-syntax">/* see //Instrumentation// */</span>
+<span class="plain-syntax">    </span><span class="type-syntax">struct</span><span class="plain-syntax"> </span><span class="type-syntax">nonterminal_optimisation_data</span><span class="plain-syntax"> </span><span class="identifier-syntax">opt</span><span class="plain-syntax">; </span><span class="comment-syntax">/* see //The Optimiser// */</span>
+<span class="plain-syntax">    </span><span class="type-syntax">struct</span><span class="plain-syntax"> </span><span class="type-syntax">nonterminal_instrumentation_data</span><span class="plain-syntax"> </span><span class="identifier-syntax">ins</span><span class="plain-syntax">; </span><span class="comment-syntax">/* see //Instrumentation// */</span>
 
 <span class="plain-syntax">    </span><span class="identifier-syntax">CLASS_DEFINITION</span>
-<span class="plain-syntax">} </span><span class="identifier-syntax">nonterminal</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="type-syntax">nonterminal</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>The structure nonterminal is accessed in 4/lp, 4/to, 4/le, 4/ni, 4/prf, 4/ins, 4/pu and here.</li></ul>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  A few notes on this are in order:</p>
-<p>(a) As noted above, every nonterminal is either &quot;internal&quot; or &quot;regular&quot;. If
+<ul>
+<li>
+<p>As noted above, every nonterminal is either &quot;internal&quot; or &quot;regular&quot;. If
 internal, it is defined by a function; if regular, it is defined by lines
 of grammar (called &quot;productions&quot;) and a compositor function.</p>
-<p>(b) A few internal nonterminals are &quot;voracious&quot;. These are given the entire
+</li>
+<li>
+<p>A few internal nonterminals are &quot;voracious&quot;. These are given the entire
 word range for their productions to eat, and encouraged to eat as much as they
 like, returning a word number to show how far they got. While this effect
 could be duplicated with non-voracious nonterminals, that would be quite a bit
 slower, since it would have to test every possible word range.</p>
-<p>(c) A few regular nonterminals are &quot;multiplicitous&quot;. These composite their
+</li>
+<li>
+<p>A few regular nonterminals are &quot;multiplicitous&quot;. These composite their
 results in a way special to the Inform compiler's syntax tree, by stacking
 them up as alternative possible readings of the same text. Ordinarily, the
 result of parsing text against a nonterminal is that the first grammar line
 matching that text determines the meaning, but for a multiplicitous nonterminal,
 every line matching the text determines one of perhaps many possible meanings.</p>
-<p>(d) For numbering and flagging on regular NTs, see <a href="4-nnt.html#SP11" class="internal">Nonterminals::make_numbering</a>
+</li>
+<li>
+<p>For numbering and flagging on regular NTs, see <a href="4-nnt.html#SP11" class="internal">Nonterminals::make_numbering</a>
 below.</p>
-<p>(e) The optimisation data helps the parser to reject non-matching text quickly.
+</li>
+<li>
+<p>The optimisation data helps the parser to reject non-matching text quickly.
 For example, if the optimiser can determine that &lt;competitor&gt; only ever matches
 texts of between 3 and 7 words in length, it can quickly reject any run of
 words outside that range. (However: note that a maximum of 0 means that the
 maximum and minimum word counts are disregarded.) The other fields are harder
 to explain -- see <a href="4-to.html" class="internal">The Optimiser</a>.</p>
+</li>
+</ul>
 </div>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  So, then, as noted above, nonterminals are identified by their name-words.
@@ -227,9 +243,9 @@ The following is not especially fast but doesn't need to be: it's used only
 when Preform grammar is parsed, not when Inform text is parsed.</p>
 </div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">nonterminal</span><span class="plain-syntax"> *</span><span class="function-syntax">Nonterminals::detect</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">Nonterminals::detect</span></span>:<br/><a href="4-nnt.html#SP8">&#167;8</a><br/>Basic Nonterminals - <a href="4-bn.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">vocabulary_entry</span><span class="plain-syntax"> *</span><span class="identifier-syntax">name_word</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">nonterminal</span><span class="plain-syntax"> *</span><span class="identifier-syntax">nt</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">nt</span><span class="plain-syntax">, </span><span class="identifier-syntax">nonterminal</span><span class="plain-syntax">)</span>
+<span class="type-syntax">nonterminal</span><span class="plain-syntax"> *</span><span class="function-syntax">Nonterminals::detect</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">Nonterminals::detect</span></span>:<br/><a href="4-nnt.html#SP8">&#167;8</a><br/>Basic Nonterminals - <a href="4-bn.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="type-syntax">vocabulary_entry</span><span class="plain-syntax"> *</span><span class="identifier-syntax">name_word</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="type-syntax">nonterminal</span><span class="plain-syntax"> *</span><span class="identifier-syntax">nt</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_OVER</span><span class="plain-syntax">(</span><span class="identifier-syntax">nt</span><span class="plain-syntax">, </span><span class="type-syntax">nonterminal</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">name_word</span><span class="plain-syntax"> == </span><span class="identifier-syntax">nt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">nonterminal_id</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">nt</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
@@ -239,10 +255,10 @@ when Preform grammar is parsed, not when Inform text is parsed.</p>
 <p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>  And the following always returns one, creating it if necessary:</p>
 </div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">nonterminal</span><span class="plain-syntax"> *</span><span class="function-syntax">Nonterminals::find</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">Nonterminals::find</span></span>:<br/><a href="4-nnt.html#SP2">&#167;2</a>, <a href="4-nnt.html#SP4">&#167;4</a><br/>Loading Preform - <a href="4-lp.html#SP7_2">&#167;7.2</a>, <a href="4-lp.html#SP7_3">&#167;7.3</a>, <a href="4-lp.html#SP16_2">&#167;16.2</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">vocabulary_entry</span><span class="plain-syntax"> *</span><span class="identifier-syntax">name_word</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">nonterminal</span><span class="plain-syntax"> *</span><span class="identifier-syntax">nt</span><span class="plain-syntax"> = </span><a href="4-nnt.html#SP7" class="function-link"><span class="function-syntax">Nonterminals::detect</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">name_word</span><span class="plain-syntax">);</span>
+<span class="type-syntax">nonterminal</span><span class="plain-syntax"> *</span><span class="function-syntax">Nonterminals::find</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">Nonterminals::find</span></span>:<br/><a href="4-nnt.html#SP2">&#167;2</a>, <a href="4-nnt.html#SP4">&#167;4</a><br/>Loading Preform - <a href="4-lp.html#SP7_2">&#167;7.2</a>, <a href="4-lp.html#SP7_3">&#167;7.3</a>, <a href="4-lp.html#SP16_2">&#167;16.2</a></span></button><span class="plain-syntax">(</span><span class="type-syntax">vocabulary_entry</span><span class="plain-syntax"> *</span><span class="identifier-syntax">name_word</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="type-syntax">nonterminal</span><span class="plain-syntax"> *</span><span class="identifier-syntax">nt</span><span class="plain-syntax"> = </span><a href="4-nnt.html#SP7" class="function-link"><span class="function-syntax">Nonterminals::detect</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">name_word</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">nt</span><span class="plain-syntax"> == </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">        </span><span class="identifier-syntax">nt</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="identifier-syntax">nonterminal</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">        </span><span class="identifier-syntax">nt</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="type-syntax">nonterminal</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">nt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">nonterminal_id</span><span class="plain-syntax"> = </span><span class="identifier-syntax">name_word</span><span class="plain-syntax">;</span>
 
 <span class="plain-syntax">        </span><span class="identifier-syntax">nt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">marked_internal</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">; </span><span class="comment-syntax">/* by default, nonterminals are regular */</span>
@@ -255,7 +271,7 @@ when Preform grammar is parsed, not when Inform text is parsed.</p>
 <span class="plain-syntax">        </span><span class="identifier-syntax">nt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">number_words_by_production</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">; </span><span class="comment-syntax">/* i.e., don't */</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">nt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">flag_words_in_production</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">; </span><span class="comment-syntax">/* i.e., apply no flags */</span>
 
-<span class="plain-syntax">        </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;</span><span class="constant-syntax">MAX_RANGES_PER_PRODUCTION</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++)</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="type-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;</span><span class="constant-syntax">MAX_RANGES_PER_PRODUCTION</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++)</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">nt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">range_result</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">] = </span><span class="constant-syntax">EMPTY_WORDING</span><span class="plain-syntax">;</span>
 
 <span class="plain-syntax">        </span><a href="4-to.html#SP2" class="function-link"><span class="function-syntax">Optimiser::initialise_nonterminal_data</span></a><span class="plain-syntax">(&amp;(</span><span class="identifier-syntax">nt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">opt</span><span class="plain-syntax">));</span>
@@ -279,19 +295,19 @@ since we never extract word-ranges from grammar which is recursive.</p>
 <p>Word range 0 is reserved in case we ever need it for the entire text matched
 by the nonterminal, though at present we don't need that.</p>
 </div>
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="constant-syntax">5</span><span class="plain-syntax"> </span><span class="comment-syntax">/* in fact, one less than this, since range 0 is reserved */</span>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">MAX_RANGES_PER_PRODUCTION</span> <span class="constant-syntax">5</span><span class="plain-syntax"> </span><span class="comment-syntax">/* in fact, one less than this, since range 0 is reserved */</span>
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">N</span><span class="plain-syntax">) (</span><span class="identifier-syntax">nt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">range_result</span><span class="plain-syntax">[</span><span class="identifier-syntax">N</span><span class="plain-syntax">])</span>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">GET_RW(nt,</span> <span class="identifier-syntax">N</span><span class="plain-syntax">) (</span><span class="identifier-syntax">nt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">range_result</span><span class="plain-syntax">[</span><span class="identifier-syntax">N</span><span class="plain-syntax">])</span>
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">N</span><span class="plain-syntax">, </span><span class="identifier-syntax">W</span><span class="plain-syntax">) { </span><span class="identifier-syntax">nt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">range_result</span><span class="plain-syntax">[</span><span class="identifier-syntax">N</span><span class="plain-syntax">] = </span><span class="identifier-syntax">W</span><span class="plain-syntax">; }</span>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">PUT_RW(nt,</span> <span class="identifier-syntax">N</span><span class="plain-syntax">, </span><span class="identifier-syntax">W</span><span class="plain-syntax">) { </span><span class="identifier-syntax">nt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">range_result</span><span class="plain-syntax">[</span><span class="identifier-syntax">N</span><span class="plain-syntax">] = </span><span class="identifier-syntax">W</span><span class="plain-syntax">; }</span>
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">to</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=1; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;</span><span class="constant-syntax">MAX_RANGES_PER_PRODUCTION</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) </span><span class="comment-syntax">/* not copying range 0 */</span>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">INHERIT_RANGES(from,</span> <span class="identifier-syntax">to</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="type-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=1; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;</span><span class="constant-syntax">MAX_RANGES_PER_PRODUCTION</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) </span><span class="comment-syntax">/* not copying range 0 */</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">to</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">range_result</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">] = </span><span class="identifier-syntax">from</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">range_result</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">];</span>
 <span class="plain-syntax">}</span>
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="plain-syntax">{</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;</span><span class="constant-syntax">MAX_RANGES_PER_PRODUCTION</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) </span><span class="comment-syntax">/* including range 0 */</span>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">CLEAR_RW(from)</span> <span class="plain-syntax">{</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="type-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;</span><span class="constant-syntax">MAX_RANGES_PER_PRODUCTION</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) </span><span class="comment-syntax">/* including range 0 */</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">from</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">range_result</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">] = </span><span class="constant-syntax">EMPTY_WORDING</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
@@ -302,8 +318,8 @@ any single NT.</p>
 <p><a href="../inweb/index.html" class="internal">inweb</a> translates the notation <code>&lt;&lt;r&gt;&gt;</code> and <code>&lt;&lt;rp&gt;&gt;</code> to these variable names:</p>
 </div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">most_recent_result</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">; </span><span class="comment-syntax">/* the variable which |inweb| writes |</span><span class="function-syntax">&lt;&lt;r&gt;&gt;</span><span class="comment-syntax">| */</span>
-<span class="identifier-syntax">void</span><span class="plain-syntax"> *</span><span class="identifier-syntax">most_recent_result_p</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax">/* the variable which |inweb| writes |</span><span class="function-syntax">&lt;&lt;rp&gt;&gt;</span><span class="comment-syntax">| */</span>
+<span class="type-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">most_recent_result</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">; </span><span class="comment-syntax">/* the variable which |inweb| writes |</span><span class="function-syntax">&lt;&lt;r&gt;&gt;</span><span class="comment-syntax">| */</span>
+<span class="type-syntax">void</span><span class="plain-syntax"> *</span><span class="identifier-syntax">most_recent_result_p</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">; </span><span class="comment-syntax">/* the variable which |inweb| writes |</span><span class="function-syntax">&lt;&lt;rp&gt;&gt;</span><span class="comment-syntax">| */</span>
 </pre>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. Flagging and numbering.</b>  The following mechanism arranges for words used in the grammar for a NT to
@@ -321,7 +337,7 @@ these five words would pick up the numerical values 1, 2, 3, 4, 5, because
 they occur in production number 1, 2, 3, 4, 5 for the NT.</p>
 </div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Nonterminals::make_numbering</span><span class="plain-syntax">(</span><span class="identifier-syntax">nonterminal</span><span class="plain-syntax"> *</span><span class="identifier-syntax">nt</span><span class="plain-syntax">) {</span>
+<span class="type-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Nonterminals::make_numbering</span><span class="plain-syntax">(</span><span class="type-syntax">nonterminal</span><span class="plain-syntax"> *</span><span class="identifier-syntax">nt</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">nt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">number_words_by_production</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
@@ -331,7 +347,7 @@ sun, dock, trog, slack, pan would all pick up the <code>NUMBER_MC</code> flag
 automatically.</p>
 </div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Nonterminals::flag_words_with</span><span class="plain-syntax">(</span><span class="identifier-syntax">nonterminal</span><span class="plain-syntax"> *</span><span class="identifier-syntax">nt</span><span class="plain-syntax">, </span><span class="identifier-syntax">unsigned</span><span class="plain-syntax"> </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">flags</span><span class="plain-syntax">) {</span>
+<span class="type-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Nonterminals::flag_words_with</span><span class="plain-syntax">(</span><span class="type-syntax">nonterminal</span><span class="plain-syntax"> *</span><span class="identifier-syntax">nt</span><span class="plain-syntax">, </span><span class="type-syntax">unsigned</span><span class="plain-syntax"> </span><span class="type-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">flags</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">nt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">flag_words_in_production</span><span class="plain-syntax"> = </span><span class="identifier-syntax">flags</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
@@ -340,7 +356,7 @@ automatically.</p>
 is read as part of a production with match number <code>pc</code> for the nonterminal <code>nt</code>:</p>
 </div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Nonterminals::note_word</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">Nonterminals::note_word</span></span>:<br/>Loading Preform - <a href="4-lp.html#SP16_3">&#167;16.3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">vocabulary_entry</span><span class="plain-syntax"> *</span><span class="identifier-syntax">ve</span><span class="plain-syntax">, </span><span class="identifier-syntax">nonterminal</span><span class="plain-syntax"> *</span><span class="identifier-syntax">nt</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">pc</span><span class="plain-syntax">) {</span>
+<span class="type-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Nonterminals::note_word</span><button class="popup" onclick="togglePopup('usagePopup4')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup4">Usage of <span class="code-font"><span class="function-syntax">Nonterminals::note_word</span></span>:<br/>Loading Preform - <a href="4-lp.html#SP16_3">&#167;16.3</a></span></button><span class="plain-syntax">(</span><span class="type-syntax">vocabulary_entry</span><span class="plain-syntax"> *</span><span class="identifier-syntax">ve</span><span class="plain-syntax">, </span><span class="type-syntax">nonterminal</span><span class="plain-syntax"> *</span><span class="identifier-syntax">nt</span><span class="plain-syntax">, </span><span class="type-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">pc</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">ve</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">flags</span><span class="plain-syntax"> |= (</span><span class="identifier-syntax">nt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">flag_words_in_production</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">nt</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">number_words_by_production</span><span class="plain-syntax">) </span><span class="identifier-syntax">ve</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">literal_number_value</span><span class="plain-syntax"> = </span><span class="identifier-syntax">pc</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>

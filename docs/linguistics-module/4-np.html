@@ -84,11 +84,13 @@ MathJax = {
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Hierarchy of noun phrases.</b>  Noun phrase nodes are built at four levels of elaboration, which we take in
 turn:</p>
-<p>(-NP1) Raw: where the text is entirely untouched and unannotated.
-(-NP2) Articled: where any initial article is converted to an annotation.
-(-NP3) List-divided: where, in addition, a list is broken up into individual items.
-(-NP4) Full: where, in addition, pronouns, relative phrases establishing
-relationships and properties, and so on are parsed.</p>
+<ul>
+<li>(NP1) Raw: where the text is entirely untouched and unannotated.</li>
+<li>(NP2) Articled: where any initial article is converted to an annotation.</li>
+<li>(NP3) List-divided: where, in addition, a list is broken up into individual items.</li>
+<li>(NP4) Full: where, in addition, pronouns, relative phrases establishing
+relationships and properties, and so on are parsed.</li>
+</ul>
 </div>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Raw nounphrases (NP1).</b>  A raw noun phrase is always a single <code>UNPARSED_NOUN_NT</code>. The following always
@@ -126,13 +128,21 @@ used in a balanced way: thus <code>frogs ( and toads )</code> would match, but
 
 <div class="lsmarkdown">
 <p>Now an initial article becomes an annotation and is removed from the text.
-Note that
-(a) Unexpectedly upper-case articles are left well alone, as in the sentence:</p>
+Note that</p>
+<ul>
+<li>Unexpectedly upper-case articles are left well alone, as in the sentence:</li>
+</ul>
 </div>
 <div class="lsmarkdown">
-<p>(b) Articles are not removed if that would leave the text empty.</p>
-<p>(c) If we are in a language where the same word might either be definite or
+<ul>
+<li>
+<p>Articles are not removed if that would leave the text empty.</p>
+</li>
+<li>
+<p>If we are in a language where the same word might either be definite or
 indefinite, the latter has precedence.</p>
+</li>
+</ul>
 </div>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-function-syntax">&lt;np-articled&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
@@ -149,7 +159,7 @@ indefinite, the latter has precedence.</p>
 <p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="function-syntax">NounPhrases::add_art</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">NounPhrases::add_art</span></span>:<br/><a href="4-np.html#SP5">&#167;5</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">p</span><span class="plain-syntax">, </span><span class="identifier-syntax">article_usage</span><span class="plain-syntax"> *</span><span class="identifier-syntax">au</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="function-syntax">NounPhrases::add_art</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">NounPhrases::add_art</span></span>:<br/><a href="4-np.html#SP5">&#167;5</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">p</span><span class="plain-syntax">, </span><span class="type-syntax">article_usage</span><span class="plain-syntax"> *</span><span class="identifier-syntax">au</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">Node::set_article</span><span class="plain-syntax">(</span><span class="identifier-syntax">p</span><span class="plain-syntax">, </span><span class="identifier-syntax">au</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">p</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
@@ -212,17 +222,19 @@ here we have --</p>
 </pre>
 <div class="lsmarkdown">
 <p>That is, relative clauses take precedence over callings, and so on. The
-above hierarchy is arrived at thus:
-(a) We need <code>RELATIONSHIP_NT &gt; WITH_NT</code> so that &quot;X is in a container with
-carrying capacity 10&quot; will work.
-(b) We need <code>WITH_NT &gt; AND_NT</code> so that &quot;X is a container with carrying
-capacity 10 and diameter 12&quot; will work.
-(c) We need <code>CALLED_NT &gt; WITH_NT</code> so that &quot;X is a container called the flask
-with flange&quot; will work.
-(d) We need <code>RELATIONSHIP_NT &gt; CALLED_NT</code> so that &quot;A man called Horse is in
-the High Sierra&quot; will work.
-(e) We want <code>KIND_NT</code> to be of low precedence because it is always either
-the word &quot;kind&quot; alone, or &quot;kind of N&quot; for some atomic noun N.</p>
+above hierarchy is arrived at thus:</p>
+<ul>
+<li>We need <code>RELATIONSHIP_NT &gt; WITH_NT</code> so that &quot;X is in a container with
+carrying capacity 10&quot; will work.</li>
+<li>We need <code>WITH_NT &gt; AND_NT</code> so that &quot;X is a container with carrying
+capacity 10 and diameter 12&quot; will work.</li>
+<li>We need <code>CALLED_NT &gt; WITH_NT</code> so that &quot;X is a container called the flask
+with flange&quot; will work.</li>
+<li>We need <code>RELATIONSHIP_NT &gt; CALLED_NT</code> so that &quot;A man called Horse is in
+the High Sierra&quot; will work.</li>
+<li>We want <code>KIND_NT</code> to be of low precedence because it is always either
+the word &quot;kind&quot; alone, or &quot;kind of N&quot; for some atomic noun N.</li>
+</ul>
 <p>See <a href="P-asd.html" class="internal">About Sentence Diagrams</a> for numerous examples.</p>
 </div>
 <div class="lsmarkdown">
@@ -230,10 +242,16 @@ the word &quot;kind&quot; alone, or &quot;kind of N&quot; for some atomic noun N
 phrase, i.e., whether it is in the subject or object position. Thus &quot;X is Y&quot;
 or &quot;X is in Y&quot; would lead to X being parsed by &lt;np-as-subject&gt;, Y by &lt;np-as-object&gt;.
 They are identical except that:</p>
-<p>(a) In subject position, a full nounphrase can use &quot;there&quot; to indicate
+<ul>
+<li>
+<p>In subject position, a full nounphrase can use &quot;there&quot; to indicate
 an existential sentence such as &quot;there is a hair in my soup&quot;; and</p>
-<p>(b) In subject position, a relative phrase cannot begin with a word which
+</li>
+<li>
+<p>In subject position, a relative phrase cannot begin with a word which
 looks like a participle.</p>
+</li>
+</ul>
 </div>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-function-syntax">&lt;np-as-subject&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
@@ -361,16 +379,18 @@ directions, in particular, a little better. But it means we do not recognise
 <span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">CALLED_NT</span><span class="Preform-plain-syntax"> &gt; </span><span class="Preform-constant-syntax">WITH_NT</span><span class="Preform-plain-syntax"> &gt; </span><span class="Preform-constant-syntax">AND_NT</span><span class="Preform-plain-syntax"> &gt; </span><span class="Preform-constant-syntax">KIND_NT</span>
 </pre>
 <div class="lsmarkdown">
-<p>These are all handled by &lt;np-nonrelative&gt;. Two points to note:
-(a) The first production accepts arbitrary text quickly and without allocating
+<p>These are all handled by &lt;np-nonrelative&gt;. Two points to note:</p>
+<ul>
+<li>The first production accepts arbitrary text quickly and without allocating
 memory if we're in lookahead mode -- an important economy since otherwise
-parsing a list of \INWEBMATH(n\INWEBMATH) items would have running time and memory of order \INWEBMATH(2^n\INWEBMATH).
-(b) If we regard the above constructs as being like operators in arithmetic,
+parsing a list of \INWEBMATH(n\INWEBMATH) items would have running time and memory of order \INWEBMATH(2^n\INWEBMATH).</li>
+<li>If we regard the above constructs as being like operators in arithmetic,
 then the operands have to match &lt;np-operand&gt;, and this requires text which has
 balanced brackets. That ensures that, for example, &quot;frog (called toad)&quot;
 is not misread as saying that &quot;frog (&quot; is called &quot;toad )&quot;. But note that
 the final &lt;np-articled&gt; production catches any unbalanced text, so even
-text like &quot;smile X-)&quot; will in fact match &lt;np-nonrelative&gt;.</p>
+text like &quot;smile X-)&quot; will in fact match &lt;np-nonrelative&gt;.</li>
+</ul>
 </div>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-function-syntax">&lt;np-nonrelative&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>

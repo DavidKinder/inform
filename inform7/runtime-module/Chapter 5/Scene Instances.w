@@ -76,21 +76,21 @@ a number at runtime which agrees with the allocation ID at compile-time for the
 
 The arrays are:
 
-(*) |scene_status-->X| is 0 if the scene is not playing, but may do so in future;
+- |scene_status-->X| is 0 if the scene is not playing, but may do so in future;
 1 if the scene is playing; or 2 if the scene is not playing and will never
 play again.
 
-(*) |scene_started-->X| is the value of |the_time| when the scene last started,
+- |scene_started-->X| is the value of |the_time| when the scene last started,
 or 0 if it has never started.
 
-(*) |scene_ended-->X| is the value of |the_time| when the scene last ended,
+- |scene_ended-->X| is the value of |the_time| when the scene last ended,
 or 0 if it has never ended. (The "starting" end does not count as ending
 for this purpose.)
 
-(*) |scene_endings-->X| is a bitmap recording which ends have been used,
+- |scene_endings-->X| is a bitmap recording which ends have been used,
 including bit 1 which records whether the scene has started.
 
-(*) |scene_latest_ending-->X| holds the end number of the most recent ending
+- |scene_latest_ending-->X| holds the end number of the most recent ending
 (or 0 if the scene has never ended).
 
 @h Scene change functions.

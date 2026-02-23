@@ -1058,10 +1058,11 @@ becomes
 	cons->expression_tokens = NULL;
 
 @ Assembly language is basically simple, but with a couple of wrinkles:
-(a) |@push| and |@pull| are converted to Inter statement nodes;
-(b) we must be careful about unary minus signs, in |@hypothetical -1|,
+
+- |@push| and |@pull| are converted to Inter statement nodes;
+- we must be careful about unary minus signs, in |@hypothetical -1|,
 which would be tokenised as |@hypothetical - 1|;
-(c) the special notations |sp| (stack pointer), |->| and |?labelname| need
+- the special notations |sp| (stack pointer), |->| and |?labelname| need
 to be recognised for what they are.
 
 @<If this expression opens with an opcode keyword, it is an assembly line@> =
@@ -1557,9 +1558,9 @@ It's finally time to remove all round bracket tokens from the schema, and this
 means understanding which ones clarify the order of operations, as in |a * ( b + c)|,
 and which signal function calls, as in |f ( a , b )|. At each node:
 
-(*) we use //Ramification::outer_subexpressions// to dispose of the |( ... )| case;
-(*) then //Ramification::op_subexpressions// to look for the |a * ( b + c)| case;
-(*) and finally //Ramification::place_calls// to take care of |f ( a , b )|.
+- we use //Ramification::outer_subexpressions// to dispose of the |( ... )| case;
+- then //Ramification::op_subexpressions// to look for the |a * ( b + c)| case;
+- and finally //Ramification::place_calls// to take care of |f ( a , b )|.
 
 =
 int Ramification::debracket(inter_schema_node *par, inter_schema_node *isn) {

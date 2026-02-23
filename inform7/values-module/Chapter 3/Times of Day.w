@@ -14,8 +14,8 @@ at Nought really sets off in medias res" (George Eliot, "Daniel Deronda").
 Our make-believe here is midnight, our unit is divided not into billions but
 into 1440, and a value of this kind holds one of two possibilities:
 
-(i) an absolute time, measured as the number of minutes since midnight;
-(ii) a relative time, measured in minutes.
+- an absolute time, measured as the number of minutes since midnight;
+- a relative time, measured in minutes.
 
 Thus the value 70 might mean 1:10 AM, or it might mean 70 minutes, and
 type-checking does not try to distinguish the two. This is so that arithmetic

@@ -66,17 +66,14 @@ other modules except for <a href="../foundation/index.html" class="internal">fou
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Importing the module.</b>  We'll use the term &quot;parent&quot; to mean the tool which is importing <a href="index.html" class="internal">lexicon</a>,
 that is, which will include its code and be able to use it. As with any
-imported module,
-(*) The contents page of the parent's web must identify and locate the
-module:</p>
-</div>
-<pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">Import: somepath/lexicon</span>
-</pre>
-<div class="lsmarkdown">
-<p>(*) The parent must call <code>LexiconModule::start()</code> just after it starts up, and
+imported module,</p>
+<ul>
+<li>The contents page of the parent's web must identify and locate the
+module: <code>Import: somepath/lexicon</code></li>
+<li>The parent must call <code>LexiconModule::start()</code> just after it starts up, and
 <code>LexiconModule::end()</code> just before it shuts down. (But just after, and just
-before, the corresponding calls to <a href="../foundation/index.html" class="internal">foundation</a>.)</p>
+before, the corresponding calls to <a href="../foundation/index.html" class="internal">foundation</a>.)</li>
+</ul>
 </div>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Defining parsing methods.</b>  When lexicon entries are registered (see <a href="1-lxc.html" class="internal">Lexicon (in lexicon)</a>), they are
@@ -112,18 +109,26 @@ would be</p>
 <div class="lsmarkdown">
 <p>The lexicon module has many callbacks, but they are all optional. The
 following alphabetical list has references to fuller explanations:</p>
-<p>(*) <code>EM_CASE_SENSITIVITY_TEST_LEXICON_CALLBACK</code>, <code>EM_ALLOW_BLANK_TEST_LEXICON_CALLBACK</code>
+<ul>
+<li>
+<p><code>EM_CASE_SENSITIVITY_TEST_LEXICON_CALLBACK</code>, <code>EM_ALLOW_BLANK_TEST_LEXICON_CALLBACK</code>
 and <code>EM_IGNORE_DEFINITE_ARTICLE_TEST_LEXICON_CALLBACK</code> can all make excerpts
 parse in slightly different ways. <a href="../core-module/index.html" class="internal">core</a> sets all of these to return <code>TRUE</code>
 for say phrases, and <code>FALSE</code> for everything else. See <a href="1-lxc.html#SP3" class="internal">Lexicon::retrieve</a>
 and <a href="1-lxc.html#SP1" class="internal">Lexicon::register</a>.</p>
-<p>(*) <code>PARSE_EXACTLY_LEXICON_CALLBACK</code> is called when an excerpt is about to be
+</li>
+<li>
+<p><code>PARSE_EXACTLY_LEXICON_CALLBACK</code> is called when an excerpt is about to be
 parsed in &quot;subset mode&quot; -- allowing just a subset of its words to be used,
 i.e., not requiring exact wording. This function can refuse to allow that in
 certain cases. See <a href="1-lxc.html#SP3" class="internal">Lexicon::retrieve</a>.</p>
-<p>(*) <code>PROBLEM_LEXICON_CALLBACK</code> is called when an error is found, and can
+</li>
+<li>
+<p><code>PROBLEM_LEXICON_CALLBACK</code> is called when an error is found, and can
 prevent this from being issued to the terminal as an error message: see
 <a href="2-em.html#SP14" class="internal">ExcerptMeanings::problem_handler</a>.</p>
+</li>
+</ul>
 </div>
 <nav role="progress"><div class="progresscontainer">
     <ul class="progressbar"><li class="progressprev"><a href="P-wtmd.html">&#10094;</a></li><li class="progresscurrentchapter">P</li><li class="progresssection"><a href="P-wtmd.html">wtmd</a></li><li class="progresscurrent">htitm</li><li class="progresschapter"><a href="1-lm.html">1</a></li><li class="progresschapter"><a href="2-em.html">2</a></li><li class="progressnext"><a href="1-lm.html">&#10095;</a></li></ul></div>

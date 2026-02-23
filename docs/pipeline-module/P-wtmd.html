@@ -55,16 +55,18 @@
 
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Prerequisites.</b>  The pipeline module is a part of the Inform compiler toolset. It is
-presented as a literate program or &quot;web&quot;. Before diving in:
-(a) It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.
-(b) The module is written in C, in fact ANSI C99, but this is disguised by the
+presented as a literate program or &quot;web&quot;. Before diving in:</p>
+<ul>
+<li>It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.</li>
+<li>The module is written in C, in fact ANSI C99, but this is disguised by the
 fact that it uses some extension syntaxes provided by the <a href="../inweb/index.html" class="internal">inweb</a> literate
 programming tool, making it a dialect of C called InC. See <a href="../inweb/index.html" class="internal">inweb</a> for
 full details, but essentially: it's C without predeclarations or header files,
-and where functions have names like <code>Tags::add_by_name</code> rather than just <code>add_by_name</code>.
-(c) This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
+and where functions have names like <code>Tags::add_by_name</code> rather than just <code>add_by_name</code>.</li>
+<li>This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
 uses a module of utility functions called <a href="../foundation/index.html" class="internal">foundation</a>.
-For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.</p>
+For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.</li>
+</ul>
 </div>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Pipelines.</b>  This module manages the process of working on trees of Inter code by running
@@ -103,12 +105,18 @@ of the GUI application.</p>
 </div>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  For purposes of Inform, two pipelines are important:</p>
-<p>(*) <code>build-kit</code> reads in the source code for a kit written in Inform 6
+<ul>
+<li>
+<p><code>build-kit</code> reads in the source code for a kit written in Inform 6
 (broadly C-like) syntax, compiles that to Inter code, and then saves this
 as a binary Inter file.</p>
-<p>(*) <code>compile</code> works on an Inter tree produced by <a href="../inform7/index.html" class="internal">inform7</a> from natural
+</li>
+<li>
+<p><code>compile</code> works on an Inter tree produced by <a href="../inform7/index.html" class="internal">inform7</a> from natural
 language source text, links in one or more binary Inter files from kits,
 optimises the result, and then generates final code.</p>
+</li>
+</ul>
 <p>The <a href="../supervisor-module/index.html" class="internal">supervisor</a> module decides when these are to be &quot;run&quot;, and sets them
 up with configuration details -- what Inter architecture to use, where to
 put the resultant files, when a kit needs to be rebuilt, and so on. None of

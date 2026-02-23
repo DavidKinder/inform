@@ -7,8 +7,8 @@ predicate calculus.
 There is no perfectly convenient way to represent propositions. The two
 obvious strategies are:
 
-(a) Hold them more or less as written, in a flat sequence of atoms.
-(b) Hold them in a tree which branches at each logical operation.
+- (a) Hold them more or less as written, in a flat sequence of atoms.
+- (b) Hold them in a tree which branches at each logical operation.
 
 We follow (a), which is easier to iterate through without tiresome amounts
 of recursion, but comes at the cost of extra complexity when it comes to
@@ -26,15 +26,15 @@ are easy -- just work along from left to right.
 
 @ In particular:
 
-(1) The empty list, a |NULL| pointer, represents the universally true
+- The empty list, a |NULL| pointer, represents the universally true
 proposition $\top$. Asserting it does nothing; testing it at run-time always
 evaluates to |true|.
-(2) The conjunction $\alpha\land\beta$ is almost the concatenation of their
+- The conjunction $\alpha\land\beta$ is almost the concatenation of their
 linked lists |A --> B|, except that we must be careful if they appear to have
 variables in common.
-(3) Negation $\lnot(\phi)$ is the concatenation |NOT< --> P --> NOT>|,
+- Negation $\lnot(\phi)$ is the concatenation |NOT< --> P --> NOT>|,
 where |P| is the linked list for $\phi$.
-(4) The quantifier $Q v\in \lbrace v\mid\phi(v)\rbrace$ is
+- The quantifier $Q v\in \lbrace v\mid\phi(v)\rbrace$ is
 |QUANTIFIER --> IN< --> P --> IN>|, where |P| is the linked list for $\phi$.
 
 Conjunction occurs so densely in propositions arising from
@@ -162,9 +162,12 @@ proposition is valid. But what does that mean? We might mean:
 
 (i) a proposition is good if its sequence of |next| pointers all correctly
 point to |pcalc_prop| structures, and don't loop around into a circle;
+
 (ii) a proposition is good if (i) is true, and it is correctly punctuated;
+
 (iii) a proposition is good if (ii) is true, and it never confuses
 together two different variables by giving both the same letter;
+
 (iv) a proposition is good if (iii) is true, and all of its predicates
 can safely be applied to all of their terms, and we can identify what
 kind of value each variable ranges over.

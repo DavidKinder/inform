@@ -32,10 +32,11 @@ the //Familiar Kinds//, whose identifier has to correspond to one of those
 hardwired into the code of this module. |new| must be used in all other cases.[1]
 
 The second keyword must be one of the following:
-(*) |base| for a new base kind, like |NUMBER_TY|.
-(*) |constructor| for a proper constructor, like |LIST_OF_TY|.
-(*) |protocol| for a kind of kind, like |SAYABLE_VALUE_TY|.
-(*) |punctuation| for a constructor with no independent meaning, such as |INTERMEDIATE_TY|.
+
+- |base| for a new base kind, like |NUMBER_TY|.
+- |constructor| for a proper constructor, like |LIST_OF_TY|.
+- |protocol| for a kind of kind, like |SAYABLE_VALUE_TY|.
+- |punctuation| for a constructor with no independent meaning, such as |INTERMEDIATE_TY|.
 
 For example:
 
@@ -74,11 +75,12 @@ invention *UNDERSTOOD-VARIABLE {
 Note that the text is not quite literal, because it can contain wildcards like
 |<kind>|, which expands to the name of the kind in question: for instance, we
 might get "number understood is a number which varies". The legal wildcards are:
-(*) <kind>, expanding to the singular name of the kind.
-(*) <lower-case-kind>, the same but always using lower case.
-(*) <kind-weak-ID>, the weak ID number for the base kind.
-(*) <say-function>, the identifier of its printing routine.
-(*) <compare-function>, similarly.
+
+- <kind>, expanding to the singular name of the kind.
+- <lower-case-kind>, the same but always using lower case.
+- <kind-weak-ID>, the weak ID number for the base kind.
+- <say-function>, the identifier of its printing routine.
+- <compare-function>, similarly.
 
 There are a few limitations on what template text can include. Firstly,
 nothing with angle brackets in, except where a wildcard appears. Secondly,
@@ -138,9 +140,10 @@ written as |k| and |l| (note lower case). So, for example, |list of k|.
 |terms| is used only for proper constructors. For a unary constructor, it will
 give one term; for binary, two terms, separated by a comma. Each term should
 be |covariant| or |contravariant|, with an optional keyword after it:
-(*) |optional| means that it is legal to name the constructor without naming
+
+- |optional| means that it is legal to name the constructor without naming
 this term. For example, "activity" is a legal way to say "activity on nothing".
-(*) |list| means that it is legal to give a list of kinds here, in brackets
+- |list| means that it is legal to give a list of kinds here, in brackets
 if there are some, or |nothing| if there are not.
 
 |invent-source-text: *NAME| causes new source text to be invented. |*NAME|
@@ -170,10 +173,11 @@ and read into a different program, but with the same meaning.
 |constant-compilation-method| tells Inform how to compile constants of this
 kind. The possible options are: |none|, |literal|, |quantitative| and |special|,
 the default being |none|:
-(*) |none| means there are no constants of this kind.
-(*) |literal| means constants are literals in Inform source text, such as 65 or 11:12 PM.
-(*) |quantitative| means they are named instances, as for enumerations.
-(*) |special| means that the compiler needs to use ad-hoc code to handle
+
+- |none| means there are no constants of this kind.
+- |literal| means constants are literals in Inform source text, such as 65 or 11:12 PM.
+- |quantitative| means they are named instances, as for enumerations.
+- |special| means that the compiler needs to use ad-hoc code to handle
 this kind; unless it contains that code, of course, this can't be used.
 
 |loop-domain-schema| is an Inter schema for iterating through the valid

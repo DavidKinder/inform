@@ -6,10 +6,10 @@ To manage variables whose scope is wider than the current rule.
 truth -- that Inform, in contrast to C-like languages, has two different sorts
 of variables:
 
-(*) Local variables exist only in the current stack frame and therefore die
+- Local variables exist only in the current stack frame and therefore die
 with it; assertions cannot declare their values; they are created with the
 "let" phrase or similar, not by assertion sentences.
-(*) Nonlocal variables, all of the others, exist across multiple stack frames,
+- Nonlocal variables, all of the others, exist across multiple stack frames,
 and are longer-lived. We don't call these "global" because intermediate scopes
 are also possible: rulebook, activity and action variables, for example, have
 a limited scope and lifetime, but are nevertheless not local to any one rule.
@@ -164,15 +164,16 @@ helpful problem message:
 	Problems::issue_problem_end();
 
 @ Four oddball cases have special behaviour:
-(*) |Inter_nothing_VAR| is translated not to an Inter variable, but to the
+
+- |Inter_nothing_VAR| is translated not to an Inter variable, but to the
 Inter constant |nothing|.
-(*) |temporary_global_VAR| is translated to an Inter global used as temporary
+- |temporary_global_VAR| is translated to an Inter global used as temporary
 storage space, and which has no fixed kind. An author cannot access this
 directly in source text.
-(*) |parameter_object_VAR| is translated to an Inter global used during the
+- |parameter_object_VAR| is translated to an Inter global used during the
 run of certain rulebooks, and which has no fixed kind. (This could have been
 handled as a rulebook variable, but having it as a global is more efficient.)
-(*) |command_prompt_VAR| is a quite ordinary Inform 7 variable, except that
+- |command_prompt_VAR| is a quite ordinary Inform 7 variable, except that
 it is compiled in an unusual way, to achieve backwards compatibility with
 the code in //CommandParserKit//, which dates back to the era of Inform 1 to 6.
 

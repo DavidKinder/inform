@@ -420,14 +420,14 @@ hold extensions, kits, language definitions, and so on.
 
 But among nests three are special, and can hold other things as well.
 
-(a) The "internal" nest is part of the installation of Inform as software.
+- The "internal" nest is part of the installation of Inform as software.
 It contains, for example, the build-in extensions. But it also contains
 miscellaneous other files needed by Inform (see below).
 
-(b) The "external" nest is a place in which extensions to be shared among
+- The "external" nest is a place in which extensions to be shared among
 multiple projects can be stored.
 
-(c) Every project has its own private nest, in the form of its associated
+- Every project has its own private nest, in the form of its associated
 Materials folder. For example, in |Jane Eyre.inform| is a project, then
 alongside it is |Jane Eyre.materials| and this is a nest. The shared nest
 list contains no Materials folders; each individual project has its own

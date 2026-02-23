@@ -1352,9 +1352,9 @@ on the members of a set $S$ (say, the set of people in Central Europe).
 Then there is a unique way to divide up $S$ into a "partition" of subsets
 called "equivalence classes" such that:
 
-(a) every member of $S$ is in exactly one of the classes,
-(b) none of the classes is empty, and
-(c) $E(x, y)$ is true if and only if $x$ and $y$ belong to the same class.
+- every member of $S$ is in exactly one of the classes,
+- none of the classes is empty, and
+- $E(x, y)$ is true if and only if $x$ and $y$ belong to the same class.
 
 Conversely, given any partition of $S$ (i.e., satisfying (a) and (b)),
 there is a unique equivalence relation $E$ such that (c) is true. In short:

@@ -14,18 +14,28 @@
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <script>
 MathJax = {
-	tex: {
-		inlineMath: '$', '$'], ['\\(', '\\)'
+    options: {
+    	skipHtmlTags: {'[-]': ['pre']},
+    	processHtmlClass: 'mathjax_process'
+    },
+	loader: {load: ['[tex]/texhtml']},
+  	tex: {
+		inlineMath: [ ['\\INWEBMATH(', '\\INWEBMATH)'] ],
+    	packages: {'[+]': ['texhtml']},
+    	allowTexHTML: true
 	},
 	svg: {
 		fontCache: 'global'
 	}
 };
 </script>
-<script type="text/javascript" id="MathJax-script" async
-	src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
-</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-svg.js"></script>
 
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -62,29 +72,30 @@ MathJax = {
 
 <ul class="toc"><li><a href="rlbks.html#SP1">&#167;1. Latest Rule Result</a></li><li><a href="rlbks.html#SP2">&#167;2. Following</a></li><li><a href="rlbks.html#SP3">&#167;3. Specifying Outcomes</a></li><li><a href="rlbks.html#SP4">&#167;4. Discovering Outcomes</a></li><li><a href="rlbks.html#SP5">&#167;5. Casting</a></li><li><a href="rlbks.html#SP6">&#167;6. Debugging</a></li><li><a href="rlbks.html#SP7">&#167;7. The Default Rule and Rulebook</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Latest Rule Result.</b>This used to be a large data structure which kept track of the effect of
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Latest Rule Result.</b>  This used to be a large data structure which kept track of the effect of
 procedural rules, but in January 2011 procedurals were abolished. It retains
 only one purpose: as a place to record the result of the most recently
 completed rule. This used to sit on the top of the stack, and is now the
-only thing which ever sits on it. So the "stack" has just one 3-word
+only thing which ever sits on it. So the &quot;stack&quot; has just one 3-word
 record now. The meanings of these are as follows. The first word is one of
-the following:
-</p>
-
-<ul class="items"><li>(1) <span class="extract"><span class="extract-syntax">RS_SUCCEEDS</span></span> indicates that the most recent rule or rulebook processed
-ended in success. Word 2 is <span class="extract"><span class="extract-syntax">false</span></span> if there's no value, or the kind if there
-is, in which case word 3 contains the value itself.
-</li><li>(2) <span class="extract"><span class="extract-syntax">RS_FAILS</span></span> is similar, but for a failure. Note that failures can also
-return values.
-</li><li>(3) <span class="extract"><span class="extract-syntax">RS_NEITHER</span></span> is similar except that it cannot return any value, so that
-words 2 and 3 are meaningless.
-</li></ul>
+the following:</p>
+<ul>
+<li><code>RS_SUCCEEDS</code> indicates that the most recent rule or rulebook processed
+ended in success. Word 2 is <code>false</code> if there's no value, or the kind if there
+is, in which case word 3 contains the value itself.</li>
+<li><code>RS_FAILS</code> is similar, but for a failure. Note that failures can also
+return values.</li>
+<li><code>RS_NEITHER</code> is similar except that it cannot return any value, so that
+words 2 and 3 are meaningless.</li>
+</ul>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">RS_NEITHER</span><span class="plain-syntax">     = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">RS_SUCCEEDS</span><span class="plain-syntax">    = </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">RS_FAILS</span><span class="plain-syntax">       = </span><span class="constant-syntax">2</span><span class="plain-syntax">;</span>
 
-<span class="reserved-syntax">Array</span><span class="plain-syntax"> </span><span class="identifier-syntax">latest_rule_result</span><span class="plain-syntax"> --&gt; </span><span class="constant-syntax">3</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">Array</span><span class="plain-syntax"> </span><span class="identifier-syntax">latest_rule_result</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">-&gt; </span><span class="constant-syntax">3</span><span class="plain-syntax">;</span>
 
 <span class="plain-syntax">[ </span><span class="identifier-syntax">RecordRuleOutcome</span><span class="plain-syntax"> </span><span class="identifier-syntax">usage</span><span class="plain-syntax"> </span><span class="identifier-syntax">strong_kind</span><span class="plain-syntax"> </span><span class="identifier-syntax">val</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">latest_rule_result</span><span class="plain-syntax">--&gt;0 == </span><span class="identifier-syntax">RS_SUCCEEDS</span><span class="plain-syntax"> </span><span class="reserved-syntax">or</span><span class="plain-syntax"> </span><span class="identifier-syntax">RS_FAILS</span><span class="plain-syntax">) &amp;&amp;</span>
@@ -97,61 +108,56 @@ words 2 and 3 are meaningless.
 <span class="plain-syntax">    </span><span class="identifier-syntax">latest_rule_result</span><span class="plain-syntax">--&gt;2 = </span><span class="identifier-syntax">val</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Following.</b>Until January 2011, there were two ways to invoke a rulebook: to "follow" it
-or simply "process" it. With the demise of procedural rules, these became
-equivalent.
-</p>
-
-<p class="commentary">In the early days of Inform 7, stack usage became a serious issue since
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Following.</b>  Until January 2011, there were two ways to invoke a rulebook: to &quot;follow&quot; it
+or simply &quot;process&quot; it. With the demise of procedural rules, these became
+equivalent.</p>
+<p>In the early days of Inform 7, stack usage became a serious issue since
 some forms of the Frotz Z-machine interpreter provided only 4K of stack
-by default. ("Only" 4K. In the mid-1980s, one of the obstacles facing
+by default. (&quot;Only&quot; 4K. In the mid-1980s, one of the obstacles facing
 IF authors at Infocom was the need to get the stack usage down to fewer
 than 600 bytes in order that the story file could be run on the smaller
-home computers of the day.) <span class="extract"><span class="extract-syntax">FollowRulebook</span></span> was the major consumer of
+home computers of the day.) <code>FollowRulebook</code> was the major consumer of
 stack space, on average, because of its frequent recursion. Now that the
 process is simpler, this has become less problematic, since the routine
-now has fewer local variables.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">FollowRulebook</span></span> takes three arguments, of which only the first is
-compulsory:
-</p>
-
-<ul class="items"><li>(a) The <span class="extract"><span class="extract-syntax">rulebook</span></span> is an I7 value of kind "rule", which means it can be
-either the ID number of a rulebook &mdash; from 0 up to \(N-1\), where \(N\) is the
-number of rulebooks compiled by Inform, typically about 600 &mdash; or else the
-address of a routine representing an individual rule.
-</li><li>(b) The <span class="extract"><span class="extract-syntax">parameter</span></span> supplied to the rulebook. Much as arguments can be supplied
+now has fewer local variables.</p>
+<p><code>FollowRulebook</code> takes three arguments, of which only the first is
+compulsory:</p>
+<ul>
+<li>The <code>rulebook</code> is an I7 value of kind &quot;rule&quot;, which means it can be
+either the ID number of a rulebook -- from 0 up to \INWEBMATH(N-1\INWEBMATH), where \INWEBMATH(N\INWEBMATH) is the
+number of rulebooks compiled by Inform, typically about 600 -- or else the
+address of a routine representing an individual rule.</li>
+<li>The <code>parameter</code> supplied to the rulebook. Much as arguments can be supplied
 to a function in a conventional language's function call, so a parameter can be
-supplied whenever a rulebook is invoked.
-</li><li>(c) <span class="extract"><span class="extract-syntax">no_paragraph_skips</span></span> is a flag: if explicitly set <span class="extract"><span class="extract-syntax">true</span></span>, then the rulebook
+supplied whenever a rulebook is invoked.</li>
+<li><code>no_paragraph_skips</code> is a flag: if explicitly set <code>true</code>, then the rulebook
 is run with paragraph breaking suppressed. This is the process by which
 paragraph division points are placed between rules, so that if two rules both
 print text then a paragraph break appears between. While that is appropriate
-for rulebooks attached to actions or for "every turn" rules, it is disastrous
-for rulebooks attached to activities such as "printing the name of
-something".
-</li></ul>
-<p class="commentary"><span class="extract"><span class="extract-syntax">FollowRulebook</span></span> returns <span class="extract"><span class="extract-syntax">R</span></span> if rule <span class="extract"><span class="extract-syntax">R</span></span> in the rulebook (or rule) chose to
-"succeed" or "fail", and <span class="extract"><span class="extract-syntax">false</span></span> if it made no choice. (To repeat: if
-the rule explicitly fails, then <span class="extract"><span class="extract-syntax">FollowRulebook</span></span> returns <span class="extract"><span class="extract-syntax">true</span></span>. It's easy
+for rulebooks attached to actions or for &quot;every turn&quot; rules, it is disastrous
+for rulebooks attached to activities such as &quot;printing the name of
+something&quot;.</li>
+</ul>
+<p><code>FollowRulebook</code> returns <code>R</code> if rule <code>R</code> in the rulebook (or rule) chose to
+&quot;succeed&quot; or &quot;fail&quot;, and <code>false</code> if it made no choice. (To repeat: if
+the rule explicitly fails, then <code>FollowRulebook</code> returns <code>true</code>. It's easy
 to write plausible-looking code which goes wrong because it assumes that the
-return value is success vs. failure.) The outcome of <span class="extract"><span class="extract-syntax">FollowRulebook</span></span> is
+return value is success vs. failure.) The outcome of <code>FollowRulebook</code> is
 stored as described above: thus the most recent rule or rulebook succeeded
-or failed if &mdash;
-</p>
-
+or failed if --</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    (</span><span class="identifier-syntax">latest_rule_result</span><span class="plain-syntax">--&gt;0 == </span><span class="identifier-syntax">RS_SUCCEEDS</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">    (</span><span class="identifier-syntax">latest_rule_result</span><span class="plain-syntax">--&gt;0 == </span><span class="identifier-syntax">RS_FAILS</span><span class="plain-syntax">)</span>
 </pre>
-<p class="commentary">and otherwise there was no decision.
-</p>
-
+<div class="lsmarkdown">
+<p>and otherwise there was no decision.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">process_rulebook_count</span><span class="plain-syntax">; </span><span class="comment-syntax">Depth of processing recursion</span>
-<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">debugging_rules</span><span class="plain-syntax"> = </span><span class="reserved-syntax">false</span><span class="plain-syntax">; </span><span class="comment-syntax">Are we tracing rule invocations?</span>
-<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">rulebook_without_variables</span><span class="plain-syntax"> = -1; </span><span class="comment-syntax">WorldModelKit sets this to ACTION_PROCESSING_RB</span>
+<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">process_rulebook_count</span><span class="plain-syntax">; </span><span class="comment-syntax">! Depth of processing recursion</span>
+<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">debugging_rules</span><span class="plain-syntax"> = </span><span class="reserved-syntax">false</span><span class="plain-syntax">; </span><span class="comment-syntax">! Are we tracing rule invocations?</span>
+<span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">rulebook_without_variables</span><span class="plain-syntax"> = </span><span class="constant-syntax">-1</span><span class="plain-syntax">; </span><span class="comment-syntax">! WorldModelKit sets this to ACTION_PROCESSING_RB</span>
 
 <span class="plain-syntax">[ </span><span class="identifier-syntax">FollowRulebook</span><span class="plain-syntax"> </span><span class="identifier-syntax">rulebook</span><span class="plain-syntax"> </span><span class="identifier-syntax">parameter</span><span class="plain-syntax"> </span><span class="identifier-syntax">no_paragraph_skips</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">rv</span><span class="plain-syntax"> </span><span class="identifier-syntax">ss</span><span class="plain-syntax"> </span><span class="identifier-syntax">spv</span><span class="plain-syntax">;</span>
@@ -162,7 +168,7 @@ or failed if &mdash;
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">parameter</span><span class="plain-syntax">) { </span><span class="identifier-syntax">self</span><span class="plain-syntax"> = </span><span class="identifier-syntax">parameter</span><span class="plain-syntax">; </span><span class="identifier-syntax">parameter_object</span><span class="plain-syntax"> = </span><span class="identifier-syntax">parameter</span><span class="plain-syntax">; }</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">spv</span><span class="plain-syntax"> = </span><span class="identifier-syntax">parameter_value</span><span class="plain-syntax">; </span><span class="identifier-syntax">parameter_value</span><span class="plain-syntax"> = </span><span class="identifier-syntax">parameter</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="comment-syntax">we won't need parameter again, so can reuse it</span>
+<span class="plain-syntax">    </span><span class="comment-syntax">! we won't need parameter again, so can reuse it</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">parameter</span><span class="plain-syntax"> = </span><span class="identifier-syntax">debugging_rules</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">debugging_rules</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">DebugRulebooks</span><span class="plain-syntax">(</span><span class="identifier-syntax">rulebook</span><span class="plain-syntax">, </span><span class="identifier-syntax">parameter</span><span class="plain-syntax">);</span>
@@ -186,7 +192,7 @@ or failed if &mdash;
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">rv</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">debugging_rules</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">            </span><span class="identifier-syntax">process_rulebook_count</span><span class="plain-syntax"> = </span><span class="identifier-syntax">process_rulebook_count</span><span class="plain-syntax"> - </span><span class="identifier-syntax">debugging_rules</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="identifier-syntax">process_rulebook_count</span><span class="plain-syntax"> = </span><span class="identifier-syntax">process_rulebook_count</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax"> </span><span class="identifier-syntax">debugging_rules</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">process_rulebook_count</span><span class="plain-syntax"> &lt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="identifier-syntax">process_rulebook_count</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">spaces</span><span class="plain-syntax">(2*</span><span class="identifier-syntax">process_rulebook_count</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">latest_rule_result</span><span class="plain-syntax">--&gt;0 == </span><span class="identifier-syntax">RS_SUCCEEDS</span><span class="plain-syntax">) </span><span class="reserved-syntax">print</span><span class="plain-syntax"> </span><span class="string-syntax">"[stopped: success]^"</span><span class="plain-syntax">;</span>
@@ -194,7 +200,7 @@ or failed if &mdash;
 <span class="plain-syntax">        }</span>
 <span class="plain-syntax">    } </span><span class="reserved-syntax">else</span><span class="plain-syntax"> {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">debugging_rules</span><span class="plain-syntax">)</span>
-<span class="plain-syntax">            </span><span class="identifier-syntax">process_rulebook_count</span><span class="plain-syntax"> = </span><span class="identifier-syntax">process_rulebook_count</span><span class="plain-syntax"> - </span><span class="identifier-syntax">debugging_rules</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="identifier-syntax">process_rulebook_count</span><span class="plain-syntax"> = </span><span class="identifier-syntax">process_rulebook_count</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax"> </span><span class="identifier-syntax">debugging_rules</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">latest_rule_result</span><span class="plain-syntax">--&gt;0 = </span><span class="identifier-syntax">RS_NEITHER</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">debugging_rules</span><span class="plain-syntax"> = </span><span class="identifier-syntax">parameter</span><span class="plain-syntax">;</span>
@@ -207,16 +213,14 @@ or failed if &mdash;
 <span class="plain-syntax">        </span><span class="identifier-syntax">DivideParagraphPoint</span><span class="plain-syntax">();</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Specifying Outcomes.</b>The following provide ways for rules to succeed, fail or decline to do
-either.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">SetRulebookOutcome</span></span> is a little different: it changes the outcome state
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Specifying Outcomes.</b>  The following provide ways for rules to succeed, fail or decline to do
+either.</p>
+<p><code>SetRulebookOutcome</code> is a little different: it changes the outcome state
 of the most recent rule completed, not the current one. (It's used only
 when saving and restoring this in the actions machinery: rules should not
-call it.)
-</p>
-
+call it.)</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">ActRulebookSucceeds</span><span class="plain-syntax"> </span><span class="identifier-syntax">rule_id</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">rule_id</span><span class="plain-syntax">) </span><span class="identifier-syntax">reason_the_action_failed</span><span class="plain-syntax"> = </span><span class="identifier-syntax">rule_id</span><span class="plain-syntax">;</span>
@@ -244,9 +248,9 @@ call it.)
 <span class="plain-syntax">    </span><span class="identifier-syntax">latest_rule_result</span><span class="plain-syntax">--&gt;0 = </span><span class="identifier-syntax">a</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Discovering Outcomes.</b>And here is how to tell what the results were.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Discovering Outcomes.</b>  And here is how to tell what the results were.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">RulebookOutcome</span><span class="plain-syntax"> </span><span class="identifier-syntax">a</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">a</span><span class="plain-syntax"> = </span><span class="identifier-syntax">latest_rule_result</span><span class="plain-syntax">--&gt;0;</span>
@@ -278,18 +282,18 @@ call it.)
 <span class="plain-syntax">    </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="reserved-syntax">print</span><span class="plain-syntax"> (</span><span class="reserved-syntax">string</span><span class="plain-syntax">) </span><span class="identifier-syntax">nro</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Casting.</b>Nothing needs to be done to a rulebook value to make it a rule value.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Casting.</b>  Nothing needs to be done to a rulebook value to make it a rule value.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">RULEBOOK_TY_to_RULE_TY</span><span class="plain-syntax"> </span><span class="identifier-syntax">r</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">r</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Debugging.</b>Two modest routines to print out the names of rules and rulebooks when they
-occur, in so far as memory economy allows this.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Debugging.</b>  Two modest routines to print out the names of rules and rulebooks when they
+occur, in so far as memory economy allows this.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">DebugRulebooks</span><span class="plain-syntax"> </span><span class="identifier-syntax">subs</span><span class="plain-syntax"> </span><span class="identifier-syntax">parameter</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">spaces</span><span class="plain-syntax">(2*</span><span class="identifier-syntax">process_rulebook_count</span><span class="plain-syntax">);</span>
@@ -311,7 +315,7 @@ occur, in so far as memory economy allows this.
 <span class="plain-syntax">    </span><span class="reserved-syntax">print</span><span class="plain-syntax"> </span><span class="string-syntax">").]^"</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. The Default Rule and Rulebook.</b></p>
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. The Default Rule and Rulebook.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">LITTLE_USED_DO_NOTHING_R</span><span class="plain-syntax">; </span><span class="reserved-syntax">rfalse</span><span class="plain-syntax">; ];</span>

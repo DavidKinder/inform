@@ -14,8 +14,8 @@ should probably check compliance with it.
 
 Inpolicy is a small literate program, and is not divided into modules.
 
-(*) The contents page for the Inpolicy web is here: //inpolicy//.
+- The contents page for the Inpolicy web is here: //inpolicy//.
 
-(*) See //inpolicy: Manual// and //inpolicy: Reference Card// for usage.
+- See //inpolicy: Manual// and //inpolicy: Reference Card// for usage.
 
 @ Inpolicy contains the basic //foundation// library, but none of the //services//.

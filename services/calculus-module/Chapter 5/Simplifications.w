@@ -10,9 +10,9 @@ they in fact change something. (They are allowed to modify or destroy the
 data structure pointed to by |prop|, or indeed to change it in place and
 return the same pointer.)
 
-(1) $\Sigma'$ must remain a syntactically correct proposition;
-(2) $\Sigma'$ has the same number of free variables as $\Sigma$, and
-(3) $\Sigma$ semantically entails $\Sigma'$ and vice versa, that is, for
+- (1) $\Sigma'$ must remain a syntactically correct proposition;
+- (2) $\Sigma'$ has the same number of free variables as $\Sigma$, and
+- (3) $\Sigma$ semantically entails $\Sigma'$ and vice versa, that is, for
 all possible values of any free variables $\Sigma'$ is true if and only
 if $\Sigma$ is.
 
@@ -428,14 +428,14 @@ possible, because tests of $K$ are cheap and this will keep running time
 low in compiled code. On the other hand we must not move it outside the
 current subexpression. The doctrine is:
 
-(i) if $v$ is unbound {\it within the subexpression} then $K(v)$ should
+- (i) if $v$ is unbound {\it within the subexpression} then $K(v)$ should
 move right to the front;
-(ii) if $v$ is bound by $\exists$, then $K(v)$ should move immediately
+- (ii) if $v$ is bound by $\exists$, then $K(v)$ should move immediately
 after $\exists v$;
-(iii) if $v$ is bound by $Q v\in\lbrace v\mid \phi(v)\rbrace$ then any
+- (iii) if $v$ is bound by $Q v\in\lbrace v\mid \phi(v)\rbrace$ then any
 $K(v)$ occurring in the domain $\phi(v)$ should move to the front of $v$,
 whereas any later $K(v)$ should move after the domain closing, except
-(iv) where $v$ is bound by $\not\exists v\in\lbrace v\mid \phi(v)\rbrace$,
+- (iv) where $v$ is bound by $\not\exists v\in\lbrace v\mid \phi(v)\rbrace$,
 when $K(v)$ should move into the domain set, even if it occurs in the
 statement.
 
@@ -598,6 +598,7 @@ $$ \Sigma = \cdots K(C)\cdots \quad \longrightarrow \quad \Sigma' = \cdots\cdots
 (That is, we eliminate the $K(C)$ term.)
 
 We could clearly go further than this:
+
 (a) Why don't we eliminate $K(C)$ when $K$ is an object, too? Logically this
 would be fine, but we choose not to, for two reasons: people sometimes write
 phrases in I7 which claim to return a room, say, but sometimes return |nothing|.
@@ -610,6 +611,7 @@ That might seem harmless, but means that "now Peter is a man" doesn't produce
 the problem message saying that kinds can't be asserted -- a common mistake
 made by beginners. It's better consistently to reject all such attempts than
 to be clever and allow the ones which are logically redundant.
+
 (b) Why don't we reduce $K(C)$ to falsity when $C$ is a constant clearly not
 of the kind $K$, such as ${\it text}(4)$? Again, it would make it harder to
 issue a good problem message later, in type-checking; and besides our

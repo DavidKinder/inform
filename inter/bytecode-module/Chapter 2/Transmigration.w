@@ -8,13 +8,13 @@ where it will become part of the |destination| package. Transmigration is
 how Inter merges material compiled at different times together. For example,
 when a Basic Inform project is compiled:
 
-(*) //inform7// compiles source text into tree 1 of Inter code.
-(*) //inter// loads a precompiled copy of BasicInformKit as tree 2.
-(*) The package |/main/BasicInformKit| in tree 2, really its entire substantive
+- //inform7// compiles source text into tree 1 of Inter code.
+- //inter// loads a precompiled copy of BasicInformKit as tree 2.
+- The package |/main/BasicInformKit| in tree 2, really its entire substantive
 content, is transmigrated to |/main| in tree 1; it has become |/main/BasicInformKit|
 in tree 1. Tree 2 is left almost empty, and is discarded.
-(*) //inter// loads a precompiled copy of BasicInformKitExtras as tree 3.
-(*) A similar transmigration moves its content to become |/main/BasicInformKitExtras|
+- //inter// loads a precompiled copy of BasicInformKitExtras as tree 3.
+- A similar transmigration moves its content to become |/main/BasicInformKitExtras|
 in tree 1, and the remains of tree 3 are discarded.
 
 @ Transmigration is a move, not a copy. The destination tree simply makes a node
@@ -138,11 +138,11 @@ consistent again.
 @ That was the easy part. The migrant package is now inside the destination tree.
 Unfortunately:
 
-(*) |migrant| may contain symbols |S ~~> O| wired to symbols |O| still in the origin
+- |migrant| may contain symbols |S ~~> O| wired to symbols |O| still in the origin
 tree, because they lay outside |migrant|. This means the destination tree is now
 incorrect.
 
-(*) The origin tree may contain symbols |O ~~> S| wired to symbols |S| in the
+- The origin tree may contain symbols |O ~~> S| wired to symbols |S| in the
 migrant, which are therefore not in the origin tree any more. This means the origin
 tree is now incorrect.
 

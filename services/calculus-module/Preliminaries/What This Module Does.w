@@ -5,13 +5,14 @@ An overview of the calculus module's role and abilities.
 @h Prerequisites.
 The calculus module is a part of the Inform compiler toolset. It is
 presented as a literate program or "web". Before diving in:
-(a) It helps to have some experience of reading webs: see //inweb// for more.
-(b) The module is written in C, in fact ANSI C99, but this is disguised by the
+
+- It helps to have some experience of reading webs: see //inweb// for more.
+- The module is written in C, in fact ANSI C99, but this is disguised by the
 fact that it uses some extension syntaxes provided by the //inweb// literate
 programming tool, making it a dialect of C called InC. See //inweb// for
 full details, but essentially: it's C without predeclarations or header files,
 and where functions have names like |Tags::add_by_name| rather than |add_by_name|.
-(c) This module uses other modules drawn from the compiler (see //structure//), and also
+- This module uses other modules drawn from the compiler (see //structure//), and also
 uses a module of utility functions called //foundation//.
 For more, see //foundation: A Brief Guide to Foundation//.
 
@@ -69,31 +70,34 @@ and prints the result.
 
 @h Formal description.
 1. A "term" is any of the following:
-(*) A constant, corresponding to anything which can be evaluated to Inform --
+
+- A constant, corresponding to anything which can be evaluated to Inform --
 a number, a text, etc. -- and which has a definite kind.
-(*) One of 26 variables, which we print to the debugging log as |x|, |y|,
+- One of 26 variables, which we print to the debugging log as |x|, |y|,
 |z|, |a|, |b|, |c|, ..., |w|.
-(*) A function $f$ applied to another term.[1]
+- A function $f$ applied to another term.[1]
 
 Note that if we have given values to the necessary variables, then any term
 can be evaluated to a value, and its kind determined. For example, if |x| is 7,
 then the terms |17|, |x| and |f(x)| evaluate to 17, 7 and $f(7)$ respectively.
 
 2. An "atomic proposition" is any of the following:
-(*) A "unary predicate" $U(t)$, where $t$ is a term, which is either true or
+
+- A "unary predicate" $U(t)$, where $t$ is a term, which is either true or
 false depending on the evaluation of $t$.
-(*) A "binary predicate" $B(t_1, t_2)$ depending on two terms.[2]
-(*) A "quantifier" $Q(v, n)$ applying to a variable $v$, optionally with a
+- A "binary predicate" $B(t_1, t_2)$ depending on two terms.[2]
+- A "quantifier" $Q(v, n)$ applying to a variable $v$, optionally with a
 parameter $n$. See //linguistics: Determiners and Quantifiers// for the range
 of quantifiers available.
 
 3. A "proposition" is a sequence of 0 or more of the following:
-(*) A conjunction $P_1\land P_2$, where $P_1$ and $P_2$ are propositions.
-(*) A negation $\lnot P$, where $P$ is a proposition.
-(*) A quantification $Q v\in D: P$, where $Q$ is a quantifier, optionally
+
+- A conjunction $P_1\land P_2$, where $P_1$ and $P_2$ are propositions.
+- A negation $\lnot P$, where $P$ is a proposition.
+- A quantification $Q v\in D: P$, where $Q$ is a quantifier, optionally
 also with a numerical parameter, $v$ is a variable, $D$ is a set
 specifying the domain of $v$, and $P$ is a proposition.[3]
-(*) An existential quantification $\exists v: P$ without a domain.
+- An existential quantification $\exists v: P$ without a domain.
 
 [1] In this module we use words such as "constant", "variable" and "function" in
 their predicate-calculus senses, not their Inform ones. For example, if we are
@@ -116,8 +120,8 @@ opening and closing parentheses. These are considered atoms purely for
 convenience when building more complicated constructions -- they make no sense
 standing alone. Thus:
 
-(*) $\lnot P$ is implemented as |NOT< P NOT>|.
-(*) $Q v\in D: P$ is implemented as |Q IN< D IN>|.
+- $\lnot P$ is implemented as |NOT< P NOT>|.
+- $Q v\in D: P$ is implemented as |Q IN< D IN>|.
 
 Note that the domain $D$ of a quantifier is itself expressed as a proposition.
 Thus "for all numbers $n$" is implemented as |ForAll n IN< kind=number(n) IN>|.
@@ -135,7 +139,8 @@ for details -- which loosely group them by implementation. So, for example,
 Inform has a family of unary predicates in the form |calling='whatever'(x)|
 which assert that |x| represents something of a given name. But //calculus//
 is not concerned with the details. Only one family is built in:
-(*) For each kind $K$, there is a predicate |kind=K(t)|, which is true if $t$
+
+- For each kind $K$, there is a predicate |kind=K(t)|, which is true if $t$
 is of the kind $K$.
 
 New UPs can be constructed with //UnaryPredicates::new//.
@@ -145,7 +150,8 @@ Similarly, //calculus// allows the user to create as many families of binary
 predicates as are wanted. See //Binary Predicate Families//. For example,
 the "same property value as" relations all belong to a single family. This
 module builds in only one family:
-(*) The equality predicate $=$, whose special meaning is used when simplifying
+
+- The equality predicate $=$, whose special meaning is used when simplifying
 propositions. See //The Equality Relation//. It is written with the special
 notation |(x == y)|, though this is just syntactic sugar.
 
@@ -174,9 +180,10 @@ calls.
 Binary predicate atoms are made using //Atoms::binary_PREDICATE_new//.
 
 3. Propositions are then built up from atoms or other propositions[1] by calling:
-(*) //Propositions::conjoin//.
-(*) //Propositions::negate//.
-(*) //Propositions::quantify//.
+
+- //Propositions::conjoin//.
+- //Propositions::negate//.
+- //Propositions::quantify//.
 
 [1] But beware that propositions are passed by reference not value. Use
 //Propositions::copy// before changing one, if you need to use it
@@ -184,9 +191,9 @@ again.
 
 @ There are two senses in which it's possible to make an impossible proposition:
 
-(1) You could make a mess of the punctuation markers improperly, or fail to
+- (1) You could make a mess of the punctuation markers improperly, or fail to
 give a domain set for a quantifier.
-(2) You could concatenate two propositions in which the same variable is
+- (2) You could concatenate two propositions in which the same variable is
 used with a different meaning in each.
 
 The functions //Propositions::is_syntactically_valid// and

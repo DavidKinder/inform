@@ -34,8 +34,8 @@ these are of the type |INTERNAL_USE_LV|.
 @h Like register allocation.
 We must distinguish between two closely related things:
 
-(1) Inform 7's local variables, which come in four varieties as above.
-(2) Locals on the Inter virtual machine's stack frame.
+- Inform 7's local variables, which come in four varieties as above.
+- Locals on the Inter virtual machine's stack frame.
 
 During the time of its existence, each Inform 7 local is stored in a
 corresponding Inter local, but this is a little like register allocation in

@@ -11,26 +11,26 @@ wrote the Inter file we are loading (the "file version").
 If we consider the version as having the traditional form |major.minor.patch|,
 the |major| version should change on any of the following:
 
-(a) Removal of an Inter construct, or any renumbering of |*_IST| constants.
-(b) Change of bytecode representation of an instruction.
-(c) Change of the binary file format in //Inter in Binary Files//. Note that
+- Removal of an Inter construct, or any renumbering of |*_IST| constants.
+- Change of bytecode representation of an instruction.
+- Change of the binary file format in //Inter in Binary Files//. Note that
 changing some of the defined constants in this module could have the same effect,
 since these constants are used as distinguishing values in binary Inter files.
-(d) Change of the textual file format in //Inter in Text Files// and elsewhere
+- Change of the textual file format in //Inter in Text Files// and elsewhere
 in the |CONSTRUCT_READ_MTID| methods for the constructs.
-(e) Removal of one of the standard annotations, or any renumbering of existing
+- Removal of one of the standard annotations, or any renumbering of existing
 ones. See //Annotations//.
-(f) Removal of one of the standard primitives, or any renumbering of existing
+- Removal of one of the standard primitives, or any renumbering of existing
 ones. See //building: Inter Primitives//.
 
 This may result in ungainly, high |major| version numbers: so be it. However,
 the following need only mean a bump of the |minor| version --
 
-(a) Addition of a new Inter construct, provided the existing ones are not
+- Addition of a new Inter construct, provided the existing ones are not
 renumbered.
-(b) Addition of a new Inter annotation, provided the existing ones are not
+- Addition of a new Inter annotation, provided the existing ones are not
 renumbered.
-(c) Addition of a new Inter primitive, provided the existing ones are not
+- Addition of a new Inter primitive, provided the existing ones are not
 renumbered.
 
 The |patch| version number should always remain 0 -- this is not a version for

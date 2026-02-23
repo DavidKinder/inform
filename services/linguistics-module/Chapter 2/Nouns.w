@@ -103,12 +103,13 @@ void Nouns::log_item(grammatical_category *cat, general_pointer data) {
 @h Creation.
 The following functions are called to create new proper or common nouns, and
 note that:
-(i) It is legal for the supplied text to be empty, and this does happen
+
+- It is legal for the supplied text to be empty, and this does happen
 for example when Inform creates the nouns of anonymous objects, as in a
 sentence such as "Four people are in the Dining Room." Empty text in |W| means
 that no forms are added to the lexical cluster and nothing is registered with
 the lexicon.
-(ii) The |options| are a bitmap which used to be larger, and is now reduced
+- The |options| are a bitmap which used to be larger, and is now reduced
 to a combination of just two possibilities:
 
 @d ADD_TO_LEXICON_NTOPT 1         /* register these forms with the lexicon */

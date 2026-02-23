@@ -23,17 +23,17 @@ is a global variable, accessible across the whole program.
 
 @ A number of different notations are allowed as numerical values:
 
-(*) A decimal integer, which may begin with a minus sign (and, if so, will be
+- A decimal integer, which may begin with a minus sign (and, if so, will be
 stored as twos-complement signed); for example, |-231|.
 
-(*) A hexadecimal integer prefixed with |0x|, which can write the digits
+- A hexadecimal integer prefixed with |0x|, which can write the digits
 |A| to |F| in either upper or lower case form, but cannot take a minus sign;
 for example, |0x21BC|.
 
-(*) A binary integer prefixed with |0b|, which cannot take a minus sign;
+- A binary integer prefixed with |0b|, which cannot take a minus sign;
 for example, |0b1001001|.
 
-(*) |r"text"| makes a literal real number: the text is required to use the
+- |r"text"| makes a literal real number: the text is required to use the
 same syntax as a literal real number in Inform 6. For example, |r"+1.027E+5"|.
 The |E+n| or |E-n| exponent is optional, but if it is used, a |+| or |-| sign
 is required; similarly, a |+| or |-| sign is required up front. So |r"1.0"|
@@ -48,23 +48,23 @@ of |float|, not |double|.
 
 @ There are also several forms of text:
 
-(*) Literal text is written in double quotes, |"like so"|. All characters
+- Literal text is written in double quotes, |"like so"|. All characters
 within such text must have Unicode values of 32 or above, except for tab (9),
 written |\t|, and newline (10), written |\n|. In addition, |\"| denotes a
 literal double-quote, and |\\| a literal backslash, but these are the only
 backslash notations at present allowed.
 
-(*) |dw"text"| is meaningful only for interactive fiction, and represents the
+- |dw"text"| is meaningful only for interactive fiction, and represents the
 command parser dictionary entry for the word |text|. This is equivalent
 to the Inform 6 constant |'text//'|.
 
-(*) |dwp"text"| is the same, but pluralised, equivalent to Inform 6 |'text//p'|.
+- |dwp"text"| is the same, but pluralised, equivalent to Inform 6 |'text//p'|.
 
 @ There are two oddball value notations which should be used as little as possible:
 
-(*) |!undef| makes a special "this is not a value" value.
+- |!undef| makes a special "this is not a value" value.
 
-(*) |glob"raw syntax"| is a feature allowing raw code for the final target
+- |glob"raw syntax"| is a feature allowing raw code for the final target
 language to be smuggled into Inter, which is supposedly target-independent.
 For example, |glob"#$magic"| says that the final code-generator should just
 print out |#$magic|, in blind faith that this will mean something, when it
@@ -86,32 +86,32 @@ The name of this constant can then be used wherever a value is needed. Thus:
 @ Constants also allow us to write more elaborate values than are normally
 allowed -- so-called "extended values". In particular:
 
-(*) A literal |list| is written in braces: |{ V1, V2, ..., Vn }|, where |V1|, 
+- A literal |list| is written in braces: |{ V1, V2, ..., Vn }|, where |V1|, 
 |V2| and so on are all (unextended) values. The empty list is |{ }|.
 
-(*) A list of bytes, rather than words, is written |bytes{ V1, V2, ..., Vn}|,
+- A list of bytes, rather than words, is written |bytes{ V1, V2, ..., Vn}|,
 in the same way.
 
-(*) Either sort of list can be given with an extent instead. |list of N words|
+- Either sort of list can be given with an extent instead. |list of N words|
 or |list of N bytes| constructs a list of |N| zero entries. This is not simply
 an abbreviation for typing something like |{ 0, 0, 0, 0, 0, 0, 0, 0 }|, because |N|
 does not have to be a literal number -- it can be a named symbol defined elsewhere,
 or even defined in a different Inter tree to be linked in later.
 
-(*) Prefixing either sort of list with the keyword |bounded| tells Inter that
+- Prefixing either sort of list with the keyword |bounded| tells Inter that
 the first entry (i.e., at index 0) should be the number of entries, not counting
 that first entry. (This number is the list's "bound".) Thus |bounded { 70, 15 }|
 is equivalent to |{ 2, 70, 15 }|, and |bounded list of 50 bytes| produces a list
 of 51 bytes, the first being 50, the next fifty all being 0.
 
-(*) A structure is written |struct{ V1, V2, ..., Vn }|. The empty |struct|
+- A structure is written |struct{ V1, V2, ..., Vn }|. The empty |struct|
 is not legal, and the keyword |bounded| cannot be used.
 
-(*) Calculated values are written |sum{ V1, V2, ..., Vn }|, and similarly
+- Calculated values are written |sum{ V1, V2, ..., Vn }|, and similarly
 for |product{ }|, |difference{ }| and |quotient{ }|. Empty calculated values
 are not legal.
 
-(*) Finally, two special forms of list which are used only in interactive fiction
+- Finally, two special forms of list which are used only in interactive fiction
 projects, and whose semantics are identical to regular lists except for the special
 ways they are compiled: |grammar{ ... }| makes a list which is the command-parser
 grammar for a command verb, and |inline{ ... }| makes a list which is to be the
@@ -318,18 +318,18 @@ values.
 
 @ The "type constructions" allowed are as follows:
 
-(*) |list of T| for any simple type or typename |T|;
+- |list of T| for any simple type or typename |T|;
 
-(*) |function T1 T2 ... Tn -> T| for any simple types |T1|, |T2|, and so on.
+- |function T1 T2 ... Tn -> T| for any simple types |T1|, |T2|, and so on.
 In the special case of no arguments, or no result, the notation |void| is
 used, but |void| is not a type.
 
-(*) |struct T1 T2 ... Tn| for any simple types |T1|, |T2|, and so on. There
+- |struct T1 T2 ... Tn| for any simple types |T1|, |T2|, and so on. There
 must be at least one of these, so |struct void| is not allowed.
 
-(*) |enum|, for which see below;
+- |enum|, for which see below;
 
-(*) and then a raft of constructions convenient for Inform but which Inter
+- and then a raft of constructions convenient for Inform but which Inter
 really knows nothing about: |activity on T|, |column of T|, |table of T|,
 |relation of T1 to T2|, |description of T|, |rulebook of T|, and |rule T1 -> T2|.
 Perhaps these ought to work via a general way for users to create new constructors,
@@ -339,13 +339,13 @@ so that Inform can label its data.
 Inter applies the usual rules of covariance and contravariance when matching
 these types. For example:
 
-(*) |list of int2| matches |list of int32| but not vice versa (covariance
+- |list of int2| matches |list of int32| but not vice versa (covariance
 in the entry type);
 
-(*) |function int32 -> void| matches |function int2 -> void| but not vice versa
+- |function int32 -> void| matches |function int2 -> void| but not vice versa
 (contravariance in argument types);
 
-(*) |function text -> int2| matches |function text -> int32| but not vice versa
+- |function text -> int2| matches |function text -> int32| but not vice versa
 (covariance in result types).
 
 @ This enables us to declare the type of a function. A typed version of |Hello|

@@ -6,9 +6,10 @@ Testing and changing the fundamental spatial relations.
 The general problem we have to solve here is: given $x, y\in R$, where $R$
 is the set of rooms and we write $x\sim y$ if there is a map connection from
 $x$ to $y$,
-(i) find the smallest $m$ such that there exist $x = r_1\sim r_2\sim ...\sim r_m = y\in R$,
+
+- find the smallest $m$ such that there exist $x = r_1\sim r_2\sim ...\sim r_m = y\in R$,
 or determine that no such $m$ exists, and
-(ii) find $d$, the first direction to take from $x$ to lead to $r_2$, or
+- find $d$, the first direction to take from $x$ to lead to $r_2$, or
 set $d=0$ if no such path exists or if $m=1$ so that $x=y$.
 
 Thus a typical outcome might be either "a shortest path from the Town Square
@@ -64,9 +65,9 @@ results from one usage to the next (though at present only the "fast"
 algorithm does this). The difficulty here is that the result of a route
 search depends on three things, any of which may change:
 
-(a) which subset of rooms we are route-finding through;
-(b) which subset of doors we are allowing ourselves to use; and
-(c) the current map connections between rooms.
+- (a) which subset of rooms we are route-finding through;
+- (b) which subset of doors we are allowing ourselves to use; and
+- (c) the current map connections between rooms.
 
 We keep track of (c) by watching for calls to |SignalMapChange()| from the
 routines in "WorldModel.i6t" which alter the map. (a) and (b), however,
@@ -288,12 +289,12 @@ tree, but that's the only way we need to traverse it.)
 
 The method can be summed up thus:
 
-(a) Begin with every vector blank except that of $R_y$, the destination.
-(b) Repeatedly: For every room in the domain set, try each direction: if this
+- Begin with every vector blank except that of $R_y$, the destination.
+- Repeatedly: For every room in the domain set, try each direction: if this
 leads to a room whose vector was determined on the last round ({\it not} on
 this one, as that may be a suboptimal route), set the vector to point to that
 room.
-(c) Stop as soon as the vector from the origin is set, or when a round happens
+- Stop as soon as the vector from the origin is set, or when a round happens
 in which no further vectors are found: in which case, we have completely
 explored the component of the map from which the destination can be reached,
 and the origin isn't in it, so we can return "no".

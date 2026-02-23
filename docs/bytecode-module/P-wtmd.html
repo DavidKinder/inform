@@ -55,16 +55,18 @@
 
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Prerequisites.</b>  The bytecode module is a part of the Inform compiler toolset. It is
-presented as a literate program or &quot;web&quot;. Before diving in:
-(a) It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.
-(b) The module is written in C, in fact ANSI C99, but this is disguised by the
+presented as a literate program or &quot;web&quot;. Before diving in:</p>
+<ul>
+<li>It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.</li>
+<li>The module is written in C, in fact ANSI C99, but this is disguised by the
 fact that it uses some extension syntaxes provided by the <a href="../inweb/index.html" class="internal">inweb</a> literate
 programming tool, making it a dialect of C called InC. See <a href="../inweb/index.html" class="internal">inweb</a> for
 full details, but essentially: it's C without predeclarations or header files,
-and where functions have names like <code>Tags::add_by_name</code> rather than just <code>add_by_name</code>.
-(c) This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
+and where functions have names like <code>Tags::add_by_name</code> rather than just <code>add_by_name</code>.</li>
+<li>This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
 uses a module of utility functions called <a href="../foundation/index.html" class="internal">foundation</a>.
-For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.</p>
+For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.</li>
+</ul>
 </div>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. What is intermediate about inter.</b>  This module is concerned with managing the <a href="2-it.html#SP1" class="internal">inter_tree</a> data structure in
@@ -88,8 +90,10 @@ actual output. Thus:</p>
 <p>In the Inform family of tools, two languages have to be compiled: natural
 language by <a href="../inform7/index.html" class="internal">inform7</a> and more conventional C-like code by <a href="../inter/index.html" class="internal">inter</a>.
 Having very different syntaxes, these have different ASTs:</p>
-<p>(<em>) For I7, a <code>parse_node_tree</code>, managed by the <a href="../syntax-module/index.html" class="internal">syntax</a> module.
-(</em>) For Inter, an <code>inter_schema</code>, managed by the <a href="../building-module/index.html" class="internal">building</a> module.</p>
+<ul>
+<li>For I7, a <code>parse_node_tree</code>, managed by the <a href="../syntax-module/index.html" class="internal">syntax</a> module.</li>
+<li>For Inter, an <code>inter_schema</code>, managed by the <a href="../building-module/index.html" class="internal">building</a> module.</li>
+</ul>
 <p>But these two compiler flows share the same IR -- an <a href="2-it.html#SP1" class="internal">inter_tree</a> provides the
 intermediate representation for both:<sup id="fnred:1"><a href="#fn:1" rel="footnote">1</a></sup></p>
 </div>
@@ -143,12 +147,14 @@ faithfully be represented in any of these forms:</p>
 <p>Textual Inter is human-readable, but binary Inter loads quickly. Either form,
 as stored on an external file whose provenance we do not know, has to be treated
 as suspect:</p>
-<p>(<em>) Textual Inter might have been written by a human who blundered.
-(</em>) Binary Inter might have been wrongly constructed by some compiler with
-a bug in it.
-(<em>) Binary Inter might have been maliciously constructed to crash us.
-(</em>) Either form might be left over from a previous version of the Inform tool
-chain when the specification of the Inter language was slightly different.</p>
+<ul>
+<li>Textual Inter might have been written by a human who blundered.</li>
+<li>Binary Inter might have been wrongly constructed by some compiler with
+a bug in it.</li>
+<li>Binary Inter might have been maliciously constructed to crash us.</li>
+<li>Either form might be left over from a previous version of the Inform tool
+chain when the specification of the Inter language was slightly different.</li>
+</ul>
 <p>So we go to some trouble to verify the syntactic correctness of what is read
 in, and use a shared system of <a href="3-ie.html" class="internal">Inter Errors</a> to report defects. All binary
 Inter files are marked with an explicit version number for the version of Inter
@@ -240,15 +246,23 @@ simply provide infrastructure allowing pretty general hierarchies to be made.</p
 used: for example, if this is <code>PACKAGE_IST</code> then the instruction is a <code>package</code>.
 What the remaining words mean depends on the construct, but here are some
 typical ingredients:</p>
-<p>(*) Many constructs -- <code>constant</code>, for example -- define a new symbol.
+<ul>
+<li>
+<p>Many constructs -- <code>constant</code>, for example -- define a new symbol.
 If so, the symbol ID -- or SID -- will be stored in one of the words;
 this is the ID of the symbol in the <a href="2-st.html#SP1" class="internal">inter_symbols_table</a> belonging
 to the package containing the instruction. Some constructs also contain
 SIDs for other reasons: for example, <code>propertyvalue</code> needs to store the
 SID of the property whose value is being recorded.</p>
-<p>(*) Values in Inter occupy two consecutive words of bytecode, and these
+</li>
+<li>
+<p>Values in Inter occupy two consecutive words of bytecode, and these
 are called &quot;pairs&quot;: see <a href="3-ivp.html" class="internal">Inter Value Pairs</a>.</p>
-<p>(*) Some constructs also need to store a type ID, or TID. See <a href="3-idt.html" class="internal">Inter Data Types</a>.</p>
+</li>
+<li>
+<p>Some constructs also need to store a type ID, or TID. See <a href="3-idt.html" class="internal">Inter Data Types</a>.</p>
+</li>
+</ul>
 <p>With both values and types, we need to be able to express an enormous range
 of possibilities. This seems impossible. For example, how can we fit the list
 <code>{2, 3, 5, 7, 11, 13, 17, 19}</code> in two words, or the type <code>function int32 int2 -&gt; void</code>
@@ -329,15 +343,21 @@ for rapid access, editing and rearrangement.</p>
 there are never more than one or two in memory at once.</p>
 <p>In particular, each <a href="2-it.html#SP1" class="internal">inter_tree</a> structure contains two pools of data
 besides the actual tree:<sup id="fnred:4"><a href="#fn:4" rel="footnote">1</a></sup></p>
-<p>(a) A &quot;building site&quot;, which contains workspace data needed by the <a href="../building-module/index.html" class="internal">building</a>
+<ul>
+<li>
+<p>A &quot;building site&quot;, which contains workspace data needed by the <a href="../building-module/index.html" class="internal">building</a>
 module. <a href="../building-module/index.html" class="internal">building</a> is essentially a piece of middleware sitting on top of
 this one, and making it easier for the compilers to use our facilities. We
 will ignore the building site completely here: it's not our problem.</p>
-<p>(b) A &quot;warehouse&quot;, which very much is our problem: see <a href="2-tw.html" class="internal">The Warehouse</a>.
+</li>
+<li>
+<p>A &quot;warehouse&quot;, which very much is our problem: see <a href="2-tw.html" class="internal">The Warehouse</a>.
 This provides storage for strings, symbols tables and the like, assigning each
 one an ID number. Resource number 178, for example, might be a <code>text_stream</code>
 which is the content of some text literal in a function, while 179 might be
 an <a href="2-st.html#SP1" class="internal">inter_symbols_table</a> belonging to some package.</p>
+</li>
+</ul>
 <li class="footnote" id="fn:4"><p class="inwebfootnote"><sup id="fnref:4"><a href="#fn:4" rel="footnote">4</a></sup>
 In real-life botany, trees do not have building sites or warehouses, but
 mixing some metaphors cannot really be helped. Trees in nature do not grow

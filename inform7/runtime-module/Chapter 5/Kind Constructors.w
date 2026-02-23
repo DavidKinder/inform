@@ -993,9 +993,9 @@ like the one in Ada (|T'Succ|, |T'Pred|, and so on).
 
 If the type is called, say, |T1_colour|, then we have:
 
-(a) |A_T1_colour(v)| advances to the next valid value for the type,
+- |A_T1_colour(v)| advances to the next valid value for the type,
 wrapping around to the first from the last;
-(b) |B_T1_colour(v)| goes back to the previous valid value for the type,
+- |B_T1_colour(v)| goes back to the previous valid value for the type,
 wrapping around to the last from the first, so that it is the inverse function
 to |A_T1_colour(v)|.
 
@@ -1104,10 +1104,10 @@ first function ever implemented by emitting Inter code, on 12 November 2017.
 
 @ And here we add:
 
-(a) |R_T1_colour()| returns a uniformly random choice of the valid
+- |R_T1_colour()| returns a uniformly random choice of the valid
 values of the given type. (For a unit, this will be a uniformly random positive
 value, which will probably not be useful.)
-(b) |R_T1_colour(a, b)| returns a uniformly random choice in between |a|
+- |R_T1_colour(a, b)| returns a uniformly random choice in between |a|
 and |b| inclusive.
 
 @<Compile random-value function for this kind@> =

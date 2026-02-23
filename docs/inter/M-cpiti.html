@@ -53,396 +53,394 @@
 
 <ul class="toc"><li><a href="M-cpiti.html#SP1">&#167;1. Code packages</a></li><li><a href="M-cpiti.html#SP4">&#167;4. Contexts</a></li><li><a href="M-cpiti.html#SP8">&#167;8. Function calls</a></li><li><a href="M-cpiti.html#SP10">&#167;10. Val, ref, lab and cast</a></li><li><a href="M-cpiti.html#SP12">&#167;12. Labels and assembly language</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Code packages.</b>To recap from <a href="M-ti.html" class="internal">Textual Inter</a>: an Inter program is a nested hierarchy of
-packages. Some of those are special <span class="extract"><span class="extract-syntax">_code</span></span> packages which define functions,
-special in several ways:
-</p>
-
-<ul class="items"><li>&#9679; Their names can be used as values: that's how functions are called. See
-<span class="extract"><span class="extract-syntax">inv</span></span> below.
-</li><li>&#9679; Their names can optionally have types: see <a href="M-dpiti.html" class="internal">Data Packages in Textual Inter</a>
-for details.
-</li><li>&#9679; They cannot have subpackages. Conceptually, a code package is a single
-function body. Packages are not used for "code blocks", and there are no
-nested functions.
-</li><li>&#9679; They cannot contain <span class="extract"><span class="extract-syntax">constant</span></span>, <span class="extract"><span class="extract-syntax">variable</span></span>, and similar instructions found
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Code packages.</b>  To recap from <a href="M-ti.html" class="internal">Textual Inter</a>: an Inter program is a nested hierarchy of
+packages. Some of those are special <code>_code</code> packages which define functions,
+special in several ways:</p>
+<ul>
+<li>
+<p>Their names can be used as values: that's how functions are called. See
+<code>inv</code> below.</p>
+</li>
+<li>
+<p>Their names can optionally have types: see <a href="M-dpiti.html" class="internal">Data Packages in Textual Inter</a>
+for details.</p>
+</li>
+<li>
+<p>They cannot have subpackages. Conceptually, a code package is a single
+function body. Packages are not used for &quot;code blocks&quot;, and there are no
+nested functions.</p>
+</li>
+<li>
+<p>They cannot contain <code>constant</code>, <code>variable</code>, and similar instructions found
 in data packages. Instead they can only contain the set of instructions which
-are the subject of this section (and which are allowed only in <span class="extract"><span class="extract-syntax">_code</span></span> packages).
-</li></ul>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>The basic structure of a function body like this is that it begins with some
-local variable declarations, and then has its actual content inside a <span class="extract"><span class="extract-syntax">code</span></span>
-block, like so:
-</p>
-
+are the subject of this section (and which are allowed only in <code>_code</code> packages).</p>
+</li>
+</ul>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  The basic structure of a function body like this is that it begins with some
+local variable declarations, and then has its actual content inside a <code>code</code>
+block, like so:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">package</span><span class="plain-syntax"> double _code</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">local</span><span class="plain-syntax"> x</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">code</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!return</span>
-<span class="plain-syntax">                </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!plus</span>
-<span class="plain-syntax">                    </span><span class="reserved-syntax">val</span><span class="plain-syntax"> x</span>
-<span class="plain-syntax">                    </span><span class="reserved-syntax">val</span><span class="plain-syntax"> x</span>
+<span class="plain-syntax">    </span><span class="type-syntax">package</span><span class="plain-syntax"> double _code</span>
+<span class="plain-syntax">        </span><span class="type-syntax">local</span><span class="plain-syntax"> x</span>
+<span class="plain-syntax">        </span><span class="type-syntax">code</span>
+<span class="plain-syntax">            </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!return</span>
+<span class="plain-syntax">                </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!plus</span>
+<span class="plain-syntax">                    </span><span class="type-syntax">val</span><span class="plain-syntax"> x</span>
+<span class="plain-syntax">                    </span><span class="type-syntax">val</span><span class="plain-syntax"> x</span>
 </pre>
-<p class="commentary">As with its global analogue, <span class="extract"><span class="extract-syntax">variable</span></span>, a <span class="extract"><span class="extract-syntax">local</span></span> instruction can optionally
-specify a type:
-</p>
-
+<div class="lsmarkdown">
+<p>As with its global analogue, <code>variable</code>, a <code>local</code> instruction can optionally
+specify a type:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">local</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int32</span><span class="plain-syntax">) x</span>
+<span class="plain-syntax">    </span><span class="type-syntax">local</span><span class="plain-syntax"> (</span><span class="type-syntax">int32</span><span class="plain-syntax">) x</span>
 </pre>
-<p class="commentary">There can be at most one <span class="extract"><span class="extract-syntax">code</span></span> instruction at the top level. This is incorrect:
-</p>
-
+<div class="lsmarkdown">
+<p>There can be at most one <code>code</code> instruction at the top level. This is incorrect:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">package</span><span class="plain-syntax"> fails _code</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">code</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!enableprinting</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">code</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!print</span>
-<span class="plain-syntax">                </span><span class="reserved-syntax">val</span><span class="plain-syntax"> </span><span class="string-syntax">"I am dismal.\n"</span>
+<span class="plain-syntax">    </span><span class="type-syntax">package</span><span class="plain-syntax"> fails _code</span>
+<span class="plain-syntax">        </span><span class="type-syntax">code</span>
+<span class="plain-syntax">            </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!enableprinting</span>
+<span class="plain-syntax">        </span><span class="type-syntax">code</span>
+<span class="plain-syntax">            </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!print</span>
+<span class="plain-syntax">                </span><span class="type-syntax">val</span><span class="plain-syntax"> </span><span class="string-syntax">"I am dismal.\n"</span>
 </pre>
-<p class="commentary">and should instead be:
-</p>
-
+<div class="lsmarkdown">
+<p>and should instead be:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">package</span><span class="plain-syntax"> succeeds _code</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">code</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!enableprinting</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!print</span>
-<span class="plain-syntax">                </span><span class="reserved-syntax">val</span><span class="plain-syntax"> </span><span class="string-syntax">"I am glorious.\n"</span>
+<span class="plain-syntax">    </span><span class="type-syntax">package</span><span class="plain-syntax"> succeeds _code</span>
+<span class="plain-syntax">        </span><span class="type-syntax">code</span>
+<span class="plain-syntax">            </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!enableprinting</span>
+<span class="plain-syntax">            </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!print</span>
+<span class="plain-syntax">                </span><span class="type-syntax">val</span><span class="plain-syntax"> </span><span class="string-syntax">"I am glorious.\n"</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>Surprisingly, perhaps, it's legal not to have a <span class="extract"><span class="extract-syntax">code</span></span> block at all. This
-function works:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  Surprisingly, perhaps, it's legal not to have a <code>code</code> block at all. This
+function works:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">package</span><span class="plain-syntax"> succeeds _code</span>
+<span class="plain-syntax">    </span><span class="type-syntax">package</span><span class="plain-syntax"> succeeds _code</span>
 </pre>
-<p class="commentary">But of course it does nothing. If the return value of such a function is used,
-it will be 0.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Contexts.</b>At any point inside a function body (except at the very top level), the
-instruction used is expected to have a given "category", decided by the
-"context" at that point. These categories have names:
-</p>
-
-<ul class="items"><li>&#9679; <span class="extract"><span class="extract-syntax">code</span></span> context. This means an instruction is expected to do something,
-but not produce a resulting value.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">val</span></span> context. This means an instruction is expected to produce a value.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">ref</span></span> context. This means an instruction is expected to provide a
-"reference" to some storage in the program. For example, it could indicate
-a global variable, or a particular property of some instance.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">lab</span></span> context. This means an instruction is expected to indicate a label
-marking a position in that same function.
-</li></ul>
-<p class="commentary">In a <span class="extract"><span class="extract-syntax">code</span></span> block, the context is initially <span class="extract"><span class="extract-syntax">code</span></span>. For example:
-</p>
-
+<div class="lsmarkdown">
+<p>But of course it does nothing. If the return value of such a function is used,
+it will be 0.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Contexts.</b>  At any point inside a function body (except at the very top level), the
+instruction used is expected to have a given &quot;category&quot;, decided by the
+&quot;context&quot; at that point. These categories have names:</p>
+<ul>
+<li>
+<p><code>code</code> context. This means an instruction is expected to do something,
+but not produce a resulting value.</p>
+</li>
+<li>
+<p><code>val</code> context. This means an instruction is expected to produce a value.</p>
+</li>
+<li>
+<p><code>ref</code> context. This means an instruction is expected to provide a
+&quot;reference&quot; to some storage in the program. For example, it could indicate
+a global variable, or a particular property of some instance.</p>
+</li>
+<li>
+<p><code>lab</code> context. This means an instruction is expected to indicate a label
+marking a position in that same function.</p>
+</li>
+</ul>
+<p>In a <code>code</code> block, the context is initially <code>code</code>. For example:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">package</span><span class="plain-syntax"> double _code</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">local</span><span class="plain-syntax"> x                             top level has no context</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">code</span><span class="plain-syntax">                                top level has no context</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!jump</span><span class="plain-syntax">                       context is </span><span class="reserved-syntax">code</span>
-<span class="plain-syntax">                </span><span class="reserved-syntax">lab</span><span class="plain-syntax"> .SkipWarning            context is </span><span class="reserved-syntax">lab</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!print</span><span class="plain-syntax">                      context is </span><span class="reserved-syntax">code</span>
-<span class="plain-syntax">                </span><span class="reserved-syntax">val</span><span class="plain-syntax"> </span><span class="string-syntax">"It'll get bigger!\n"</span><span class="plain-syntax">   context is </span><span class="reserved-syntax">val</span>
-<span class="plain-syntax">            .SkipWarning                    context is </span><span class="reserved-syntax">code</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!store</span><span class="plain-syntax">                      context is </span><span class="reserved-syntax">code</span>
-<span class="plain-syntax">                </span><span class="reserved-syntax">ref</span><span class="plain-syntax"> x                       context is </span><span class="reserved-syntax">ref</span>
-<span class="plain-syntax">                </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!plus</span><span class="plain-syntax">                   context is </span><span class="reserved-syntax">val</span>
-<span class="plain-syntax">                    </span><span class="reserved-syntax">val</span><span class="plain-syntax"> x                   context is </span><span class="reserved-syntax">val</span>
-<span class="plain-syntax">                    </span><span class="reserved-syntax">val</span><span class="plain-syntax"> x                   context is </span><span class="reserved-syntax">val</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!return</span><span class="plain-syntax">                     context is </span><span class="reserved-syntax">code</span>
-<span class="plain-syntax">                </span><span class="reserved-syntax">val</span><span class="plain-syntax"> x                       context is </span><span class="reserved-syntax">val</span>
+<span class="plain-syntax">    </span><span class="type-syntax">package</span><span class="plain-syntax"> double _code</span>
+<span class="plain-syntax">        </span><span class="type-syntax">local</span><span class="plain-syntax"> x                             top level has no context</span>
+<span class="plain-syntax">        </span><span class="type-syntax">code</span><span class="plain-syntax">                                top level has no context</span>
+<span class="plain-syntax">            </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!jump</span><span class="plain-syntax">                       context is </span><span class="type-syntax">code</span>
+<span class="plain-syntax">                </span><span class="type-syntax">lab</span><span class="plain-syntax"> .SkipWarning            context is </span><span class="type-syntax">lab</span>
+<span class="plain-syntax">            </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!print</span><span class="plain-syntax">                      context is </span><span class="type-syntax">code</span>
+<span class="plain-syntax">                </span><span class="type-syntax">val</span><span class="plain-syntax"> </span><span class="string-syntax">"It'll get bigger!\n"</span><span class="plain-syntax">   context is </span><span class="type-syntax">val</span>
+<span class="plain-syntax">            .SkipWarning                    context is </span><span class="type-syntax">code</span>
+<span class="plain-syntax">            </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!store</span><span class="plain-syntax">                      context is </span><span class="type-syntax">code</span>
+<span class="plain-syntax">                </span><span class="type-syntax">ref</span><span class="plain-syntax"> x                       context is </span><span class="type-syntax">ref</span>
+<span class="plain-syntax">                </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!plus</span><span class="plain-syntax">                   context is </span><span class="type-syntax">val</span>
+<span class="plain-syntax">                    </span><span class="type-syntax">val</span><span class="plain-syntax"> x                   context is </span><span class="type-syntax">val</span>
+<span class="plain-syntax">                    </span><span class="type-syntax">val</span><span class="plain-syntax"> x                   context is </span><span class="type-syntax">val</span>
+<span class="plain-syntax">            </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!return</span><span class="plain-syntax">                     context is </span><span class="type-syntax">code</span>
+<span class="plain-syntax">                </span><span class="type-syntax">val</span><span class="plain-syntax"> x                       context is </span><span class="type-syntax">val</span>
 </pre>
-<p class="commentary">In this function, the <span class="extract"><span class="extract-syntax">code</span></span> block contains five instructions, each of which
-is read in a <span class="extract"><span class="extract-syntax">code</span></span> context. Each of those then has its own expectations which
-set the context for its child instructions, and so on. For example, <span class="extract"><span class="extract-syntax">inv !store</span></span>
-expects to see two child instructions, the first in <span class="extract"><span class="extract-syntax">ref</span></span> context and the
-second in <span class="extract"><span class="extract-syntax">val</span></span> context.
-</p>
-
-<p class="commentary">Those uses of <span class="extract"><span class="extract-syntax">inv !something</span></span> are called "primitive invocations". They are
+<div class="lsmarkdown">
+<p>In this function, the <code>code</code> block contains five instructions, each of which
+is read in a <code>code</code> context. Each of those then has its own expectations which
+set the context for its child instructions, and so on. For example, <code>inv !store</code>
+expects to see two child instructions, the first in <code>ref</code> context and the
+second in <code>val</code> context.</p>
+<p>Those uses of <code>inv !something</code> are called &quot;primitive invocations&quot;. They are
 like function calls, but where the function is built in to Inter and is not
-itself defined in Inter. Each such has a "signature". For example, the
-internal declaration of <span class="extract"><span class="extract-syntax">!store</span></span> is:
-</p>
-
+itself defined in Inter. Each such has a &quot;signature&quot;. For example, the
+internal declaration of <code>!store</code> is:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">primitive</span><span class="plain-syntax"> </span><span class="function-syntax">!store</span><span class="plain-syntax"> </span><span class="reserved-syntax">ref</span><span class="plain-syntax"> </span><span class="reserved-syntax">val</span><span class="plain-syntax"> -&gt; </span><span class="reserved-syntax">val</span>
+<span class="plain-syntax">    </span><span class="type-syntax">primitive</span><span class="plain-syntax"> </span><span class="function-syntax">!store</span><span class="plain-syntax"> </span><span class="type-syntax">ref</span><span class="plain-syntax"> </span><span class="type-syntax">val</span><span class="plain-syntax"> </span><span class="type-syntax">-&gt;</span><span class="plain-syntax"> </span><span class="type-syntax">val</span>
 </pre>
-<p class="commentary">So its signature is <span class="extract"><span class="extract-syntax">ref val -&gt; val</span></span>. This expresses that its two children
-should be read in <span class="extract"><span class="extract-syntax">ref</span></span> and <span class="extract"><span class="extract-syntax">val</span></span> context, and that its result is a <span class="extract"><span class="extract-syntax">val</span></span>.
+<div class="lsmarkdown">
+<p>So its signature is <code>ref val -&gt; val</code>. This expresses that its two children
+should be read in <code>ref</code> and <code>val</code> context, and that its result is a <code>val</code>.
 (As in most C-like languages, stores are values in Inter, though in
-practice those values are often thrown away.)
-</p>
-
-<p class="commentary">The standard built-in stock of primitive invocations is described in the
-next section, on <a href="M-ip.html" class="internal">Inform Primitives</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>How is all this policed? Whereas typechecking of data is often weak in Inter,
-signature checking is taken much more seriously. If the context is <span class="extract"><span class="extract-syntax">code</span></span>, then
+practice those values are often thrown away.)</p>
+<p>The standard built-in stock of primitive invocations is described in the
+next section, on <a href="M-ip.html" class="internal">Inform Primitives</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  How is all this policed? Whereas typechecking of data is often weak in Inter,
+signature checking is taken much more seriously. If the context is <code>code</code>, then
 the only legal primitives to invoke are those where the return part of the
-signature is either <span class="extract"><span class="extract-syntax">void</span></span> (no value) or <span class="extract"><span class="extract-syntax">val</span></span> (a value, but which is thrown
-away and ignored, as in most C-like languages). Otherwise, <span class="extract"><span class="extract-syntax">ref</span></span> context
-requires a <span class="extract"><span class="extract-syntax">ref</span></span> result, and similarly for <span class="extract"><span class="extract-syntax">val</span></span> and <span class="extract"><span class="extract-syntax">lab</span></span>.
-</p>
-
-<p class="commentary">For example, <span class="extract"><span class="extract-syntax">!return</span></span> has the signature <span class="extract"><span class="extract-syntax">val -&gt; void</span></span>, which makes it legal
-to use in a <span class="extract"><span class="extract-syntax">code</span></span> context as in the above example. But these two attempts
-to use it would both be incorrect:
-</p>
-
+signature is either <code>void</code> (no value) or <code>val</code> (a value, but which is thrown
+away and ignored, as in most C-like languages). Otherwise, <code>ref</code> context
+requires a <code>ref</code> result, and similarly for <code>val</code> and <code>lab</code>.</p>
+<p>For example, <code>!return</code> has the signature <code>val -&gt; void</code>, which makes it legal
+to use in a <code>code</code> context as in the above example. But these two attempts
+to use it would both be incorrect:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!return</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!printnumber</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!return</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">val</span><span class="plain-syntax"> </span><span class="constant-syntax">10</span>
+<span class="plain-syntax">    </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!return</span>
+<span class="plain-syntax">    </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!printnumber</span>
+<span class="plain-syntax">        </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!return</span>
+<span class="plain-syntax">            </span><span class="type-syntax">val</span><span class="plain-syntax"> </span><span class="constant-syntax">10</span>
 </pre>
-<p class="commentary">The first fails because it tries to use <span class="extract"><span class="extract-syntax">!return</span></span> as if it were <span class="extract"><span class="extract-syntax">void -&gt; void</span></span>,
+<div class="lsmarkdown">
+<p>The first fails because it tries to use <code>!return</code> as if it were <code>void -&gt; void</code>,
 i.e., with no supplied value; the second fails because it tries to use it as if
-it were <span class="extract"><span class="extract-syntax">val -&gt; val</span></span>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>Some primitives have <span class="extract"><span class="extract-syntax">code</span></span> as one or more of their arguments. For example:
-</p>
-
+it were <code>val -&gt; val</code>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  Some primitives have <code>code</code> as one or more of their arguments. For example:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">primitive</span><span class="plain-syntax"> </span><span class="function-syntax">!ifelse</span><span class="plain-syntax"> </span><span class="reserved-syntax">val</span><span class="plain-syntax"> </span><span class="reserved-syntax">code</span><span class="plain-syntax"> </span><span class="reserved-syntax">code</span><span class="plain-syntax"> -&gt; </span><span class="reserved-syntax">void</span>
+<span class="plain-syntax">    </span><span class="type-syntax">primitive</span><span class="plain-syntax"> </span><span class="function-syntax">!ifelse</span><span class="plain-syntax"> </span><span class="type-syntax">val</span><span class="plain-syntax"> </span><span class="type-syntax">code</span><span class="plain-syntax"> </span><span class="type-syntax">code</span><span class="plain-syntax"> </span><span class="type-syntax">-&gt;</span><span class="plain-syntax"> </span><span class="type-syntax">void</span>
 </pre>
-<p class="commentary">This evaluates the first argument (a value), then executes the second argument
+<div class="lsmarkdown">
+<p>This evaluates the first argument (a value), then executes the second argument
 (a code block) if the value is non-zero, or alternatively the third if it is zero.
-There is no result. For example:
-</p>
-
+There is no result. For example:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!ifelse</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">val</span><span class="plain-syntax"> x</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">code</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!printnumber</span>
+<span class="plain-syntax">    </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!ifelse</span>
+<span class="plain-syntax">        </span><span class="type-syntax">val</span><span class="plain-syntax"> x</span>
+<span class="plain-syntax">        </span><span class="type-syntax">code</span>
+<span class="plain-syntax">            </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!printnumber</span>
 <span class="plain-syntax">                x</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">code</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!print</span>
+<span class="plain-syntax">        </span><span class="type-syntax">code</span>
+<span class="plain-syntax">            </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!print</span>
 <span class="plain-syntax">                </span><span class="string-syntax">"I refuse to print zeroes on principle."</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>Rather like <span class="extract"><span class="extract-syntax">code</span></span>, which executes a run of instructions as if they were a
-single instruction, <span class="extract"><span class="extract-syntax">evaluation</span></span> makes a run of evaluations. Thus:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  Rather like <code>code</code>, which executes a run of instructions as if they were a
+single instruction, <code>evaluation</code> makes a run of evaluations. Thus:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!printnumber</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">evaluation</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">val</span><span class="plain-syntax"> </span><span class="constant-syntax">23</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">val</span><span class="plain-syntax"> -1</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">val</span><span class="plain-syntax"> </span><span class="constant-syntax">12</span>
+<span class="plain-syntax">    </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!printnumber</span>
+<span class="plain-syntax">        </span><span class="type-syntax">evaluation</span>
+<span class="plain-syntax">            </span><span class="type-syntax">val</span><span class="plain-syntax"> </span><span class="constant-syntax">23</span>
+<span class="plain-syntax">            </span><span class="type-syntax">val</span><span class="plain-syntax"> -1</span>
+<span class="plain-syntax">            </span><span class="type-syntax">val</span><span class="plain-syntax"> </span><span class="constant-syntax">12</span>
 </pre>
-<p class="commentary">prints just "12". The point of this is that there may be side-effects in the
-earlier evaluations, of course, though there weren't in this example.
-</p>
-
-<p class="commentary">Another converter, so to speak, is <span class="extract"><span class="extract-syntax">reference</span></span>, but this is much more limited
-in what it is allowed to do.
-</p>
-
+<div class="lsmarkdown">
+<p>prints just &quot;12&quot;. The point of this is that there may be side-effects in the
+earlier evaluations, of course, though there weren't in this example.</p>
+<p>Another converter, so to speak, is <code>reference</code>, but this is much more limited
+in what it is allowed to do.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!store</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">reference</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">val</span><span class="plain-syntax"> x</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">val</span><span class="plain-syntax"> </span><span class="constant-syntax">5</span>
+<span class="plain-syntax">    </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!store</span>
+<span class="plain-syntax">        </span><span class="type-syntax">reference</span>
+<span class="plain-syntax">            </span><span class="type-syntax">val</span><span class="plain-syntax"> x</span>
+<span class="plain-syntax">        </span><span class="type-syntax">val</span><span class="plain-syntax"> </span><span class="constant-syntax">5</span>
 </pre>
-<p class="commentary">is exactly equivalent to:
-</p>
-
+<div class="lsmarkdown">
+<p>is exactly equivalent to:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!store</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">ref</span><span class="plain-syntax"> x</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">val</span><span class="plain-syntax"> </span><span class="constant-syntax">5</span>
+<span class="plain-syntax">    </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!store</span>
+<span class="plain-syntax">        </span><span class="type-syntax">ref</span><span class="plain-syntax"> x</span>
+<span class="plain-syntax">        </span><span class="type-syntax">val</span><span class="plain-syntax"> </span><span class="constant-syntax">5</span>
 </pre>
-<p class="commentary">This is not a very useful example: but consider &mdash;
-</p>
-
+<div class="lsmarkdown">
+<p>This is not a very useful example: but consider --</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!store</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">reference</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!propertyvalue</span>
-<span class="plain-syntax">                </span><span class="reserved-syntax">val</span><span class="plain-syntax"> Odessa</span>
-<span class="plain-syntax">                </span><span class="reserved-syntax">val</span><span class="plain-syntax"> area</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">val</span><span class="plain-syntax"> </span><span class="constant-syntax">5000</span>
+<span class="plain-syntax">    </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!store</span>
+<span class="plain-syntax">        </span><span class="type-syntax">reference</span>
+<span class="plain-syntax">            </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!propertyvalue</span>
+<span class="plain-syntax">                </span><span class="type-syntax">val</span><span class="plain-syntax"> Odessa</span>
+<span class="plain-syntax">                </span><span class="type-syntax">val</span><span class="plain-syntax"> area</span>
+<span class="plain-syntax">        </span><span class="type-syntax">val</span><span class="plain-syntax"> </span><span class="constant-syntax">5000</span>
 </pre>
-<p class="commentary">which changes the property <span class="extract"><span class="extract-syntax">area</span></span> for <span class="extract"><span class="extract-syntax">Odessa</span></span> to 5000. The signature of
-<span class="extract"><span class="extract-syntax">!propertyvalue</span></span> is <span class="extract"><span class="extract-syntax">val val -&gt; val</span></span>, and ordinarily it evaluates the property.
-But placed under a <span class="extract"><span class="extract-syntax">reference</span></span>, it becomes a reference to where that property
-is stored, and thus allows the value to be changed with <span class="extract"><span class="extract-syntax">!store</span></span>. This:
-</p>
-
+<div class="lsmarkdown">
+<p>which changes the property <code>area</code> for <code>Odessa</code> to 5000. The signature of
+<code>!propertyvalue</code> is <code>val val -&gt; val</code>, and ordinarily it evaluates the property.
+But placed under a <code>reference</code>, it becomes a reference to where that property
+is stored, and thus allows the value to be changed with <code>!store</code>. This:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!store</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!propertyvalue</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">val</span><span class="plain-syntax"> Odessa</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">val</span><span class="plain-syntax"> area</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">val</span><span class="plain-syntax"> </span><span class="constant-syntax">5000</span>
+<span class="plain-syntax">    </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!store</span>
+<span class="plain-syntax">        </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!propertyvalue</span>
+<span class="plain-syntax">            </span><span class="type-syntax">val</span><span class="plain-syntax"> Odessa</span>
+<span class="plain-syntax">            </span><span class="type-syntax">val</span><span class="plain-syntax"> area</span>
+<span class="plain-syntax">        </span><span class="type-syntax">val</span><span class="plain-syntax"> </span><span class="constant-syntax">5000</span>
 </pre>
-<p class="commentary">would by contrast be rejected with an error, as trying to use a <span class="extract"><span class="extract-syntax">val</span></span> in a <span class="extract"><span class="extract-syntax">ref</span></span>
-context.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">reference</span></span> cannot be applied to anything other than storage (a local or global
-variable, a memory location or a property value), so for example:
-</p>
-
+<div class="lsmarkdown">
+<p>would by contrast be rejected with an error, as trying to use a <code>val</code> in a <code>ref</code>
+context.</p>
+<p><code>reference</code> cannot be applied to anything other than storage (a local or global
+variable, a memory location or a property value), so for example:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">reference</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">val</span><span class="plain-syntax"> </span><span class="constant-syntax">5</span>
+<span class="plain-syntax">    </span><span class="type-syntax">reference</span>
+<span class="plain-syntax">        </span><span class="type-syntax">val</span><span class="plain-syntax"> </span><span class="constant-syntax">5</span>
 </pre>
-<p class="commentary">is meaningless and will be rejected. There is in general no way to make, say,
-a pointer to a function or instance using <span class="extract"><span class="extract-syntax">reference</span></span>. It is much more circumscribed
-than the <span class="extract"><span class="extract-syntax">&amp;</span></span> operator in C.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Function calls.</b>This seems a good point to say how to make function calls, since it's almost
-exactly the same. This:
-</p>
-
+<div class="lsmarkdown">
+<p>is meaningless and will be rejected. There is in general no way to make, say,
+a pointer to a function or instance using <code>reference</code>. It is much more circumscribed
+than the <code>&amp;</code> operator in C.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Function calls.</b>  This seems a good point to say how to make function calls, since it's almost
+exactly the same. This:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!printnumber</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> double</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">val</span><span class="plain-syntax"> </span><span class="constant-syntax">10</span>
+<span class="plain-syntax">    </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!printnumber</span>
+<span class="plain-syntax">        </span><span class="type-syntax">inv</span><span class="plain-syntax"> double</span>
+<span class="plain-syntax">            </span><span class="type-syntax">val</span><span class="plain-syntax"> </span><span class="constant-syntax">10</span>
 </pre>
-<p class="commentary">prints "20". Note the lack of a <span class="extract"><span class="extract-syntax">!</span></span> in front of the function name: this means
-it is a regular function, not a primitive.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>Function calls work in a rather assembly-language-like way, and Inter makes
+<div class="lsmarkdown">
+<p>prints &quot;20&quot;. Note the lack of a <code>!</code> in front of the function name: this means
+it is a regular function, not a primitive.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>  Function calls work in a rather assembly-language-like way, and Inter makes
 much less effort to type-check these for any kind of safety: so beware. It
-allows them to have any of the signatures <span class="extract"><span class="extract-syntax">void -&gt; val</span></span>, <span class="extract"><span class="extract-syntax">val -&gt; val</span></span>,
-<span class="extract"><span class="extract-syntax">val val -&gt; val</span></span>, ... and so on: in other words, they can be called with
-any number of arguments.
-</p>
-
-<p class="commentary">In particular, even if a function is declared with a type it is still legal to
-call it with any number of arguments. Again: beware.
-</p>
-
-<p class="commentary">Those arguments become the initial values of the local variables. So for
-example, if:
-</p>
-
+allows them to have any of the signatures <code>void -&gt; val</code>, <code>val -&gt; val</code>,
+<code>val val -&gt; val</code>, ... and so on: in other words, they can be called with
+any number of arguments.</p>
+<p>In particular, even if a function is declared with a type it is still legal to
+call it with any number of arguments. Again: beware.</p>
+<p>Those arguments become the initial values of the local variables. So for
+example, if:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">package</span><span class="plain-syntax"> example _code</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">local</span><span class="plain-syntax"> x</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">local</span><span class="plain-syntax"> y</span>
+<span class="plain-syntax">    </span><span class="type-syntax">package</span><span class="plain-syntax"> example _code</span>
+<span class="plain-syntax">        </span><span class="type-syntax">local</span><span class="plain-syntax"> x</span>
+<span class="plain-syntax">        </span><span class="type-syntax">local</span><span class="plain-syntax"> y</span>
 </pre>
-<p class="commentary">then:
-</p>
-
-<ul class="items"><li>&#9679; a call with no arguments results in <span class="extract"><span class="extract-syntax">x</span></span> and <span class="extract"><span class="extract-syntax">y</span></span> equal to 0 and 0;
-</li><li>&#9679; a call with argument 7 results in <span class="extract"><span class="extract-syntax">x</span></span> and <span class="extract"><span class="extract-syntax">y</span></span> equal to 7 and 0;
-</li><li>&#9679; a call with arguments 7 and 81 results in <span class="extract"><span class="extract-syntax">x</span></span> and <span class="extract"><span class="extract-syntax">y</span></span> equal to 7 and 81;
-</li><li>&#9679; a call with three or more arguments has undefined results and may crash
-the program altogether.
-</li></ul>
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. Val, ref, lab and cast.</b>We have seen many examples already, but:
-</p>
-
-<ul class="items"><li>&#9679; <span class="extract"><span class="extract-syntax">val V</span></span> allows us to use any simple value <span class="extract"><span class="extract-syntax">V</span></span> in any <span class="extract"><span class="extract-syntax">val</span></span> context. For
-what is meant by a "simple" value, see <a href="M-dpiti.html" class="internal">Data Packages in Textual Inter</a>.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">ref R</span></span> allows us to refer to any variable, local or global, in a <span class="extract"><span class="extract-syntax">ref</span></span>
-context.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">lab L</span></span> allows us to refer to any label declared somewhere in the current
-function body, in a <span class="extract"><span class="extract-syntax">lab</span></span> context.
-</li></ul>
-<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. </b>The <span class="extract"><span class="extract-syntax">val</span></span> and <span class="extract"><span class="extract-syntax">ref</span></span> instructions both allow optional type markers to be placed,
-so for example:
-</p>
-
+<div class="lsmarkdown">
+<p>then:</p>
+<ul>
+<li>a call with no arguments results in <code>x</code> and <code>y</code> equal to 0 and 0;</li>
+<li>a call with argument 7 results in <code>x</code> and <code>y</code> equal to 7 and 0;</li>
+<li>a call with arguments 7 and 81 results in <code>x</code> and <code>y</code> equal to 7 and 81;</li>
+<li>a call with three or more arguments has undefined results and may crash
+the program altogether.</li>
+</ul>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. Val, ref, lab and cast.</b>  We have seen many examples already, but:</p>
+<ul>
+<li>
+<p><code>val V</code> allows us to use any simple value <code>V</code> in any <code>val</code> context. For
+what is meant by a &quot;simple&quot; value, see <a href="M-dpiti.html" class="internal">Data Packages in Textual Inter</a>.</p>
+</li>
+<li>
+<p><code>ref R</code> allows us to refer to any variable, local or global, in a <code>ref</code>
+context.</p>
+</li>
+<li>
+<p><code>lab L</code> allows us to refer to any label declared somewhere in the current
+function body, in a <code>lab</code> context.</p>
+</li>
+</ul>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. </b>  The <code>val</code> and <code>ref</code> instructions both allow optional type markers to be placed,
+so for example:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">val</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int32</span><span class="plain-syntax">) x</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">ref</span><span class="plain-syntax"> (</span><span class="reserved-syntax">text</span><span class="plain-syntax">) y</span>
+<span class="plain-syntax">    </span><span class="type-syntax">val</span><span class="plain-syntax"> (</span><span class="type-syntax">int32</span><span class="plain-syntax">) x</span>
+<span class="plain-syntax">    </span><span class="type-syntax">ref</span><span class="plain-syntax"> (</span><span class="type-syntax">text</span><span class="plain-syntax">) y</span>
 </pre>
-<p class="commentary">Where no type marker is given, the type is always considered <span class="extract"><span class="extract-syntax">unchecked</span></span>.
-</p>
-
-<p class="commentary">Types of <span class="extract"><span class="extract-syntax">val</span></span> or <span class="extract"><span class="extract-syntax">ref</span></span> tend not to be checked or looked at anyway, so this
+<div class="lsmarkdown">
+<p>Where no type marker is given, the type is always considered <code>unchecked</code>.</p>
+<p>Types of <code>val</code> or <code>ref</code> tend not to be checked or looked at anyway, so this
 feature is currently little used. For many primitives, some of which are quite
 polymorphic, it would be difficult to impose a typechecking regime anyway.
-But the ability to mark <span class="extract"><span class="extract-syntax">val</span></span> and <span class="extract"><span class="extract-syntax">ref</span></span> with types is preserved as a hedge
+But the ability to mark <code>val</code> and <code>ref</code> with types is preserved as a hedge
 against potential future developments, when Inter might conceivably be
-tightened up to typecheck explicitly typed values.
-</p>
-
-<p class="commentary">Similarly unuseful for the moment is <span class="extract"><span class="extract-syntax">cast</span></span>. This instruction allows us to
-say "consider this value as if it had a different type". For example, if we
-are using an enumerated type <span class="extract"><span class="extract-syntax">city</span></span>, we could read the enumeration values as
-numbers like so:
-</p>
-
+tightened up to typecheck explicitly typed values.</p>
+<p>Similarly unuseful for the moment is <code>cast</code>. This instruction allows us to
+say &quot;consider this value as if it had a different type&quot;. For example, if we
+are using an enumerated type <code>city</code>, we could read the enumeration values as
+numbers like so:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">cast</span><span class="plain-syntax"> </span><span class="reserved-syntax">int32</span><span class="plain-syntax"> &lt;- city</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">val</span><span class="plain-syntax"> (city) Odessa</span>
+<span class="plain-syntax">    </span><span class="type-syntax">cast</span><span class="plain-syntax"> </span><span class="type-syntax">int32</span><span class="plain-syntax"> &lt;- city</span>
+<span class="plain-syntax">        </span><span class="type-syntax">val</span><span class="plain-syntax"> (city) Odessa</span>
 </pre>
-<p class="commentary">Right now this is no different from:
-</p>
-
+<div class="lsmarkdown">
+<p>Right now this is no different from:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">val</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int32</span><span class="plain-syntax">) Odessa</span>
+<span class="plain-syntax">    </span><span class="type-syntax">val</span><span class="plain-syntax"> (</span><span class="type-syntax">int32</span><span class="plain-syntax">) Odessa</span>
 </pre>
-<p class="commentary">but we keep <span class="extract"><span class="extract-syntax">cast</span></span> around as a hedge against future developments, in case we
-ever want to typecheck strictly enough that <span class="extract"><span class="extract-syntax">val (int32) Odessa</span></span> is rejected
-as a contradiction in terms.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. Labels and assembly language.</b>Like labels in C, these are named reference points in the code; they are written
-<span class="extract"><span class="extract-syntax">.NAME</span></span>, where <span class="extract"><span class="extract-syntax">.NAME</span></span> must begin with a full stop <span class="extract"><span class="extract-syntax">.</span></span>. Labels are not values;
+<div class="lsmarkdown">
+<p>but we keep <code>cast</code> around as a hedge against future developments, in case we
+ever want to typecheck strictly enough that <code>val (int32) Odessa</code> is rejected
+as a contradiction in terms.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. Labels and assembly language.</b>  Like labels in C, these are named reference points in the code; they are written
+<code>.NAME</code>, where <code>.NAME</code> must begin with a full stop <code>.</code>. Labels are not values;
 they cannot be stored, or computed with, or cast. They can only be used in
-a <span class="extract"><span class="extract-syntax">lab</span></span> instruction.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. </b>Two uses of <span class="extract"><span class="extract-syntax">inv</span></span> have already been covered: to call an Inter function, and
-to invoke a primitive operation. The third is to execute an "assembly-language
-opcode". What we mean by that is the direct use of the instruction set on the
-target virtual machine we are expecting our program to run on.
-</p>
-
-<p class="commentary">This has always been a feature of Inform 6 code. For example, some real-number
+a <code>lab</code> instruction.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. </b>  Two uses of <code>inv</code> have already been covered: to call an Inter function, and
+to invoke a primitive operation. The third is to execute an &quot;assembly-language
+opcode&quot;. What we mean by that is the direct use of the instruction set on the
+target virtual machine we are expecting our program to run on.</p>
+<p>This has always been a feature of Inform 6 code. For example, some real-number
 arithmetic functions in BasicInformKit are written to use heavy amounts of
 Glulx assembly language, in order to access functionality not present in the
-Inform language itself. Here is a sample:
-</p>
-
+Inform language itself. Here is a sample:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    @</span><span class="identifier-syntax">fdiv</span><span class="plain-syntax"> </span><span class="identifier-syntax">sp</span><span class="plain-syntax"> </span><span class="constant-syntax">$40135D8E</span><span class="plain-syntax"> </span><span class="identifier-syntax">log10val</span><span class="plain-syntax">; </span><span class="comment-syntax">$40135D8E is log(10)</span>
+<span class="plain-syntax">    @</span><span class="identifier-syntax">fdiv</span><span class="plain-syntax"> </span><span class="identifier-syntax">sp</span><span class="plain-syntax"> </span><span class="constant-syntax">$40135D8E</span><span class="plain-syntax"> </span><span class="identifier-syntax">log10val</span><span class="plain-syntax">; </span><span class="comment-syntax">! $40135D8E is log(10)</span>
 <span class="plain-syntax">    @</span><span class="identifier-syntax">floor</span><span class="plain-syntax"> </span><span class="identifier-syntax">log10val</span><span class="plain-syntax"> </span><span class="identifier-syntax">fexpo</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    @</span><span class="identifier-syntax">ftonumn</span><span class="plain-syntax"> </span><span class="identifier-syntax">fexpo</span><span class="plain-syntax"> </span><span class="identifier-syntax">expo</span><span class="plain-syntax">;</span>
 </pre>
-<p class="commentary">Those "opcodes" beginning <span class="extract"><span class="extract-syntax">@</span></span> are part of the instruction set for the
+<div class="lsmarkdown">
+<p>Those &quot;opcodes&quot; beginning <code>@</code> are part of the instruction set for the
 Glulx virtual machine: real number arithmetic is impossible on the smaller
 Z-machine, so we couldn't meaningfully compile this code to that platform,
 and that is just is well because it has a completely different instruction
 set of opcodes from Glulx anyway. Still, there's no denying that Inter code
 using assembly immediately becomes less portable. This is why it is always
-better to use Inter primitives if possible.
-</p>
-
-<p class="commentary">Still, BasicInformKit must be compiled to Inter code somehow. We clearly need to
+better to use Inter primitives if possible.</p>
+<p>Still, BasicInformKit must be compiled to Inter code somehow. We clearly need to
 deal with those opcodes somehow. The standard Inform-provided kits use two
 different sets of opcodes, as noted: the Z-machine and Glulx instruction sets.
 One conceivable way to deal with this would have been to provide primitives
 equivalent to every opcode in either set (or at least every opcode used in
 the standard Inform kits). But that would hugely increase the set of primitives,
-and also incur a certain amount of awkward repetition.
-</p>
-
-<p class="commentary">Instead, the Inter specification goes to the opposite extreme. It makes no
+and also incur a certain amount of awkward repetition.</p>
+<p>Instead, the Inter specification goes to the opposite extreme. It makes no
 assumptions about what assembly opcodes do, or do not, exist. Inter allows
-absolutely anything, and would be quite happy to accept, say, <span class="extract"><span class="extract-syntax">inv @flytothemoon</span></span>,
-even though this opcode does not exist in any known system of assembly language.<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>
-</p>
-
-<p class="commentary">And so the above is in fact compiled to:
-</p>
-
+absolutely anything, and would be quite happy to accept, say, <code>inv @flytothemoon</code>,
+even though this opcode does not exist in any known system of assembly language.<sup id="fnred:1"><a href="#fn:1" rel="footnote">1</a></sup></p>
+<p>And so the above is in fact compiled to:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">inv</span><span class="plain-syntax"> @</span><span class="identifier-syntax">fdiv</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">assembly</span><span class="plain-syntax"> </span><span class="identifier-syntax">stack</span>
@@ -455,85 +453,89 @@ even though this opcode does not exist in any known system of assembly language.
 <span class="plain-syntax">        </span><span class="identifier-syntax">val</span><span class="plain-syntax"> </span><span class="identifier-syntax">fexpo</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">val</span><span class="plain-syntax"> </span><span class="identifier-syntax">expo</span>
 </pre>
-<p class="commentary">And when the <a href="../building-module/index.html" class="internal">building</a> module performed that compilation, it knew nothing
-about <span class="extract"><span class="extract-syntax">@fdiv</span></span> and the rest: it just took on trust that this is meaningful.
-</p>
-
-<ul class="footnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> This can actually be useful, since it means people experimenting with new
-hybrid forms of Inform can devise extra opcodes of their own.
-<a href="#fnref:1" title="return to text"> &#x21A9;</a></p></li></ul>
-<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. </b>So, how apparently generous: the Inter specification allows us to invoke
+<div class="lsmarkdown">
+<p>And when the <a href="../building-module/index.html" class="internal">building</a> module performed that compilation, it knew nothing
+about <code>@fdiv</code> and the rest: it just took on trust that this is meaningful.</p>
+<ul class="inwebfootnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>
+This can actually be useful, since it means people experimenting with new
+hybrid forms of Inform can devise extra opcodes of their own.<a href="#fnref:1" title="return to text"> &#x21A9;</a></p>
+</li></ul>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. </b>  So, how apparently generous: the Inter specification allows us to invoke
 opcodes with arbitrary names. But that does not, of course, mean that those
 opcodes can be compiled to code which does anything useful. The <a href="../final-module/index.html" class="internal">final</a>
 code-generation module probably won't know what to do with our hypothetical
-<span class="extract"><span class="extract-syntax">@flytothemoon</span></span> opcode.
-</p>
-
-<p class="commentary">In practice, therefore, <a href="../final-module/index.html" class="internal">final</a> knows how to deal with the Z-machine
+<code>@flytothemoon</code> opcode.</p>
+<p>In practice, therefore, <a href="../final-module/index.html" class="internal">final</a> knows how to deal with the Z-machine
 instruction set when compiling for Z via Inform 6, and how to deal with the
 Glulx instruction set when compiling either for Glulx via Inform 6 or a
-native executable via a C compiler like <span class="extract"><span class="extract-syntax">clang</span></span>. Any further code-generators
+native executable via a C compiler like <code>clang</code>. Any further code-generators
 are also likely to follow Glulx conventions. So: if you really must use
-assembly language in your Inter code, good advice would be &mdash;
-</p>
-
-<ul class="items"><li>(1) Use the Glulx instruction set, for better chances of portability.
-</li><li>(2) Only use those opcodes which are also used in the standard Inform kits
-somewhere, since those will probably be implemented.
-</li></ul>
-<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. </b>If we look at this example in more detail:
-</p>
-
+assembly language in your Inter code, good advice would be --</p>
+<ul>
+<li>
+<p>Use the Glulx instruction set, for better chances of portability.</p>
+</li>
+<li>
+<p>Only use those opcodes which are also used in the standard Inform kits
+somewhere, since those will probably be implemented.</p>
+</li>
+</ul>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. </b>  If we look at this example in more detail:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> @fdiv</span>
+<span class="plain-syntax">    </span><span class="type-syntax">inv</span><span class="plain-syntax"> @fdiv</span>
 <span class="plain-syntax">        assembly stack</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">val</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">x40135D8E</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">val</span><span class="plain-syntax"> log10val</span>
+<span class="plain-syntax">        </span><span class="type-syntax">val</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">x40135D8E</span>
+<span class="plain-syntax">        </span><span class="type-syntax">val</span><span class="plain-syntax"> log10val</span>
 </pre>
-<p class="commentary">we see some general features of assembly language. Inter allows any number
-of child instructions to be supplied &mdash; here, there are three. Since Inter knows
-nothing about the meaning of <span class="extract"><span class="extract-syntax">@fdiv</span></span>, it has no way to know how many are
-expected. They should all be usages of <span class="extract"><span class="extract-syntax">val</span></span>, <span class="extract"><span class="extract-syntax">lab</span></span>, or <span class="extract"><span class="extract-syntax">assembly</span></span>.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">val</span></span> and <span class="extract"><span class="extract-syntax">lab</span></span> we have seen already. <span class="extract"><span class="extract-syntax">assembly</span></span> is a sort of punctuation
+<div class="lsmarkdown">
+<p>we see some general features of assembly language. Inter allows any number
+of child instructions to be supplied -- here, there are three. Since Inter knows
+nothing about the meaning of <code>@fdiv</code>, it has no way to know how many are
+expected. They should all be usages of <code>val</code>, <code>lab</code>, or <code>assembly</code>.</p>
+<p><code>val</code> and <code>lab</code> we have seen already. <code>assembly</code> is a sort of punctuation
 instruction which allows various oddball syntaxes of Z-machine or Glulx
-assembly to be imitated in Inter. There are only seven possible <span class="extract"><span class="extract-syntax">assembly</span></span>
-instructions. Two are very common:
-</p>
-
-<ul class="items"><li>&#9679; <span class="extract"><span class="extract-syntax">assembly stack</span></span> is probably the most common, either reading or writing
-to the top of the virtual machine's stack.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">assembly store_to</span></span> indicates that a storage location follows (either
-<span class="extract"><span class="extract-syntax">assembly stack</span></span> or a local or global variable). This is only used in Z-machine
-assembly language; Glulx assembly doesn't have this marker.
-</li></ul>
-<p class="commentary">The other five apply only to "branch instructions", which perform some test
+assembly to be imitated in Inter. There are only seven possible <code>assembly</code>
+instructions. Two are very common:</p>
+<ul>
+<li>
+<p><code>assembly stack</code> is probably the most common, either reading or writing
+to the top of the virtual machine's stack.</p>
+</li>
+<li>
+<p><code>assembly store_to</code> indicates that a storage location follows (either
+<code>assembly stack</code> or a local or global variable). This is only used in Z-machine
+assembly language; Glulx assembly doesn't have this marker.</p>
+</li>
+</ul>
+<p>The other five apply only to &quot;branch instructions&quot;, which perform some test
 and then either return from the current function or make a jump to a label
-(a "branch"), depending on the outcome of the test. By default the instruction
-branches on a successful test. But alternatively it can:
-</p>
-
-<ul class="items"><li>&#9679; <span class="extract"><span class="extract-syntax">assembly branch_if_false</span></span>.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">assembly return_true_if_true</span></span>.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">assembly return_false_if_true</span></span>
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">assembly return_true_if_false</span></span>
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">assembly return_false_if_false</span></span>
-</li></ul>
-<p class="commentary">So for example the Z-machine instruction <span class="extract"><span class="extract-syntax">@random sp -&gt; i;</span></span> compiles to Inter as:
-</p>
-
+(a &quot;branch&quot;), depending on the outcome of the test. By default the instruction
+branches on a successful test. But alternatively it can:</p>
+<ul>
+<li><code>assembly branch_if_false</code>.</li>
+<li><code>assembly return_true_if_true</code>.</li>
+<li><code>assembly return_false_if_true</code></li>
+<li><code>assembly return_true_if_false</code></li>
+<li><code>assembly return_false_if_false</code></li>
+</ul>
+<p>So for example the Z-machine instruction <code>@random sp -&gt; i;</code> compiles to Inter as:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> @fdiv</span>
+<span class="plain-syntax">    </span><span class="type-syntax">inv</span><span class="plain-syntax"> @fdiv</span>
 <span class="plain-syntax">        assembly stack</span>
 <span class="plain-syntax">        assembly store_to</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">val</span><span class="plain-syntax"> i</span>
+<span class="plain-syntax">        </span><span class="type-syntax">val</span><span class="plain-syntax"> i</span>
 </pre>
-<p class="commentary">And note the use of <span class="extract"><span class="extract-syntax">val i</span></span>, not <span class="extract"><span class="extract-syntax">ref i</span></span>, even though the variable is being
+<div class="lsmarkdown">
+<p>And note the use of <code>val i</code>, not <code>ref i</code>, even though the variable is being
 written to here. Even Inter's normal rules of category checking do not apply
-to assembly language, the lowest of the low.
-</p>
-
+to assembly language, the lowest of the low.</p>
+</div>
 <nav role="progress"><div class="progresscontainer">
     <ul class="progressbar"><li class="progressprev"><a href="M-dpiti.html">&#10094;</a></li><li class="progresscurrentchapter">M</li><li class="progresssection"><a href="M-ui.html">ui</a></li><li class="progresssection"><a href="M-ti.html">ti</a></li><li class="progresssection"><a href="M-dpiti.html">dpiti</a></li><li class="progresscurrent">cpiti</li><li class="progresssection"><a href="M-ip.html">ip</a></li><li class="progresssection"><a href="M-ia.html">ia</a></li><li class="progresssection"><a href="M-io.html">io</a></li><li class="progresssection"><a href="M-pas.html">pas</a></li><li class="progresssection"><a href="M-rc.html">rc</a></li><li class="progresschapter"><a href="1-mn.html">1</a></li><li class="progressnext"><a href="M-ip.html">&#10095;</a></li></ul></div>
 </nav><!-- End of weave -->

@@ -5,13 +5,14 @@ An overview of the words module's role and abilities.
 @h Prerequisites.
 The words module is a part of the Inform compiler toolset. It is
 presented as a literate program or "web". Before diving in:
-(a) It helps to have some experience of reading webs: see //inweb// for more.
-(b) The module is written in C, in fact ANSI C99, but this is disguised by the
+
+- It helps to have some experience of reading webs: see //inweb// for more.
+- The module is written in C, in fact ANSI C99, but this is disguised by the
 fact that it uses some extension syntaxes provided by the //inweb// literate
 programming tool, making it a dialect of C called InC. See //inweb// for
 full details, but essentially: it's C without predeclarations or header files,
 and where functions have names like |Tags::add_by_name| rather than |add_by_name|.
-(c) This module uses other modules drawn from the compiler (see //structure//), and also
+- This module uses other modules drawn from the compiler (see //structure//), and also
 uses a module of utility functions called //foundation//.
 For more, see //foundation: A Brief Guide to Foundation//.
 
@@ -101,10 +102,11 @@ may not occur as such anywhere in the source.
 If all the words needed are in the source somewhere, but not together, the user
 of the //words// module has two options:
 
-(*) Create a //word_assemblage// object. This can represent any discontiguous
+(1) Create a //word_assemblage// object. This can represent any discontiguous
 list of word numbers: thus, the text "lamb went everywhere" could be a WA
 of numbers (21, 26, 23) in our example above.
-(*) Use //Lexer::splice_words// to create duplicate snippets of text in the
+
+(2) Use //Lexer::splice_words// to create duplicate snippets of text in the
 word stream, with new numbers. For example, call this on "lamb", then "went",
 then "everywhere"; the three new word numbers will then be contiguous, and
 can be represented by a //wording//:
@@ -136,12 +138,12 @@ We now have three ways to represent text which may contain multiple words:
 as a |text_stream|, as a |wording|, as a |word_assemblage|. Each can be
 converted into the other two:
 
-(*) Use //Feeds::feed_text// to turn a |text_stream| to a |wording|.
-(*) Use //WordAssemblages::from_wording// to turn a |wording| to a |word_assemblage|.
-(*) Use //WordAssemblages::to_wording// to turn a |word_assemblage| to a |wording|.
-(*) Use //Wordings::writer// or use the formatted |WRITE| escape |%W| to
+- Use //Feeds::feed_text// to turn a |text_stream| to a |wording|.
+- Use //WordAssemblages::from_wording// to turn a |wording| to a |word_assemblage|.
+- Use //WordAssemblages::to_wording// to turn a |word_assemblage| to a |wording|.
+- Use //Wordings::writer// or use the formatted |WRITE| escape |%W| to
 write a |wording| into a |text_stream|.
-(*) Use //WordAssemblages::writer// or use the formatted |WRITE| escape |%A| to
+- Use //WordAssemblages::writer// or use the formatted |WRITE| escape |%A| to
 write a |word_assemblage| into a |text_stream|.
 
 As a general design goal, all Inform code uses //wording// to identify names

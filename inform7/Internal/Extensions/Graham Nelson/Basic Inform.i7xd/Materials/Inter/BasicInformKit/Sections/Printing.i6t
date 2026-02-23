@@ -130,12 +130,12 @@ The second level of the system for printing object names handles the placing
 of articles in front of them: {\it the} red herring, {\it an} elephant,
 {\it Some} bread. The following routine allows us to choose:
 
-(a) |obj|, the object whose name is to be printed;
-(b) |acode|, the kind of article needed: capitalised definite (0), lower case
+- |obj|, the object whose name is to be printed;
+- |acode|, the kind of article needed: capitalised definite (0), lower case
 uncapitalised definite (1), or uncapitalised indefinite (2);
-(c) |pluralise|, a flag forcing to a plural form (e.g., "some" being the
+- |pluralise|, a flag forcing to a plural form (e.g., "some" being the
 pluralised form of an indefinite article in English);
-(d) |capitalise|, a flag forcing us to capitalise the article -- it's by
+- |capitalise|, a flag forcing us to capitalise the article -- it's by
 setting this that we can achieve the fourth option missing from (b), viz.,
 capitalised indefinite. (All of this is a legacy design from a time when
 the I6 library did not support capitalised indefinite articles.)

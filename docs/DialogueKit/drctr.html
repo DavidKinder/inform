@@ -12,6 +12,11 @@
 <link href="../docs-assets/Navigation.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Fonts.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -48,10 +53,10 @@
 
 <ul class="toc"><li><a href="drctr.html#SP1">&#167;1. Active versus inactive</a></li><li><a href="drctr.html#SP2">&#167;2. The live subject list</a></li><li><a href="drctr.html#SP3">&#167;3. Access as an Inform list</a></li><li><a href="drctr.html#SP4">&#167;4. Dialogue intervening</a></li><li><a href="drctr.html#SP5">&#167;5. Active dialogue</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Active versus inactive.</b>The most important question about the director: is it currently running in
-active or inactive mode?
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Active versus inactive.</b>  The most important question about the director: is it currently running in
+active or inactive mode?</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">director_is_active</span><span class="plain-syntax"> = </span><span class="reserved-syntax">false</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">Global</span><span class="plain-syntax"> </span><span class="identifier-syntax">director_is_paused_for_command</span><span class="plain-syntax"> = </span><span class="reserved-syntax">false</span><span class="plain-syntax">;</span>
@@ -65,13 +70,13 @@ active or inactive mode?
 <span class="plain-syntax">    </span><span class="identifier-syntax">director_is_active</span><span class="plain-syntax"> = </span><span class="reserved-syntax">false</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. The live subject list.</b>This is stored as a null-terminated array, capped at <span class="extract"><span class="extract-syntax">DIALOGUE_MAX_LIVE_SUBJECTS</span></span>
-items.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. The live subject list.</b>  This is stored as a null-terminated array, capped at <code>DIALOGUE_MAX_LIVE_SUBJECTS</code>
+items.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">DIALOGUE_MAX_LIVE_SUBJECTS</span><span class="plain-syntax"> = </span><span class="constant-syntax">19</span><span class="plain-syntax">;</span>
-<span class="reserved-syntax">Array</span><span class="plain-syntax"> </span><span class="identifier-syntax">DialogueTopicPool</span><span class="plain-syntax"> --&gt; (</span><span class="identifier-syntax">DIALOGUE_MAX_LIVE_SUBJECTS</span><span class="plain-syntax">+1);</span>
+<span class="reserved-syntax">Array</span><span class="plain-syntax"> </span><span class="identifier-syntax">DialogueTopicPool</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">-&gt; (</span><span class="identifier-syntax">DIALOGUE_MAX_LIVE_SUBJECTS</span><span class="plain-syntax">+1);</span>
 
 <span class="plain-syntax">[ </span><span class="identifier-syntax">DirectorEmptyLiveSubjectList</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">DialogueTopicPool</span><span class="plain-syntax">--&gt;0 = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
@@ -98,12 +103,12 @@ items.
 <span class="plain-syntax">    </span><span class="identifier-syntax">DialogueTopicPool</span><span class="plain-syntax">--&gt;</span><span class="identifier-syntax">DIALOGUE_MAX_LIVE_SUBJECTS</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Access as an Inform list.</b>This copies our null-terminated array into, or out of, an Inform list.
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Access as an Inform list.</b>  This copies our null-terminated array into, or out of, an Inform list.
 The reason we don't keep it in an Inform list all the time is that we get
 very slightly faster access by not doing so, and we don't need the main
-virtue of Inform lists, that is, their flexible size.
-</p>
-
+virtue of Inform lists, that is, their flexible size.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">DirectorLiveSubjectList</span><span class="plain-syntax"> </span><span class="identifier-syntax">list</span><span class="plain-syntax"> </span><span class="identifier-syntax">len</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">WeakKindOfPV</span><span class="plain-syntax">(</span><span class="identifier-syntax">list</span><span class="plain-syntax">) ~= </span><span class="identifier-syntax">LIST_OF_TY</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
@@ -125,13 +130,13 @@ virtue of Inform lists, that is, their flexible size.
 <span class="plain-syntax">    </span><span class="identifier-syntax">DialogueTopicPool</span><span class="plain-syntax">--&gt;</span><span class="identifier-syntax">DIALOGUE_MAX_LIVE_SUBJECTS</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Dialogue intervening.</b><span class="extract"><span class="extract-syntax">DirectorIntervenes(subj, speaker)</span></span> tries to find a beat of dialogue we can perform
-which is relevant to the subject <span class="extract"><span class="extract-syntax">subj</span></span>, and returns <span class="extract"><span class="extract-syntax">true</span></span> if it did in fact
-perform something, or <span class="extract"><span class="extract-syntax">false</span></span> if not (in which case it printed nothing).
-If <span class="extract"><span class="extract-syntax">speaker</span></span> is not <span class="extract"><span class="extract-syntax">nothing</span></span>, then prefer beats in which that person is the
-first to speak. (Note that <span class="extract"><span class="extract-syntax">speaker</span></span> will often be the player.)
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Dialogue intervening.</b>  <code>DirectorIntervenes(subj, speaker)</code> tries to find a beat of dialogue we can perform
+which is relevant to the subject <code>subj</code>, and returns <code>true</code> if it did in fact
+perform something, or <code>false</code> if not (in which case it printed nothing).
+If <code>speaker</code> is not <code>nothing</code>, then prefer beats in which that person is the
+first to speak. (Note that <code>speaker</code> will often be the player.)</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">DirectorIntervenes</span><span class="plain-syntax"> </span><span class="identifier-syntax">obj</span><span class="plain-syntax"> </span><span class="identifier-syntax">speaker</span><span class="plain-syntax"> </span><span class="identifier-syntax">fn</span><span class="plain-syntax"> </span><span class="identifier-syntax">db</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">speaker</span><span class="plain-syntax"> ~= </span><span class="reserved-syntax">nothing</span><span class="plain-syntax">) {</span>
@@ -163,16 +168,14 @@ first to speak. (Note that <span class="extract"><span class="extract-syntax">sp
 <span class="plain-syntax">    </span><span class="reserved-syntax">rfalse</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Active dialogue.</b>In active mode only, the Director sometimes initiates conversation itself,
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Active dialogue.</b>  In active mode only, the Director sometimes initiates conversation itself,
 and this is the rule doing that. In passive mode the rule does nothing.
 In stories with a lot of dialogue, this will run quite slowly: on the
-other hand, it only has to run once in every turn, so that may not matter.
-</p>
-
-<p class="commentary">Note that the rule always succeeds, even in the case when the Director
-finds nothing to perform.
-</p>
-
+other hand, it only has to run once in every turn, so that may not matter.</p>
+<p>Note that the rule always succeeds, even in the case when the Director
+finds nothing to perform.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">DIALOGUE_DIRECTION_R</span><span class="plain-syntax"> </span><span class="identifier-syntax">db</span><span class="plain-syntax"> </span><span class="identifier-syntax">spontaneous_one</span><span class="plain-syntax"> </span><span class="identifier-syntax">chosen_one</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">director_is_active</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">director_is_paused_for_command</span><span class="plain-syntax"> == </span><span class="reserved-syntax">false</span><span class="plain-syntax">)) {</span>

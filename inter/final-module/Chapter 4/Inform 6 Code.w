@@ -820,11 +820,11 @@ has three children: the kind, the object/owner, and the property itself. We
 look at the node and try to see if it's one of the two easy cases which enable
 more efficient code to be compiled (see above): in fact, it almost always is.
 
-(*) We return |I6G_CAN_PROVE_IS_OBJ_ATTRIBUTE| if the kind is definitely |OBJECT_TY|
+- We return |I6G_CAN_PROVE_IS_OBJ_ATTRIBUTE| if the kind is definitely |OBJECT_TY|
 and the property is stored in a VM-attribute;
-(*) Or |I6G_CAN_PROVE_IS_OBJ_PROPERTY| if the kind is definitely |OBJECT_TY|
+- Or |I6G_CAN_PROVE_IS_OBJ_PROPERTY| if the kind is definitely |OBJECT_TY|
 and the property is stored in a VM-property;
-(*) Or |I6G_CANNOT_PROVE| if we don't know.
+- Or |I6G_CANNOT_PROVE| if we don't know.
 
 @d I6G_CAN_PROVE_IS_OBJ_ATTRIBUTE 1
 @d I6G_CAN_PROVE_IS_PERHAPS_UNPOSSESSED_PROPERTY 2
@@ -870,9 +870,9 @@ The generator above compiled calls to a handful of functions with names in the
 form |_final_*|; so these functions must clearly be supplied. It might seem that
 they ought to be included in, say, BasicInformKit and not here. But:
 
-(1) They are needed only for Inform 6 usage, whereas BasicInformKit contains
+- They are needed only for Inform 6 usage, whereas BasicInformKit contains
 material used whatever the final code-generator;
-(2) They are written in genuine Inform 6 code, not kit code, which looks like
+- They are written in genuine Inform 6 code, not kit code, which looks like
 I6 and is very similar to it but is not quite the same. In kit code, |O.P| means
 "the value of the property P for the object O", but where |P| is the metadata
 array for the property. In genuine Inform 6, |O.P| expects |P| to be the actual

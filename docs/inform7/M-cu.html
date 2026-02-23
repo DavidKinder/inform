@@ -12,6 +12,11 @@
 <link href="../docs-assets/Navigation.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Fonts.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/ConsoleText-Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
@@ -49,178 +54,150 @@
 
 <ul class="toc"><li><a href="M-cu.html#SP1">&#167;1. Disclaimer</a></li><li><a href="M-cu.html#SP3">&#167;3. How the UI apps call Inform 7</a></li><li><a href="M-cu.html#SP9">&#167;9. Using Inform 7 without projects</a></li><li><a href="M-cu.html#SP10">&#167;10. Testing and debugging switches</a></li><li><a href="M-cu.html#SP11">&#167;11. Expert settings file</a></li><li><a href="M-cu.html#SP12">&#167;12. Prehistory</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Disclaimer.</b>This is not documentation on the Inform language or its user-interface apps:
-it's a technical note on how the command-line tool inside those apps is called.
-</p>
-
-<p class="commentary">The <span class="extract"><span class="extract-syntax">inform7</span></span> executable has a few ancillary functions, but basically it
-takes natural language source text and compiles it to either "Inter", an
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Disclaimer.</b>  This is not documentation on the Inform language or its user-interface apps:
+it's a technical note on how the command-line tool inside those apps is called.</p>
+<p>The <code>inform7</code> executable has a few ancillary functions, but basically it
+takes natural language source text and compiles it to either &quot;Inter&quot;, an
 intermediate-level code, or all the way to Inform 6 source code. In order
 to run, it needs access to numerous resources, and many of its command-line
-switches exist to specify where those are to be found.
-</p>
-
-<p class="commentary">If you are using Inform 7 at the command line, things are usually set up so
-that Inform 7 is installed in the directory <span class="extract"><span class="extract-syntax">inform7</span></span> with respect to your
-current working directory. <span class="extract"><span class="extract-syntax">inform7</span></span> is a composite of various files, and
-the executable inside is at <span class="extract"><span class="extract-syntax">inform7/Tangled/inform7</span></span>. To test that it has
-been built successfully, try:
-</p>
-
+switches exist to specify where those are to be found.</p>
+<p>If you are using Inform 7 at the command line, things are usually set up so
+that Inform 7 is installed in the directory <code>inform7</code> with respect to your
+current working directory. <code>inform7</code> is a composite of various files, and
+the executable inside is at <code>inform7/Tangled/inform7</code>. To test that it has
+been built successfully, try:</p>
+</div>
 <pre class="ConsoleText-displayed-code all-displayed-code code-font">
 <span class="ConsoleText-plain-syntax">    </span><span class="ConsoleText-element-syntax">$</span><span class="ConsoleText-plain-syntax"> </span><span class="ConsoleText-function-syntax">inform7/Tangled/inform7</span><span class="ConsoleText-identifier-syntax"> -help</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>When it runs, Inform 7 needs to know where it is installed in the file
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  When it runs, Inform 7 needs to know where it is installed in the file
 system. There is no completely foolproof, cross-platform way to know this
 (on some Unixes, a program cannot determine its own location), so Inbuild
-decides by the following set of rules:
-</p>
-
-<ul class="items"><li>(a) If the user, at the command line, specified <span class="extract"><span class="ConsoleText-extract-syntax">-at P</span></span>, for some path
-<span class="extract"><span class="ConsoleText-extract-syntax">P</span></span>, then we use that.
-</li><li>(b) Otherwise, if the host operating system can indeed tell us where the
+decides by the following set of rules:</p>
+<ul>
+<li>If the user, at the command line, specified <code>-at P</code>, for some path
+<code>P</code>, then we use that.</li>
+<li>Otherwise, if the host operating system can indeed tell us where the
 executable is, we use that. This is currently implemented only on MacOS,
-Windows and Linux.
-</li><li>(c) Otherwise, if the environment variable <span class="extract"><span class="ConsoleText-extract-syntax">$INFORM7_PATH</span></span> exists and is
-non-empty, we use that.
-</li><li>(d) And if all else fails, we assume that the location is indeed <span class="extract"><span class="ConsoleText-extract-syntax">inform7</span></span>,
-with respect to the current working directory.
-</li></ul>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. How the UI apps call Inform 7.</b>The full range of options is complex, so it seems helpful to start by showing
-what the Inform UI apps typically call when the user clicks "Go":
-</p>
-
+Windows and Linux.</li>
+<li>Otherwise, if the environment variable <code>$INFORM7_PATH</code> exists and is
+non-empty, we use that.</li>
+<li>And if all else fails, we assume that the location is indeed <code>inform7</code>,
+with respect to the current working directory.</li>
+</ul>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. How the UI apps call Inform 7.</b>  The full range of options is complex, so it seems helpful to start by showing
+what the Inform UI apps typically call when the user clicks &quot;Go&quot;:</p>
+</div>
 <pre class="ConsoleText-displayed-code all-displayed-code code-font">
 <span class="ConsoleText-plain-syntax">    </span><span class="ConsoleText-element-syntax">$</span><span class="ConsoleText-plain-syntax"> </span><span class="ConsoleText-function-syntax">inform7/Tangled/inform7</span><span class="ConsoleText-identifier-syntax"> -internal</span><span class="ConsoleText-plain-syntax"> I</span><span class="ConsoleText-identifier-syntax"> -external</span><span class="ConsoleText-plain-syntax"> E</span><span class="ConsoleText-identifier-syntax"> -project</span><span class="ConsoleText-plain-syntax"> P</span><span class="ConsoleText-identifier-syntax"> -format</span><span class="ConsoleText-plain-syntax">=F</span>
 </pre>
-<p class="commentary">for suitable pathnames <span class="extract"><span class="ConsoleText-extract-syntax">I</span></span>, <span class="extract"><span class="ConsoleText-extract-syntax">E</span></span>, <span class="extract"><span class="ConsoleText-extract-syntax">P</span></span> and a choice of <span class="extract"><span class="ConsoleText-extract-syntax">F</span></span>.
-</p>
-
-<p class="commentary">The format <span class="extract"><span class="ConsoleText-extract-syntax">F</span></span> can have quite a complex syntax. It takes the form of a
+<div class="lsmarkdown">
+<p>for suitable pathnames <code>I</code>, <code>E</code>, <code>P</code> and a choice of <code>F</code>.</p>
+<p>The format <code>F</code> can have quite a complex syntax. It takes the form of a
 sequence of criteria divided by slashes. The first will be the name of the
 language which <a href="index.html" class="internal">inform7</a> is writing as its output; the second will be the
-architecture used. Thus, <span class="extract"><span class="ConsoleText-extract-syntax">inform6/32d</span></span> means "32-bit Inform 6 code with
-debugging enabled", and this in practice is what the Inform UI apps make
+architecture used. Thus, <code>inform6/32d</code> means &quot;32-bit Inform 6 code with
+debugging enabled&quot;, and this in practice is what the Inform UI apps make
 when Glulx is the preferred virtual machine, as it is by default. But other
 alternatives are available at the command line, and it's also possible for
-<span class="extract"><span class="ConsoleText-extract-syntax">-format</span></span> to specify a semantic version number for the target, or some
-compilation options. See <a href="../arch-module/index.html" class="internal">arch</a> for a fuller description.
-</p>
-
-<p class="commentary">In previous releases of Inform, <span class="extract"><span class="ConsoleText-extract-syntax">-format=F</span></span> had a cruder syntax in which only
-<span class="extract"><span class="ConsoleText-extract-syntax">-format=ulx</span></span>, <span class="extract"><span class="ConsoleText-extract-syntax">-format=z5</span></span> and <span class="extract"><span class="ConsoleText-extract-syntax">-format=z8</span></span> were allowed. Those are still
+<code>-format</code> to specify a semantic version number for the target, or some
+compilation options. See <a href="../arch-module/index.html" class="internal">arch</a> for a fuller description.</p>
+<p>In previous releases of Inform, <code>-format=F</code> had a cruder syntax in which only
+<code>-format=ulx</code>, <code>-format=z5</code> and <code>-format=z8</code> were allowed. Those are still
 recognised, but deprecated. Inform will print a warning about this and supply
-the equivalent modern notation if one is used.
-</p>
-
-<p class="commentary">The project <span class="extract"><span class="ConsoleText-extract-syntax">P</span></span> is the directory holding the project to compile, such as
-<span class="extract"><span class="ConsoleText-extract-syntax">Bronze.inform</span></span>. On MacOS, this will be a bundle, and will look like an
-opaque binary file in the Finder, but it is a directory nevertheless.
-</p>
-
-<p class="commentary">The directories <span class="extract"><span class="ConsoleText-extract-syntax">I</span></span> and <span class="extract"><span class="ConsoleText-extract-syntax">E</span></span> tell Inform where to find its resources. Internal
-means "inside the app" &mdash; in other words, fixed material supplied with Inform
-and always present; external means "outside the app", and is where the user
-installs her own choice of extra resources.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>If no <span class="extract"><span class="ConsoleText-extract-syntax">-external E</span></span> is given, Inform behaves as it would in a clean
-installation with no external resources available.
-</p>
-
-<p class="commentary">If no <span class="extract"><span class="ConsoleText-extract-syntax">-internal I</span></span> is given on the command line, Inform 7 tries to find
+the equivalent modern notation if one is used.</p>
+<p>The project <code>P</code> is the directory holding the project to compile, such as
+<code>Bronze.inform</code>. On MacOS, this will be a bundle, and will look like an
+opaque binary file in the Finder, but it is a directory nevertheless.</p>
+<p>The directories <code>I</code> and <code>E</code> tell Inform where to find its resources. Internal
+means &quot;inside the app&quot; -- in other words, fixed material supplied with Inform
+and always present; external means &quot;outside the app&quot;, and is where the user
+installs her own choice of extra resources.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  If no <code>-external E</code> is given, Inform behaves as it would in a clean
+installation with no external resources available.</p>
+<p>If no <code>-internal I</code> is given on the command line, Inform 7 tries to find
 out where it is installed in the file system. There is no completely foolproof,
 cross-platform way to know this (on some Unixes, a program cannot determine
-its own location), so Inform decides by the following set of rules:
-</p>
-
-<ul class="items"><li>(a) If the user, at the command line, specified <span class="extract"><span class="ConsoleText-extract-syntax">-at P</span></span>, for some path
-<span class="extract"><span class="ConsoleText-extract-syntax">P</span></span>, then we use that.
-</li><li>(b) Otherwise, if the host operating system can indeed tell us where the
+its own location), so Inform decides by the following set of rules:</p>
+<ul>
+<li>If the user, at the command line, specified <code>-at P</code>, for some path
+<code>P</code>, then we use that.</li>
+<li>Otherwise, if the host operating system can indeed tell us where the
 executable is, we use that. This is currently implemented only on MacOS,
-Windows and Linux.
-</li><li>(c) Otherwise, if the environment variable <span class="extract"><span class="ConsoleText-extract-syntax">$INFORM7_PATH</span></span> exists and is
-non-empty, we use that.
-</li><li>(d) And if all else fails, we assume that the location is <span class="extract"><span class="ConsoleText-extract-syntax">inform7</span></span>, with
-respect to the current working directory.
-</li></ul>
-<p class="commentary">The default value for <span class="extract"><span class="ConsoleText-extract-syntax">-internal</span></span> is then the subdirectory <span class="extract"><span class="ConsoleText-extract-syntax">Internal</span></span> of
-this location: for example, <span class="extract"><span class="ConsoleText-extract-syntax">inform7/Internal</span></span>.
-</p>
-
-<p class="commentary">It is possible to specify additional sources of extensions and other
-resources with <span class="extract"><span class="ConsoleText-extract-syntax">-nest N</span></span> for some directory <span class="extract"><span class="ConsoleText-extract-syntax">N</span></span>: for a fuller explanation,
-see the Inbuild documentation.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>If the user of an Inform UI app clicks Release instead of Go, the
-command-line switch <span class="extract"><span class="ConsoleText-extract-syntax">-release</span></span> is added to the above command. See the main
-Inform documentation for what this does.
-</p>
-
-<p class="commentary">On some UI apps, there's a menu item "Release for testing...": this should
-add <span class="extract"><span class="ConsoleText-extract-syntax">-debug</span></span> to <span class="extract"><span class="ConsoleText-extract-syntax">-release</span></span>, which causes Inform to include debugging commands
+Windows and Linux.</li>
+<li>Otherwise, if the environment variable <code>$INFORM7_PATH</code> exists and is
+non-empty, we use that.</li>
+<li>And if all else fails, we assume that the location is <code>inform7</code>, with
+respect to the current working directory.</li>
+</ul>
+<p>The default value for <code>-internal</code> is then the subdirectory <code>Internal</code> of
+this location: for example, <code>inform7/Internal</code>.</p>
+<p>It is possible to specify additional sources of extensions and other
+resources with <code>-nest N</code> for some directory <code>N</code>: for a fuller explanation,
+see the Inbuild documentation.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  If the user of an Inform UI app clicks Release instead of Go, the
+command-line switch <code>-release</code> is added to the above command. See the main
+Inform documentation for what this does.</p>
+<p>On some UI apps, there's a menu item &quot;Release for testing...&quot;: this should
+add <code>-debug</code> to <code>-release</code>, which causes Inform to include debugging commands
 in the story file it generates. (Those commands are ordinarily suppressed
-by <span class="extract"><span class="ConsoleText-extract-syntax">-release</span></span> to prevent story files accidentally being shipped with them
-still in place.)
-</p>
-
-<p class="commentary">Similarly, the Settings pane in the app contains a checkbox for "Make
-random outcomes predictable when testing": the app achieves this by adding
-the switch <span class="extract"><span class="ConsoleText-extract-syntax">-rng</span></span> to the above command-line call.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>The Inter code generated by Inform 7 makes use of "kits" of pre-compiled
+by <code>-release</code> to prevent story files accidentally being shipped with them
+still in place.)</p>
+<p>Similarly, the Settings pane in the app contains a checkbox for &quot;Make
+random outcomes predictable when testing&quot;: the app achieves this by adding
+the switch <code>-rng</code> to the above command-line call.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  The Inter code generated by Inform 7 makes use of &quot;kits&quot; of pre-compiled
 Inter code, which have to be merged in. This process is carried out by a copy
-of the Inter tool inside <span class="extract"><span class="ConsoleText-extract-syntax">inform7</span></span>, and the choice of which kits are needed is
-managed by Inbuild. The <span class="extract"><span class="ConsoleText-extract-syntax">inform7</span></span> command line allows this process to be
-customised. In particular, <span class="extract"><span class="ConsoleText-extract-syntax">-basic</span></span> will cause Inform to compile
-a "basic" project with no command parser or world model, and in general no
+of the Inter tool inside <code>inform7</code>, and the choice of which kits are needed is
+managed by Inbuild. The <code>inform7</code> command line allows this process to be
+customised. In particular, <code>-basic</code> will cause Inform to compile
+a &quot;basic&quot; project with no command parser or world model, and in general no
 interactive fiction-related infrastructure: it converts Inform into a
 general-purpose programming language. For examples of Basic Inform programs,
-see the test cases in <span class="extract"><span class="ConsoleText-extract-syntax">inform7/Tests/Test Basic</span></span>.
-</p>
-
-<p class="commentary">Non-standard kits for an Inform 7 project can be specified using a metadata
-file: see the <a href="../inbuild/index.html" class="internal">inbuild</a> documentation for more.
-</p>
-
-<p class="commentary">The three commands <span class="extract"><span class="ConsoleText-extract-syntax">-pipeline</span></span>, <span class="extract"><span class="ConsoleText-extract-syntax">-pipeline-file</span></span> and <span class="extract"><span class="ConsoleText-extract-syntax">-variable</span></span> control
-the way Inter performs code-generation on the output from <span class="extract"><span class="ConsoleText-extract-syntax">inform7</span></span>. Again,
+see the test cases in <code>inform7/Tests/Test Basic</code>.</p>
+<p>Non-standard kits for an Inform 7 project can be specified using a metadata
+file: see the <a href="../inbuild/index.html" class="internal">inbuild</a> documentation for more.</p>
+<p>The three commands <code>-pipeline</code>, <code>-pipeline-file</code> and <code>-variable</code> control
+the way Inter performs code-generation on the output from <code>inform7</code>. Again,
 these needn't be used in normal circumstances, because the defaults are fine.
-They have the same meaning as for the <span class="extract"><span class="ConsoleText-extract-syntax">inter</span></span> tool, so see its documentation
-for more.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>The switch <span class="extract"><span class="ConsoleText-extract-syntax">-source F</span></span> tells Inform to read source text from the file <span class="extract"><span class="ConsoleText-extract-syntax">F</span></span>
+They have the same meaning as for the <code>inter</code> tool, so see its documentation
+for more.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  The switch <code>-source F</code> tells Inform to read source text from the file <code>F</code>
 rather than from its normal location inside the project bundle. Note that if
 this switch is used from within the GUI app, by means of a settings file (see
-below), then on some platforms there may be permissions errors if <span class="extract"><span class="ConsoleText-extract-syntax">F</span></span> does
-not lie inside the bundle or Materials folder &mdash; in particular, sandboxing
-for the Mac App Store editions of the executables has this effect.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>If the app has a feature for systematically testing each example in an
-extension project, then it should add the switch <span class="extract"><span class="ConsoleText-extract-syntax">-case A</span></span> when running
-example A through inform7, <span class="extract"><span class="ConsoleText-extract-syntax">-case B</span></span> for B, and so on. This ensures that
+below), then on some platforms there may be permissions errors if <code>F</code> does
+not lie inside the bundle or Materials folder -- in particular, sandboxing
+for the Mac App Store editions of the executables has this effect.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>  If the app has a feature for systematically testing each example in an
+extension project, then it should add the switch <code>-case A</code> when running
+example A through inform7, <code>-case B</code> for B, and so on. This ensures that
 if the compiler generates Problem messages (i,e., if those tests fail
-to compile) then source-reference links will be to the right examples.
-</p>
-
-<p class="commentary">For ordinary, non-Extension, projects, this switch should not be used.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. Using Inform 7 without projects.</b>To users of Inform UI apps, projects seem essential. On Mac OS, they are
+to compile) then source-reference links will be to the right examples.</p>
+<p>For ordinary, non-Extension, projects, this switch should not be used.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. Using Inform 7 without projects.</b>  To users of Inform UI apps, projects seem essential. On Mac OS, they are
 sealed boxes, looking like files in the Finder, but on all platforms they
 are in reality directories, containing not only the source code but also a
-variety of other things.
-</p>
-
-<p class="commentary">But it is also perfectly possible to use Inform 7 on isolated, single files of
+variety of other things.</p>
+<p>But it is also perfectly possible to use Inform 7 on isolated, single files of
 source code, rather as a C compiler might work on a single source file for
-a simple program. At its simplest, for example:
-</p>
-
+a simple program. At its simplest, for example:</p>
+</div>
 <pre class="ConsoleText-displayed-code all-displayed-code code-font">
 <span class="ConsoleText-plain-syntax">    </span><span class="ConsoleText-element-syntax">$</span><span class="ConsoleText-plain-syntax"> </span><span class="ConsoleText-function-syntax">ls</span>
 <span class="ConsoleText-plain-syntax">    helloworld.i7</span>
@@ -239,12 +216,12 @@ a simple program. At its simplest, for example:
 <span class="ConsoleText-plain-syntax">    </span><span class="ConsoleText-element-syntax">$</span><span class="ConsoleText-plain-syntax"> </span><span class="ConsoleText-function-syntax">ls</span>
 <span class="ConsoleText-plain-syntax">    helloworld.i6       helloworld.i7</span>
 </pre>
-<p class="commentary">(This was a Basic Inform program, hence <span class="extract"><span class="ConsoleText-extract-syntax">-basic</span></span>.) That produced quite a bit of
+<div class="lsmarkdown">
+<p>(This was a Basic Inform program, hence <code>-basic</code>.) That produced quite a bit of
 console chatter: the traditional Unix doctrine is that command-line tools should
-shut up when they operate without errors &mdash; "silence is golden", as the usual
-slogan has it. Use <span class="extract"><span class="ConsoleText-extract-syntax">-silence</span></span> to impose this on Inform:
-</p>
-
+shut up when they operate without errors -- &quot;silence is golden&quot;, as the usual
+slogan has it. Use <code>-silence</code> to impose this on Inform:</p>
+</div>
 <pre class="ConsoleText-displayed-code all-displayed-code code-font">
 <span class="ConsoleText-plain-syntax">    </span><span class="ConsoleText-element-syntax">$</span><span class="ConsoleText-plain-syntax"> </span><span class="ConsoleText-function-syntax">ls</span>
 <span class="ConsoleText-plain-syntax">    helloworld.i7</span>
@@ -255,71 +232,67 @@ slogan has it. Use <span class="extract"><span class="ConsoleText-extract-syntax
 <span class="ConsoleText-plain-syntax">    </span><span class="ConsoleText-element-syntax">$</span><span class="ConsoleText-plain-syntax"> </span><span class="ConsoleText-function-syntax">ls</span>
 <span class="ConsoleText-plain-syntax">    helloworld.i6       helloworld.i7</span>
 </pre>
-<p class="commentary">In <span class="extract"><span class="ConsoleText-extract-syntax">-silence</span></span> mode, any problem messages will also be rendered in a conventional
-Unix style, opening with <span class="extract"><span class="ConsoleText-extract-syntax">filename:line:</span></span> for the convenience of text editors
-or IDEs which throw back to source lines where errors occur.
-</p>
-
-<p class="commentary">As can be seen, <span class="extract"><span class="ConsoleText-extract-syntax">helloworld.i7</span></span> was translated to <span class="extract"><span class="ConsoleText-extract-syntax">helloworld.i6</span></span>, and no other
+<div class="lsmarkdown">
+<p>In <code>-silence</code> mode, any problem messages will also be rendered in a conventional
+Unix style, opening with <code>filename:line:</code> for the convenience of text editors
+or IDEs which throw back to source lines where errors occur.</p>
+<p>As can be seen, <code>helloworld.i7</code> was translated to <code>helloworld.i6</code>, and no other
 files were written: no Index, no Problems report page. This is because the options
-<span class="extract"><span class="ConsoleText-extract-syntax">-no-index</span></span> and <span class="extract"><span class="ConsoleText-extract-syntax">-no-problems</span></span> were automatically engaged. <span class="extract"><span class="ConsoleText-extract-syntax">-log nothing</span></span> was
+<code>-no-index</code> and <code>-no-problems</code> were automatically engaged. <code>-log nothing</code> was
 also implied, and no debugging log was produced. (All of these could be reactivated
-by command line settings, however.)
-</p>
-
-<p class="commentary">The output file can be specified with the traditional Unix compiler switch <span class="extract"><span class="ConsoleText-extract-syntax">-o</span></span>
-for "output":
-</p>
-
+by command line settings, however.)</p>
+<p>The output file can be specified with the traditional Unix compiler switch <code>-o</code>
+for &quot;output&quot;:</p>
+</div>
 <pre class="ConsoleText-displayed-code all-displayed-code code-font">
 <span class="ConsoleText-plain-syntax">    </span><span class="ConsoleText-element-syntax">$</span><span class="ConsoleText-plain-syntax"> </span><span class="ConsoleText-function-syntax">inform7/Tangled/inform7</span><span class="ConsoleText-identifier-syntax"> -basic -silence</span><span class="ConsoleText-plain-syntax"> helloworld.i7</span><span class="ConsoleText-identifier-syntax"> -o</span><span class="ConsoleText-plain-syntax"> my-fancy-file.txt</span>
 <span class="ConsoleText-plain-syntax">    </span><span class="ConsoleText-element-syntax">$</span><span class="ConsoleText-plain-syntax"> </span><span class="ConsoleText-function-syntax">ls</span>
 <span class="ConsoleText-plain-syntax">    helloworld.i7       my-fancy-file.txt</span>
 </pre>
-<p class="commentary">The default output filename is the source filename but with the file extension
-changed from <span class="extract"><span class="ConsoleText-extract-syntax">i7</span></span> to whatever is standard for the format being output. For
-example,
-</p>
-
+<div class="lsmarkdown">
+<p>The default output filename is the source filename but with the file extension
+changed from <code>i7</code> to whatever is standard for the format being output. For
+example,</p>
+</div>
 <pre class="ConsoleText-displayed-code all-displayed-code code-font">
 <span class="ConsoleText-plain-syntax">    </span><span class="ConsoleText-element-syntax">$</span><span class="ConsoleText-plain-syntax"> </span><span class="ConsoleText-function-syntax">inform7/Tangled/inform7</span><span class="ConsoleText-identifier-syntax"> -basic -silence</span><span class="ConsoleText-plain-syntax"> helloworld.i7</span><span class="ConsoleText-identifier-syntax"> -format</span><span class="ConsoleText-plain-syntax">=C</span>
 <span class="ConsoleText-plain-syntax">    </span><span class="ConsoleText-element-syntax">$</span><span class="ConsoleText-plain-syntax"> </span><span class="ConsoleText-function-syntax">ls</span>
 <span class="ConsoleText-plain-syntax">    helloworld.c        helloworld.i7</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. Testing and debugging switches.</b>The following switches are used only when testing or maintaining Inform,
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. Testing and debugging switches.</b>  The following switches are used only when testing or maintaining Inform,
 and are unlikely to be useful to end users. Many of these are, however,
-used in the Intest scripts for testing Inform 7 and Inblorb.
-</p>
-
-<ul class="items"><li>(a) <span class="extract"><span class="ConsoleText-extract-syntax">-crash-all</span></span> performs a deliberate hard crash, dividing by zero, in
-the event of any Problem message being issues &mdash; this makes it easier to
-obtain stack backtraces in a debugger.
-</li><li>(b) <span class="extract"><span class="ConsoleText-extract-syntax">-no-index</span></span> skips the production of an Index, which reduces file system
-writes in a big testing run, and also saves a little time.
-</li><li>(c) <span class="extract"><span class="ConsoleText-extract-syntax">-no-progress</span></span> suppresses console output of the "++ 26% (Binding rulebooks)"
-kind.
-</li><li>(d) <span class="extract"><span class="ConsoleText-extract-syntax">-sigils</span></span> causes each Problem message to be preceded in console output
-by its "sigil", that is, its internal code. A typical sigil is
-<span class="extract"><span class="ConsoleText-extract-syntax">PM_PropertyNameTooLong</span></span>, where the ubiquitous PM stands for "problem
-message".
-</li><li>(e) <span class="extract"><span class="ConsoleText-extract-syntax">-require-problem SIGIL</span></span> tells Inform to return an exit code of 0 if
-exactly this problem message is produced, and 1 otherwise.
-</li></ul>
-<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. Expert settings file.</b>Ordinarily, when the user clicks (say) "Go", the GUI app calls the inform7
+used in the Intest scripts for testing Inform 7 and Inblorb.</p>
+<ul>
+<li><code>-crash-all</code> performs a deliberate hard crash, dividing by zero, in
+the event of any Problem message being issues -- this makes it easier to
+obtain stack backtraces in a debugger.</li>
+<li><code>-no-index</code> skips the production of an Index, which reduces file system
+writes in a big testing run, and also saves a little time.</li>
+<li><code>-no-progress</code> suppresses console output of the &quot;++ 26% (Binding rulebooks)&quot;
+kind.</li>
+<li><code>-sigils</code> causes each Problem message to be preceded in console output
+by its &quot;sigil&quot;, that is, its internal code. A typical sigil is
+<code>PM_PropertyNameTooLong</code>, where the ubiquitous PM stands for &quot;problem
+message&quot;.</li>
+<li><code>-require-problem SIGIL</code> tells Inform to return an exit code of 0 if
+exactly this problem message is produced, and 1 otherwise.</li>
+</ul>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. Expert settings file.</b>  Ordinarily, when the user clicks (say) &quot;Go&quot;, the GUI app calls the inform7
 executable with various command-line settings to perform the actual work.
 The user has had no way to change those settings, except indirectly by e.g.
 clicking the checkbox to do with random number generation on the Settings
-pane. But that's the exception.
-</p>
-
-<p class="commentary">A new feature of <span class="extract"><span class="ConsoleText-extract-syntax">inform7</span></span> in 2020 is that it looks in the Materials folder
-for an optional file called <span class="extract"><span class="ConsoleText-extract-syntax">inform7-settings.txt</span></span>. This is a sort of expert
+pane. But that's the exception.</p>
+<p>A new feature of <code>inform7</code> in 2020 is that it looks in the Materials folder
+for an optional file called <code>inform7-settings.txt</code>. This is a sort of expert
 settings file, and consists of a list of additional command-line arguments
 (one per line): those are read exactly as if they had been passed on the
-command line.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. Prehistory.</b>Build 1A01 was the first rough draft of a completed compiler: but it did
+command line.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. Prehistory.</b>  Build 1A01 was the first rough draft of a completed compiler: but it did
 not synchronise fully with the OS X Inform application until 1G22 and
 private beta-testing did not begin until 1J34. Other milestones include
 time (1B92), tables (1C86), component parts (1E60), indexing (1F46),
@@ -336,12 +309,11 @@ avoid blind alleys. A time trial of 2D52 against 1V59 on the same, very
 large, source text showed a speed increase of a factor of four. A second
 stage of rewriting, to generalise binary predicates and improve grammatical
 accuracy, began with 2D70. By the time of the first public beta release,
-3K27, the testing tool <span class="extract"><span class="ConsoleText-extract-syntax">inform-test</span></span> had been written (it subsequently
-evolved into today's <span class="extract"><span class="ConsoleText-extract-syntax">intest</span></span>), and Emily Short's extensive suite of Examples
+3K27, the testing tool <code>inform-test</code> had been written (it subsequently
+evolved into today's <code>intest</code>), and Emily Short's extensive suite of Examples
 had been worked into the verification process for builds. The history since
-3K27 is recorded in the published change log.
-</p>
-
+3K27 is recorded in the published change log.</p>
+</div>
 <nav role="progress"><div class="progresscontainer">
     <ul class="progressbar"><li class="progressprevoff">&#10094;</li><li class="progresscurrentchapter">M</li><li class="progresscurrent">cu</li><li class="progresssection"><a href="M-iwtg.html">iwtg</a></li><li class="progresssection"><a href="M-cifc.html">cifc</a></li><li class="progresssection"><a href="M-rc.html">rc</a></li><li class="progresssection"><a href="M-pm.html">pm</a></li><li class="progresschapter"><a href="1-mn.html">1</a></li><li class="progressnext"><a href="M-iwtg.html">&#10095;</a></li></ul></div>
 </nav><!-- End of weave -->

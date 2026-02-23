@@ -36,9 +36,9 @@ void Assertions::make_existential(parse_node *py) {
 The "appearance" is not a property as such. When a quoted piece of text
 is given as a whole sentence, it might be:
 
-(a) the "description" of a room or thing;
-(b) the title of the whole work, if at the top of the main source; or
-(c) the rubric of the extension, or the additional credits for an extension,
+- the "description" of a room or thing;
+- the title of the whole work, if at the top of the main source; or
+- the rubric of the extension, or the additional credits for an extension,
 if near the top of an extension file.
 
 The title of the work is handled elsewhere, so we worry only about (a) and (c).
@@ -441,11 +441,11 @@ like properties.
 @h Case 8. "A is a kind of B". Much of the work has already been done at
 refinement time. There are really four forms of this:
 
-(a) "Length is a kind of value". Here |px| doesn't refer to an instance.
-(b) "A figment is a kind". Here |px| refers to a possibly new-made kind,
+- "Length is a kind of value". Here |px| doesn't refer to an instance.
+- "A figment is a kind". Here |px| refers to a possibly new-made kind,
 and |py| refers to "kind".
-(c) "A cart is a kind of vehicle". Ditto, and |py| refers to "vehicle".
-(d) "A food is a kind of thing which is edible". Ditto, except |py| refers
+- "A cart is a kind of vehicle". Ditto, and |py| refers to "vehicle".
+- "A food is a kind of thing which is edible". Ditto, except |py| refers
 of course to "thing", and also has a child node, containing a proposition
 specifying its edibility.
 
@@ -876,10 +876,11 @@ but not in this context.
 >> The description of the Pitch is "Verdant." The desk is a container. The carrying capacity of the desk is 10.
 
 Property assignments fall into three sorts, which we handle in this order:
-(i) The specification pseudo-property, which looks syntactically like a property
+
+- The specification pseudo-property, which looks syntactically like a property
 but in fact isn't one;
-(ii) Properties of values and kinds of value;
-(iii) Properties of objects and kinds of object.
+- Properties of values and kinds of value;
+- Properties of objects and kinds of object.
 
 @<Case 26 - X OF Y vs PROPER NOUN@> =
 	if (global_pass_state.pass == 1) return;

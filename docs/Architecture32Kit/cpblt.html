@@ -12,6 +12,11 @@
 <link href="../docs-assets/Navigation.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Fonts.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -48,15 +53,15 @@
 
 <ul class="toc"><li><a href="cpblt.html#SP1">&#167;1. Summary</a></li><li><a href="cpblt.html#SP2">&#167;2. Glulx gestalts</a></li><li><a href="cpblt.html#SP3">&#167;3. Header layout</a></li><li><a href="cpblt.html#SP4">&#167;4. Release Number</a></li><li><a href="cpblt.html#SP5">&#167;5. Random Number Generator</a></li><li><a href="cpblt.html#SP6">&#167;6. Memory Allocation</a></li><li><a href="cpblt.html#SP7">&#167;7. Memcpy</a></li><li><a href="cpblt.html#SP9">&#167;9. Audiovisual Resources</a></li><li><a href="cpblt.html#SP10">&#167;10. Typography</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Summary.</b>The 32-bit architecture is currently the default targeted by Inform, and is
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Summary.</b>  The 32-bit architecture is currently the default targeted by Inform, and is
 used both for programs compiled via Inform 6 to the Glulx virtual machine, and
-also for programs compiled via C.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Glulx gestalts.</b>While most Glulx gestalts are defined in the Glk.neptune file, a few would not
-make sense as an kind of value, and are defined here instead.
-</p>
-
+also for programs compiled via C.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Glulx gestalts.</b>  While most Glulx gestalts are defined in the Glk.neptune file, a few would not
+make sense as an kind of value, and are defined here instead.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">GLULX_GESTALT_GlulxVersion</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">GLULX_GESTALT_TerpVersion</span><span class="plain-syntax">  = </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
@@ -69,36 +74,34 @@ make sense as an kind of value, and are defined here instead.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">res</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Header layout.</b>The VM is expected to contain certain special constants and variables at fixed
-position in its "header"; the addresses of these are given below.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Header layout.</b>  The VM is expected to contain certain special constants and variables at fixed
+position in its &quot;header&quot;; the addresses of these are given below.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">HDR_MAGICNUMBER</span><span class="plain-syntax">      = </span><span class="constant-syntax">$00</span><span class="plain-syntax">;     </span><span class="comment-syntax">long word</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">HDR_GLULXVERSION</span><span class="plain-syntax">     = </span><span class="constant-syntax">$04</span><span class="plain-syntax">;     </span><span class="comment-syntax">long word</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">HDR_RAMSTART</span><span class="plain-syntax">         = </span><span class="constant-syntax">$08</span><span class="plain-syntax">;     </span><span class="comment-syntax">long word</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">HDR_EXTSTART</span><span class="plain-syntax">         = </span><span class="constant-syntax">$0C</span><span class="plain-syntax">;     </span><span class="comment-syntax">long word</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">HDR_ENDMEM</span><span class="plain-syntax">           = </span><span class="constant-syntax">$10</span><span class="plain-syntax">;     </span><span class="comment-syntax">long word</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">HDR_STACKSIZE</span><span class="plain-syntax">        = </span><span class="constant-syntax">$14</span><span class="plain-syntax">;     </span><span class="comment-syntax">long word</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">HDR_STARTFUNC</span><span class="plain-syntax">        = </span><span class="constant-syntax">$18</span><span class="plain-syntax">;     </span><span class="comment-syntax">long word</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">HDR_DECODINGTBL</span><span class="plain-syntax">      = </span><span class="constant-syntax">$1C</span><span class="plain-syntax">;     </span><span class="comment-syntax">long word</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">HDR_CHECKSUM</span><span class="plain-syntax">         = </span><span class="constant-syntax">$20</span><span class="plain-syntax">;     </span><span class="comment-syntax">long word</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">ROM_INFO</span><span class="plain-syntax">             = </span><span class="constant-syntax">$24</span><span class="plain-syntax">;     </span><span class="comment-syntax">four ASCII characters</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">ROM_MEMORYLAYOUT</span><span class="plain-syntax">     = </span><span class="constant-syntax">$28</span><span class="plain-syntax">;     </span><span class="comment-syntax">long word</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">ROM_INFORMVERSION</span><span class="plain-syntax">    = </span><span class="constant-syntax">$2C</span><span class="plain-syntax">;     </span><span class="comment-syntax">four ASCII characters</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">ROM_COMPVERSION</span><span class="plain-syntax">      = </span><span class="constant-syntax">$30</span><span class="plain-syntax">;     </span><span class="comment-syntax">four ASCII characters</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">ROM_GAMERELEASE</span><span class="plain-syntax">      = </span><span class="constant-syntax">$34</span><span class="plain-syntax">;     </span><span class="comment-syntax">short word</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">ROM_GAMESERIAL</span><span class="plain-syntax">       = </span><span class="constant-syntax">$36</span><span class="plain-syntax">;     </span><span class="comment-syntax">six ASCII characters</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">HDR_MAGICNUMBER</span><span class="plain-syntax">      = </span><span class="constant-syntax">$00</span><span class="plain-syntax">;     </span><span class="comment-syntax">! long word</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">HDR_GLULXVERSION</span><span class="plain-syntax">     = </span><span class="constant-syntax">$04</span><span class="plain-syntax">;     </span><span class="comment-syntax">! long word</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">HDR_RAMSTART</span><span class="plain-syntax">         = </span><span class="constant-syntax">$08</span><span class="plain-syntax">;     </span><span class="comment-syntax">! long word</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">HDR_EXTSTART</span><span class="plain-syntax">         = </span><span class="constant-syntax">$0C</span><span class="plain-syntax">;     </span><span class="comment-syntax">! long word</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">HDR_ENDMEM</span><span class="plain-syntax">           = </span><span class="constant-syntax">$10</span><span class="plain-syntax">;     </span><span class="comment-syntax">! long word</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">HDR_STACKSIZE</span><span class="plain-syntax">        = </span><span class="constant-syntax">$14</span><span class="plain-syntax">;     </span><span class="comment-syntax">! long word</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">HDR_STARTFUNC</span><span class="plain-syntax">        = </span><span class="constant-syntax">$18</span><span class="plain-syntax">;     </span><span class="comment-syntax">! long word</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">HDR_DECODINGTBL</span><span class="plain-syntax">      = </span><span class="constant-syntax">$1C</span><span class="plain-syntax">;     </span><span class="comment-syntax">! long word</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">HDR_CHECKSUM</span><span class="plain-syntax">         = </span><span class="constant-syntax">$20</span><span class="plain-syntax">;     </span><span class="comment-syntax">! long word</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">ROM_INFO</span><span class="plain-syntax">             = </span><span class="constant-syntax">$24</span><span class="plain-syntax">;     </span><span class="comment-syntax">! four ASCII characters</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">ROM_MEMORYLAYOUT</span><span class="plain-syntax">     = </span><span class="constant-syntax">$28</span><span class="plain-syntax">;     </span><span class="comment-syntax">! long word</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">ROM_INFORMVERSION</span><span class="plain-syntax">    = </span><span class="constant-syntax">$2C</span><span class="plain-syntax">;     </span><span class="comment-syntax">! four ASCII characters</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">ROM_COMPVERSION</span><span class="plain-syntax">      = </span><span class="constant-syntax">$30</span><span class="plain-syntax">;     </span><span class="comment-syntax">! four ASCII characters</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">ROM_GAMERELEASE</span><span class="plain-syntax">      = </span><span class="constant-syntax">$34</span><span class="plain-syntax">;     </span><span class="comment-syntax">! short word</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">ROM_GAMESERIAL</span><span class="plain-syntax">       = </span><span class="constant-syntax">$36</span><span class="plain-syntax">;     </span><span class="comment-syntax">! six ASCII characters</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Release Number.</b>Our programs will have both a release number and a serial code, which are
-in each case stored in the header memory of the virtual machine.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">VM_Describe_Release()</span></span> has been removed and replaced with functions returning
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Release Number.</b>  Our programs will have both a release number and a serial code, which are
+in each case stored in the header memory of the virtual machine.</p>
+<p><code>VM_Describe_Release()</code> has been removed and replaced with functions returning
 the release number, a non-negative integer, and the serial code, a byte array
-expected to be 6 digit characters wide.
-</p>
-
+expected to be 6 digit characters wide.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">VM_ReleaseNumber</span><span class="plain-syntax"> </span><span class="identifier-syntax">r</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    @</span><span class="identifier-syntax">aloads</span><span class="plain-syntax"> </span><span class="identifier-syntax">ROM_GAMERELEASE</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax"> </span><span class="identifier-syntax">r</span><span class="plain-syntax">;</span>
@@ -109,22 +112,22 @@ expected to be 6 digit characters wide.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">ROM_GAMESERIAL</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Random Number Generator.</b>No routine is needed for extracting a random number, since I6's built-in
-<span class="extract"><span class="extract-syntax">random</span></span> function does that, but it's useful to abstract the process of
-seeding the RNG so that it produces a repeatable sequence of "random"
-numbers from here on: the necessary opcodes are different for the two VMs.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Random Number Generator.</b>  No routine is needed for extracting a random number, since I6's built-in
+<code>random</code> function does that, but it's useful to abstract the process of
+seeding the RNG so that it produces a repeatable sequence of &quot;random&quot;
+numbers from here on: the necessary opcodes are different for the two VMs.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">VM_Seed_RNG</span><span class="plain-syntax"> </span><span class="identifier-syntax">n</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    @</span><span class="identifier-syntax">setrandom</span><span class="plain-syntax"> </span><span class="identifier-syntax">n</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Memory Allocation.</b>This is dynamic memory allocation: something which is never practicable in
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Memory Allocation.</b>  This is dynamic memory allocation: something which is never practicable in
 the Z-machine, because the whole address range is already claimed, but which
-is viable on recent revisions of Glulx.
-</p>
-
+is viable on recent revisions of Glulx.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">VM_AllocateMemory</span><span class="plain-syntax"> </span><span class="identifier-syntax">amount</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    @</span><span class="identifier-syntax">gestalt</span><span class="plain-syntax"> </span><span class="identifier-syntax">GLULX_GESTALT_MAlloc</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">;</span>
@@ -139,32 +142,32 @@ is viable on recent revisions of Glulx.
 <span class="plain-syntax">    @</span><span class="identifier-syntax">mfree</span><span class="plain-syntax"> </span><span class="identifier-syntax">address</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Memcpy.</b>This is equivalent to C's memcpy function, in good ways and bad.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Memcpy.</b>  This is equivalent to C's memcpy function, in good ways and bad.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">Memcpy</span><span class="plain-syntax"> </span><span class="identifier-syntax">to_addr</span><span class="plain-syntax"> </span><span class="identifier-syntax">from_addr</span><span class="plain-syntax"> </span><span class="identifier-syntax">size</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    @</span><span class="identifier-syntax">mcopy</span><span class="plain-syntax"> </span><span class="identifier-syntax">size</span><span class="plain-syntax"> </span><span class="identifier-syntax">from_addr</span><span class="plain-syntax"> </span><span class="identifier-syntax">to_addr</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>And this can be used to copy exactly <span class="extract"><span class="extract-syntax">words</span></span> words from one word array to
-another:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>  And this can be used to copy exactly <code>words</code> words from one word array to
+another:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">VM_CopyWords</span><span class="plain-syntax"> </span><span class="identifier-syntax">words</span><span class="plain-syntax"> </span><span class="identifier-syntax">from</span><span class="plain-syntax"> </span><span class="reserved-syntax">to</span><span class="plain-syntax">  </span><span class="identifier-syntax">i</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">i</span><span class="plain-syntax">=0: </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;</span><span class="identifier-syntax">words</span><span class="plain-syntax">: </span><span class="identifier-syntax">i</span><span class="plain-syntax">++)</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">to</span><span class="plain-syntax">--&gt;</span><span class="identifier-syntax">i</span><span class="plain-syntax"> = </span><span class="identifier-syntax">from</span><span class="plain-syntax">--&gt;</span><span class="identifier-syntax">i</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. Audiovisual Resources.</b>The Z-machine only barely supports figures and sound effects, so Glulx is
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. Audiovisual Resources.</b>  The Z-machine only barely supports figures and sound effects, so Glulx is
 the preferred VM to choose if they are wanted. Properly speaking, it's not
 Glulx which supports these, but its I/O layer Glk, and implementations
-of Glk are free to support them or not as they please: "cheapglk", a
+of Glk are free to support them or not as they please: &quot;cheapglk&quot;, a
 dumb terminal version, does not, for instance. We therefore have to
-investigate the "gestalt" to find out.
-</p>
-
+investigate the &quot;gestalt&quot; to find out.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">VM_Picture</span><span class="plain-syntax"> </span><span class="identifier-syntax">resource_ID</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">glk_gestalt</span><span class="plain-syntax">(</span><span class="identifier-syntax">gestalt_Graphics</span><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">)) {</span>
@@ -182,15 +185,15 @@ investigate the "gestalt" to find out.
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. Typography.</b>Glk makes an attempt to present typographic styles as being a matter of
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. Typography.</b>  Glk makes an attempt to present typographic styles as being a matter of
 semantic markup rather than controlling the actual appearance of text:
 the idea is that the story file should want to print something in a
-heading kind of way, and then the interpreter &mdash; guided by the player's
-reading preferences &mdash; might set that in bold, or larger type, or red ink,
+heading kind of way, and then the interpreter -- guided by the player's
+reading preferences -- might set that in bold, or larger type, or red ink,
 or any combination of the three, or with other effects entirely. (This is
-not the place to discuss whether that was a wise decision for Glk to take.)
-</p>
-
+not the place to discuss whether that was a wise decision for Glk to take.)</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">VM_Style</span><span class="plain-syntax"> </span><span class="identifier-syntax">sty</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="identifier-syntax">sty</span><span class="plain-syntax">) {</span>

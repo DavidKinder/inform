@@ -45,12 +45,12 @@ would then be read as:
 After variable substitution like this, filenames inside the pipeline
 description are interpreted as follows:
 
-(a) If a filename contains a slash character, it is considered a literal
+- If a filename contains a slash character, it is considered a literal
 filename.
-(b) If the filename is just |-|, it is considered to mean the console, that
+- If the filename is just |-|, it is considered to mean the console, that
 is, what in Unix is usually called |stdout|. In other words, output is printed
 rather than saved.
-(c) If not, it is considered to be a leafname inside the "domain" directory.
+- If not, it is considered to be a leafname inside the "domain" directory.
 By default this is the current working directory, but using |-domain| at
 the Inter command line changes that.
 

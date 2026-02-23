@@ -74,8 +74,10 @@ is generated procedurally below.
 
 (1) With the periodic table closed, and all the boxes in the one visible
 row lit up, and all of the elements on the page visible;
+
 (2) With the periodic table closed, and all the boxes grey except one
 which is lit up, and just the one element it corresponds to visible;
+
 (3) With the periodic table open, and all boxes lit up, and no elements
 visible on the page below.
 

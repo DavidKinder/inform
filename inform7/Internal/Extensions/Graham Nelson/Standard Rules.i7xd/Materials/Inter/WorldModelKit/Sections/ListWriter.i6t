@@ -6,20 +6,22 @@ various formats and so on.
 @h Specification.
 The list-writer is called by one of the following function calls:
 
-(1) |WriteListOfMarkedObjects(style)|, where the set of objects listed is
-understood to be exactly those with the |workflag2| attribute set, and
-(-a) the |style| is a sum of |*_BIT| constants as defined in "Definitions.i6t".
+-	 |WriteListOfMarkedObjects(style)|, where the set of objects listed is
+	understood to be exactly those with the |workflag2| attribute set, and
 
-(2) |WriteListFrom(obj, style, depth, noactivity, iterator)|, where only the
-first two parameters are compulsory:
-(-a) the set of objects listed begins with |obj|;
-(-b) the |style| is a sum of |*_BIT| constants as defined in "Definitions.i6t";
-(-c) the |depth| is the recursion depth within the list -- ordinarily 0, but
-by supplying a higher value, we can simulate a sublist of another list;
-(-d) |noactivity| is a flag which forces the list-writer to ignore the
-"listing the contents of" activity (in cases where it would otherwise consult
-this): by default this is |false|;
-(-e) |iterator| is an iterator function which provides the objects in sequence.
+	- the |style| is a sum of |*_BIT| constants as defined in "Definitions.i6t".
+
+- 	|WriteListFrom(obj, style, depth, noactivity, iterator)|, where only the
+	first two parameters are compulsory:
+
+	- the set of objects listed begins with |obj|;
+	- the |style| is a sum of |*_BIT| constants as defined in "Definitions.i6t";
+	- the |depth| is the recursion depth within the list -- ordinarily 0, but
+	by supplying a higher value, we can simulate a sublist of another list;
+	- |noactivity| is a flag which forces the list-writer to ignore the
+	"listing the contents of" activity (in cases where it would otherwise consult
+	this): by default this is |false|;
+	- |iterator| is an iterator function which provides the objects in sequence.
 
 |WriteListOfMarkedObjects| is simply a front-end which supplies suitable
 parameters for |WriteListFrom|.
@@ -263,15 +265,15 @@ choose a sublist of "qualifying" objects. It is called with arguments
 where the |obj| is required to be $x_j$ for some $j$ and the function is one
 of the |*_ITF| constants defined below:
 
-(a) On |START_ITF|, we return $x_1$, or |nothing| if the list is empty.
+- On |START_ITF|, we return $x_1$, or |nothing| if the list is empty.
 
-(b) On |SEEK_ITF|, we return the smallest $k\geq j$ such that $x_k$ qualifies,
+- On |SEEK_ITF|, we return the smallest $k\geq j$ such that $x_k$ qualifies,
 or |nothing| if none of $x_j, x_{j+1}, ..., x_n$ qualify.
 
-(c) On |ADVANCE_ITF|, we return the smallest $k > j$ such that $x_k$ qualifies,
+- On |ADVANCE_ITF|, we return the smallest $k > j$ such that $x_k$ qualifies,
 or |nothing| if none of $x_{j+1}, x_{j+2} ..., x_n$ qualify.
 
-(d) On |COALESCE_ITF|, we coalesce the entire list (not merely the qualifying
+- On |COALESCE_ITF|, we coalesce the entire list (not merely the qualifying
 entries) and return the new $x_1$, or |nothing| if the list is empty.
 
 Thus, given any $x_i$, we can produce the sublist of qualifying entries by
@@ -541,12 +543,12 @@ an infinite regress. The activity is used only for the default
 Given qualifying objects $x_1, ..., x_j$, we partition them into classes of
 the equivalence relation $x_i\sim x_j$ if and only
 
-(i) they both have a |plural| property (not necessarily the same), and
-(ii) neither will cause the list-maker to recurse downwards to show the
+- they both have a |plural| property (not necessarily the same), and
+- neither will cause the list-maker to recurse downwards to show the
 objects inside or on top of them, and
-(iii) if they cause the list-maker to add information about whether they
+- if they cause the list-maker to add information about whether they
 are worn, lighted or open, then it will add the same information about both, and
-(iv) they are considered identical by the parser, in that they respond to the
+- they are considered identical by the parser, in that they respond to the
 same syntaxes of name: so that it is impossible to find a TAKE X command such
 that X matches one and not the other.
 

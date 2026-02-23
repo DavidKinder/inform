@@ -20,8 +20,8 @@ void CInputOutputModel::end(code_generation *gen) {
 @ By input/output, we mean printing text, receiving textual commands, or reading
 or writing files. Inter can do this in one of two ways: either
 
-(a) With one of the following primitives, or
-(b) With an assembly-language opcode, and in particular |@glk|.
+- With one of the following primitives, or
+- With an assembly-language opcode, and in particular |@glk|.
 
 =
 int CInputOutputModel::invoke_primitive(code_generation *gen, inter_ti bip, inter_tree_node *P) {

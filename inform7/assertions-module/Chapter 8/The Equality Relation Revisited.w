@@ -156,12 +156,14 @@ But there are three problems with this simplistic approach to "A is B".
 
 (a) Sometimes "now A is B" must set a property of A, which does not
 change, rather than making A equal to B; and similarly for testing.
+
 (b) Sometimes A is reference to a value stored in some data structure
 other than a local or global variable: for example, in "now entry 3 of
 the passenger list is 208", where A is "entry 3 of the passenger list".
 Access to this value is via I6 routines in the template, and the form of
 what we compile has to be different depending on whether we are reading
 or writing.
+
 (c) Sometimes the values in question are block values, that is, they are
 stored as pointers to blocks of data on the heap at run-time. If we compile
 "now T is X", where T is a text variable and X is some piece of text, we

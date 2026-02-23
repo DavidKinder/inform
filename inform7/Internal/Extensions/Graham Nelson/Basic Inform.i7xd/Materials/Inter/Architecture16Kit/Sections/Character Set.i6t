@@ -10,9 +10,9 @@ Constant ZSCII_Tables;
 
 @ We must create two arrays:
 
-(i) |CharCasingChart0|, a table indicating lower-case letters with
+- |CharCasingChart0|, a table indicating lower-case letters with
 transitions to convert them to upper case;
-(ii) |CharCasingChart1|, vice versa.
+- |CharCasingChart1|, vice versa.
 
 Each array is a sequence of three-word records, consisting of the start of
 a character range, the size of the range (the number of characters in it),

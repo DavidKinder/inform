@@ -5,13 +5,14 @@ An overview of the syntax module's role and abilities.
 @h Prerequisites.
 The syntax module is a part of the Inform compiler toolset. It is
 presented as a literate program or "web". Before diving in:
-(a) It helps to have some experience of reading webs: see //inweb// for more.
-(b) The module is written in C, in fact ANSI C99, but this is disguised by the
+
+- It helps to have some experience of reading webs: see //inweb// for more.
+- The module is written in C, in fact ANSI C99, but this is disguised by the
 fact that it uses some extension syntaxes provided by the //inweb// literate
 programming tool, making it a dialect of C called InC. See //inweb// for
 full details, but essentially: it's C without predeclarations or header files,
 and where functions have names like |Tags::add_by_name| rather than |add_by_name|.
-(c) This module uses other modules drawn from the compiler (see //structure//), and also
+- This module uses other modules drawn from the compiler (see //structure//), and also
 uses a module of utility functions called //foundation//.
 For more, see //foundation: A Brief Guide to Foundation//.
 
@@ -83,12 +84,13 @@ therefore equally represent "orange", "the orange envelope", or "now the card
 is in the orange envelope".
 
 Each node carries three essential pieces of information with it:
-(1) The text giving rise to it (say, "Section Five - Fruit").
-(2) A node type ID, which in broad terms says what kind of reference is being
+
+- The text giving rise to it (say, "Section Five - Fruit").
+- A node type ID, which in broad terms says what kind of reference is being
 made (say, |HEADING_NT|). The possible node types are stored in the C type
 |node_type_t|, which corresponds to some metadata in a //node_type_metadata//
 object: see //Node::get_type// and //NodeType::get_metadata//.
-(3) A list of optional annotations, which are either integer or object-valued,
+- A list of optional annotations, which are either integer or object-valued,
 and which give specifics about the meaning (say, the level number in the
 hierarchy of headings). See //Node Annotations//.
 
@@ -96,15 +98,18 @@ hierarchy of headings). See //Node Annotations//.
 Safe to say that Inform includes bugs: the more defensive coding we can do,
 the better. That means not only extensive logging (see //Node::log_tree//)
 but also strict verification tests on every tree made (see //Tree Verification//).
-(a) The only nodes allowed to exist are those for node types declared
+
+- The only nodes allowed to exist are those for node types declared
 by //NodeType::new//: more generally, see //Node Types// on metadata associated
 with these.
-(b) A node of type |A| can only be a child of a node of type |B| if
+
+- A node of type |A| can only be a child of a node of type |B| if
 //NodeType::parentage_allowed// says so, and this is (mostly) a matter
 of calling //NodeType::allow_parentage_for_categories// -- parentage depends
 not on the type per se, but on the category of the type, which groups types
 together.
-(c) A node of type |A| can only have an annotation with ID |I| if
+
+- A node of type |A| can only have an annotation with ID |I| if
 //Annotations::is_allowed// says so. To declare an annotation legal,
 call |Annotations::allow(A, I)|, or |Annotations::allow_for_category(C, I)|
 for the category |C| of |A|.

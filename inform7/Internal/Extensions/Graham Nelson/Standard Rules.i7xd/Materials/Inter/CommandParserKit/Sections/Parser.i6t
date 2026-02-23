@@ -197,13 +197,14 @@ and character length |WordLength(x)|.
 We picture the command as a stream of words to be read one at a time, with
 the global variable |wn| being the "current word" marker. |NextWord|, which
 takes no arguments, returns:
-(a) 0 if the word at |wn| is unrecognised by the dictionary or |wn| is out
+
+- 0 if the word at |wn| is unrecognised by the dictionary or |wn| is out
 of range,
-(b) |comma_word| if the word was a comma,
-(c) |THEN1__WD| if it was a full stop (because of the Infocom tradition that
+- |comma_word| if the word was a comma,
+- |THEN1__WD| if it was a full stop (because of the Infocom tradition that
 a full stop abbreviates for the word "then": e.g., TAKE BOX. EAST was read
 as two commands in succession),
-(d) or the dictionary address if the word was recognised.
+- or the dictionary address if the word was recognised.
 
 The current word marker |wn| is always advanced.
 
@@ -637,17 +638,17 @@ The return value is the number of words typed.
 The main parser routine is something of a leviathan, and it has traditionally
 been divided into 11 lettered parts:
 
-(A) Get the input, do OOPS and AGAIN
-(B) Is it a direction, and so an implicit GO?  If so go to (K)
-(C) Is anyone being addressed?
-(D) Get the command verb: try all the syntax lines for that verb
-(E) Break down a syntax line into analysed tokens
-(F) Look ahead for advance warning for |multiexcept|/|multiinside|
-(G) Parse each token in turn (calling |ParseToken| to do most of the work)
-(H) Cheaply parse otherwise unrecognised conversation and return
-(I) Print best possible error message
-(J) Retry the whole lot
-(K) Last thing: check for THEN and further instructions(s), return.
+- (A) Get the input, do OOPS and AGAIN
+- (B) Is it a direction, and so an implicit GO?  If so go to (K)
+- (C) Is anyone being addressed?
+- (D) Get the command verb: try all the syntax lines for that verb
+- (E) Break down a syntax line into analysed tokens
+- (F) Look ahead for advance warning for |multiexcept|/|multiinside|
+- (G) Parse each token in turn (calling |ParseToken| to do most of the work)
+- (H) Cheaply parse otherwise unrecognised conversation and return
+- (I) Print best possible error message
+- (J) Retry the whole lot
+- (K) Last thing: check for THEN and further instructions(s), return.
 
 This lettering has been preserved here, with the code under each letter
 now being the body of "Parser Letter A", "Parser Letter B" and so on.
@@ -1593,13 +1594,13 @@ has happened before or is needed later) and the address of the dictionary
 word which makes up the |token|, in the case where it's a "preposition".
 
 The return values are:
-(a) |GPR_REPARSE| for "I have rewritten the command, please re-parse from scratch";
-(b) |GPR_PREPOSITION| for "token accepted with no result";
-(c) $-256 + x$ for "please parse |ParseToken(ELEMENTARY_TT, x)| instead";
-(d) |GPR_MULTIPLE| for "token accepted, result is the multiple object list";
-(e) 1 for "token accepted, result is the number in |parsed_number|";
-(f) an object number for "token accepted with this object as result";
-(g) $-1$ for "token rejected".
+- |GPR_REPARSE| for "I have rewritten the command, please re-parse from scratch";
+- |GPR_PREPOSITION| for "token accepted with no result";
+- $-256 + x$ for "please parse |ParseToken(ELEMENTARY_TT, x)| instead";
+- |GPR_MULTIPLE| for "token accepted, result is the multiple object list";
+- 1 for "token accepted, result is the number in |parsed_number|";
+- an object number for "token accepted with this object as result";
+- $-1$ for "token rejected".
 
 Strictly speaking |ParseToken| is a shell routine which saves the current
 state on the stack, and calling |ParseToken__| to do the actual work.
@@ -1607,13 +1608,13 @@ state on the stack, and calling |ParseToken__| to do the actual work.
 Once again the routine is traditionally divided into six letters, here named under
 paragraphs "Parse Token Letter A", and so on.
 
-(A) Analyse the token; handle all tokens not involving object lists and
+- (A) Analyse the token; handle all tokens not involving object lists and
 break down others into elementary tokens
-(B) Begin parsing an object list
-(C) Parse descriptors (articles, pronouns, etc.) in the list
-(D) Parse an object name
-(E) Parse connectives (AND, BUT, etc.) and go back to (C)
-(F) Return the conclusion of parsing an object list
+- (B) Begin parsing an object list
+- (C) Parse descriptors (articles, pronouns, etc.) in the list
+- (D) Parse an object name
+- (E) Parse connectives (AND, BUT, etc.) and go back to (C)
+- (F) Return the conclusion of parsing an object list
 
 =
 [ ParseTokenStopped x y;
@@ -2251,10 +2252,10 @@ the tokens "[someone]", "[somebody]", "[anyone]" and "[anybody]".)
 It is given two "domains" -- usually a location and then the actor who is
 looking -- and a context (i.e. token type), and returns:
 
-(a) 0 if no match at all could be made,
-(b) 1 if a multiple object was made,
-(c) $k$ if object $k$ was the one decided upon,
-(d) |REPARSE_CODE| if it asked a question of the player and consequently
+- 0 if no match at all could be made,
+- 1 if a multiple object was made,
+- $k$ if object $k$ was the one decided upon,
+- |REPARSE_CODE| if it asked a question of the player and consequently
 rewrote the player's input, so that the whole parser should start again
 on the rewritten input.
 
@@ -2669,13 +2670,13 @@ It counts up the number of obvious choices for the given context -- all to
 do with where a candidate is, except for 6 (|animate|) which is to
 do with whether it is animate or not -- and then:
 
-(a) if only one obvious choice is found, that is returned;
-(b) if we are in indefinite mode (don't care which) one of the obvious choices
+- if only one obvious choice is found, that is returned;
+- if we are in indefinite mode (don't care which) one of the obvious choices
 is returned, or if there is no obvious choice then an unobvious one is made;
-(c) at this stage, we work out whether the objects are distinguishable from
+- at this stage, we work out whether the objects are distinguishable from
 each other or not: if they are all indistinguishable from each other, then
 choose one, it doesn't matter which;
-(d) otherwise, 0 (meaning, unable to decide) is returned (but remember
+- otherwise, 0 (meaning, unable to decide) is returned (but remember
 that the equivalence classes we've just worked out will be needed by other
 routines to clear up this mess, so we can't economise on working them out).
 
@@ -3365,10 +3366,12 @@ command text against object names.
 
 The scope machinery is built on a number of levels, each making use only
 of lower levels:
+
 (0) Either |NounDomain|, |TestScope| or |LoopOverScope| makes one or more
 calls to |SearchScope| (on level 1). The point of making multiple calls
 is to influence the order in which items in scope are visited, which improves
 the quality of "take all"-style multiple object lists, for instance.
+
 (1) |SearchScope| searches for the objects in scope which are within first
 one domain, and then another: for instance, first within the current room
 but not within the current actor, and then within the current actor. It can
@@ -3380,15 +3383,18 @@ scope in darkness, and intervention by the I7 "deciding the scope of"
 activity. Most of its actual searches are delegated to |ScopeWithin| (level
 2), but it also uses |DoScopeActionAndRecurse| (level 3) and
 |DoScopeAction| (level 4) as necessary.
+
 (2) |ScopeWithin| iterates through the objects in scope which are within
 one supplied domain, but not within another. It can be called either
 from level 1, or independently from rules in the "deciding the scope of"
 activity via the I7 "place the contents of X in scope" phrase. It calls
 |DoScopeActionAndRecurse| (level 3) on any unconcealed objects it finds.
+
 (3) |DoScopeActionAndRecurse| visits a given object by calling down to
 |DoScopeAction| (level 4), and recurses to all unconcealed object-tree
 contents and component parts of the object. The I7 phrase "place X in
 scope" uses this routine.
+
 (4) |DoScopeAction| simply visits a single object, taking whatever action
 is needed there -- which will depend on the |scope_reason|. The only use
 made by the parser of |TryGivenObject|, which tries to match command text
@@ -3447,43 +3453,47 @@ code above.
 
 @h SearchScope.
 Level 1. The method is:
-(a) If the context is a |scope=...| token, then the search is delegated
-to "stage 2" of the scope routine. This was the old I6 way to override
-the searching behaviour: while users probably won't be using it any more,
-the template does, in order to give testing commands universal scope which
-is exempt from the activity below; and the NI compiler creates |scope=...|
-tokens to handle Understand grammar such as "[any room]". So the feature
-remains very much still in use.
-(b) The "deciding the scope of" activity is given the chance to intervene.
-This is the I7 way to override the searching behaviour, and is the one taken
-by users.
-(c) And otherwise:
-(-1) The I6 |multiinside| token, used as the first noun of its grammar line,
-has as its scope all of the objects which are inside or on top of the
-{\it second} noun of the grammar line. This provides a neat scope for the
-ALL in a command like GET ALL FROM CUPBOARD, where the player clearly
-does not intend ALL to refer to the cupboard itself, for instance. The
-difficulty is that we don't yet know what the second object is, if we are
-parsing left to right. But the parser code above has taken care of all of
-that, and the |advance_warning| global is set to the object number of the
-second noun, or to $-1$ if that is not yet known. Note that we check that
-the contents are visible before adding them to scope, because otherwise
-an unscrupulous player could use such a command to detect the contents of
-an opaque locked box. If this rule applies, we skip (c.2), (c.3) and (c.4).
-(-2) For all other tokens except |creature|, searching scope for the room
-holding the current actor always catches the compass directions unless a
-definite article has already been typed. (Thus OPEN THE EAST would match
-an object called "east door", but not the compass direction "east".)
-(-3) The contents of |domain1| which are not contents of |domain2| are
-placed in scope, and so are any component parts of |domain1|. If |domain1|
-is a container or supporter, it is placed in scope itself.
-(-4) The contents and component parts of |domain2| are placed in scope.
-If |domain2| is a container or supporter, it is placed in scope itself.
-(-5) In darkness, the actor and his component parts are in scope. If the
-actor is inside or on top of something, then that thing is also in scope.
-(This avoids a situation where the player gets into an opaque box, then
-pulls it closed from the inside, plunging himself into darkness, then types
-OPEN BOX only to be told that he can't see any such thing.)
+
+-	If the context is a |scope=...| token, then the search is delegated
+	to "stage 2" of the scope routine. This was the old I6 way to override
+	the searching behaviour: while users probably won't be using it any more,
+	the template does, in order to give testing commands universal scope which
+	is exempt from the activity below; and the NI compiler creates |scope=...|
+	tokens to handle Understand grammar such as "[any room]". So the feature
+	remains very much still in use.
+
+-	The "deciding the scope of" activity is given the chance to intervene.
+	This is the I7 way to override the searching behaviour, and is the one taken
+	by users.
+
+-	And otherwise:
+
+	- The I6 |multiinside| token, used as the first noun of its grammar line,
+	has as its scope all of the objects which are inside or on top of the
+	{\it second} noun of the grammar line. This provides a neat scope for the
+	ALL in a command like GET ALL FROM CUPBOARD, where the player clearly
+	does not intend ALL to refer to the cupboard itself, for instance. The
+	difficulty is that we don't yet know what the second object is, if we are
+	parsing left to right. But the parser code above has taken care of all of
+	that, and the |advance_warning| global is set to the object number of the
+	second noun, or to $-1$ if that is not yet known. Note that we check that
+	the contents are visible before adding them to scope, because otherwise
+	an unscrupulous player could use such a command to detect the contents of
+	an opaque locked box. If this rule applies, we skip (c.2), (c.3) and (c.4).
+	- For all other tokens except |creature|, searching scope for the room
+	holding the current actor always catches the compass directions unless a
+	definite article has already been typed. (Thus OPEN THE EAST would match
+	an object called "east door", but not the compass direction "east".)
+	- The contents of |domain1| which are not contents of |domain2| are
+	placed in scope, and so are any component parts of |domain1|. If |domain1|
+	is a container or supporter, it is placed in scope itself.
+	- The contents and component parts of |domain2| are placed in scope.
+	If |domain2| is a container or supporter, it is placed in scope itself.
+	- In darkness, the actor and his component parts are in scope. If the
+	actor is inside or on top of something, then that thing is also in scope.
+	(This avoids a situation where the player gets into an opaque box, then
+	pulls it closed from the inside, plunging himself into darkness, then types
+	OPEN BOX only to be told that he can't see any such thing.)
 
 =
 [ SearchScope domain1 domain2 context i;
@@ -3558,11 +3568,12 @@ code doing so.
 Level 3.
 In all cases, the |domain| itself is visited. There are then three possible
 forms of recursion:
-(a) To unconcealed objects which are inside, on top of, carried or worn by
+
+- To unconcealed objects which are inside, on top of, carried or worn by
 the |domain|: this is called "searching" in traditional I6 language and
 is suppressed if |domain| is the special value |nosearch|.
-(b) To unconcealed component parts of the |domain|.
-(c) To any other objects listed in the |add_to_scope| property array, or
+- To unconcealed component parts of the |domain|.
+- To any other objects listed in the |add_to_scope| property array, or
 supplied by the |add_to_scope| property routine, if it has one. (I7 does
 not usually use |add_to_scope|, but it remains a useful hook in the parser,
 so it retains its old I6 library interpretation.)
@@ -3812,12 +3823,13 @@ complex in languages other than English.
 
 @h NounWord.
 |NounWord| (which takes no arguments) returns:
-(a) 0 if the next word is not in the dictionary or is but does not carry the
+
+- 0 if the next word is not in the dictionary or is but does not carry the
 "noun" bit in its dictionary entry,
-(b) 1 if it is a word meaning "me",
-(c) the index in the pronoun table (plus 2) of the value field of a pronoun,
+- 1 if it is a word meaning "me",
+- the index in the pronoun table (plus 2) of the value field of a pronoun,
 if it is a pronoun,
-(d) the address in the dictionary if it is a recognised noun.
+- the address in the dictionary if it is a recognised noun.
 
 =
 [ NounWord i j s;
@@ -3836,9 +3848,9 @@ if it is a pronoun,
 |TryNumber| takes word number |wordnum| and tries to parse it as an (unsigned)
 decimal number or the name of a small number, returning
 
-(a) $-1000$ if it is not a number
-(b) the number, if it has between 1 and 4 digits
-(c) 10000 if it has 5 or more digits.
+- $-1000$ if it is not a number
+- the number, if it has between 1 and 4 digits
+- 10000 if it has 5 or more digits.
 
 (The danger of allowing 5 digits is that Z-machine integers are only 16 bits
 long, and anyway this routine isn't meant to be perfect: it only really needs

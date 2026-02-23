@@ -14,18 +14,28 @@
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <script>
 MathJax = {
-	tex: {
-		inlineMath: '$', '$'], ['\\(', '\\)'
+    options: {
+    	skipHtmlTags: {'[-]': ['pre']},
+    	processHtmlClass: 'mathjax_process'
+    },
+	loader: {load: ['[tex]/texhtml']},
+  	tex: {
+		inlineMath: [ ['\\INWEBMATH(', '\\INWEBMATH)'] ],
+    	packages: {'[+]': ['texhtml']},
+    	allowTexHTML: true
 	},
 	svg: {
 		fontCache: 'global'
 	}
 };
 </script>
-<script type="text/javascript" id="MathJax-script" async
-	src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
-</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-svg.js"></script>
 
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -62,24 +72,22 @@ MathJax = {
 
 <ul class="toc"><li><a href="knds.html#SP1">&#167;1. Strong and weak IDs</a></li><li><a href="knds.html#SP3">&#167;3. The kind metadata array</a></li><li><a href="knds.html#SP9">&#167;9. Non-standard enumerations</a></li><li><a href="knds.html#SP10">&#167;10. Kind-value pairs</a></li><li><a href="knds.html#SP14">&#167;14. The Pointer Value API</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Strong and weak IDs.</b>Every kind has both a weak ID, like <span class="extract"><span class="extract-syntax">LIST_OF_TY</span></span>, and a strong ID, which is
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Strong and weak IDs.</b>  Every kind has both a weak ID, like <code>LIST_OF_TY</code>, and a strong ID, which is
 a pointer to a small data structure: for instance, a pointer to the three
-words <span class="extract"><span class="extract-syntax">LIST_OF_TY 1 NUMBER_TY</span></span> is the strong ID for "list of numbers".
-</p>
-
-<p class="commentary">This converts strong to weak, while preserving weak IDs as they are:
-</p>
-
+words <code>LIST_OF_TY 1 NUMBER_TY</code> is the strong ID for &quot;list of numbers&quot;.</p>
+<p>This converts strong to weak, while preserving weak IDs as they are:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">KindWeakID</span><span class="plain-syntax"> </span><span class="identifier-syntax">strong_kind_id</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">strong_kind_id</span><span class="plain-syntax"> &gt;= </span><span class="constant-syntax">0</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">strong_kind_id</span><span class="plain-syntax"> &lt; </span><span class="identifier-syntax">BASE_KIND_HWM</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">strong_kind_id</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">strong_kind_id</span><span class="plain-syntax">--&gt;0;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>These can only work with a strong ID: the call <span class="extract"><span class="extract-syntax">KindConstructorArity(LIST_OF_TY)</span></span>
-does not return 2.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  These can only work with a strong ID: the call <code>KindConstructorArity(LIST_OF_TY)</code>
+does not return 2.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">KindConstructorArity</span><span class="plain-syntax"> </span><span class="identifier-syntax">strong_kind_id</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">strong_kind_id</span><span class="plain-syntax"> &gt;= </span><span class="constant-syntax">0</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">strong_kind_id</span><span class="plain-syntax"> &lt; </span><span class="identifier-syntax">BASE_KIND_HWM</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
@@ -91,14 +99,12 @@ does not return 2.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">strong_kind_id</span><span class="plain-syntax">--&gt;(2+</span><span class="identifier-syntax">n</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. The kind metadata array.</b>Weak IDs are used to read method functions and other details out of the
-<span class="extract"><span class="extract-syntax">KindMetadata</span></span> array.
-</p>
-
-<p class="commentary">If <span class="extract"><span class="extract-syntax">w</span></span> is a weak ID, then the metadata on the kind is stored at
-<span class="extract"><span class="extract-syntax">KindMetadata--&gt;(KindMetadata--&gt;w)</span></span> and consecutive words.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. The kind metadata array.</b>  Weak IDs are used to read method functions and other details out of the
+<code>KindMetadata</code> array.</p>
+<p>If <code>w</code> is a weak ID, then the metadata on the kind is stored at
+<code>KindMetadata--&gt;(KindMetadata--&gt;w)</code> and consecutive words.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">ReadKindMetadata</span><span class="plain-syntax"> </span><span class="identifier-syntax">kind_id</span><span class="plain-syntax"> </span><span class="identifier-syntax">field</span><span class="plain-syntax"> </span><span class="identifier-syntax">x</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">kind_id</span><span class="plain-syntax"> &lt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) || (</span><span class="identifier-syntax">kind_id</span><span class="plain-syntax"> &gt;= </span><span class="identifier-syntax">BASE_KIND_HWM</span><span class="plain-syntax">)) </span><span class="identifier-syntax">kind_id</span><span class="plain-syntax"> = </span><span class="identifier-syntax">kind_id</span><span class="plain-syntax">--&gt;0;</span>
@@ -107,14 +113,14 @@ does not return 2.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">x</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>The fields in this array are numbered as follows. Note that kinds which do
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  The fields in this array are numbered as follows. Note that kinds which do
 not take pointer values provide only the first set of fields below; do not
-look up <span class="extract"><span class="extract-syntax">CREATE_FN_KMF</span></span> and so on with <span class="extract"><span class="extract-syntax">ReadKindMetadata</span></span> for any kind which
-does not conform to <span class="extract"><span class="extract-syntax">POINTER_VALUE_TY</span></span>.
-</p>
-
+look up <code>CREATE_FN_KMF</code> and so on with <code>ReadKindMetadata</code> for any kind which
+does not conform to <code>POINTER_VALUE_TY</code>.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="comment-syntax">Always present</span>
+<span class="comment-syntax">! Always present</span>
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">WEAK_KIND_ID_KMF</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">SAY_FN_KMF</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">COMPARE_FN_KMF</span><span class="plain-syntax"> = </span><span class="constant-syntax">2</span><span class="plain-syntax">;</span>
@@ -123,7 +129,7 @@ does not conform to <span class="extract"><span class="extract-syntax">POINTER_V
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">DOMAIN_SIZE_KMF</span><span class="plain-syntax"> = </span><span class="constant-syntax">5</span><span class="plain-syntax">;</span>
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">CONFORMANCE_KMF</span><span class="plain-syntax"> = </span><span class="constant-syntax">6</span><span class="plain-syntax">;</span>
 
-<span class="comment-syntax">Present only for pointer-valued kinds</span>
+<span class="comment-syntax">! Present only for pointer-valued kinds</span>
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">CREATE_FN_KMF</span><span class="plain-syntax"> = </span><span class="constant-syntax">7</span><span class="plain-syntax">;</span>
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">CAST_FN_KMF</span><span class="plain-syntax"> = </span><span class="constant-syntax">8</span><span class="plain-syntax">;</span>
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">COPY_FN_KMF</span><span class="plain-syntax"> = </span><span class="constant-syntax">9</span><span class="plain-syntax">;</span>
@@ -137,23 +143,23 @@ does not conform to <span class="extract"><span class="extract-syntax">POINTER_V
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">SERIALISE_FN_KMF</span><span class="plain-syntax"> = </span><span class="constant-syntax">17</span><span class="plain-syntax">;</span>
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">UNSERIALISE_FN_KMF</span><span class="plain-syntax"> = </span><span class="constant-syntax">18</span><span class="plain-syntax">;</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b><span class="extract"><span class="extract-syntax">KindComparisonFunction(K)</span></span> returns either the address of a function to
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  <code>KindComparisonFunction(K)</code> returns either the address of a function to
 perform a comparison between two values, or else 0 to signal that no
 special sort of comparison is needed. (In which case signed numerical
-comparison should be used.) The function <span class="extract"><span class="extract-syntax">F</span></span> may be used in a sorting algorithm,
-so it must have no side-effects. <span class="extract"><span class="extract-syntax">F(x,y)</span></span> should return 1 if \(x&gt;y\),
-0 if \(x=y\) and \(-1\) if \(x&lt;y\). Note that it is not permitted to return 0
-unless the two values are genuinely equal.
-</p>
-
+comparison should be used.) The function <code>F</code> may be used in a sorting algorithm,
+so it must have no side-effects. <code>F(x,y)</code> should return 1 if \INWEBMATH(x&gt;y\INWEBMATH),
+0 if \INWEBMATH(x=y\INWEBMATH) and \INWEBMATH(-1\INWEBMATH) if \INWEBMATH(x&lt;y\INWEBMATH). Note that it is not permitted to return 0
+unless the two values are genuinely equal.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">KindComparisonFunction</span><span class="plain-syntax"> </span><span class="identifier-syntax">kind_id</span><span class="plain-syntax"> </span><span class="identifier-syntax">fail</span><span class="plain-syntax"> </span><span class="identifier-syntax">s</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">ReadKindMetadata</span><span class="plain-syntax">(</span><span class="identifier-syntax">kind_id</span><span class="plain-syntax">, </span><span class="identifier-syntax">COMPARE_FN_KMF</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>For kinds which are essentially infinite, the following returns 0.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  For kinds which are essentially infinite, the following returns 0.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">KindDomainSize</span><span class="plain-syntax"> </span><span class="identifier-syntax">kind_id</span><span class="plain-syntax"> </span><span class="identifier-syntax">fail</span><span class="plain-syntax"> </span><span class="identifier-syntax">s</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">ReadKindMetadata</span><span class="plain-syntax">(</span><span class="identifier-syntax">kind_id</span><span class="plain-syntax">, </span><span class="identifier-syntax">DOMAIN_SIZE_KMF</span><span class="plain-syntax">);</span>
@@ -163,11 +169,11 @@ unless the two values are genuinely equal.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">ReadKindMetadata</span><span class="plain-syntax">(</span><span class="identifier-syntax">kind_id</span><span class="plain-syntax">, </span><span class="identifier-syntax">ENUMERATION_ARRAY_KMF</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b><span class="extract"><span class="extract-syntax">KindDefaultValue(K)</span></span> returns the default value for kind <span class="extract"><span class="extract-syntax">K</span></span>: it's needed,
-for instance, when increasing the size of a list of \(K\) to include new entries,
-which have to be given some type-safe value to start out at.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  <code>KindDefaultValue(K)</code> returns the default value for kind <code>K</code>: it's needed,
+for instance, when increasing the size of a list of \INWEBMATH(K\INWEBMATH) to include new entries,
+which have to be given some type-safe value to start out at.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">KindDefaultValue</span><span class="plain-syntax"> </span><span class="identifier-syntax">strong_kind_id</span><span class="plain-syntax"> </span><span class="identifier-syntax">mkdef_fn</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">mkdef_fn</span><span class="plain-syntax"> = </span><span class="identifier-syntax">ReadKindMetadata</span><span class="plain-syntax">(</span><span class="identifier-syntax">strong_kind_id</span><span class="plain-syntax">, </span><span class="identifier-syntax">MAKE_DEFAULT_FN_KMF</span><span class="plain-syntax">);</span>
@@ -175,31 +181,29 @@ which have to be given some type-safe value to start out at.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>True if and only if <span class="extract"><span class="extract-syntax">kid</span></span> is the (strong or weak) ID of a kind for which
-values are pointers to blocks of data on the stack or heap.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>  True if and only if <code>kid</code> is the (strong or weak) ID of a kind for which
+values are pointers to blocks of data on the stack or heap.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">KindConformsTo_POINTER_VALUE_TY</span><span class="plain-syntax"> </span><span class="identifier-syntax">kind_id</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> (</span><span class="identifier-syntax">ReadKindMetadata</span><span class="plain-syntax">(</span><span class="identifier-syntax">kind_id</span><span class="plain-syntax">, </span><span class="identifier-syntax">CONFORMANCE_KMF</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. Non-standard enumerations.</b>This is for enumerations whose values are scattered: say, for a kind where
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. Non-standard enumerations.</b>  This is for enumerations whose values are scattered: say, for a kind where
 the valid runtime values are 3, 15 and 421. Next after 3 is 15; previous
-is 421, and so on.
-</p>
-
-<p class="commentary">The <span class="extract"><span class="extract-syntax">instances</span></span> array supplied has the extent in word 0, which is in effect
-the number of valid instances. This is guaranteed to be at least 1.
-</p>
-
+is 421, and so on.</p>
+<p>The <code>instances</code> array supplied has the extent in word 0, which is in effect
+the number of valid instances. This is guaranteed to be at least 1.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">NextEnumVal</span><span class="plain-syntax"> </span><span class="identifier-syntax">inst</span><span class="plain-syntax"> </span><span class="identifier-syntax">instances</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax"> </span><span class="identifier-syntax">count</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">count</span><span class="plain-syntax"> = </span><span class="identifier-syntax">instances</span><span class="plain-syntax">--&gt;0;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">i</span><span class="plain-syntax">=1: </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;=</span><span class="identifier-syntax">count</span><span class="plain-syntax">: </span><span class="identifier-syntax">i</span><span class="plain-syntax">++)</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">instances</span><span class="plain-syntax">--&gt;</span><span class="identifier-syntax">i</span><span class="plain-syntax"> == </span><span class="identifier-syntax">inst</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">instances</span><span class="plain-syntax">--&gt;(</span><span class="identifier-syntax">i</span><span class="plain-syntax">%</span><span class="identifier-syntax">count</span><span class="plain-syntax"> + </span><span class="constant-syntax">1</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">instances</span><span class="plain-syntax">--&gt;1; </span><span class="comment-syntax">Should not ever happen</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">instances</span><span class="plain-syntax">--&gt;1; </span><span class="comment-syntax">! Should not ever happen</span>
 <span class="plain-syntax">];</span>
 
 <span class="plain-syntax">[ </span><span class="identifier-syntax">PrevEnumVal</span><span class="plain-syntax"> </span><span class="identifier-syntax">inst</span><span class="plain-syntax"> </span><span class="identifier-syntax">instances</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax"> </span><span class="identifier-syntax">count</span><span class="plain-syntax">;</span>
@@ -207,7 +211,7 @@ the number of valid instances. This is guaranteed to be at least 1.
 <span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">i</span><span class="plain-syntax">=1: </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;=</span><span class="identifier-syntax">count</span><span class="plain-syntax">: </span><span class="identifier-syntax">i</span><span class="plain-syntax">++)</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">instances</span><span class="plain-syntax">--&gt;</span><span class="identifier-syntax">i</span><span class="plain-syntax"> == </span><span class="identifier-syntax">inst</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">instances</span><span class="plain-syntax">--&gt;((</span><span class="identifier-syntax">i</span><span class="plain-syntax">+</span><span class="identifier-syntax">count</span><span class="plain-syntax">-2)%</span><span class="identifier-syntax">count</span><span class="plain-syntax"> + </span><span class="constant-syntax">1</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">instances</span><span class="plain-syntax">--&gt;1; </span><span class="comment-syntax">Should not ever happen</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">instances</span><span class="plain-syntax">--&gt;1; </span><span class="comment-syntax">! Should not ever happen</span>
 <span class="plain-syntax">];</span>
 
 <span class="plain-syntax">[ </span><span class="identifier-syntax">RandomEnumVal</span><span class="plain-syntax"> </span><span class="identifier-syntax">instances</span><span class="plain-syntax"> </span><span class="identifier-syntax">a</span><span class="plain-syntax"> </span><span class="identifier-syntax">b</span><span class="plain-syntax"> </span><span class="identifier-syntax">count</span><span class="plain-syntax"> </span><span class="identifier-syntax">a_index</span><span class="plain-syntax"> </span><span class="identifier-syntax">b_index</span><span class="plain-syntax"> </span><span class="identifier-syntax">c</span><span class="plain-syntax">;</span>
@@ -223,7 +227,7 @@ the number of valid instances. This is guaranteed to be at least 1.
 <span class="plain-syntax">            </span><span class="identifier-syntax">b_index</span><span class="plain-syntax"> = </span><span class="identifier-syntax">c</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">a_index</span><span class="plain-syntax"> &gt; </span><span class="identifier-syntax">b_index</span><span class="plain-syntax">) { </span><span class="identifier-syntax">c</span><span class="plain-syntax"> = </span><span class="identifier-syntax">a_index</span><span class="plain-syntax">; </span><span class="identifier-syntax">a_index</span><span class="plain-syntax"> = </span><span class="identifier-syntax">b_index</span><span class="plain-syntax">; </span><span class="identifier-syntax">b_index</span><span class="plain-syntax"> = </span><span class="identifier-syntax">c</span><span class="plain-syntax">; }</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">instances</span><span class="plain-syntax">--&gt;(</span><span class="identifier-syntax">a_index</span><span class="plain-syntax"> + </span><span class="reserved-syntax">random</span><span class="plain-syntax">(</span><span class="identifier-syntax">b_index</span><span class="plain-syntax"> - </span><span class="identifier-syntax">a_index</span><span class="plain-syntax"> + </span><span class="constant-syntax">1</span><span class="plain-syntax">) - </span><span class="constant-syntax">1</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">instances</span><span class="plain-syntax">--&gt;(</span><span class="identifier-syntax">a_index</span><span class="plain-syntax"> + </span><span class="reserved-syntax">random</span><span class="plain-syntax">(</span><span class="identifier-syntax">b_index</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax"> </span><span class="identifier-syntax">a_index</span><span class="plain-syntax"> + </span><span class="constant-syntax">1</span><span class="plain-syntax">) </span><span class="constant-syntax">-</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">];</span>
 
 <span class="plain-syntax">[ </span><span class="identifier-syntax">IndexOfEnumVal</span><span class="plain-syntax"> </span><span class="identifier-syntax">instances</span><span class="plain-syntax"> </span><span class="identifier-syntax">a</span><span class="plain-syntax"> </span><span class="identifier-syntax">count</span><span class="plain-syntax"> </span><span class="identifier-syntax">c</span><span class="plain-syntax">;</span>
@@ -234,24 +238,22 @@ the number of valid instances. This is guaranteed to be at least 1.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. Kind-value pairs.</b>Just a few functions can be performed on any value of any kind, but the
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. Kind-value pairs.</b>  Just a few functions can be performed on any value of any kind, but the
 functions in question have to be told the kind, since (unless the value is
-a pointer) there will be no way to deduce this.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">SayKindValuePair(K, V)</span></span> prints out the value <span class="extract"><span class="extract-syntax">V</span></span> on the assumption that
-it belongs to the kind <span class="extract"><span class="extract-syntax">K</span></span>.
-</p>
-
+a pointer) there will be no way to deduce this.</p>
+<p><code>SayKindValuePair(K, V)</code> prints out the value <code>V</code> on the assumption that
+it belongs to the kind <code>K</code>.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">SayKindValuePair</span><span class="plain-syntax"> </span><span class="identifier-syntax">kind_id</span><span class="plain-syntax"> </span><span class="identifier-syntax">value</span><span class="plain-syntax"> </span><span class="identifier-syntax">say_fn</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">say_fn</span><span class="plain-syntax"> = </span><span class="identifier-syntax">ReadKindMetadata</span><span class="plain-syntax">(</span><span class="identifier-syntax">kind_id</span><span class="plain-syntax">, </span><span class="identifier-syntax">SAY_FN_KMF</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">say_fn</span><span class="plain-syntax">) </span><span class="identifier-syntax">say_fn</span><span class="plain-syntax">(</span><span class="identifier-syntax">value</span><span class="plain-syntax">); </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="reserved-syntax">print</span><span class="plain-syntax"> </span><span class="identifier-syntax">value</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. </b>And here is a general comparison.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. </b>  And here is a general comparison.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">CompareKindValuePairs</span><span class="plain-syntax"> </span><span class="identifier-syntax">k1</span><span class="plain-syntax"> </span><span class="identifier-syntax">v1</span><span class="plain-syntax"> </span><span class="identifier-syntax">k2</span><span class="plain-syntax"> </span><span class="identifier-syntax">v2</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">cmp_fn</span><span class="plain-syntax">;</span>
@@ -261,24 +263,20 @@ it belongs to the kind <span class="extract"><span class="extract-syntax">K</spa
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">v1</span><span class="plain-syntax">-</span><span class="identifier-syntax">v2</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. </b>Given a value of any kind, assign it a hash code which fits in a single
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. </b>  Given a value of any kind, assign it a hash code which fits in a single
 virtual machine word, maximizing the chances that two different values
-will have different hash codes.
-</p>
-
-<p class="commentary">If the value can be stored in a single word already, it can be its own hash
+will have different hash codes.</p>
+<p>If the value can be stored in a single word already, it can be its own hash
 code. Otherwise, we ask its hash function to return one for us. Whatever this
 does, it must at minimum have the property that two equivalent values (for which
-the kind's comparison function returns 0) produce the same hash.
-</p>
-
-<p class="commentary">Note that if a pointer-valued kind provides no hash function, all of its values
+the kind's comparison function returns 0) produce the same hash.</p>
+<p>Note that if a pointer-valued kind provides no hash function, all of its values
 are given the hash code 0. This will force pairs of such values to be compared
-the hard way, but we have nothing better to offer. To return <span class="extract"><span class="extract-syntax">value</span></span> would be
+the hard way, but we have nothing better to offer. To return <code>value</code> would be
 an error, since it would mean that a value and its duplicate would have
-different hash codes despite being equal.
-</p>
-
+different hash codes despite being equal.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">HashKindValuePair</span><span class="plain-syntax"> </span><span class="identifier-syntax">kind_id</span><span class="plain-syntax"> </span><span class="identifier-syntax">value</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">hash_function</span><span class="plain-syntax">;</span>
@@ -292,26 +290,22 @@ different hash codes despite being equal.
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">value</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. </b>Some values can be written to external files and shared with other projects:
-others cannot. The following routines abstract that.
-</p>
-
-<p class="commentary">If <span class="extract"><span class="extract-syntax">ch</span></span> is \(-1\), then the unserialise function returns <span class="extract"><span class="extract-syntax">true</span></span> or <span class="extract"><span class="extract-syntax">false</span></span>
-according to whether it is possible to read data from an auxiliary file <span class="extract"><span class="extract-syntax">auxf</span></span>
-into the block value <span class="extract"><span class="extract-syntax">bv</span></span>. If <span class="extract"><span class="extract-syntax">ch</span></span> is any other value, then the routine should
-do exactly that, taking <span class="extract"><span class="extract-syntax">ch</span></span> to be the first character of the text read from the
-file which makes up the serialised form of the data.
-</p>
-
-<p class="commentary">Serialising is simpler because, strictly speaking, it doesn't write to a file at
-all: it simply prints a serialised form of the data in <span class="extract"><span class="extract-syntax">bv</span></span> to the output
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. </b>  Some values can be written to external files and shared with other projects:
+others cannot. The following routines abstract that.</p>
+<p>If <code>ch</code> is \INWEBMATH(-1\INWEBMATH), then the unserialise function returns <code>true</code> or <code>false</code>
+according to whether it is possible to read data from an auxiliary file <code>auxf</code>
+into the block value <code>bv</code>. If <code>ch</code> is any other value, then the routine should
+do exactly that, taking <code>ch</code> to be the first character of the text read from the
+file which makes up the serialised form of the data.</p>
+<p>Serialising is simpler because, strictly speaking, it doesn't write to a file at
+all: it simply prints a serialised form of the data in <code>bv</code> to the output
 stream. Since it is called only when that output stream has been redirected to
 an auxiliary file, and since the serialised form would often be illegible on
 screen, it seems reasonable to call it a file input-output function just the
-same. The serialise function should return <span class="extract"><span class="extract-syntax">true</span></span> or <span class="extract"><span class="extract-syntax">false</span></span> according to
-whether it was able to write the data.
-</p>
-
+same. The serialise function should return <code>true</code> or <code>false</code> according to
+whether it was able to write the data.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">SerialiseKindValuePair</span><span class="plain-syntax"> </span><span class="identifier-syntax">kind_id</span><span class="plain-syntax"> </span><span class="identifier-syntax">value</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">serialise_function</span><span class="plain-syntax">;</span>
@@ -333,11 +327,11 @@ whether it was able to write the data.
 <span class="plain-syntax">    </span><span class="reserved-syntax">rfalse</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. The Pointer Value API.</b>This sits on top of the BlkValue API, but whereas the latter can be used for
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. The Pointer Value API.</b>  This sits on top of the BlkValue API, but whereas the latter can be used for
 many potential purposes, the PV functions are strictly for dealing with
-values of kinds conforming to POINTER_VALUE_TY.
-</p>
-
+values of kinds conforming to POINTER_VALUE_TY.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">DestroyPV</span><span class="plain-syntax"> = </span><span class="identifier-syntax">BlkValueFree</span><span class="plain-syntax">;</span>
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">CreatePV</span><span class="plain-syntax"> = </span><span class="identifier-syntax">BlkValueCreate</span><span class="plain-syntax">;</span>
@@ -417,6 +411,7 @@ values of kinds conforming to POINTER_VALUE_TY.
 
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">DestroyPVFromStack</span><span class="plain-syntax"> = </span><span class="identifier-syntax">BlkValueFreeOnStack</span><span class="plain-syntax">;</span>
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">CreatePVOnStack</span><span class="plain-syntax"> = </span><span class="identifier-syntax">BlkValueCreateOnStack</span><span class="plain-syntax">;</span>
+
 </pre>
 <nav role="progress"><div class="progresscontainer">
     <ul class="progressbar"><li class="progressprev"><a href="blckv.html">&#10094;</a></li><li class="progresssection"><a href="dfntn.html">dfntn</a></li><li class="progresssection"><a href="strtp.html">strtp</a></li><li class="progresssection"><a href="utlts.html">utlts</a></li><li class="progresssection"><a href="prgrp.html">prgrp</a></li><li class="progresssection"><a href="mthmt.html">mthmt</a></li><li class="progresssection"><a href="srt.html">srt</a></li><li class="progresssection"><a href="tbls.html">tbls</a></li><li class="progresssection"><a href="mstck.html">mstck</a></li><li class="progresssection"><a href="rlbks.html">rlbks</a></li><li class="progresssection"><a href="actvt.html">actvt</a></li><li class="progresssection"><a href="prntn.html">prntn</a></li><li class="progresssection"><a href="flx.html">flx</a></li><li class="progresssection"><a href="blckv.html">blckv</a></li><li class="progresscurrent">knds</li><li class="progresssection"><a href="txt.html">txt</a></li><li class="progresssection"><a href="chr.html">chr</a></li><li class="progresssection"><a href="rgxp.html">rgxp</a></li><li class="progresssection"><a href="lsts.html">lsts</a></li><li class="progresssection"><a href="cmbnt.html">cmbnt</a></li><li class="progresssection"><a href="rltnk.html">rltnk</a></li><li class="progresssection"><a href="rltns.html">rltns</a></li><li class="progresssection"><a href="prprt.html">prprt</a></li><li class="progresssection"><a href="rtp.html">rtp</a></li><li class="progressnext"><a href="txt.html">&#10095;</a></li></ul></div>

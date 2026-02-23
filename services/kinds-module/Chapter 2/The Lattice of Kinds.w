@@ -7,12 +7,12 @@ If we write $K\leq L$ to mean that $K$ conforms to $L$, then $\leq$ provides
 an ordering on kinds. For any kinds $K, L, M$ not making use of kind variables[1]
 it is true that:
 
-(*) $K \leq K$ -- reflexivity.
-(*) If $K\leq L$ and $L\leq M$ then $K\leq M$ -- transitivity.
-(*) |K_nil| $\leq K \leq$ |value| -- there are top and bottom elements.[2]
-(*) If $K \leq L$ then a value of kind $K$ can always be substituted for a
+- $K \leq K$ -- reflexivity.
+- If $K\leq L$ and $L\leq M$ then $K\leq M$ -- transitivity.
+- |K_nil| $\leq K \leq$ |value| -- there are top and bottom elements.[2]
+- If $K \leq L$ then a value of kind $K$ can always be substituted for a
 value of kind $L$ without modification -- the Liskov substitution principle.[3]
-(*) There is a join $K\lor L$ and a meet $K\land L$ such that
+- There is a join $K\lor L$ and a meet $K\land L$ such that
 $K\land L\leq K, L\leq K\lor L$, where $K\lor L$ is minimal and $K\land L$
 maximal with that property.
 
@@ -55,9 +55,9 @@ in other languages would be called a protocol. Here we see conformance:
  
 = (text from Figures/variance.txt as REPL)
 
-(*) A constructor $\phi$ is "covariant" -- meaning, goes the same way -- if
+- A constructor $\phi$ is "covariant" -- meaning, goes the same way -- if
 $K\leq L$ means $\phi(K)\leq\phi(L)$. 
-(*) It is "contravariant" -- goes the opposite way -- if $K\leq L$ means
+- It is "contravariant" -- goes the opposite way -- if $K\leq L$ means
 $\phi(L)\leq\phi(K)$. 
 
 Note that "list of ..." is covariant; "phrase ... -> ..." is contravariant in
@@ -198,8 +198,8 @@ without this promotion there would be no way to join such kinds.
 A related but different question is "compatibility". This asks whether a
 value of kind $K$ can be used where $L$ is expected, but:
 
-(i) It is now okay if explicit code to perform a conversion would be needed; and
-(ii) There are now three possible answers -- always, never and sometimes, where
+- It is now okay if explicit code to perform a conversion would be needed; and
+- There are now three possible answers -- always, never and sometimes, where
 "sometimes" means that code can be compiled which would test compatibility at
 run time rather than compile time.
 

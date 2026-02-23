@@ -87,16 +87,16 @@ Constant RC_INFINITY = MAX_POSITIVE_NUMBER;
 A short block begins with a word which is usually, but not always, a pointer
 to the long block. There are three possibilities:
 
-(a) 0 means the short block has length 1 and the long block begins at the
+- 0 means the short block has length 1 and the long block begins at the
 very next word in memory. This makes it more convenient for I7 to compile
 BV constants, but isn't otherwise used.
 
-(b) 1 to 255 means the short block has length 2 or more. The value is expected
+- 1 to 255 means the short block has length 2 or more. The value is expected
 to be a bitmap in bits 4 to 8 together with a nonzero ID in bits 1 to 4.
 If the |BLK_BVBITMAP_LONGBLOCK| bit is set, a pointer to the long block
 is stored in the second word of the short block.
 
-(c) Otherwise the short block has length 1 and contains only a pointer to
+- Otherwise the short block has length 1 and contains only a pointer to
 the long block.
 
 =

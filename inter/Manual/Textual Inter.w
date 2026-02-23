@@ -167,7 +167,7 @@ packages have no subpackages.
 
 @ The remaining statements to cover fall into two categories.
 
-(*) Those used outside functions, i.e., packages of type |_code|, are covered in
+- Those used outside functions, i.e., packages of type |_code|, are covered in
 //Data Packages in Textual Inter//.
-(*) Those used in functions, i.e., packages of type |_code|, are covered in
+- Those used in functions, i.e., packages of type |_code|, are covered in
 //Code Packages in Textual Inter//.

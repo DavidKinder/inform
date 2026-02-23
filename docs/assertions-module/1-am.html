@@ -56,29 +56,29 @@
 contains no code of interest. The following constant exists only in tools
 which use this module:</p>
 </div>
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">TRUE</span>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">ASSERTIONS_MODULE</span> <span class="identifier-syntax">TRUE</span>
 </pre>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  Like all modules, this one must define a <code>start</code> and <code>end</code> function:</p>
 </div>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">ASSEMBLIES_DA</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">ASSERTIONS_DA</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">IMPLICATIONS_DA</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">NOUN_RESOLUTION_DA</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">PRONOUNS_DA</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">RELATION_DEFINITIONS_DA</span> 
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">COMPILE_WRITER</span><span class="plain-syntax">(</span><span class="identifier-syntax">heading</span><span class="plain-syntax"> *, </span><a href="4-nr.html#SP12" class="function-link"><span class="function-syntax">NameResolution::log_headings</span></a><span class="plain-syntax">)</span>
-<span class="identifier-syntax">COMPILE_WRITER</span><span class="plain-syntax">(</span><span class="identifier-syntax">table</span><span class="plain-syntax"> *, </span><a href="7-tbl.html#SP8" class="function-link"><span class="function-syntax">Tables::log</span></a><span class="plain-syntax">)</span>
-<span class="identifier-syntax">COMPILE_WRITER</span><span class="plain-syntax">(</span><span class="identifier-syntax">table_column</span><span class="plain-syntax"> *, </span><a href="7-tc.html#SP3" class="function-link"><span class="function-syntax">Tables::Columns::log</span></a><span class="plain-syntax">)</span>
+<span class="identifier-syntax">COMPILE_WRITER</span><span class="plain-syntax">(</span><span class="type-syntax">table</span><span class="plain-syntax"> *, </span><a href="7-tbl.html#SP8" class="function-link"><span class="function-syntax">Tables::log</span></a><span class="plain-syntax">)</span>
+<span class="identifier-syntax">COMPILE_WRITER</span><span class="plain-syntax">(</span><span class="type-syntax">table_column</span><span class="plain-syntax"> *, </span><a href="7-tc.html#SP3" class="function-link"><span class="function-syntax">Tables::Columns::log</span></a><span class="plain-syntax">)</span>
 
-<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">AssertionsModule::start</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="type-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">AssertionsModule::start</span><span class="plain-syntax">(</span><span class="type-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><a href="8-tap.html#SP2" class="function-link"><span class="function-syntax">AdjectivalPredicates::start</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><a href="8-tcp.html#SP2" class="function-link"><span class="function-syntax">CreationPredicates::start</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><a href="8-qr.html#SP2" class="function-link"><span class="function-syntax">Calculus::QuasinumericRelations::start</span></a><span class="plain-syntax">();</span>
@@ -108,7 +108,7 @@ which use this module:</p>
 <span class="plain-syntax">    </span><span class="identifier-syntax">InternalTests::make_test_available</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="string-syntax">"equation"</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">        &amp;</span><a href="7-eqt.html#SP47" class="function-link"><span class="function-syntax">Equations::perform_equation_internal_test</span></a><span class="plain-syntax">, </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
-<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">AssertionsModule::end</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="type-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">AssertionsModule::end</span><span class="plain-syntax">(</span><span class="type-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">}</span>
 </pre>
 <nav role="progress"><div class="progresscontainer">

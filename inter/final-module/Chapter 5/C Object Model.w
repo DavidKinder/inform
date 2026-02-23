@@ -68,13 +68,13 @@ void CObjectModel::end(code_generation *gen) {
 @h The object value-space.
 Inter requires that the following values must be distinguishable at runtime:
 
-(a) Instances of object;
-(b) Classes, which include kinds of object such as "container", but not other
+- Instances of object;
+- Classes, which include kinds of object such as "container", but not other
 kinds such as "number";
-(c) Constant text values -- note: this does not mean values of the I7 "text"
+- Constant text values -- note: this does not mean values of the I7 "text"
 kind, this means only text literals in Inter;
-(d) Functions;
-(e) 0, which is also the value of the non-object |nothing|.
+- Functions;
+- 0, which is also the value of the non-object |nothing|.
 
 Note that there is no requirement for these ranges of value to be contiguous,
 or to exhaust the whole range of 32-bit values (and they do not). We provide

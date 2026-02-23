@@ -50,10 +50,10 @@ verbs are never considered, but otherwise low priority numbers beat higher.
 
 Inform adopts the following convention for the priority of regular meanings:
 
-(a) Regular "to have" has priority 1.
-(b) Regular "to be" has priority 2.
-(c) Otherwise, regular verbs in the language of the source text have priority 4.
-(d) And regular verbs in some other language have priority 5.
+- Regular "to have" has priority 1.
+- Regular "to be" has priority 2.
+- Otherwise, regular verbs in the language of the source text have priority 4.
+- And regular verbs in some other language have priority 5.
 
 As can be seen below, special meanings have priorities between 1 and 4. Note
 that "to mean" itself has both a special meaning (priority 3) and a regular

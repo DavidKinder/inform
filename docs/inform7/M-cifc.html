@@ -54,60 +54,54 @@
 
 <ul class="toc"><li><a href="M-cifc.html#SP1">&#167;1. Introduction</a></li><li><a href="M-cifc.html#SP2">&#167;2. Example makes</a></li><li><a href="M-cifc.html#SP3">&#167;3. Example 1: Hello World</a></li><li><a href="M-cifc.html#SP4">&#167;4. Example 2: Hello Hello</a></li><li><a href="M-cifc.html#SP8">&#167;8. Example 3: HTML Receiver</a></li><li><a href="M-cifc.html#SP9">&#167;9. Example 4: CSS Receiver</a></li><li><a href="M-cifc.html#SP10">&#167;10. Example 5: Sender</a></li><li><a href="M-cifc.html#SP11">&#167;11. Example 6: Directing actions</a></li><li><a href="M-cifc.html#SP13">&#167;13. Example 7: Reading and writing lists and texts from C</a></li><li><a href="M-cifc.html#SP15">&#167;15. Example 8: Direct function calls between C and Inform programs</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Introduction.</b>Users of the Inform UI apps make programs which are usually textual simulations,
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Introduction.</b>  Users of the Inform UI apps make programs which are usually textual simulations,
 and which are in any case sealed boxes running on virtual machines such as Glulx.
 Although very creative things have been done to hook those up to other machinery,
 usually via Javascript trickery when running those VMs as part of a website, it
 is mostly impractical to use those tricks to have Inform 7 work as part of a
-bigger program not written in Inform.
-</p>
-
-<p class="commentary">However, it is now, as of 2021, possible to use Inform equally well as a
+bigger program not written in Inform.</p>
+<p>However, it is now, as of 2021, possible to use Inform equally well as a
 command-line tool and to use it to generate code which can link into a C
-program, and indeed it's therefore quite easy to have a hybrid program &mdash;
+program, and indeed it's therefore quite easy to have a hybrid program --
 part Inform, part C/C++ (or indeed anything else which can call C functions).
 For example, one could imagine a game developed with Unity which uses a
 portion of Inform 7 code to manage, say, just world-modelling or text
-generation services.
-</p>
-
-<p class="commentary">The following documentation covers how to build hybrid Inform-and-C programs.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Example makes.</b>The Inform source repository includes a small suite of examples of such hybrid
-programs, stored at:
-</p>
-
+generation services.</p>
+<p>The following documentation covers how to build hybrid Inform-and-C programs.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Example makes.</b>  The Inform source repository includes a small suite of examples of such hybrid
+programs, stored at:</p>
+</div>
 <pre class="ConsoleText-displayed-code all-displayed-code code-font">
 <span class="ConsoleText-plain-syntax">inform/inform7/Tests/Test Makes/Eg1-C</span>
 <span class="ConsoleText-plain-syntax">inform/inform7/Tests/Test Makes/Eg2-C</span>
 <span class="ConsoleText-plain-syntax">...</span>
 </pre>
-<p class="commentary">These toy programs are automatically built and tested as part of the Inform 7
+<div class="lsmarkdown">
+<p>These toy programs are automatically built and tested as part of the Inform 7
 test suite, but they can also be copied and then experimented with. We'll call
-these projects "makes", and indeed each one contains a makefile. Change directory
-to it, type <span class="extract"><span class="ConsoleText-extract-syntax">make</span></span>, and an executable should appear.
-</p>
-
-<p class="commentary">The makefiles assume that you have access to the <span class="extract"><span class="ConsoleText-extract-syntax">clang</span></span> C compiler, but <span class="extract"><span class="ConsoleText-extract-syntax">gcc</span></span>
+these projects &quot;makes&quot;, and indeed each one contains a makefile. Change directory
+to it, type <code>make</code>, and an executable should appear.</p>
+<p>The makefiles assume that you have access to the <code>clang</code> C compiler, but <code>gcc</code>
 could equally be used, or any C-99 compatible tool. The makefiles open with a
-reference to the location of the <span class="extract"><span class="ConsoleText-extract-syntax">inform7</span></span> installation on your filing system;
+reference to the location of the <code>inform7</code> installation on your filing system;
 so that opening will need to be edited if you move these projects out of
-<span class="extract"><span class="ConsoleText-extract-syntax">inform/inform7/Tests/Test Makes/</span></span>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Example 1: Hello World.</b>This first example is not even a hybrid. It compiles the simplest of Basic Inform
-programs:
-</p>
-
+<code>inform/inform7/Tests/Test Makes/</code>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Example 1: Hello World.</b>  This first example is not even a hybrid. It compiles the simplest of Basic Inform
+programs:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">To</span><span class="plain-syntax"> </span><span class="identifier-syntax">begin</span><span class="plain-syntax">:</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">say</span><span class="plain-syntax"> </span><span class="string-syntax">"Hello world."</span><span class="plain-syntax">;</span>
 </pre>
-<p class="commentary">...by translating it into a C program, which it then compiles, to produce a native
-executable. The following shows this working:
-</p>
-
+<div class="lsmarkdown">
+<p>...by translating it into a C program, which it then compiles, to produce a native
+executable. The following shows this working:</p>
+</div>
 <pre class="ConsoleText-displayed-code all-displayed-code code-font">
 <span class="ConsoleText-element-syntax">$</span><span class="ConsoleText-plain-syntax"> </span><span class="ConsoleText-function-syntax">cd</span><span class="ConsoleText-plain-syntax"> "inform/inform7/Tests/Test Makes/Eg1-C"</span>
 <span class="ConsoleText-element-syntax">$</span><span class="ConsoleText-plain-syntax"> </span><span class="ConsoleText-function-syntax">ls</span>
@@ -119,10 +113,10 @@ executable. The following shows this working:
 <span class="ConsoleText-element-syntax">$</span><span class="ConsoleText-plain-syntax"> </span><span class="ConsoleText-function-syntax">./Eg1</span>
 <span class="ConsoleText-plain-syntax">Hello world.</span>
 </pre>
-<p class="commentary"><span class="extract"><span class="ConsoleText-extract-syntax">ideal_output.txt</span></span> contains the text which the program should print, if it works
-correctly: this is used in testing. The make process accomplished the following:
-</p>
-
+<div class="lsmarkdown">
+<p><code>ideal_output.txt</code> contains the text which the program should print, if it works
+correctly: this is used in testing. The make process accomplished the following:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax"> </span><span class="identifier-syntax">Eg1</span><span class="plain-syntax">.</span><span class="identifier-syntax">i7</span><span class="plain-syntax">     </span><span class="identifier-syntax">source</span><span class="plain-syntax"> </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">Inform</span><span class="plain-syntax"> </span><span class="constant-syntax">7</span>
 <span class="plain-syntax">   |</span>
@@ -138,47 +132,43 @@ correctly: this is used in testing. The make process accomplished the following:
 <span class="plain-syntax">  \|/</span>
 <span class="plain-syntax">  </span><span class="identifier-syntax">Eg1</span><span class="plain-syntax">       </span><span class="identifier-syntax">native</span><span class="plain-syntax"> </span><span class="identifier-syntax">executable</span>
 </pre>
-<p class="commentary">As with all of the examples, <span class="extract"><span class="extract-syntax">make run</span></span> runs the program, building it if necessary;
-and <span class="extract"><span class="extract-syntax">make clean</span></span> removes the files generated by the build process, returning the
-directory to its mint condition. In this case, that means deleting <span class="extract"><span class="extract-syntax">Eg1-I.c</span></span>,
-<span class="extract"><span class="extract-syntax">Eg1-I.o</span></span> and <span class="extract"><span class="extract-syntax">Eg1</span></span>. Note the filenaming convention: the <span class="extract"><span class="extract-syntax">-I</span></span> in the name of, say,
-<span class="extract"><span class="extract-syntax">Eg1-I.c</span></span> is supposed to signal that the file was derived from an Inform original.
-</p>
-
-<p class="commentary">The makefile for Example 1 is simple, and in a full build it runs the following:
-</p>
-
+<div class="lsmarkdown">
+<p>As with all of the examples, <code>make run</code> runs the program, building it if necessary;
+and <code>make clean</code> removes the files generated by the build process, returning the
+directory to its mint condition. In this case, that means deleting <code>Eg1-I.c</code>,
+<code>Eg1-I.o</code> and <code>Eg1</code>. Note the filenaming convention: the <code>-I</code> in the name of, say,
+<code>Eg1-I.c</code> is supposed to signal that the file was derived from an Inform original.</p>
+<p>The makefile for Example 1 is simple, and in a full build it runs the following:</p>
+</div>
 <pre class="ConsoleText-displayed-code all-displayed-code code-font">
 <span class="ConsoleText-element-syntax">$</span><span class="ConsoleText-plain-syntax"> </span><span class="ConsoleText-function-syntax">make</span>
 <span class="ConsoleText-plain-syntax">../../../Tangled/inform7 -silence -basic -format=C -o Eg1-I.c Eg1.i7</span>
 <span class="ConsoleText-plain-syntax">clang -g -std=c99 -c -I ../../../Internal/Miscellany -o Eg1-I.o Eg1-I.c</span>
 <span class="ConsoleText-plain-syntax">clang -g -o Eg1 Eg1-I.o</span>
 </pre>
-<p class="commentary">All three tools compile silently if no errors occur, though in the case of <a href="index.html" class="internal">inform7</a>
-that's only because <span class="extract"><span class="ConsoleText-extract-syntax">-silence</span></span> was asked for. <span class="extract"><span class="ConsoleText-extract-syntax">-basic</span></span> indicates that this is a
+<div class="lsmarkdown">
+<p>All three tools compile silently if no errors occur, though in the case of <a href="index.html" class="internal">inform7</a>
+that's only because <code>-silence</code> was asked for. <code>-basic</code> indicates that this is a
 Basic Inform program, which is not asked to contain a command parser, for example.
-<span class="extract"><span class="ConsoleText-extract-syntax">-format=C</span></span> makes the output a C program rather than an Inform 6 one, of course.
-</p>
-
-<p class="commentary">The <span class="extract"><span class="ConsoleText-extract-syntax">-I ../../../Internal/Miscellany</span></span> switch when using <span class="extract"><span class="ConsoleText-extract-syntax">clang</span></span> as C compiler
-tells it that this directory should be in the search path for <span class="extract"><span class="ConsoleText-extract-syntax">#include</span></span> files.
-This is needed so that:
-</p>
-
+<code>-format=C</code> makes the output a C program rather than an Inform 6 one, of course.</p>
+<p>The <code>-I ../../../Internal/Miscellany</code> switch when using <code>clang</code> as C compiler
+tells it that this directory should be in the search path for <code>#include</code> files.
+This is needed so that:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">#</span><span class="identifier-syntax">include</span><span class="plain-syntax"> </span><span class="string-syntax">"inform7_clib.h"</span>
 </pre>
-<p class="commentary">will work. This header file is supplied in every Inform installation at:
-</p>
-
+<div class="lsmarkdown">
+<p>will work. This header file is supplied in every Inform installation at:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">inform7</span><span class="plain-syntax">/</span><span class="identifier-syntax">Internal</span><span class="plain-syntax">/</span><span class="identifier-syntax">Miscellany</span><span class="plain-syntax">/</span><span class="identifier-syntax">inform7_clib</span><span class="plain-syntax">.</span><span class="element-syntax">h</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Example 2: Hello Hello.</b>This time we begin with both a C program and an Inform program, both of which
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Example 2: Hello Hello.</b>  This time we begin with both a C program and an Inform program, both of which
 want to say hello: we want to compile these into a single executable. Now the
-makefile has an extra step:
-</p>
-
+makefile has an extra step:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">Eg2</span><span class="plain-syntax">.</span><span class="identifier-syntax">c</span><span class="plain-syntax">        </span><span class="identifier-syntax">Eg2</span><span class="plain-syntax">.</span><span class="identifier-syntax">i7</span><span class="plain-syntax">     </span><span class="identifier-syntax">source</span><span class="plain-syntax"> </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">C</span><span class="plain-syntax"> </span><span class="identifier-syntax">and</span><span class="plain-syntax"> </span><span class="identifier-syntax">Inform</span><span class="plain-syntax"> </span><span class="constant-syntax">7</span><span class="plain-syntax"> </span><span class="identifier-syntax">respectively</span>
 <span class="plain-syntax">      |             |</span>
@@ -196,117 +186,111 @@ makefile has an extra step:
 <span class="plain-syntax">            \|/</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">Eg2</span><span class="plain-syntax">             </span><span class="identifier-syntax">native</span><span class="plain-syntax"> </span><span class="identifier-syntax">executable</span>
 </pre>
-<p class="commentary">That will be the basic plan for all the remaining examples too, so we'll stop
-with these diagrams. Here <span class="extract"><span class="extract-syntax">Eg2.c</span></span> is the C part of our source code, and is not
-to be confused with <span class="extract"><span class="extract-syntax">Eg2-I.c</span></span>, which is the conversion to C of the Inform part
+<div class="lsmarkdown">
+<p>That will be the basic plan for all the remaining examples too, so we'll stop
+with these diagrams. Here <code>Eg2.c</code> is the C part of our source code, and is not
+to be confused with <code>Eg2-I.c</code>, which is the conversion to C of the Inform part
 of our source. Each produces an object file, and the link unites these into a
-single executable.
-</p>
-
-<p class="commentary">The Inform source reads:
-</p>
-
+single executable.</p>
+<p>The Inform source reads:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">To</span><span class="plain-syntax"> </span><span class="identifier-syntax">begin</span><span class="plain-syntax">:</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">say</span><span class="plain-syntax"> </span><span class="string-syntax">"Hello from the Inform source."</span>
 </pre>
-<p class="commentary">The C source could be very easy too:
-</p>
-
+<div class="lsmarkdown">
+<p>The C source could be very easy too:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">#</span><span class="identifier-syntax">include</span><span class="plain-syntax"> </span><span class="string-syntax">"inform7_clib.h"</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">main</span><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">argc</span><span class="plain-syntax">, </span><span class="reserved-syntax">char</span><span class="plain-syntax"> **</span><span class="identifier-syntax">argv</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">main</span><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">argc</span><span class="plain-syntax">, </span><span class="identifier-syntax">char</span><span class="plain-syntax"> **</span><span class="identifier-syntax">argv</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">printf</span><span class="plain-syntax">(</span><span class="string-syntax">"Hello from the C source code.\n"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">i7process_t</span><span class="plain-syntax"> </span><span class="identifier-syntax">proc</span><span class="plain-syntax"> = </span><span class="identifier-syntax">i7_new_process</span><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">i7_run_process</span><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">proc</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary">When run, this produces:
-</p>
-
+<div class="lsmarkdown">
+<p>When run, this produces:</p>
+</div>
 <pre class="ConsoleText-displayed-code all-displayed-code code-font">
 <span class="ConsoleText-plain-syntax">Hello from the C source code.</span>
 <span class="ConsoleText-plain-syntax">Hello from the Inform source.</span>
 </pre>
-<p class="commentary">Note that the C program is the one in command here: in particular, it contains
-<span class="extract"><span class="ConsoleText-extract-syntax">main</span></span>. That means of course that <span class="extract"><span class="ConsoleText-extract-syntax">Eg2-I.c</span></span> must not include a <span class="extract"><span class="ConsoleText-extract-syntax">main</span></span> function,
-or the linking stage will throw an error; whereas <span class="extract"><span class="ConsoleText-extract-syntax">Eg1-I.c</span></span>, in the previous example,
-did have to include <span class="extract"><span class="ConsoleText-extract-syntax">main</span></span>. So clearly something must be different about the
-command to generate C from Inform this time.
-</p>
-
-<p class="commentary">This issue is resolved by tweaking the <span class="extract"><span class="ConsoleText-extract-syntax">-format</span></span> requested. Whereas the makefile
-for example 1 asked <span class="extract"><span class="ConsoleText-extract-syntax">inform7</span></span> for <span class="extract"><span class="ConsoleText-extract-syntax">-format=C</span></span>, the makefile for example 2 asks it
-for <span class="extract"><span class="ConsoleText-extract-syntax">-format=C/no-main</span></span>. The <span class="extract"><span class="ConsoleText-extract-syntax">no-main</span></span> tells the part of Inform which generates C
-code not to make a <span class="extract"><span class="ConsoleText-extract-syntax">main</span></span> of its own, and so all is well. <span class="extract"><span class="ConsoleText-extract-syntax">-format=C/main</span></span> is
-the default arrangement, to which <span class="extract"><span class="ConsoleText-extract-syntax">-format=C</span></span> is equivalent.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>The type <span class="extract"><span class="ConsoleText-extract-syntax">i7process_t</span></span> is used for an "Inform process".<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> A single C program can
+<div class="lsmarkdown">
+<p>Note that the C program is the one in command here: in particular, it contains
+<code>main</code>. That means of course that <code>Eg2-I.c</code> must not include a <code>main</code> function,
+or the linking stage will throw an error; whereas <code>Eg1-I.c</code>, in the previous example,
+did have to include <code>main</code>. So clearly something must be different about the
+command to generate C from Inform this time.</p>
+<p>This issue is resolved by tweaking the <code>-format</code> requested. Whereas the makefile
+for example 1 asked <code>inform7</code> for <code>-format=C</code>, the makefile for example 2 asks it
+for <code>-format=C/no-main</code>. The <code>no-main</code> tells the part of Inform which generates C
+code not to make a <code>main</code> of its own, and so all is well. <code>-format=C/main</code> is
+the default arrangement, to which <code>-format=C</code> is equivalent.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  The type <code>i7process_t</code> is used for an &quot;Inform process&quot;.<sup id="fnred:1"><a href="#fn:1" rel="footnote">1</a></sup> A single C program can
 contain any number of these, and indeed could call them independently from
 multiple threads at the same time: but they are all instances of the same Inform
 program running, each with its own independent state and data. So, for example,
 two different Inform processes will have two different values for the same Inform
 variable name. In effect, they are isolated, independent virtual machines, each
-running a copy of the same program.
-</p>
-
-<p class="commentary">It is essential to create a process as shown, with a call to <span class="extract"><span class="ConsoleText-extract-syntax">i7_new_process</span></span>.
+running a copy of the same program.</p>
+<p>It is essential to create a process as shown, with a call to <code>i7_new_process</code>.
 Once created, though, the same process can be run multiple times. If we had
-written,
-</p>
-
+written,</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">i7process_t</span><span class="plain-syntax"> </span><span class="identifier-syntax">proc</span><span class="plain-syntax"> = </span><span class="identifier-syntax">i7_new_process</span><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">i7_run_process</span><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">proc</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">i7_run_process</span><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">proc</span><span class="plain-syntax">);</span>
 </pre>
-<p class="commentary">then the result would have been:
-</p>
-
+<div class="lsmarkdown">
+<p>then the result would have been:</p>
+</div>
 <pre class="ConsoleText-displayed-code all-displayed-code code-font">
 <span class="ConsoleText-plain-syntax">Hello from the C source code.</span>
 <span class="ConsoleText-plain-syntax">Hello from the Inform source.</span>
 <span class="ConsoleText-plain-syntax">Hello from the Inform source.</span>
 </pre>
-<ul class="footnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> Strictly speaking, typedef names ending <span class="extract"><span class="ConsoleText-extract-syntax">_t</span></span> are reserved for use by the
+<div class="lsmarkdown">
+<ul class="inwebfootnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>
+Strictly speaking, typedef names ending <code>_t</code> are reserved for use by the
 POSIX standard, so this is a sin, but really, I don't see POSIX ever needing names
-prefixed <span class="extract"><span class="ConsoleText-extract-syntax">i7</span></span>, and besides, everybody does it.
-<a href="#fnref:1" title="return to text"> &#x21A9;</a></p></li></ul>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>A note about thread safety. Suppose the C program runs multiple threads. Then:
-</p>
-
-<ul class="items"><li>(a) It is perfectly thread-safe for two or more threads to each be running
-Inform processes simultaneously, but
-</li><li>(b) They must be different <span class="extract"><span class="ConsoleText-extract-syntax">i7process_t</span></span> objects, and
-</li><li>(c) They do not share any data: each process has its own data. If there is an
-Inform variable called "favourite colour", for example, two different <span class="extract"><span class="ConsoleText-extract-syntax">i7process_t</span></span>
-processes running at the same time will have two different values of this.
+prefixed <code>i7</code>, and besides, everybody does it.<a href="#fnref:1" title="return to text"> &#x21A9;</a></p>
 </li></ul>
-<p class="commentary">Note that all <span class="extract"><span class="ConsoleText-extract-syntax">i7process_t</span></span> instances are running the same Inform program. You
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  A note about thread safety. Suppose the C program runs multiple threads. Then:</p>
+<ul>
+<li>It is perfectly thread-safe for two or more threads to each be running
+Inform processes simultaneously, but</li>
+<li>They must be different <code>i7process_t</code> objects, and</li>
+<li>They do not share any data: each process has its own data. If there is an
+Inform variable called &quot;favourite colour&quot;, for example, two different <code>i7process_t</code>
+processes running at the same time will have two different values of this.</li>
+</ul>
+<p>Note that all <code>i7process_t</code> instances are running the same Inform program. You
 cannot, at present, link multiple different Inform programs into the same C
-program.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>Formally speaking, <span class="extract"><span class="ConsoleText-extract-syntax">i7_run_process</span></span> returns the entire Inform program to its
+program.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  Formally speaking, <code>i7_run_process</code> returns the entire Inform program to its
 end, and then returns an exit code: 0 if that program exited cleanly, and 1
 if it halted with a fatal error, for example through dividing by zero, or
 failing a memory allocation. In that event, an error message will be printed
-to <span class="extract"><span class="ConsoleText-extract-syntax">stderr</span></span>.
-</p>
-
-<p class="commentary">So, for the sake of tidiness, the full <span class="extract"><span class="ConsoleText-extract-syntax">Eg2.c</span></span> reads:
-</p>
-
+to <code>stderr</code>.</p>
+<p>So, for the sake of tidiness, the full <code>Eg2.c</code> reads:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">#</span><span class="identifier-syntax">include</span><span class="plain-syntax"> </span><span class="string-syntax">"inform7_clib.h"</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">main</span><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">argc</span><span class="plain-syntax">, </span><span class="reserved-syntax">char</span><span class="plain-syntax"> **</span><span class="identifier-syntax">argv</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">main</span><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">argc</span><span class="plain-syntax">, </span><span class="identifier-syntax">char</span><span class="plain-syntax"> **</span><span class="identifier-syntax">argv</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">printf</span><span class="plain-syntax">(</span><span class="string-syntax">"Hello from the C source code.\n"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">i7process_t</span><span class="plain-syntax"> </span><span class="identifier-syntax">proc</span><span class="plain-syntax"> = </span><span class="identifier-syntax">i7_new_process</span><span class="plain-syntax">();</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">exit_code</span><span class="plain-syntax"> = </span><span class="identifier-syntax">i7_run_process</span><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">proc</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">exit_code</span><span class="plain-syntax"> = </span><span class="identifier-syntax">i7_run_process</span><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">proc</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">exit_code</span><span class="plain-syntax"> == </span><span class="constant-syntax">1</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">printf</span><span class="plain-syntax">(</span><span class="string-syntax">"*** Fatal error: halted ***\n"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">fflush</span><span class="plain-syntax">(</span><span class="identifier-syntax">stdout</span><span class="plain-syntax">); </span><span class="identifier-syntax">fflush</span><span class="plain-syntax">(</span><span class="identifier-syntax">stderr</span><span class="plain-syntax">);</span>
@@ -314,108 +298,110 @@ to <span class="extract"><span class="ConsoleText-extract-syntax">stderr</span><
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">exit_code</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary">Example 2 is in fact so simple that it is impossible for the exit code to be
-other than 0, but checking the exit code is good practice.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Example 3: HTML Receiver.</b>This third example demonstrates a "receiver" function. The text printed by
+<div class="lsmarkdown">
+<p>Example 2 is in fact so simple that it is impossible for the exit code to be
+other than 0, but checking the exit code is good practice.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Example 3: HTML Receiver.</b>  This third example demonstrates a &quot;receiver&quot; function. The text printed by
 Inform 7 can be captured, processed, and in general handled however the C
 program would like. This is done by assigning a receiver to the process,
-after it is created, but before it is run:
-</p>
-
+after it is created, but before it is run:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">i7process_t</span><span class="plain-syntax"> </span><span class="identifier-syntax">proc</span><span class="plain-syntax"> = </span><span class="identifier-syntax">i7_new_process</span><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">i7_set_process_receiver</span><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">proc</span><span class="plain-syntax">, </span><span class="identifier-syntax">my_receiver</span><span class="plain-syntax">, </span><span class="constant-syntax">1</span><span class="plain-syntax">);</span>
 </pre>
-<p class="commentary">Here <span class="extract"><span class="extract-syntax">my_receiver</span></span> is a function. The default receiver looks like this:
-</p>
-
+<div class="lsmarkdown">
+<p>Here <code>my_receiver</code> is a function. The default receiver looks like this:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="identifier-syntax">i7_default_receiver</span><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">id</span><span class="plain-syntax">, </span><span class="identifier-syntax">inchar32_t</span><span class="plain-syntax"> </span><span class="identifier-syntax">c</span><span class="plain-syntax">, </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">style</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="identifier-syntax">i7_default_receiver</span><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">id</span><span class="plain-syntax">, </span><span class="identifier-syntax">inchar32_t</span><span class="plain-syntax"> </span><span class="identifier-syntax">c</span><span class="plain-syntax">, </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">style</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">id</span><span class="plain-syntax"> == </span><span class="identifier-syntax">I7_BODY_TEXT_ID</span><span class="plain-syntax">) </span><span class="identifier-syntax">fputc</span><span class="plain-syntax">(</span><span class="identifier-syntax">c</span><span class="plain-syntax">, </span><span class="identifier-syntax">stdout</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary">This receives the text printed by the Inform process, one character at a time.
-</p>
-
-<ul class="items"><li>&#9679; The <span class="extract"><span class="extract-syntax">id</span></span> is a "window ID", a detail which doesn't matter to a Basic Inform
-project &mdash; it will always in fact be <span class="extract"><span class="extract-syntax">I7_BODY_TEXT_ID</span></span>. For a full Inform project
-such as an IF work, it might be any of three possibilities:
-<ul class="items"><li>&#9679; <span class="extract"><span class="extract-syntax">I7_BODY_TEXT_ID</span></span>, the main transcript of text in the story;
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">I7_STATUS_TEXT_ID</span></span>, the "status line" header at the top of a traditional
-Terminal-window-style presentation of this text;
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">I7_BOX_TEXT_ID</span></span>, a quotation printed in a box which overlies the main text.
-</li></ul>
-<li>&#9679; The <span class="extract"><span class="extract-syntax">style</span></span> is a stylistic markup. It will always be a valid C string, of
+<div class="lsmarkdown">
+<p>This receives the text printed by the Inform process, one character at a time.</p>
+<ul>
+<li>
+<p>The <code>id</code> is a &quot;window ID&quot;, a detail which doesn't matter to a Basic Inform
+project -- it will always in fact be <code>I7_BODY_TEXT_ID</code>. For a full Inform project
+such as an IF work, it might be any of three possibilities:</p>
+<ul>
+<li><code>I7_BODY_TEXT_ID</code>, the main transcript of text in the story;</li>
+<li><code>I7_STATUS_TEXT_ID</code>, the &quot;status line&quot; header at the top of a traditional
+Terminal-window-style presentation of this text;</li>
+<li><code>I7_BOX_TEXT_ID</code>, a quotation printed in a box which overlies the main text.</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>
+<p>The <code>style</code> is a stylistic markup. It will always be a valid C string, of
 length at most 256, but is often the empty C string and of length 0, meaning
-"this is plain text with no styling applied".
-<ul class="items"><li>&#9679; The three main styles are <span class="extract"><span class="extract-syntax">italic</span></span>, <span class="extract"><span class="extract-syntax">bold</span></span>, <span class="extract"><span class="extract-syntax">reverse</span></span> and <span class="extract"><span class="extract-syntax">fixedpitch</span></span>.
-</li><li>&#9679; Plain styling and these three can all be combined with a "fixed-pitch type"
-request, thus: <span class="extract"><span class="extract-syntax">fixedpitch</span></span>, <span class="extract"><span class="extract-syntax">italic,fixedpitch</span></span>, <span class="extract"><span class="extract-syntax">bold,fixedpitch</span></span>, <span class="extract"><span class="extract-syntax">reverse,fixedpitch</span></span>.
-</li></ul>
-</li></ul>
-<p class="commentary">As can be seen, the default receiver ignores all text not sent to the main window,
-and ignores all styling even on that.
-</p>
-
-<p class="commentary">The significance of the 1 in the call <span class="extract"><span class="extract-syntax">i7_set_process_receiver(&amp;proc, my_receiver, 1)</span></span>
+&quot;this is plain text with no styling applied&quot;.</p>
+</li>
+<li>
+<p>The three main styles are <code>italic</code>, <code>bold</code>, <code>reverse</code> and <code>fixedpitch</code>.</p>
+</li>
+<li>
+<p>Plain styling and these three can all be combined with a &quot;fixed-pitch type&quot;
+request, thus: <code>fixedpitch</code>, <code>italic,fixedpitch</code>, <code>bold,fixedpitch</code>,
+<code>reverse,fixedpitch</code>.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>As can be seen, the default receiver ignores all text not sent to the main window,
+and ignores all styling even on that.</p>
+<p>The significance of the 1 in the call <code>i7_set_process_receiver(&amp;proc, my_receiver, 1)</code>
 is that it asked for text to be sent to the receiver encoded as UTF-8. This in fact
-is the default receiver's arrangement, too. Call <span class="extract"><span class="extract-syntax">i7_set_process_receiver(&amp;proc, my_receiver, 0)</span></span>
-to have the characters arrive raw as a series of unencoded Unicode code-points.
-</p>
-
-<p class="commentary">In Example 3, the Inform source is:
-</p>
-
+is the default receiver's arrangement, too. Call <code>i7_set_process_receiver(&amp;proc, my_receiver, 0)</code>
+to have the characters arrive raw as a series of unencoded Unicode code-points.</p>
+<p>In Example 3, the Inform source is:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">To</span><span class="plain-syntax"> </span><span class="identifier-syntax">begin</span><span class="plain-syntax">:</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">say</span><span class="plain-syntax"> </span><span class="string-syntax">"Hello &amp; [italic type]welcome[roman type] from &lt;Inform code&gt;!"</span>
 </pre>
-<p class="commentary">The example receiver function converts this to HTML:
-</p>
-
+<div class="lsmarkdown">
+<p>The example receiver function converts this to HTML:</p>
+</div>
 <pre class="ConsoleText-displayed-code all-displayed-code code-font">
 <span class="ConsoleText-plain-syntax">&lt;html&gt;&lt;body&gt;</span>
 <span class="ConsoleText-plain-syntax">Hello &amp;amp; &lt;span class="italic"&gt;welcome&lt;/span&gt; from &amp;lt;Inform code&amp;gt;!</span>
 <span class="ConsoleText-plain-syntax">&lt;/html&gt;&lt;/body&gt;</span>
 </pre>
-<p class="commentary">The word "welcome" here was printed with the style <span class="extract"><span class="ConsoleText-extract-syntax">"italic"</span></span>; all else was
-plain.
-</p>
-
-<p class="commentary">This example just prints the result, of course, but a receiver function could
-equally opt to bottle up the text for use later on.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. Example 4: CSS Receiver.</b>Example 4 builds on Example 3 but allows arbitrary named CSS styles to applied,
-i.e., it is not limited to bold and italic markup.
-</p>
-
-<p class="commentary">The C program from Example 3 is unchanged, but the Inform program does something
+<div class="lsmarkdown">
+<p>The word &quot;welcome&quot; here was printed with the style <code>&quot;italic&quot;</code>; all else was
+plain.</p>
+<p>This example just prints the result, of course, but a receiver function could
+equally opt to bottle up the text for use later on.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. Example 4: CSS Receiver.</b>  Example 4 builds on Example 3 but allows arbitrary named CSS styles to applied,
+i.e., it is not limited to bold and italic markup.</p>
+<p>The C program from Example 3 is unchanged, but the Inform program does something
 more interesting. We're going to need to do something unusual here, and define
 two new phrases using inline definitions as raw Inter code, written in Inform 6
-notation:
-</p>
-
+notation:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">To</span><span class="plain-syntax"> </span><span class="identifier-syntax">style</span><span class="plain-syntax"> </span><span class="identifier-syntax">text</span><span class="plain-syntax"> </span><span class="identifier-syntax">with</span><span class="plain-syntax"> (</span><span class="identifier-syntax">T</span><span class="plain-syntax"> - </span><span class="identifier-syntax">text</span><span class="plain-syntax">):</span>
 <span class="plain-syntax">    (- </span><span class="identifier-syntax">style</span><span class="plain-syntax"> {</span><span class="identifier-syntax">T</span><span class="plain-syntax">}; -).</span>
 </pre>
-<p class="commentary">The result of this will be something which Inform 6 would not compile, because
-in I6 the only legal uses of <span class="extract"><span class="extract-syntax">style</span></span> are <span class="extract"><span class="extract-syntax">style bold</span></span> and so on: there is no
-legal way for <span class="extract"><span class="extract-syntax">style</span></span> to be followed by an arbitrary value, as it is here. But
-Inform 6 will not be compiling this: Inform will convert <span class="extract"><span class="extract-syntax">style V;</span></span> directly to
-the Inter statement <span class="extract"><span class="extract-syntax">!style V</span></span>, which will then be translated to C as the function
-call <span class="extract"><span class="extract-syntax">i7_styling(proc, 2, V)</span></span> &mdash; and that function, in our library of C code
-supporting Inform, can handle any textual value of <span class="extract"><span class="extract-syntax">V</span></span>.
-</p>
-
-<p class="commentary">With that bit of fancy footwork out of the way, we can make a pair of text
-substitutions <span class="extract"><span class="extract-syntax">[style NAME]</span></span> and <span class="extract"><span class="extract-syntax">[end style]</span></span>, with the possible range of
-styles enumerated by name, like so:
-</p>
-
+<div class="lsmarkdown">
+<p>The result of this will be something which Inform 6 would not compile, because
+in I6 the only legal uses of <code>style</code> are <code>style bold</code> and so on: there is no
+legal way for <code>style</code> to be followed by an arbitrary value, as it is here. But
+Inform 6 will not be compiling this: Inform will convert <code>style V;</code> directly to
+the Inter statement <code>!style V</code>, which will then be translated to C as the function
+call <code>i7_styling(proc, 2, V)</code> -- and that function, in our library of C code
+supporting Inform, can handle any textual value of <code>V</code>.</p>
+<p>With that bit of fancy footwork out of the way, we can make a pair of text
+substitutions <code>[style NAME]</code> and <code>[end style]</code>, with the possible range of
+styles enumerated by name, like so:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">A</span><span class="plain-syntax"> </span><span class="identifier-syntax">text</span><span class="plain-syntax"> </span><span class="identifier-syntax">style</span><span class="plain-syntax"> </span><span class="identifier-syntax">is</span><span class="plain-syntax"> </span><span class="identifier-syntax">a</span><span class="plain-syntax"> </span><span class="identifier-syntax">kind</span><span class="plain-syntax"> </span><span class="identifier-syntax">of</span><span class="plain-syntax"> </span><span class="identifier-syntax">value</span><span class="plain-syntax">.</span>
 <span class="identifier-syntax">The</span><span class="plain-syntax"> </span><span class="identifier-syntax">text</span><span class="plain-syntax"> </span><span class="identifier-syntax">styles</span><span class="plain-syntax"> </span><span class="identifier-syntax">are</span><span class="plain-syntax"> </span><span class="identifier-syntax">decorative</span><span class="plain-syntax">, </span><span class="identifier-syntax">calligraphic</span><span class="plain-syntax"> </span><span class="identifier-syntax">and</span><span class="plain-syntax"> </span><span class="identifier-syntax">enlarged</span><span class="plain-syntax">.</span>
@@ -426,46 +412,42 @@ styles enumerated by name, like so:
 <span class="identifier-syntax">To</span><span class="plain-syntax"> </span><span class="identifier-syntax">say</span><span class="plain-syntax"> </span><span class="identifier-syntax">end</span><span class="plain-syntax"> </span><span class="identifier-syntax">style</span><span class="plain-syntax">:</span>
 <span class="plain-syntax">    (- </span><span class="identifier-syntax">style</span><span class="plain-syntax"> </span><span class="identifier-syntax">roman</span><span class="plain-syntax">; -).</span>
 </pre>
-<p class="commentary">Finally, then, we can have:
-</p>
-
+<div class="lsmarkdown">
+<p>Finally, then, we can have:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">To</span><span class="plain-syntax"> </span><span class="identifier-syntax">begin</span><span class="plain-syntax">:</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">say</span><span class="plain-syntax"> </span><span class="string-syntax">"[style as enlarged]Hello[end style] &amp; [style as calligraphic]welcome[end style] from &lt;Inform code&gt;!"</span>
 </pre>
-<p class="commentary">And the result is:
-</p>
-
+<div class="lsmarkdown">
+<p>And the result is:</p>
+</div>
 <pre class="ConsoleText-displayed-code all-displayed-code code-font">
 <span class="ConsoleText-plain-syntax">&lt;html&gt;&lt;body&gt;</span>
 <span class="ConsoleText-plain-syntax">&lt;span class="enlarged"&gt;Hello&lt;/span&gt; &amp;amp; &lt;span class="calligraphic"&gt;welcome&lt;/span&gt; from &amp;lt;Inform code&amp;gt;!</span>
 <span class="ConsoleText-plain-syntax">&lt;/html&gt;&lt;/body&gt;</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. Example 5: Sender.</b>It's now time to make a traditional piece of interactive fiction with Inform,
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. Example 5: Sender.</b>  It's now time to make a traditional piece of interactive fiction with Inform,
 with a world model, a command parser, and the standard command-and-response
-play loop. But we will call this from C, and decide the commands there.
-</p>
-
-<p class="commentary">This means a small change to the makefile, to remove <span class="extract"><span class="ConsoleText-extract-syntax">-basic</span></span> from the options
-for <span class="extract"><span class="ConsoleText-extract-syntax">inform7</span></span>, since we're no longer confining ourselves to Basic Inform.
-</p>
-
-<p class="commentary">The I7 source could be that for almost any game &mdash; any of the examples in the
+play loop. But we will call this from C, and decide the commands there.</p>
+<p>This means a small change to the makefile, to remove <code>-basic</code> from the options
+for <code>inform7</code>, since we're no longer confining ourselves to Basic Inform.</p>
+<p>The I7 source could be that for almost any game -- any of the examples in the
 Inform documentation would do. The C source is more interesting here. Just as
-an <span class="extract"><span class="ConsoleText-extract-syntax">i7_process</span></span> can be given a "receiver" function, which receives text from
-it, it can also be given a "sender" which sends text to it. Thus:
-</p>
-
+an <code>i7_process</code> can be given a &quot;receiver&quot; function, which receives text from
+it, it can also be given a &quot;sender&quot; which sends text to it. Thus:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">i7process_t</span><span class="plain-syntax"> </span><span class="identifier-syntax">proc</span><span class="plain-syntax"> = </span><span class="identifier-syntax">i7_new_process</span><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">i7_set_process_sender</span><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">proc</span><span class="plain-syntax">, </span><span class="identifier-syntax">the_quitter</span><span class="plain-syntax">);</span>
 </pre>
-<p class="commentary">Here <span class="extract"><span class="extract-syntax">the_quitter</span></span> is the following sender function:
-</p>
-
+<div class="lsmarkdown">
+<p>Here <code>the_quitter</code> is the following sender function:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">the_quitter</span><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">count</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cmd</span><span class="plain-syntax"> = </span><span class="string-syntax">""</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">the_quitter</span><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">count</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cmd</span><span class="plain-syntax"> = </span><span class="string-syntax">""</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="identifier-syntax">count</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">: </span><span class="identifier-syntax">cmd</span><span class="plain-syntax"> = </span><span class="string-syntax">"quit"</span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span><span class="plain-syntax">: </span><span class="identifier-syntax">cmd</span><span class="plain-syntax"> = </span><span class="string-syntax">"y"</span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
@@ -474,16 +456,14 @@ it, it can also be given a "sender" which sends text to it. Thus:
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">cmd</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary">This must return a C string (that is, a <span class="extract"><span class="extract-syntax">char *</span></span> pointer to a null-terminated
+<div class="lsmarkdown">
+<p>This must return a C string (that is, a <code>char *</code> pointer to a null-terminated
 sequence of non-control ASCII characters) which represents a whole line of
-imaginary "typing" by the player. The argument <span class="extract"><span class="extract-syntax">count</span></span> counts upwards from 0,
-incrementing after each call to the sender. So the effect of <span class="extract"><span class="extract-syntax">the_quitter</span></span>
-is to simulate the effect of typing "quit" and then "y".
-</p>
-
-<p class="commentary">The resulting transcript of play looks like this:
-</p>
-
+imaginary &quot;typing&quot; by the player. The argument <code>count</code> counts upwards from 0,
+incrementing after each call to the sender. So the effect of <code>the_quitter</code>
+is to simulate the effect of typing &quot;quit&quot; and then &quot;y&quot;.</p>
+<p>The resulting transcript of play looks like this:</p>
+</div>
 <pre class="ConsoleText-displayed-code all-displayed-code code-font">
 <span class="ConsoleText-plain-syntax">Sir Arthur Evans, hero and archeologist, invites you to explore...</span>
 
@@ -496,31 +476,25 @@ is to simulate the effect of typing "quit" and then "y".
 <span class="ConsoleText-plain-syntax">&gt;quit</span>
 <span class="ConsoleText-plain-syntax">Are you sure you want to quit? y</span>
 </pre>
-<p class="commentary">Thus, the "y" is needed in order to respond to the followup question "Are you
-sure...?".
-</p>
-
-<p class="commentary">Note that the process is stalled while waiting for the sender to return a
+<div class="lsmarkdown">
+<p>Thus, the &quot;y&quot; is needed in order to respond to the followup question &quot;Are you
+sure...?&quot;.</p>
+<p>Note that the process is stalled while waiting for the sender to return a
 line of input: it's not working away in the background. The default sender
-uses <span class="extract"><span class="ConsoleText-extract-syntax">getchar</span></span>, from the C standard library, to receive a genuinely typed
-command terminated by a new-line.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. Example 6: Directing actions.</b>More radically, it's possible to take textual input away entirely, by setting
-the sender function to <span class="extract"><span class="ConsoleText-extract-syntax">NULL</span></span>.
-</p>
-
-<p class="commentary">What will happen then is that the <span class="extract"><span class="ConsoleText-extract-syntax">i7_run_process</span></span> function will return at
+uses <code>getchar</code>, from the C standard library, to receive a genuinely typed
+command terminated by a new-line.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. Example 6: Directing actions.</b>  More radically, it's possible to take textual input away entirely, by setting
+the sender function to <code>NULL</code>.</p>
+<p>What will happen then is that the <code>i7_run_process</code> function will return at
 the point where a command would have been requested. The C function can then
 trigger whatever actions it wants, in the world model, without the need to
 feed a textual command back to I7 which would then be parsed into actions.
 In this example we do just that, and also examine and modify the data belonging
-to the I7 program from C.
-</p>
-
-<p class="commentary">The story, such as it is:
-</p>
-
+to the I7 program from C.</p>
+<p>The story, such as it is:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">Jarn</span><span class="plain-syntax"> </span><span class="identifier-syntax">Mound</span><span class="plain-syntax"> </span><span class="identifier-syntax">is</span><span class="plain-syntax"> </span><span class="identifier-syntax">a</span><span class="plain-syntax"> </span><span class="identifier-syntax">room</span><span class="plain-syntax">.</span>
 
@@ -542,14 +516,14 @@ to the I7 program from C.
 <span class="plain-syntax">    </span><span class="identifier-syntax">now</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">command</span><span class="plain-syntax"> </span><span class="identifier-syntax">prompt</span><span class="plain-syntax"> </span><span class="identifier-syntax">is</span><span class="plain-syntax"> </span><span class="string-syntax">""</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">say</span><span class="plain-syntax"> </span><span class="string-syntax">"Sir Arthur Evans, hero and archeologist, invites you to explore..."</span>
 </pre>
-<p class="commentary">In this example the C program is:
-</p>
-
+<div class="lsmarkdown">
+<p>In this example the C program is:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">#</span><span class="identifier-syntax">include</span><span class="plain-syntax"> </span><span class="string-syntax">"inform7_clib.h"</span>
 <span class="plain-syntax">#</span><span class="identifier-syntax">include</span><span class="plain-syntax"> </span><span class="string-syntax">"inform7_symbols.h"</span>
 
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">main</span><span class="plain-syntax">(</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">argc</span><span class="plain-syntax">, </span><span class="reserved-syntax">char</span><span class="plain-syntax"> **</span><span class="identifier-syntax">argv</span><span class="plain-syntax">) {</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">main</span><span class="plain-syntax">(</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">argc</span><span class="plain-syntax">, </span><span class="identifier-syntax">char</span><span class="plain-syntax"> **</span><span class="identifier-syntax">argv</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">i7process_t</span><span class="plain-syntax"> </span><span class="identifier-syntax">proc</span><span class="plain-syntax"> = </span><span class="identifier-syntax">i7_new_process</span><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">i7_set_process_sender</span><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">proc</span><span class="plain-syntax">, </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">i7_run_process</span><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">proc</span><span class="plain-syntax">) == </span><span class="constant-syntax">0</span><span class="plain-syntax">) {</span>
@@ -573,35 +547,33 @@ to the I7 program from C.
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary">Note that a header file called <span class="extract"><span class="extract-syntax">inform7_symbols.h</span></span> is included. This defines
-useful constants like <span class="extract"><span class="extract-syntax">i7_A_Take</span></span> (for the "taking" action) and <span class="extract"><span class="extract-syntax">i7_I_Linear_B_tablet</span></span>
-(for the object called "Linear B tablet"). But where did this header come from?
-</p>
-
-<p class="commentary">The answer is that this file can optionally be created when <a href="index.html" class="internal">inform7</a> is
-generating C. In Example 5 we ran Inform with <span class="extract"><span class="extract-syntax">-format=C/no-main</span></span>; this time
-we use <span class="extract"><span class="extract-syntax">-format=C/no-main/symbols-header</span></span>. This also needs a subtle change to
-the makefile logic; the difference being that <span class="extract"><span class="extract-syntax">Eg6-C.o</span></span> is now dependent on
-<span class="extract"><span class="extract-syntax">Eg6-I.c</span></span>. This forces <span class="extract"><span class="extract-syntax">make</span></span> to create <span class="extract"><span class="extract-syntax">Eg6-I.c</span></span>, and as a byproduct <span class="extract"><span class="extract-syntax">inform7_symbols.h</span></span>,
-before compiling <span class="extract"><span class="extract-syntax">Eg6-C.c</span></span> to make <span class="extract"><span class="extract-syntax">Eg6-C.o</span></span>.
-</p>
-
+<div class="lsmarkdown">
+<p>Note that a header file called <code>inform7_symbols.h</code> is included. This defines
+useful constants like <code>i7_A_Take</code> (for the &quot;taking&quot; action) and <code>i7_I_Linear_B_tablet</code>
+(for the object called &quot;Linear B tablet&quot;). But where did this header come from?</p>
+<p>The answer is that this file can optionally be created when <a href="index.html" class="internal">inform7</a> is
+generating C. In Example 5 we ran Inform with <code>-format=C/no-main</code>; this time
+we use <code>-format=C/no-main/symbols-header</code>. This also needs a subtle change to
+the makefile logic; the difference being that <code>Eg6-C.o</code> is now dependent on
+<code>Eg6-I.c</code>. This forces <code>make</code> to create <code>Eg6-I.c</code>, and as a byproduct <code>inform7_symbols.h</code>,
+before compiling <code>Eg6-C.c</code> to make <code>Eg6-C.o</code>.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">Eg6:</span><span class="plain-syntax"> </span><span class="identifier-syntax">Eg6</span><span class="plain-syntax">-</span><span class="identifier-syntax">C</span><span class="plain-syntax">.</span><span class="identifier-syntax">o</span><span class="plain-syntax"> </span><span class="identifier-syntax">Eg6</span><span class="plain-syntax">-</span><span class="identifier-syntax">I</span><span class="plain-syntax">.</span><span class="identifier-syntax">o</span>
-<span class="plain-syntax">    $(</span><span class="identifier-syntax">LINK</span><span class="plain-syntax">) -</span><span class="identifier-syntax">o</span><span class="plain-syntax"> </span><span class="identifier-syntax">Eg6</span><span class="plain-syntax"> </span><span class="identifier-syntax">Eg6</span><span class="plain-syntax">-</span><span class="identifier-syntax">C</span><span class="plain-syntax">.</span><span class="identifier-syntax">o</span><span class="plain-syntax"> </span><span class="identifier-syntax">Eg6</span><span class="plain-syntax">-</span><span class="identifier-syntax">I</span><span class="plain-syntax">.</span><span class="identifier-syntax">o</span>
+<span class="plain-syntax">    $(</span><span class="identifier-syntax">LINK</span><span class="plain-syntax">) </span><span class="constant-syntax">-</span><span class="identifier-syntax">o</span><span class="plain-syntax"> </span><span class="identifier-syntax">Eg6</span><span class="plain-syntax"> </span><span class="identifier-syntax">Eg6</span><span class="plain-syntax">-</span><span class="identifier-syntax">C</span><span class="plain-syntax">.</span><span class="identifier-syntax">o</span><span class="plain-syntax"> </span><span class="identifier-syntax">Eg6</span><span class="plain-syntax">-</span><span class="identifier-syntax">I</span><span class="plain-syntax">.</span><span class="identifier-syntax">o</span>
 
 <span class="identifier-syntax">Eg6</span><span class="plain-syntax">-</span><span class="identifier-syntax">C</span><span class="plain-syntax">.</span><span class="identifier-syntax">o:</span><span class="plain-syntax"> </span><span class="identifier-syntax">Eg6</span><span class="plain-syntax">.</span><span class="identifier-syntax">c</span><span class="plain-syntax"> </span><span class="identifier-syntax">Eg6</span><span class="plain-syntax">-</span><span class="identifier-syntax">I</span><span class="plain-syntax">.</span><span class="identifier-syntax">c</span>
-<span class="plain-syntax">    $(</span><span class="identifier-syntax">CC</span><span class="plain-syntax">) -</span><span class="identifier-syntax">o</span><span class="plain-syntax"> </span><span class="identifier-syntax">Eg6</span><span class="plain-syntax">-</span><span class="identifier-syntax">C</span><span class="plain-syntax">.</span><span class="identifier-syntax">o</span><span class="plain-syntax"> </span><span class="identifier-syntax">Eg6</span><span class="plain-syntax">.</span><span class="identifier-syntax">c</span>
+<span class="plain-syntax">    $(</span><span class="identifier-syntax">CC</span><span class="plain-syntax">) </span><span class="constant-syntax">-</span><span class="identifier-syntax">o</span><span class="plain-syntax"> </span><span class="identifier-syntax">Eg6</span><span class="plain-syntax">-</span><span class="identifier-syntax">C</span><span class="plain-syntax">.</span><span class="identifier-syntax">o</span><span class="plain-syntax"> </span><span class="identifier-syntax">Eg6</span><span class="plain-syntax">.</span><span class="identifier-syntax">c</span>
 
 <span class="identifier-syntax">Eg6</span><span class="plain-syntax">-</span><span class="identifier-syntax">I</span><span class="plain-syntax">.</span><span class="identifier-syntax">o:</span><span class="plain-syntax"> </span><span class="identifier-syntax">Eg6</span><span class="plain-syntax">-</span><span class="identifier-syntax">I</span><span class="plain-syntax">.</span><span class="identifier-syntax">c</span>
-<span class="plain-syntax">    $(</span><span class="identifier-syntax">CC</span><span class="plain-syntax">) -</span><span class="identifier-syntax">o</span><span class="plain-syntax"> </span><span class="identifier-syntax">Eg6</span><span class="plain-syntax">-</span><span class="identifier-syntax">I</span><span class="plain-syntax">.</span><span class="identifier-syntax">o</span><span class="plain-syntax"> </span><span class="identifier-syntax">Eg6</span><span class="plain-syntax">-</span><span class="identifier-syntax">I</span><span class="plain-syntax">.</span><span class="identifier-syntax">c</span>
+<span class="plain-syntax">    $(</span><span class="identifier-syntax">CC</span><span class="plain-syntax">) </span><span class="constant-syntax">-</span><span class="identifier-syntax">o</span><span class="plain-syntax"> </span><span class="identifier-syntax">Eg6</span><span class="plain-syntax">-</span><span class="identifier-syntax">I</span><span class="plain-syntax">.</span><span class="identifier-syntax">o</span><span class="plain-syntax"> </span><span class="identifier-syntax">Eg6</span><span class="plain-syntax">-</span><span class="identifier-syntax">I</span><span class="plain-syntax">.</span><span class="identifier-syntax">c</span>
 
 <span class="identifier-syntax">Eg6</span><span class="plain-syntax">-</span><span class="identifier-syntax">I</span><span class="plain-syntax">.</span><span class="identifier-syntax">c:</span><span class="plain-syntax"> </span><span class="identifier-syntax">Eg6</span><span class="plain-syntax">.</span><span class="identifier-syntax">i7</span>
-<span class="plain-syntax">    $(</span><span class="identifier-syntax">INFORM</span><span class="plain-syntax">) -</span><span class="identifier-syntax">format</span><span class="plain-syntax">=</span><span class="identifier-syntax">C</span><span class="plain-syntax">/</span><span class="identifier-syntax">no</span><span class="plain-syntax">-</span><span class="function-syntax">main</span><span class="plain-syntax">/</span><span class="identifier-syntax">symbols</span><span class="plain-syntax">-</span><span class="identifier-syntax">header</span><span class="plain-syntax"> -</span><span class="identifier-syntax">o</span><span class="plain-syntax"> </span><span class="identifier-syntax">Eg6</span><span class="plain-syntax">-</span><span class="identifier-syntax">I</span><span class="plain-syntax">.</span><span class="identifier-syntax">c</span><span class="plain-syntax"> </span><span class="identifier-syntax">Eg6</span><span class="plain-syntax">.</span><span class="identifier-syntax">i7</span>
+<span class="plain-syntax">    $(</span><span class="identifier-syntax">INFORM</span><span class="plain-syntax">) </span><span class="constant-syntax">-</span><span class="identifier-syntax">format</span><span class="plain-syntax">=</span><span class="identifier-syntax">C</span><span class="plain-syntax">/</span><span class="identifier-syntax">no</span><span class="plain-syntax">-</span><span class="function-syntax">main</span><span class="plain-syntax">/</span><span class="identifier-syntax">symbols</span><span class="plain-syntax">-</span><span class="identifier-syntax">header</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="identifier-syntax">o</span><span class="plain-syntax"> </span><span class="identifier-syntax">Eg6</span><span class="plain-syntax">-</span><span class="identifier-syntax">I</span><span class="plain-syntax">.</span><span class="identifier-syntax">c</span><span class="plain-syntax"> </span><span class="identifier-syntax">Eg6</span><span class="plain-syntax">.</span><span class="identifier-syntax">i7</span>
 </pre>
-<p class="commentary">Anyway, the result of this is:
-</p>
-
+<div class="lsmarkdown">
+<p>Anyway, the result of this is:</p>
+</div>
 <pre class="ConsoleText-displayed-code all-displayed-code code-font">
 <span class="ConsoleText-plain-syntax">Sir Arthur Evans, hero and archaeologist, invites you to explore...</span>
 
@@ -628,98 +600,87 @@ before compiling <span class="extract"><span class="extract-syntax">Eg6-C.c</spa
 
 <span class="ConsoleText-plain-syntax">It is modern, and translates to "4 oxen, 1 broken tripod table.".</span>
 </pre>
-<p class="commentary">Here we see a run of responses, as if to unheard commands: those of course
-are the actions sent directly to the process by <span class="extract"><span class="ConsoleText-extract-syntax">i7_try</span></span>.
-</p>
-
-<p class="commentary">The data inside the Inform program is represented in C by values of the type
-<span class="extract"><span class="ConsoleText-extract-syntax">i7word_t</span></span>. (In practice, this is probably a 32-bit integer, but it's best to
+<div class="lsmarkdown">
+<p>Here we see a run of responses, as if to unheard commands: those of course
+are the actions sent directly to the process by <code>i7_try</code>.</p>
+<p>The data inside the Inform program is represented in C by values of the type
+<code>i7word_t</code>. (In practice, this is probably a 32-bit integer, but it's best to
 make no assumptions.) Inform at run-time is typeless, so it's up to the C
 programmer to know what is meant. For example, we know the result of the call
-<span class="extract"><span class="ConsoleText-extract-syntax">i7_read_variable(&amp;proc, i7_V_the_time)</span></span> will be an integer from 0 to 1439,
-because the variable has kind "time" in Inform 7, and this is how Inform stores
-times of day (in minutes since midnight).
-</p>
-
-<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. </b>Example 6 used most of the following suite of functions for looking at or
-altering the Inform data.
-</p>
-
-<p class="commentary">First, some functions which can only be applied to instances of <span class="extract"><span class="ConsoleText-extract-syntax">object</span></span>:
-</p>
-
-<ul class="items"><li>&#9679; <span class="extract"><span class="ConsoleText-extract-syntax">i7_move(&amp;proc, obj, to)</span></span> moves object <span class="extract"><span class="ConsoleText-extract-syntax">obj</span></span> to become a child of <span class="extract"><span class="ConsoleText-extract-syntax">to</span></span>;
-</li><li>&#9679; <span class="extract"><span class="ConsoleText-extract-syntax">i7_parent(&amp;proc, obj)</span></span> returns the current parent object of <span class="extract"><span class="ConsoleText-extract-syntax">obj</span></span>;
-</li><li>&#9679; <span class="extract"><span class="ConsoleText-extract-syntax">i7_child(&amp;proc, obj)</span></span> returns its first child;
-</li><li>&#9679; <span class="extract"><span class="ConsoleText-extract-syntax">i7_sibling(&amp;proc, obj)</span></span> returns the next child of the same parent as <span class="extract"><span class="ConsoleText-extract-syntax">obj</span></span>.
-</li></ul>
-<p class="commentary">Second, functions to look at global variables:
-</p>
-
-<ul class="items"><li>&#9679; <span class="extract"><span class="ConsoleText-extract-syntax">i7_read_variable(&amp;proc, var)</span></span> returns the current value of the variable <span class="extract"><span class="ConsoleText-extract-syntax">var</span></span>;
-</li><li>&#9679; <span class="extract"><span class="ConsoleText-extract-syntax">i7_write_variable(&amp;proc, var, val)</span></span> sets the value to <span class="extract"><span class="ConsoleText-extract-syntax">val</span></span>.
-</li></ul>
-<p class="commentary">Note that where variables are created by kits such as WorldModelKit, their ID
-constants have names based on the names they have in those kits: thus <span class="extract"><span class="ConsoleText-extract-syntax">i7_V_the_time</span></span>
-refers to the time of day, not <span class="extract"><span class="ConsoleText-extract-syntax">i7_V_time_of_day</span></span>. Browsing <span class="extract"><span class="ConsoleText-extract-syntax">inform7_symbols.h</span></span>
-will usually make things clear, anyway.
-</p>
-
-<p class="commentary">Finally, properties of objects can similarly be read or written:
-</p>
-
-<ul class="items"><li>&#9679; <span class="extract"><span class="ConsoleText-extract-syntax">i7_read_prop_value(&amp;proc, obj, prop)</span></span> returns the current value of property
-<span class="extract"><span class="ConsoleText-extract-syntax">prop</span></span> for the object <span class="extract"><span class="ConsoleText-extract-syntax">obj</span></span>;
-</li><li>&#9679; <span class="extract"><span class="ConsoleText-extract-syntax">i7_write_prop_value(&amp;proc, obj, prop, val)</span></span> sets it to <span class="extract"><span class="ConsoleText-extract-syntax">val</span></span>.
-</li></ul>
-<p class="commentary">If you need access to other data inside the Inform program, it's better to
+<code>i7_read_variable(&amp;proc, i7_V_the_time)</code> will be an integer from 0 to 1439,
+because the variable has kind &quot;time&quot; in Inform 7, and this is how Inform stores
+times of day (in minutes since midnight).</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. </b>  Example 6 used most of the following suite of functions for looking at or
+altering the Inform data.</p>
+<p>First, some functions which can only be applied to instances of <code>object</code>:</p>
+<ul>
+<li><code>i7_move(&amp;proc, obj, to)</code> moves object <code>obj</code> to become a child of <code>to</code>;</li>
+<li><code>i7_parent(&amp;proc, obj)</code> returns the current parent object of <code>obj</code>;</li>
+<li><code>i7_child(&amp;proc, obj)</code> returns its first child;</li>
+<li><code>i7_sibling(&amp;proc, obj)</code> returns the next child of the same parent as <code>obj</code>.</li>
+</ul>
+<p>Second, functions to look at global variables:</p>
+<ul>
+<li><code>i7_read_variable(&amp;proc, var)</code> returns the current value of the variable <code>var</code>;</li>
+<li><code>i7_write_variable(&amp;proc, var, val)</code> sets the value to <code>val</code>.</li>
+</ul>
+<p>Note that where variables are created by kits such as WorldModelKit, their ID
+constants have names based on the names they have in those kits: thus <code>i7_V_the_time</code>
+refers to the time of day, not <code>i7_V_time_of_day</code>. Browsing <code>inform7_symbols.h</code>
+will usually make things clear, anyway.</p>
+<p>Finally, properties of objects can similarly be read or written:</p>
+<ul>
+<li><code>i7_read_prop_value(&amp;proc, obj, prop)</code> returns the current value of property
+<code>prop</code> for the object <code>obj</code>;</li>
+<li><code>i7_write_prop_value(&amp;proc, obj, prop, val)</code> sets it to <code>val</code>.</li>
+</ul>
+<p>If you need access to other data inside the Inform program, it's better to
 process it at the Inform end. These functions are just a convenience for what's
-most often needed.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. Example 7: Reading and writing lists and texts from C.</b>Following on from Example 6, suppose we want to deal with Inform variables (or
-property values) containing texts, or lists &mdash; these, for instance:
-</p>
-
+most often needed.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. Example 7: Reading and writing lists and texts from C.</b>  Following on from Example 6, suppose we want to deal with Inform variables (or
+property values) containing texts, or lists -- these, for instance:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">The</span><span class="plain-syntax"> </span><span class="identifier-syntax">meaning</span><span class="plain-syntax"> </span><span class="identifier-syntax">is</span><span class="plain-syntax"> </span><span class="identifier-syntax">a</span><span class="plain-syntax"> </span><span class="identifier-syntax">text</span><span class="plain-syntax"> </span><span class="identifier-syntax">that</span><span class="plain-syntax"> </span><span class="identifier-syntax">varies</span><span class="plain-syntax">. </span><span class="identifier-syntax">The</span><span class="plain-syntax"> </span><span class="identifier-syntax">meaning</span><span class="plain-syntax"> </span><span class="identifier-syntax">is</span><span class="plain-syntax"> </span><span class="string-syntax">"4 oxen, 1 broken tripod table."</span>
 
 <span class="identifier-syntax">The</span><span class="plain-syntax"> </span><span class="identifier-syntax">dial</span><span class="plain-syntax"> </span><span class="identifier-syntax">is</span><span class="plain-syntax"> </span><span class="identifier-syntax">a</span><span class="plain-syntax"> </span><span class="identifier-syntax">list</span><span class="plain-syntax"> </span><span class="identifier-syntax">of</span><span class="plain-syntax"> </span><span class="identifier-syntax">numbers</span><span class="plain-syntax"> </span><span class="identifier-syntax">that</span><span class="plain-syntax"> </span><span class="identifier-syntax">varies</span><span class="plain-syntax">. </span><span class="identifier-syntax">The</span><span class="plain-syntax"> </span><span class="identifier-syntax">dial</span><span class="plain-syntax"> </span><span class="identifier-syntax">is</span><span class="plain-syntax"> { </span><span class="constant-syntax">3</span><span class="plain-syntax">, </span><span class="constant-syntax">6</span><span class="plain-syntax">, </span><span class="constant-syntax">9</span><span class="plain-syntax">, </span><span class="constant-syntax">12</span><span class="plain-syntax"> }.</span>
 </pre>
-<p class="commentary">If we call, say, <span class="extract"><span class="extract-syntax">i7_read_variable</span></span> on <span class="extract"><span class="extract-syntax">i7_V_meaning</span></span> then the return value is
-an <span class="extract"><span class="extract-syntax">i7word_t</span></span> which is, in fact, an address somewhere in the Inform process memory.
-What are we to do with this? In fact, it's easy to convert to and from a C string:
-</p>
-
+<div class="lsmarkdown">
+<p>If we call, say, <code>i7_read_variable</code> on <code>i7_V_meaning</code> then the return value is
+an <code>i7word_t</code> which is, in fact, an address somewhere in the Inform process memory.
+What are we to do with this? In fact, it's easy to convert to and from a C string:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">M</span><span class="plain-syntax"> = </span><span class="identifier-syntax">i7_read_string</span><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">proc</span><span class="plain-syntax">, </span><span class="identifier-syntax">i7_read_variable</span><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">proc</span><span class="plain-syntax">, </span><span class="identifier-syntax">i7_V_meaning</span><span class="plain-syntax">));</span>
+<span class="identifier-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">M</span><span class="plain-syntax"> = </span><span class="identifier-syntax">i7_read_string</span><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">proc</span><span class="plain-syntax">, </span><span class="identifier-syntax">i7_read_variable</span><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">proc</span><span class="plain-syntax">, </span><span class="identifier-syntax">i7_V_meaning</span><span class="plain-syntax">));</span>
 <span class="identifier-syntax">printf</span><span class="plain-syntax">(</span><span class="string-syntax">"[C program reads 'meaning' as %s]\n"</span><span class="plain-syntax">, </span><span class="identifier-syntax">M</span><span class="plain-syntax">);</span>
 <span class="identifier-syntax">i7_try</span><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">proc</span><span class="plain-syntax">, </span><span class="identifier-syntax">i7_A_Examine</span><span class="plain-syntax">, </span><span class="identifier-syntax">i7_I_Linear_B_tablet</span><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">);</span>
 <span class="identifier-syntax">i7_write_string</span><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">proc</span><span class="plain-syntax">, </span><span class="identifier-syntax">i7_read_variable</span><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">proc</span><span class="plain-syntax">, </span><span class="identifier-syntax">i7_V_meaning</span><span class="plain-syntax">),</span>
 <span class="plain-syntax">    </span><span class="string-syntax">"the goddess of the winds beckons you!"</span><span class="plain-syntax">);</span>
 <span class="identifier-syntax">i7_try</span><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">proc</span><span class="plain-syntax">, </span><span class="identifier-syntax">i7_A_Examine</span><span class="plain-syntax">, </span><span class="identifier-syntax">i7_I_Linear_B_tablet</span><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">);</span>
 </pre>
-<p class="commentary">And this produces the following:
-</p>
-
+<div class="lsmarkdown">
+<p>And this produces the following:</p>
+</div>
 <pre class="ConsoleText-displayed-code all-displayed-code code-font">
 <span class="ConsoleText-plain-syntax">[C program reads 'meaning' as 4 oxen, 1 broken tripod table.]</span>
 <span class="ConsoleText-plain-syntax">It is ancient, and translates to "4 oxen, 1 broken tripod table.".</span>
 
 <span class="ConsoleText-plain-syntax">It is ancient, and translates to "the goddess of the winds beckons you!".</span>
 </pre>
-<p class="commentary">Here we repeat the action of examining the tablet: we examine once before changing
-the "meaning" and once after.
-</p>
-
-<p class="commentary">Similarly for lists:
-</p>
-
+<div class="lsmarkdown">
+<p>Here we repeat the action of examining the tablet: we examine once before changing
+the &quot;meaning&quot; and once after.</p>
+<p>Similarly for lists:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">L</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
+<span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">L</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">i7word_t</span><span class="plain-syntax"> *</span><span class="identifier-syntax">D</span><span class="plain-syntax"> = </span><span class="identifier-syntax">i7_read_list</span><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">proc</span><span class="plain-syntax">, </span><span class="identifier-syntax">i7_read_variable</span><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">proc</span><span class="plain-syntax">, </span><span class="identifier-syntax">i7_V_dial</span><span class="plain-syntax">), &amp;</span><span class="identifier-syntax">L</span><span class="plain-syntax">);</span>
 <span class="identifier-syntax">printf</span><span class="plain-syntax">(</span><span class="string-syntax">"[C program reads 'dial' as"</span><span class="plain-syntax">);</span>
-<span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;</span><span class="identifier-syntax">L</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) </span><span class="identifier-syntax">printf</span><span class="plain-syntax">(</span><span class="string-syntax">" %d"</span><span class="plain-syntax">, </span><span class="identifier-syntax">D</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">]);</span>
+<span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">i</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">i</span><span class="plain-syntax">&lt;</span><span class="identifier-syntax">L</span><span class="plain-syntax">; </span><span class="identifier-syntax">i</span><span class="plain-syntax">++) </span><span class="identifier-syntax">printf</span><span class="plain-syntax">(</span><span class="string-syntax">" %d"</span><span class="plain-syntax">, </span><span class="identifier-syntax">D</span><span class="plain-syntax">[</span><span class="identifier-syntax">i</span><span class="plain-syntax">]);</span>
 <span class="identifier-syntax">printf</span><span class="plain-syntax">(</span><span class="string-syntax">"]\n"</span><span class="plain-syntax">);</span>
 <span class="identifier-syntax">i7_try</span><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">proc</span><span class="plain-syntax">, </span><span class="identifier-syntax">i7_A_Examine</span><span class="plain-syntax">, </span><span class="identifier-syntax">i7_I_watch</span><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">);</span>
 <span class="identifier-syntax">D</span><span class="plain-syntax">[0] = </span><span class="constant-syntax">2</span><span class="plain-syntax">;</span>
@@ -727,101 +688,104 @@ the "meaning" and once after.
 <span class="identifier-syntax">i7_write_list</span><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">proc</span><span class="plain-syntax">, </span><span class="identifier-syntax">i7_read_variable</span><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">proc</span><span class="plain-syntax">, </span><span class="identifier-syntax">i7_V_dial</span><span class="plain-syntax">), </span><span class="identifier-syntax">D</span><span class="plain-syntax">, </span><span class="constant-syntax">2</span><span class="plain-syntax">);</span>
 <span class="identifier-syntax">i7_try</span><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">proc</span><span class="plain-syntax">, </span><span class="identifier-syntax">i7_A_Examine</span><span class="plain-syntax">, </span><span class="identifier-syntax">i7_I_watch</span><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">);</span>
 </pre>
-<p class="commentary">which produces:
-</p>
-
+<div class="lsmarkdown">
+<p>which produces:</p>
+</div>
 <pre class="ConsoleText-displayed-code all-displayed-code code-font">
 <span class="ConsoleText-plain-syntax">[C program reads 'dial' as 3 6 9 12]</span>
 <span class="ConsoleText-plain-syntax">It is approximately 9:00 am, according to a dial showing 3, 6, 9 and 12.</span>
 
 <span class="ConsoleText-plain-syntax">It is approximately 9:00 am, according to a dial showing 2 and 10.</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. </b>The following functions are available:
-</p>
-
-<ul class="items"><li>&#9679; <span class="extract"><span class="ConsoleText-extract-syntax">i7_read_string(proc, T)</span></span> returns a newly-allocated null terminated C
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. </b>  The following functions are available:</p>
+<ul>
+<li>
+<p><code>i7_read_string(proc, T)</code> returns a newly-allocated null terminated C
 string with the contents of the text T. If you're doing a lot of this, you
-may want to <span class="extract"><span class="ConsoleText-extract-syntax">free</span></span> the returned string pointer. If memory allocation fails,
-the Inform process halts with a fatal error, so you need not check yourself.
-</li><li>&#9679; <span class="extract"><span class="ConsoleText-extract-syntax">i7_write_string(proc, T, string)</span></span> sets the text T to the null-terminated
-C string given; if this is <span class="extract"><span class="ConsoleText-extract-syntax">NULL</span></span>, T is set to the empty text.
-</li><li>&#9679; <span class="extract"><span class="ConsoleText-extract-syntax">i7_read_list(proc, L, length)</span></span> returns a newly-allocated C array of <span class="extract"><span class="ConsoleText-extract-syntax">i7word_t</span></span>
-values, which are the current contents of the Inform list (whose address is) <span class="extract"><span class="ConsoleText-extract-syntax">L</span></span>.
-If <span class="extract"><span class="ConsoleText-extract-syntax">length</span></span> is given, it should be a pointer to an <span class="extract"><span class="ConsoleText-extract-syntax">int</span></span>, in which is stored the
-length of the list. If you're doing a lot of this, you may want to <span class="extract"><span class="ConsoleText-extract-syntax">free</span></span> the
+may want to <code>free</code> the returned string pointer. If memory allocation fails,
+the Inform process halts with a fatal error, so you need not check yourself.</p>
+</li>
+<li>
+<p><code>i7_write_string(proc, T, string)</code> sets the text T to the null-terminated
+C string given; if this is <code>NULL</code>, T is set to the empty text.</p>
+</li>
+<li>
+<p><code>i7_read_list(proc, L, length)</code> returns a newly-allocated C array of <code>i7word_t</code>
+values, which are the current contents of the Inform list (whose address is) <code>L</code>.
+If <code>length</code> is given, it should be a pointer to an <code>int</code>, in which is stored the
+length of the list. If you're doing a lot of this, you may want to <code>free</code> the
 returned array pointer. If memory allocation fails, the Inform process halts
-with a fatal error, so you need not check yourself.
-</li><li>&#9679; <span class="extract"><span class="ConsoleText-extract-syntax">i7_write_list(proc, L, array, length)</span></span> sets the Inform list <span class="extract"><span class="ConsoleText-extract-syntax">L</span></span> to have
-length <span class="extract"><span class="ConsoleText-extract-syntax">length</span></span> and contents given by <span class="extract"><span class="ConsoleText-extract-syntax">array[0], ..., array[length-1]</span></span>, where
-the <span class="extract"><span class="ConsoleText-extract-syntax">array</span></span> must be of <span class="extract"><span class="ConsoleText-extract-syntax">i7word_t</span></span> values. If <span class="extract"><span class="ConsoleText-extract-syntax">array</span></span> is <span class="extract"><span class="ConsoleText-extract-syntax">NULL</span></span> or <span class="extract"><span class="ConsoleText-extract-syntax">length</span></span> is 0,
-then <span class="extract"><span class="ConsoleText-extract-syntax">L</span></span> is left as the empty list.
-</li></ul>
-<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. Example 8: Direct function calls between C and Inform programs.</b>This final example shows how the C and Inform programs can call each other's
-functions, albeit with some minor restrictions.
-</p>
-
-<p class="commentary">First, we have a C function called <span class="extract"><span class="ConsoleText-extract-syntax">collatz</span></span>, and we want to call it from Inform.
-This function must have a prototype like so:
-</p>
-
+with a fatal error, so you need not check yourself.</p>
+</li>
+<li>
+<p><code>i7_write_list(proc, L, array, length)</code> sets the Inform list <code>L</code> to have
+length <code>length</code> and contents given by <code>array[0], ..., array[length-1]</code>, where
+the <code>array</code> must be of <code>i7word_t</code> values. If <code>array</code> is <code>NULL</code> or <code>length</code> is 0,
+then <code>L</code> is left as the empty list.</p>
+</li>
+</ul>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. Example 8: Direct function calls between C and Inform programs.</b>  This final example shows how the C and Inform programs can call each other's
+functions, albeit with some minor restrictions.</p>
+<p>First, we have a C function called <code>collatz</code>, and we want to call it from Inform.
+This function must have a prototype like so:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">i7word_t</span><span class="plain-syntax"> </span><span class="identifier-syntax">collatz</span><span class="plain-syntax">(</span><span class="identifier-syntax">i7process_t</span><span class="plain-syntax"> *</span><span class="identifier-syntax">proc</span><span class="plain-syntax">, </span><span class="identifier-syntax">i7word_t</span><span class="plain-syntax"> </span><span class="identifier-syntax">x</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    ...</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary">In particular, it must receive a single value (other than the process) and
-return a single value.
-</p>
-
-<p class="commentary">At the Inform side, we need to give this a wrapper as a phrase. Say, this:
-</p>
-
+<div class="lsmarkdown">
+<p>In particular, it must receive a single value (other than the process) and
+return a single value.</p>
+<p>At the Inform side, we need to give this a wrapper as a phrase. Say, this:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">To</span><span class="plain-syntax"> </span><span class="identifier-syntax">call</span><span class="plain-syntax"> </span><span class="identifier-syntax">C</span><span class="plain-syntax"> </span><span class="identifier-syntax">collatz</span><span class="plain-syntax"> </span><span class="identifier-syntax">function</span><span class="plain-syntax"> </span><span class="identifier-syntax">with</span><span class="plain-syntax"> (</span><span class="identifier-syntax">N</span><span class="plain-syntax"> - </span><span class="identifier-syntax">a</span><span class="plain-syntax"> </span><span class="identifier-syntax">number</span><span class="plain-syntax">):</span>
 <span class="plain-syntax">    (- </span><span class="identifier-syntax">external__collatz</span><span class="plain-syntax">({</span><span class="identifier-syntax">N</span><span class="plain-syntax">}); -).</span>
 </pre>
-<p class="commentary">Note that we've written that definition inline, and that the function is here
-called <span class="extract"><span class="extract-syntax">external__collatz</span></span>. (The prefix <span class="extract"><span class="extract-syntax">external__</span></span> signals that the function
+<div class="lsmarkdown">
+<p>Note that we've written that definition inline, and that the function is here
+called <code>external__collatz</code>. (The prefix <code>external__</code> signals that the function
 won't be found in the Inter code generated by Inform; without that, Inform
-would throw a problem message.) With that done, the Inform code:
-</p>
-
+would throw a problem message.) With that done, the Inform code:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">call</span><span class="plain-syntax"> </span><span class="identifier-syntax">C</span><span class="plain-syntax"> </span><span class="identifier-syntax">collatz</span><span class="plain-syntax"> </span><span class="identifier-syntax">function</span><span class="plain-syntax"> </span><span class="identifier-syntax">with</span><span class="plain-syntax"> </span><span class="constant-syntax">17</span><span class="plain-syntax">;</span>
 </pre>
-<p class="commentary">will perform <span class="extract"><span class="extract-syntax">collatz(proc, 17)</span></span>, as expected.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. </b>Now we want to do this the other way round: have C make a function call into
-Inform. The function to call this time is the one implied by this phrase declaration:
-</p>
-
+<div class="lsmarkdown">
+<p>will perform <code>collatz(proc, 17)</code>, as expected.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. </b>  Now we want to do this the other way round: have C make a function call into
+Inform. The function to call this time is the one implied by this phrase declaration:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">To</span><span class="plain-syntax"> </span><span class="identifier-syntax">run</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">Collatz</span><span class="plain-syntax"> </span><span class="identifier-syntax">algorithm</span><span class="plain-syntax"> </span><span class="identifier-syntax">on</span><span class="plain-syntax"> (</span><span class="identifier-syntax">N</span><span class="plain-syntax"> - </span><span class="identifier-syntax">a</span><span class="plain-syntax"> </span><span class="identifier-syntax">number</span><span class="plain-syntax">):</span>
 <span class="plain-syntax">    ...</span>
 </pre>
-<p class="commentary">And the C needed to call this is simple enough:
-</p>
-
+<div class="lsmarkdown">
+<p>And the C needed to call this is simple enough:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">i7_F_run_the_collatz_algorithm_on_X</span><span class="plain-syntax">(17);</span>
 </pre>
-<p class="commentary"><span class="extract"><span class="extract-syntax">i7_F_run_the_collatz_algorithm_on_X</span></span> is in fact a defined name: see the
-include file <span class="extract"><span class="extract-syntax">inform7_symbols.h</span></span> for a list of the functions available for
+<div class="lsmarkdown">
+<p><code>i7_F_run_the_collatz_algorithm_on_X</code> is in fact a defined name: see the
+include file <code>inform7_symbols.h</code> for a list of the functions available for
 calling like this. (Phrases defined inline cannot be called, because they
-are not functions.)
-</p>
-
-<p class="commentary">The Inform phrase used can also return a value ("To decide what..."), and
+are not functions.)</p>
+<p>The Inform phrase used can also return a value (&quot;To decide what...&quot;), and
 can have any number of arguments, so this is less restrictive than the
-first way round.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. </b>Example 8 shows both of these mechanisms working, with control tossed back
+first way round.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. </b>  Example 8 shows both of these mechanisms working, with control tossed back
 and forth between the two programs. They are pretending to be two people, Mr C
-and Mrs I, playing a simple number game: the winner is the one who reaches 1.
-</p>
-
+and Mrs I, playing a simple number game: the winner is the one who reaches 1.</p>
+</div>
 <pre class="ConsoleText-displayed-code all-displayed-code code-font">
 <span class="ConsoleText-plain-syntax">MR C: My friend Mrs I calls my attention to 17, so I triple and add one.</span>
 <span class="ConsoleText-plain-syntax">MRS I: I have heard Mr C tell that 52 is an interesting number. And so I halve.</span>
@@ -837,10 +801,10 @@ and Mrs I, playing a simple number game: the winner is the one who reaches 1.
 <span class="ConsoleText-plain-syntax">MRS I: I have heard Mr C tell that 2 is an interesting number. And so I halve.</span>
 <span class="ConsoleText-plain-syntax">MR C: My friend Mrs I calls my attention to 1, so I win! Haha!</span>
 </pre>
-<p class="commentary">Here the function calls reached 11 deep: Inform called C which called Inform
-which called C which... and so on. But everything then terminated cleanly.
-</p>
-
+<div class="lsmarkdown">
+<p>Here the function calls reached 11 deep: Inform called C which called Inform
+which called C which... and so on. But everything then terminated cleanly.</p>
+</div>
 <nav role="progress"><div class="progresscontainer">
     <ul class="progressbar"><li class="progressprev"><a href="M-iwtg.html">&#10094;</a></li><li class="progresscurrentchapter">M</li><li class="progresssection"><a href="M-cu.html">cu</a></li><li class="progresssection"><a href="M-iwtg.html">iwtg</a></li><li class="progresscurrent">cifc</li><li class="progresssection"><a href="M-rc.html">rc</a></li><li class="progresssection"><a href="M-pm.html">pm</a></li><li class="progresschapter"><a href="1-mn.html">1</a></li><li class="progressnext"><a href="M-rc.html">&#10095;</a></li></ul></div>
 </nav><!-- End of weave -->

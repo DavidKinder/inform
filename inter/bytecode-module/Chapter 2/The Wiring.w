@@ -253,20 +253,20 @@ up the offer. The only essential thing is that all plugs must find a socket.
 
 @ Note the following consequences of this design:
 
-(*) Every socket is always wired.
-(*) Every plug is either wired to a socket, or to a name, in the hope that
+- Every socket is always wired.
+- Every plug is either wired to a socket, or to a name, in the hope that
 it will one day be wired to a socket of that name.
-(*) All uses of, say, |CreatePV| in the main tree are wired to a single
+- All uses of, say, |CreatePV| in the main tree are wired to a single
 plug in its |/main/connectors| package.
-(*) By looking at the incoming count of a plug or socket, we can see if it is
+- By looking at the incoming count of a plug or socket, we can see if it is
 still needed -- if the count falls to 0, it is not.
-(*) Connecting plugs to sockets is relatively fast, because only one package's
+- Connecting plugs to sockets is relatively fast, because only one package's
 symbols table needs to be searched -- |/main/connectors|.
-(*) Each tree can offer any number of meanings to other trees, but they are
+- Each tree can offer any number of meanings to other trees, but they are
 identified by name only. If two packages in a tree both define functions called
 |hulke|, then they cannot both be "exported" in this way, because the connectors
 package can only contain one socket with the name |hulke|.
-(*) But the flip side of that is that a tree wanting a meaning in some other
+- But the flip side of that is that a tree wanting a meaning in some other
 tree does not need to know the Inter hierarchy structure of that other tree,
 or even its identity. This is a little like linking functions in C: a file
 of object code can refer to |mystery_distant_function()| without any idea of

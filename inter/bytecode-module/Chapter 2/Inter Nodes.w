@@ -390,11 +390,11 @@ but it's just stored in what amounts to an array of unsigned integers: what is
 stored is just an ID representing one of those things. The conversion from an ID
 to the actual resource it represents depends on:
 
-(a) What it is meant to be (symbols table, text, package, ...) -- there is no
+- What it is meant to be (symbols table, text, package, ...) -- there is no
 indication in the bytecode as to which that is, so we need to know what we're
 looking for, e.g. that what is in position 3 is a text;
 
-(b) Which node the value came from -- because these depend on the warehouse
+- Which node the value came from -- because these depend on the warehouse
 where data is stored (and some nodes are in different warehouses than others),
 and sometimes also on the local symbols table (which depends on the package
 we are in, which in turn depends on the node).

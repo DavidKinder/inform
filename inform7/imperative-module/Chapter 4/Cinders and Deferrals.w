@@ -13,13 +13,14 @@ Clearly genuine constants -- literal numbers, names of rules, and so on -- and
 global variables need not be cindered: those are the same in any stack frame
 and can be evaluated without side-effects. We cinder everything else, which
 seems only prudent. For example:
-(a) phrases to decide values, cindered because they might be slow or have
+
+- phrases to decide values, cindered because they might be slow or have
 side-effects to evaluate;
-(b) shared non-local variables, such as variables attached to actions or
+- shared non-local variables, such as variables attached to actions or
 activities, cindered because they are only allowed in certain routines, and
 the eventual deferred proposition routine might not qualify;
-(c) local variables, cindered since they won't exist in the deferred routine;
-(d) list and table entries, cindered since they are relatively slow to look up.
+- local variables, cindered since they won't exist in the deferred routine;
+- list and table entries, cindered since they are relatively slow to look up.
 
 [1] Originally a contraction of "constant in deferred routine".
 

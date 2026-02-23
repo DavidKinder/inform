@@ -570,9 +570,10 @@ We must ensure that if |player| is initially X, is changed to Y, and is then
 changed back to X, that both X and Y end exactly as they began -- hence the
 flummery below with using |remove_proper| to ensure that |proper| is left
 with the correct value. Note that:
-(1) at any given time exactly one person has the I6 |concealed| attribute: the
+
+- at any given time exactly one person has the I6 |concealed| attribute: the
 current player;
-(2) the |selfobj| is the default initial value of |player|, and because it has
+- the |selfobj| is the default initial value of |player|, and because it has
 as its actual printed name "yourself", we need to override this when
 something else takes over as player: we change to "your former self", in
 fact. No such device is needed for other people being changed from because

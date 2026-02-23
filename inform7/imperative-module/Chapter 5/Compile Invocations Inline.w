@@ -1719,11 +1719,11 @@ Two ways. First, as an identifier name, which stands for a local Inter variable
 or for a token in the phrase being invoked. There are three ways we can
 write this:
 
-(a) the operands "0" to "9", a single digit, mean the |{-my:...}| variables
+- the operands "0" to "9", a single digit, mean the |{-my:...}| variables
 with those numbers, if they exist;
-(b) otherwise if we have the name of a token in the phrase being invoked,
+- otherwise if we have the name of a token in the phrase being invoked,
 then the operand refers to its value in the current invocation;
-(c) and failing that we have the name of a local Inter variable.
+- and failing that we have the name of a local Inter variable.
 
 =
 parse_node *CSIInline::parse_bracing_operand_as_identifier(text_stream *operand, id_body *idb,

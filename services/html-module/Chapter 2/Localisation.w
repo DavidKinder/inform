@@ -58,9 +58,10 @@ following to read it in from a UTF-8-encoded Unicode text file. Lines are assume
 to be terminated with either |0x0a| or |0x0d|.
 
 The format is simple:
-(*) If the first non-whitespace character on a line is a |#|, then the line is
+
+- If the first non-whitespace character on a line is a |#|, then the line is
 a comment and is ignored.
-(*) If the first non-whitespace character on a line is a |%|, then the line is
+- If the first non-whitespace character on a line is a |%|, then the line is
 expected to take the form |%KEY = ...|, where |...| is the text value for this
 key. This text continues on what may be multiple lines until the next key;
 and any white space at the start or end is ignored.

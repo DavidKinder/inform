@@ -10,8 +10,8 @@ to be (which is more than you can say for Metallica).
 Each inter tree needs to store data outside of its own //inter_tree_node// structures,
 data which falls into two categories:
 
-(*) Bytecode for instructions, each having a unique address.
-(*) Resources such as texts and symbols tables, each having a unique ID number.
+- Bytecode for instructions, each having a unique address.
+- Resources such as texts and symbols tables, each having a unique ID number.
 
 This data is held in the //inter_warehouse// connected to the tree. Each //inter_tree//
 contains a pointer to its warehouse.
@@ -257,11 +257,11 @@ Conceptually, a warehouse stores bytecode at (word) addresses which begin from 0
 Each instruction occupies a contiguous run of addresses. That all sounds like
 a typical machine-code arrangement, but:
 
-(a) the instructions themselves contain neither absolute addresses nor address
+- the instructions themselves contain neither absolute addresses nor address
 offsets -- they are oblivious to where they are stored, and refer to code
 positions using labels instead;
 
-(b) some storage may remain unused, and the addresses of instructions do not
+- some storage may remain unused, and the addresses of instructions do not
 correspond to their order in the code.
 
 =

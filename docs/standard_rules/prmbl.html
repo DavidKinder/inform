@@ -12,6 +12,11 @@
 <link href="../docs-assets/Navigation.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Fonts.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -48,84 +53,82 @@
 
 <ul class="toc"><li><a href="prmbl.html#SP1">&#167;1. Verbs</a></li><li><a href="prmbl.html#SP3">&#167;3. Use Options</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Verbs.</b>This continues the built-in verbs (i.e. those with meaning built in to the
-Inform compiler), adding those which are relevant only to IF.
-</p>
-
-<p class="commentary">Note the plus notation, added in May 2016, which marks for a second object
-phrase, and is thus only useful for built-in meanings.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Verbs.</b>  This continues the built-in verbs (i.e. those with meaning built in to the
+Inform compiler), adding those which are relevant only to IF.</p>
+<p>Note the plus notation, added in May 2016, which marks for a second object
+phrase, and is thus only useful for built-in meanings.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">Part</span><span class="plain-syntax"> </span><span class="identifier-syntax">One</span><span class="plain-syntax"> - </span><span class="identifier-syntax">Preamble</span>
+<span class="plain-syntax">Part One - Preamble</span>
 
-<span class="identifier-syntax">The</span><span class="plain-syntax"> </span><span class="identifier-syntax">verb</span><span class="plain-syntax"> </span><span class="identifier-syntax">to</span><span class="plain-syntax"> </span><span class="identifier-syntax">begin</span><span class="plain-syntax"> </span><span class="identifier-syntax">when</span><span class="plain-syntax"> </span><span class="identifier-syntax">means</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">built</span><span class="plain-syntax">-</span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">scene</span><span class="plain-syntax">-</span><span class="identifier-syntax">begins</span><span class="plain-syntax">-</span><span class="identifier-syntax">when</span><span class="plain-syntax"> </span><span class="identifier-syntax">meaning</span><span class="plain-syntax">.</span>
-<span class="identifier-syntax">The</span><span class="plain-syntax"> </span><span class="identifier-syntax">verb</span><span class="plain-syntax"> </span><span class="identifier-syntax">to</span><span class="plain-syntax"> </span><span class="identifier-syntax">end</span><span class="plain-syntax"> </span><span class="identifier-syntax">when</span><span class="plain-syntax"> </span><span class="identifier-syntax">means</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">built</span><span class="plain-syntax">-</span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">scene</span><span class="plain-syntax">-</span><span class="identifier-syntax">ends</span><span class="plain-syntax">-</span><span class="identifier-syntax">when</span><span class="plain-syntax"> </span><span class="identifier-syntax">meaning</span><span class="plain-syntax">.</span>
-<span class="identifier-syntax">The</span><span class="plain-syntax"> </span><span class="identifier-syntax">verb</span><span class="plain-syntax"> </span><span class="identifier-syntax">to</span><span class="plain-syntax"> </span><span class="identifier-syntax">end</span><span class="plain-syntax"> + </span><span class="identifier-syntax">when</span><span class="plain-syntax"> </span><span class="identifier-syntax">means</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">built</span><span class="plain-syntax">-</span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">scene</span><span class="plain-syntax">-</span><span class="identifier-syntax">ends</span><span class="plain-syntax">-</span><span class="identifier-syntax">when</span><span class="plain-syntax"> </span><span class="identifier-syntax">meaning</span><span class="plain-syntax">.</span>
+<span class="plain-syntax">The verb to begin when means the built-in scene-begins-when meaning.</span>
+<span class="plain-syntax">The verb to end when means the built-in scene-ends-when meaning.</span>
+<span class="plain-syntax">The verb to end + when means the built-in scene-ends-when meaning.</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>Verbs used as imperatives: "Understand ... as ...", for example.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  Verbs used as imperatives: &quot;Understand ... as ...&quot;, for example.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">The</span><span class="plain-syntax"> </span><span class="identifier-syntax">verb</span><span class="plain-syntax"> </span><span class="identifier-syntax">to</span><span class="plain-syntax"> </span><span class="identifier-syntax">understand</span><span class="plain-syntax"> + </span><span class="identifier-syntax">as</span><span class="plain-syntax"> </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">imperative</span><span class="plain-syntax"> </span><span class="identifier-syntax">means</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">built</span><span class="plain-syntax">-</span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">understand</span><span class="plain-syntax">-</span><span class="identifier-syntax">as</span><span class="plain-syntax"> </span><span class="identifier-syntax">meaning</span><span class="plain-syntax">.</span>
-<span class="identifier-syntax">The</span><span class="plain-syntax"> </span><span class="identifier-syntax">verb</span><span class="plain-syntax"> </span><span class="identifier-syntax">to</span><span class="plain-syntax"> </span><span class="identifier-syntax">release</span><span class="plain-syntax"> </span><span class="identifier-syntax">along</span><span class="plain-syntax"> </span><span class="identifier-syntax">with</span><span class="plain-syntax"> </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">imperative</span><span class="plain-syntax"> </span><span class="identifier-syntax">means</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">built</span><span class="plain-syntax">-</span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">release</span><span class="plain-syntax">-</span><span class="identifier-syntax">along</span><span class="plain-syntax">-</span><span class="identifier-syntax">with</span><span class="plain-syntax"> </span><span class="identifier-syntax">meaning</span><span class="plain-syntax">.</span>
-<span class="identifier-syntax">The</span><span class="plain-syntax"> </span><span class="identifier-syntax">verb</span><span class="plain-syntax"> </span><span class="identifier-syntax">to</span><span class="plain-syntax"> </span><span class="identifier-syntax">index</span><span class="plain-syntax"> </span><span class="identifier-syntax">map</span><span class="plain-syntax"> </span><span class="identifier-syntax">with</span><span class="plain-syntax"> </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">imperative</span><span class="plain-syntax"> </span><span class="identifier-syntax">means</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">built</span><span class="plain-syntax">-</span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">index</span><span class="plain-syntax">-</span><span class="identifier-syntax">map</span><span class="plain-syntax">-</span><span class="identifier-syntax">with</span><span class="plain-syntax"> </span><span class="identifier-syntax">meaning</span><span class="plain-syntax">.</span>
+<span class="plain-syntax">The verb to understand + as in the imperative means the built-in understand-as meaning.</span>
+<span class="plain-syntax">The verb to release along with in the imperative means the built-in release-along-with meaning.</span>
+<span class="plain-syntax">The verb to index map with in the imperative means the built-in index-map-with meaning.</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Use Options.</b>Three sets of overlapping options. In each case, the first given is the default
-value, and any attempt to set contradictory values throws a problem.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Use Options.</b>  Three sets of overlapping options. In each case, the first given is the default
+value, and any attempt to set contradictory values throws a problem.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">Use</span><span class="plain-syntax"> </span><span class="identifier-syntax">full</span><span class="plain-syntax">-</span><span class="identifier-syntax">length</span><span class="plain-syntax"> </span><span class="identifier-syntax">room</span><span class="plain-syntax"> </span><span class="identifier-syntax">descriptions</span><span class="plain-syntax"> </span><span class="identifier-syntax">translates</span><span class="plain-syntax"> </span><span class="identifier-syntax">as</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">configuration</span><span class="plain-syntax"> </span><span class="identifier-syntax">value</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">ROOM_DESC_DETAIL</span><span class="plain-syntax"> = </span><span class="constant-syntax">2</span><span class="plain-syntax"> </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">WorldModelKit</span><span class="plain-syntax">.</span>
-<span class="identifier-syntax">Use</span><span class="plain-syntax"> </span><span class="identifier-syntax">abbreviated</span><span class="plain-syntax"> </span><span class="identifier-syntax">room</span><span class="plain-syntax"> </span><span class="identifier-syntax">descriptions</span><span class="plain-syntax"> </span><span class="identifier-syntax">translates</span><span class="plain-syntax"> </span><span class="identifier-syntax">as</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">configuration</span><span class="plain-syntax"> </span><span class="identifier-syntax">value</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">ROOM_DESC_DETAIL</span><span class="plain-syntax"> = </span><span class="constant-syntax">3</span><span class="plain-syntax"> </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">WorldModelKit</span><span class="plain-syntax">.</span>
-<span class="identifier-syntax">Use</span><span class="plain-syntax"> </span><span class="identifier-syntax">VERBOSE</span><span class="plain-syntax"> </span><span class="identifier-syntax">room</span><span class="plain-syntax"> </span><span class="identifier-syntax">descriptions</span><span class="plain-syntax"> </span><span class="identifier-syntax">translates</span><span class="plain-syntax"> </span><span class="identifier-syntax">as</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">configuration</span><span class="plain-syntax"> </span><span class="identifier-syntax">value</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">ROOM_DESC_DETAIL</span><span class="plain-syntax"> = </span><span class="constant-syntax">2</span><span class="plain-syntax"> </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">WorldModelKit</span><span class="plain-syntax">.</span>
-<span class="identifier-syntax">Use</span><span class="plain-syntax"> </span><span class="identifier-syntax">BRIEF</span><span class="plain-syntax"> </span><span class="identifier-syntax">room</span><span class="plain-syntax"> </span><span class="identifier-syntax">descriptions</span><span class="plain-syntax"> </span><span class="identifier-syntax">translates</span><span class="plain-syntax"> </span><span class="identifier-syntax">as</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">configuration</span><span class="plain-syntax"> </span><span class="identifier-syntax">value</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">ROOM_DESC_DETAIL</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax"> </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">WorldModelKit</span><span class="plain-syntax">.</span>
-<span class="identifier-syntax">Use</span><span class="plain-syntax"> </span><span class="identifier-syntax">SUPERBRIEF</span><span class="plain-syntax"> </span><span class="identifier-syntax">room</span><span class="plain-syntax"> </span><span class="identifier-syntax">descriptions</span><span class="plain-syntax"> </span><span class="identifier-syntax">translates</span><span class="plain-syntax"> </span><span class="identifier-syntax">as</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">configuration</span><span class="plain-syntax"> </span><span class="identifier-syntax">value</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">ROOM_DESC_DETAIL</span><span class="plain-syntax"> = </span><span class="constant-syntax">3</span><span class="plain-syntax"> </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">WorldModelKit</span><span class="plain-syntax">.</span>
+<span class="plain-syntax">Use full-length room descriptions translates as the configuration value</span>
+<span class="plain-syntax">    ROOM_DESC_DETAIL = 2 in WorldModelKit.</span>
+<span class="plain-syntax">Use abbreviated room descriptions translates as the configuration value</span>
+<span class="plain-syntax">    ROOM_DESC_DETAIL = 3 in WorldModelKit.</span>
+<span class="plain-syntax">Use VERBOSE room descriptions translates as the configuration value</span>
+<span class="plain-syntax">    ROOM_DESC_DETAIL = 2 in WorldModelKit.</span>
+<span class="plain-syntax">Use BRIEF room descriptions translates as the configuration value</span>
+<span class="plain-syntax">    ROOM_DESC_DETAIL = 1 in WorldModelKit.</span>
+<span class="plain-syntax">Use SUPERBRIEF room descriptions translates as the configuration value</span>
+<span class="plain-syntax">    ROOM_DESC_DETAIL = 3 in WorldModelKit.</span>
 
-<span class="identifier-syntax">Use</span><span class="plain-syntax"> </span><span class="identifier-syntax">no</span><span class="plain-syntax"> </span><span class="identifier-syntax">scoring</span><span class="plain-syntax"> </span><span class="identifier-syntax">translates</span><span class="plain-syntax"> </span><span class="identifier-syntax">as</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">configuration</span><span class="plain-syntax"> </span><span class="identifier-syntax">value</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">SCORING</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax"> </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">WorldModelKit</span><span class="plain-syntax">.</span>
-<span class="identifier-syntax">Use</span><span class="plain-syntax"> </span><span class="identifier-syntax">scoring</span><span class="plain-syntax"> </span><span class="identifier-syntax">translates</span><span class="plain-syntax"> </span><span class="identifier-syntax">as</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">configuration</span><span class="plain-syntax"> </span><span class="identifier-syntax">value</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">SCORING</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax"> </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">WorldModelKit</span><span class="plain-syntax">.</span>
+<span class="plain-syntax">Use no scoring translates as the configuration value</span>
+<span class="plain-syntax">    SCORING = 0 in WorldModelKit.</span>
+<span class="plain-syntax">Use scoring translates as the configuration value</span>
+<span class="plain-syntax">    SCORING = 1 in WorldModelKit.</span>
 
-<span class="identifier-syntax">Use</span><span class="plain-syntax"> </span><span class="identifier-syntax">default</span><span class="plain-syntax"> </span><span class="identifier-syntax">route</span><span class="plain-syntax">-</span><span class="identifier-syntax">finding</span><span class="plain-syntax"> </span><span class="identifier-syntax">translates</span><span class="plain-syntax"> </span><span class="identifier-syntax">as</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">configuration</span><span class="plain-syntax"> </span><span class="identifier-syntax">value</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">ROUTE_FINDING</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax"> </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">WorldModelKit</span><span class="plain-syntax">.</span>
-<span class="identifier-syntax">Use</span><span class="plain-syntax"> </span><span class="identifier-syntax">fast</span><span class="plain-syntax"> </span><span class="identifier-syntax">route</span><span class="plain-syntax">-</span><span class="identifier-syntax">finding</span><span class="plain-syntax"> </span><span class="identifier-syntax">translates</span><span class="plain-syntax"> </span><span class="identifier-syntax">as</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">configuration</span><span class="plain-syntax"> </span><span class="identifier-syntax">value</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">ROUTE_FINDING</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax"> </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">WorldModelKit</span><span class="plain-syntax">.</span>
-<span class="identifier-syntax">Use</span><span class="plain-syntax"> </span><span class="identifier-syntax">slow</span><span class="plain-syntax"> </span><span class="identifier-syntax">route</span><span class="plain-syntax">-</span><span class="identifier-syntax">finding</span><span class="plain-syntax"> </span><span class="identifier-syntax">translates</span><span class="plain-syntax"> </span><span class="identifier-syntax">as</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">configuration</span><span class="plain-syntax"> </span><span class="identifier-syntax">value</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">ROUTE_FINDING</span><span class="plain-syntax"> = </span><span class="constant-syntax">2</span><span class="plain-syntax"> </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">WorldModelKit</span><span class="plain-syntax">.</span>
+<span class="plain-syntax">Use default route-finding translates as the configuration value</span>
+<span class="plain-syntax">    ROUTE_FINDING = 0 in WorldModelKit.</span>
+<span class="plain-syntax">Use fast route-finding translates as the configuration value</span>
+<span class="plain-syntax">    ROUTE_FINDING = 1 in WorldModelKit.</span>
+<span class="plain-syntax">Use slow route-finding translates as the configuration value</span>
+<span class="plain-syntax">    ROUTE_FINDING = 2 in WorldModelKit.</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>This setting is to do with the command parser's handling of multiple objects.
-Essentially it means that "take all" can pick up at most 100 items. The setting
-"belongs" to WorldModelKit, not CommandParserKit, because it affects actions
-as well as their parsing from text.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  This setting is to do with the command parser's handling of multiple objects.
+Essentially it means that &quot;take all&quot; can pick up at most 100 items. The setting
+&quot;belongs&quot; to WorldModelKit, not CommandParserKit, because it affects actions
+as well as their parsing from text.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">Use</span><span class="plain-syntax"> </span><span class="identifier-syntax">maximum</span><span class="plain-syntax"> </span><span class="identifier-syntax">things</span><span class="plain-syntax"> </span><span class="identifier-syntax">understood</span><span class="plain-syntax"> </span><span class="identifier-syntax">at</span><span class="plain-syntax"> </span><span class="identifier-syntax">once</span><span class="plain-syntax"> </span><span class="identifier-syntax">of</span><span class="plain-syntax"> </span><span class="identifier-syntax">at</span><span class="plain-syntax"> </span><span class="identifier-syntax">least</span><span class="plain-syntax"> </span><span class="constant-syntax">100</span><span class="plain-syntax"> </span><span class="identifier-syntax">translates</span><span class="plain-syntax"> </span><span class="identifier-syntax">as</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">configuration</span><span class="plain-syntax"> </span><span class="identifier-syntax">value</span><span class="plain-syntax"> </span><span class="identifier-syntax">MULTI_OBJ_LIST_SIZE</span><span class="plain-syntax"> </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">WorldModelKit</span><span class="plain-syntax">.</span>
+<span class="plain-syntax">Use maximum things understood at once of at least 100 translates as the</span>
+<span class="plain-syntax">    configuration value MULTI_OBJ_LIST_SIZE in WorldModelKit.</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>This is used automatically in stories where no room is declared, and
-suppresses the boldface room name in room descriptions.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  This is used automatically in stories where no room is declared, and
+suppresses the boldface room name in room descriptions.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">Use</span><span class="plain-syntax"> </span><span class="identifier-syntax">nameless</span><span class="plain-syntax"> </span><span class="identifier-syntax">room</span><span class="plain-syntax"> </span><span class="identifier-syntax">descriptions</span><span class="plain-syntax"> </span><span class="identifier-syntax">translates</span><span class="plain-syntax"> </span><span class="identifier-syntax">as</span><span class="plain-syntax"> </span><span class="identifier-syntax">a</span><span class="plain-syntax"> </span><span class="identifier-syntax">configuration</span><span class="plain-syntax"> </span><span class="identifier-syntax">flag</span><span class="plain-syntax">.</span>
+<span class="plain-syntax">Use nameless room descriptions translates as a configuration flag.</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>These are more straightforwardly ways to configure the command parser:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  These are more straightforwardly ways to configure the command parser:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">Use</span><span class="plain-syntax"> </span><span class="identifier-syntax">manual</span><span class="plain-syntax"> </span><span class="identifier-syntax">pronouns</span><span class="plain-syntax"> </span><span class="identifier-syntax">translates</span><span class="plain-syntax"> </span><span class="identifier-syntax">as</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">configuration</span><span class="plain-syntax"> </span><span class="identifier-syntax">flag</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">MANUAL_PRONOUNS</span><span class="plain-syntax"> </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">CommandParserKit</span><span class="plain-syntax">.</span>
-<span class="identifier-syntax">Use</span><span class="plain-syntax"> </span><span class="identifier-syntax">undo</span><span class="plain-syntax"> </span><span class="identifier-syntax">prevention</span><span class="plain-syntax"> </span><span class="identifier-syntax">translates</span><span class="plain-syntax"> </span><span class="identifier-syntax">as</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">configuration</span><span class="plain-syntax"> </span><span class="identifier-syntax">flag</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">UNDO_PREVENTION</span><span class="plain-syntax"> </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">CommandParserKit</span><span class="plain-syntax">.</span>
-<span class="identifier-syntax">Use</span><span class="plain-syntax"> </span><span class="identifier-syntax">unabbreviated</span><span class="plain-syntax"> </span><span class="identifier-syntax">object</span><span class="plain-syntax"> </span><span class="identifier-syntax">names</span><span class="plain-syntax"> </span><span class="identifier-syntax">translates</span><span class="plain-syntax"> </span><span class="identifier-syntax">as</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">configuration</span><span class="plain-syntax"> </span><span class="identifier-syntax">flag</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">UNABBREVIATED_NAMES</span><span class="plain-syntax"> </span><span class="identifier-syntax">in</span><span class="plain-syntax"> </span><span class="identifier-syntax">CommandParserKit</span><span class="plain-syntax">.</span>
+<span class="plain-syntax">Use manual pronouns translates as the configuration flag</span>
+<span class="plain-syntax">    MANUAL_PRONOUNS in CommandParserKit.</span>
+<span class="plain-syntax">Use undo prevention translates as the configuration flag</span>
+<span class="plain-syntax">    UNDO_PREVENTION in CommandParserKit.</span>
+<span class="plain-syntax">Use unabbreviated object names translates as the configuration flag</span>
+<span class="plain-syntax">    UNABBREVIATED_NAMES in CommandParserKit.</span>
 </pre>
 <nav role="progress"><div class="progresscontainer">
     <ul class="progressbar"><li class="progressprevoff">&#10094;</li><li class="progresscurrent">prmbl</li><li class="progresssection"><a href="pwm.html">pwm</a></li><li class="progresssection"><a href="var.html">var</a></li><li class="progresssection"><a href="dlg.html">dlg</a></li><li class="progresssection"><a href="actvt.html">actvt</a></li><li class="progresssection"><a href="actns.html">actns</a></li><li class="progresssection"><a href="cmgr.html">cmgr</a></li><li class="progresssection"><a href="phdf.html">phdf</a></li><li class="progressnext"><a href="pwm.html">&#10095;</a></li></ul></div>

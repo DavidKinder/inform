@@ -106,13 +106,13 @@ where he is, the surprise will not be spoiled.
 This seems as good a place as any to write down the invariant we attempt
 to maintain for the player's position variables:
 
-(1) The |player| variable is the object through which the player plays,
+- The |player| variable is the object through which the player plays,
 which is always a person: its value is always set by starting from |selfobj|
 and then making a sequence of 0 or more |ChangePlayer(new_value)| calls.
 (This enables us to make sure it has the correct property values for
 printed name and so forth.)
 
-(2) The |location| is always either the current room, a valid I7 room, or
+- The |location| is always either the current room, a valid I7 room, or
 |thedark|, which is not a valid I7 object but is distinguishable both from
 all I7 objects and from |nothing|. The |real_location| is always the current
 room, which is always a valid I7 room. |location| equals |thedark| if and
@@ -120,14 +120,14 @@ only if the player does not have light to see by; the routine
 |SilentlyConsiderLight| updates this without printing any messages to
 announce the fall or lifting of darkness (hence "silently").
 
-(3) The |player| object is always in the subtree of |real_location|, and
+- The |player| object is always in the subtree of |real_location|, and
 is always in a chain $O_1 < O_2 < ... < O_n$ where $O_1$ is the player,
 $O_n$ is |real_location|, $n\geq 2$ and $O_2, ..., O_{n-1}$ are all either
 enterable containers, enterable supporters, or component parts of such.
 The routine |LocationOf|, applied to the player object, always agrees with
 |real_location|.
 
-(4) "Floating" objects, such as backdrops and two-sided doors, are in
+- "Floating" objects, such as backdrops and two-sided doors, are in
 theory present in more than one room at once. In practice they can only be
 in a single position in the I6 object tree at any one time. The rule is that
 if they are theoretically present in the |real_location|, then they are
@@ -135,7 +135,7 @@ actually present in the subtree of |real_location|. The routine
 |MoveFloatingObjects| updates this, and must be called whenever the player
 moves from one room to another.
 
-(5) Any objects carried by the player have the I6 |moved| attribute set.
+- Any objects carried by the player have the I6 |moved| attribute set.
 The |SACK_OBJECT| variable is always set to the object of kind "player's
 holdall" which the player has most recently been carrying, or had as
 a component part of himself. The "note object acquisitions" rule updates
@@ -185,51 +185,51 @@ it is a well-proven and understood algorithm. The I6 parser returns some of
 its results in a supplied array (here |parser_results|, though the I6
 library used to call this |inputobjs|), but others are in global variables:
 
-(1) The |parser_results| array holds four words, used as indexed by the
-constants below.
+- 	The |parser_results| array holds four words, used as indexed by the
+	constants below.
 
-(-a) The action can be a valid I6 action number, or an I6 "fake
-action", a concept not used overtly in I7. Most valid I6 actions
-correspond exactly to I7 actions, but in principle it is possible to
-define (say) extra debugging commands entirely at the I6 level.
+	- The action can be a valid I6 action number, or an I6 "fake
+	action", a concept not used overtly in I7. Most valid I6 actions
+	correspond exactly to I7 actions, but in principle it is possible to
+	define (say) extra debugging commands entirely at the I6 level.
+	
+	- The count |NO_INPS_PRES| is always 0, 1 or 2, and then that many
+	of the next two words are meaningful.
+	
+	- Each of the "inp" values is either 0, meaning "put the
+	multiple object list here"; or 1, meaning "not an object but a
+	value"; or a valid I6 object. (We use the scoping rules to ensure
+	that any I6 object visible to the parser is also a valid I7 object, so
+	-- unlike with actions -- we need not distinguish between the two.)
 
-(-b) The count |NO_INPS_PRES| is always 0, 1 or 2, and then that many
-of the next two words are meaningful.
+- 	The global variable |actor| is set to the person asked to carry out
+	the command, or is the same as |player| if nobody was mentioned. Thus it
+	will be the object for Floyd in the command FLOYD, GET PERMIT, but will be
+	just |player| in the command EAST.
 
-(-c) Each of the "inp" values is either 0, meaning "put the
-multiple object list here"; or 1, meaning "not an object but a
-value"; or a valid I6 object. (We use the scoping rules to ensure
-that any I6 object visible to the parser is also a valid I7 object, so
--- unlike with actions -- we need not distinguish between the two.)
+-	The global variables |special_number1| and, if necessary, |special_number2|
+	hold values corresponding to the first and second of the "inps" to be
+	returned as 1. Thus, if one of the "inps" is a value and the other is
+	an object, then |special_number1| is that value; only if both are values
+	rather than objects will |special_number2| be used. There is no indication
+	of the kind of these values: I6 is typeless.
 
-(2) The global variable |actor| is set to the person asked to carry out
-the command, or is the same as |player| if nobody was mentioned. Thus it
-will be the object for Floyd in the command FLOYD, GET PERMIT, but will be
-just |player| in the command EAST.
+-	At most one of the "inps" is permitted to be 1, referring to a multiple
+	object list. (And a multiple value list is forbidden.) If this happens, the
+	list of objects is stored in an I6 table array (i.e., with the 0th word
+	being the number of subsequent words) called |multiple_object|, and the
+	parser will have set the |toomany_flag| if an overflow occurred -- that is,
+	if the list was truncated because it originally called for more than 63
+	objects.
 
-(3) The global variables |special_number1| and, if necessary, |special_number2|
-hold values corresponding to the first and second of the "inps" to be
-returned as 1. Thus, if one of the "inps" is a value and the other is
-an object, then |special_number1| is that value; only if both are values
-rather than objects will |special_number2| be used. There is no indication
-of the kind of these values: I6 is typeless.
-
-(4) At most one of the "inps" is permitted to be 1, referring to a multiple
-object list. (And a multiple value list is forbidden.) If this happens, the
-list of objects is stored in an I6 table array (i.e., with the 0th word
-being the number of subsequent words) called |multiple_object|, and the
-parser will have set the |toomany_flag| if an overflow occurred -- that is,
-if the list was truncated because it originally called for more than 63
-objects.
-
-(5) The global variable |meta| is set if the action is one marked as such
-in the I6 grammar. A confusion in the design of I6 is that being out of world,
-as we would say in I7 terms, is associated not with an action as such but
-with the command verb triggering it. (This in practice caused no trouble
-since we never used, say, the word SAVE for both saving the game and saving,
-I don't know, box top coupons.) The state of |meta| returned by the I6
-parser does not quite correspond to I7's "out of world" concept, so we
-will alter it in a few cases.
+-	The global variable |meta| is set if the action is one marked as such
+	in the I6 grammar. A confusion in the design of I6 is that being out of world,
+	as we would say in I7 terms, is associated not with an action as such but
+	with the command verb triggering it. (This in practice caused no trouble
+	since we never used, say, the word SAVE for both saving the game and saving,
+	I don't know, box top coupons.) The state of |meta| returned by the I6
+	parser does not quite correspond to I7's "out of world" concept, so we
+	will alter it in a few cases.
 
 Some of these conventions are a little odd-looking now: why not simply
 have a larger results array, rather than this pile of occasionally
@@ -255,7 +255,7 @@ Constant INP2_PRES = 3; ! Parser.i6t code assumes this is INP1_PRES + 1
 We don't quite use the results exactly as they are returned by the parser:
 we make modifications in a few special cases.
 
-(1) |##MistakeAction| is a valid I6 action, but not an I7 one. It is used to
+- |##MistakeAction| is a valid I6 action, but not an I7 one. It is used to
 implement "Understand ... as a mistake", which provides a short-cut way
 for I7 source text to specify responses to mistaken guesses at the syntax
 expected for commands. It can therefore result from a whole variety of
@@ -263,7 +263,7 @@ different commands, some of which might be flagged |meta|, others not.
 We forcibly set the |meta| flag: a mistake in guessing the command always
 happens out of world.
 
-(2) A command in the form PERSON, TELL ME ABOUT SOMETHING is altered to
+- A command in the form PERSON, TELL ME ABOUT SOMETHING is altered to
 the action resulting from ASK PERSON ABOUT SOMETHING, so that |##Tell|
 is converted to |##Ask| in these cases.
 
@@ -282,10 +282,10 @@ is converted to |##Ask| in these cases.
 For what are, again, historical reasons to do with the development of I6,
 the current action is recorded in a slate of global variables:
 
-(1) |actor| is as above; |action| is the I6 action number or fake action
+- |actor| is as above; |action| is the I6 action number or fake action
 number, though in I7 usage no fake actions should ever reach this point.
 
-(2) |act_requester| is the person requesting that the actor should perform
+- |act_requester| is the person requesting that the actor should perform
 the action, or |nothing| if the action is the actor's own choice. In the
 command FLOYD, MOP FLOOR, the |act_requester| is the player and the actor
 is Floyd; but when an action arises from a try phrase in I7, such as
@@ -293,19 +293,19 @@ is Floyd; but when an action arises from a try phrase in I7, such as
 it is Floyd's own decision to do this. (The computer, of course, represents
 the will-power of all characters other than the player.)
 
-(3) |inp1| and |inp2| are global variables whose contents mean the same
+- |inp1| and |inp2| are global variables whose contents mean the same
 as those of |parser_results-->INP1_PRES| and |parser_results-->INP2_PRES|.
 (This is not duplication, because actions also arise from "try" rather
 than the parser.)
 
-(4) The variable |multiflag| is set during the processing of a multiple
+- The variable |multiflag| is set during the processing of a multiple
 object list, and clear otherwise. (It is used for instance by the Standard
 Rules to give more concise reports of some successful actions.) Note that
 it remains set during any knock-on actions caused by actions in the multiple
 object list: the following rule is the only place where |multiflag| is
 set or cleared.
 
-(5) |noun| and |second| are global variables which are equal to |inp1| and
+- |noun| and |second| are global variables which are equal to |inp1| and
 |inp2| when the latter hold valid object numbers, and are equal to |nothing|
 otherwise. (This is not duplication either, because it provides us with
 type-safe access to objects: there is no KOV which can safely represent

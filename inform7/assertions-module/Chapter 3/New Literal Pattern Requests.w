@@ -25,9 +25,9 @@ multiplication when Inform eventually parses such a literal.
 @ We create new literal patterns during pass 1, which imposes two timing
 constraints:
 
-(a) The specification sentence must come after the sentence creating the
+- The specification sentence must come after the sentence creating the
 kind of value being specified; but
-(b) It must come before any sentences using constants written in this
+- It must come before any sentences using constants written in this
 notation.
 
 In practice both constraints seem to be accepted by users as reasonable,

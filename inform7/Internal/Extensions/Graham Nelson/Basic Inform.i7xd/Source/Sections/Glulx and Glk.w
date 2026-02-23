@@ -227,15 +227,15 @@ windows, sound channels etc. will be kept as they were, even though the game fil
 might be expecting a different state. This extension allows Inform 7 game files
 to ensure that the IO state is as it should be. It does this in three stages:
 
-(a) The "reset glk references rules" is run. Rules should be added to reset all
+- The "reset glk references rules" is run. Rules should be added to reset all
 Glk references as if none existed.
 
-(b) The "identify glk windows rules" etc. are run. These rulebooks will be run
+- The "identify glk windows rules" etc. are run. These rulebooks will be run
 once for each Glk IO object which currently exists. Objects can be identified
 through the current glk object rock number and current glk object reference
 number variables.
 
-(c) The "glk object updating rules" is run. Rules should be added to correct the
+- The "glk object updating rules" is run. Rules should be added to correct the
 Glk IO state by, for example, closing windows which shouldn't exist, and opening
 windows which should but currently do not.
 

@@ -22,18 +22,28 @@ function togglePopup(material_id) {
 <link href="../docs-assets/Popups.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <script>
 MathJax = {
-	tex: {
-		inlineMath: '$', '$'], ['\\(', '\\)'
+    options: {
+    	skipHtmlTags: {'[-]': ['pre']},
+    	processHtmlClass: 'mathjax_process'
+    },
+	loader: {load: ['[tex]/texhtml']},
+  	tex: {
+		inlineMath: [ ['\\INWEBMATH(', '\\INWEBMATH)'] ],
+    	packages: {'[+]': ['texhtml']},
+    	allowTexHTML: true
 	},
 	svg: {
 		fontCache: 'global'
 	}
 };
 </script>
-<script type="text/javascript" id="MathJax-script" async
-	src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
-</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-svg.js"></script>
 
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -70,114 +80,172 @@ MathJax = {
 
 <ul class="toc"><li><a href="1-bp.html#SP1">&#167;1. Reading the file</a></li><li><a href="1-bp.html#SP6">&#167;6. Summary</a></li><li><a href="1-bp.html#SP7">&#167;7. The interpreter</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Reading the file.</b>We divide the file into blurb commands at line breaks, so:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Reading the file.</b>  We divide the file into blurb commands at line breaks, so:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Parser::parse_blurb_file</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">Parser::parse_blurb_file</span></span>:<br/>Main - <a href="1-mn.html#SP3">&#167;3</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">filename</span><span class="plain-syntax"> *</span><span class="identifier-syntax">F</span><span class="plain-syntax">) {</span>
+<span class="type-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Parser::parse_blurb_file</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">Parser::parse_blurb_file</span></span>:<br/>Main - <a href="1-mn.html#SP3">&#167;3</a></span></button><span class="plain-syntax">(</span><span class="type-syntax">filename</span><span class="plain-syntax"> *</span><span class="identifier-syntax">F</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><a href="../foundation/4-tf.html#SP5" class="function-link"><span class="function-syntax">TextFiles::read</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">F</span><span class="plain-syntax">, </span><span class="constant-syntax">FALSE</span><span class="plain-syntax">, </span><span class="string-syntax">"can't open blurb file"</span><span class="plain-syntax">, </span><span class="constant-syntax">TRUE</span><span class="plain-syntax">, </span><a href="1-bp.html#SP7" class="function-link"><span class="function-syntax">Parser::interpret_line</span></a><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><a href="1-be.html#SP1" class="function-link"><span class="function-syntax">BlorbErrors::set_error_position</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">NULL</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>The sequence of values enumerated here must correspond exactly to
-indexes into the syntaxes table below.
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">enum</span> <span class="constant-syntax">author_COMMAND</span><span class="plain-syntax"> </span><span class="identifier-syntax">from</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">auxiliary_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">base64_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">copyright_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">cover_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">css_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">data_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">data_text_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">ifiction_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">ifiction_public_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">ifiction_file_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">interpreter_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">palette_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">palette_16_bit_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">palette_32_bit_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">picture_scaled_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">picture_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">picture_text_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">picture_noid_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">picture_with_alt_text_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">placeholder_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">project_folder_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">release_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">release_file_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">release_file_from_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">release_source_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">release_to_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">resolution_max_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">resolution_min_max_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">resolution_min_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">resolution_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">solution_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">solution_public_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">sound_music_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">sound_repeat_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">sound_forever_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">sound_song_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">sound_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">sound_text_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">sound_noid_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">sound_with_alt_text_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">source_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">source_public_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">status_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">status_alternative_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">status_instruction_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">storyfile_include_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">storyfile_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">storyfile_leafname_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">template_path_COMMAND</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">website_COMMAND</span>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  The sequence of values enumerated here must correspond exactly to
+indexes into the syntaxes table below.</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">author_COMMAND</span> <span class="constant-syntax">0</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>A single number specifying various possible combinations of operands. For
-example, <span class="extract"><span class="extract-syntax">NT_OPS</span></span> means "number, text". Clearly the list below is not
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">auxiliary_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">base64_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">copyright_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">cover_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">css_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">data_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">data_text_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">ifiction_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">ifiction_public_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">ifiction_file_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">interpreter_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">palette_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">palette_16_bit_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">palette_32_bit_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">picture_scaled_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">picture_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">picture_text_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">picture_noid_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">picture_with_alt_text_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">placeholder_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">project_folder_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">release_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">release_file_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">release_file_from_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">release_source_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">release_to_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">resolution_max_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">resolution_min_max_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">resolution_min_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">resolution_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">solution_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">solution_public_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">sound_music_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">sound_repeat_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">sound_forever_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">sound_song_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">sound_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">sound_text_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">sound_noid_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">sound_with_alt_text_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">source_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">source_public_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">status_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">status_alternative_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">status_instruction_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">storyfile_include_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">storyfile_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">storyfile_leafname_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">template_path_COMMAND</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">website_COMMAND</span> 
+</pre>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  A single number specifying various possible combinations of operands. For
+example, <code>NT_OPS</code> means &quot;number, text&quot;. Clearly the list below is not
 exhaustive of the possibilities, but these are the only ones arising for
-Blurb commands.
-</p>
-
-<pre class="definitions code-font"><span class="definition-keyword">enum</span> <span class="constant-syntax">VOID_OPS</span><span class="plain-syntax"> </span><span class="identifier-syntax">from</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">N_OPS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">NN_OPS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">NNN_OPS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">NT_OPS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">NTN_OPS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">NTT_OPS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">T_OPS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">TT_OPS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">TTN_OPS</span>
-<span class="definition-keyword">enum</span> <span class="constant-syntax">TTT_OPS</span>
+Blurb commands.</p>
+</div>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">VOID_OPS</span> <span class="constant-syntax">1</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>Each legal command syntax is stored as one of these structures.
-</p>
-
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">N_OPS</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">NN_OPS</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">NNN_OPS</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">NT_OPS</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">NTN_OPS</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">NTT_OPS</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">T_OPS</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">TT_OPS</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">TTN_OPS</span> 
+</pre>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">TTT_OPS</span> 
+</pre>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  Each legal command syntax is stored as one of these structures.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="reserved-syntax">struct</span><span class="plain-syntax"> </span><span class="reserved-syntax">blurb_command</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">explicated</span><span class="plain-syntax">; </span><span class="comment-syntax"> plain English form of the command</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">inchar32_t</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prototype</span><span class="plain-syntax">; </span><span class="comment-syntax"> regular expression prototype</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">operands</span><span class="plain-syntax">; </span><span class="comment-syntax"> one of the above </span><span class="extract"><span class="extract-syntax">*_OPS</span></span><span class="comment-syntax"> codes</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">deprecated</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">} </span><span class="reserved-syntax">blurb_command</span><span class="plain-syntax">;</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="type-syntax">struct</span><span class="plain-syntax"> </span><span class="type-syntax">blurb_command</span><span class="plain-syntax"> {</span>
+<span class="plain-syntax">    </span><span class="type-syntax">char</span><span class="plain-syntax"> *</span><span class="identifier-syntax">explicated</span><span class="plain-syntax">; </span><span class="comment-syntax">/* plain English form of the command */</span>
+<span class="plain-syntax">    </span><span class="type-syntax">inchar32_t</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prototype</span><span class="plain-syntax">; </span><span class="comment-syntax">/* regular expression prototype */</span>
+<span class="plain-syntax">    </span><span class="type-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">operands</span><span class="plain-syntax">; </span><span class="comment-syntax">/* one of the above |*_OPS| codes */</span>
+<span class="plain-syntax">    </span><span class="type-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">deprecated</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="type-syntax">blurb_command</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>The structure blurb_command is accessed in 7/ld and here.</li></ul>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>And here they all are. They are tested in the sequence given, and
-the sequence must exactly match the numbering of the <span class="extract"><span class="extract-syntax">*_COMMAND</span></span>
-values above, since those are indexes into this table.
-</p>
-
-<p class="commentary">In blurb syntax, a line whose first non-white-space character is an
-exclamation mark <span class="extract"><span class="extract-syntax">!</span></span> is a comment, and is ignored. (This is the I6
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  And here they all are. They are tested in the sequence given, and
+the sequence must exactly match the numbering of the <code>*_COMMAND</code>
+values above, since those are indexes into this table.</p>
+<p>In blurb syntax, a line whose first non-white-space character is an
+exclamation mark <code>!</code> is a comment, and is ignored. (This is the I6
 comment character, too.) It appears in the table as a command
-but, as we shall see, has no effect.
-</p>
-
+but, as we shall see, has no effect.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">blurb_command</span><span class="plain-syntax"> </span><span class="identifier-syntax">syntaxes</span><span class="plain-syntax">[] = {</span>
+<span class="type-syntax">blurb_command</span><span class="plain-syntax"> </span><span class="identifier-syntax">syntaxes</span><span class="plain-syntax">[] = {</span>
 <span class="plain-syntax">    { </span><span class="string-syntax">"author \"name\""</span><span class="plain-syntax">, </span><span class="identifier-syntax">U</span><span class="string-syntax">"author \"(%q*)\""</span><span class="plain-syntax">, </span><span class="constant-syntax">T_OPS</span><span class="plain-syntax">, </span><span class="constant-syntax">FALSE</span><span class="plain-syntax"> },</span>
 <span class="plain-syntax">    { </span><span class="string-syntax">"auxiliary \"filename\" \"description\" \"subfolder\""</span><span class="plain-syntax">,</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">U</span><span class="string-syntax">"auxiliary \"(%q*)\" \"(%q*)\" \"(%q*)\""</span><span class="plain-syntax">, </span><span class="constant-syntax">TTT_OPS</span><span class="plain-syntax">, </span><span class="constant-syntax">FALSE</span><span class="plain-syntax"> },</span>
@@ -242,57 +310,56 @@ but, as we shall see, has no effect.
 <span class="plain-syntax">    { </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">, </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">, </span><span class="constant-syntax">VOID_OPS</span><span class="plain-syntax">, </span><span class="constant-syntax">FALSE</span><span class="plain-syntax"> }</span>
 <span class="plain-syntax">};</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Summary.</b>For the <span class="extract"><span class="extract-syntax">-help</span></span> information:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Summary.</b>  For the <code>-help</code> information:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Parser::summarise_blurb</span><span class="plain-syntax">(</span><span class="reserved-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="type-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Parser::summarise_blurb</span><span class="plain-syntax">(</span><span class="type-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">PRINT</span><span class="plain-syntax">(</span><span class="string-syntax">"\nThe blurbfile is a script of commands, one per line, in these forms:\n"</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">t</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">syntaxes</span><span class="plain-syntax">[</span><span class="identifier-syntax">t</span><span class="plain-syntax">].</span><span class="element-syntax">prototype</span><span class="plain-syntax">; </span><span class="identifier-syntax">t</span><span class="plain-syntax">++)</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="type-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">t</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">syntaxes</span><span class="plain-syntax">[</span><span class="identifier-syntax">t</span><span class="plain-syntax">].</span><span class="element-syntax">prototype</span><span class="plain-syntax">; </span><span class="identifier-syntax">t</span><span class="plain-syntax">++)</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">syntaxes</span><span class="plain-syntax">[</span><span class="identifier-syntax">t</span><span class="plain-syntax">].</span><span class="element-syntax">deprecated</span><span class="plain-syntax"> == </span><span class="constant-syntax">FALSE</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">PRINT</span><span class="plain-syntax">(</span><span class="string-syntax">"  %s\n"</span><span class="plain-syntax">, </span><span class="identifier-syntax">syntaxes</span><span class="plain-syntax">[</span><span class="identifier-syntax">t</span><span class="plain-syntax">].</span><span class="element-syntax">explicated</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">PRINT</span><span class="plain-syntax">(</span><span class="string-syntax">"\nThe following syntaxes, though legal in Blorb 2001, are not supported:\n"</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">t</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">syntaxes</span><span class="plain-syntax">[</span><span class="identifier-syntax">t</span><span class="plain-syntax">].</span><span class="element-syntax">prototype</span><span class="plain-syntax">; </span><span class="identifier-syntax">t</span><span class="plain-syntax">++)</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="type-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">t</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">syntaxes</span><span class="plain-syntax">[</span><span class="identifier-syntax">t</span><span class="plain-syntax">].</span><span class="element-syntax">prototype</span><span class="plain-syntax">; </span><span class="identifier-syntax">t</span><span class="plain-syntax">++)</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">syntaxes</span><span class="plain-syntax">[</span><span class="identifier-syntax">t</span><span class="plain-syntax">].</span><span class="element-syntax">deprecated</span><span class="plain-syntax"> == </span><span class="constant-syntax">TRUE</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">PRINT</span><span class="plain-syntax">(</span><span class="string-syntax">"  %s\n"</span><span class="plain-syntax">, </span><span class="identifier-syntax">syntaxes</span><span class="plain-syntax">[</span><span class="identifier-syntax">t</span><span class="plain-syntax">].</span><span class="element-syntax">explicated</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. The interpreter.</b>The following routine is called for each line of the blurb file in sequence,
-including any blank lines.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. The interpreter.</b>  The following routine is called for each line of the blurb file in sequence,
+including any blank lines.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Parser::interpret_line</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">Parser::interpret_line</span></span>:<br/><a href="1-bp.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">command</span><span class="plain-syntax">, </span><span class="reserved-syntax">text_file_position</span><span class="plain-syntax"> *</span><span class="identifier-syntax">tf</span><span class="plain-syntax">, </span><span class="reserved-syntax">void</span><span class="plain-syntax"> *</span><span class="identifier-syntax">state</span><span class="plain-syntax">) {</span>
+<span class="type-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Parser::interpret_line</span><button class="popup" onclick="togglePopup('usagePopup2')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup2">Usage of <span class="code-font"><span class="function-syntax">Parser::interpret_line</span></span>:<br/><a href="1-bp.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="type-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">command</span><span class="plain-syntax">, </span><span class="type-syntax">text_file_position</span><span class="plain-syntax"> *</span><span class="identifier-syntax">tf</span><span class="plain-syntax">, </span><span class="type-syntax">void</span><span class="plain-syntax"> *</span><span class="identifier-syntax">state</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><a href="1-be.html#SP1" class="function-link"><span class="function-syntax">BlorbErrors::set_error_position</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">tf</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">match_results</span><span class="plain-syntax"> </span><span class="identifier-syntax">mr</span><span class="plain-syntax"> = </span><a href="../foundation/4-pm.html#SP9" class="function-link"><span class="function-syntax">Regexp::create_mr</span></a><span class="plain-syntax">();</span>
+<span class="plain-syntax">    </span><span class="type-syntax">match_results</span><span class="plain-syntax"> </span><span class="identifier-syntax">mr</span><span class="plain-syntax"> = </span><a href="../foundation/4-pm.html#SP9" class="function-link"><span class="function-syntax">Regexp::create_mr</span></a><span class="plain-syntax">();</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="../foundation/4-pm.html#SP10" class="function-link"><span class="function-syntax">Regexp::match</span></a><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">mr</span><span class="plain-syntax">, </span><span class="identifier-syntax">command</span><span class="plain-syntax">, </span><span class="identifier-syntax">U</span><span class="string-syntax">" *(%c*?) *"</span><span class="plain-syntax">)) </span><a href="../foundation/4-sm.html#SP17" class="function-link"><span class="function-syntax">Str::copy</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">command</span><span class="plain-syntax">, </span><span class="identifier-syntax">mr</span><span class="plain-syntax">.</span><span class="element-syntax">exp</span><span class="plain-syntax">[0]);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="../foundation/4-sm.html#SP8" class="function-link"><span class="function-syntax">Str::len</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">command</span><span class="plain-syntax">) == </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax">; </span><span class="comment-syntax"> thus skip a line containing only blank space</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="../foundation/4-sm.html#SP13" class="function-link"><span class="function-syntax">Str::get_first_char</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">command</span><span class="plain-syntax">) == </span><span class="character-syntax">'!'</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax">; </span><span class="comment-syntax"> thus skip a comment line</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="../foundation/4-sm.html#SP8" class="function-link"><span class="function-syntax">Str::len</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">command</span><span class="plain-syntax">) == </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax">; </span><span class="comment-syntax">/* thus skip a line containing only blank space */</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="../foundation/4-sm.html#SP13" class="function-link"><span class="function-syntax">Str::get_first_char</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">command</span><span class="plain-syntax">) == </span><span class="character-syntax">'!'</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax">; </span><span class="comment-syntax">/* thus skip a comment line */</span>
 
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">verbose_mode</span><span class="plain-syntax">) </span><span class="identifier-syntax">PRINT</span><span class="plain-syntax">(</span><span class="string-syntax">"! %03d: %S\n"</span><span class="plain-syntax">, </span><a href="../foundation/4-tf.html#SP3" class="function-link"><span class="function-syntax">TextFiles::get_line_count</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">tf</span><span class="plain-syntax">), </span><span class="identifier-syntax">command</span><span class="plain-syntax">);</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">num1</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="identifier-syntax">num2</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="identifier-syntax">num3</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="identifier-syntax">outcome</span><span class="plain-syntax"> = -1; </span><span class="comment-syntax"> which of the legal command syntaxes is used</span>
+<span class="plain-syntax">    </span><span class="type-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">num1</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="identifier-syntax">num2</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="identifier-syntax">num3</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="identifier-syntax">outcome</span><span class="plain-syntax"> = </span><span class="constant-syntax">-1</span><span class="plain-syntax">; </span><span class="comment-syntax">/* which of the legal command syntaxes is used */</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">TEMPORARY_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">text1</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">TEMPORARY_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">text2</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">TEMPORARY_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">text3</span><span class="plain-syntax">)</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="1-bp.html#SP7_1" class="named-paragraph-link"><span class="named-paragraph">Parse the command and set operands appropriately</span><span class="named-paragraph-number">7.1</span></a></span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="1-bp.html#SP7_2" class="named-paragraph-link"><span class="named-paragraph">Take action on the command</span><span class="named-paragraph-number">7.2</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="1-bp.html#SP7_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Parse the command and set operands appropriately</span></span><span class="named-paragraph-number">7.1</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="1-bp.html#SP7_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Take action on the command</span></span><span class="named-paragraph-number">7.2</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">DISCARD_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">text1</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">DISCARD_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">text2</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">DISCARD_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">text3</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">    </span><a href="../foundation/4-pm.html#SP9" class="function-link"><span class="function-syntax">Regexp::dispose_of</span></a><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">mr</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7_1" class="paragraph-anchor"></a><b>&#167;7.1. </b>Here we set <span class="extract"><span class="extract-syntax">outcome</span></span> to the index in the syntaxes table of the line matched,
-or leave it as \(-1\) if no match can be made. Text and number operands are
-copied in <span class="extract"><span class="extract-syntax">text1</span></span>, <span class="extract"><span class="extract-syntax">num1</span></span>, ..., accordingly.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Parse the command and set operands appropriately</span><span class="named-paragraph-number">7.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7_1" class="paragraph-anchor"></a><b>&#167;7.1. </b>  Here we set <code>outcome</code> to the index in the syntaxes table of the line matched,
+or leave it as \INWEBMATH(-1\INWEBMATH) if no match can be made. Text and number operands are
+copied in <code>text1</code>, <code>num1</code>, ..., accordingly.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Parse the command and set operands appropriately</span><span class="named-paragraph-number">7.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">t</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">syntaxes</span><span class="plain-syntax">[</span><span class="identifier-syntax">t</span><span class="plain-syntax">].</span><span class="element-syntax">prototype</span><span class="plain-syntax">; </span><span class="identifier-syntax">t</span><span class="plain-syntax">++)</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="type-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">t</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">syntaxes</span><span class="plain-syntax">[</span><span class="identifier-syntax">t</span><span class="plain-syntax">].</span><span class="element-syntax">prototype</span><span class="plain-syntax">; </span><span class="identifier-syntax">t</span><span class="plain-syntax">++)</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="../foundation/4-pm.html#SP10" class="function-link"><span class="function-syntax">Regexp::match</span></a><span class="plain-syntax">(&amp;</span><span class="identifier-syntax">mr</span><span class="plain-syntax">, </span><span class="identifier-syntax">command</span><span class="plain-syntax">, </span><span class="identifier-syntax">syntaxes</span><span class="plain-syntax">[</span><span class="identifier-syntax">t</span><span class="plain-syntax">].</span><span class="element-syntax">prototype</span><span class="plain-syntax">)) {</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="identifier-syntax">syntaxes</span><span class="plain-syntax">[</span><span class="identifier-syntax">t</span><span class="plain-syntax">].</span><span class="element-syntax">operands</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">                </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">VOID_OPS:</span><span class="plain-syntax"> </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
@@ -324,7 +391,7 @@ copied in <span class="extract"><span class="extract-syntax">text1</span></span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">outcome</span><span class="plain-syntax"> = </span><span class="identifier-syntax">t</span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        }</span>
 
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">outcome</span><span class="plain-syntax"> == -1) {</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">outcome</span><span class="plain-syntax"> == </span><span class="constant-syntax">-1</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><a href="1-be.html#SP3" class="function-link"><span class="function-syntax">BlorbErrors::error_1S</span></a><span class="plain-syntax">(</span><span class="string-syntax">"not a valid blurb command"</span><span class="plain-syntax">, </span><span class="identifier-syntax">command</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    }</span>
@@ -335,11 +402,10 @@ copied in <span class="extract"><span class="extract-syntax">text1</span></span>
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="1-bp.html#SP7">&#167;7</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP7_2" class="paragraph-anchor"></a><b>&#167;7.2. </b>The command is now fully parsed, and is one that we support. We can act.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Take action on the command</span><span class="named-paragraph-number">7.2</span></span><span class="comment-syntax"> =</span>
-</p>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7_2" class="paragraph-anchor"></a><b>&#167;7.2. </b>  The command is now fully parsed, and is one that we support. We can act.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Take action on the command</span><span class="named-paragraph-number">7.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="reserved-syntax">switch</span><span class="plain-syntax"> (</span><span class="identifier-syntax">outcome</span><span class="plain-syntax">) {</span>
@@ -351,7 +417,7 @@ copied in <span class="extract"><span class="extract-syntax">text1</span></span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">base64_COMMAND:</span>
 <span class="plain-syntax">            </span><a href="3-rls.html#SP3" class="function-link"><span class="function-syntax">Requests::request_2</span></a><span class="plain-syntax">(</span><span class="constant-syntax">BASE64_REQ</span><span class="plain-syntax">, </span><span class="identifier-syntax">text1</span><span class="plain-syntax">, </span><span class="identifier-syntax">text2</span><span class="plain-syntax">, </span><span class="constant-syntax">FALSE</span><span class="plain-syntax">); </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">copyright_COMMAND:</span><span class="plain-syntax"> </span><a href="2-bw.html#SP14" class="function-link"><span class="function-syntax">Writer::copyright_chunk</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">text1</span><span class="plain-syntax">); </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">cover_COMMAND:</span><span class="plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="1-bp.html#SP7_2_1" class="named-paragraph-link"><span class="named-paragraph">Declare which file is the cover art</span><span class="named-paragraph-number">7.2.1</span></a></span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">cover_COMMAND:</span><span class="plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="1-bp.html#SP7_2_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Declare which file is the cover art</span></span><span class="named-paragraph-number">7.2.1</span></a></span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">css_COMMAND:</span><span class="plain-syntax"> </span><span class="identifier-syntax">use_css_code_styles</span><span class="plain-syntax"> = </span><span class="constant-syntax">TRUE</span><span class="plain-syntax">; </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">data_COMMAND:</span><span class="plain-syntax"> </span><a href="2-bw.html#SP21" class="function-link"><span class="function-syntax">Writer::data_chunk</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">num1</span><span class="plain-syntax">, </span><a href="../foundation/3-fln.html#SP3" class="function-link"><span class="function-syntax">Filenames::from_text</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">text1</span><span class="plain-syntax">), </span><span class="identifier-syntax">text2</span><span class="plain-syntax">); </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">data_text_COMMAND:</span><span class="plain-syntax"> </span><a href="2-bw.html#SP22" class="function-link"><span class="function-syntax">Writer::data_chunk_text</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">text1</span><span class="plain-syntax">, </span><a href="../foundation/3-fln.html#SP3" class="function-link"><span class="function-syntax">Filenames::from_text</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">text2</span><span class="plain-syntax">), </span><span class="identifier-syntax">text3</span><span class="plain-syntax">); </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
@@ -373,7 +439,7 @@ copied in <span class="extract"><span class="extract-syntax">text1</span></span>
 <span class="plain-syntax">            </span><a href="2-bw.html#SP16" class="function-link"><span class="function-syntax">Writer::release_chunk</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">num1</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">release_file_COMMAND:</span><span class="plain-syntax"> {</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">filename</span><span class="plain-syntax"> *</span><span class="identifier-syntax">to_release</span><span class="plain-syntax"> = </span><a href="../foundation/3-fln.html#SP3" class="function-link"><span class="function-syntax">Filenames::from_text</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">text1</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">            </span><span class="type-syntax">filename</span><span class="plain-syntax"> *</span><span class="identifier-syntax">to_release</span><span class="plain-syntax"> = </span><a href="../foundation/3-fln.html#SP3" class="function-link"><span class="function-syntax">Filenames::from_text</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">text1</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">TEMPORARY_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">leaf</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">WRITE_TO</span><span class="plain-syntax">(</span><span class="identifier-syntax">leaf</span><span class="plain-syntax">, </span><span class="string-syntax">"%S"</span><span class="plain-syntax">, </span><a href="../foundation/3-fln.html#SP7" class="function-link"><span class="function-syntax">Filenames::get_leafname</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">to_release</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">            </span><a href="3-rls.html#SP3" class="function-link"><span class="function-syntax">Requests::request_3</span></a><span class="plain-syntax">(</span><span class="constant-syntax">COPY_REQ</span><span class="plain-syntax">, </span><span class="identifier-syntax">text1</span><span class="plain-syntax">, </span><span class="identifier-syntax">leaf</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"--"</span><span class="plain-syntax">, </span><span class="constant-syntax">FALSE</span><span class="plain-syntax">);</span>
@@ -384,7 +450,7 @@ copied in <span class="extract"><span class="extract-syntax">text1</span></span>
 <span class="plain-syntax">            </span><a href="3-rls.html#SP3" class="function-link"><span class="function-syntax">Requests::request_2</span></a><span class="plain-syntax">(</span><span class="constant-syntax">RELEASE_FILE_REQ</span><span class="plain-syntax">, </span><span class="identifier-syntax">text1</span><span class="plain-syntax">, </span><span class="identifier-syntax">text2</span><span class="plain-syntax">, </span><span class="constant-syntax">FALSE</span><span class="plain-syntax">); </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">release_to_COMMAND:</span>
 <span class="plain-syntax">            </span><span class="identifier-syntax">release_folder</span><span class="plain-syntax"> = </span><a href="../foundation/3-pth.html#SP5" class="function-link"><span class="function-syntax">Pathnames::from_text</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">text1</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="1-bp.html#SP7_2_2" class="named-paragraph-link"><span class="named-paragraph">Make pathname placeholders in three different formats</span><span class="named-paragraph-number">7.2.2</span></a></span><span class="plain-syntax">;</span>
+<span class="plain-syntax">            </span><span class="named-paragraph-container code-font"><a href="1-bp.html#SP7_2_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Make pathname placeholders in three different formats</span></span><span class="named-paragraph-number">7.2.2</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">case</span><span class="plain-syntax"> </span><span class="identifier-syntax">release_source_COMMAND:</span>
 <span class="plain-syntax">            </span><a href="3-rls.html#SP3" class="function-link"><span class="function-syntax">Requests::request_3</span></a><span class="plain-syntax">(</span><span class="constant-syntax">RELEASE_SOURCE_REQ</span><span class="plain-syntax">, </span><span class="identifier-syntax">text1</span><span class="plain-syntax">, </span><span class="identifier-syntax">text2</span><span class="plain-syntax">, </span><span class="identifier-syntax">text3</span><span class="plain-syntax">, </span><span class="constant-syntax">FALSE</span><span class="plain-syntax">); </span><span class="reserved-syntax">break</span><span class="plain-syntax">;</span>
@@ -412,45 +478,41 @@ copied in <span class="extract"><span class="extract-syntax">text1</span></span>
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="1-bp.html#SP7">&#167;7</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP7_2_1" class="paragraph-anchor"></a><b>&#167;7.2.1. </b>We only ever set the frontispiece as resource number 1, since Inform
-has the assumption that the cover art is image number 1 built in.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Declare which file is the cover art</span><span class="named-paragraph-number">7.2.1</span></span><span class="comment-syntax"> =</span>
-</p>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7_2_1" class="paragraph-anchor"></a><b>&#167;7.2.1. </b>  We only ever set the frontispiece as resource number 1, since Inform
+has the assumption that the cover art is image number 1 built in.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Declare which file is the cover art</span><span class="named-paragraph-number">7.2.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><a href="3-plc.html#SP5" class="function-link"><span class="function-syntax">Placeholders::set_to</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="string-syntax">"BIGCOVER"</span><span class="plain-syntax">, </span><span class="identifier-syntax">text1</span><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">cover_exists</span><span class="plain-syntax"> = </span><span class="constant-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">cover_is_in_JPEG_format</span><span class="plain-syntax"> = </span><span class="constant-syntax">FALSE</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">filename</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cover_filename</span><span class="plain-syntax"> = </span><a href="../foundation/3-fln.html#SP3" class="function-link"><span class="function-syntax">Filenames::from_text</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">text1</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="../foundation/3-fln.html#SP9" class="function-link"><span class="function-syntax">Filenames::guess_format</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">cover_filename</span><span class="plain-syntax">) == </span><span class="constant-syntax">FORMAT_PERHAPS_JPEG</span><span class="plain-syntax">)</span>
+<span class="plain-syntax">    </span><span class="type-syntax">filename</span><span class="plain-syntax"> *</span><span class="identifier-syntax">cover_filename</span><span class="plain-syntax"> = </span><a href="../foundation/3-fln.html#SP3" class="function-link"><span class="function-syntax">Filenames::from_text</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">text1</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="../foundation/3-fln.html#SP10" class="function-link"><span class="function-syntax">Filenames::guess_format</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">cover_filename</span><span class="plain-syntax">) == </span><span class="constant-syntax">FORMAT_PERHAPS_JPEG</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">cover_is_in_JPEG_format</span><span class="plain-syntax"> = </span><span class="constant-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><a href="2-bw.html#SP15" class="function-link"><span class="function-syntax">Writer::frontispiece_chunk</span></a><span class="plain-syntax">(1);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="../foundation/4-sm.html#SP22" class="function-link"><span class="function-syntax">Str::eq_wide_string</span></a><span class="plain-syntax">(</span><a href="../foundation/3-fln.html#SP7" class="function-link"><span class="function-syntax">Filenames::get_leafname</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">cover_filename</span><span class="plain-syntax">), </span><span class="identifier-syntax">U</span><span class="string-syntax">"DefaultCover.jpg"</span><span class="plain-syntax">))</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="../foundation/4-sm.html#SP24" class="function-link"><span class="function-syntax">Str::eq_wide_string</span></a><span class="plain-syntax">(</span><a href="../foundation/3-fln.html#SP7" class="function-link"><span class="function-syntax">Filenames::get_leafname</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">cover_filename</span><span class="plain-syntax">), </span><span class="identifier-syntax">U</span><span class="string-syntax">"DefaultCover.jpg"</span><span class="plain-syntax">))</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">default_cover_used</span><span class="plain-syntax"> = </span><span class="constant-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><a href="3-plc.html#SP5" class="function-link"><span class="function-syntax">Placeholders::set_to</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="string-syntax">"SMALLCOVER"</span><span class="plain-syntax">, </span><span class="identifier-syntax">text1</span><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="1-bp.html#SP7_2">&#167;7.2</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP7_2_2" class="paragraph-anchor"></a><b>&#167;7.2.2. </b>Here, <span class="extract"><span class="extract-syntax">text1</span></span> is the pathname of the Release folder. If we suppose that
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7_2_2" class="paragraph-anchor"></a><b>&#167;7.2.2. </b>  Here, <code>text1</code> is the pathname of the Release folder. If we suppose that
 Inblorb is being run from Inform, then this folder is a subfolder of the
 Materials folder for an I7 project. It follows that we can obtain the
 pathname to the Materials folder by trimming the leaf and the final separator.
-That makes the <span class="extract"><span class="extract-syntax">MATERIALSFOLDERPATH</span></span> placeholder. We then set <span class="extract"><span class="extract-syntax">MATERIALSFOLDER</span></span>
-to the name of the Materials folder, e.g., "Spaceman Spiff Materials".
-</p>
-
-<p class="commentary">However, we also need two variants on the pathname, one to be supplied to the
-Javascript function <span class="extract"><span class="extract-syntax">openUrl</span></span> and one to <span class="extract"><span class="extract-syntax">fileUrl</span></span>. For platform dependency
-reasons these need to be manipulated to deal with awkward characters.
-</p>
-
-<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Make pathname placeholders in three different formats</span><span class="named-paragraph-number">7.2.2</span></span><span class="comment-syntax"> =</span>
-</p>
+That makes the <code>MATERIALSFOLDERPATH</code> placeholder. We then set <code>MATERIALSFOLDER</code>
+to the name of the Materials folder, e.g., &quot;Spaceman Spiff Materials&quot;.</p>
+<p>However, we also need two variants on the pathname, one to be supplied to the
+Javascript function <code>openUrl</code> and one to <code>fileUrl</code>. For platform dependency
+reasons these need to be manipulated to deal with awkward characters.</p>
+</div>
+<p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Make pathname placeholders in three different formats</span><span class="named-paragraph-number">7.2.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">pathname</span><span class="plain-syntax"> *</span><span class="identifier-syntax">Release</span><span class="plain-syntax"> = </span><a href="../foundation/3-pth.html#SP5" class="function-link"><span class="function-syntax">Pathnames::from_text</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">text1</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">pathname</span><span class="plain-syntax"> *</span><span class="identifier-syntax">Materials</span><span class="plain-syntax"> = </span><a href="../foundation/3-pth.html#SP7" class="function-link"><span class="function-syntax">Pathnames::up</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">Release</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="type-syntax">pathname</span><span class="plain-syntax"> *</span><span class="identifier-syntax">Release</span><span class="plain-syntax"> = </span><a href="../foundation/3-pth.html#SP5" class="function-link"><span class="function-syntax">Pathnames::from_text</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">text1</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="type-syntax">pathname</span><span class="plain-syntax"> *</span><span class="identifier-syntax">Materials</span><span class="plain-syntax"> = </span><a href="../foundation/3-pth.html#SP7" class="function-link"><span class="function-syntax">Pathnames::up</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">Release</span><span class="plain-syntax">);</span>
 
 <span class="plain-syntax">    </span><span class="identifier-syntax">TEMPORARY_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">as_txt</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE_TO</span><span class="plain-syntax">(</span><span class="identifier-syntax">as_txt</span><span class="plain-syntax">, </span><span class="string-syntax">"%p"</span><span class="plain-syntax">, </span><span class="identifier-syntax">Materials</span><span class="plain-syntax">);</span>
@@ -466,22 +528,22 @@ reasons these need to be manipulated to deal with awkward characters.
 <span class="plain-syntax">        </span><span class="identifier-syntax">I</span><span class="string-syntax">"MATERIALSFOLDERPATH"</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="1-bp.html#SP7_2">&#167;7.2</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>And here is that very "qualification" routine. The placeholder <span class="extract"><span class="extract-syntax">original</span></span> contains
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>  And here is that very &quot;qualification&quot; routine. The placeholder <code>original</code> contains
 the pathname to a folder, a pathname which might contain spaces or backslashes,
 and which needs to be quoted as a literal Javascript string supplied to
-either the function <span class="extract"><span class="extract-syntax">openUrl</span></span> or the function <span class="extract"><span class="extract-syntax">fileUrl</span></span>. Depending on the
+either the function <code>openUrl</code> or the function <code>fileUrl</code>. Depending on the
 platform in use, this may entail escaping spaces or reversing slashes in the
-pathname in order to make versions for these two functions to use.
-</p>
-
+pathname in order to make versions for these two functions to use.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Parser::qualify_placeholder</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">Parser::qualify_placeholder</span></span>:<br/><a href="1-bp.html#SP7_2_2">&#167;7.2.2</a></span></button><span class="plain-syntax">(</span><span class="reserved-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">openUrl_path</span><span class="plain-syntax">, </span><span class="reserved-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">fileUrl_path</span><span class="plain-syntax">,</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">original</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">OU</span><span class="plain-syntax"> = </span><a href="3-plc.html#SP3" class="function-link"><span class="function-syntax">Placeholders::read</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">openUrl_path</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">FU</span><span class="plain-syntax"> = </span><a href="3-plc.html#SP3" class="function-link"><span class="function-syntax">Placeholders::read</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">fileUrl_path</span><span class="plain-syntax">);</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">U</span><span class="plain-syntax"> = </span><a href="3-plc.html#SP3" class="function-link"><span class="function-syntax">Placeholders::read</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">original</span><span class="plain-syntax">);</span>
+<span class="type-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Parser::qualify_placeholder</span><button class="popup" onclick="togglePopup('usagePopup3')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup3">Usage of <span class="code-font"><span class="function-syntax">Parser::qualify_placeholder</span></span>:<br/><a href="1-bp.html#SP7_2_2">&#167;7.2.2</a></span></button><span class="plain-syntax">(</span><span class="type-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">openUrl_path</span><span class="plain-syntax">, </span><span class="type-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">fileUrl_path</span><span class="plain-syntax">,</span>
+<span class="plain-syntax">    </span><span class="type-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">original</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="type-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">OU</span><span class="plain-syntax"> = </span><a href="3-plc.html#SP3" class="function-link"><span class="function-syntax">Placeholders::read</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">openUrl_path</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="type-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">FU</span><span class="plain-syntax"> = </span><a href="3-plc.html#SP3" class="function-link"><span class="function-syntax">Placeholders::read</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">fileUrl_path</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="type-syntax">text_stream</span><span class="plain-syntax"> *</span><span class="identifier-syntax">U</span><span class="plain-syntax"> = </span><a href="3-plc.html#SP3" class="function-link"><span class="function-syntax">Placeholders::read</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">original</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">LOOP_THROUGH_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">P</span><span class="plain-syntax">, </span><span class="identifier-syntax">U</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">        </span><span class="identifier-syntax">inchar32_t</span><span class="plain-syntax"> </span><span class="identifier-syntax">c</span><span class="plain-syntax"> = </span><a href="../foundation/4-sm.html#SP13" class="function-link"><span class="function-syntax">Str::get</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">P</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">        </span><span class="type-syntax">inchar32_t</span><span class="plain-syntax"> </span><span class="identifier-syntax">c</span><span class="plain-syntax"> = </span><a href="../foundation/4-sm.html#SP13" class="function-link"><span class="function-syntax">Str::get</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">P</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">c</span><span class="plain-syntax"> == </span><span class="character-syntax">' '</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">escape_openUrl</span><span class="plain-syntax">) </span><span class="identifier-syntax">WRITE_TO</span><span class="plain-syntax">(</span><span class="identifier-syntax">OU</span><span class="plain-syntax">, </span><span class="string-syntax">"%%2520"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">            </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="identifier-syntax">PUT_TO</span><span class="plain-syntax">(</span><span class="identifier-syntax">OU</span><span class="plain-syntax">, </span><span class="identifier-syntax">c</span><span class="plain-syntax">);</span>

@@ -55,42 +55,48 @@
 
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Prerequisites.</b>  The knowledge module is a part of the Inform compiler toolset. It is
-presented as a literate program or &quot;web&quot;. Before diving in:
-(a) It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.
-(b) The module is written in C, in fact ANSI C99, but this is disguised by the
+presented as a literate program or &quot;web&quot;. Before diving in:</p>
+<ul>
+<li>It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.</li>
+<li>The module is written in C, in fact ANSI C99, but this is disguised by the
 fact that it uses some extension syntaxes provided by the <a href="../inweb/index.html" class="internal">inweb</a> literate
 programming tool, making it a dialect of C called InC. See <a href="../inweb/index.html" class="internal">inweb</a> for
 full details, but essentially: it's C without predeclarations or header files,
-and where functions have names like <code>Tags::add_by_name</code> rather than just <code>add_by_name</code>.
-(c) This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
+and where functions have names like <code>Tags::add_by_name</code> rather than just <code>add_by_name</code>.</li>
+<li>This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
 uses a module of utility functions called <a href="../foundation/index.html" class="internal">foundation</a>.
-For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.</p>
+For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.</li>
+</ul>
 </div>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. The Model.</b>  This module's task is to build the &quot;model world&quot;, the initial state of the
 world as it is chosen by an Inform author.<sup id="fnred:1"><a href="#fn:1" rel="footnote">1</a></sup> This consists of:</p>
-<p>(<em>) Kinds, such as &quot;vehicle&quot;, created in source text.
-(<em>) Instances of kinds, such as a specific lorry in a fictional world being
-created with Inform.
-(<em>) Permanently existing variables, which have kinds and initial values.
-(</em>) Either-or properties, which individual instances might or might not have:
-for example, the lorry might be &quot;parked&quot; or &quot;not parked&quot;.
-(</em>) Properties with values, which some instances will have and some will not,
-and with differing values: for example, the colour of the lorry might be &quot;yellow&quot;.
-(</em>) Relationships between instances. For example, a specific person might
-&quot;know how to drive&quot; the yellow lorry, or might not.</p>
+<ul>
+<li>Kinds, such as &quot;vehicle&quot;, created in source text.</li>
+<li>Instances of kinds, such as a specific lorry in a fictional world being
+created with Inform.</li>
+<li>Permanently existing variables, which have kinds and initial values.</li>
+<li>Either-or properties, which individual instances might or might not have:
+for example, the lorry might be &quot;parked&quot; or &quot;not parked&quot;.</li>
+<li>Properties with values, which some instances will have and some will not,
+and with differing values: for example, the colour of the lorry might be &quot;yellow&quot;.</li>
+<li>Relationships between instances. For example, a specific person might
+&quot;know how to drive&quot; the yellow lorry, or might not.</li>
+</ul>
 <p>But the model does not contain:</p>
-<p>(<em>) Kinds, such as &quot;number&quot;, built in to Inform.<sup id="fnred:2"><a href="#fn:2" rel="footnote">2</a></sup>
-(<em>) Values, such as the number 176, which exist without anyone getting to
-choose whether they should exist or not.
-(</em>) Temporary variables used during phrases or activities, but not existing
-at the start of play.
-(</em>) Adjectives such as &quot;even&quot; as applied to numbers, or &quot;empty&quot; as applied
+<ul>
+<li>Kinds, such as &quot;number&quot;, built in to Inform.<sup id="fnred:2"><a href="#fn:2" rel="footnote">2</a></sup></li>
+<li>Values, such as the number 176, which exist without anyone getting to
+choose whether they should exist or not.</li>
+<li>Temporary variables used during phrases or activities, but not existing
+at the start of play.</li>
+<li>Adjectives such as &quot;even&quot; as applied to numbers, or &quot;empty&quot; as applied
 to containers, whose truth or falsity is determined by something other than
 the author's whim. An author cannot choose that 176 is odd, and whether a
-container is empty depends only on whether there is something in it.
-(*) Relationships which are, similarly, determined by an algorithm and not
-by a specific authorial choice. Like it or not, 176 is &quot;greater than&quot; 8.</p>
+container is empty depends only on whether there is something in it.</li>
+<li>Relationships which are, similarly, determined by an algorithm and not
+by a specific authorial choice. Like it or not, 176 is &quot;greater than&quot; 8.</li>
+</ul>
 <ul class="inwebfootnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>
 The term &quot;model&quot; is drawn partly from interactive fiction, but also from
 model theory in the sense of logic, where a &quot;model&quot; is a specific solution

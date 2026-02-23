@@ -8,10 +8,10 @@ can use. Language here means the human kind: English, French, Spanish and so on.
 
 For each Inform project it looks at, Inbuild must determine:
 
-(*) The "language of play" (LOP), which is the language printed by the story and
+- The "language of play" (LOP), which is the language printed by the story and
 recognised in commands by the player.
 
-(*) The "language of syntax" (LOS), which is the language the source text for the
+- The "language of syntax" (LOS), which is the language the source text for the
 story is written in.
 
 Both are by default English. If the LOS is anything other than English, then the LOP
@@ -53,9 +53,9 @@ Inform can only compile a project whose LOP is other than English if it is
 given extra resources to do so: the default installation covers only English.
 In a typical situation, three resources are needed:
 
-(*) A language bundle, such as "French".
-(*) A kit of Inter code, such as "FrenchLanguageKit".
-(*) An extension of Inform 7 source text, such as "French Language by Paul Mensonge".
+- A language bundle, such as "French".
+- A kit of Inter code, such as "FrenchLanguageKit".
+- An extension of Inform 7 source text, such as "French Language by Paul Mensonge".
 
 Note: In fact at present the Inform installation does ship with language bundles
 for English, French, German, Italian, Spanish and Swedish, but those other than

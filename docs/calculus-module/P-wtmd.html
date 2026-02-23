@@ -74,16 +74,18 @@ MathJax = {
 
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Prerequisites.</b>  The calculus module is a part of the Inform compiler toolset. It is
-presented as a literate program or &quot;web&quot;. Before diving in:
-(a) It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.
-(b) The module is written in C, in fact ANSI C99, but this is disguised by the
+presented as a literate program or &quot;web&quot;. Before diving in:</p>
+<ul>
+<li>It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.</li>
+<li>The module is written in C, in fact ANSI C99, but this is disguised by the
 fact that it uses some extension syntaxes provided by the <a href="../inweb/index.html" class="internal">inweb</a> literate
 programming tool, making it a dialect of C called InC. See <a href="../inweb/index.html" class="internal">inweb</a> for
 full details, but essentially: it's C without predeclarations or header files,
-and where functions have names like <code>Tags::add_by_name</code> rather than <code>add_by_name</code>.
-(c) This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
+and where functions have names like <code>Tags::add_by_name</code> rather than <code>add_by_name</code>.</li>
+<li>This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
 uses a module of utility functions called <a href="../foundation/index.html" class="internal">foundation</a>.
-For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.</p>
+For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.</li>
+</ul>
 </div>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. What predicate calculus is.</b>  The word &quot;calculus&quot; is often used to mean differentiating and integrating
@@ -154,29 +156,42 @@ and prints the result.</p>
 <span class="plain-syntax">'</span><span class="element-syntax">&lt;&lt; Card= 6 x IN&lt; kind = number (x) IN&gt;: even (x) &gt;&gt;</span><span class="plain-syntax">':</span><span class="string-syntax"> &lt;&lt; Card=6 x IN&lt; kind=number(x) IN&gt; : even(x) &gt;&gt;</span>
 </pre>
 <div class="lsmarkdown">
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Formal description.</b>  1. A &quot;term&quot; is any of the following:
-(*) A constant, corresponding to anything which can be evaluated to Inform --
-a number, a text, etc. -- and which has a definite kind.
-(<em>) One of 26 variables, which we print to the debugging log as <code>x</code>, <code>y</code>,
-<code>z</code>, <code>a</code>, <code>b</code>, <code>c</code>, ..., <code>w</code>.
-(</em>) A function \INWEBMATH(f\INWEBMATH) applied to another term.<sup id="fnred:4"><a href="#fn:4" rel="footnote">1</a></sup></p>
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Formal description.</b> </p>
+<ol>
+<li>A &quot;term&quot; is any of the following:</li>
+</ol>
+<ul>
+<li>A constant, corresponding to anything which can be evaluated to Inform --
+a number, a text, etc. -- and which has a definite kind.</li>
+<li>One of 26 variables, which we print to the debugging log as <code>x</code>, <code>y</code>,
+<code>z</code>, <code>a</code>, <code>b</code>, <code>c</code>, ..., <code>w</code>.</li>
+<li>A function \INWEBMATH(f\INWEBMATH) applied to another term.<sup id="fnred:4"><a href="#fn:4" rel="footnote">1</a></sup></li>
+</ul>
 <p>Note that if we have given values to the necessary variables, then any term
 can be evaluated to a value, and its kind determined. For example, if <code>x</code> is 7,
 then the terms <code>17</code>, <code>x</code> and <code>f(x)</code> evaluate to 17, 7 and \INWEBMATH(f(7)\INWEBMATH) respectively.</p>
-<p>2. An &quot;atomic proposition&quot; is any of the following:
-(<em>) A &quot;unary predicate&quot; \INWEBMATH(U(t)\INWEBMATH), where \INWEBMATH(t\INWEBMATH) is a term, which is either true or
-false depending on the evaluation of \INWEBMATH(t\INWEBMATH).
-(</em>) A &quot;binary predicate&quot; \INWEBMATH(B(t_1, t_2)\INWEBMATH) depending on two terms.<sup id="fnred:5"><a href="#fn:5" rel="footnote">2</a></sup>
-(*) A &quot;quantifier&quot; \INWEBMATH(Q(v, n)\INWEBMATH) applying to a variable \INWEBMATH(v\INWEBMATH), optionally with a
+<ol start="2">
+<li>An &quot;atomic proposition&quot; is any of the following:</li>
+</ol>
+<ul>
+<li>A &quot;unary predicate&quot; \INWEBMATH(U(t)\INWEBMATH), where \INWEBMATH(t\INWEBMATH) is a term, which is either true or
+false depending on the evaluation of \INWEBMATH(t\INWEBMATH).</li>
+<li>A &quot;binary predicate&quot; \INWEBMATH(B(t_1, t_2)\INWEBMATH) depending on two terms.<sup id="fnred:5"><a href="#fn:5" rel="footnote">2</a></sup></li>
+<li>A &quot;quantifier&quot; \INWEBMATH(Q(v, n)\INWEBMATH) applying to a variable \INWEBMATH(v\INWEBMATH), optionally with a
 parameter \INWEBMATH(n\INWEBMATH). See <a href="../linguistics-module/2-daq.html" class="internal">Determiners and Quantifiers (in linguistics)</a> for the range
-of quantifiers available.</p>
-<p>3. A &quot;proposition&quot; is a sequence of 0 or more of the following:
-(<em>) A conjunction \INWEBMATH(P_1\land P_2\INWEBMATH), where \INWEBMATH(P_1\INWEBMATH) and \INWEBMATH(P_2\INWEBMATH) are propositions.
-(<em>) A negation \INWEBMATH(\lnot P\INWEBMATH), where \INWEBMATH(P\INWEBMATH) is a proposition.
-(</em>) A quantification \INWEBMATH(Q v\in D: P\INWEBMATH), where \INWEBMATH(Q\INWEBMATH) is a quantifier, optionally
+of quantifiers available.</li>
+</ul>
+<ol start="3">
+<li>A &quot;proposition&quot; is a sequence of 0 or more of the following:</li>
+</ol>
+<ul>
+<li>A conjunction \INWEBMATH(P_1\land P_2\INWEBMATH), where \INWEBMATH(P_1\INWEBMATH) and \INWEBMATH(P_2\INWEBMATH) are propositions.</li>
+<li>A negation \INWEBMATH(\lnot P\INWEBMATH), where \INWEBMATH(P\INWEBMATH) is a proposition.</li>
+<li>A quantification \INWEBMATH(Q v\in D: P\INWEBMATH), where \INWEBMATH(Q\INWEBMATH) is a quantifier, optionally
 also with a numerical parameter, \INWEBMATH(v\INWEBMATH) is a variable, \INWEBMATH(D\INWEBMATH) is a set
-specifying the domain of \INWEBMATH(v\INWEBMATH), and \INWEBMATH(P\INWEBMATH) is a proposition.<sup id="fnred:6"><a href="#fn:6" rel="footnote">3</a></sup>
-(</em>) An existential quantification \INWEBMATH(\exists v: P\INWEBMATH) without a domain.</p>
+specifying the domain of \INWEBMATH(v\INWEBMATH), and \INWEBMATH(P\INWEBMATH) is a proposition.<sup id="fnred:6"><a href="#fn:6" rel="footnote">3</a></sup></li>
+<li>An existential quantification \INWEBMATH(\exists v: P\INWEBMATH) without a domain.</li>
+</ul>
 <li class="footnote" id="fn:4"><p class="inwebfootnote"><sup id="fnref:4"><a href="#fn:4" rel="footnote">4</a></sup>
 In this module we use words such as &quot;constant&quot;, &quot;variable&quot; and &quot;function&quot; in
 their predicate-calculus senses, not their Inform ones. For example, if we are
@@ -202,8 +217,10 @@ four punctuation marks: <code>NOT&lt;</code>, <code>NOT&gt;</code>, <code>IN&lt;
 opening and closing parentheses. These are considered atoms purely for
 convenience when building more complicated constructions -- they make no sense
 standing alone. Thus:</p>
-<p>(<em>) \INWEBMATH(\lnot P\INWEBMATH) is implemented as <code>NOT&lt; P NOT&gt;</code>.
-(</em>) \INWEBMATH(Q v\in D: P\INWEBMATH) is implemented as <code>Q IN&lt; D IN&gt;</code>.</p>
+<ul>
+<li>\INWEBMATH(\lnot P\INWEBMATH) is implemented as <code>NOT&lt; P NOT&gt;</code>.</li>
+<li>\INWEBMATH(Q v\in D: P\INWEBMATH) is implemented as <code>Q IN&lt; D IN&gt;</code>.</li>
+</ul>
 <p>Note that the domain \INWEBMATH(D\INWEBMATH) of a quantifier is itself expressed as a proposition.
 Thus &quot;for all numbers \INWEBMATH(n\INWEBMATH)&quot; is implemented as <code>ForAll n IN&lt; kind=number(n) IN&gt;</code>.</p>
 <p>In all other cases, adjacent atoms in a sequence are considered to be conjoined:
@@ -218,19 +235,23 @@ exist. They are grouped into &quot;families&quot; -- see <a href="2-upf.html" cl
 for details -- which loosely group them by implementation. So, for example,
 Inform has a family of unary predicates in the form <code>calling='whatever'(x)</code>
 which assert that <code>x</code> represents something of a given name. But <a href="index.html" class="internal">calculus</a>
-is not concerned with the details. Only one family is built in:
-(*) For each kind \INWEBMATH(K\INWEBMATH), there is a predicate <code>kind=K(t)</code>, which is true if \INWEBMATH(t\INWEBMATH)
-is of the kind \INWEBMATH(K\INWEBMATH).</p>
+is not concerned with the details. Only one family is built in:</p>
+<ul>
+<li>For each kind \INWEBMATH(K\INWEBMATH), there is a predicate <code>kind=K(t)</code>, which is true if \INWEBMATH(t\INWEBMATH)
+is of the kind \INWEBMATH(K\INWEBMATH).</li>
+</ul>
 <p>New UPs can be constructed with <a href="2-up.html#SP2" class="internal">UnaryPredicates::new</a>.</p>
 </div>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Binary predicates.</b>  Similarly, <a href="index.html" class="internal">calculus</a> allows the user to create as many families of binary
 predicates as are wanted. See <a href="3-bpf.html" class="internal">Binary Predicate Families</a>. For example,
 the &quot;same property value as&quot; relations all belong to a single family. This
-module builds in only one family:
-(*) The equality predicate \INWEBMATH(=\INWEBMATH), whose special meaning is used when simplifying
+module builds in only one family:</p>
+<ul>
+<li>The equality predicate \INWEBMATH(=\INWEBMATH), whose special meaning is used when simplifying
 propositions. See <a href="3-ter.html" class="internal">The Equality Relation</a>. It is written with the special
-notation <code>(x == y)</code>, though this is just syntactic sugar.</p>
+notation <code>(x == y)</code>, though this is just syntactic sugar.</li>
+</ul>
 <p>Binary predicates are of central importance to us because they allow complex
 sentences to be written which talk about more than one thing at a time,
 with some connection between them. In excerpts of Inform source like &quot;an animal
@@ -248,14 +269,24 @@ Except for equality, which is its own reversal. See <a href="3-bp.html#SP9" clas
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Making propositions.</b>  Propositions are built incrementally, like Lego, with a sequence of function
 calls.</p>
-<p>1. Terms are made using the functions <a href="4-trm.html#SP4" class="internal">Terms::new_constant</a>,
+<ol>
+<li>
+<p>Terms are made using the functions <a href="4-trm.html#SP4" class="internal">Terms::new_constant</a>,
 <a href="4-trm.html#SP4" class="internal">Terms::new_variable</a> and <a href="4-trm.html#SP4" class="internal">Terms::new_function</a>.</p>
-<p>2. Unary predicate atoms are made using <a href="4-ap.html#SP10" class="internal">Atoms::binary_PREDICATE_new</a>.
+</li>
+<li>
+<p>Unary predicate atoms are made using <a href="4-ap.html#SP10" class="internal">Atoms::binary_PREDICATE_new</a>.
 Binary predicate atoms are made using <a href="4-ap.html#SP10" class="internal">Atoms::binary_PREDICATE_new</a>.</p>
-<p>3. Propositions are then built up from atoms or other propositions<sup id="fnred:8"><a href="#fn:8" rel="footnote">1</a></sup> by calling:
-(<em>) <a href="4-prp.html#SP15" class="internal">Propositions::conjoin</a>.
-(</em>) <a href="4-prp.html#SP16" class="internal">Propositions::negate</a>.
-(*) <a href="4-prp.html#SP16" class="internal">Propositions::quantify</a>.</p>
+</li>
+<li>
+<p>Propositions are then built up from atoms or other propositions<sup id="fnred:8"><a href="#fn:8" rel="footnote">1</a></sup> by calling:</p>
+</li>
+</ol>
+<ul>
+<li><a href="4-prp.html#SP15" class="internal">Propositions::conjoin</a>.</li>
+<li><a href="4-prp.html#SP16" class="internal">Propositions::negate</a>.</li>
+<li><a href="4-prp.html#SP16" class="internal">Propositions::quantify</a>.</li>
+</ul>
 <li class="footnote" id="fn:8"><p class="inwebfootnote"><sup id="fnref:8"><a href="#fn:8" rel="footnote">8</a></sup>
 But beware that propositions are passed by reference not value. Use
 <a href="4-prp.html#SP13" class="internal">Propositions::copy</a> before changing one, if you need to use it
@@ -264,10 +295,12 @@ again.<a href="#fnref:8" title="return to text"> &#x21A9;</a></p>
 </div>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>  There are two senses in which it's possible to make an impossible proposition:</p>
-<p>(1) You could make a mess of the punctuation markers improperly, or fail to
-give a domain set for a quantifier.
-(2) You could concatenate two propositions in which the same variable is
-used with a different meaning in each.</p>
+<ul>
+<li>(1) You could make a mess of the punctuation markers improperly, or fail to
+give a domain set for a quantifier.</li>
+<li>(2) You could concatenate two propositions in which the same variable is
+used with a different meaning in each.</li>
+</ul>
 <p>The functions <a href="4-prp.html#SP10" class="internal">Propositions::is_syntactically_valid</a> and
 <a href="4-bas.html#SP2" class="internal">Binding::is_well_formed</a> test that (1) and (2) have not happened.
 It's because of (2) that it's important to use <a href="4-prp.html#SP15" class="internal">Propositions::conjoin</a>

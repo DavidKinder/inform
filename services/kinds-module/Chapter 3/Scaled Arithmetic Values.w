@@ -240,11 +240,11 @@ when we don't know that the value is particularly large or small.
 cope with the fact that some units use integer arithmetic and others
 use real.
 
-(a) Real units are easier. A value of |1.0| stored at run-time equals
+- Real units are easier. A value of |1.0| stored at run-time equals
 1 benchmark unit: in our length example, 1 m. Thus the |M| value for the
 benchmark scaling is always 1.0.
 
-(b) Integer units are harder. If we stored 1 m as the integer 1, we
+- Integer units are harder. If we stored 1 m as the integer 1, we
 would be unable to express any distance smaller than that, and "1 cm"
 or "1 mm" would vanish completely. Instead we scale so that the value
 1 stored at run-time equals 1 unit of our smallest scale: in the length

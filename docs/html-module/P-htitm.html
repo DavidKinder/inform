@@ -64,22 +64,25 @@ other modules except for <a href="../foundation/index.html" class="internal">fou
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Importing the module.</b>  We'll use the term &quot;parent&quot; to mean the tool which is importing <a href="index.html" class="internal">html</a>,
 that is, which will include its code and be able to use it. As with any
-imported module,
-(*) The contents page of the parent's web must identify and locate the
-module:</p>
-</div>
-<pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">Import: somepath/html</span>
-</pre>
-<div class="lsmarkdown">
-<p>(*) The parent must call <code>HTMLModule::start()</code> just after it starts up, and
+imported module,</p>
+<ul>
+<li>
+<p>The contents page of the parent's web must identify and locate the
+module: <code>Import: somepath/html</code></p>
+</li>
+<li>
+<p>The parent must call <code>HTMLModule::start()</code> just after it starts up, and
 <code>HTMLModule::end()</code> just before it shuts down. (But just after, and just
 before, the corresponding calls to <a href="../foundation/index.html" class="internal">foundation</a>.)</p>
+</li>
+</ul>
 </div>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Callback function.</b>  The user must define one callback function:</p>
-<p>(*) <code>INSTALLED_FILES_HTML_CALLBACK</code> should return the pathname of a directory
-in which miscellaneous installed resources such as CSS files can be found.</p>
+<ul>
+<li><code>INSTALLED_FILES_HTML_CALLBACK</code> should return the pathname of a directory
+in which miscellaneous installed resources such as CSS files can be found.</li>
+</ul>
 </div>
 <nav role="progress"><div class="progresscontainer">
     <ul class="progressbar"><li class="progressprev"><a href="P-wtmd.html">&#10094;</a></li><li class="progresscurrentchapter">P</li><li class="progresssection"><a href="P-wtmd.html">wtmd</a></li><li class="progresscurrent">htitm</li><li class="progresschapter"><a href="1-hm.html">1</a></li><li class="progresschapter"><a href="2-ip.html">2</a></li><li class="progressnext"><a href="1-hm.html">&#10095;</a></li></ul></div>

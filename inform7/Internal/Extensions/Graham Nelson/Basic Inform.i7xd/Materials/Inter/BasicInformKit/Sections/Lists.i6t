@@ -254,11 +254,12 @@ to hold at least another 16 entries.
 
 In the call |LIST_OF_TY_InsertItem(list, v, posnflag, posn, nodups)|, only
 the first two arguments are compulsory.
-(a) If |nodups| is set, and an item equal to |v| is already present in the
+
+- If |nodups| is set, and an item equal to |v| is already present in the
 list, we return and do nothing. (|nodups| means "no duplicates".)
-(b) Otherwise, if |posnflag| is |false|, we append a new entry |v| at the
+- Otherwise, if |posnflag| is |false|, we append a new entry |v| at the
 back of the given |list|.
-(c) Otherwise, when |posnflag| is |true|, |posn| indicates the insertion
+- Otherwise, when |posnflag| is |true|, |posn| indicates the insertion
 position, from 1 (before the current first item) to $N+1$ (after the last),
 where $N$ is the number of items in the list at present.
 

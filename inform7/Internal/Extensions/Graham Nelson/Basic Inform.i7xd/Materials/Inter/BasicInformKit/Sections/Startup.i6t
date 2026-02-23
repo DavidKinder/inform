@@ -52,17 +52,17 @@ where |WorldModelKit| is not involved.
 This rule amalgamates some minimal initialisations which all need to happen
 before we can risk using some of the more exotic I7 kinds:
 
-(a) The language definition might call for initialisation, although the
+- The language definition might call for initialisation, although the
 default language of play (English) does not.
 
-(b) We start the machinery needed to check that property accesses are
+- We start the machinery needed to check that property accesses are
 valid during play.
 
-(c) We initialise the memory allocation heap, and expand the literal
+- We initialise the memory allocation heap, and expand the literal
 constants, as hinted above: these are called "block constants" since
 they occupy blocks of memory.
 
-(d) Some architecture-specific dictionary and parse buffer related globals
+- Some architecture-specific dictionary and parse buffer related globals
 are initialised.
 
 =

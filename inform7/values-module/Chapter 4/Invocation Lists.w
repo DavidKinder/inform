@@ -55,20 +55,24 @@ links, not |next| links, since they are alternative readings of the same text: t
 cannot both be right.
 
 Finally, it is worth noting three complications:
-(a) Invocation lists arise from expressions as well as from entire code lines,
-much as functions in C can be used in expressions, |int x = f(2);| as well
-as in void context, |printf("I do have a return value, you know! Nobody cares.")|.
-(-1) See //assertions: Imperative Subtrees// for how invocation lists for the body
-of imperative definitions are put together.
-(-2) See //Conditions and Phrases// for how invocation lists from expressions
-are put together.
-(b) "Say" phrases are a special case, in that they can perform more than one
-invocation. |say "Very cold for [time of day], I think?"| performs three
-invocations -- one of |say (T - text)|, one of |say (T - time)|, and then
-another of |say (T - text)|. These three invocations are joined by |->next|
-not |->next_alternative| links because all three must be performed.
-(c) A small number of invocations for adaptive text do not invoke phrases,
-but instead print an inflected form of a verb, adjective or similar.
+
+-	Invocation lists arise from expressions as well as from entire code lines,
+	much as functions in C can be used in expressions, |int x = f(2);| as well
+	as in void context, |printf("I do have a return value, you know! Nobody cares.")|.
+
+	- See //assertions: Imperative Subtrees// for how invocation lists for the body
+	of imperative definitions are put together.
+	- See //Conditions and Phrases// for how invocation lists from expressions
+	are put together.
+
+-	"Say" phrases are a special case, in that they can perform more than one
+	invocation. |say "Very cold for [time of day], I think?"| performs three
+	invocations -- one of |say (T - text)|, one of |say (T - time)|, and then
+	another of |say (T - text)|. These three invocations are joined by |->next|
+	not |->next_alternative| links because all three must be performed.
+
+-	A small number of invocations for adaptive text do not invoke phrases,
+	but instead print an inflected form of a verb, adjective or similar.
 
 In this section, we provide basic functions for dealing with invocation lists;
 similarly, //Invocations// provides tools for dealing with individual invocations;

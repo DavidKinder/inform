@@ -19,10 +19,10 @@ programs, images, PDF files, sets of test cases, documentation, and so on.
 This page is intended as a jumping-off point for browsing the source code and
 technical documentation: it doesn't list every last thing.
 
-(*) At the heart of Inform are the first four links below, making up its main
+- At the heart of Inform are the first four links below, making up its main
 compiler. See //structure// for how they fit together.
 
-(*) Several important //kits// and //extensions// used by Inform are also written as
+- Several important //kits// and //extensions// used by Inform are also written as
 literate programs.
 
 = (html panels_tools.html)

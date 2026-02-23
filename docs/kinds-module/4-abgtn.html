@@ -80,11 +80,13 @@ name. The first keyword must be either <code>new</code> or <code>builtin</code>.
 here is that <code>builtin</code> must be used if the constructor being made is one of
 the <a href="2-fk.html" class="internal">Familiar Kinds</a>, whose identifier has to correspond to one of those
 hardwired into the code of this module. <code>new</code> must be used in all other cases.<sup id="fnred:1"><a href="#fn:1" rel="footnote">1</a></sup></p>
-<p>The second keyword must be one of the following:
-(<em>) <code>base</code> for a new base kind, like <code>NUMBER_TY</code>.
-(</em>) <code>constructor</code> for a proper constructor, like <code>LIST_OF_TY</code>.
-(<em>) <code>protocol</code> for a kind of kind, like <code>SAYABLE_VALUE_TY</code>.
-(</em>) <code>punctuation</code> for a constructor with no independent meaning, such as <code>INTERMEDIATE_TY</code>.</p>
+<p>The second keyword must be one of the following:</p>
+<ul>
+<li><code>base</code> for a new base kind, like <code>NUMBER_TY</code>.</li>
+<li><code>constructor</code> for a proper constructor, like <code>LIST_OF_TY</code>.</li>
+<li><code>protocol</code> for a kind of kind, like <code>SAYABLE_VALUE_TY</code>.</li>
+<li><code>punctuation</code> for a constructor with no independent meaning, such as <code>INTERMEDIATE_TY</code>.</li>
+</ul>
 <p>For example:</p>
 </div>
 <pre class="displayed-code all-displayed-code code-font">
@@ -128,12 +130,14 @@ compiled.<sup id="fnred:2"><a href="#fn:2" rel="footnote">1</a></sup> Invention 
 <div class="lsmarkdown">
 <p>Note that the text is not quite literal, because it can contain wildcards like
 <code>&lt;kind&gt;</code>, which expands to the name of the kind in question: for instance, we
-might get &quot;number understood is a number which varies&quot;. The legal wildcards are:
-(<em>) &lt;kind&gt;, expanding to the singular name of the kind.
-(</em>) &lt;lower-case-kind&gt;, the same but always using lower case.
-(<em>) &lt;kind-weak-ID&gt;, the weak ID number for the base kind.
-(</em>) &lt;say-function&gt;, the identifier of its printing routine.
-(*) &lt;compare-function&gt;, similarly.</p>
+might get &quot;number understood is a number which varies&quot;. The legal wildcards are:</p>
+<ul>
+<li>&lt;kind&gt;, expanding to the singular name of the kind.</li>
+<li>&lt;lower-case-kind&gt;, the same but always using lower case.</li>
+<li>&lt;kind-weak-ID&gt;, the weak ID number for the base kind.</li>
+<li>&lt;say-function&gt;, the identifier of its printing routine.</li>
+<li>&lt;compare-function&gt;, similarly.</li>
+</ul>
 <p>There are a few limitations on what template text can include. Firstly,
 nothing with angle brackets in, except where a wildcard appears. Secondly,
 each sentence must end at the end of a line, and similarly the colon for
@@ -192,11 +196,13 @@ given, divided by vertical strokes. Names of the construction kinds can be
 written as <code>k</code> and <code>l</code> (note lower case). So, for example, <code>list of k</code>.</p>
 <p><code>terms</code> is used only for proper constructors. For a unary constructor, it will
 give one term; for binary, two terms, separated by a comma. Each term should
-be <code>covariant</code> or <code>contravariant</code>, with an optional keyword after it:
-(<em>) <code>optional</code> means that it is legal to name the constructor without naming
-this term. For example, &quot;activity&quot; is a legal way to say &quot;activity on nothing&quot;.
-(</em>) <code>list</code> means that it is legal to give a list of kinds here, in brackets
-if there are some, or <code>nothing</code> if there are not.</p>
+be <code>covariant</code> or <code>contravariant</code>, with an optional keyword after it:</p>
+<ul>
+<li><code>optional</code> means that it is legal to name the constructor without naming
+this term. For example, &quot;activity&quot; is a legal way to say &quot;activity on nothing&quot;.</li>
+<li><code>list</code> means that it is legal to give a list of kinds here, in brackets
+if there are some, or <code>nothing</code> if there are not.</li>
+</ul>
 <p><code>invent-source-text: *NAME</code> causes new source text to be invented. <code>*NAME</code>
 must be an invention which has already been declared. If this command is applied
 to a protocol, such as <code>arithmetic value</code>, then the invention will be made not
@@ -219,12 +225,14 @@ this kind can be serialised -- printed out as text into an external file --
 and read into a different program, but with the same meaning.</p>
 <p><code>constant-compilation-method</code> tells Inform how to compile constants of this
 kind. The possible options are: <code>none</code>, <code>literal</code>, <code>quantitative</code> and <code>special</code>,
-the default being <code>none</code>:
-(<em>) <code>none</code> means there are no constants of this kind.
-(</em>) <code>literal</code> means constants are literals in Inform source text, such as 65 or 11:12 PM.
-(<em>) <code>quantitative</code> means they are named instances, as for enumerations.
-(</em>) <code>special</code> means that the compiler needs to use ad-hoc code to handle
-this kind; unless it contains that code, of course, this can't be used.</p>
+the default being <code>none</code>:</p>
+<ul>
+<li><code>none</code> means there are no constants of this kind.</li>
+<li><code>literal</code> means constants are literals in Inform source text, such as 65 or 11:12 PM.</li>
+<li><code>quantitative</code> means they are named instances, as for enumerations.</li>
+<li><code>special</code> means that the compiler needs to use ad-hoc code to handle
+this kind; unless it contains that code, of course, this can't be used.</li>
+</ul>
 <p><code>loop-domain-schema</code> is an Inter schema for iterating through the valid
 instances of the kind.</p>
 <p><code>comparison-schema</code> is an Inter schema for comparing a value of this kind

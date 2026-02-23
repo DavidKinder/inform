@@ -5,10 +5,10 @@ To compile the main/synoptic/responses submodule.
 @ Response packages are scattered all over the Inter tree. Each one contains
 these metadata constants:
 
-(*) |^group|, textual, which describes the origin.
-(*) |^marker|, numeric, from 0 to 25: whether this is (A), (B), ..., (Z);
-(*) |^rule|, symbol, the rule to which this is a response.
-(*) |^value|, symbol, the text for the response at start of play.
+- |^group|, textual, which describes the origin.
+- |^marker|, numeric, from 0 to 25: whether this is (A), (B), ..., (Z);
+- |^rule|, symbol, the rule to which this is a response.
+- |^value|, symbol, the text for the response at start of play.
 
 Our inventory |inv| already contains a list |inv->response_nodes| of all packages
 in the tree with type |_response|.

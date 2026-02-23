@@ -41,13 +41,13 @@ immediate children of a |DECISION_DCODEI| instruction.
 one of the |*_DCODEDT| values. All immediate children of a |DECISION_DCODEI|
 instruction are |CHOICE_DCODEI|s.
 
-(*) |BLANK_DCODEDT| should never appear in compiled D-code, and is only used
+- |BLANK_DCODEDT| should never appear in compiled D-code, and is only used
 in the Inform compiler.
-(*) |TEXTUAL_DCODEDT| is a decision point offering textual choices for the
+- |TEXTUAL_DCODEDT| is a decision point offering textual choices for the
 player to pick.
-(*) |PARSED_COMMAND_DCODEDT| is a decision point requiring us to wait for the
+- |PARSED_COMMAND_DCODEDT| is a decision point requiring us to wait for the
 next typed command and see what action it produced.
-(*) |FLOW_DCODEDT| is a flow control choice, |->| or |<-|.
+- |FLOW_DCODEDT| is a flow control choice, |->| or |<-|.
 
 =
 Constant LINE_DCODEI = 1;

@@ -1,7 +1,5 @@
 Pattern "W3Enhanced" {
-	name: W3Enhanced based on GitHubPages
-	format: HTML
-	default range: sections
+	based on: GitHubPages
 	plugin: GitHub
 	plugin: W3
 	plugin: Breadcrumbs

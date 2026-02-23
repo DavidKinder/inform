@@ -16,8 +16,9 @@ uniquely identify kinds, and thus distinguish "list of lists of texts" from
 
 Dogma. If a value $v$ has kind $K$, and we want to use it as a value
 of kind $W$, then
-(a) if $K$ and $W$ have different weak IDs then this is impossible;
-(b) if they have equal weak IDs then run-time code can tell from $v$ alone
+
+- if $K$ and $W$ have different weak IDs then this is impossible;
+- if they have equal weak IDs then run-time code can tell from $v$ alone
 whether this is possible.
 
 For instance, all objects have the same weak ID, but we can distinguish kinds

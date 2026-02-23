@@ -5,26 +5,31 @@ How Inform extends and annotates the syntax tree.
 @h Nodes.
 The syntax tree is managed by the //syntax// services module, which defines the
 most basic node types, which are enumerated by constants in the form |*_NT|.
-(*) Structural nodes are used to break the source text down to the sentence
-level, and are arranged in a hierarchy:
-(-*) Level 1 structural nodes, category |L1_NCAT|, are defined only in
-//syntax: Node Types//, and are basically headings.
-(-*) Level 2 structural nodes, category |L2_NCAT|, are defined both in
-//syntax: Node Types// and //supervisor: Source Text//. These are top-level
-declarations and assertion sentences.
-(-*) Level 3 structural nodes, category |L3_NCAT|, are defined both in
-//linguistics: Diagrams// and below. These are clauses in sentences.
-(*) Code nodes, category |CODE_NCAT|, are defined only below. They occur only
+
+-	Structural nodes are used to break the source text down to the sentence
+	level, and are arranged in a hierarchy:
+
+	- Level 1 structural nodes, category |L1_NCAT|, are defined only in
+	//syntax: Node Types//, and are basically headings.
+	- Level 2 structural nodes, category |L2_NCAT|, are defined both in
+	//syntax: Node Types// and //supervisor: Source Text//. These are top-level
+	declarations and assertion sentences.
+	- Level 3 structural nodes, category |L3_NCAT|, are defined both in
+	//linguistics: Diagrams// and below. These are clauses in sentences.
+
+- Code nodes, category |CODE_NCAT|, are defined only below. They occur only
 inside imperative code (i.e. rules and phrase definitions), in subtrees headed
 by a level-2 |IMPERATIVE_NT| node, and they organise what is to be compiled.
-(*) Specification nodes represent values or descriptions of values, and are
+
+- Specification nodes represent values or descriptions of values, and are
 defined only below. These occur frequently in the parse tree as children of
 code nodes, but can also be used in detached form as a way to represent, say,
 the number 9, or a requirement for something. (See //values// for more.)
 Specifications come in three sorts:
-(-*) Rvalues, |RVALUE_NCAT|, such as numbers or texts.
-(-*) Lvalues, |LVALUE_NCAT|, such as variables.
-(-*) Conditions, |COND_NCAT|, representing the logical structure of conditions.
+
+	- Rvalues, |RVALUE_NCAT|, such as numbers or texts.
+	- Lvalues, |LVALUE_NCAT|, such as variables.
+	- Conditions, |COND_NCAT|, representing the logical structure of conditions.
 
 @ Further node types and annotations are created in //if: IF Module//. Just
 in case that is not being compiled, the following constant needs to exist

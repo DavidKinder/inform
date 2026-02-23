@@ -5,13 +5,14 @@ An overview of the supervisor module's role and abilities.
 @h Prerequisites.
 The supervisor module is a part of the Inform compiler toolset. It is
 presented as a literate program or "web". Before diving in:
-(a) It helps to have some experience of reading webs: see //inweb// for more.
-(b) The module is written in C, in fact ANSI C99, but this is disguised by the
+
+- It helps to have some experience of reading webs: see //inweb// for more.
+- The module is written in C, in fact ANSI C99, but this is disguised by the
 fact that it uses some extension syntaxes provided by the //inweb// literate
 programming tool, making it a dialect of C called InC. See //inweb// for
 full details, but essentially: it's C without predeclarations or header files,
 and where functions have names like |Tags::add_by_name| rather than just |add_by_name|.
-(c) This module uses other modules drawn from the compiler (see //structure//), and also
+- This module uses other modules drawn from the compiler (see //structure//), and also
 uses a module of utility functions called //foundation//.
 For more, see //foundation: A Brief Guide to Foundation//.
 
@@ -34,17 +35,19 @@ is using //supervisor//, and might be either //inform7// or //inbuild//.
 fro: it's not as simple as single one-time call from the parent to //supervisor//
 saying "now build this".
 
-(1) //supervisor// has to be started and stopped at each end of the parent's
+- //supervisor// has to be started and stopped at each end of the parent's
 run, by calling //SupervisorModule::start// and //SupervisorModule::end//.
 The former calls //Supervisor::start// in turn, and that activates a number of
 subsystems with further calls. But all modules do something like this.
-(2) More unusually, when the parent is creating its command-line options, it
+
+- More unusually, when the parent is creating its command-line options, it
 should call //Supervisor::declare_options// to add more. This allows all tools
 containing the Supervisor to offer a unified set of command-line options to
 configure it.[1] When the parent is given a switch that it doesn't recognise,
 it should call //Supervisor::option//; and when it has fully processed the
 command line, it should call //Supervisor::optioneering_complete//.
-(3) The parent can now, if it chooses, make calls into //supervisor// to set
+
+- The parent can now, if it chooses, make calls into //supervisor// to set
 up additional dependencies. But eventually it will call //Supervisor::go_operational//.
 The Supervisor is now ready for use!
 
@@ -283,11 +286,12 @@ are extension inclusions and headings. Headings are sentences such as:
 These are detected for us by the sentence-breaker in //syntax//, which
 calls out to our function //Headings::place// when it finds one. Each is
 given a //heading// object. We will do three things with headings:
-(1) Form them into a tree structure, to be able to determine quickly
+
+- Form them into a tree structure, to be able to determine quickly
 which is a subheading of which;
-(2) Parse their bracketed caveats, such as "for use with ... only",
+- Parse their bracketed caveats, such as "for use with ... only",
 which we will soon need -- this is done by another Preform grammar; and
-(3) Move content around to satisfy annotations such as "in place of...",
+- Move content around to satisfy annotations such as "in place of...",
 though this stage is performed only later -- see below.
 
 @ What happens next involves is carefully timed. What we want is to look
@@ -371,11 +375,11 @@ and so forth: and also on the files it draws its source text from. See
 So, then, at this point we can determine the complete build graph for any copy.
 The parent can do several things:
 
-(a) Call //Copies::show_graph//, or //Copies::show_needs//, or //Copies::show_missing//,
+- Call //Copies::show_graph//, or //Copies::show_needs//, or //Copies::show_missing//,
 to print out the graph, show what a project needs in order to be built, or
 show what it needs but doesn't currently have;
-(b) Call //Copies::archive// to make archived copies of all dependent resources;
-(c) Or, the big one, call //Copies::build// or //Copies::rebuild// to perform
+- Call //Copies::archive// to make archived copies of all dependent resources;
+- Or, the big one, call //Copies::build// or //Copies::rebuild// to perform
 a build.
 
 A "build" is incremental, and uses time-stamps of files to avoid unnecessary

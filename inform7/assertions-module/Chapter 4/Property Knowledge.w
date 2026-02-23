@@ -19,9 +19,9 @@ void Assertions::PropertyKnowledge::initialise_global_variable(nonlocal_variable
 In these three alternative functions, we can assert that a given owner -- specified
 either as an object, a value or a subtree -- should have
 
-(a) a given single property equal to a value given as a subtree,
-(b) a given single property equal to an explicit value, or
-(c) a whole list of properties and their values.
+- a given single property equal to a value given as a subtree,
+- a given single property equal to an explicit value, or
+- a whole list of properties and their values.
 
 =
 void Assertions::PropertyKnowledge::assert_property_value_from_property_subtree_infs(property *prn,

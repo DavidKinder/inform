@@ -419,9 +419,9 @@ In asserting a proposition, we are in effect acting as an interpreter rather
 than a compiler. Given any term, we need to produce either an object $O$ or a
 more general value $V$. Recall that a term can be
 
-(a) a constant $C$,
-(b) a variable $v$, or
-(c) a function $f_R(t)$ for another term $t$.
+- a constant $C$,
+- a variable $v$, or
+- a function $f_R(t)$ for another term $t$.
 
 We are unable, at compile-time, to evaluate $f_R(t)$ for any relation $R$,
 and won't even try. We can evaluate a variable using the interpretation

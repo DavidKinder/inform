@@ -31,16 +31,17 @@ However, we can specify a context, in effect saying something like "what
 would this mean if it had to be an adjective name?".
 
 Depending on that context, four basic parsing modes can then be used.
-(1) Exact parsing is what it sounds like: the texts have to match exactly,
+
+- Exact parsing is what it sounds like: the texts have to match exactly,
 except that an initial article is skipped. Thus "the going action"
 exactly matches "going action", but "going" does not.
-(2) In subset parsing, a match is achieved if the text parsed consists of
+- In subset parsing, a match is achieved if the text parsed consists of
 words all of which are found in the meaning tested. Thus "red door" and
 "red" are each subset matches for "ornate red door with brass handle".
-(3) In parametrised parsing, arbitrary (non-empty) text is allowed to
+- In parametrised parsing, arbitrary (non-empty) text is allowed to
 match against |#| gaps in the token list. Thus "award 5 points" is a
 parametrised match for "award |#| points".
-(4) In maximal parsing, we find the longest possible initial match, allowing
+- In maximal parsing, we find the longest possible initial match, allowing
 it even if it does reach to the end of the excerpt, and we return a unique
 finding, not a list of possibilities.
 

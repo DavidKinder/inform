@@ -69,10 +69,10 @@ allow them to be referred to from kits linked in.</p>
 <p>Because the synoptic module exists only to provide resources, this section is
 in effect a specification for it.</p>
 </div>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">SYNOPTIC_HIERARCHY_MADE_ITHBIT</span> 
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">SynopticHierarchy::establish</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">SynopticHierarchy::establish</span></span>:<br/>Make Synoptic Module Stage - <a href="5-msms.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
+<span class="type-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">SynopticHierarchy::establish</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">SynopticHierarchy::establish</span></span>:<br/>Make Synoptic Module Stage - <a href="5-msms.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">inter_tree</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">InterTree::test_history</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="constant-syntax">SYNOPTIC_HIERARCHY_MADE_ITHBIT</span><span class="plain-syntax">)) </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">InterTree::set_history</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="constant-syntax">SYNOPTIC_HIERARCHY_MADE_ITHBIT</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">location_requirement</span><span class="plain-syntax"> </span><span class="identifier-syntax">req</span><span class="plain-syntax">;</span>
@@ -99,17 +99,17 @@ in effect a specification for it.</p>
 <p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  The notation here is a little cryptic, but see <a href="../runtime-module/2-hrr.html" class="internal">Hierarchy (in runtime)</a> for a
 fuller explanation.</p>
 </div>
-<pre class="definitions code-font"><span class="definition-keyword">define</span> 
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">SYN_SUBMD(r)</span> 
 <span class="plain-syntax">    </span><span class="identifier-syntax">req</span><span class="plain-syntax"> = </span><span class="identifier-syntax">LocationRequirements::synoptic_submodule</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">LargeScale::register_submodule_identity</span><span class="plain-syntax">(</span><span class="identifier-syntax">r</span><span class="plain-syntax">));</span>
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">n</span><span class="plain-syntax">) {</span>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">SYN_CONST(id,</span> <span class="identifier-syntax">n</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">HierarchyLocations::con</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">id</span><span class="plain-syntax">, </span><span class="identifier-syntax">n</span><span class="plain-syntax">, </span><span class="identifier-syntax">req</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">iname</span><span class="plain-syntax"> = </span><span class="identifier-syntax">HierarchyLocations::iname</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">id</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">S</span><span class="plain-syntax"> = </span><span class="identifier-syntax">InterNames::to_symbol</span><span class="plain-syntax">(</span><span class="identifier-syntax">iname</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">Wiring::socket</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">InterNames::to_text</span><span class="plain-syntax">(</span><span class="identifier-syntax">iname</span><span class="plain-syntax">), </span><span class="identifier-syntax">S</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    }</span>
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">n</span><span class="plain-syntax">, </span><span class="identifier-syntax">t</span><span class="plain-syntax">) {</span>
+<pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">SYN_FUNCT(id,</span> <span class="identifier-syntax">n</span><span class="plain-syntax">, </span><span class="identifier-syntax">t</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">HierarchyLocations::fun</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">id</span><span class="plain-syntax">, </span><span class="identifier-syntax">n</span><span class="plain-syntax">, </span><span class="identifier-syntax">Translation::to</span><span class="plain-syntax">(</span><span class="identifier-syntax">t</span><span class="plain-syntax">), </span><span class="identifier-syntax">req</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">iname</span><span class="plain-syntax"> = </span><span class="identifier-syntax">HierarchyLocations::iname</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">id</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">inter_symbol</span><span class="plain-syntax"> *</span><span class="identifier-syntax">S</span><span class="plain-syntax"> = </span><span class="identifier-syntax">InterNames::to_symbol</span><span class="plain-syntax">(</span><span class="identifier-syntax">iname</span><span class="plain-syntax">);</span>
@@ -119,17 +119,17 @@ fuller explanation.</p>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP1_1" class="paragraph-anchor"></a><b>&#167;1.1. Actions.</b>  The <code>/main/synoptic/actions</code> submodule.</p>
 </div>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">ACTIONCODING_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">ACTIONDATA_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">ACTIONHAPPENED_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">AD_RECORDS_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">CCOUNT_ACTION_NAME_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">DB_ACTION_DETAILS_HL</span> 
 </pre>
 <p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Resources for actions</span><span class="named-paragraph-number">1.1</span></span> =</p>
 
@@ -146,15 +146,15 @@ fuller explanation.</p>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP1_2" class="paragraph-anchor"></a><b>&#167;1.2. Activities.</b>  The <code>/main/synoptic/activities</code> submodule.</p>
 </div>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">ACTIVITY_AFTER_RULEBOOKS_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">ACTIVITY_BEFORE_RULEBOOKS_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">ACTIVITY_FOR_RULEBOOKS_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">ACTIVITY_FLAGS_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">ACTIVITY_VAR_CREATORS_HL</span> 
 </pre>
 <p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Resources for activities</span><span class="named-paragraph-number">1.2</span></span> =</p>
 
@@ -170,17 +170,17 @@ fuller explanation.</p>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP1_3" class="paragraph-anchor"></a><b>&#167;1.3. Chronology.</b>  The <code>/main/synoptic/chronology</code> submodule.</p>
 </div>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">TIMEDEVENTSTABLE_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">TIMEDEVENTTIMESTABLE_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">PASTACTIONSI6ROUTINES_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">NO_PAST_TENSE_CONDS_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">NO_PAST_TENSE_ACTIONS_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">TESTSINGLEPASTSTATE_HL</span> 
 </pre>
 <p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Resources for chronology</span><span class="named-paragraph-number">1.3</span></span> =</p>
 
@@ -197,7 +197,7 @@ fuller explanation.</p>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP1_4" class="paragraph-anchor"></a><b>&#167;1.4. Conjugations.</b>  The <code>/main/synoptic/conjugations</code> submodule.</p>
 </div>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">TABLEOFVERBS_HL</span> 
 </pre>
 <p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Resources for conjugations</span><span class="named-paragraph-number">1.4</span></span> =</p>
 
@@ -209,17 +209,17 @@ fuller explanation.</p>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP1_5" class="paragraph-anchor"></a><b>&#167;1.5. Dialogue.</b>  The <code>/main/synoptic/dialogue</code> submodule.</p>
 </div>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">DIALOGUEBEATS_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">DIALOGUELINES_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">DIALOGUECHOICES_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">NO_DIALOGUE_BEATS_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">NO_DIALOGUE_LINES_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">NO_DIALOGUE_CHOICES_HL</span> 
 </pre>
 <p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Resources for dialogue</span><span class="named-paragraph-number">1.5</span></span> =</p>
 
@@ -236,11 +236,11 @@ fuller explanation.</p>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP1_6" class="paragraph-anchor"></a><b>&#167;1.6. Extensions.</b>  The <code>/main/synoptic/extensions</code> submodule.</p>
 </div>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">SHOWEXTENSIONVERSIONS_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">SHOWFULLEXTENSIONVERSIONS_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">SHOWONEEXTENSION_HL</span> 
 </pre>
 <p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Resources for extensions</span><span class="named-paragraph-number">1.6</span></span> =</p>
 
@@ -254,7 +254,7 @@ fuller explanation.</p>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP1_7" class="paragraph-anchor"></a><b>&#167;1.7. Instances.</b>  The <code>/main/synoptic/instances</code> submodule.</p>
 </div>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">SHOWMEINSTANCEDETAILS_HL</span> 
 </pre>
 <p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Resources for instances</span><span class="named-paragraph-number">1.7</span></span> =</p>
 
@@ -266,19 +266,19 @@ fuller explanation.</p>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP1_8" class="paragraph-anchor"></a><b>&#167;1.8. Kinds.</b>  The <code>/main/synoptic/kinds</code> submodule.</p>
 </div>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">DEFAULTVALUEFINDER_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">I7_KIND_NAME_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">SHOWMEKINDDETAILS_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">BASE_KIND_HWM_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">RUCKSACK_CLASS_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">KINDHIERARCHY_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">KINDMETADATA_HL</span> 
 </pre>
 <p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Resources for kinds</span><span class="named-paragraph-number">1.8</span></span> =</p>
 
@@ -296,17 +296,17 @@ fuller explanation.</p>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP1_9" class="paragraph-anchor"></a><b>&#167;1.9. Multimedia.</b>  The <code>/main/synoptic/multimedia</code> submodule.</p>
 </div>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">RESOURCEIDSOFFIGURES_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">RESOURCEIDSOFSOUNDS_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">NO_EXTERNAL_FILES_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">NO_INTERNAL_FILES_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">TABLEOFEXTERNALFILES_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">TABLEOFINTERNALFILES_HL</span> 
 </pre>
 <p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Resources for multimedia</span><span class="named-paragraph-number">1.9</span></span> =</p>
 
@@ -323,7 +323,7 @@ fuller explanation.</p>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP1_10" class="paragraph-anchor"></a><b>&#167;1.10. Properties.</b>  The <code>/main/synoptic/properties</code> submodule.</p>
 </div>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">CCOUNT_PROPERTY_HL</span> 
 </pre>
 <p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Resources for properties</span><span class="named-paragraph-number">1.10</span></span> =</p>
 
@@ -335,13 +335,13 @@ fuller explanation.</p>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP1_11" class="paragraph-anchor"></a><b>&#167;1.11. Relations.</b>  The <code>/main/synoptic/relations</code> submodule.</p>
 </div>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">CREATEDYNAMICRELATIONS_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">CCOUNT_BINARY_PREDICATE_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">ITERATERELATIONS_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">RPROPERTY_HL</span> 
 </pre>
 <p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Resources for relations</span><span class="named-paragraph-number">1.11</span></span> =</p>
 
@@ -356,15 +356,15 @@ fuller explanation.</p>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP1_12" class="paragraph-anchor"></a><b>&#167;1.12. Rulebooks.</b>  The <code>/main/synoptic/rulebooks</code> submodule.</p>
 </div>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">NUMBER_RULEBOOKS_CREATED_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">RULEBOOK_VAR_CREATORS_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">SLOW_LOOKUP_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">RULEBOOKS_ARRAY_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">RULEBOOKNAMES_HL</span> 
 </pre>
 <p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Resources for rulebooks</span><span class="named-paragraph-number">1.12</span></span> =</p>
 
@@ -380,15 +380,15 @@ fuller explanation.</p>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP1_13" class="paragraph-anchor"></a><b>&#167;1.13. Rules.</b>  The <code>/main/synoptic/rules</code> and <code>/main/synoptic/responses</code> submodule.</p>
 </div>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">RULEPRINTINGRULE_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">RESPONSETEXTS_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">NO_RESPONSES_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">RESPONSEDIVISIONS_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">PRINT_RESPONSE_HL</span> 
 </pre>
 <p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Resources for rules</span><span class="named-paragraph-number">1.13</span></span> =</p>
 
@@ -406,9 +406,9 @@ fuller explanation.</p>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP1_14" class="paragraph-anchor"></a><b>&#167;1.14. Scenes.</b>  The <code>/main/synoptic/scenes</code> submodule.</p>
 </div>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">SHOWSCENESTATUS_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">DETECTSCENECHANGE_HL</span> 
 </pre>
 <p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Resources for scenes</span><span class="named-paragraph-number">1.14</span></span> =</p>
 
@@ -421,15 +421,15 @@ fuller explanation.</p>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP1_15" class="paragraph-anchor"></a><b>&#167;1.15. Tables.</b>  The <code>/main/synoptic/tables</code> submodule.</p>
 </div>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">PRINT_TABLE_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">TABLEOFTABLES_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">TB_BLANKS_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">RANKING_TABLE_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">TC_KOV_HL</span> 
 </pre>
 <p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Resources for tables</span><span class="named-paragraph-number">1.15</span></span> =</p>
 
@@ -447,7 +447,7 @@ fuller explanation.</p>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP1_16" class="paragraph-anchor"></a><b>&#167;1.16. Tests.</b>  The <code>/main/synoptic/tests</code> submodule.</p>
 </div>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">TESTSCRIPTSUB_HL</span> 
 </pre>
 <p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Resources for tests</span><span class="named-paragraph-number">1.16</span></span> =</p>
 
@@ -459,13 +459,13 @@ fuller explanation.</p>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP1_17" class="paragraph-anchor"></a><b>&#167;1.17. Use options.</b>  The <code>/main/synoptic/use_options</code> submodule.</p>
 </div>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">NO_USE_OPTIONS_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">TESTUSEOPTION_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">PRINT_USE_OPTION_HL</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">USE_OPTION_VALUES_HL</span> 
 </pre>
 <p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Resources for use options</span><span class="named-paragraph-number">1.17</span></span> =</p>
 

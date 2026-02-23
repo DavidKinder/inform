@@ -38,14 +38,14 @@ newline, |0x000A|, and tab, |0x0009|.
 And any Inform tool generating such an argument must use this notation
 to escape every instance of the following problematic characters:
 
-(a) every tab is escaped to |[=0x0009=]|;
-(b) every newline is escaped to |[=0x000A=]|;
-(c) every double quotation mark is escaped to |[=0x0022=]|;
-(d) every ampersand is escaped to |[=0x0026=]|;
-(e) every single quotation mark is escaped to |[=0x0027=]|;
-(f) every less than sign is escaped to |[=0x003C=]|;
-(g) every greater than sign is escaped to |[=0x003E=]|;
-(h) every backslash is escaped to |[=0x005C=]|.
+- every tab is escaped to |[=0x0009=]|;
+- every newline is escaped to |[=0x000A=]|;
+- every double quotation mark is escaped to |[=0x0022=]|;
+- every ampersand is escaped to |[=0x0026=]|;
+- every single quotation mark is escaped to |[=0x0027=]|;
+- every less than sign is escaped to |[=0x003C=]|;
+- every greater than sign is escaped to |[=0x003E=]|;
+- every backslash is escaped to |[=0x005C=]|.
 
 It may also choose to escape other character codes, as it prefers, but will
 never generate any codes below |0x0020| other than newline, |0x000A|, and tab,

@@ -8,11 +8,12 @@ A "term" can be a constant, a variable, or a function of another term: see
 //What This Module Does//. Our data structure therefore falls into three
 cases. At all times exactly one of the three relevant fields, |variable|,
 |constant| and |function| is used.
-(a) Variables are represented by the numbers 0 to 25, and |-1| means
+
+- Variables are represented by the numbers 0 to 25, and |-1| means
 "not a variable".
-(b) Constants are pointers to |specification| structures of main
+- Constants are pointers to |specification| structures of main
 type |VALUE|, and |NULL| means "not a constant".
-(c) Functions are pointers to |pcalc_func| structures (see below), and
+- Functions are pointers to |pcalc_func| structures (see below), and
 |NULL| means "not a function".
 
 Cinders are discussed in //imperative: Cinders and Deferrals//, and can be ignored for now.
@@ -36,16 +37,16 @@ typedef struct pcalc_term {
 Terms such as $f_A(f_B(f_C(x)))$ often occur, an example which would be stored
 as:
 
-(1) A |pcalc_term| structure which has a |function| field pointing to
-(2) A |pcalc_func| structure whose |bp| field points to A, and whose |fn_of|
+- A |pcalc_term| structure which has a |function| field pointing to
+- A |pcalc_func| structure whose |bp| field points to A, and whose |fn_of|
 field is
-(3) A |pcalc_term| structure which has a |function| field pointing to
-(4) A |pcalc_func| structure whose |bp| field points to B, and whose |fn_of|
+- A |pcalc_term| structure which has a |function| field pointing to
+- A |pcalc_func| structure whose |bp| field points to B, and whose |fn_of|
 field is
-(5) A |pcalc_term| structure which has a |function| field pointing to
-(6) A |pcalc_func| structure whose |bp| field points to C, and whose |fn_of|
+- A |pcalc_term| structure which has a |function| field pointing to
+- A |pcalc_func| structure whose |bp| field points to C, and whose |fn_of|
 field is
-(7) A |pcalc_term| structure which has a |variable| field set to 0 (which is $x$).
+- A |pcalc_term| structure which has a |variable| field set to 0 (which is $x$).
 
 =
 typedef struct pcalc_func {

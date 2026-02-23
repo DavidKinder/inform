@@ -21,14 +21,14 @@ system. There is no completely foolproof, cross-platform way to know this
 (on some Unixes, a program cannot determine its own location), so Inbuild
 decides by the following set of rules:
 
-(a) If the user, at the command line, specified |-at P|, for some path
+- If the user, at the command line, specified |-at P|, for some path
 |P|, then we use that.
-(b) Otherwise, if the host operating system can indeed tell us where the
+- Otherwise, if the host operating system can indeed tell us where the
 executable is, we use that. This is currently implemented only on MacOS,
 Windows and Linux.
-(c) Otherwise, if the environment variable |$INBUILD_PATH| exists and is
+- Otherwise, if the environment variable |$INBUILD_PATH| exists and is
 non-empty, we use that.
-(d) And if all else fails, we assume that the location is |inbuild|, with
+- And if all else fails, we assume that the location is |inbuild|, with
 respect to the current working directory.
 
 @h Basic concepts.
@@ -384,15 +384,16 @@ will hold additional extensions downloaded by the user; and the Materials
 folder for an Inform project, which is a nest all by itself.
 
 Inbuild looks for these as follows:
-(a) |-internal N| tells Inbuild the path |N| for the internal nest; if this
+
+- |-internal N| tells Inbuild the path |N| for the internal nest; if this
 is not given, the default is |inform7/Internal|.
-(b) |-external N| tells Inbuild the path |N| for the external nest; if this
+- |-external N| tells Inbuild the path |N| for the external nest; if this
 is not given, the default depends on the host operating system. For example,
 on MacOS it will be |~/Library/Inform| (which is what the Inform GUI app
 uses too if it is not sandboxed: if it is indeed sandboxed, then it will
 have a deliberately obfuscated location which MacOS does not want tools
 like ours to access externally).
-(c) The Materials nest is always the Materials folder associated with the
+- The Materials nest is always the Materials folder associated with the
 project Inbuild is working on; if it isn't working on a project, then this
 nest is of course not present.
 
@@ -407,10 +408,11 @@ This may well produce multiple results: as noted above, we might have multiple
 copies of Locksmith around. Inbuild first reduces the list to just those
 whose version lies in the acceptable range. It then applies the following
 rules:
-(1) A copy in the Materials nest takes precedence over all others.
-(2) Otherwise, all other copies take precedence over those in the
+
+- A copy in the Materials nest takes precedence over all others.
+- Otherwise, all other copies take precedence over those in the
 internal nest.
-(3) Otherwise, semantic version number rules are used to determine which
+- Otherwise, semantic version number rules are used to determine which
 copy had precedence.
 
 Suppose the Materials folder for our project contains |Locksmith-v3_2.i7x|,

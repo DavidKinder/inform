@@ -272,15 +272,15 @@ void Solution::identify_relevant_lines(void) {
 When the loop below concludes, the relevant nodes are exactly those in the
 component of the tree root, because:
 
-(a) No irrelevant node can be the child of a relevant one; and no
+- No irrelevant node can be the child of a relevant one; and no
 relevant node can be the child of an irrelevant one by definition. So the
 tree falls into components each of which is fully relevant or fully not.
-(b) Since we never break any relevant-parent-relevant-child relationships, the
+- Since we never break any relevant-parent-relevant-child relationships, the
 number of components containing at least one relevant node is unchanged.
-(c) Since the Skein is initially a tree and not a forest, we start with
+- Since the Skein is initially a tree and not a forest, we start with
 just one component, and it contains the tree root, which is known to be
 relevant (we would have given up with an error message if not).
-(d) And therefore at the end of the loop the "tree" consists of a single
+- And therefore at the end of the loop the "tree" consists of a single
 component headed by the tree root and containing all of the relevant nodes,
 together with any number of other components each of which contains only
 irrelevant ones.

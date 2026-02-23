@@ -6,25 +6,25 @@ To compile Inter code following the model in an Inter schema tree.
 Inter code from a schema. Though there are many arguments, this is still fairly
 simple to use:
 
-(*) |I| is the tree to compile code into. Code will appear at the current write
+- |I| is the tree to compile code into. Code will appear at the current write
 position in that tree.
-(*) |VH| is a value holster (see //Value Holsters//), but a simple one: it either
+- |VH| is a value holster (see //Value Holsters//), but a simple one: it either
 says "generate code in a void context" (that's |INTER_VOID_VHMODE|) or "generate
 code in a value context" (|INTER_VAL_VHMODE|). The difference is that, say,
 statements such as |print "Hello";| cannot be compiled in a value context, only
 in a void one.
-(*) |sch| is the schema to compile from. It is unchanged by the process, except
+- |sch| is the schema to compile from. It is unchanged by the process, except
 that nodes made inaccessible by conditional compilation are marked as such.
-(*) If the schema mentions identifiers -- as for example |DoSomething(1, 2)|
+- If the schema mentions identifiers -- as for example |DoSomething(1, 2)|
 mentions the identifier |DoSomething| -- then these must somehow be matched up
 with |inter_symbol|s giving them a meaning. |finder| says how: see //Identifier Finders//.
-(*) As we have seen, schema notation is (almost) Inform 6 syntax, except for two
+- As we have seen, schema notation is (almost) Inform 6 syntax, except for two
 big extensions: one is Inform 7 source text placed between |(+| and |+)| markers,
 and the other is braced commands like |{-by-reference: X}|. The code below cannot
 deal with either of these. Instead, we must supply callback functions to deal
 with them as they arise. (Supplying |NULL| as either of these makes the relevant
 notation do nothing.)
-(*) |opaque_state| is a pointer to any data which you, the caller, want to be
+- |opaque_state| is a pointer to any data which you, the caller, want to be
 passed through to those two callback functions. The code below otherwise makes
 no use of it; and it can of course be |NULL| if no state is needed.
 
@@ -735,9 +735,9 @@ For example, the schema |.{-label:Say}{-counter-up:Say};| results in:
 @ Note the three pseudo-operations here -- that is, operators which do not
 directly correspond to Inter primitives. They are:
 
-(*) |HAS_XBIP|, which is done by performing a property lookup;
-(*) |HASNT_XBIP|, which is done by negating the same;
-(*) |OWNERKIND_XBIP|, which is a way to finesse that |PROPERTYVALUE_BIP| is
+- |HAS_XBIP|, which is done by performing a property lookup;
+- |HASNT_XBIP|, which is done by negating the same;
+- |OWNERKIND_XBIP|, which is a way to finesse that |PROPERTYVALUE_BIP| is
 ternary at the Inter level, but only binary in Inform 6 source code. When
 the code writes |obj.prop|, this is treated here as if it had been
 |OBJECT_TY>>obj.prop|; so the value |OBJECT_TY| is dropped in. But if the
@@ -827,13 +827,13 @@ on others.
 @ As noted in //Inter Primitives//, the signature of |OBJECTLOOP_BIP| is
 |ref val val code -> void|, so it needs four operands:
 
-(1) The |ref| is the variable.
-(2) The first |val| is the object class it ranges over. If we are unable to
+- The |ref| is the variable.
+- The first |val| is the object class it ranges over. If we are unable to
 narrow this down, we will simply make that |Object|, the result being a
 potentially slow loop over all objects.
-(3) The second |val| is condition which must apply to any given |x| for the
+- The second |val| is condition which must apply to any given |x| for the
 code block to be executed.
-(4) The |code| is the code block.
+- The |code| is the code block.
 
 But it arrives here not with four child nodes, but just two, corresponding to
 the second |val| and the |code| respectively. We must find the first two as

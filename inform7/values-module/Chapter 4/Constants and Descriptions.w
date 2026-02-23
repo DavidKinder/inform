@@ -404,14 +404,14 @@ whereas "empty rulebook" will work.
 Grammatically, a description is a sequence of the following five elements, some
 of which are optional:
 
-(a) specifier, which will be a determiner and/or an article (optional);
+- specifier, which will be a determiner and/or an article (optional);
 
-(b) qualifier, which for Inform means adjectives of the various kinds
+- qualifier, which for Inform means adjectives of the various kinds
 described above (optional);
 
-(c) qualifiable noun (sometimes optional, sometimes compulsory); and
+- qualifiable noun (sometimes optional, sometimes compulsory); and
 
-(d) subordinate clause, such as "in ..." or "which are on ..."
+- subordinate clause, such as "in ..." or "which are on ..."
 (optional).
 
 For the most part the sequence must be (a), (b), (c), (d), as in:

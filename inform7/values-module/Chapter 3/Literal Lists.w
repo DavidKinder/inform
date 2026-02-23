@@ -37,9 +37,10 @@ parse_node *Lists::at(literal_list *L, wording W) {
 
 @ Each different literal list (LL) found in the source text generates an
 instance of the following structure. Note that:
-(1) every LL structure represents a syntactically well-formed list, in which
+
+- every LL structure represents a syntactically well-formed list, in which
 braces and commas balance; and
-(2) there can be at most one LL structure at any word position.
+- there can be at most one LL structure at any word position.
 
 =
 typedef struct literal_list {

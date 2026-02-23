@@ -5,20 +5,20 @@ How arrays of all kinds are stored in C.
 @h Setting up the model.
 The Inter semantics require that there be an area of byte-accessible memory:
 
-(a) Byte-accessible memory must contain all of the arrays. These can but need
+- Byte-accessible memory must contain all of the arrays. These can but need
 not have alignment gaps in between them. (For C, they do not.)
-(b) "Addresses" in this memory identify individual byte positions in it. These
+- "Addresses" in this memory identify individual byte positions in it. These
 can but need not start at 0. (For C, they do.) They must not be too large to
 fit into an Inter value.
-(c) When an array name is compiled, its runtime value must be its address.
-(d) When an Inter value is stored in byte-accessible memory, it occupies either
+- When an array name is compiled, its runtime value must be its address.
+- When an Inter value is stored in byte-accessible memory, it occupies either
 2 or 4 consecutive bytes, with the little end first. The result is called a
 "word". (For C, always 4, which is always |sizeof(i7word_t)|.) Conversion between
 a word stored in memory and an Inter value must be faithful in both directions.
-(e) Words can be stored at any byte position, and not only at (say) multiples
+- Words can be stored at any byte position, and not only at (say) multiples
 of 2 or 4.
-(f) Arrays in memory are free to contain a mixture of bytes and words: some do.
-(g) Data may be written in byte form and read back in word form, or vice versa.
+- Arrays in memory are free to contain a mixture of bytes and words: some do.
+- Data may be written in byte form and read back in word form, or vice versa.
 
 =
 void CMemoryModel::initialise(code_generator *gtr) {
@@ -227,8 +227,8 @@ memory to its initial state when a process begins, and with the stack empty.
 
 Note that we fill in ten bytes of the 64-byte header block of memory:
 
-(*) The Release number as a big-endian 16-bit value at |0x34-0x35|;
-(*) The Serial code as six ASCII characters (in practice digits) at |0x36-0x3B|.
+- The Release number as a big-endian 16-bit value at |0x34-0x35|;
+- The Serial code as six ASCII characters (in practice digits) at |0x36-0x3B|.
 
 We carefully defined those two constants, if they exist, before the inclusion point of
 the C library in order that the conditional compilations in |i7_initialise_memory_and_stack|

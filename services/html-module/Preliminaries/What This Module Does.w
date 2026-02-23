@@ -5,13 +5,14 @@ An overview of the html module's role and abilities.
 @h Prerequisites.
 The html module is a part of the Inform compiler toolset. It is
 presented as a literate program or "web". Before diving in:
-(a) It helps to have some experience of reading webs: see //inweb// for more.
-(b) The module is written in C, in fact ANSI C99, but this is disguised by the
+
+- It helps to have some experience of reading webs: see //inweb// for more.
+- The module is written in C, in fact ANSI C99, but this is disguised by the
 fact that it uses some extension syntaxes provided by the //inweb// literate
 programming tool, making it a dialect of C called InC. See //inweb// for
 full details, but essentially: it's C without predeclarations or header files,
 and where functions have names like |Tags::add_by_name| rather than |add_by_name|.
-(c) This module uses other modules drawn from the compiler (see //structure//), and also
+- This module uses other modules drawn from the compiler (see //structure//), and also
 uses a module of utility functions called //foundation//.
 For more, see //foundation: A Brief Guide to Foundation//.
 
@@ -27,9 +28,9 @@ and provides highly Inform-specific functions needed to make the intranet-like
 miniature websites it generates on the fly -- problem pages, the Index, the
 extensions documentation. In particular, it offers:
 
-(a) clickable links to positions in source text, opening the Source panel
+- clickable links to positions in source text, opening the Source panel
 in the Inform GUI apps as needed -- see //SourceLinks::link//;
-(b) paste buttons which, when clicked, insert text into the Source panel,
+- paste buttons which, when clicked, insert text into the Source panel,
 or which open certain files or folders -- see //Paste Buttons//;
 
 @h Custom HTML link protocols.
@@ -49,8 +50,9 @@ with a colon -- all browsers recognise a standard set of these, of which |http:|
 
 Inform uses two non-standard ones in these internal pages, and so the GUI app
 must implement them for its embedded web engine:
-(a) |source:| is used in link |href|s to make source text references -- see //Source Links//;
-(b) |inform:| is used both for links to internal or external pages generated
+
+- |source:| is used in link |href|s to make source text references -- see //Source Links//;
+- |inform:| is used both for links to internal or external pages generated
 by Inform, and also for image |src|s. It behaves just like |http:|, except
 that it derives the location of a file from the given URL in a different way.
 
@@ -59,12 +61,12 @@ no way to know the relative URLs necessary to access e.g. icon images for
 the World index, which will be in different places in the file system on
 different Inform apps. More formally, the specification of |inform:| is that --
 
-(a) |inform://...| is interpreted as a reference to one of the built-in images,
+- |inform://...| is interpreted as a reference to one of the built-in images,
 i.e., to wherever the app has internally stashed the Inform distribution's
 directory |resources/Imagery|. Barring errors in Inform, or in the app, this
 should never 404.
 
-(b) For any path |*|, |inform://Extensions/*| should be fetched as |*| in the
+- For any path |*|, |inform://Extensions/*| should be fetched as |*| in the
 external resources area -- that is, the place to which the app is installing
 new extensions. If no file was found, the link should simply do nothing:
 the application is required not to produce a 404 error page, or to

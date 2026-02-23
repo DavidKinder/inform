@@ -7,18 +7,18 @@ The "focus" of a rulebook is what it works upon. Some rulebooks are for processi
 actions, but others work on an input value. It's not obvious how to represent
 action-focused rulebooks in our system of kinds. Two rejected schemes were:
 
-(1) Regard them as "nothing-based rulebooks". But then there is no way to tell
+- Regard them as "nothing-based rulebooks". But then there is no way to tell
 from the kind that they are processing actions rather than performing some
 other task.
 
-(2) Regard them as "stored action-based rulebooks". But quite apart from the
+- Regard them as "stored action-based rulebooks". But quite apart from the
 unnatural look of this text, action-focus rulebooks are not really working on
 a stored action -- they can only work on the current action being processed.
 They actually have no parameter value at all.
 
 And so we end up with a compromise:
 
-(3) Regard them as "action-based rulebooks". This looks right to authors, though
+- Regard them as "action-based rulebooks". This looks right to authors, though
 it arguably abuses the word "action". But it does mean there is no way to have
 a rulebook which actually has |K_action_name| as its focus kind.
 

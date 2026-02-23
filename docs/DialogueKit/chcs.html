@@ -12,6 +12,11 @@
 <link href="../docs-assets/Navigation.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Fonts.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -48,71 +53,84 @@
 
 <ul class="toc"><li><a href="chcs.html#SP1">&#167;1. Runtime representation</a></li><li><a href="chcs.html#SP2">&#167;2. Extracting choice data</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Runtime representation.</b>Values representing choices are enumerated from 1 to <span class="extract"><span class="extract-syntax">NO_DIALOGUE_CHOICES</span></span>. Choices
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Runtime representation.</b>  Values representing choices are enumerated from 1 to <code>NO_DIALOGUE_CHOICES</code>. Choices
 have certain properties stored by Inform just as it would for any other
-enumerated kind, and which this kit deals with by calls to <span class="extract"><span class="extract-syntax">GProperty</span></span> and
-<span class="extract"><span class="extract-syntax">WriteGProperty</span></span>: in particular, <span class="extract"><span class="extract-syntax">performed</span></span> and <span class="extract"><span class="extract-syntax">recurring</span></span>.
-</p>
-
-<p class="commentary">In addition, though, the compiler (or more accurately the linker) generates
-a table called <span class="extract"><span class="extract-syntax">TableOfDialogueChoices</span></span>. If <span class="extract"><span class="extract-syntax">dc</span></span> is an enumerated value then
-<span class="extract"><span class="extract-syntax">TableOfDialogueChoices--&gt;dc</span></span> is the address of the metadata table for <span class="extract"><span class="extract-syntax">dc</span></span>.
-(And <span class="extract"><span class="extract-syntax">TableOfDialogueChoices--&gt;0</span></span> is set to <span class="extract"><span class="extract-syntax">NO_DIALOGUE_CHOICES</span></span>.)
-</p>
-
-<p class="commentary">These choice data arrays occupy 3 words each, with fields as follows:
-</p>
-
-<ul class="items"><li>&#9679; <span class="extract"><span class="extract-syntax">TYPE_DCMETADATA</span></span> must be one of the <span class="extract"><span class="extract-syntax">*_DSEL</span></span> values, which in turn
-determines the meaning of the <span class="extract"><span class="extract-syntax">CONTENT_DCMETADATA</span></span> field.
-</li><li>&#9679; <span class="extract"><span class="extract-syntax">AVAILABILITY_DCMETADATA</span></span> is a function to test whether any <span class="extract"><span class="extract-syntax">if</span></span> or <span class="extract"><span class="extract-syntax">unless</span></span>
-conditions attached to the choice are met; this returns <span class="extract"><span class="extract-syntax">true</span></span> if the choice is
-available, <span class="extract"><span class="extract-syntax">false</span></span> if not. If the <span class="extract"><span class="extract-syntax">AVAILABILITY_DCMETADATA</span></span> is 0, the choice is
-always available.
-</li><li>&#9679; What's held in <span class="extract"><span class="extract-syntax">CONTENT_DCMETADATA</span></span> depends on the <span class="extract"><span class="extract-syntax">TYPE_DCMETADATA</span></span>:
-</li><li>(a) For <span class="extract"><span class="extract-syntax">TEXTUAL_DSEL</span></span> it's an Inform 7 <span class="extract"><span class="extract-syntax">text</span></span> value for what is being offered
-to the player (say, "Run out of the room screaming").
-</li><li>(b) For <span class="extract"><span class="extract-syntax">ENDING_DSEL</span></span> and the other ending types, it's the value of <span class="extract"><span class="extract-syntax">deadflag</span></span>
-to set, which will sometimes be a <span class="extract"><span class="extract-syntax">text</span></span> and sometimes just the value 3: see
-WorldModelKit for why this is.
-</li><li>(c) For <span class="extract"><span class="extract-syntax">PERFORM_DSEL</span></span> it's the dialogue beat to perform.
-</li><li>(d) For <span class="extract"><span class="extract-syntax">INSTEAD_OF_DSEL</span></span>, <span class="extract"><span class="extract-syntax">AFTER_DSEL</span></span> and <span class="extract"><span class="extract-syntax">BEFORE_DSEL</span></span>, it's a function which
-looks to see if the current action matches the given action pattern.
-</li><li>(e) For everything else, it's 0 and meaningless.
-</li></ul>
-<p class="commentary">All of this must of course match what is compiled in <a href="../runtime-module/5-dci.html" class="internal">Dialogue Choice Instances (in runtime)</a>.
-</p>
-
+enumerated kind, and which this kit deals with by calls to <code>GProperty</code> and
+<code>WriteGProperty</code>: in particular, <code>performed</code> and <code>recurring</code>.</p>
+<p>In addition, though, the compiler (or more accurately the linker) generates
+a table called <code>TableOfDialogueChoices</code>. If <code>dc</code> is an enumerated value then
+<code>TableOfDialogueChoices--&gt;dc</code> is the address of the metadata table for <code>dc</code>.
+(And <code>TableOfDialogueChoices--&gt;0</code> is set to <code>NO_DIALOGUE_CHOICES</code>.)</p>
+<p>These choice data arrays occupy 3 words each, with fields as follows:</p>
+<ul>
+<li>
+<p><code>TYPE_DCMETADATA</code> must be one of the <code>*_DSEL</code> values, which in turn
+determines the meaning of the <code>CONTENT_DCMETADATA</code> field.</p>
+</li>
+<li>
+<p><code>AVAILABILITY_DCMETADATA</code> is a function to test whether any <code>if</code> or <code>unless</code>
+conditions attached to the choice are met; this returns <code>true</code> if the choice is
+available, <code>false</code> if not. If the <code>AVAILABILITY_DCMETADATA</code> is 0, the choice is
+always available.</p>
+</li>
+<li>
+<p>What's held in <code>CONTENT_DCMETADATA</code> depends on the <code>TYPE_DCMETADATA</code>:</p>
+<ul>
+<li>
+<p>For <code>TEXTUAL_DSEL</code> it's an Inform 7 <code>text</code> value for what is being offered
+to the player (say, &quot;Run out of the room screaming&quot;).</p>
+</li>
+<li>
+<p>For <code>ENDING_DSEL</code> and the other ending types, it's the value of <code>deadflag</code>
+to set, which will sometimes be a <code>text</code> and sometimes just the value 3: see
+WorldModelKit for why this is.</p>
+</li>
+<li>
+<p>For <code>PERFORM_DSEL</code> it's the dialogue beat to perform.</p>
+</li>
+<li>
+<p>For <code>INSTEAD_OF_DSEL</code>, <code>AFTER_DSEL</code> and <code>BEFORE_DSEL</code>, it's a function which
+looks to see if the current action matches the given action pattern.</p>
+</li>
+<li>
+<p>For everything else, it's 0 and meaningless.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>All of this must of course match what is compiled in <a href="../runtime-module/5-dci.html" class="internal">Dialogue Choice Instances (in runtime)</a>.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">TYPE_DCMETADATA</span><span class="plain-syntax"> = </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">AVAILABILITY_DCMETADATA</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">CONTENT_DCMETADATA</span><span class="plain-syntax"> = </span><span class="constant-syntax">2</span><span class="plain-syntax">;</span>
 <span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">STATE_DCMETADATA</span><span class="plain-syntax"> = </span><span class="constant-syntax">3</span><span class="plain-syntax">;</span>
 
-<span class="plain-syntax">                                         </span><span class="comment-syntax">Flow markers:</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">AGAIN_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">;                 </span><span class="comment-syntax">&lt;-</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">ANOTHER_CHOICE_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">2</span><span class="plain-syntax">;        </span><span class="comment-syntax">-&gt; another choice</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">PERFORM_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">3</span><span class="plain-syntax">;               </span><span class="comment-syntax">-&gt; perform the falling beat</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">STOP_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">4</span><span class="plain-syntax">;                  </span><span class="comment-syntax">-&gt; stop</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">ENDING_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">5</span><span class="plain-syntax">;                </span><span class="comment-syntax">-&gt; end the story</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">ENDING_SAYING_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">6</span><span class="plain-syntax">;         </span><span class="comment-syntax">-&gt; end the story saying "You have succeeded"</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">ENDING_FINALLY_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">7</span><span class="plain-syntax">;        </span><span class="comment-syntax">-&gt; end the story finally</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">ENDING_FINALLY_SAYING_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">8</span><span class="plain-syntax">; </span><span class="comment-syntax">-&gt; end the story finally saying "You have failed"</span>
+<span class="plain-syntax">                                         </span><span class="comment-syntax">! Flow markers:</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">AGAIN_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">1</span><span class="plain-syntax">;                 </span><span class="comment-syntax">! &lt;-</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">ANOTHER_CHOICE_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">2</span><span class="plain-syntax">;        </span><span class="comment-syntax">! -&gt; another choice</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">PERFORM_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">3</span><span class="plain-syntax">;               </span><span class="comment-syntax">! -&gt; perform the falling beat</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">STOP_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">4</span><span class="plain-syntax">;                  </span><span class="comment-syntax">! -&gt; stop</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">ENDING_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">5</span><span class="plain-syntax">;                </span><span class="comment-syntax">! -&gt; end the story</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">ENDING_SAYING_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">6</span><span class="plain-syntax">;         </span><span class="comment-syntax">! -&gt; end the story saying "You have succeeded"</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">ENDING_FINALLY_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">7</span><span class="plain-syntax">;        </span><span class="comment-syntax">! -&gt; end the story finally</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">ENDING_FINALLY_SAYING_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">8</span><span class="plain-syntax">; </span><span class="comment-syntax">! -&gt; end the story finally saying "You have failed"</span>
 
-<span class="plain-syntax">                                         </span><span class="comment-syntax">Offered choices:</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">TEXTUAL_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">9</span><span class="plain-syntax">;               </span><span class="comment-syntax">&mdash; "Run out of the room screaming"</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">BEFORE_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">10</span><span class="plain-syntax">;               </span><span class="comment-syntax">&mdash; before taking the pocket watch</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">INSTEAD_OF_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">11</span><span class="plain-syntax">;           </span><span class="comment-syntax">&mdash; instead of taking something</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">AFTER_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">12</span><span class="plain-syntax">;                </span><span class="comment-syntax">&mdash; after examining the rabbit hole</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">OTHERWISE_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">13</span><span class="plain-syntax">;            </span><span class="comment-syntax">&mdash; otherwise</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">CHOOSE_RANDOMLY_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">14</span><span class="plain-syntax">;      </span><span class="comment-syntax">&mdash; choose randomly</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">SHUFFLE_THROUGH_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">15</span><span class="plain-syntax">;      </span><span class="comment-syntax">&mdash; shuffle through</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">CYCLE_THROUGH_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">16</span><span class="plain-syntax">;        </span><span class="comment-syntax">&mdash; cycle through</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">STEP_THROUGH_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">17</span><span class="plain-syntax">;         </span><span class="comment-syntax">&mdash; step through</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">STEP_THROUGH_AND_STOP_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">18</span><span class="plain-syntax">; </span><span class="comment-syntax">&mdash; step through and stop</span>
-<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">OR_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">19</span><span class="plain-syntax">;                   </span><span class="comment-syntax">&mdash; or</span>
+<span class="plain-syntax">                                         </span><span class="comment-syntax">! Offered choices:</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">TEXTUAL_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">9</span><span class="plain-syntax">;               </span><span class="comment-syntax">! -- "Run out of the room screaming"</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">BEFORE_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">10</span><span class="plain-syntax">;               </span><span class="comment-syntax">! -- before taking the pocket watch</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">INSTEAD_OF_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">11</span><span class="plain-syntax">;           </span><span class="comment-syntax">! -- instead of taking something</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">AFTER_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">12</span><span class="plain-syntax">;                </span><span class="comment-syntax">! -- after examining the rabbit hole</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">OTHERWISE_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">13</span><span class="plain-syntax">;            </span><span class="comment-syntax">! -- otherwise</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">CHOOSE_RANDOMLY_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">14</span><span class="plain-syntax">;      </span><span class="comment-syntax">! -- choose randomly</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">SHUFFLE_THROUGH_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">15</span><span class="plain-syntax">;      </span><span class="comment-syntax">! -- shuffle through</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">CYCLE_THROUGH_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">16</span><span class="plain-syntax">;        </span><span class="comment-syntax">! -- cycle through</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">STEP_THROUGH_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">17</span><span class="plain-syntax">;         </span><span class="comment-syntax">! -- step through</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">STEP_THROUGH_AND_STOP_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">18</span><span class="plain-syntax">; </span><span class="comment-syntax">! -- step through and stop</span>
+<span class="reserved-syntax">Constant</span><span class="plain-syntax"> </span><span class="identifier-syntax">OR_DSEL</span><span class="plain-syntax"> = </span><span class="constant-syntax">19</span><span class="plain-syntax">;                   </span><span class="comment-syntax">! -- or</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Extracting choice data.</b></p>
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Extracting choice data.</b> </p>
 
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">DirectorChoiceStoryEnding</span><span class="plain-syntax"> </span><span class="identifier-syntax">dc</span><span class="plain-syntax"> </span><span class="identifier-syntax">chdata</span><span class="plain-syntax">;</span>

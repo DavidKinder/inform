@@ -312,9 +312,9 @@ it's clearer to give two definitions, so:
 This is more or less |strcmp|, the traditional C library routine for comparing
 strings, but it does pose a few interesting questions. The answers are:
 
-(a) Two different unexpanded texts with substitutions are never equal, so
+- Two different unexpanded texts with substitutions are never equal, so
 "[X]" and "[Y]" aren't equal as texts even if X and Y are equal.
-(b) Otherwise we test the current value of the text as expanded, so "[X]"
+- Otherwise we test the current value of the text as expanded, so "[X]"
 and "17" can be equal as texts if X is 17.
 
 =

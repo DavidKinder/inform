@@ -188,34 +188,41 @@ but otherwise changes little.
 @h Values.
 The sequence here is important, in that it resolves ambiguities:
 
-(*) Variable names have highest priority, in order to allow temporary "let"
+- Variable names have highest priority, in order to allow temporary "let"
 names to mask existing meanings.
-(*) Constants come next: these include literals, but also named constants,
+
+- Constants come next: these include literals, but also named constants,
 such as names of rooms or things.
-(*) Equations are an oddball exceptional case, seldom arising.
-(*) Property names are not constants and, as values, they are usually read
+
+- Equations are an oddball exceptional case, seldom arising.
+
+- Property names are not constants and, as values, they are usually read
 as implicitly referring to a property value of something, not as a reference
 to the property itself: thus "description" means the actual description of
 some object clear from context, not the description property in the abstract.
-(*) Table column names present a particular ambiguity arising from tables
+
+- Table column names present a particular ambiguity arising from tables
 which are used to construct instances. In tables like that, the column names
 become names of properties owned by those instances; and then there are also
 ambiguities like those with property names, as between the column's identity
 and the actual contents of the current row.
-(*) Phrases to decide a value whose wording mimics a property cause trouble.
+
+- Phrases to decide a value whose wording mimics a property cause trouble.
 I sometimes think it would be better to penalise this sort of wording by
 treating it badly, but since the Standard Rules are as guilty as anyone else,
 Inform instead tries to cope. Here we parse any phrase whose wording doesn't
 look like a property lookup in the form "X of Y"; later we will pick up
 any phrase whose wording does.
-(*) Similarly we parse descriptions in two rounds: those referring to
+
+- Similarly we parse descriptions in two rounds: those referring to
 physical objects, and others later on. This is because English tends to give
 metaphorically physical names to abstract things: for example, the word
 "table" for an array of data. We want to make sure sentences like "The
 ball is on the table" are not misread through parsing "table" as the
 name of the kind. (Type expressions have the opposite convention: there,
 kind names always take priority over mere names of things. See above.)
-(*) The "member of..." productions are to make it possible to write
+
+- The "member of..." productions are to make it possible to write
 description comprehensions without ambiguity or grammatical oddness; for
 instance if a "let" name "D" holds a description, it enables us to
 write "members of D" instead of just "D", making the wording of some
@@ -427,15 +434,15 @@ vocabulary_entry *property_word_to_suppress = NULL;
 @h Table references.
 Table references come in five different forms:
 
-(a) For instance, "atomic number entry", meaning the entry in that column
+- For instance, "atomic number entry", meaning the entry in that column
 and implicitly in the table and row currently selected.
-(b) For instance, "atomic number in row 4 of the Table of Elements".
-(c) For instance, "an atomic number listed in the Table of Elements" in the
+- For instance, "atomic number in row 4 of the Table of Elements".
+- For instance, "an atomic number listed in the Table of Elements" in the
 sentence "if 101 is an atomic number listed in the Table of Elements". This
 is part of a condition, and can't evaluate.
-(d) For instance, "atomic weight corresponding to an atomic number of 57 in
+- For instance, "atomic weight corresponding to an atomic number of 57 in
 the Table of Elements".
-(e) For instance, "atomic weight of 20 in the Table of Elements" in the
+- For instance, "atomic weight of 20 in the Table of Elements" in the
 sentence "if there is an atomic weight of 20 in the Table of Elements".
 Again, this is part of a condition, and can't evaluate.
 

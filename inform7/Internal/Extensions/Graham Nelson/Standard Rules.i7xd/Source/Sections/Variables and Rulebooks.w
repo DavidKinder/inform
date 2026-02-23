@@ -211,12 +211,12 @@ purpose is that Inform can use them in substitutions. They should never be
 referred to in I7 source text anywhere else at all, not even elsewhere in
 the Standard Rules.
 
-(1) The sentence "The i6-nothing-constant is an object that varies." is
+- The sentence "The i6-nothing-constant is an object that varies." is
 a rare example of a flat lie in the Standard Rules, as it is the I6 constant
 |nothing| and never varies at all. It exists as a "variable" so that the
 substitution $x=$~|nothing| can be made.
 
-(2) Well, once you start telling lies it's so hard to stop, and it's also a
+- Well, once you start telling lies it's so hard to stop, and it's also a
 lie that the "I6-varying-global" translates to |nothing|. It actually
 translates to whatever the Inform machinery for compiling propositions happens
 to want at the moment, so it has no permanent meaning at all. (It will
@@ -237,18 +237,18 @@ The I6-varying-global variable is defined by Inter as "nothing".
 
 @ The remaining secret variables are:
 
-(1) The "item-pushed-between-rooms" is needed to get the identity of
+- The "item-pushed-between-rooms" is needed to get the identity of
 an object being pushed by a command like PUSH ARMCHAIR NORTH out of I6
 and into the action variable "thing gone with" of the going action.
 
-(2) The "actor-location" is needed temporarily to store the room in
+- The "actor-location" is needed temporarily to store the room in
 which the actor of the current action is standing, and it wants to be
 an I6 global (rather than, say, a rulebook variable belonging to the
 action-processing rulebook) so that Inform can use common code to handle
 this alongside |noun|, |second| and |actor| when compiling preambles
 to rules.
 
-(3) The "parameter-object" is likewise needed in order to compile
+- The "parameter-object" is likewise needed in order to compile
 preambles to rules in object-based rulebooks.
 
 =
@@ -268,11 +268,11 @@ to start out, the Standard Rules are replete with them.
 When an interactive fiction project using the Standard Rules starts up,
 it does the following:
 
-(1) Consider the startup rules.
-(2) Repeatedly follow the turn sequence rules until the Inter variable
+- Consider the startup rules.
+- Repeatedly follow the turn sequence rules until the Inter variable
 |deadflag| is set, which is used to indicate that the game has ended in one
 way or another (though not necessarily in "death").
-(3) Follow the shutdown rules.
+- Follow the shutdown rules.
 
 Briefly, the startup phase takes us to the end of the room description
 after the banner is printed. The turn sequence covers a complete turn,
@@ -371,17 +371,17 @@ is sometimes some ambiguity about which rulebook to use if one wants to
 achieve a given effect. There are really two reasons why things are done
 this way:
 
-(a) To try to encourage a distinction between:
+- To try to encourage a distinction between:
 
-(-i) the general implementation of an action, made with carry out, check
-and report rules -- say, a "photographing" action which could be used in
-any situation and could be copied and pasted into another project; and
+	- the general implementation of an action, made with carry out, check
+	and report rules -- say, a "photographing" action which could be used in
+	any situation and could be copied and pasted into another project; and
+	
+	- the contingent rules applying in particular situations in play, made
+	with before, instead and after rules, such as that custodians at the
+	Metropolitan Museum of Art forbid flash photography.
 
-(-ii) the contingent rules applying in particular situations in play, made
-with before, instead and after rules, such as that custodians at the
-Metropolitan Museum of Art forbid flash photography.
-
-(b) To improve the efficiency of action-processing by forcing control to
+- To improve the efficiency of action-processing by forcing control to
 run only through those carry out, check and report rules which can possibly
 be relevant to the current action. Whereas all before, instead and after
 rules are all piled up together in their own rulebooks, check, carry out
@@ -488,12 +488,12 @@ The little-used do nothing rule is defined by Inter as "LITTLE_USED_DO_NOTHING_R
 @h Startup.
 These startup rules prepare the various world model specific systems.
 
-(a) The printing of three blank lines at the start of play is traditional: on early
+- The printing of three blank lines at the start of play is traditional: on early
 Z-machine interpreters such as InfoTaskForce and Zip it was a necessity because
 of the way they buffered output. On modern windowed ones it still helps to
 space the opening text better.
 
-(b) The "update chronological records rule" is described in further detail
+- The "update chronological records rule" is described in further detail
 below, since it appears both here and also in the turn sequence rulebook.
 Here it's providing us with a baseline of initial truths from which we can
 later assess conditions such as "the marble door has been open". A subtle
@@ -505,10 +505,10 @@ Dining Room for three turns". It's as if the player teleports into an
 already-existing world, like some Star Trek crewman, just in time for the
 first command.
 
-(c) The "position player in model world rule" completes the initial
+- The "position player in model world rule" completes the initial
 construction of the spatial model world.
 
-(d) The "start in the correct scenes rule" ensures that we start out
+- The "start in the correct scenes rule" ensures that we start out
 in the correct scenes. (This can't wait, because it's just conceivable
 that somebody has written a rule with a preamble like "When play
 begins during the Hunting Season...": it's also where the scene
@@ -568,26 +568,26 @@ this list of rules over and over again.
 @ The "first" rules in the turn sequence cover us up to the end of the
 events which take place in the model world during this turn's action(s).
 
-(a) The "parse command rule" prints up the prompt, reads a command from
+- The "parse command rule" prints up the prompt, reads a command from
 the keyboard, parses it into dictionary words, deals with niceties such as
 UNDO or OOPS, and then runs it through the traditional I6 parser to turn
 it into a request for an action or list of actions. But see note below.
 
-(b) The "mentioned" property records whether something's name has been
+- The "mentioned" property records whether something's name has been
 printed since the last command.
 
-(c) The "generate action rule" then either sends a single action to the
+- The "generate action rule" then either sends a single action to the
 action-processing rules, or else runs through the list, printing the noun
 up with a colon each time and then sending the action to the action-processing
 rules. But see note below.
 
-(d) We then run the scene changing rulebook, because people often write
+- We then run the scene changing rulebook, because people often write
 every turn rules which are predicated on particular scenes ("Every turn
 during the Grand Waltz: ..."), and such rules will fail if we haven't kept
 up with possible scene changes arising from something done in the action(s)
 just completed.
 
-(e) The "every turn stage rule" follows the every turn rulebook. This
+- The "every turn stage rule" follows the every turn rulebook. This
 earns its place among the "first" rules in order for it to have priority
 over all the other book-keeping rules at the end of a turn -- including any
 which the user, or an extension included by the user, chooses to add to the
@@ -619,13 +619,13 @@ The parse command rule is listed first in the turn sequence rulebook. [1st.]
 @ Three miscellaneous things then happen, all implemented by primitives
 in the template I6 layer:
 
-(e) The "timed events rule" is the one which causes other rules, keyed
+- The "timed events rule" is the one which causes other rules, keyed
 to particular times of day, to fire.
 
-(f) The "advance time rule" then causes the "time of day" global variable
+- The "advance time rule" then causes the "time of day" global variable
 to advance by the duration of a single turn, which by default is 1 minute.
 
-(g) The "update chronological records rule" tells the chronology machine
+- The "update chronological records rule" tells the chronology machine
 that a slice of time has been completed. Inform can only decide past tense
 conditions like "the black door has been open" by continuously measuring
 the present to see if the black door is open now, and making a note for
@@ -643,27 +643,27 @@ The update chronological records rule is listed in the turn sequence rulebook.
 the rulebook is reserved for book-keeping which has to happen positively
 at the end of the turn.
 
-(h) First, we check for scene changes again. We did this only a short while
+- First, we check for scene changes again. We did this only a short while
 ago, but scene changes might well have arisen as a result of rules which
 fired during the every turn rulebook, or from timed events, or in some other
 way, and it's important to start the next turn in the correct scene -- so we
 check again to make sure.
 
-(i) Then we run the "adjust light rule". Keeping track of light and darkness
+- Then we run the "adjust light rule". Keeping track of light and darkness
 is quite difficult, and potentially also quite slow: it's not unlike a sort
 of discretised version of ray-tracing, with many light sources and barriers
 to think about (some transparent, some opaque). So we do this as little as
 possible: once per turn we calculate whether the player is in light or not,
 and act accordingly if so.
 
-(j) The "note object acquisitions rule" does two things:
+- The "note object acquisitions rule" does two things:
 
-(-i) Gives the "handled" property to everything carried or worn by the player.
-(-ii) Changes the current player's holdall in use, if necessary. (That's to
-say: if the player has dropped their previous player's holdall, we try to find a
-new one to use from their remaining possessions.)
-
-(k) The "notify score changes rule" tells the player if the score has changed
+	- Gives the "handled" property to everything carried or worn by the player.
+	- Changes the current player's holdall in use, if necessary. (That's to
+	say: if the player has dropped their previous player's holdall, we try to find a
+	new one to use from their remaining possessions.)
+	
+- The "notify score changes rule" tells the player if the score has changed
 during the turn, or rather, since the last time either this rule or the startup
 "fix baseline scoring rule" ran. (If the score were to change in the course
 of an out-of-world action, it would be notified a turn late, but of course
@@ -702,16 +702,16 @@ work. It might not actually be goodbye, for one thing: if this rulebook ends
 in success, then we go back to repeating the turn sequence rulebook just as
 if nothing had happened.
 
-(a) The "when play ends stage rule" follows the rulebook of the same name.
+- The "when play ends stage rule" follows the rulebook of the same name.
 
-(b) The "resurrect player if asked rule" does nothing unless one of the
+- The "resurrect player if asked rule" does nothing unless one of the
 "when play ends" rules ran the "resume the game" phrase, in which case
 it stops the rulebook with success (see above).
 
-(c) The "print player's obituary rule" carries out the activity of nearly
+- The "print player's obituary rule" carries out the activity of nearly
 the same name (see below).
 
-(d) The "ask the final question rule" asks the celebrated "Would you like
+- The "ask the final question rule" asks the celebrated "Would you like
 to RESTART, RESTORE a saved game or QUIT?" question, and acts on the
 consequences. It can also cause an UNDO, and on a victorious ending may
 carry out the "amusing a victorious player" activity (see below). The rule
@@ -762,24 +762,24 @@ Action-processing happens on two levels: an upper level, handled by the main
 This division clearly complicates matters, so why do we do it? It turns out be
 convenient for several reasons:
 
-(a) Out-of-world actions like "saving the game" need to run through the
+- Out-of-world actions like "saving the game" need to run through the
 lower level, or they won't do anything at all, but must not run through the
 upper level, or in-world rules (before or instead rules, for instance) might
 prevent them from happening.
 
-(b) Requested actions such as generated by a command like "CLARK, BLOW WHISTLE"
+- Requested actions such as generated by a command like "CLARK, BLOW WHISTLE"
 have the reverse behaviour, being handled at the upper level but not the lower.
 (If Clark should agree, a definite non-request action "Clark blowing the whistle"
 is generated afresh: that one does indeed get to the lower level, but the original
 request action doesn't.)
 
-(c) Specific action-processing has a rather complicated range of outcomes:
+- Specific action-processing has a rather complicated range of outcomes:
 it must succeed or fail, according to whether the action either reaches the
 carry out rules or is converted into another action which does, but also
 ensure that in the event of failure, the exact rule causing the failure is
 recorded in the "reason the action failed" variable.
 
-(d) The specific action-processing stage is where we have to split consideration
+- The specific action-processing stage is where we have to split consideration
 into action-specific rulebooks (like "check taking") rather than general ones
 (like "instead"). To get this right, we want to use some rulebook variables,
 and these need to be set at exactly the correct moment. It's tricky to
@@ -861,27 +861,27 @@ This is the end action-processing in success rule: rule succeeds.
 
 @ The action-processing rulebook contains six primitives:
 
-(1) The "basic visibility rule" checks the action to see if it requires
+- The "basic visibility rule" checks the action to see if it requires
 light, and if so, and if the actor is the player and in darkness, asks
 the visibility rules (see below) whether the lack of light should stop
 the action. (It would be cleaner to apply this rule to all actors, but we
 would need much more extensive light calculations to do this.)
 
-(2) The "basic accessibility rule" checks the action to see if it requires
+- The "basic accessibility rule" checks the action to see if it requires
 the noun to be touchable, and if so, asks the accessibility rulebook to
 adjudicate (see below); then repeats the process for the second noun.
 
-(3) The "carrying requirements rule" checks the action to see if it requires
+- The "carrying requirements rule" checks the action to see if it requires
 the noun to be carried. If so, but the noun is not carried, it generates an
 implicit taking action (in effect, "try silently taking $N$"); and if that
 fails, then the rulebook is halted in failure. The process is then repeated
 for the second noun.
 
-(4) If the action is one where the player requests somebody else to do
+- If the action is one where the player requests somebody else to do
 something, the "requested actions require persuasion rule" asks the
 persuasion rulebook for permission.
 
-(5) If the action is one where the player requests somebody else to do
+- If the action is one where the player requests somebody else to do
 something, the "carry out requested actions rule" starts a new action by
 the person asked, and looks at the result: if it failed, the "unsuccessful
 attempt by" rulebook is run to tell the player what has (not) happened.
@@ -890,7 +890,7 @@ original action of requesting is ended in success: a success because,
 whatever happened, the request succeeded in making the actor try to do
 something.
 
-(6) The "descend to specific action-processing rule" really only runs the
+- The "descend to specific action-processing rule" really only runs the
 specific action-processing rulebook, but it's implemented as a primitive in
 the template I6 layer because it must also find out which are the
 specific check, carry out and report rulebooks for the current action (for

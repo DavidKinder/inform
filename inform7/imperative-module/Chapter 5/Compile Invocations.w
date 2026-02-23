@@ -126,26 +126,27 @@ Here |F1, ..., Fn| are called the "formal parameters". But now we have a tricky
 issue to contend with: where can they be stored?
 
 Here are the answers I thought of in turn:
-(*) Make |F1, ..., Fn| local variables for the current function. Often works
+
+- Make |F1, ..., Fn| local variables for the current function. Often works
 but not always, since some of our eventual target VMs have low upper limits
 on the number of locals in any one function.
-(*) Put |F1, ..., Fn| on the call stack for the current function. Impossible
+- Put |F1, ..., Fn| on the call stack for the current function. Impossible
 because the Inter VM has no memory access to its call stack, a restriction
 forced on Inter by the nature of the Z-machine and Glulx VMs it is a bridge to.
-(*) Have |F1, ..., Fn| be global variables. Impossible because they have to be
+- Have |F1, ..., Fn| be global variables. Impossible because they have to be
 local in scope since evaluation of |T2|, say, might itself involve a call to
 another phrase which needs to make a resolution itself.
-(*) Have |F1, ..., Fn| be global variables, but push copies to the call stack
+- Have |F1, ..., Fn| be global variables, but push copies to the call stack
 before the resolution, and pull them back afterwards, thus using only saved
 copies. This sometimes works in void context (if we are careful to avoid cases
 where the phrase invoked might perform a jump or return), but is impossible
 in value context, where the Inter |PUSH_BIP| and |PULL_BIP| opcodes are illegal.
-(*) Force the current function to be a kernel function inside an outer shell
+- Force the current function to be a kernel function inside an outer shell
 function, and then allocate |F1, ..., Fn| as memory in the |I7SFRAME| space
 provided by the shell function. This works, but is slower to access, and forces
 us to have a memory stack, which can be a problem if we are compiling for a
 very tight Z-machine memory.
-(*) Force the current function to be a kernel function inside an outer shell
+- Force the current function to be a kernel function inside an outer shell
 function, but have |F1, ..., Fn| be global variables anyway. In the shell
 function, push copies of |F1, ..., Fn| to the call stack before calling the
 kernel, and then pull these saved values back afterwards. This one, finally,

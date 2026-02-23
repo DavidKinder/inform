@@ -502,13 +502,13 @@ genuinely different inflected versions of the word.
 
 Our general strategy works like this:
 
-(a) Identify one or more verbs as being too irregular to fit into any
+- Identify one or more verbs as being too irregular to fit into any
 pattern, and handle those as special cases.
 
-(b) For all other verbs, identify a set of inflected forms which covers all
+- For all other verbs, identify a set of inflected forms which covers all
 of the possibilities we need to make, and write a trie to handle each one.
 
-(c) Try to use a single conjugation to show how these forms are used, that
+- Try to use a single conjugation to show how these forms are used, that
 is, how the different word forms map onto the possible tenses, persons,
 numbers, and so on.
 
@@ -529,11 +529,11 @@ All other English verbs have five form types, though in many cases two or more
 of these have the same spelling. These we will number as follows, for reasons
 which will become clear below:
 
-(1) Infinitive: flaunt.
-(2) Present participle: flaunting.
-(3) Past participle: flaunted.
-(5) Third person singular present (or just "present"): flaunts.
-(6) Third person singular past (or just "past"): flaunted.
+- Infinitive: flaunt.
+- Present participle: flaunting.
+- Past participle: flaunted.
+- Third person singular present (or just "present"): flaunts.
+- Third person singular past (or just "past"): flaunted.
 
 In regular verbs the past and past participle are the same, as they are here:
 he flaunted (past); he had flaunted (past participle). But English has around
@@ -578,12 +578,12 @@ Each row takes the form of a pattern of words to match, followed by a
 nonterminal giving the conjugation to use if a match is made. Matches
 are literal except:
 
-(a) The tail |...| means any string of one or more words, but can only be used
+- The tail |...| means any string of one or more words, but can only be used
 as the tail. Any text matching it is written into the adjoint infinitive.
 So |be able to ...| matches "be able to touch" and sets the adjoint
 infinitive to "touch".
 
-(b) A pattern written in the form |-xyz| matches the tail of a verb. This
+- A pattern written in the form |-xyz| matches the tail of a verb. This
 isn't useful for English, but in French it neatly spots classes of verbs:
 for example, |-er| detects first-conjugation verbs such as "donner".
 
@@ -731,6 +731,7 @@ following expands to "sought":
 = (text as InC)
 	3 ( seek )
 =
+
 (b) Text in the form |1+xyz| expands into verb form 1 but with the letters
 "xyz" added. For example, |1+ed| for the verb "to mark" would expand to
 "marked", since 1 is the infinitive form. This feature is much more useful

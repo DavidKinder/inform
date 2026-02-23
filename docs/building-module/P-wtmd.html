@@ -55,16 +55,18 @@
 
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Prerequisites.</b>  The building module is a part of the Inform compiler toolset. It is
-presented as a literate program or &quot;web&quot;. Before diving in:
-(a) It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.
-(b) The module is written in C, in fact ANSI C99, but this is disguised by the
+presented as a literate program or &quot;web&quot;. Before diving in:</p>
+<ul>
+<li>It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.</li>
+<li>The module is written in C, in fact ANSI C99, but this is disguised by the
 fact that it uses some extension syntaxes provided by the <a href="../inweb/index.html" class="internal">inweb</a> literate
 programming tool, making it a dialect of C called InC. See <a href="../inweb/index.html" class="internal">inweb</a> for
 full details, but essentially: it's C without predeclarations or header files,
-and where functions have names like <code>Tags::add_by_name</code> rather than just <code>add_by_name</code>.
-(c) This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
+and where functions have names like <code>Tags::add_by_name</code> rather than just <code>add_by_name</code>.</li>
+<li>This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
 uses a module of utility functions called <a href="../foundation/index.html" class="internal">foundation</a>.
-For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.</p>
+For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.</li>
+</ul>
 </div>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Introduction.</b>  This module is essentially middleware. It acts as a bridge to the low-level
@@ -80,55 +82,67 @@ are ignored by the <a href="../final-module/index.html" class="internal">final</
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Large-scale architecture.</b>  An inter tree is fundamentally a set of resources stored in a nested set of
 <code>inter_package</code> boxes.</p>
-<p>(<em>) The following resources are stored at the root level (i.e., not inside of
-any package) and nowhere else:
-(-</em>) Package type declarations. See <a href="1-ls.html#SP19" class="internal">LargeScale::package_type</a>.
-(-<em>) Primitive declarations. See <a href="1-ip.html" class="internal">Inter Primitives</a>. Again, Inter can in
+<p>The following resources are stored at the root level (i.e., not inside of
+any package) and nowhere else:</p>
+<ul>
+<li>Package type declarations. See <a href="1-ls.html#SP19" class="internal">LargeScale::package_type</a>.</li>
+<li>Primitive declarations. See <a href="1-ip.html" class="internal">Inter Primitives</a>. Again, Inter can in
 principle support a variety of different &quot;instruction sets&quot;, but this module
-presents a single standardised instruction set.
-(-</em>) Compiler pragmas. These are marginal tweaks on a platform-by-platform basis
-and use of them is minimal, but see <a href="1-ls.html#SP17" class="internal">LargeScale::emit_pragma</a>.</p>
-<p>(*) Everything else is inside a single top-level package called <code>main</code>, which
+presents a single standardised instruction set.</li>
+<li>Compiler pragmas. These are marginal tweaks on a platform-by-platform basis
+and use of them is minimal, but see <a href="1-ls.html#SP17" class="internal">LargeScale::emit_pragma</a>.</li>
+</ul>
+<p>Everything else is inside a single top-level package called <code>main</code>, which
 has package type <code>_plain</code>.</p>
-<p>(<em>) <code>main</code> contains only packages, and of only two types:
-(-</em>) &quot;Modules&quot;, which are packages of type <code>_module</code>. These occur nowhere else
-in the tree.
-(-*) &quot;Linkages&quot;, which are packages of type <code>_linkage</code>. These occur nowhere else
-in the tree.</p>
-<p>(<em>) <a href="../inform7/index.html" class="internal">inform7</a> compiles the material in each compilation unit to a module
-named for that unit. That is:
-(-</em>) The module <code>source_text</code> contains material from the main source text.
-(-*) Each extension included produces a module, named, for example,
-<code>locksmith_by_emily_short</code>.</p>
-<p>(*) Each kit produces a module, named after it. Any Inter tree produced by
+<p><code>main</code> contains only packages, and of only two types:</p>
+<ul>
+<li>&quot;Modules&quot;, which are packages of type <code>_module</code>. These occur nowhere else
+in the tree.</li>
+<li>&quot;Linkages&quot;, which are packages of type <code>_linkage</code>. These occur nowhere else
+in the tree.</li>
+</ul>
+<p><a href="../inform7/index.html" class="internal">inform7</a> compiles the material in each compilation unit to a module
+named for that unit. That is:</p>
+<ul>
+<li>The module <code>source_text</code> contains material from the main source text.</li>
+<li>Each extension included produces a module, named, for example,
+<code>locksmith_by_emily_short</code>.</li>
+</ul>
+<p>Each kit produces a module, named after it. Any Inter tree produced by
 <a href="../inform7/index.html" class="internal">inform7</a> will always contain the module <code>BasicInformKit</code>, for example.</p>
-<p>(*) <a href="../inform7/index.html" class="internal">inform7</a> generates an additional module called <code>generic</code>, holding
+<p><a href="../inform7/index.html" class="internal">inform7</a> generates an additional module called <code>generic</code>, holding
 generic definitions -- material which is the same regardless of what is
 being compiled.</p>
-<p>(*) <a href="../inform7/index.html" class="internal">inform7</a> generates an additional module called <code>completion</code>, holding
+<p><a href="../inform7/index.html" class="internal">inform7</a> generates an additional module called <code>completion</code>, holding
 resources put together from across different compilation units.<sup id="fnred:1"><a href="#fn:1" rel="footnote">1</a></sup></p>
-<p>(*) <a href="../inter/index.html" class="internal">inter</a> generates an additional module called <code>synoptic</code>, made during
+<p><a href="../inter/index.html" class="internal">inter</a> generates an additional module called <code>synoptic</code>, made during
 linking, which contains resources collated from or cross-referencing
 everything else.</p>
-<p>(*) Modules contain only further packages, called &quot;submodules&quot; and with the
+<p>Modules contain only further packages, called &quot;submodules&quot; and with the
 package type <code>_submodule</code>. The Inform tools use a standard set of names for
 such submodules: for example, in any module the resources defining its
 global variables are in a submodule called <code>variables</code>. (If it defines no
 variables, the submodule will not be present.)</p>
-<p>(*) There are just two different linkages -- packages with special contents
-and which the linking steps of <a href="../pipeline-module/index.html" class="internal">pipeline</a> treat differently from modules.
-(-<em>) <code>architecture</code> has no subpackages, and contains only constant definitions,
+<p>There are just two different linkages -- packages with special contents
+and which the linking steps of <a href="../pipeline-module/index.html" class="internal">pipeline</a> treat differently from modules.</p>
+<ul>
+<li>
+<p><code>architecture</code> has no subpackages, and contains only constant definitions,
 drawn from a fixed and limited set. These definitions depend on, and indeed
 express, the target architecture: for example, <code>WORDSIZE</code>, the number of
 bytes per word, is defined here. Symbols here behave uniquely in linking:
 when two trees are linked together, they will each have an <code>architecture</code>
 package, and symbols in them will simply be identified with each other.
 Thus the <code>WORDSIZE</code> defined in the main Inform 7 tree will be considered
-the same symbol as the <code>WORDSIZE</code> defined in the tree for BasicInformKit.
-(-</em>) <code>connectors</code> has no subpackages and no resources other than symbols.
+the same symbol as the <code>WORDSIZE</code> defined in the tree for BasicInformKit.</p>
+</li>
+<li>
+<p><code>connectors</code> has no subpackages and no resources other than symbols.
 It holds plugs and sockets enabling the Inter tree to be linked with other
 Inter trees; during linking, these are removed when their purposes has been
 served, so that after a successful link, <code>connectors</code> will always be empty.</p>
+</li>
+</ul>
 <p>See <a href="1-ls.html" class="internal">Large-Scale Structure</a> for the code which builds all of the above
 packages (though not their contents).</p>
 <ul class="inwebfootnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>
@@ -175,7 +189,7 @@ In short, the actual Inter code.</p>
 in <a href="3-prd.html" class="internal">Produce</a>, which provide a straightforward if low-level API. For example:</p>
 </div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="identifier-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">iname</span><span class="plain-syntax"> = </span><span class="function-syntax">HierarchyLocations::iname</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">CCOUNT_PROPERTY_HL</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="type-syntax">inter_name</span><span class="plain-syntax"> *</span><span class="identifier-syntax">iname</span><span class="plain-syntax"> = </span><span class="function-syntax">HierarchyLocations::iname</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">CCOUNT_PROPERTY_HL</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="function-syntax">Produce::numeric_constant</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="identifier-syntax">iname</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_value</span><span class="plain-syntax">, </span><span class="identifier-syntax">x</span><span class="plain-syntax">);</span>
 </pre>
 <div class="lsmarkdown">
@@ -205,7 +219,7 @@ in effect, an annotated syntax tree -- to represent the results of parsing Infor
 notation. For example, this:</p>
 </div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="identifier-syntax">inter_schema</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sch</span><span class="plain-syntax"> = </span><span class="function-syntax">ParsingSchemas::from_text</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="string-syntax">"return true;"</span><span class="plain-syntax">, </span><span class="identifier-syntax">where</span><span class="plain-syntax">);</span>
+<span class="plain-syntax">    </span><span class="type-syntax">inter_schema</span><span class="plain-syntax"> *</span><span class="identifier-syntax">sch</span><span class="plain-syntax"> = </span><span class="function-syntax">ParsingSchemas::from_text</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="string-syntax">"return true;"</span><span class="plain-syntax">, </span><span class="identifier-syntax">where</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="function-syntax">EmitInterSchemas::emit</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">, ..., </span><span class="identifier-syntax">sch</span><span class="plain-syntax">, ...);</span>
 </pre>
 <div class="lsmarkdown">
@@ -213,7 +227,7 @@ notation. For example, this:</p>
 the system comes from:</p>
 <p>(a) The ability to handle much larger passages of I6 notation - for example, a
 function body 10K long -- in an acceptably speed-efficient way; and</p>
-<p>(b) The ability to subsctitute values in for placeholders.</p>
+<p>(b) The ability to substitute values in for placeholders.</p>
 <p>As an example of (b), an <a href="2-is.html#SP1" class="internal">inter_schema</a> is how <a href="../inform7/index.html" class="internal">inform7</a> compiles so-called
 inline phrase definitions such as:</p>
 </div>

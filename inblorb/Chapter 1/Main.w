@@ -150,11 +150,11 @@ system's default web browser, the second opens a file (identified by a
 |file:...| URL) in the local operating system. These two URLs may need
 treatment to handle special characters:
 
-(a) "escaping", where spaces in the URL are escaped to |%2520|, which
+- "escaping", where spaces in the URL are escaped to |%2520|, which
 within a Javascript string literal produces |%20|, the standard way to
 represent a space in a web URL;
 
-(b) "reversing slashes", where backslashes are converted to forward
+- "reversing slashes", where backslashes are converted to forward
 slashes -- useful if the separation character is a backslash, as on Windows,
 since backslashes are escape characters in Javascript literals.
 

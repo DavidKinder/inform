@@ -12,6 +12,11 @@
 <link href="../docs-assets/Navigation.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Fonts.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -48,212 +53,187 @@
 
 <ul class="toc"><li><a href="M-ti.html#SP1">&#167;1. A manual of a sort</a></li><li><a href="M-ti.html#SP3">&#167;3. Outside even main</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. A manual of a sort.</b>In its textual form, Inter could conceivably be used as a programming
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. A manual of a sort.</b>  In its textual form, Inter could conceivably be used as a programming
 language, albeit a low-level and verbose one, and this section is a brief
 manual for that language. But the real purpose of Inter is to assist testing
 and debugging of the Inform tool-chain. We can write test cases in textual
 Inter to see if inter works; or we can write out memory inter to the
-debugging log to see if inform7 works.
-</p>
-
-<p class="commentary">A textual inter file is a UTF-8 encoded text file which conventionally takes
-the file extension ".intert". Here is an example, the test case <span class="extract"><span class="extract-syntax">Hello</span></span>:
-</p>
-
+debugging log to see if inform7 works.</p>
+<p>A textual inter file is a UTF-8 encoded text file which conventionally takes
+the file extension &quot;.intert&quot;. Here is an example, the test case <code>Hello</code>:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">package</span><span class="plain-syntax"> main _plain</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">package</span><span class="plain-syntax"> Main _code</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">code</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!enableprinting</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!print</span>
-<span class="plain-syntax">                </span><span class="reserved-syntax">val</span><span class="plain-syntax"> </span><span class="string-syntax">"Hello, world.\n"</span>
+<span class="type-syntax">package</span><span class="plain-syntax"> main _plain</span>
+<span class="plain-syntax">    </span><span class="type-syntax">package</span><span class="plain-syntax"> Main _code</span>
+<span class="plain-syntax">        </span><span class="type-syntax">code</span>
+<span class="plain-syntax">            </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!enableprinting</span>
+<span class="plain-syntax">            </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!print</span>
+<span class="plain-syntax">                </span><span class="type-syntax">val</span><span class="plain-syntax"> </span><span class="string-syntax">"Hello, world.\n"</span>
 </pre>
-<p class="commentary">Some basic characteristics of textual Inter can be seen at a glance. It's line-based:
-each line makes a single use of a "construct" like <span class="extract"><span class="extract-syntax">package</span></span> or <span class="extract"><span class="extract-syntax">code</span></span>. Lines
-can be of arbitrary length. A line beginning with a <span class="extract"><span class="extract-syntax">#</span></span> (in column 1) is
-a comment, and blank lines are ignored.
-</p>
-
-<p class="commentary">As in Python, indentation from the left margin is highly significant, and
-must be in the form of tab characters.
-</p>
-
-<p class="commentary">Most identifiers consist of a string of one or more English upper or lower
+<div class="lsmarkdown">
+<p>Some basic characteristics of textual Inter can be seen at a glance. It's line-based:
+each line makes a single use of a &quot;construct&quot; like <code>package</code> or <code>code</code>. Lines
+can be of arbitrary length. A line beginning with a <code>#</code> (in column 1) is
+a comment, and blank lines are ignored.</p>
+<p>As in Python, indentation from the left margin is highly significant, and
+must be in the form of tab characters.</p>
+<p>Most identifiers consist of a string of one or more English upper or lower
 case letters, underscores, or digits, except that it must not begin with
 a digit. Identifier lengths are unlimited. A few identifiers of special sorts
-begin with a special character to mark them out as special: <span class="extract"><span class="extract-syntax">!enableprinting</span></span>,
-for example, is a "primitive", marked with a <span class="extract"><span class="extract-syntax">!</span></span>.
-</p>
-
-<p class="commentary">A convention followed in Inter code generated by Inform is that many identifiers
-have the form <span class="extract"><span class="extract-syntax">P_Name</span></span>, where <span class="extract"><span class="extract-syntax">P</span></span> is some prefix letter showing what sort of
-thing is referred to: for example, variables begin with <span class="extract"><span class="extract-syntax">V</span></span>, instances with <span class="extract"><span class="extract-syntax">I</span></span>,
-properties with <span class="extract"><span class="extract-syntax">P</span></span>, and so on. This is all done only for clarity, and is not
-part of the Inter specification.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>The main organising idea of Inter is the "package". Each program is a nested
-hierarchy of packages, and each package has both a name and a "package type".
-In the <span class="extract"><span class="extract-syntax">Hello</span></span> example, an outer package called <span class="extract"><span class="extract-syntax">main</span></span>, of type <span class="extract"><span class="extract-syntax">_plain</span></span>,
-holds only a inner package called <span class="extract"><span class="extract-syntax">Main</span></span>, of type <span class="extract"><span class="extract-syntax">_code</span></span>.
-</p>
-
-<p class="commentary">In fact, every program must contain just one outermost package, called <span class="extract"><span class="extract-syntax">main</span></span>,
-which has to have type <span class="extract"><span class="extract-syntax">_plain</span></span>, so that is unsurprising.
-</p>
-
-<p class="commentary">Packages of type <span class="extract"><span class="extract-syntax">_code</span></span> are functions. A program is not required to contain any
+begin with a special character to mark them out as special: <code>!enableprinting</code>,
+for example, is a &quot;primitive&quot;, marked with a <code>!</code>.</p>
+<p>A convention followed in Inter code generated by Inform is that many identifiers
+have the form <code>P_Name</code>, where <code>P</code> is some prefix letter showing what sort of
+thing is referred to: for example, variables begin with <code>V</code>, instances with <code>I</code>,
+properties with <code>P</code>, and so on. This is all done only for clarity, and is not
+part of the Inter specification.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  The main organising idea of Inter is the &quot;package&quot;. Each program is a nested
+hierarchy of packages, and each package has both a name and a &quot;package type&quot;.
+In the <code>Hello</code> example, an outer package called <code>main</code>, of type <code>_plain</code>,
+holds only a inner package called <code>Main</code>, of type <code>_code</code>.</p>
+<p>In fact, every program must contain just one outermost package, called <code>main</code>,
+which has to have type <code>_plain</code>, so that is unsurprising.</p>
+<p>Packages of type <code>_code</code> are functions. A program is not required to contain any
 functions at all, and even if it does, it is not required to contain one called
-<span class="extract"><span class="extract-syntax">Main</span></span>. For example, the Inter program into which BasicInformKit is compiled
-does not provide a <span class="extract"><span class="extract-syntax">Main</span></span>, and we could imagine kits which provided, say, only
+<code>Main</code>. For example, the Inter program into which BasicInformKit is compiled
+does not provide a <code>Main</code>, and we could imagine kits which provided, say, only
 some variables and arrays. But if we want a program to compile and run in a
-stand-alone way, then it needs a <span class="extract"><span class="extract-syntax">Main</span></span> function as a place to begin running.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Outside even main.</b>Though this does not happen in the <span class="extract"><span class="extract-syntax">Hello</span></span> example, a handful of instructions
-can appear at the top of the program, outside even <span class="extract"><span class="extract-syntax">main</span></span>. These really just
+stand-alone way, then it needs a <code>Main</code> function as a place to begin running.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Outside even main.</b>  Though this does not happen in the <code>Hello</code> example, a handful of instructions
+can appear at the top of the program, outside even <code>main</code>. These really just
 define conventions used in the rest of the program, rather than describing
-what the program does, and that is why they are on the outside.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b><span class="extract"><span class="extract-syntax">version NUMBER</span></span> indicates that the file was written in that version of
-the Inter language. <span class="extract"><span class="extract-syntax">NUMBER</span></span> is a semantic version number, and it forces
+what the program does, and that is why they are on the outside.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  <code>version NUMBER</code> indicates that the file was written in that version of
+the Inter language. <code>NUMBER</code> is a semantic version number, and it forces
 <a href="index.html" class="internal">inter</a> to reject the file if the version of the Inter specification
 understood by <a href="index.html" class="internal">inter</a> is not compatible with the one in the file. (Note
 that this about the version of the specification, not the version of <a href="index.html" class="internal">inter</a>
-as a program.)
-</p>
-
-<p class="commentary">See <a href="../bytecode-module/1-tiv.html" class="internal">The Inter Version (in bytecode)</a> for more on the significance of this.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b><span class="extract"><span class="extract-syntax">pragma TARGET "WHATEVER"</span></span> does not change the meaning of the inter file;
+as a program.)</p>
+<p>See <a href="../bytecode-module/1-tiv.html" class="internal">The Inter Version (in bytecode)</a> for more on the significance of this.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  <code>pragma TARGET &quot;WHATEVER&quot;</code> does not change the meaning of the inter file;
 it simply provides pragmatic advice to the eventual compiler of code
-generated from this file. <span class="extract"><span class="extract-syntax">TARGET</span></span> indicates the context for which this
-is intended.
-</p>
-
-<p class="commentary">At present Inform 7 uses this to pass on ICL (Inform Command Language)
+generated from this file. <code>TARGET</code> indicates the context for which this
+is intended.</p>
+<p>At present Inform 7 uses this to pass on ICL (Inform Command Language)
 commands to Inform 6, such as memory settings or command-line switches.
-For example,
-</p>
-
+For example,</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">pragma</span><span class="plain-syntax"> Inform6 </span><span class="string-syntax">"$MAX_LABELS=200000"</span>
+<span class="plain-syntax">    </span><span class="type-syntax">pragma</span><span class="plain-syntax"> Inform6 </span><span class="string-syntax">"$MAX_LABELS=200000"</span>
 </pre>
-<p class="commentary">When a program containing this instruction is generated to C, say, then this
+<div class="lsmarkdown">
+<p>When a program containing this instruction is generated to C, say, then this
 is ignored completely. And in fact, now that Inform has adopted Inform 6.36 as
 its preferred copy of I6, memory settings have become unnecessary and are
-ignored by I6 anyway, so even this use of <span class="extract"><span class="extract-syntax">pragma</span></span> may yet disappear.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b><span class="extract"><span class="extract-syntax">packagetype _NAME</span></span> declares that <span class="extract"><span class="extract-syntax">_NAME</span></span> can be used as a package type.
-It's actually unnecessary to write this explicitly, which is why the <span class="extract"><span class="extract-syntax">Hello</span></span>
-example did not begin with:
-</p>
-
+ignored by I6 anyway, so even this use of <code>pragma</code> may yet disappear.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  <code>packagetype _NAME</code> declares that <code>_NAME</code> can be used as a package type.
+It's actually unnecessary to write this explicitly, which is why the <code>Hello</code>
+example did not begin with:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">packagetype</span><span class="plain-syntax"> _plain</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">packagetype</span><span class="plain-syntax"> _code</span>
+<span class="plain-syntax">    </span><span class="type-syntax">packagetype</span><span class="plain-syntax"> _plain</span>
+<span class="plain-syntax">    </span><span class="type-syntax">packagetype</span><span class="plain-syntax"> _code</span>
 </pre>
-<p class="commentary">If the program creates, say, <span class="extract"><span class="extract-syntax">package MOMA _museum</span></span>, then the necessary
-package type instruction <span class="extract"><span class="extract-syntax">packagetype _museum</span></span> will be inferred automatically.
-Nevertheless, it's valid to spell this out.
-</p>
-
-<p class="commentary">All package types have names beginning with an underscore <span class="extract"><span class="extract-syntax">_</span></span>. Authors of
+<div class="lsmarkdown">
+<p>If the program creates, say, <code>package MOMA _museum</code>, then the necessary
+package type instruction <code>packagetype _museum</code> will be inferred automatically.
+Nevertheless, it's valid to spell this out.</p>
+<p>All package types have names beginning with an underscore <code>_</code>. Authors of
 Inter programs are free to choose any types they like, and Inform tends to
-use semantically meaningful type names like <span class="extract"><span class="extract-syntax">_adjective</span></span>. Only two package
-types are special: <span class="extract"><span class="extract-syntax">_code</span></span>, which as we have seen marks that a package is a
-function, and <span class="extract"><span class="extract-syntax">_linkage</span></span>, which is used only for a special package called
-<span class="extract"><span class="extract-syntax">connectors</span></span>. Stand-alone programs never contain that package: see
-<a href="../bytecode-module/index.html" class="internal">bytecode</a> for an explanation of what it is for.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b><span class="extract"><span class="extract-syntax">primitive !PRIMITIVE SIGNATURE</span></span> declares that a primitive invocation of
+use semantically meaningful type names like <code>_adjective</code>. Only two package
+types are special: <code>_code</code>, which as we have seen marks that a package is a
+function, and <code>_linkage</code>, which is used only for a special package called
+<code>connectors</code>. Stand-alone programs never contain that package: see
+<a href="../bytecode-module/index.html" class="internal">bytecode</a> for an explanation of what it is for.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  <code>primitive !PRIMITIVE SIGNATURE</code> declares that a primitive invocation of
 this name and signature can be used in the program. Primitives occur only
-inside of functions, where they are "invoked", and they are operations
+inside of functions, where they are &quot;invoked&quot;, and they are operations
 sufficiently basic that they cannot themselves be written as other Inter
-functions. For example, in <span class="extract"><span class="extract-syntax">Hello</span></span> we saw:
-</p>
-
+functions. For example, in <code>Hello</code> we saw:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">            </span><span class="reserved-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!print</span>
-<span class="plain-syntax">                </span><span class="reserved-syntax">val</span><span class="plain-syntax"> </span><span class="string-syntax">"Hello, world.\n"</span>
+<span class="plain-syntax">            </span><span class="type-syntax">inv</span><span class="plain-syntax"> </span><span class="function-syntax">!print</span>
+<span class="plain-syntax">                </span><span class="type-syntax">val</span><span class="plain-syntax"> </span><span class="string-syntax">"Hello, world.\n"</span>
 </pre>
-<p class="commentary">This is an invocation of the primitive <span class="extract"><span class="extract-syntax">!print</span></span>, which prints text. The
-"signature" of this is <span class="extract"><span class="extract-syntax">val -&gt; void</span></span>, meaning that it expects to have one
-argument, a value, and produces no result.
-</p>
-
-<p class="commentary">The declarations for the two primitives in <span class="extract"><span class="extract-syntax">Hello</span></span> would look like this:
-</p>
-
+<div class="lsmarkdown">
+<p>This is an invocation of the primitive <code>!print</code>, which prints text. The
+&quot;signature&quot; of this is <code>val -&gt; void</code>, meaning that it expects to have one
+argument, a value, and produces no result.</p>
+<p>The declarations for the two primitives in <code>Hello</code> would look like this:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">primitive</span><span class="plain-syntax"> </span><span class="function-syntax">!enableprinting</span><span class="plain-syntax"> </span><span class="reserved-syntax">void</span><span class="plain-syntax"> -&gt; </span><span class="reserved-syntax">void</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">primitive</span><span class="plain-syntax"> </span><span class="function-syntax">!print</span><span class="plain-syntax"> </span><span class="reserved-syntax">val</span><span class="plain-syntax"> -&gt; </span><span class="reserved-syntax">void</span>
+<span class="plain-syntax">    </span><span class="type-syntax">primitive</span><span class="plain-syntax"> </span><span class="function-syntax">!enableprinting</span><span class="plain-syntax"> </span><span class="type-syntax">void</span><span class="plain-syntax"> </span><span class="type-syntax">-&gt;</span><span class="plain-syntax"> </span><span class="type-syntax">void</span>
+<span class="plain-syntax">    </span><span class="type-syntax">primitive</span><span class="plain-syntax"> </span><span class="function-syntax">!print</span><span class="plain-syntax"> </span><span class="type-syntax">val</span><span class="plain-syntax"> </span><span class="type-syntax">-&gt;</span><span class="plain-syntax"> </span><span class="type-syntax">void</span>
 </pre>
-<p class="commentary">But once again they do not need to be given, because they are part of the
+<div class="lsmarkdown">
+<p>But once again they do not need to be given, because they are part of the
 standard set of Inter primitives supported by <a href="index.html" class="internal">inter</a>. So these definitions
-are implicitly made as needed.
-</p>
-
-<p class="commentary">In principle, though, the program could create entirely novel primitives:
-</p>
-
+are implicitly made as needed.</p>
+<p>In principle, though, the program could create entirely novel primitives:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">primitive</span><span class="plain-syntax"> </span><span class="function-syntax">!flytoarabia</span><span class="plain-syntax"> </span><span class="reserved-syntax">val</span><span class="plain-syntax"> </span><span class="reserved-syntax">val</span><span class="plain-syntax"> </span><span class="reserved-syntax">val</span><span class="plain-syntax"> -&gt; </span><span class="reserved-syntax">void</span>
+<span class="plain-syntax">    </span><span class="type-syntax">primitive</span><span class="plain-syntax"> </span><span class="function-syntax">!flytoarabia</span><span class="plain-syntax"> </span><span class="type-syntax">val</span><span class="plain-syntax"> </span><span class="type-syntax">val</span><span class="plain-syntax"> </span><span class="type-syntax">val</span><span class="plain-syntax"> </span><span class="type-syntax">-&gt;</span><span class="plain-syntax"> </span><span class="type-syntax">void</span>
 </pre>
-<p class="commentary">And this will work perfectly well... except that <a href="index.html" class="internal">inter</a> will not be able
+<div class="lsmarkdown">
+<p>And this will work perfectly well... except that <a href="index.html" class="internal">inter</a> will not be able
 to code-generate from the result without modification, because it won't know
 how to fly to Arabia. So in practice, unless you are experimenting with
-modified versions of Inter, do not use the <span class="extract"><span class="extract-syntax">primitive</span></span> construct at all.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>The declaration line for a package begins at the level of indentation of
-the package's owner. For <span class="extract"><span class="extract-syntax">main</span></span>, it should be unindented, and this is the
+modified versions of Inter, do not use the <code>primitive</code> construct at all.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>  The declaration line for a package begins at the level of indentation of
+the package's owner. For <code>main</code>, it should be unindented, and this is the
 only package allowed to appear at the top level: all other packages should
-be inside <span class="extract"><span class="extract-syntax">main</span></span> in some way.
-</p>
-
-<p class="commentary">The contents of the package are then one tab stop in from the declaration. Thus:
-</p>
-
+be inside <code>main</code> in some way.</p>
+<p>The contents of the package are then one tab stop in from the declaration. Thus:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">package</span><span class="plain-syntax"> main _plain</span>
+<span class="plain-syntax">    </span><span class="type-syntax">package</span><span class="plain-syntax"> main _plain</span>
 <span class="plain-syntax">        ...</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">package</span><span class="plain-syntax"> m1_RBLK1 _code</span>
+<span class="plain-syntax">        </span><span class="type-syntax">package</span><span class="plain-syntax"> m1_RBLK1 _code</span>
 <span class="plain-syntax">            ...</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">package</span><span class="plain-syntax"> m1_RBLK2 _code</span>
+<span class="plain-syntax">        </span><span class="type-syntax">package</span><span class="plain-syntax"> m1_RBLK2 _code</span>
 <span class="plain-syntax">            ...</span>
 </pre>
-<p class="commentary">Here, <span class="extract"><span class="extract-syntax">main</span></span> contains two sub-packages, <span class="extract"><span class="extract-syntax">m1_RBLK1</span></span> and <span class="extract"><span class="extract-syntax">m1_RBLK2</span></span>, and
-indentation is used to show which package a statement belongs to.
-</p>
-
-<p class="commentary">Packages of any type can freely be created inside packages of any other type,
-except that <span class="extract"><span class="extract-syntax">_code</span></span> packages cannot have subpackages. So this hypothetical bit of
-Inter is illegal:
-</p>
-
+<div class="lsmarkdown">
+<p>Here, <code>main</code> contains two sub-packages, <code>m1_RBLK1</code> and <code>m1_RBLK2</code>, and
+indentation is used to show which package a statement belongs to.</p>
+<p>Packages of any type can freely be created inside packages of any other type,
+except that <code>_code</code> packages cannot have subpackages. So this hypothetical bit of
+Inter is illegal:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">package</span><span class="plain-syntax"> my_function _code</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">package</span><span class="plain-syntax"> inner_part _code</span>
+<span class="plain-syntax">    </span><span class="type-syntax">package</span><span class="plain-syntax"> my_function _code</span>
+<span class="plain-syntax">        </span><span class="type-syntax">package</span><span class="plain-syntax"> inner_part _code</span>
 <span class="plain-syntax">            ...</span>
 <span class="plain-syntax">        ...</span>
 </pre>
-<p class="commentary">Here, <span class="extract"><span class="extract-syntax">inner_part</span></span> cannot be made a subpackage of <span class="extract"><span class="extract-syntax">my_function</span></span> because <span class="extract"><span class="extract-syntax">_code</span></span>
-packages have no subpackages.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>The remaining statements to cover fall into two categories.
-</p>
-
-<ul class="items"><li>&#9679; Those used outside functions, i.e., packages of type <span class="extract"><span class="extract-syntax">_code</span></span>, are covered in
-<a href="M-dpiti.html" class="internal">Data Packages in Textual Inter</a>.
-</li><li>&#9679; Those used in functions, i.e., packages of type <span class="extract"><span class="extract-syntax">_code</span></span>, are covered in
-<a href="M-cpiti.html" class="internal">Code Packages in Textual Inter</a>.
-</li></ul>
+<div class="lsmarkdown">
+<p>Here, <code>inner_part</code> cannot be made a subpackage of <code>my_function</code> because <code>_code</code>
+packages have no subpackages.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>  The remaining statements to cover fall into two categories.</p>
+<ul>
+<li>Those used outside functions, i.e., packages of type <code>_code</code>, are covered in
+<a href="M-dpiti.html" class="internal">Data Packages in Textual Inter</a>.</li>
+<li>Those used in functions, i.e., packages of type <code>_code</code>, are covered in
+<a href="M-cpiti.html" class="internal">Code Packages in Textual Inter</a>.</li>
+</ul>
+</div>
 <nav role="progress"><div class="progresscontainer">
     <ul class="progressbar"><li class="progressprev"><a href="M-ui.html">&#10094;</a></li><li class="progresscurrentchapter">M</li><li class="progresssection"><a href="M-ui.html">ui</a></li><li class="progresscurrent">ti</li><li class="progresssection"><a href="M-dpiti.html">dpiti</a></li><li class="progresssection"><a href="M-cpiti.html">cpiti</a></li><li class="progresssection"><a href="M-ip.html">ip</a></li><li class="progresssection"><a href="M-ia.html">ia</a></li><li class="progresssection"><a href="M-io.html">io</a></li><li class="progresssection"><a href="M-pas.html">pas</a></li><li class="progresssection"><a href="M-rc.html">rc</a></li><li class="progresschapter"><a href="1-mn.html">1</a></li><li class="progressnext"><a href="M-dpiti.html">&#10095;</a></li></ul></div>
 </nav><!-- End of weave -->

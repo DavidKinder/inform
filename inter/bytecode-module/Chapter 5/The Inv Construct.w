@@ -109,10 +109,11 @@ shall see.
 This function implements a primitive typechecker for invocations, though it is
 more notable for what it doesn't check than for what it does: Inter is a very
 permissive language. The rules are:
-(a) An assembly opcode can have any number of arguments, of any category.
-(b) A function call can have any number of arguments, provided they all have
+
+- An assembly opcode can have any number of arguments, of any category.
+- A function call can have any number of arguments, provided they all have
 category |val|.
-(c) A primitive invocation must have exactly the number of arguments in its
+- A primitive invocation must have exactly the number of arguments in its
 signature, whose categories must be exactly as given in the signature. For
 example, if the signature of the primitive invoked at |P| is |ref val val -> void|,
 then |P| needs to have exactly three children, of categories |ref|, |val|, |val|.

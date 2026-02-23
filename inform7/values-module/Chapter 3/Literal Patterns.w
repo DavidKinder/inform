@@ -523,10 +523,10 @@ here, because of the use of |tolower|.
 
 @ There are three different sorts of overflow:
 
-(1) The calculation of the packed value exceeding the range which an integer
+- The calculation of the packed value exceeding the range which an integer
 can store on a 16-bit virtual machine;
-(2) Ditto, but on a 32-bit virtual machine; and
-(3) One of the numerical elements inside the notation being given out of range.
+- Ditto, but on a 32-bit virtual machine; and
+- One of the numerical elements inside the notation being given out of range.
 
 We report none of these as a problem immediately -- only if the pattern would
 otherwise match.

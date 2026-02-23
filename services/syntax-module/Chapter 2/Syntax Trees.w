@@ -443,14 +443,15 @@ of some wording |W|, and return the node now representing. For example,
 suppose the text "orange" can be read as a noun for fruit, a noun for colour,
 or an adjective, resulting in nodes |fruit_node| and |colour_node| and |adj_node|.
 Then:
-(a) |SyntaxTree::add_reading(NULL, fruit_node, W)| returns |noun_node|,
-(b) but |SyntaxTree::add_reading(fruit_node, colour_node, W)| returns this subtree:
+
+- |SyntaxTree::add_reading(NULL, fruit_node, W)| returns |noun_node|,
+- but |SyntaxTree::add_reading(fruit_node, colour_node, W)| returns this subtree:
 = (text)
 	AMBIGUITY_NT A
 	    fruit_node
 		colour_node
 =
-(c) and |SyntaxTree::add_reading(A, adj_node, W)| returns the subtree:
+- and |SyntaxTree::add_reading(A, adj_node, W)| returns the subtree:
 = (text)
 	AMBIGUITY_NT A
 	    fruit_node

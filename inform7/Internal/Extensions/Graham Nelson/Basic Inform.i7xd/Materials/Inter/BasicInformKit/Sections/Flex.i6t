@@ -129,8 +129,8 @@ long list of individually small blocks, which would both make it difficult
 to allocate large blocks, and also slow to look through the list. To
 ameliorate matters, we maintain the following invariants:
 
-(a) In the free blocks list, |B-->BLK_NEXT| is always an address after |B|;
-(b) For any contiguous run of free space blocks in memory (excluding the
+- In the free blocks list, |B-->BLK_NEXT| is always an address after |B|;
+- For any contiguous run of free space blocks in memory (excluding the
 head-free-block), taking up a total of $T$ bytes, the last block in the run
 has size $2^n$ where $n$ is the largest integer such that $2^n\leq T$.
 

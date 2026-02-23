@@ -67,8 +67,9 @@ int AdjectivalDefinitionFamily::allows_empty(imperative_defn_family *self, imper
 }
 
 @ The body of code under a definition needs to be set up so that:
-(*) The code expects to make a yes/no decision;
-(*) The pronoun "it" is a local variable referring to the value being tested,
+
+- The code expects to make a yes/no decision;
+- The pronoun "it" is a local variable referring to the value being tested,
 perhaps also with a calling -- consider the example "Definition: A
 container (called the sack) is capacious if...".
 

@@ -5,13 +5,14 @@ An overview of the bytecode module's role and abilities.
 @h Prerequisites.
 The bytecode module is a part of the Inform compiler toolset. It is
 presented as a literate program or "web". Before diving in:
-(a) It helps to have some experience of reading webs: see //inweb// for more.
-(b) The module is written in C, in fact ANSI C99, but this is disguised by the
+
+- It helps to have some experience of reading webs: see //inweb// for more.
+- The module is written in C, in fact ANSI C99, but this is disguised by the
 fact that it uses some extension syntaxes provided by the //inweb// literate
 programming tool, making it a dialect of C called InC. See //inweb// for
 full details, but essentially: it's C without predeclarations or header files,
 and where functions have names like |Tags::add_by_name| rather than just |add_by_name|.
-(c) This module uses other modules drawn from the compiler (see //structure//), and also
+- This module uses other modules drawn from the compiler (see //structure//), and also
 uses a module of utility functions called //foundation//.
 For more, see //foundation: A Brief Guide to Foundation//.
 
@@ -38,8 +39,8 @@ In the Inform family of tools, two languages have to be compiled: natural
 language by //inform7// and more conventional C-like code by //inter//.
 Having very different syntaxes, these have different ASTs:
 
-(*) For I7, a |parse_node_tree|, managed by the //syntax// module.
-(*) For Inter, an |inter_schema|, managed by the //building// module.
+- For I7, a |parse_node_tree|, managed by the //syntax// module.
+- For Inter, an |inter_schema|, managed by the //building// module.
 
 But these two compiler flows share the same IR -- an //inter_tree// provides the
 intermediate representation for both:[1]
@@ -89,11 +90,11 @@ Textual Inter is human-readable, but binary Inter loads quickly. Either form,
 as stored on an external file whose provenance we do not know, has to be treated
 as suspect:
 
-(*) Textual Inter might have been written by a human who blundered.
-(*) Binary Inter might have been wrongly constructed by some compiler with
+- Textual Inter might have been written by a human who blundered.
+- Binary Inter might have been wrongly constructed by some compiler with
 a bug in it.
-(*) Binary Inter might have been maliciously constructed to crash us.
-(*) Either form might be left over from a previous version of the Inform tool
+- Binary Inter might have been maliciously constructed to crash us.
+- Either form might be left over from a previous version of the Inform tool
 chain when the specification of the Inter language was slightly different.
 
 So we go to some trouble to verify the syntactic correctness of what is read
@@ -187,17 +188,17 @@ used: for example, if this is |PACKAGE_IST| then the instruction is a |package|.
 What the remaining words mean depends on the construct, but here are some
 typical ingredients:
 
-(*) Many constructs -- |constant|, for example -- define a new symbol.
+- Many constructs -- |constant|, for example -- define a new symbol.
 If so, the symbol ID -- or SID -- will be stored in one of the words;
 this is the ID of the symbol in the //inter_symbols_table// belonging
 to the package containing the instruction. Some constructs also contain
 SIDs for other reasons: for example, |propertyvalue| needs to store the
 SID of the property whose value is being recorded.
 
-(*) Values in Inter occupy two consecutive words of bytecode, and these
+- Values in Inter occupy two consecutive words of bytecode, and these
 are called "pairs": see //Inter Value Pairs//.
 
-(*) Some constructs also need to store a type ID, or TID. See //Inter Data Types//.
+- Some constructs also need to store a type ID, or TID. See //Inter Data Types//.
 
 With both values and types, we need to be able to express an enormous range
 of possibilities. This seems impossible. For example, how can we fit the list
@@ -276,12 +277,12 @@ there are never more than one or two in memory at once.
 In particular, each //inter_tree// structure contains two pools of data
 besides the actual tree:[1]
 
-(a) A "building site", which contains workspace data needed by the //building//
+- A "building site", which contains workspace data needed by the //building//
 module. //building// is essentially a piece of middleware sitting on top of
 this one, and making it easier for the compilers to use our facilities. We
 will ignore the building site completely here: it's not our problem.
 
-(b) A "warehouse", which very much is our problem: see //The Warehouse//.
+- A "warehouse", which very much is our problem: see //The Warehouse//.
 This provides storage for strings, symbols tables and the like, assigning each
 one an ID number. Resource number 178, for example, might be a |text_stream|
 which is the content of some text literal in a function, while 179 might be

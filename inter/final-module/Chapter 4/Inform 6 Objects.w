@@ -37,8 +37,10 @@ are motivated by the following considerations:
 
 (a) The supply of VM-attributes is limited, so we cannot simply store all
 either-or properties in VM-attributes: there might be too many.
+
 (b) The supply of declared VM-properties is also limited (though not of
 undeclared ones).
+
 (c) But VM-attributes, and declared VM-properties, can be accessed just a
 little faster at runtime, and take just a little less storage.
 

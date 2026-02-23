@@ -643,8 +643,8 @@ And similarly for lockability, because a principle of the world model is
 that any spatial barrier can be given a lock if the designer so chooses. To
 satisfy this pattern, a thing must
 
-(i) satisfy the openability pattern, and
-(ii) provide both the either/or properties "lockable" and "locked",
+- satisfy the openability pattern, and
+- provide both the either/or properties "lockable" and "locked",
 and also the value property "matching key".
 
 Both doors and containers make some implications so that the words "lockable"

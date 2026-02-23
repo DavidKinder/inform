@@ -35,9 +35,9 @@ This list of nodes is disposable -- even if it is a copy of something from the
 syntax tree, it is never the only copy. It can freely be ignored or changed.
 A return value of |NULL| means there were no results at all.
 
-(*) If a meaning was registered in such a way that its |data| actually was a
+- If a meaning was registered in such a way that its |data| actually was a
 node from the syntax tree, then the result is a copy of that node.
-(*) If not then the result is a node with the meaning code as its node type,
+- If not then the result is a node with the meaning code as its node type,
 and the excerpt meaning can be recovered from it using |Node::get_meaning|.
 
 =

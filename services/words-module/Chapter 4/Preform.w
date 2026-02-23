@@ -263,9 +263,10 @@ stop parsing on a successful match.
 Okay: so now we have exhausted all the optimisations avoiding the need to
 parse our text against the production, so we are forced to do some work.
 The strategy is:
-(*) first, a fast scan checking the easy things;
-(*) then a slow scan checking the rest;
-(*) then making sure brackets match, if there were any.
+
+- first, a fast scan checking the easy things;
+- then a slow scan checking the rest;
+- then making sure brackets match, if there were any.
 
 For example, if the production is
 = (text as Preform)

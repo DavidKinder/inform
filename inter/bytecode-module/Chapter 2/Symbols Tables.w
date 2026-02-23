@@ -6,8 +6,8 @@ To manage searchable tables of named symbols.
 A symbols table indexes the symbols available in a given package, and indexes
 each symbol in two ways:
 
-(a) With a dictionary for (fairly) efficient lookup by name; and
-(b) With an array for rapid lookup by ID number.
+- With a dictionary for (fairly) efficient lookup by name; and
+- With an array for rapid lookup by ID number.
 
 Note that symbol IDs are just unsigned integers, though always integers which
 exceed |SYMBOL_BASE_VAL|. They can be interpreted only in context of the
@@ -378,11 +378,11 @@ new one in |P| is a sort of reference only: it is wired to the old one in |SP|.
 To see what the new |plugh| means, one must follow the wiring to the old |plugh|.
 But this is no real burden, because:
 
-(a) A name-search by //InterSymbolsTable::symbol_from_name// on |"plugh"| within
+- A name-search by //InterSymbolsTable::symbol_from_name// on |"plugh"| within
 the package |P| finds the new |plugh| symbol but then follows the wiring to
 the old |plugh| in |SP|, and returns that; and
 
-(b) So does ID lookup by //InterSymbolsTable::symbol_from_ID// on ID 3 within |P|.
+- So does ID lookup by //InterSymbolsTable::symbol_from_ID// on ID 3 within |P|.
 
 In effect, once the following function has been used, everything will work just
 as if the symbol were in |P| after all.

@@ -4,9 +4,10 @@ To parse representations of periods of time or of historical repetition.
 
 @ Natural language can talk about the extension of a situation into the past
 in a number of ways, but we will model just two of these:
-(a) Something having been the case on a number of previous occasions, or
+
+- Something having been the case on a number of previous occasions, or
 "times", as in: "for the third time";
-(b) Something having been the case on a number of previous turns, a unit
+- Something having been the case on a number of previous turns, a unit
 really only meaningful for turn-based simulations, as in: "for three turns".
 
 @d TIMES_UNIT 1 /* used for "for the third time" */

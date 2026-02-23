@@ -12,6 +12,11 @@
 <link href="../docs-assets/Navigation.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Fonts.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/ConsoleText-Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
@@ -49,508 +54,439 @@
 
 <ul class="toc"><li><a href="M-pas.html#SP1">&#167;1. Variables and filenames</a></li><li><a href="M-pas.html#SP4">&#167;4. Pipelines run by Inform</a></li><li><a href="M-pas.html#SP5">&#167;5. Syntax of pipeline descriptions</a></li><li><a href="M-pas.html#SP7">&#167;7. Dictionary of stages</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Variables and filenames.</b>For an introduction to pipelines, first read the section <a href="M-ui.html" class="internal">Using Inter</a>.
-</p>
-
-<p class="commentary">In that section, two variables <span class="extract"><span class="extract-syntax">*in</span></span> and <span class="extract"><span class="extract-syntax">*out</span></span> appeared, but no others.
-Those were automatically set as needed: <span class="extract"><span class="extract-syntax">*in</span></span> was the file specified first
-in the command, while <span class="extract"><span class="extract-syntax">*out</span></span> was the value of the <span class="extract"><span class="extract-syntax">-o</span></span> output file switch.
-</p>
-
-<p class="commentary">In fact, though, any number of variables can be set at the command line.
-<span class="extract"><span class="extract-syntax">-variable '*magicword=zooge'</span></span>, for example, creates the variable <span class="extract"><span class="extract-syntax">*magicword</span></span>
-and sets its initial value to "zooge".
-</p>
-
-<p class="commentary">Of course, this has no practical effect unless the pipeline we are running
-makes use of such a variable. But we might imagine running:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Variables and filenames.</b>  For an introduction to pipelines, first read the section <a href="M-ui.html" class="internal">Using Inter</a>.</p>
+<p>In that section, two variables <code>*in</code> and <code>*out</code> appeared, but no others.
+Those were automatically set as needed: <code>*in</code> was the file specified first
+in the command, while <code>*out</code> was the value of the <code>-o</code> output file switch.</p>
+<p>In fact, though, any number of variables can be set at the command line.
+<code>-variable '*magicword=zooge'</code>, for example, creates the variable <code>*magicword</code>
+and sets its initial value to &quot;zooge&quot;.</p>
+<p>Of course, this has no practical effect unless the pipeline we are running
+makes use of such a variable. But we might imagine running:</p>
+</div>
 <pre class="ConsoleText-displayed-code all-displayed-code code-font">
 <span class="ConsoleText-plain-syntax">    </span><span class="ConsoleText-element-syntax">$</span><span class="ConsoleText-plain-syntax"> </span><span class="ConsoleText-function-syntax">inter/Tangled/inter</span><span class="ConsoleText-plain-syntax"> my.intert</span><span class="ConsoleText-identifier-syntax"> -pipeline-file</span><span class="ConsoleText-plain-syntax"> mypl.interpipeline</span><span class="ConsoleText-identifier-syntax"> -variable</span><span class="ConsoleText-plain-syntax"> '*textual=v1.intert'</span><span class="ConsoleText-identifier-syntax"> -variable</span><span class="ConsoleText-plain-syntax"> '*binary=v2.interb'</span>
 </pre>
-<p class="commentary">where <span class="extract"><span class="ConsoleText-extract-syntax">mypl.interpipeline</span></span> reads:
-</p>
-
+<div class="lsmarkdown">
+<p>where <code>mypl.interpipeline</code> reads:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="identifier-syntax">read</span><span class="plain-syntax"> &lt;- *</span><span class="identifier-syntax">in</span>
-<span class="identifier-syntax">generate</span><span class="plain-syntax"> </span><span class="identifier-syntax">text</span><span class="plain-syntax"> -&gt; *</span><span class="identifier-syntax">textual</span>
-<span class="identifier-syntax">generate</span><span class="plain-syntax"> </span><span class="identifier-syntax">binary</span><span class="plain-syntax"> -&gt; *</span><span class="identifier-syntax">binary</span>
+<span class="identifier-syntax">generate</span><span class="plain-syntax"> </span><span class="identifier-syntax">text</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; *</span><span class="identifier-syntax">textual</span>
+<span class="identifier-syntax">generate</span><span class="plain-syntax"> </span><span class="identifier-syntax">binary</span><span class="plain-syntax"> </span><span class="constant-syntax">-</span><span class="plain-syntax">&gt; *</span><span class="identifier-syntax">binary</span>
 </pre>
-<p class="commentary">This will then write out the same Inter program in two different formats, to
-two different files.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>Variables hold only text, and generally represent filenames. Variable names
-begin with a star <span class="extract"><span class="extract-syntax">*</span></span>. When a pipeline runs, the value of a variable is
-substituted for its name. For example,
-</p>
-
+<div class="lsmarkdown">
+<p>This will then write out the same Inter program in two different formats, to
+two different files.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  Variables hold only text, and generally represent filenames. Variable names
+begin with a star <code>*</code>. When a pipeline runs, the value of a variable is
+substituted for its name. For example,</p>
+</div>
 <pre class="ConsoleText-displayed-code all-displayed-code code-font">
 <span class="ConsoleText-plain-syntax">    </span><span class="ConsoleText-element-syntax">$</span><span class="ConsoleText-plain-syntax"> </span><span class="ConsoleText-function-syntax">inter/Tangled/inter</span><span class="ConsoleText-identifier-syntax"> -variable</span><span class="ConsoleText-plain-syntax"> '*X=ex/why'</span><span class="ConsoleText-identifier-syntax"> -pipeline-file</span><span class="ConsoleText-plain-syntax"> mypl.interpipeline</span>
 </pre>
-<p class="commentary">creates the variable <span class="extract"><span class="ConsoleText-extract-syntax">*X</span></span> with the textual contents <span class="extract"><span class="ConsoleText-extract-syntax">ex/why</span></span> before running
-the given pipeline. Inside the pipeline, a line such as:
-</p>
-
+<div class="lsmarkdown">
+<p>creates the variable <code>*X</code> with the textual contents <code>ex/why</code> before running
+the given pipeline. Inside the pipeline, a line such as:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    generate inform6 </span><span class="reserved-syntax">-&gt;</span><span class="plain-syntax"> </span><span class="identifier-syntax">*X</span>
+<span class="plain-syntax">    generate inform6 </span><span class="type-syntax">-&gt;</span><span class="plain-syntax"> </span><span class="identifier-syntax">*X</span>
 </pre>
-<p class="commentary">would then be read as:
-</p>
-
+<div class="lsmarkdown">
+<p>would then be read as:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    generate inform6 </span><span class="reserved-syntax">-&gt;</span><span class="plain-syntax"> ex/why</span>
+<span class="plain-syntax">    generate inform6 </span><span class="type-syntax">-&gt;</span><span class="plain-syntax"> ex/why</span>
 </pre>
-<p class="commentary">After variable substitution like this, filenames inside the pipeline
-description are interpreted as follows:
-</p>
-
-<ul class="items"><li>(a) If a filename contains a slash character, it is considered a literal
-filename.
-</li><li>(b) If the filename is just <span class="extract"><span class="extract-syntax">-</span></span>, it is considered to mean the console, that
-is, what in Unix is usually called <span class="extract"><span class="extract-syntax">stdout</span></span>. In other words, output is printed
-rather than saved.
-</li><li>(c) If not, it is considered to be a leafname inside the "domain" directory.
-By default this is the current working directory, but using <span class="extract"><span class="extract-syntax">-domain</span></span> at
-the Inter command line changes that.
-</li></ul>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>The special variable <span class="extract"><span class="extract-syntax">*log</span></span>, which always exists, means the debugging log.
-A command to write a text file to <span class="extract"><span class="extract-syntax">*log</span></span> is interpreted instead to mean
-"spool the output you would otherwise write to the debugging log instead".
-For example,
-</p>
-
+<div class="lsmarkdown">
+<p>After variable substitution like this, filenames inside the pipeline
+description are interpreted as follows:</p>
+<ul>
+<li>If a filename contains a slash character, it is considered a literal
+filename.</li>
+<li>If the filename is just <code>-</code>, it is considered to mean the console, that
+is, what in Unix is usually called <code>stdout</code>. In other words, output is printed
+rather than saved.</li>
+<li>If not, it is considered to be a leafname inside the &quot;domain&quot; directory.
+By default this is the current working directory, but using <code>-domain</code> at
+the Inter command line changes that.</li>
+</ul>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  The special variable <code>*log</code>, which always exists, means the debugging log.
+A command to write a text file to <code>*log</code> is interpreted instead to mean
+&quot;spool the output you would otherwise write to the debugging log instead&quot;.
+For example,</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    generate inventory </span><span class="reserved-syntax">-&gt;</span><span class="plain-syntax"> </span><span class="identifier-syntax">*log</span>
+<span class="plain-syntax">    generate inventory </span><span class="type-syntax">-&gt;</span><span class="plain-syntax"> </span><span class="identifier-syntax">*log</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Pipelines run by Inform.</b>To Inbuild and Inform, pipelines are resources in their own right, rather
-like extensions or kits. So, for example, the standard distribution includes
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Pipelines run by Inform.</b>  To Inbuild and Inform, pipelines are resources in their own right, rather
+like extensions or kits. So, for example, the standard distribution includes</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">inform7</span><span class="plain-syntax">/</span><span class="identifier-syntax">Internal</span><span class="plain-syntax">/</span><span class="identifier-syntax">Pipelines</span><span class="plain-syntax">/</span><span class="identifier-syntax">compile</span><span class="plain-syntax">.</span><span class="identifier-syntax">interpipeline</span>
 </pre>
-<p class="commentary">which is the one used for standard compilation runs. A project's Materials
-folder is free to provide a replacement:
-</p>
-
+<div class="lsmarkdown">
+<p>which is the one used for standard compilation runs. A project's Materials
+folder is free to provide a replacement:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">Strange</span><span class="plain-syntax">.</span><span class="identifier-syntax">materials</span><span class="plain-syntax">/</span><span class="identifier-syntax">Pipelines</span><span class="plain-syntax">/</span><span class="identifier-syntax">compile</span><span class="plain-syntax">.</span><span class="identifier-syntax">interpipeline</span>
 </pre>
-<p class="commentary">...and then this will be used instead when compiling <span class="extract"><span class="extract-syntax">Strange.inform</span></span>.
-</p>
-
-<p class="commentary">1. This sentence in Inform source text:
-</p>
-
 <blockquote>
     <p>Use inter pipeline "NAME".</p>
 </blockquote>
-
-<p class="commentary">replaces the pipeline normally used for code generation with the one supplied.
-(That may very well cause the compiler not to produce viable code, of course.)
-The default Inter pipeline is called <span class="extract"><span class="extract-syntax">compile</span></span>, and comes built-in. Named
-pipelines are stored alongside named extensions and other resources used by
-Inform; so for example you could write:
-</p>
 
 <blockquote>
     <p>Use inter pipeline "mypipeline".</p>
 </blockquote>
 
-<p class="commentary">And then store the actual pipeline file as:
-</p>
-
+<div class="lsmarkdown">
+<p>...and then this will be used instead when compiling <code>Strange.inform</code>.</p>
+<ol>
+<li>This sentence in Inform source text:</li>
+</ol>
+</div>
+<div class="lsmarkdown">
+<p>replaces the pipeline normally used for code generation with the one supplied.
+(That may very well cause the compiler not to produce viable code, of course.)
+The default Inter pipeline is called <code>compile</code>, and comes built-in. Named
+pipelines are stored alongside named extensions and other resources used by
+Inform; so for example you could write:</p>
+</div>
+<div class="lsmarkdown">
+<p>And then store the actual pipeline file as:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="identifier-syntax">Example</span><span class="plain-syntax"> </span><span class="identifier-syntax">Work</span><span class="plain-syntax">.</span><span class="identifier-syntax">materials</span><span class="plain-syntax">/</span><span class="identifier-syntax">Pipelines</span><span class="plain-syntax">/</span><span class="identifier-syntax">mypipeline</span><span class="plain-syntax">.</span><span class="identifier-syntax">interpipeline</span>
 </pre>
-<p class="commentary">2. You don't need the Use... sentence, though, if you're willing to choose
-on the command line instead:
-</p>
-
+<div class="lsmarkdown">
+<ol start="2">
+<li>You don't need the Use... sentence, though, if you're willing to choose
+on the command line instead:</li>
+</ol>
+</div>
 <pre class="ConsoleText-displayed-code all-displayed-code code-font">
 <span class="ConsoleText-plain-syntax">    </span><span class="ConsoleText-element-syntax">$</span><span class="ConsoleText-plain-syntax"> </span><span class="ConsoleText-function-syntax">inform7/Tangled/inform7</span><span class="ConsoleText-plain-syntax"> ...</span><span class="ConsoleText-identifier-syntax"> -pipeline</span><span class="ConsoleText-plain-syntax"> NAME</span>
 </pre>
-<p class="commentary">Or, if you want to name a file explicitly, not have it looked for by name:
-</p>
-
+<div class="lsmarkdown">
+<p>Or, if you want to name a file explicitly, not have it looked for by name:</p>
+</div>
 <pre class="ConsoleText-displayed-code all-displayed-code code-font">
 <span class="ConsoleText-plain-syntax">    </span><span class="ConsoleText-element-syntax">$</span><span class="ConsoleText-plain-syntax"> </span><span class="ConsoleText-function-syntax">inform7/Tangled/inform7</span><span class="ConsoleText-plain-syntax"> ...</span><span class="ConsoleText-identifier-syntax"> -pipeline-file</span><span class="ConsoleText-plain-syntax"> FILE</span>
 </pre>
-<p class="commentary">3. Finally, you can also give Inform 7 an explicit pipeline in textual form:
-</p>
-
+<div class="lsmarkdown">
+<ol start="3">
+<li>Finally, you can also give Inform 7 an explicit pipeline in textual form:</li>
+</ol>
+</div>
 <pre class="ConsoleText-displayed-code all-displayed-code code-font">
 <span class="ConsoleText-plain-syntax">    </span><span class="ConsoleText-element-syntax">$</span><span class="ConsoleText-plain-syntax"> </span><span class="ConsoleText-function-syntax">inform7/Tangled/inform7</span><span class="ConsoleText-plain-syntax"> ...</span><span class="ConsoleText-identifier-syntax"> -pipeline-text</span><span class="ConsoleText-plain-syntax"> 'PIPELINE'</span>
 </pre>
-<p class="commentary">Note that Inbuild and Inform 7 respond to all three of <span class="extract"><span class="ConsoleText-extract-syntax">-pipeline</span></span>,
-<span class="extract"><span class="ConsoleText-extract-syntax">-pipeline-file</span></span> and <span class="extract"><span class="ConsoleText-extract-syntax">-pipeline-text</span></span>, whereas Inter responds only to the
+<div class="lsmarkdown">
+<p>Note that Inbuild and Inform 7 respond to all three of <code>-pipeline</code>,
+<code>-pipeline-file</code> and <code>-pipeline-text</code>, whereas Inter responds only to the
 last two. (It can't find pipelines by name because it doesn't contain the
-supervisor module for sorting out resources.)
-</p>
-
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Syntax of pipeline descriptions.</b>Pipelines are, roughly speaking, just lists of steps. Each step occupies a single
+supervisor module for sorting out resources.)</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Syntax of pipeline descriptions.</b>  Pipelines are, roughly speaking, just lists of steps. Each step occupies a single
 line: blank lines are ignored, and so are lines whose first non-white-space
-character is a <span class="extract"><span class="ConsoleText-extract-syntax">!</span></span>, which are considered comments.
-</p>
-
-<p class="commentary">A step description is often as simple as being the name of a stage, but
-sometimes that name is accompanied by parameters.
-</p>
-
-<p class="commentary">The difference between a step and a stage is illustrated by this example:
-</p>
-
+character is a <code>!</code>, which are considered comments.</p>
+<p>A step description is often as simple as being the name of a stage, but
+sometimes that name is accompanied by parameters.</p>
+<p>The difference between a step and a stage is illustrated by this example:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="comment-syntax">This is a comment</span>
+<span class="plain-syntax">    </span><span class="comment-syntax">! This is a comment</span>
 
-<span class="plain-syntax">    read </span><span class="reserved-syntax">&lt;-</span><span class="plain-syntax"> </span><span class="identifier-syntax">*in</span>
+<span class="plain-syntax">    read </span><span class="type-syntax">&lt;-</span><span class="plain-syntax"> </span><span class="identifier-syntax">*in</span>
 
-<span class="plain-syntax">    generate text </span><span class="reserved-syntax">-&gt;</span><span class="plain-syntax"> </span><span class="identifier-syntax">*tout</span>
-<span class="plain-syntax">    generate binary </span><span class="reserved-syntax">-&gt;</span><span class="plain-syntax"> </span><span class="identifier-syntax">*bout</span>
+<span class="plain-syntax">    generate text </span><span class="type-syntax">-&gt;</span><span class="plain-syntax"> </span><span class="identifier-syntax">*tout</span>
+<span class="plain-syntax">    generate binary </span><span class="type-syntax">-&gt;</span><span class="plain-syntax"> </span><span class="identifier-syntax">*bout</span>
 </pre>
-<p class="commentary">Here there are three steps. The first uses the <span class="extract"><span class="extract-syntax">read</span></span> stage; the second and
-third use the <span class="extract"><span class="extract-syntax">generate</span></span> stage, but with different parameters.
-</p>
-
-<p class="commentary">There are three sorts of stage description: those involving material coming
+<div class="lsmarkdown">
+<p>Here there are three steps. The first uses the <code>read</code> stage; the second and
+third use the <code>generate</code> stage, but with different parameters.</p>
+<p>There are three sorts of stage description: those involving material coming
 in, denoted by a left arrow, those involving some external file being written
 out, denoted by a right arrow, and those which just process what we have.
-These take the following forms:
-</p>
-
+These take the following forms:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    STAGENAME [TREE] </span><span class="reserved-syntax">&lt;-</span><span class="plain-syntax"> SOURCE</span>
-<span class="plain-syntax">    STAGENAME [TREE] [FORMAT] </span><span class="reserved-syntax">-&gt;</span><span class="plain-syntax"> DESTINATION</span>
+<span class="plain-syntax">    STAGENAME [TREE] </span><span class="type-syntax">&lt;-</span><span class="plain-syntax"> SOURCE</span>
+<span class="plain-syntax">    STAGENAME [TREE] [FORMAT] </span><span class="type-syntax">-&gt;</span><span class="plain-syntax"> DESTINATION</span>
 <span class="plain-syntax">    STAGENAME [TREE]</span>
 </pre>
-<p class="commentary">The <span class="extract"><span class="extract-syntax">STAGENAME</span></span> never contains white space; hyphens are used instead. So, for
-example, <span class="extract"><span class="extract-syntax">eliminate-redundant-labels</span></span> is a valid <span class="extract"><span class="extract-syntax">STAGENAME</span></span>.
-</p>
-
-<p class="commentary">The <span class="extract"><span class="extract-syntax">[TREE]</span></span> is optional. For example:
-</p>
-
+<div class="lsmarkdown">
+<p>The <code>STAGENAME</code> never contains white space; hyphens are used instead. So, for
+example, <code>eliminate-redundant-labels</code> is a valid <code>STAGENAME</code>.</p>
+<p>The <code>[TREE]</code> is optional. For example:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    read </span><span class="constant-syntax">2</span><span class="plain-syntax"> </span><span class="reserved-syntax">&lt;-</span><span class="plain-syntax"> </span><span class="identifier-syntax">*in</span>
-<span class="plain-syntax">    generate </span><span class="constant-syntax">3</span><span class="plain-syntax"> </span><span class="reserved-syntax">-&gt;</span><span class="plain-syntax"> </span><span class="identifier-syntax">*out</span>
+<span class="plain-syntax">    read </span><span class="constant-syntax">2</span><span class="plain-syntax"> </span><span class="type-syntax">&lt;-</span><span class="plain-syntax"> </span><span class="identifier-syntax">*in</span>
+<span class="plain-syntax">    generate </span><span class="constant-syntax">3</span><span class="plain-syntax"> </span><span class="type-syntax">-&gt;</span><span class="plain-syntax"> </span><span class="identifier-syntax">*out</span>
 </pre>
-<p class="commentary">Pipeline descriptions allow us to manage up to 10 different Inter trees, and
-these are called <span class="extract"><span class="extract-syntax">0</span></span> to <span class="extract"><span class="extract-syntax">9</span></span>. These are all initially empty. Any stage which
-doesn't specify a tree is considered to apply to <span class="extract"><span class="extract-syntax">0</span></span>; so pipelines often never
-mention the digits <span class="extract"><span class="extract-syntax">0</span></span> to <span class="extract"><span class="extract-syntax">9</span></span> at all because they always work inside <span class="extract"><span class="extract-syntax">0</span></span>.
-</p>
-
-<p class="commentary">Another optional feature, not currently made use of by any stages, is that
+<div class="lsmarkdown">
+<p>Pipeline descriptions allow us to manage up to 10 different Inter trees, and
+these are called <code>0</code> to <code>9</code>. These are all initially empty. Any stage which
+doesn't specify a tree is considered to apply to <code>0</code>; so pipelines often never
+mention the digits <code>0</code> to <code>9</code> at all because they always work inside <code>0</code>.</p>
+<p>Another optional feature, not currently made use of by any stages, is that
 the description can specify an exact package in a tree, giving its name in URL
-form. Thus:
-</p>
-
+form. Thus:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    hypothetical-stage /main/whatever</span>
 <span class="plain-syntax">    hypothetical-stage </span><span class="constant-syntax">6</span><span class="plain-syntax">:/main/whatever</span>
 </pre>
-<p class="commentary">The stages currently built in to <a href="index.html" class="internal">inter</a> do not work on individual packages,
+<div class="lsmarkdown">
+<p>The stages currently built in to <a href="index.html" class="internal">inter</a> do not work on individual packages,
 but they did at one time in the past, and the infrastructure for it remains
-in case useful in future.
-</p>
-
-<p class="commentary">SOURCE and DESTINATION specify, usually, files to read or write, but they are
-often in fact given as variables, whose names start with an asterisk <span class="extract"><span class="extract-syntax">*</span></span>.
+in case useful in future.</p>
+<p>SOURCE and DESTINATION specify, usually, files to read or write, but they are
+often in fact given as variables, whose names start with an asterisk <code>*</code>.
 Variables have to be set in advance, either at the command line (see above)
 or by the tool calling for the pipeline to be run, e.g., the <a href="../supervisor-module/index.html" class="internal">supervisor</a>
-module inside Inform 7.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>Pipelines can also include each other. For example, the step:
-</p>
-
+module inside Inform 7.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  Pipelines can also include each other. For example, the step:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    run pipeline assimilate</span>
 </pre>
-<p class="commentary">causes the whole <span class="extract"><span class="extract-syntax">assimilate</span></span> pipeline to be run at that point. Indeed, Inform 7's
-main pipeline <span class="extract"><span class="extract-syntax">compile</span></span> uses this to break its task into subtasks:
-</p>
-
+<div class="lsmarkdown">
+<p>causes the whole <code>assimilate</code> pipeline to be run at that point. Indeed, Inform 7's
+main pipeline <code>compile</code> uses this to break its task into subtasks:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">read </span><span class="reserved-syntax">&lt;-</span><span class="plain-syntax"> </span><span class="identifier-syntax">*in</span>
+<span class="plain-syntax">read </span><span class="type-syntax">&lt;-</span><span class="plain-syntax"> </span><span class="identifier-syntax">*in</span>
 
 <span class="plain-syntax">run pipeline assimilate</span>
 <span class="plain-syntax">run pipeline link</span>
 <span class="plain-syntax">run pipeline optimise</span>
 
-<span class="comment-syntax">The following does nothing if the variable *tout does not exist and it</span>
-<span class="comment-syntax">will exist only when debugging:</span>
-<span class="plain-syntax">optionally-generate text </span><span class="reserved-syntax">-&gt;</span><span class="plain-syntax"> </span><span class="identifier-syntax">*tout</span>
+<span class="comment-syntax">! The following does nothing if the variable *tout does not exist and it</span>
+<span class="comment-syntax">! will exist only when debugging:</span>
+<span class="plain-syntax">optionally-generate text </span><span class="type-syntax">-&gt;</span><span class="plain-syntax"> </span><span class="identifier-syntax">*tout</span>
 
-<span class="plain-syntax">generate </span><span class="reserved-syntax">-&gt;</span><span class="plain-syntax"> </span><span class="identifier-syntax">*out</span>
+<span class="plain-syntax">generate </span><span class="type-syntax">-&gt;</span><span class="plain-syntax"> </span><span class="identifier-syntax">*out</span>
 <span class="plain-syntax">index</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Dictionary of stages.</b>The following gives a brief guide to the available stages, in alphabetical
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Dictionary of stages.</b>  The following gives a brief guide to the available stages, in alphabetical
 order. See also <a href="../pipeline-module/P-wtmd.html" class="internal">What This Module Does (in pipeline)</a> for how (some of) these
-stages are used when building kits or projects.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b><span class="extract"><span class="extract-syntax">compile-splats</span></span>.
-A "splat" node holds a single Inform 6-written statement or directive, and
+stages are used when building kits or projects.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>  <code>compile-splats</code>.
+A &quot;splat&quot; node holds a single Inform 6-written statement or directive, and
 thus represents not-yet-compiled material. This stage converts all remaining
-splat nodes to Inter code. Note that <span class="extract"><span class="extract-syntax">resolve-conditional-compilation</span></span> must
-already have run for this to handle <span class="extract"><span class="extract-syntax">#ifdef</span></span> and the like properly.
-</p>
-
-<p class="commentary">For the implementation, see <a href="../pipeline-module/3-css.html" class="internal">Compile Splats Stage (in pipeline)</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b><span class="extract"><span class="extract-syntax">detect-indirect-calls</span></span>.
+splat nodes to Inter code. Note that <code>resolve-conditional-compilation</code> must
+already have run for this to handle <code>#ifdef</code> and the like properly.</p>
+<p>For the implementation, see <a href="../pipeline-module/3-css.html" class="internal">Compile Splats Stage (in pipeline)</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>  <code>detect-indirect-calls</code>.
 Handles an edge case in linking where a function call in one compilation unit,
-e.g., <span class="extract"><span class="extract-syntax">X(1)</span></span>, turned out more complicated because <span class="extract"><span class="extract-syntax">X</span></span>, defined in another
+e.g., <code>X(1)</code>, turned out more complicated because <code>X</code>, defined in another
 compilation unit, was a variable holding the address of a function, and not
-as expected the name of a specific function.
-</p>
-
-<p class="commentary">For the implementation, see <a href="../pipeline-module/4-dics.html" class="internal">Detect Indirect Calls Stage (in pipeline)</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b><span class="extract"><span class="extract-syntax">eliminate-redundant-labels</span></span>.
+as expected the name of a specific function.</p>
+<p>For the implementation, see <a href="../pipeline-module/4-dics.html" class="internal">Detect Indirect Calls Stage (in pipeline)</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b>  <code>eliminate-redundant-labels</code>.
 Performs peephole optimisation on functions to remove all labels which are
 declared but can never be jumped to. At the end of this stage, all labels
-inside functions are targets of some branch, either by <span class="extract"><span class="extract-syntax">inv !jump</span></span> or in
-assembly language.
-</p>
-
-<p class="commentary">For the implementation, see <a href="../pipeline-module/6-erls.html" class="internal">Eliminate Redundant Labels Stage (in pipeline)</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. </b><span class="extract"><span class="extract-syntax">eliminate-redundant-matter</span></span>.
+inside functions are targets of some branch, either by <code>inv !jump</code> or in
+assembly language.</p>
+<p>For the implementation, see <a href="../pipeline-module/6-erls.html" class="internal">Eliminate Redundant Labels Stage (in pipeline)</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. </b>  <code>eliminate-redundant-matter</code>.
 Works through the dependency graph of the Inter tree to find packages which
 are never needed (such as functions never called), and remove them, thus
-making the final executable smaller.
-</p>
-
-<p class="commentary">Note that this is experimental, does not yet properly work, and is not used
-in the built-in <span class="extract"><span class="extract-syntax">compile</span></span> pipeline.
-</p>
-
-<p class="commentary">For the implementation, see <a href="../pipeline-module/6-erms.html" class="internal">Eliminate Redundant Matter Stage (in pipeline)</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. </b><span class="extract"><span class="extract-syntax">eliminate-redundant-operations</span></span>.
+making the final executable smaller.</p>
+<p>Note that this is experimental, does not yet properly work, and is not used
+in the built-in <code>compile</code> pipeline.</p>
+<p>For the implementation, see <a href="../pipeline-module/6-erms.html" class="internal">Eliminate Redundant Matter Stage (in pipeline)</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. </b>  <code>eliminate-redundant-operations</code>.
 Performs peephole optimisation on functions to remove arithmetic or logical
 operations which can be proved to have neither a direct effect nor any
-side-effect: for example, performing <span class="extract"><span class="extract-syntax">x + 0</span></span> rather than just evaluating <span class="extract"><span class="extract-syntax">x</span></span>.
-</p>
-
-<p class="commentary">For the implementation, see <a href="../pipeline-module/6-eros.html" class="internal">Eliminate Redundant Operations Stage (in pipeline)</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. </b><span class="extract"><span class="extract-syntax">generate [FORMAT] -&gt; [DESTINATION]</span></span>.
-Produces "final code" in some format, writing it to an external file specified
+side-effect: for example, performing <code>x + 0</code> rather than just evaluating <code>x</code>.</p>
+<p>For the implementation, see <a href="../pipeline-module/6-eros.html" class="internal">Eliminate Redundant Operations Stage (in pipeline)</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. </b>  <code>generate [FORMAT] -&gt; [DESTINATION]</code>.
+Produces &quot;final code&quot; in some format, writing it to an external file specified
 as the destination. If not given, the format will be the one chosen by the
-<a href="../supervisor-module/index.html" class="internal">supervisor</a> module.
-</p>
-
-<p class="commentary">Note that the special destination <span class="extract"><span class="extract-syntax">*log</span></span> writes to the debugging log rather
-than to some other external file.
-</p>
-
-<p class="commentary">The current list of valid formats is: <span class="extract"><span class="extract-syntax">inform6</span></span>, <span class="extract"><span class="extract-syntax">c</span></span>, <span class="extract"><span class="extract-syntax">binary</span></span>, <span class="extract"><span class="extract-syntax">text</span></span>, <span class="extract"><span class="extract-syntax">inventory</span></span>.
-Of these <span class="extract"><span class="extract-syntax">binary</span></span> and <span class="extract"><span class="extract-syntax">text</span></span> are faithful, direct representations of Inter trees;
-<span class="extract"><span class="extract-syntax">inventory</span></span> is a human-readable summary of the contents; but the others are
+<a href="../supervisor-module/index.html" class="internal">supervisor</a> module.</p>
+<p>Note that the special destination <code>*log</code> writes to the debugging log rather
+than to some other external file.</p>
+<p>The current list of valid formats is: <code>inform6</code>, <code>c</code>, <code>binary</code>, <code>text</code>, <code>inventory</code>.
+Of these <code>binary</code> and <code>text</code> are faithful, direct representations of Inter trees;
+<code>inventory</code> is a human-readable summary of the contents; but the others are
 genuine conversions to code which can be run through other compilers to
-make executable programs.
-</p>
-
-<p class="commentary">For the implementation, see <a href="../final-module/2-cg.html" class="internal">Code Generation (in final)</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. </b><span class="extract"><span class="extract-syntax">index</span></span>.
+make executable programs.</p>
+<p>For the implementation, see <a href="../final-module/2-cg.html" class="internal">Code Generation (in final)</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. </b>  <code>index</code>.
 This is functional only when run as part of the compilation pipeline used on
 code generated by Inform 7; it will (silently) do nothing if used in any other
 pipeline. Depending on command-line settings, it also updates extension documentation
-and generates an EPS form of the map of an IF project.
-</p>
-
-<p class="commentary">For the implementation, see <a href="../index-module/1-is.html" class="internal">Index Stage (in index)</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. </b><span class="extract"><span class="extract-syntax">load-binary-kits</span></span>.
+and generates an EPS form of the map of an IF project.</p>
+<p>For the implementation, see <a href="../index-module/1-is.html" class="internal">Index Stage (in index)</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. </b>  <code>load-binary-kits</code>.
 Kits are libraries of Inter code which support the operation of Inform programs
-at runtime. When "built" (using <a href="index.html" class="internal">inter</a> with the <span class="extract"><span class="extract-syntax">build-kit</span></span> pipeline), a
+at runtime. When &quot;built&quot; (using <a href="index.html" class="internal">inter</a> with the <code>build-kit</code> pipeline), a
 kit provides a binary Inter file of code for each possible architecture. This
 stage gathers up all needed kits, and loads them into the current tree, thus
-considerably expanding it.
-</p>
-
-<p class="commentary">Note that the list of "needed" kits has to be specified in advance of the pipeline
+considerably expanding it.</p>
+<p>Note that the list of &quot;needed&quot; kits has to be specified in advance of the pipeline
 being run. For Inform compilations, this is handled automatically by the
-<a href="../supervisor-module/index.html" class="internal">supervisor</a> module, but it can also be done via the command line.
-</p>
-
-<p class="commentary">For the implementation, see <a href="../pipeline-module/4-lbks.html" class="internal">Load Binary Kits Stage (in pipeline)</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. </b><span class="extract"><span class="extract-syntax">load-kit-source &lt;- [SOURCE]</span></span>.
+<a href="../supervisor-module/index.html" class="internal">supervisor</a> module, but it can also be done via the command line.</p>
+<p>For the implementation, see <a href="../pipeline-module/4-lbks.html" class="internal">Load Binary Kits Stage (in pipeline)</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. </b>  <code>load-kit-source &lt;- [SOURCE]</code>.
 Reads a file of Inform 6-syntax source code and adds the resulting material to
-the Inter tree in the form of a series of "splat" nodes, one for each statement
-or directive. Those won't be much use as they stand, but see <span class="extract"><span class="extract-syntax">compile-splats</span></span>.
-</p>
-
-<p class="commentary">For the implementation, see <a href="../pipeline-module/3-ps.html" class="internal">Parsing Stages (in pipeline)</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. </b><span class="extract"><span class="extract-syntax">make-identifiers-unique</span></span>.
+the Inter tree in the form of a series of &quot;splat&quot; nodes, one for each statement
+or directive. Those won't be much use as they stand, but see <code>compile-splats</code>.</p>
+<p>For the implementation, see <a href="../pipeline-module/3-ps.html" class="internal">Parsing Stages (in pipeline)</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. </b>  <code>make-identifiers-unique</code>.
 Ensures that symbols marked as needing to be unique will be translated, during
-any use of <span class="extract"><span class="extract-syntax">generate</span></span>, to identifiers which are all different from each other
+any use of <code>generate</code>, to identifiers which are all different from each other
 across the entire tree. (In effect, this stage is needed because Inter has
-private namespaces within packages, whereas the languages we are transpiling to &mdash;
-to some extent C, but certainly Inform 6 &mdash; have a single global namespace,
-where collisions of identifiers would be very unfortunate.)
-</p>
-
-<p class="commentary">At the end of this stage, no symbol still has the <span class="extract"><span class="extract-syntax">MAKE_NAME_UNIQUE_ISYMF</span></span> flag.
-</p>
-
-<p class="commentary">For the implementation, see <a href="../pipeline-module/4-mius.html" class="internal">Make Identifiers Unique Stage (in pipeline)</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP18" class="paragraph-anchor"></a><b>&#167;18. </b><span class="extract"><span class="extract-syntax">make-synoptic-module</span></span>.
+private namespaces within packages, whereas the languages we are transpiling to --
+to some extent C, but certainly Inform 6 -- have a single global namespace,
+where collisions of identifiers would be very unfortunate.)</p>
+<p>At the end of this stage, no symbol still has the <code>MAKE_NAME_UNIQUE_ISYMF</code> flag.</p>
+<p>For the implementation, see <a href="../pipeline-module/4-mius.html" class="internal">Make Identifiers Unique Stage (in pipeline)</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP18" class="paragraph-anchor"></a><b>&#167;18. </b>  <code>make-synoptic-module</code>.
 The synoptic module is a top-level section of material in the Inter tree which
 contains functions and arrays which index or otherwise gather up material
 ranging across all other modules. For example, each module originally presents
 itself with its own pieces of literal text, but the synoptic module then
-collates all of those together, sorted and de-duplicated.
-</p>
-
-<p class="commentary">For the implementation, see <a href="../pipeline-module/5-msms.html" class="internal">Make Synoptic Module Stage (in pipeline)</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP19" class="paragraph-anchor"></a><b>&#167;19. </b><span class="extract"><span class="extract-syntax">move &lt;- LOCATION</span></span>.
+collates all of those together, sorted and de-duplicated.</p>
+<p>For the implementation, see <a href="../pipeline-module/5-msms.html" class="internal">Make Synoptic Module Stage (in pipeline)</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP19" class="paragraph-anchor"></a><b>&#167;19. </b>  <code>move &lt;- LOCATION</code>.
 This moves a branch of one Inter tree to a position in another one, reconciling
-the necessary symbol dependencies. For example, <span class="extract"><span class="extract-syntax">move 1 &lt;- 3:/main/my_fn</span></span>
-moves the package <span class="extract"><span class="extract-syntax">/main/my_fn</span></span> in tree 3 to the same position in tree 1.
+the necessary symbol dependencies. For example, <code>move 1 &lt;- 3:/main/my_fn</code>
+moves the package <code>/main/my_fn</code> in tree 3 to the same position in tree 1.
 Note that this is a move, not a copy, and is as fast an operation as we can
-make it.
-</p>
-
-<p class="commentary">This stage is not used in the regular Inform pipelines, but exists to assist
-testing of the so-called "transmigration" process, which powers <span class="extract"><span class="extract-syntax">load-binary-kits</span></span>
-(see above).
-</p>
-
-<p class="commentary">For the implementation, see <a href="../pipeline-module/2-rmss.html" class="internal">Read, Move, Stop Stages (in pipeline)</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP20" class="paragraph-anchor"></a><b>&#167;20. </b><span class="extract"><span class="extract-syntax">new</span></span>.
-A completely empty Inter tree is not very useful. <span class="extract"><span class="extract-syntax">new</span></span> adds the very basic
-definitions needed, and gives it a <span class="extract"><span class="extract-syntax">/main</span></span> package.
-</p>
-
-<p class="commentary">For the implementation, see <a href="../pipeline-module/2-ns.html" class="internal">New Stage (in pipeline)</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP21" class="paragraph-anchor"></a><b>&#167;21. </b><span class="extract"><span class="extract-syntax">optionally-generate [FORMAT] -&gt; DESTINATION</span></span>.
-This is identical to <span class="extract"><span class="extract-syntax">generate</span></span> except that if the DESTINATION is given as
-a variable which does not exist then no error is produced, and nothing is done.
-</p>
-
-<p class="commentary">For the implementation, see <a href="../final-module/2-cg.html" class="internal">Code Generation (in final)</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP22" class="paragraph-anchor"></a><b>&#167;22. </b><span class="extract"><span class="extract-syntax">parse-insertions</span></span>.
-This looks for <span class="extract"><span class="extract-syntax">INSERT_IST</span></span> nodes in the tree, a small number of which may have
-been created by the <a href="../inform7/index.html" class="internal">inform7</a> compiler in response to uses of <span class="extract"><span class="extract-syntax">Include (- ... -)</span></span>.
+make it.</p>
+<p>This stage is not used in the regular Inform pipelines, but exists to assist
+testing of the so-called &quot;transmigration&quot; process, which powers <code>load-binary-kits</code>
+(see above).</p>
+<p>For the implementation, see <a href="../pipeline-module/2-rmss.html" class="internal">Read, Move, Stop Stages (in pipeline)</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP20" class="paragraph-anchor"></a><b>&#167;20. </b>  <code>new</code>.
+A completely empty Inter tree is not very useful. <code>new</code> adds the very basic
+definitions needed, and gives it a <code>/main</code> package.</p>
+<p>For the implementation, see <a href="../pipeline-module/2-ns.html" class="internal">New Stage (in pipeline)</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP21" class="paragraph-anchor"></a><b>&#167;21. </b>  <code>optionally-generate [FORMAT] -&gt; DESTINATION</code>.
+This is identical to <code>generate</code> except that if the DESTINATION is given as
+a variable which does not exist then no error is produced, and nothing is done.</p>
+<p>For the implementation, see <a href="../final-module/2-cg.html" class="internal">Code Generation (in final)</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP22" class="paragraph-anchor"></a><b>&#167;22. </b>  <code>parse-insertions</code>.
+This looks for <code>INSERT_IST</code> nodes in the tree, a small number of which may have
+been created by the <a href="../inform7/index.html" class="internal">inform7</a> compiler in response to uses of <code>Include (- ... -)</code>.
 These can hold arbitrarily long runs of Inform 6-syntax source code, and what
-<span class="extract"><span class="extract-syntax">parse-insertions</span></span> does is to break then up into splats, one for each statement
-or directive. Those won't be much use as they stand, but see <span class="extract"><span class="extract-syntax">compile-splats</span></span>.
-</p>
-
-<p class="commentary">When this completes, no <span class="extract"><span class="extract-syntax">INSERT_IST</span></span> nodes remain in the tree.
-</p>
-
-<p class="commentary">For the implementation, see <a href="../pipeline-module/3-ps.html" class="internal">Parsing Stages (in pipeline)</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP23" class="paragraph-anchor"></a><b>&#167;23. </b><span class="extract"><span class="extract-syntax">read &lt;- SOURCE</span></span>.
+<code>parse-insertions</code> does is to break then up into splats, one for each statement
+or directive. Those won't be much use as they stand, but see <code>compile-splats</code>.</p>
+<p>When this completes, no <code>INSERT_IST</code> nodes remain in the tree.</p>
+<p>For the implementation, see <a href="../pipeline-module/3-ps.html" class="internal">Parsing Stages (in pipeline)</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP23" class="paragraph-anchor"></a><b>&#167;23. </b>  <code>read &lt;- SOURCE</code>.
 Copies the contents of the SOURCE file to be the new contents of the tree.
-The file must be an Inter file, but can be in either binary or textual format.
-</p>
-
-<p class="commentary">The special source <span class="extract"><span class="extract-syntax">*memory</span></span> can be used if we already have a tree set up in
+The file must be an Inter file, but can be in either binary or textual format.</p>
+<p>The special source <code>*memory</code> can be used if we already have a tree set up in
 slot 0; this is a device used by the <a href="../supervisor-module/index.html" class="internal">supervisor</a> when managing an Inform
 compilation, because <a href="../inform7/index.html" class="internal">inform7</a> will already have made an Inter tree in
 memory, and it would be inefficient to save this out to the file system and
-then read it in again.
-</p>
-
-<p class="commentary">For the implementation, see <a href="../pipeline-module/2-rmss.html" class="internal">Read, Move, Stop Stages (in pipeline)</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP24" class="paragraph-anchor"></a><b>&#167;24. </b><span class="extract"><span class="extract-syntax">reconcile-verbs</span></span>.
+then read it in again.</p>
+<p>For the implementation, see <a href="../pipeline-module/2-rmss.html" class="internal">Read, Move, Stop Stages (in pipeline)</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP24" class="paragraph-anchor"></a><b>&#167;24. </b>  <code>reconcile-verbs</code>.
 Looks for clashes between any verbs (i.e., command parser imperatives like
 PURLOIN or LOOK) which are created in different compilation units. For example,
 if the main source text creates a verb called ABSTRACT, which clashes with the
-completely different command ABSTRACT defined in <span class="extract"><span class="extract-syntax">CommandParserKit</span></span> for debugging
-purposes, then how is the player to differentiate these? The <span class="extract"><span class="extract-syntax">reconcile-verbs</span></span>
-stage inserts <span class="extract"><span class="extract-syntax">!</span></span> characters in the kit definitions where such clashes occur;
+completely different command ABSTRACT defined in <code>CommandParserKit</code> for debugging
+purposes, then how is the player to differentiate these? The <code>reconcile-verbs</code>
+stage inserts <code>!</code> characters in the kit definitions where such clashes occur;
 thus ABSTRACT would be the source-text-defined command, and !ABSTRACT the
-kit-defined one.
-</p>
-
-<p class="commentary">At the end of this stage, all command parser verbs have distinct textual forms.
-</p>
-
-<p class="commentary">For the implementation, see <a href="../pipeline-module/4-rvs.html" class="internal">Reconcile Verbs Stage (in pipeline)</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP25" class="paragraph-anchor"></a><b>&#167;25. </b><span class="extract"><span class="extract-syntax">resolve-conditional-compilation</span></span>.
+kit-defined one.</p>
+<p>At the end of this stage, all command parser verbs have distinct textual forms.</p>
+<p>For the implementation, see <a href="../pipeline-module/4-rvs.html" class="internal">Reconcile Verbs Stage (in pipeline)</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP25" class="paragraph-anchor"></a><b>&#167;25. </b>  <code>resolve-conditional-compilation</code>.
 Looks for splats arising from Inform 6-syntax conditional compilation directives
-such as <span class="extract"><span class="extract-syntax">#ifdef</span></span>, <span class="extract"><span class="extract-syntax">#ifndef</span></span>, <span class="extract"><span class="extract-syntax">#endif</span></span>; it then detects whether the relevant
+such as <code>#ifdef</code>, <code>#ifndef</code>, <code>#endif</code>; it then detects whether the relevant
 symbols are defined, or looks at their values, and deletes sections of code not
 to be compiled. At the end of this stage, there are no conditional compilation
-splats left in the tree. For example:
-</p>
-
+splats left in the tree. For example:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int32</span><span class="plain-syntax">) MAGIC = </span><span class="constant-syntax">12345</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">splat</span><span class="plain-syntax"> IFTRUE &amp;</span><span class="string-syntax">"#iftrue MAGIC == 12345;\n"</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int32</span><span class="plain-syntax">) WIZARD = </span><span class="constant-syntax">5</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">splat</span><span class="plain-syntax"> IFNOT &amp;</span><span class="string-syntax">"#ifnot;\n"</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int32</span><span class="plain-syntax">) MUGGLE = </span><span class="constant-syntax">0</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">splat</span><span class="plain-syntax"> ENDIF &amp;</span><span class="string-syntax">"#endif;\n"</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> (</span><span class="type-syntax">int32</span><span class="plain-syntax">) MAGIC = </span><span class="constant-syntax">12345</span>
+<span class="plain-syntax">    </span><span class="type-syntax">splat</span><span class="plain-syntax"> IFTRUE &amp;</span><span class="string-syntax">"#iftrue MAGIC == 12345;\n"</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> (</span><span class="type-syntax">int32</span><span class="plain-syntax">) WIZARD = </span><span class="constant-syntax">5</span>
+<span class="plain-syntax">    </span><span class="type-syntax">splat</span><span class="plain-syntax"> IFNOT &amp;</span><span class="string-syntax">"#ifnot;\n"</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> (</span><span class="type-syntax">int32</span><span class="plain-syntax">) MUGGLE = </span><span class="constant-syntax">0</span>
+<span class="plain-syntax">    </span><span class="type-syntax">splat</span><span class="plain-syntax"> ENDIF &amp;</span><span class="string-syntax">"#endif;\n"</span>
 </pre>
-<p class="commentary">is resolved to:
-</p>
-
+<div class="lsmarkdown">
+<p>is resolved to:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int32</span><span class="plain-syntax">) MAGIC = </span><span class="constant-syntax">12345</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int32</span><span class="plain-syntax">) WIZARD = </span><span class="constant-syntax">5</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> (</span><span class="type-syntax">int32</span><span class="plain-syntax">) MAGIC = </span><span class="constant-syntax">12345</span>
+<span class="plain-syntax">    </span><span class="type-syntax">constant</span><span class="plain-syntax"> (</span><span class="type-syntax">int32</span><span class="plain-syntax">) WIZARD = </span><span class="constant-syntax">5</span>
 </pre>
-<p class="commentary">For the implementation, see <a href="../pipeline-module/3-rccs.html" class="internal">Resolve Conditional Compilation Stage (in pipeline)</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP26" class="paragraph-anchor"></a><b>&#167;26. </b><span class="extract"><span class="extract-syntax">shorten-wiring</span></span>.
+<div class="lsmarkdown">
+<p>For the implementation, see <a href="../pipeline-module/3-rccs.html" class="internal">Resolve Conditional Compilation Stage (in pipeline)</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP26" class="paragraph-anchor"></a><b>&#167;26. </b>  <code>shorten-wiring</code>.
 Wiring is the process by which symbols in one package can refer to definitions
 in another one; we say S is wired to T if S in one package refers to the meaning
 defined by T is another one. The linking process can result in extended chains
 of wiring, with A wired to B which is wired to C which... and so on; the
-<span class="extract"><span class="extract-syntax">shorten-wiring</span></span> stage cuts out those intermediate links so that if a symbol
-S is wired to T then T is not wired to anything else.
-</p>
-
-<p class="commentary">For the implementation, see <a href="../pipeline-module/4-sws.html" class="internal">Shorten Wiring Stage (in pipeline)</a>.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP27" class="paragraph-anchor"></a><b>&#167;27. </b><span class="extract"><span class="extract-syntax">stop</span></span>.
-The special stage <span class="extract"><span class="extract-syntax">stop</span></span> halts processing of the pipeline midway. At present
+<code>shorten-wiring</code> stage cuts out those intermediate links so that if a symbol
+S is wired to T then T is not wired to anything else.</p>
+<p>For the implementation, see <a href="../pipeline-module/4-sws.html" class="internal">Shorten Wiring Stage (in pipeline)</a>.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP27" class="paragraph-anchor"></a><b>&#167;27. </b>  <code>stop</code>.
+The special stage <code>stop</code> halts processing of the pipeline midway. At present
 this is only useful for making experimental edits to pipeline descriptions
 to see what just the first half does, without deleting the second half of
-the description.
-</p>
-
-<p class="commentary">For the implementation, see <a href="../pipeline-module/2-rmss.html" class="internal">Read, Move, Stop Stages (in pipeline)</a>.
-</p>
-
+the description.</p>
+<p>For the implementation, see <a href="../pipeline-module/2-rmss.html" class="internal">Read, Move, Stop Stages (in pipeline)</a>.</p>
+</div>
 <nav role="progress"><div class="progresscontainer">
     <ul class="progressbar"><li class="progressprev"><a href="M-io.html">&#10094;</a></li><li class="progresscurrentchapter">M</li><li class="progresssection"><a href="M-ui.html">ui</a></li><li class="progresssection"><a href="M-ti.html">ti</a></li><li class="progresssection"><a href="M-dpiti.html">dpiti</a></li><li class="progresssection"><a href="M-cpiti.html">cpiti</a></li><li class="progresssection"><a href="M-ip.html">ip</a></li><li class="progresssection"><a href="M-ia.html">ia</a></li><li class="progresssection"><a href="M-io.html">io</a></li><li class="progresscurrent">pas</li><li class="progresssection"><a href="M-rc.html">rc</a></li><li class="progresschapter"><a href="1-mn.html">1</a></li><li class="progressnext"><a href="M-rc.html">&#10095;</a></li></ul></div>
 </nav><!-- End of weave -->

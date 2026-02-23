@@ -15,9 +15,9 @@ only this part of the compilation flow --
 Used as a stand-alone tool at the command line, however, Inbuild is more
 flexible and interesting. See the //inbuild: Manual// and //inbuild: Reference Card//.
 
-(*) The contents page for the Inbuild web is here: //inbuild//.
+- The contents page for the Inbuild web is here: //inbuild//.
 
-(*) The command-line interface for Inbuild as a stand-alone tool is implemented
+- The command-line interface for Inbuild as a stand-alone tool is implemented
 at //inbuild: Main//.
 
 @ The //supervisor// module does all of the real work. Given a project to build,
@@ -31,9 +31,9 @@ at source text for extensions and Inform projects, the supervisor is therefore
 also the part of Inform which uses the //syntax// service to read text in to
 the syntax tree.
 
-(*) Contents page of web: //supervisor//.
+- Contents page of web: //supervisor//.
 
-(*) Detailed overview: //supervisor: What This Module Does//.
+- Detailed overview: //supervisor: What This Module Does//.
 
 @ Inbuild also contains the basic //foundation// library and some //services//
 modules: specifically, //words//, //syntax//, //html// and //arch//.

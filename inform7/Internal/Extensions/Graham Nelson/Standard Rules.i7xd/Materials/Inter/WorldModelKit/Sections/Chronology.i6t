@@ -45,14 +45,14 @@ the well ran dry, then in our example the state word for the condition
 records. We keep two records in order to be able to detect conditions in
 four different tenses:
 
-(1) Present tense ("if the well is dry"): none of this machinery is used,
+- Present tense ("if the well is dry"): none of this machinery is used,
 because we can just test directly instead, so a present tense condition has
 no PT-number.
-(2) Past tense ("if the well was dry"): we look at the flag bit in the
+- Past tense ("if the well was dry"): we look at the flag bit in the
 past chronological record.
-(3) Perfect tense ("if the well has been dry"): we look at whether or not
+- Perfect tense ("if the well has been dry"): we look at whether or not
 $T > 0$ in the present chronological record.
-(4) Past perfect tense ("if the well had been dry"): we look at whether or not
+- Past perfect tense ("if the well had been dry"): we look at whether or not
 $T > 0$ in the past chronological record.
 
 It's a somewhat ambiguous matter of context in English when the reference time
@@ -97,18 +97,18 @@ been found true, and so on.
 
 @h Test Single Past State.
 |TestSinglePastState| is called with four arguments:
-(a) |past_flag| is true if we want to test a condition like "if the well was
+- |past_flag| is true if we want to test a condition like "if the well was
 dry" or "if the well had been dry", which concern only the state as it was
 at the last chronology point -- in other words, the |past_chronological_record|,
 which we must not change; whereas |past_flag| is false if we want to test
 a present tense like "if the well is dry" or "if the well has been dry",
 because then we deal with the |present_chronological_record| which must be
 kept continuously updated.
-(b) |pt| is the PT number for the condition.
-(c) |turn_end| is true if we are making the test at the end of a turn, as
+- |pt| is the PT number for the condition.
+- |turn_end| is true if we are making the test at the end of a turn, as
 part of the update chronological records rule, and false otherwise. (For these
 purposes the start of play is a turn end since the UCRR runs then, too.)
-(d) |wanted| describes what information the function should return, as
+- |wanted| describes what information the function should return, as
 detailed in its code below.
 
 @h Scheme II.
@@ -167,7 +167,7 @@ conditions like "Before going for the third turn", and we want to play
 along because that's a natural phrasing: but actions and turns are not
 synonymous at all. The rules are therefore:
 
-(1) At the start-of-action call, provided the action is not a silent one,
+- (1) At the start-of-action call, provided the action is not a silent one,
 the consecutive turns count is either incremented or zeroed, depending on
 whether the action matches. Silent actions are ignored because they are
 almost always knock-on actions tried in the course of other actions, and
@@ -175,22 +175,22 @@ are certainly not the "main" action of the turn. But the count can be
 incremented only once in the course of each turn, so that "Instead of
 taking something for the third turn: ..." cannot happen on the very first
 turn because TAKE ALL causes three or more take actions.
-(2) At the readjustment call, provided the action is not a silent one,
+
+- (2) At the readjustment call, provided the action is not a silent one,
 the consecutive turns count is zeroed if the action does not match.
 
-Why do we zero the count in rule (2)? Well, suppose that the player types
-OPEN BOX, so that the opening action takes place, and that it causes a
-further (non-silent) action, say examining the lid: and suppose that the
-action pattern we track the turn count for is "examining something".
-Then the following calls take place:
+Why do we zero the count? Well, suppose that the player types OPEN BOX, so that
+the opening action takes place, and that it causes a further (non-silent)
+action, say examining the lid: and suppose that the action pattern we track the
+turn count for is "examining something". Then the following calls take place:
 
-(a) |TrackActions(false)| while the action is "opening the box".
+- |TrackActions(false)| while the action is "opening the box".
 Turn count zeroed by rule (1).
-(b) |TrackActions(false)| while the action is "examining the lid".
+- |TrackActions(false)| while the action is "examining the lid".
 Turn count incremented by rule (1).
-(c) |TrackActions(true)| while the action is "opening the box".
+- |TrackActions(true)| while the action is "opening the box".
 Turn count zeroed by rule (2).
-(d) |TrackActions(true)| while the action is "opening the box".
+- |TrackActions(true)| while the action is "opening the box".
 Turn count zeroed by rule (2).
 
 Thus rule (2) prevents us from counting this turn as the first of a sequence

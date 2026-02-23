@@ -15,12 +15,12 @@ a table called |TableOfDialogueLines|. If |dl| is an enumerated value then
 
 These line data arrays consist of 8 words, as follows:
 
-(*) |AVAILABILITY_DLMETADATA| is a function to test whether any |if| or |unless|
+- |AVAILABILITY_DLMETADATA| is a function to test whether any |if| or |unless|
 conditions attached to the line are met; this returns |true| if the line is
 available, |false| if not. If the |AVAILABILITY_DLMETADATA| is 0, the line is
 always available.
 
-(*) |SPEAKER_DLMETADATA| is either 0, meaning the line is narration and has no
+- |SPEAKER_DLMETADATA| is either 0, meaning the line is narration and has no
 speaker, or has metaclass |Object|, and is therefore an specific person or
 object which speaks, or else has metaclass |Routine|, and is in that case
 a function which tests whether a given object meets the requirements. For
@@ -28,35 +28,35 @@ example, a line attributed only to |A woman in the Ballroom| would result
 in a function here. The special value |PLAYER_CONVERSATIONALIST| can also
 be used to mean "the player, whoever that currently is".
 
-(*) |INTERLOCUTOR_DLMETADATA| is similar, but for the interlocutor, and is
+- |INTERLOCUTOR_DLMETADATA| is similar, but for the interlocutor, and is
 more often 0 -- many lines have no interlocutor. The special value
 |PLAYER_CONVERSATIONALIST| can also be used to mean "the player, whoever that
 currently is".
 
-(*) |SPEECH_DLMETADATA| is a |text| value for the content (note: an Inform 7
+- |SPEECH_DLMETADATA| is a |text| value for the content (note: an Inform 7
 text value, not an I6 |String| literal). This cannot be 0. The text may well
 include substitutions, and the compiled code for those substitutions may
 assume it can access the activity variables for "performing something".
 
-(*) |STYLE_DLMETADATA| is the performance style for the line, and is an
+- |STYLE_DLMETADATA| is the performance style for the line, and is an
 enumerated value of the |performance style| kind. For most lines, this is 1,
 since that's the enumerated value for the default "spoken normally". This
 cannot be 0.
 
-(*) |MENTIONING_DLMETADATA| is either 0, meaning that the line raises no
+- |MENTIONING_DLMETADATA| is either 0, meaning that the line raises no
 new subject, or has metaclass |Object|, in which case it raises only that
 one subject, or has metaclass |Routine|, in which case it is a function which
 contains a series of calls to |DirectorAddLiveSubjectList|, one for each of
 the at least two subjects mentioned.
 
-(*) |ACTIONS_DLMETADATA| is either 0, or is a function to carry out any
+- |ACTIONS_DLMETADATA| is either 0, or is a function to carry out any
 actions or |now| state-changes which accompany the line. The action function |A|,
 if given, is called three times: |A(3)| to perform "after ..." actions, and
 returning |true| if they succeed or |false| if they fail; then |A(2)| to
 perform any "now ..." business, with no meaningful return value; then |A(1)|
 to perform "before ..." actions.
 
-(*) |FLAGS_DLMETADATA| is currently not very useful, and is a bitmap.
+- |FLAGS_DLMETADATA| is currently not very useful, and is a bitmap.
 The flag |NARRATION_FLAG_DLMETADATA| is redundant right now, since the speaker
 field can just as easily reveal whether or not the line is narration.
 
@@ -114,10 +114,10 @@ As noted above, the speaker and interlocutor may not be explicitly determined
 in the data given to us, and there are times when we have to go to some trouble
 to work out who they are. 
 
-(*) |DirectorSelectConverser(val, true, nonverbal)| works out the speaker meant by
+- |DirectorSelectConverser(val, true, nonverbal)| works out the speaker meant by
 |val|, assuming the line is verbal unless |nonverbal| is set.
 
-(*) |DirectorSelectConverser(val, false, nonverbal)| works out the interlocutor meant by
+- |DirectorSelectConverser(val, false, nonverbal)| works out the interlocutor meant by
 |val|, assuming the line is verbal unless |nonverbal| is set.
 
 The algorithm below is not very fast if there are large numbers of objects: on

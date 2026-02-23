@@ -240,26 +240,26 @@ Instead we key using the actual words. Each vocabulary entry has four
 linked lists of EMs: its subset list, its start list, its middle list,
 and its end list.
 
-(a) If an EM needs to allow parsing as a subset, it must be placed in the
-subset list of every word. For instance, "buttress against cathedral
-wall" registered under the code |NOUN_MC| would be listed
-in the subset lists of "buttress", "against", "cathedral" and "wall".
+-	If an EM needs to allow parsing as a subset, it must be placed in the
+	subset list of every word. For instance, "buttress against cathedral
+	wall" registered under the code |NOUN_MC| would be listed
+	in the subset lists of "buttress", "against", "cathedral" and "wall".
 
-(b) Otherwise it is placed in only one list:
+-	Otherwise it is placed in only one list:
 
-(-b1) If the token list consists only of a single gap |#|, we must be
-registering a "say" phrase to say a value. (There is one of these for
-each kind of value.) This meaning is listed under a special |blank_says_p|
-list, which is not attached to any vocabulary entry.
-(-b2) Otherwise, if the first token is not a |#| gap, it goes into the
-start list for the first token's word: for instance, |award # points| joins
-the start list for "award".
-(-b3) Otherwise, if the last token is not a |#| gap, it goes into the end
-list for the last token's word: for instance, |# in # from now| joins the
-end list for "now".
-(-b4) Otherwise, it goes into the middle list of the word for the leftmost
-token which is not a |#|: for instance, |# plus #| joins the middle list for
-"plus".
+	- If the token list consists only of a single gap |#|, we must be
+	registering a "say" phrase to say a value. (There is one of these for
+	each kind of value.) This meaning is listed under a special |blank_says_p|
+	list, which is not attached to any vocabulary entry.
+	- Otherwise, if the first token is not a |#| gap, it goes into the
+	start list for the first token's word: for instance, |award # points| joins
+	the start list for "award".
+	- Otherwise, if the last token is not a |#| gap, it goes into the end
+	list for the last token's word: for instance, |# in # from now| joins the
+	end list for "now".
+	- Otherwise, it goes into the middle list of the word for the leftmost
+	token which is not a |#|: for instance, |# plus #| joins the middle list for
+	"plus".
 
 Since no token lists of two or more consecutive |#|s cannot exist, this exhausts the possibilities.
 
@@ -268,11 +268,11 @@ source text against all possible meanings by checking the start list for |w1|,
 the end list for |w2| and the middle list for every one of |(w1+1, w2-1)|.
 Because of this:
 
-(i) Performance suffers if lists for individual words become unbalanced
+- Performance suffers if lists for individual words become unbalanced
 in size. This is why we register Unicode translations as "white chess
 knight" rather than "Unicode white chess knight", and so on; the
 alternative would be a stupendously long start list for "unicode".
-(ii) Middle lists are tested far more often than start or end lists, so
+- Middle lists are tested far more often than start or end lists, so
 we should keep them as small as possible. This is why (b4) above is our last
 resort; happily phrases both starting and ending with |#| are uncommon.
 

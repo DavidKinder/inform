@@ -13,12 +13,12 @@ The //value_holster// was invented as a way to manage this. It allows the caller
 of a compilation function to ask for code to be made in a particular way: this
 is the |vhmode_wanted| field. These ways are:
 
-(*) |INTER_VAL_VHMODE| -- generate Inter bytecode inside a function, producing a value
+- |INTER_VAL_VHMODE| -- generate Inter bytecode inside a function, producing a value
 
-(*) |INTER_VOID_VHMODE| -- generate Inter bytecode inside a function but in
+- |INTER_VOID_VHMODE| -- generate Inter bytecode inside a function but in
 void context, i.e., not producing a value
 
-(*) |INTER_DATA_VHMODE| -- encode a constant value as a pair of Inter values,
+- |INTER_DATA_VHMODE| -- encode a constant value as a pair of Inter values,
 for use in, say, an array entry.
 
 So much for what the caller wants. The compilation function, or subsystem, then

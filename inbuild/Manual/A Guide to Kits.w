@@ -176,17 +176,17 @@ So now BalloonKit is indeed a dependency.
 the name of the kit: in the case of our example, that will be |BalloonKit|.
 This directory contains:
 
-(*) Source code. In fact, a kit is also an Inweb literate program, though it
+- Source code. In fact, a kit is also an Inweb literate program, though it
 is always a deliberately simple one. (Being Inweb-compatible is very convenient,
 since it means it can be woven into website form. See //BasicInformKit// for
 an example of the result.) It is simple because it provides only a |Contents.w|
 page and a |Sections| subdirectory -- it has no manual, chapters, figures,
 sounds or other paraphernalia.
 
-(*) A file called |kit_metadata.json| describing the kit, its version and its
+- A file called |kit_metadata.json| describing the kit, its version and its
 dependencies.
 
-(*) Compiled binary Inter files -- but only once the kit has been built. These
+- Compiled binary Inter files -- but only once the kit has been built. These
 always have filenames in the shape |arch-A.interb|, where |A| is an architecture;
 in that way, a kit can contain binary Inter to suit several different architectures.
 For example, |arch-16d.interb| or |arch-32.interb|.
@@ -253,34 +253,34 @@ now nothing really to do with the language Javascript and has instead become
 an Internet standard for small packets of descriptive data, like ours. Many
 full descriptions of JSON are available, but here are some brief notes:
 
-(*) This is a UTF-8 plain text file. The acute accent in "Jacques-Étienne Montgolfier"
+- This is a UTF-8 plain text file. The acute accent in "Jacques-Étienne Montgolfier"
 causes no problems, but quoted text is well advised to confine itself to the Unicode
 Basic Multilingual Plane characters (with code-points 0 to 65535). Inside
 quotation marks, |\n| and |\t| can be used for newlines and tabs, but a kit
 shouldn't ever need them. |\uDDDD| can be used to mean "the Unicode character
 whose code is |DDDD| in hexadecimal".
 
-(*) Braces |{| and |}| begin and end "objects". The whole set of metadata on
+- Braces |{| and |}| begin and end "objects". The whole set of metadata on
 the kit is such an object, so the file has to open and close with |{| and |}|.
 Inside such braces, we have a list of named values, divided by commas. Each
 entry takes the form |"name": value|. The name is in quotes, but the value
 will only be quoted if it happens to be a string.
 
-(*) Square brackets |[| and |]| begin and end lists, with the entries in the
+- Square brackets |[| and |]| begin and end lists, with the entries in the
 list divided by commas. For example, |[ 1, 2, 17 ]| is a valid list of three
 numbers.
 
-(*) Numbers are written in decimal, possibly with a minus sign: for example,
+- Numbers are written in decimal, possibly with a minus sign: for example,
 |24| or |-120|. (JSON also allows floating-point numbers, which Inbuild does
 read, and stores to double precision, but kit metadata never needs these.)
 
-(*) The special notations |true| and |false| are used for so-called boolean
+- The special notations |true| and |false| are used for so-called boolean
 values, i.e., those which are either true or false.
 
-(*) The special notation |null| is used to mean "I am not saying what this is",
+- The special notation |null| is used to mean "I am not saying what this is",
 but kit metadata never needs this.
 
-(*) JSON files are forbidden to contain comments, and Inbuild is very strict
+- JSON files are forbidden to contain comments, and Inbuild is very strict
 about what hierarchies of objects it will read without errors.
 
 @ Looking again at the minimal example, what do we have?
@@ -300,12 +300,12 @@ The value of |"is"| is another object -- hence the second pair of |{| ... |}| af
 the colon. This second object gives the identity of the kit -- says what it is,
 in other words. That has four values:
 
-(1) |"type"|, which has to be |"kit"|;
-(2) |"title"|, which has to match the kit's name -- Inbuild will throw an error
+- |"type"|, which has to be |"kit"|;
+- |"title"|, which has to match the kit's name -- Inbuild will throw an error
 if BalloonKit's metadata file claims that its title is actually |"AerostatiqueKit"|;
-(3) |"author"|, which is optional, but which if given should follow the usual
+- |"author"|, which is optional, but which if given should follow the usual
 conventions for author names of Inform extensions; and
-(4) |"version"|, which is also optional, but whose use is strongly recommended.
+- |"version"|, which is also optional, but whose use is strongly recommended.
 This has to be a semantic version number. This follows Inbuild's usual semantic
 version numbering conventions, so for example |"5"| and |"1.5.6-alpha.12"| would
 both be valid. Note that in JSON terms it's a string, despite the word "number"
@@ -340,10 +340,10 @@ a list, which in JSON is written in square brackets |[ X, Y, Z, ... ]|. Here
 the list has just one entry, in fact. The entries in the list all have to be
 objects, which can have three possible values:
 
-(1) |"if"|, saying that the dependency is conditional on another kit being used --
+- |"if"|, saying that the dependency is conditional on another kit being used --
 see above for examples;
-(2) |"unless"|, similarly but making the condition on another kit not being used;
-(3) |"need"|, which says what the dependency is on.
+- |"unless"|, similarly but making the condition on another kit not being used;
+- |"need"|, which says what the dependency is on.
 
 The |"if"| and |"unless"| clauses are optional. (And only one can be given.)
 The |"need"| clause is compulsory. This can say that the kit needs another
@@ -422,12 +422,12 @@ As noted above, |kit_metadata.json| must be a valid JSON file which encodes a
 single object. The following are the legal member names; only |"is"| is mandatory,
 and the rest sensibly default if not given.
 
-(*) |"is"|, an object identifying what kit this is. See above.
+- |"is"|, an object identifying what kit this is. See above.
 
-(*) |"needs"|, a list of objects each of which specifies a possibly conditional
+- |"needs"|, a list of objects each of which specifies a possibly conditional
 dependency on other resources. See above.
 
-(*) |"compatibility"|, a string which describes which architectures or final targets
+- |"compatibility"|, a string which describes which architectures or final targets
 the kit is compatible with. By default, Inbuild assumes it will work with anything,
 equivalent to |"compatibility": "all"|. In general, it's best to stick to purely
 architectural constraints (i.e. 16 or 32 bit, with or without debugging support)
@@ -440,7 +440,7 @@ are all legal:
 	"compatibility": "not for C"
 =
 
-(*) |"activates"| is a list of strings describing optional features of the Inform
+- |"activates"| is a list of strings describing optional features of the Inform
 compiler to switch on if this kit is being used. The feature names are the names
 of features inside the compiler, and this is not the place to document that. See
 the implementation at //arch: Feature Manager//. But in general, unless you are
@@ -451,9 +451,9 @@ example, WorldModelKit does the following:
 	"activates": [ "interactive fiction", "multimedia" ]
 =
 
-(*) |"deactivates"| is a similar list describing what to turn off.
+- |"deactivates"| is a similar list describing what to turn off.
 
-(*) |"kit-details"| is a set of oddball settings which make sense only for kits.
+- |"kit-details"| is a set of oddball settings which make sense only for kits.
 The reason these are hived off in their own sub-object is so that the same
 basic file format can be used for JSON describing other resources, too.
 |"kit-details"| can only legally be used if the |"type"| in the |"is"| object
@@ -463,7 +463,7 @@ is set to |"kit"|.
 optional. Only the first is likely to be useful for a kit other than one of
 those built in to the Inform installation.
 
-(*) |"provides-kinds"| is a list of strings. These are the names of Neptune
+- |"provides-kinds"| is a list of strings. These are the names of Neptune
 files to read in. Neptune is a mini-language for setting up kinds and kind
 constructors inside the Inform compiler: see //kinds: A Brief Guide to Neptune//
 for much more on this. Each named file |F| should be placed as |BalloonKit/kinds/F|.
@@ -472,23 +472,23 @@ For example, WorldModelKit does this:
 "provides-kinds": [ "Actions.neptune", "Times.neptune", "Scenes.neptune", "Figures.neptune", "Sounds.neptune" ]
 =
 
-(*) |"has-priority"| is a number, from 0 to 100. This is used only to decide
+- |"has-priority"| is a number, from 0 to 100. This is used only to decide
 whose wishes get priority when Inbuild is performing if-this-then-that
 decisions to sort out which kits are present in a project. The default is 10,
 and for almost all kits it should stay that way. Lower-numbered kits have
 "more important" wishes than higher-numbered ones.
 
-(*) |"defines-Main"| is a boolean, so its value has to be |true| or |false|.
+- |"defines-Main"| is a boolean, so its value has to be |true| or |false|.
 If it isn't given, the value will be |false|. This is useful only for the
 built-in kits supplied with Inform, and indicates whether or not they define
 a |Main| function in Inter.
 
-(*) |"indexes-with-structure"| is a string. This is useful only for the
+- |"indexes-with-structure"| is a string. This is useful only for the
 built-in kits supplied with Inform, and indicates which structure file should
 be used to generate the Index of a project. (There are two versions of the
 index, one for Basic Inform projects, the other for interactive-fiction ones.)
 
-(*) |"inserts-source-text"| is a string. This sneakily allows a sentence of
+- |"inserts-source-text"| is a string. This sneakily allows a sentence of
 Inform 7 source text to be inserted into any project using the kit. Its use
 is very much a last resort: if at all possible, put such material in an
 associated extension, and then auto-include that extension using a |"needs"|
@@ -501,19 +501,19 @@ dependency (see above). But, for example:
 of multiple kits, which may clarify what happens in apparently ambiguous
 situations.
 
-(*) Needs are considered only for kits which are loaded. There is no way to
+- Needs are considered only for kits which are loaded. There is no way to
 make BalloonKit parasitically attach to all projects by giving it a rule
 saying in effect "unless you have BalloonKit then you need BalloonKit",
 because although you could write such a rule, it would only be processed
 when BalloonKit had already loaded -- and would then have no effect.
 
-(*) A kit cannot be unloaded once loaded. So "needs" rules can only cause
+- A kit cannot be unloaded once loaded. So "needs" rules can only cause
 extra kits to be added. It follows that there can never be a loop caused
 by kits repeatedly loading and unloading each other through irresolvable
 constraints. But it also follows that the outcome in such a case can depend
 on the order in which rules are considered.
 
-(*) Positive needs using "if" (or unconditional needs) are considered first,
+- Positive needs using "if" (or unconditional needs) are considered first,
 and only then negative ones using "unless". Within each category, kits have
 their needs looked at in order of their priority numbers (see above).
 

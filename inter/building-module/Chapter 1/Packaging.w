@@ -109,8 +109,8 @@ void Packaging::pop_state(inter_tree *I) {
 @ We store the current state at all times in the building site, and it has the
 following invariant:
 
-(*) The |saved_bookmark| always points to a validly initialised |inter_bookmark|;
-(*) The |saved_enclosure| is always either |NULL| or points to a package of a
+- The |saved_bookmark| always points to a validly initialised |inter_bookmark|;
+- The |saved_enclosure| is always either |NULL| or points to a package of a
 type which is enclosing.
 
 In fact, |saved_enclosure| is |NULL| only fleetingly: as soon as the |main|

@@ -67,21 +67,21 @@ or (c) take direct action by calling functions within the current executable?
 If (a) or (b) then we will need to know the locations of the executable files
 for the tools <code>inter</code>, <code>inform6</code>, <code>inform7</code> and <code>inblorb</code>.</p>
 </div>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="constant-syntax">1</span>
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">DRY_RUN_METHODOLOGY</span> <span class="constant-syntax">1</span>
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">SHELL_METHODOLOGY</span> 
 </pre>
-<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> 
+<pre class="definitions code-font"><span class="definition-keyword">enumerate</span> <span class="identifier-syntax">INTERNAL_METHODOLOGY</span> 
 </pre>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="identifier-syntax">struct</span><span class="plain-syntax"> </span><span class="identifier-syntax">build_methodology</span><span class="plain-syntax"> {</span>
+<span class="reserved-syntax">typedef</span><span class="plain-syntax"> </span><span class="type-syntax">struct</span><span class="plain-syntax"> </span><span class="type-syntax">build_methodology</span><span class="plain-syntax"> {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="identifier-syntax">to_inter</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="identifier-syntax">to_inform6</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="identifier-syntax">to_inform7</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">filename</span><span class="plain-syntax"> *</span><span class="identifier-syntax">to_inblorb</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">methodology</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">    </span><span class="type-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">methodology</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">CLASS_DEFINITION</span>
-<span class="plain-syntax">} </span><span class="identifier-syntax">build_methodology</span><span class="plain-syntax">;</span>
+<span class="plain-syntax">} </span><span class="type-syntax">build_methodology</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>The structure build_methodology is accessed in 3/bs2, 3/is, 3/is2, 3/is3, 3/is4, 4/em, 4/ebm, 4/km, 4/lm, 4/pm, 4/tm, 7/ti and here.</li></ul>
 <div class="lsmarkdown">
@@ -92,8 +92,8 @@ which used tangled mode by default, but untangled mode if the user has
 specified an explicit path at the command line.</p>
 </div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">build_methodology</span><span class="plain-syntax"> *</span><span class="function-syntax">BuildMethodology::new</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">BuildMethodology::new</span></span>:<br/><a href="3-bm.html#SP3">&#167;3</a><br/>The Installer - <a href="7-ti.html#SP2_5">&#167;2.5</a>, <a href="7-ti.html#SP3_3">&#167;3.3</a>, <a href="7-ti.html#SP9_3">&#167;9.3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="identifier-syntax">tools_path</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">tangled</span><span class="plain-syntax">, </span><span class="identifier-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">meth</span><span class="plain-syntax">) {</span>
-<span class="plain-syntax">    </span><span class="identifier-syntax">build_methodology</span><span class="plain-syntax"> *</span><span class="identifier-syntax">BM</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="identifier-syntax">build_methodology</span><span class="plain-syntax">);</span>
+<span class="type-syntax">build_methodology</span><span class="plain-syntax"> *</span><span class="function-syntax">BuildMethodology::new</span><button class="popup" onclick="togglePopup('usagePopup1')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup1">Usage of <span class="code-font"><span class="function-syntax">BuildMethodology::new</span></span>:<br/><a href="3-bm.html#SP3">&#167;3</a><br/>The Installer - <a href="7-ti.html#SP2_5">&#167;2.5</a>, <a href="7-ti.html#SP3_3">&#167;3.3</a>, <a href="7-ti.html#SP9_3">&#167;9.3</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="identifier-syntax">tools_path</span><span class="plain-syntax">, </span><span class="type-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">tangled</span><span class="plain-syntax">, </span><span class="type-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">meth</span><span class="plain-syntax">) {</span>
+<span class="plain-syntax">    </span><span class="type-syntax">build_methodology</span><span class="plain-syntax"> *</span><span class="identifier-syntax">BM</span><span class="plain-syntax"> = </span><span class="identifier-syntax">CREATE</span><span class="plain-syntax">(</span><span class="type-syntax">build_methodology</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">BM</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">methodology</span><span class="plain-syntax"> = </span><span class="identifier-syntax">meth</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">pathname</span><span class="plain-syntax"> *</span><span class="identifier-syntax">inter_path</span><span class="plain-syntax"> = </span><span class="identifier-syntax">tools_path</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">tangled</span><span class="plain-syntax">) {</span>
@@ -128,7 +128,7 @@ these filenames are irrelevant, since no shell commands are ever issued.
 It gets its BM by calling the following:</p>
 </div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="identifier-syntax">build_methodology</span><span class="plain-syntax"> *</span><span class="function-syntax">BuildMethodology::stay_in_current_process</span><span class="plain-syntax">(</span><span class="identifier-syntax">void</span><span class="plain-syntax">) {</span>
+<span class="type-syntax">build_methodology</span><span class="plain-syntax"> *</span><span class="function-syntax">BuildMethodology::stay_in_current_process</span><span class="plain-syntax">(</span><span class="type-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><a href="3-bm.html#SP2" class="function-link"><span class="function-syntax">BuildMethodology::new</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">NULL</span><span class="plain-syntax">, </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">, </span><span class="constant-syntax">INTERNAL_METHODOLOGY</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>

@@ -165,8 +165,8 @@ void ParsingPipelines::parse_line(inter_pipeline *pipeline, text_stream *instruc
 
 @ Instructions are mostly steps, but:
 
-(a) A line beginning with an |!| is a comment,
-(b) |run pipeline X| means to incorporate pipeline |X| here.
+- A line beginning with an |!| is a comment,
+- |run pipeline X| means to incorporate pipeline |X| here.
 
 =
 void ParsingPipelines::parse_instruction(inter_pipeline *pipeline, text_stream *T,

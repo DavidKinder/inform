@@ -5,13 +5,14 @@ An overview of the arch module's role and abilities.
 @h Prerequisites.
 The arch module is a part of the Inform compiler toolset. It is
 presented as a literate program or "web". Before diving in:
-(a) It helps to have some experience of reading webs: see //inweb// for more.
-(b) The module is written in C, in fact ANSI C99, but this is disguised by the
+
+- It helps to have some experience of reading webs: see //inweb// for more.
+- The module is written in C, in fact ANSI C99, but this is disguised by the
 fact that it uses some extension syntaxes provided by the //inweb// literate
 programming tool, making it a dialect of C called InC. See //inweb// for
 full details, but essentially: it's C without predeclarations or header files,
 and where functions have names like |Tags::add_by_name| rather than |add_by_name|.
-(c) This module uses other modules drawn from the compiler (see //structure//), and also
+- This module uses other modules drawn from the compiler (see //structure//), and also
 uses a module of utility functions called //foundation//.
 For more, see //foundation: A Brief Guide to Foundation//.
 
@@ -25,14 +26,15 @@ eventual build product needed, and that only the second stage would vary
 according to this.
 
 Which is very nearly true, but not quite. Here's why not:
-(a) Inform 7 has to generate different code if integers are 16 rather
+
+- Inform 7 has to generate different code if integers are 16 rather
 than 32 bits wide, and
-(b) kits of Inter code normally used in compilation make certain other
+- kits of Inter code normally used in compilation make certain other
 architectural assumptions based on the integer size (for example, the
 assembly-language syntax and semantics are different in these cases);
-(c) it also generates different code with debugging enabled than without.
+- it also generates different code with debugging enabled than without.
 
-Reason (c) could be avoided, at some cost in complexity, but reasons (a) and (b)
+That last issue we could work around, at some cost in complexity, but the others
 are something we cannot sensibly avoid without making Inter a much higher-level
 form of bytecode. Instead, we have "architectures" for Inter: for example,
 32-bit with debugging enabled is the |32d| architecture. See //Architectures//;

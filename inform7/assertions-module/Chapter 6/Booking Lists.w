@@ -16,22 +16,22 @@ typedef struct booking_list {
 @ There are only three operations on lists: creation, addition of a booking,
 and removal of a booking. The following invariants are preserved:
 
-(a) The list head is a dummy, i.e., meaningless, booking which has never been
+- The list head is a dummy, i.e., meaningless, booking which has never been
 the subject of any addition operation and has never moved.
 
-(b) The only |FIRST_PLACEMENT| entries in the list immediately follow the list
+- The only |FIRST_PLACEMENT| entries in the list immediately follow the list
 head. Those which were added explicitly as first-placed are in reverse order
 of addition to the list.
 
-(c) The only |LAST_PLACEMENT| entries in the list are at the end. Those which
+- The only |LAST_PLACEMENT| entries in the list are at the end. Those which
 were added explicitly as last-placed are in order of addition to the list.
 
-(d) If R and S are middle-placed rules which were placed in the list within
+- If R and S are middle-placed rules which were placed in the list within
 the same range (say, both anywhere, or both "after T" or "before U") and R
 precedes S, then either R is more specific than S, or they are equally specific
 and R was added to the list before S.
 
-(e) The list never contains duplicates, that is, never contains two bookings
+- The list never contains duplicates, that is, never contains two bookings
 whose rules are equal, in the sense of //Rules::eq//.
 
 @ These macros are useful for iterating through the contents in sequence;

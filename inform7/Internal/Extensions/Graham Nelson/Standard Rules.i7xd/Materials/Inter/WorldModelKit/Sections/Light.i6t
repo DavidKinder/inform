@@ -82,9 +82,9 @@ the scope, that is, what is visible to the player.
 The following routines maintain two variables about the light condition
 of the player:
 
-(a) If on the most recent check the player was in light, then |location|
+- If on the most recent check the player was in light, then |location|
 equals |real_location| and |lightflag| is false.
-(b) If on the most recent check the player was in darkness, then |location|
+- If on the most recent check the player was in darkness, then |location|
 equals |thedark| and |lightflag| is true.
 
 Note that they are not allowed to alter |real_location|, whose definition
@@ -140,10 +140,10 @@ for instance. This rule is silent instead, and simply does the minimum
 necessary to maintain the light invariant. It is used in only four
 circumstances:
 
-(a) To determine the initial light condition at start of play.
-(b) When the player moves from one room to another via the "going" action.
-(c) When the player moves via |PlayerTo|, which is used by "now the player is in ...".
-(d) When the player changes from one persona to another.
+- To determine the initial light condition at start of play.
+- When the player moves from one room to another via the "going" action.
+- When the player moves via |PlayerTo|, which is used by "now the player is in ...".
+- When the player changes from one persona to another.
 
 Perhaps case (b) is surprising. Why not simply use the adjust light rule,
 as we do on an instance of "move player to ...", for instance? The
@@ -176,10 +176,11 @@ are in scope.
 @h Visibility Parent.
 The idea of |VisibilityParent| is that it takes us from a given position in
 the object tree, |o|, to the next visible position above. Note that
-(1) A container has an inside and an outside: this routine calculates from
+
+- A container has an inside and an outside: this routine calculates from
 the "inside of |o|", which is why it returns |nothing| from an opaque
 closed container;
-(2) Component parts are (for purposes of this routine) attached to the outside
+- Component parts are (for purposes of this routine) attached to the outside
 surface of a container, so that if |o| is part of a closed opaque container
 then the visibility parent of |o| is its actual parent.
 

@@ -7,23 +7,23 @@ entire chapter. The test group |:actions| may be helpful in trouble-shooting her
 
 It may be helpful to distinguish these ideas right from the outset:
 
-(*) An "action" (or "explicit action", for the sake of clarity) is a specific
+- An "action" (or "explicit action", for the sake of clarity) is a specific
 impulse by a person in the model world to effect some change within it: for
 example, "Henry taking the brick". Here Henry is the "actor", and the brick is
 "the noun". Actions can be "stored" so that they are values in their own
 right; thus, a variable could be set to the value "Henry taking the brick",
 and this would have kind |K_stored_action|. Inside the compiler they are
 represented by //explicit_action// objects.
-(*) An "action name" -- not an ideal thing to call it, but traditional -- is the
+- An "action name" -- not an ideal thing to call it, but traditional -- is the
 type of action involved, taken in isolation: for example, "taking". These can
 also be values at run-time, they have kind |K_action_name|, and they are
 represented in the compiler by //action_name// objections.
-(*) An "action pattern" is a textual description which matches some actions but
+- An "action pattern" is a textual description which matches some actions but
 not others, and can be vague or specific: for example, "wearing or examining
 something". Action patterns become values of the kind |K_description_of_action|.
 They can also be aggregated into "named action patterns", which characterise
 behaviour; see //action_pattern// and //named_action_pattern//.
-(*) A "past action pattern", which can never in any way be a value, is a
+- A "past action pattern", which can never in any way be a value, is a
 description of an action which may have happened in the past: for example,
 "dropped the hat". These are just a special case of action patterns.
 

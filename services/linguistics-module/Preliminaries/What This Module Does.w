@@ -5,13 +5,14 @@ An overview of the linguistics module's role and abilities.
 @h Prerequisites.
 The linguistics module is a part of the Inform compiler toolset. It is
 presented as a literate program or "web". Before diving in:
-(a) It helps to have some experience of reading webs: see //inweb// for more.
-(b) The module is written in C, in fact ANSI C99, but this is disguised by the
+
+- It helps to have some experience of reading webs: see //inweb// for more.
+- The module is written in C, in fact ANSI C99, but this is disguised by the
 fact that it uses some extension syntaxes provided by the //inweb// literate
 programming tool, making it a dialect of C called InC. See //inweb// for
 full details, but essentially: it's C without predeclarations or header files,
 and where functions have names like |Tags::add_by_name| rather than |add_by_name|.
-(c) This module uses other modules drawn from the compiler (see //structure//), and also
+- This module uses other modules drawn from the compiler (see //structure//), and also
 uses a module of utility functions called //foundation//.
 For more, see //foundation: A Brief Guide to Foundation//.
 
@@ -39,20 +40,24 @@ and "to be" to //verb//. The instances of these grammatical classes, taken
 together, form what is called the "stock".
 
 @ To be clear, though:
-(a) The stock is a range of possibilities and not a tally of what actually
+
+- The stock is a range of possibilities and not a tally of what actually
 appears in any given source text being looked at. When Inform compiles a
 source text, it may perhaps mention "brick" many times, but the stock would
 still just contain one //noun// object for "brick"; equally, the text being
 compiled might not contain the verb "to provide", even though the stock has it.
-(b) For the most part, it is for the user of this module to create an
+
+- For the most part, it is for the user of this module to create an
 appropriate stock. This will never be so large as to meaningfully define the
 entire English (or any other) language; it's likely to focus on some narrow
 subject area. The stock does not have to be created all at once: it can fill
 out over time.[1]
-(c) For the most part, it is up to the user to give meanings to terms in the
+
+- For the most part, it is up to the user to give meanings to terms in the
 stock, and the linguistics module tries to impose as few constraints as possible
 about those meanings.[2]
-(d) Only "for the most part", because certain "fixed" grammatical categories
+
+- Only "for the most part", because certain "fixed" grammatical categories
 are an exception -- for example, articles, or cardinal and ordinal
 numbers, or determiners. In these categories, the linguistics module provides
 the stock and the user cannot change or add to it; and the linguistics

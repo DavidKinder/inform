@@ -12,12 +12,12 @@ set its localisation -- essentially, choose what language it should be written
 in; then call functions to make the actual products; and finally close the session.
 Note that:
 
-(1) If you want to index the same tree of code to two different languages, you
+- If you want to index the same tree of code to two different languages, you
 will need to do this as two sessions. However, an Index website and an EPS map
 which are in the same language can both be made in the same session, and this
 is more efficient than using two.
 
-(2) The //index// module probably works fine if multiple sessions are open at
+- The //index// module probably works fine if multiple sessions are open at
 once (and indeed is probably threadsafe), but it hasn't been tested for that
 or written with that in mind: a safer way to make multiple indexes simultaneously
 is probably to run multiple independent |inter| processes, each making one index.

@@ -6,9 +6,9 @@ Here is how bytecode to create ready-initialised arrays of Inter data is emitted
 This section provides an API for the rest of the //runtime// and //imperative//
 modules to use when creating arrays of data in Inter memory. It's easy to use:
 
-(*) Call //EmitArrays::begin_word// or one of its variants.
-(*) Fill the array with its initial values.
-(*) Call //EmitArrays::end//.
+- Call //EmitArrays::begin_word// or one of its variants.
+- Fill the array with its initial values.
+- Call //EmitArrays::end//.
 
 Unlike the API for emitting functions, this one is re-enterable: that is, a
 second array can independently be started while the first is still going on,

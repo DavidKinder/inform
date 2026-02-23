@@ -66,17 +66,14 @@ other modules except for <a href="../foundation/index.html" class="internal">fou
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Importing the module.</b>  We'll use the term &quot;parent&quot; to mean the tool which is importing <a href="index.html" class="internal">words</a>,
 that is, which will include its code and be able to use it. As with any
-imported module,
-(*) The contents page of the parent's web must identify and locate the
-module:</p>
-</div>
-<pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">Import: somepath/words</span>
-</pre>
-<div class="lsmarkdown">
-<p>(*) The parent must call <code>WordsModule::start()</code> just after it starts up, and
+imported module,</p>
+<ul>
+<li>The contents page of the parent's web must identify and locate the
+module, with a line such as <code>Import: somepath/words</code>.</li>
+<li>The parent must call <code>WordsModule::start()</code> just after it starts up, and
 <code>WordsModule::end()</code> just before it shuts down. (But just after, and just
-before, the corresponding calls to <a href="../foundation/index.html" class="internal">foundation</a>.)</p>
+before, the corresponding calls to <a href="../foundation/index.html" class="internal">foundation</a>.)</li>
+</ul>
 </div>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Using callbacks.</b>  Shared modules like this one are tweaked in behaviour by defining &quot;callback
@@ -100,19 +97,29 @@ would be</p>
 <div class="lsmarkdown">
 <p>The words module has only a few callbacks, and they are all optional. The
 following alphabetical list has references to fuller explanations:</p>
-<p>(*) <code>MORE_PREFORM_OPTIMISER_WORDS_CALLBACK</code> and <code>PREFORM_OPTIMISER_WORDS_CALLBACK</code>
+<ul>
+<li>
+<p><code>MORE_PREFORM_OPTIMISER_WORDS_CALLBACK</code> and <code>PREFORM_OPTIMISER_WORDS_CALLBACK</code>
 have the opportunity to flag certain Preform nonterminals in ways which will
 help <a href="4-to.html" class="internal">The Optimiser</a>.</p>
-<p>(*) <code>PREFORM_ERROR_WORDS_CALLBACK</code> allows the parent to issue errors about
+</li>
+<li>
+<p><code>PREFORM_ERROR_WORDS_CALLBACK</code> allows the parent to issue errors about
 Preform definitions in its own way; they will otherwise by default be standard
 command-line error message written to <code>STDERR</code>.</p>
-<p>(*) <code>PROBLEM_WORDS_CALLBACK</code> is called when a lexical error is found, and can
+</li>
+<li>
+<p><code>PROBLEM_WORDS_CALLBACK</code> is called when a lexical error is found, and can
 prevent this from being issued to the terminal as an error message: see
 <a href="3-lxr.html#SP31" class="internal">Lexer::lexer_problem_handler</a>.</p>
-<p>(*) <code>VOCABULARY_MEANING_INITIALISER_WORDS_CALLBACK</code> is called to attach a
+</li>
+<li>
+<p><code>VOCABULARY_MEANING_INITIALISER_WORDS_CALLBACK</code> is called to attach a
 meaning object to a single <a href="2-vcb.html#SP1" class="internal">vocabulary_entry</a>. In this module, meanings are
 not our concern: all we provide is the opportunity for our parent tool to
 attach such meanings to words. See <a href="2-vcb.html#SP5" class="internal">Vocabulary::vocab_entry_new</a>.</p>
+</li>
+</ul>
 </div>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  If the selection of a natural language is a meaningful thing to the parent,

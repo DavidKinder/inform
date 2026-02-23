@@ -55,16 +55,18 @@
 
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Prerequisites.</b>  The core module is a part of the Inform compiler toolset. It is
-presented as a literate program or &quot;web&quot;. Before diving in:
-(a) It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.
-(b) The module is written in C, in fact ANSI C99, but this is disguised by the
+presented as a literate program or &quot;web&quot;. Before diving in:</p>
+<ul>
+<li>It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.</li>
+<li>The module is written in C, in fact ANSI C99, but this is disguised by the
 fact that it uses some extension syntaxes provided by the <a href="../inweb/index.html" class="internal">inweb</a> literate
 programming tool, making it a dialect of C called InC. See <a href="../inweb/index.html" class="internal">inweb</a> for
 full details, but essentially: it's C without predeclarations or header files,
-and where functions have names like <code>Tags::add_by_name</code> rather than just <code>add_by_name</code>.
-(c) This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
+and where functions have names like <code>Tags::add_by_name</code> rather than just <code>add_by_name</code>.</li>
+<li>This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
 uses a module of utility functions called <a href="../foundation/index.html" class="internal">foundation</a>.
-For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.</p>
+For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.</li>
+</ul>
 </div>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. The Core.</b>  Until 2020, the core module contained almost the entire compiler, but it is
@@ -76,19 +78,31 @@ any extensions it needs, and works out dependencies on kits of Inter code. We
 don't need to deal with any of that. For <a href="index.html" class="internal">core</a>, the business starts when
 <a href="../supervisor-module/index.html" class="internal">supervisor</a> calls <a href="1-wtc.html#SP3" class="internal">Task::carry_out</a>. The process is a long multi-stage one,
 run as a production line: see <a href="1-htc.html" class="internal">How To Compile</a> for a detailed list of steps,
-but roughly:
-(<em>) The <a href="../assertions-module/index.html" class="internal">assertions</a> module converts top-level declarations -- sentences like
+but roughly:</p>
+<ul>
+<li>
+<p>The <a href="../assertions-module/index.html" class="internal">assertions</a> module converts top-level declarations -- sentences like
 &quot;The cat is in the hat&quot; or &quot;A truck is a kind of vehicle&quot;, for example -- into
 a series of logical propositions, making heavy use of the <a href="../linguistics-module/index.html" class="internal">linguistics</a> and
-<a href="../calculus-module/index.html" class="internal">calculus</a> service modules.
-(</em>) Those propositions are &quot;asserted&quot; as being true by the <a href="../knowledge-module/index.html" class="internal">knowledge</a> module,
-which draws inferences and then reconciles these into a world model.
-(<em>) Both of those modules are helped by the <a href="../values-module/index.html" class="internal">values</a> module, which handles how
-values and descriptions are parsed and then stored within the compiler.
-(</em>) Imperative code inside phrase or rule definitions is the business of the
-<a href="../imperative-module/index.html" class="internal">imperative</a> module, the part of Inform most resembling a conventional compiler.
-(*) The <a href="../runtime-module/index.html" class="internal">runtime</a> module compiles run-time support functions and data structures
+<a href="../calculus-module/index.html" class="internal">calculus</a> service modules.</p>
+</li>
+<li>
+<p>Those propositions are &quot;asserted&quot; as being true by the <a href="../knowledge-module/index.html" class="internal">knowledge</a> module,
+which draws inferences and then reconciles these into a world model.</p>
+</li>
+<li>
+<p>Both of those modules are helped by the <a href="../values-module/index.html" class="internal">values</a> module, which handles how
+values and descriptions are parsed and then stored within the compiler.</p>
+</li>
+<li>
+<p>Imperative code inside phrase or rule definitions is the business of the
+<a href="../imperative-module/index.html" class="internal">imperative</a> module, the part of Inform most resembling a conventional compiler.</p>
+</li>
+<li>
+<p>The <a href="../runtime-module/index.html" class="internal">runtime</a> module compiles run-time support functions and data structures
 needed to make Inform's many concepts work at run-time.</p>
+</li>
+</ul>
 <p>There are then two expansion packs, as it were: the <a href="../if-module/index.html" class="internal">if</a> and <a href="../multimedia-module/index.html" class="internal">multimedia</a>
 modules, which do nothing essential but add support for interactive fiction
 and for sound and images respectively.</p>

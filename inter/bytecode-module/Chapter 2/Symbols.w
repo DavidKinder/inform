@@ -11,22 +11,22 @@ Given that design, it might seem a cleaner solution simply to make the
 rather than (as it actually is) an array of |inter_symbol *| pointers which
 point to |inter_symbol| structures stored elsewhere. However:
 
-(a) It makes binary loading easier to use this indirection, and
-(b) It means that pointers to symbols remain valid when symbols tables expand
+- It makes binary loading easier to use this indirection, and
+- It means that pointers to symbols remain valid when symbols tables expand
 and then have to dynamically resize their |symbol_array| arrays, which may
 in some cases move them in memory.
 
 This all means we have to be careful. The following statements are true:
 
-(1) Symbols are created only by symbols tables, and only as a response to
+- Symbols are created only by symbols tables, and only as a response to
 the "creating" version of name lookups.
-(2) No symbol is ever moved from one table to another.
-(3) No symbol ever occurs more than once in any table.
-(4) No symbol ever occurs in more than one table.
+- No symbol is ever moved from one table to another.
+- No symbol ever occurs more than once in any table.
+- No symbol ever occurs in more than one table.
 
 But this is false:
 
-(5) Every symbol belongs to a table.
+- Every symbol belongs to a table.
 
 Although it is true that every symbol is created in a table, it might later
 be struck out with the //InterSymbolsTable::remove_symbol// function. If so,

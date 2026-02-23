@@ -33,9 +33,10 @@ under a Creative Commons attribution license which requires users to give credit
 to the authors: Inform thus ensures that this happens automatically.
 
 There are two forms of exemption from this --
-(*) specific authorial modesty suppresses the author's name for one extension,
+
+- specific authorial modesty suppresses the author's name for one extension,
 at that extension author's discretion;
-(*) general authorial modesty suppresses the author's name for any extensions
+- general authorial modesty suppresses the author's name for any extensions
 by the same person who wrote the main source text.
 
 By design, however, the author of the main source text cannot remove the name

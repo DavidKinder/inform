@@ -54,70 +54,73 @@
 
 <ul class="toc"><li><a href="M-io.html#SP1">&#167;1. Status</a></li><li><a href="M-io.html#SP2">&#167;2. Global area and main</a></li><li><a href="M-io.html#SP3">&#167;3. Compilation modules</a></li><li><a href="M-io.html#SP8">&#167;8. Function packages</a></li><li><a href="M-io.html#SP9">&#167;9. Looking at the Inter produced</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Status.</b>The line between what is part of the Inter specification, and what is simply
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Status.</b>  The line between what is part of the Inter specification, and what is simply
 a convention about its use, is a fine one. For example, Inter allows
 arbitrary sets of primitives and of annotations, but in practice the Inform
-toolchain standardises both: see <a href="M-ip.html" class="internal">Inform Primitives</a> and <a href="M-ia.html" class="internal">Inform Annotations</a>.
-</p>
-
-<p class="commentary">Similarly, the Inter specification allows great flexibility in how packages are
+toolchain standardises both: see <a href="M-ip.html" class="internal">Inform Primitives</a> and <a href="M-ia.html" class="internal">Inform Annotations</a>.</p>
+<p>Similarly, the Inter specification allows great flexibility in how packages are
 used to structure a program, but the Inform toolchain has definite ideas about
-that &mdash; as follows.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Global area and main.</b>As in every Inter program, the global area (outside of all packages) simply
+that -- as follows.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Global area and main.</b>  As in every Inter program, the global area (outside of all packages) simply
 defines packages and pragmas. At present, Inform generates pragmas only for
 Inform 6 memory settings: even those are now probably not needed, and may go.
-All of the actual program is in the <span class="extract"><span class="extract-syntax">/main</span></span> package, which has type <span class="extract"><span class="extract-syntax">_plain</span></span>.
-</p>
-
-<p class="commentary"><span class="extract"><span class="extract-syntax">/main</span></span> contains the standard subpackages <span class="extract"><span class="extract-syntax">/main/architecture</span></span> and <span class="extract"><span class="extract-syntax">/main/connectors</span></span>,
-both of which have type <span class="extract"><span class="extract-syntax">_linkage</span></span>. The first defines architectural constants
-such as <span class="extract"><span class="extract-syntax">WORDSIZE</span></span>, while the second is used to manage the import and export of
+All of the actual program is in the <code>/main</code> package, which has type <code>_plain</code>.</p>
+<p><code>/main</code> contains the standard subpackages <code>/main/architecture</code> and <code>/main/connectors</code>,
+both of which have type <code>_linkage</code>. The first defines architectural constants
+such as <code>WORDSIZE</code>, while the second is used to manage the import and export of
 symbols while linking trees together, and cannot contain content other than
-symbols. Neither really contains the program as such.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Compilation modules.</b>The only other content of <span class="extract"><span class="extract-syntax">/main</span></span> is its set of "modules". Each one is a subpackage
-of type <span class="extract"><span class="extract-syntax">_module</span></span>. They originate as follows:
-</p>
-
-<ul class="items"><li>(a) The "generic module" <span class="extract"><span class="extract-syntax">/main/generic</span></span> contains material which is the same
-on every run. For example, the definition of the typename <span class="extract"><span class="extract-syntax">text_literal</span></span> can
-be found here.
-</li><li>(b) There is one module for each "compilation unit" of source code contributing
-to the program. <span class="extract"><span class="extract-syntax">/main/source_text</span></span> is always one of these, and contains matter
+symbols. Neither really contains the program as such.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Compilation modules.</b>  The only other content of <code>/main</code> is its set of &quot;modules&quot;. Each one is a subpackage
+of type <code>_module</code>. They originate as follows:</p>
+<ul>
+<li>
+<p>The &quot;generic module&quot; <code>/main/generic</code> contains material which is the same
+on every run. For example, the definition of the typename <code>text_literal</code> can
+be found here.</p>
+</li>
+<li>
+<p>There is one module for each &quot;compilation unit&quot; of source code contributing
+to the program. <code>/main/source_text</code> is always one of these, and contains matter
 coming directly from the main I7 source text. There is then one compilation
-unit for each included extension, such as <span class="extract"><span class="extract-syntax">/main/locksmith_by_emily_short</span></span>,
-and one for each included kit of Inter code, such as <span class="extract"><span class="extract-syntax">/main/BasicInformKit</span></span>.
-</li><li>(c) <a href="../inform7/index.html" class="internal">inform7</a> also produces the "completion module" <span class="extract"><span class="extract-syntax">/main/completion</span></span>,
+unit for each included extension, such as <code>/main/locksmith_by_emily_short</code>,
+and one for each included kit of Inter code, such as <code>/main/BasicInformKit</code>.</p>
+</li>
+<li>
+<p><a href="../inform7/index.html" class="internal">inform7</a> also produces the &quot;completion module&quot; <code>/main/completion</code>,
 which contains resources put together from the (natural language part of) the
 program as a whole, but which can't be tied to any specific compilation unit.
 For example, in an interactive fiction project, the spatial map is such a
-resource.
-</li><li>(d) <a href="index.html" class="internal">inter</a> also produces the "synoptic module" <span class="extract"><span class="extract-syntax">/main/synoptic</span></span>, which
+resource.</p>
+</li>
+<li>
+<p><a href="index.html" class="internal">inter</a> also produces the &quot;synoptic module&quot; <code>/main/synoptic</code>, which
 contains material indexing and cross-referencing material in the other modules.
 This is built last of all. For example, the synoptic module includes an array
-at <span class="extract"><span class="extract-syntax">/main/synoptic/actions/ActionCoding</span></span> which consolidates metadata on all
+at <code>/main/synoptic/actions/ActionCoding</code> which consolidates metadata on all
 of the actions present in the program. This could not have been made as
 part of the completion module because it includes references to actions only
 found in the kits, and could not have been made as part of any kit because
-it includes references to actions found only in the I7 source text.
-</li></ul>
-<p class="commentary">In a sense the completion and synoptic modules play a similar role to each
+it includes references to actions found only in the I7 source text.</p>
+</li>
+</ul>
+<p>In a sense the completion and synoptic modules play a similar role to each
 other, and a long-term aspiration might be to move more of the former into
 the latter, with a view to full linking of code some day. (At present the
-tool-chain can precompile &mdash; "assimilate" &mdash; kits and link them in, but not
+tool-chain can precompile -- &quot;assimilate&quot; -- kits and link them in, but not
 extensions written in Inform 7 source text.) Many structural choices have
-been made in order to keep this option open, but it is not simple to do.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>Thus the modules are not all produced at the same time, and several are
+been made in order to keep this option open, but it is not simple to do.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  Thus the modules are not all produced at the same time, and several are
 produced independently. The module for each kit, in particular, is essentially
 compiled as a stand-alone Inter program and only joins the finished program
-at the linking stage.
-</p>
-
+at the linking stage.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">+-------------------------------+   +---------------------+   +---------------------+</span>
 <span class="plain-syntax">|   </span><span class="element-syntax">architecture</span><span class="plain-syntax">                |   |   </span><span class="element-syntax">architecture</span><span class="plain-syntax">      |   |   </span><span class="element-syntax">architecture</span><span class="plain-syntax">      |</span>
@@ -149,15 +152,13 @@ at the linking stage.
 <span class="plain-syntax">                                            |   </span><span class="element-syntax">connectors</span><span class="plain-syntax">                  |</span>
 <span class="plain-syntax">                                            +-------------------------------+</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>Modules subdivide the program by origin. But each module is further subdivided
-into "submodules", packages of type <span class="extract"><span class="extract-syntax">_submodule</span></span>, and those divide it by its
-ingredients. For example, the global variables in module <span class="extract"><span class="extract-syntax">M</span></span> will all be in
-the submodule <span class="extract"><span class="extract-syntax">/main/M/variables</span></span>.
-</p>
-
-<p class="commentary">At present, the full range of possible subpackages is:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  Modules subdivide the program by origin. But each module is further subdivided
+into &quot;submodules&quot;, packages of type <code>_submodule</code>, and those divide it by its
+ingredients. For example, the global variables in module <code>M</code> will all be in
+the submodule <code>/main/M/variables</code>.</p>
+<p>At present, the full range of possible subpackages is:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    /main/M/actions</span>
 <span class="plain-syntax">    /main/M/activities</span>
@@ -186,94 +187,91 @@ the submodule <span class="extract"><span class="extract-syntax">/main/M/variabl
 <span class="plain-syntax">    /main/M/table_columns</span>
 <span class="plain-syntax">    /main/M/tables</span>
 <span class="plain-syntax">    /main/M/tests</span>
-<span class="plain-syntax">    /main/M/</span><span class="reserved-syntax">text</span>
+<span class="plain-syntax">    /main/M/</span><span class="type-syntax">text</span>
 <span class="plain-syntax">    /main/M/use_options</span>
 <span class="plain-syntax">    /main/M/variables</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>Metadata is extensively used throughout Inter trees generated by Inform.
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  Metadata is extensively used throughout Inter trees generated by Inform.
 This is not simply to serve human readers who happen to be glancing at them:
 it's essential to the process that generous and systematic metadata is present,
-because both the synoptic module and the index<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> for a project are both generated
-using that metadata.
-</p>
-
-<ul class="footnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> Again, this architectural choice is more work for us &mdash; it was much easier
-to produce the index higher up in the compiler, as was done until 2021 &mdash; but
+because both the synoptic module and the index<sup id="fnred:1"><a href="#fn:1" rel="footnote">1</a></sup> for a project are both generated
+using that metadata.</p>
+<ul class="inwebfootnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>
+Again, this architectural choice is more work for us -- it was much easier
+to produce the index higher up in the compiler, as was done until 2021 -- but
 generating the index only in <a href="index.html" class="internal">inter</a> right at the end of the compilation
 process, using only the Inter tree and its metadata, leaves open the possibility
-of fuller linking of Inter code later on.
-<a href="#fnref:1" title="return to text"> &#x21A9;</a></p></li></ul>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>As an example, every module includes metadata at its top level like so:
-</p>
-
+of fuller linking of Inter code later on.<a href="#fnref:1" title="return to text"> &#x21A9;</a></p>
+</li></ul>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  As an example, every module includes metadata at its top level like so:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    </span><span class="reserved-syntax">package</span><span class="plain-syntax"> main _plain</span>
+<span class="plain-syntax">    </span><span class="type-syntax">package</span><span class="plain-syntax"> main _plain</span>
 <span class="plain-syntax">        ...</span>
-<span class="plain-syntax">        </span><span class="reserved-syntax">package</span><span class="plain-syntax"> basic_inform_by_graham_nelson _module</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int32</span><span class="plain-syntax">) ^category = </span><span class="constant-syntax">3</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> (</span><span class="reserved-syntax">text</span><span class="plain-syntax">) ^author = </span><span class="string-syntax">"Graham Nelson"</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> (</span><span class="reserved-syntax">text</span><span class="plain-syntax">) ^title = </span><span class="string-syntax">"Basic Inform"</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> (</span><span class="reserved-syntax">text</span><span class="plain-syntax">) ^</span><span class="reserved-syntax">version</span><span class="plain-syntax"> = </span><span class="string-syntax">"1"</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> (</span><span class="reserved-syntax">text</span><span class="plain-syntax">) ^credit = </span><span class="string-syntax">"Basic Inform version 1 by Graham Nelson"</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int32</span><span class="plain-syntax">) ^modesty = </span><span class="constant-syntax">0</span>
-<span class="plain-syntax">            </span><span class="reserved-syntax">constant</span><span class="plain-syntax"> (</span><span class="reserved-syntax">int32</span><span class="plain-syntax">) ^word_count = </span><span class="constant-syntax">7691</span>
+<span class="plain-syntax">        </span><span class="type-syntax">package</span><span class="plain-syntax"> basic_inform_by_graham_nelson _module</span>
+<span class="plain-syntax">            </span><span class="type-syntax">constant</span><span class="plain-syntax"> (</span><span class="type-syntax">int32</span><span class="plain-syntax">) ^category = </span><span class="constant-syntax">3</span>
+<span class="plain-syntax">            </span><span class="type-syntax">constant</span><span class="plain-syntax"> (</span><span class="type-syntax">text</span><span class="plain-syntax">) ^author = </span><span class="string-syntax">"Graham Nelson"</span>
+<span class="plain-syntax">            </span><span class="type-syntax">constant</span><span class="plain-syntax"> (</span><span class="type-syntax">text</span><span class="plain-syntax">) ^title = </span><span class="string-syntax">"Basic Inform"</span>
+<span class="plain-syntax">            </span><span class="type-syntax">constant</span><span class="plain-syntax"> (</span><span class="type-syntax">text</span><span class="plain-syntax">) ^</span><span class="type-syntax">version</span><span class="plain-syntax"> = </span><span class="string-syntax">"1"</span>
+<span class="plain-syntax">            </span><span class="type-syntax">constant</span><span class="plain-syntax"> (</span><span class="type-syntax">text</span><span class="plain-syntax">) ^credit = </span><span class="string-syntax">"Basic Inform version 1 by Graham Nelson"</span>
+<span class="plain-syntax">            </span><span class="type-syntax">constant</span><span class="plain-syntax"> (</span><span class="type-syntax">int32</span><span class="plain-syntax">) ^modesty = </span><span class="constant-syntax">0</span>
+<span class="plain-syntax">            </span><span class="type-syntax">constant</span><span class="plain-syntax"> (</span><span class="type-syntax">int32</span><span class="plain-syntax">) ^word_count = </span><span class="constant-syntax">7691</span>
 <span class="plain-syntax">            ...</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Function packages.</b>All functions are expressed in Inter code by packages of type <span class="extract"><span class="extract-syntax">_function</span></span>.
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Function packages.</b>  All functions are expressed in Inter code by packages of type <code>_function</code>.
 This contains the function body as a subpackage, but it may also contain
-resources needed by that function body &mdash; for example, literal texts, arrays
-and so on. (The idea is that a <span class="extract"><span class="extract-syntax">_function</span></span> package can be "transmigrated"
-from one tree to another, without losing the resources it depends on.)
-</p>
-
-<p class="commentary">Usually this <span class="extract"><span class="extract-syntax">_function</span></span> package will contain only one function body, often
-but not always called just <span class="extract"><span class="extract-syntax">call</span></span>:
-</p>
-
+resources needed by that function body -- for example, literal texts, arrays
+and so on. (The idea is that a <code>_function</code> package can be &quot;transmigrated&quot;
+from one tree to another, without losing the resources it depends on.)</p>
+<p>Usually this <code>_function</code> package will contain only one function body, often
+but not always called just <code>call</code>:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">                </span><span class="reserved-syntax">package</span><span class="plain-syntax"> rule_fn _function</span>
-<span class="plain-syntax">                    </span><span class="reserved-syntax">package</span><span class="plain-syntax"> call _code</span>
+<span class="plain-syntax">                </span><span class="type-syntax">package</span><span class="plain-syntax"> rule_fn _function</span>
+<span class="plain-syntax">                    </span><span class="type-syntax">package</span><span class="plain-syntax"> call _code</span>
 <span class="plain-syntax">                        ...</span>
 </pre>
-<p class="commentary">But if the function needs to manipulate or refer to data not expressible in
+<div class="lsmarkdown">
+<p>But if the function needs to manipulate or refer to data not expressible in
 single words, such as lists or texts, then it will probably need to create and
-subsequently destroy a stack frame. The mechanism will then be:
-</p>
-
+subsequently destroy a stack frame. The mechanism will then be:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">                </span><span class="reserved-syntax">package</span><span class="plain-syntax"> rule_fn _function</span>
-<span class="plain-syntax">                    </span><span class="reserved-syntax">package</span><span class="plain-syntax"> call _code</span>
+<span class="plain-syntax">                </span><span class="type-syntax">package</span><span class="plain-syntax"> rule_fn _function</span>
+<span class="plain-syntax">                    </span><span class="type-syntax">package</span><span class="plain-syntax"> call _code</span>
 <span class="plain-syntax">                        ...</span>
-<span class="plain-syntax">                    </span><span class="reserved-syntax">package</span><span class="plain-syntax"> kernel _code</span>
+<span class="plain-syntax">                    </span><span class="type-syntax">package</span><span class="plain-syntax"> kernel _code</span>
 <span class="plain-syntax">                        ...</span>
 </pre>
-<p class="commentary">The "shell" function, <span class="extract"><span class="extract-syntax">call</span></span>, creates a stack frame and then calls the "kernel"
-function, which does the actual work; when that returns to the "shell", the
+<div class="lsmarkdown">
+<p>The &quot;shell&quot; function, <code>call</code>, creates a stack frame and then calls the &quot;kernel&quot;
+function, which does the actual work; when that returns to the &quot;shell&quot;, the
 stack frame is disposed of again. This is all transparent to the user, who
-simply calls <span class="extract"><span class="extract-syntax">call</span></span> and doesn't need to know which mechanism is in play.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. Looking at the Inter produced.</b>The following commands produce the final state of the Inter code for the test
-case <span class="extract"><span class="extract-syntax">Acidity</span></span>, in binary and textual form:
-</p>
-
+simply calls <code>call</code> and doesn't need to know which mechanism is in play.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. Looking at the Inter produced.</b>  The following commands produce the final state of the Inter code for the test
+case <code>Acidity</code>, in binary and textual form:</p>
+</div>
 <pre class="ConsoleText-displayed-code all-displayed-code code-font">
 <span class="ConsoleText-element-syntax">$</span><span class="ConsoleText-plain-syntax"> </span><span class="ConsoleText-function-syntax">'inform7/Tangled/inform7'</span><span class="ConsoleText-identifier-syntax"> -source</span><span class="ConsoleText-plain-syntax"> inform7/Tests/Test\ Cases/Acidity.txt</span><span class="ConsoleText-identifier-syntax"> -o</span><span class="ConsoleText-plain-syntax"> Acidity.interb</span><span class="ConsoleText-identifier-syntax"> -format</span><span class="ConsoleText-plain-syntax">=binary</span>
 <span class="ConsoleText-element-syntax">$</span><span class="ConsoleText-plain-syntax"> </span><span class="ConsoleText-function-syntax">'inform7/Tangled/inform7'</span><span class="ConsoleText-identifier-syntax"> -source</span><span class="ConsoleText-plain-syntax"> inform7/Tests/Test\ Cases/Acidity.txt</span><span class="ConsoleText-identifier-syntax"> -o</span><span class="ConsoleText-plain-syntax"> Acidity.intert</span><span class="ConsoleText-identifier-syntax"> -format</span><span class="ConsoleText-plain-syntax">=text</span>
 </pre>
-<p class="commentary">Be warned that these are large: they have several large kits linked into them
+<div class="lsmarkdown">
+<p>Be warned that these are large: they have several large kits linked into them
 by the time they have reached this final state, and thus contain many modules.
-<span class="extract"><span class="ConsoleText-extract-syntax">Acidity.intert</span></span> runs to about 250,000 lines of textual Inter.
-</p>
-
-<p class="commentary">It's also possible to access the Inter output by the top half of <a href="../inform7/index.html" class="internal">inform7</a>
-before it passes through any linking process: simply add <span class="extract"><span class="ConsoleText-extract-syntax">-pipeline unlinked</span></span>.
-Unlike the default pipeline <span class="extract"><span class="ConsoleText-extract-syntax">-pipeline compile</span></span>, <span class="extract"><span class="ConsoleText-extract-syntax">unlinked</span></span> just saves out
+<code>Acidity.intert</code> runs to about 250,000 lines of textual Inter.</p>
+<p>It's also possible to access the Inter output by the top half of <a href="../inform7/index.html" class="internal">inform7</a>
+before it passes through any linking process: simply add <code>-pipeline unlinked</code>.
+Unlike the default pipeline <code>-pipeline compile</code>, <code>unlinked</code> just saves out
 the Inter straight to an external file. (Of course, saving out unlinked Inter
 to a format like Inform 6 will not produce viable code: linking is done for
-a reason.)
-</p>
-
+a reason.)</p>
+</div>
 <nav role="progress"><div class="progresscontainer">
     <ul class="progressbar"><li class="progressprev"><a href="M-ia.html">&#10094;</a></li><li class="progresscurrentchapter">M</li><li class="progresssection"><a href="M-ui.html">ui</a></li><li class="progresssection"><a href="M-ti.html">ti</a></li><li class="progresssection"><a href="M-dpiti.html">dpiti</a></li><li class="progresssection"><a href="M-cpiti.html">cpiti</a></li><li class="progresssection"><a href="M-ip.html">ip</a></li><li class="progresssection"><a href="M-ia.html">ia</a></li><li class="progresscurrent">io</li><li class="progresssection"><a href="M-pas.html">pas</a></li><li class="progresssection"><a href="M-rc.html">rc</a></li><li class="progresschapter"><a href="1-mn.html">1</a></li><li class="progressnext"><a href="M-pas.html">&#10095;</a></li></ul></div>
 </nav><!-- End of weave -->

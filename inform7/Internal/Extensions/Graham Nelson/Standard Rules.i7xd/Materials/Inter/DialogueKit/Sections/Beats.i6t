@@ -15,13 +15,13 @@ a table called |TableOfDialogueBeats|. If |db| is an enumerated value then
 
 These beat data arrays are of variable length (at least 4) and have fields as follows:
 
-(*) |AVAILABILITY_DCMETADATA| is a function to test whether any |if| or |unless|
+- |AVAILABILITY_DCMETADATA| is a function to test whether any |if| or |unless|
 conditions attached to the choice are met, and whether any constraints on
 sequencing of beats ("after", "before", "later", "next", "immediately after")
 are met. The function returns |true| if the choice is available, |false| if not.
 If the |AVAILABILITY_DCMETADATA| is 0, the choice is always available.
 
-(*) |RELEVANCE_DBMETADATA| is a function |R| which has two purposes: |R(pool, false)|
+- |RELEVANCE_DBMETADATA| is a function |R| which has two purposes: |R(pool, false)|
 tests whether the "about..." descriptions for the beat match any of the subjects
 in the null-terminated array |pool|. The function returns |true| if so, |false|
 if not. If |RELEVANCE_DBMETADATA| is 0, the beat is never "relevant".
@@ -33,15 +33,15 @@ a call: only explicit ones such as "about the marble-top table". There is no
 meaningful return value. If |RELEVANCE_DBMETADATA| is 0, the beat has no explicit
 about values, so the call (which of course cannot be made) would do nothing anyway.
 
-(*) |PROGRAM_DBMETADATA| points to the D-code program for the beat, which is
+- |PROGRAM_DBMETADATA| points to the D-code program for the beat, which is
 too complex to explain here: see //Programs//.
 
-(*) |TIED_SCENE_DBMETADATA| is either 0 or a valid scene instance value. (Scenes
+- |TIED_SCENE_DBMETADATA| is either 0 or a valid scene instance value. (Scenes
 are enumerated from 1, so 0 cannot be a scene.) This is the scene to which the
 beat is tied, if any, and is caused by naming it "This is the finale scene"
 instead of "This is the finale beat" (or not naming it at all).
 
-(*) |REQUIRING_DBMETADATA| is not a single field. The beat data array is of
+- |REQUIRING_DBMETADATA| is not a single field. The beat data array is of
 variable length, and from this point onwards, it is a null-terminated list of
 speakers who must be accessible for the beat to be performed. That list can
 of course be empty, in which case there will just be a 0 at this position.

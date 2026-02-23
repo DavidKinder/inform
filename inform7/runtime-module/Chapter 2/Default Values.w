@@ -5,10 +5,10 @@ it is impossible for any variable or property to be uninitialised.
 
 @ The following should compile a default value for |K|, and return
 
-(a) |TRUE| if it succeeded,
-(b) |FALSE| if it failed (because $K$ had no values or no default could be
+- |TRUE| if it succeeded,
+- |FALSE| if it failed (because $K$ had no values or no default could be
 chosen), but no problem message has been issued about this, or
-(c) |NOT_APPLICABLE| if it failed and issued a specific problem message.
+- |NOT_APPLICABLE| if it failed and issued a specific problem message.
 
 The wording |W| and detail |storage_name| are used only to issue those problem
 messages.

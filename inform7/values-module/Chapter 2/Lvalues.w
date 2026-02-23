@@ -30,9 +30,10 @@ the property and the object which possesses it, respectively.
 to in several different ways. There are four different kinds of table reference,
 distinguished by the number of arguments found:
 
-(1) 1 argument. By column name only, the table and row to be understood from
+- 1 argument. By column name only, the table and row to be understood from
 context because we have selected a row in the surrounding source text.
-(2) 2 arguments. Used as a condition to see if a value is listed in a
+
+- 2 arguments. Used as a condition to see if a value is listed in a
 given column of a given table. Argument 0 must be a constant of kind
 "table column", argument 1 any value of kind "table". (Argument 0
 has to be a constant because it is not type-safe to allow looping through
@@ -42,9 +43,11 @@ same doesn't apply to argument 1, perhaps oddly, because Inform requires
 that every column name have the same kind in every table using it. So
 the choice of table does not have to be a constant, and this allows
 for some interesting data structures to be built.)
-(3) 3 arguments. An explicitly specified entry. The arguments are the
+
+- 3 arguments. An explicitly specified entry. The arguments are the
 table column, row number, and table respectively.
-(4) 4 arguments. A reference to the X corresponding to a Y value of Z in table T.
+
+- 4 arguments. A reference to the X corresponding to a Y value of Z in table T.
 The arguments are X, Y, Z, T respectively.
 
 |LIST_ENTRY_NT| represents a given entry in a list, which is much simpler:

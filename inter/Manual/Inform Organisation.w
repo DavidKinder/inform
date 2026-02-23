@@ -28,23 +28,23 @@ symbols. Neither really contains the program as such.
 The only other content of |/main| is its set of "modules". Each one is a subpackage
 of type |_module|. They originate as follows:
 
-(a) The "generic module" |/main/generic| contains material which is the same
+- The "generic module" |/main/generic| contains material which is the same
 on every run. For example, the definition of the typename |text_literal| can
 be found here.
 
-(b) There is one module for each "compilation unit" of source code contributing
+- There is one module for each "compilation unit" of source code contributing
 to the program. |/main/source_text| is always one of these, and contains matter
 coming directly from the main I7 source text. There is then one compilation
 unit for each included extension, such as |/main/locksmith_by_emily_short|,
 and one for each included kit of Inter code, such as |/main/BasicInformKit|.
 
-(c) //inform7// also produces the "completion module" |/main/completion|,
+- //inform7// also produces the "completion module" |/main/completion|,
 which contains resources put together from the (natural language part of) the
 program as a whole, but which can't be tied to any specific compilation unit.
 For example, in an interactive fiction project, the spatial map is such a
 resource.
 
-(d) //inter// also produces the "synoptic module" |/main/synoptic|, which
+- //inter// also produces the "synoptic module" |/main/synoptic|, which
 contains material indexing and cross-referencing material in the other modules.
 This is built last of all. For example, the synoptic module includes an array
 at |/main/synoptic/actions/ActionCoding| which consolidates metadata on all

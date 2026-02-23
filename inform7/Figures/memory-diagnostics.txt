@@ -1,6 +1,6 @@
-Total memory consumption was 168110K = 164 MB
+Total memory consumption was 168112K = 164 MB
 
- ---- was used for 2360980 objects, in 413910 frames in 0 x 800K = 0K = 0 MB:
+ ---- was used for 2360982 objects, in 413912 frames in 0 x 800K = 0K = 0 MB:
 
     26.3%  inter_tree_node_array                    63 x 8192 = 516096 objects, 45418464 bytes
     19.6%  text_stream_array                        5993 x 100 = 599300 objects, 33752576 bytes
@@ -155,7 +155,7 @@ Total memory consumption was 168110K = 164 MB
      ----  fsm_transition                           86 objects, 6880 bytes
      ----  inform_extension                         32 objects, 6144 bytes
      ----  value_property_data                      104 objects, 5824 bytes
-     ----  method_set                               173 objects, 5536 bytes
+     ----  method_set                               174 objects, 5568 bytes
      ----  compatibility_specification              113 objects, 5424 bytes
      ----  build_script                             166 objects, 5312 bytes
      ----  md_doc_state                             1 object, 5240 bytes
@@ -192,7 +192,7 @@ Total memory consumption was 168110K = 164 MB
      ----  ls_web                                   9 objects, 2016 bytes
      ----  build_step                               28 objects, 2016 bytes
      ----  inbuild_requirement                      48 objects, 1920 bytes
-     ----  markdown_feature                         38 objects, 1824 bytes
+     ----  markdown_feature                         39 objects, 1872 bytes
      ----  pronoun_usage                            42 objects, 1680 bytes
      ----  compiler_feature                         30 objects, 1680 bytes
      ----  table_column                             16 objects, 1664 bytes
@@ -209,9 +209,9 @@ Total memory consumption was 168110K = 164 MB
      ----  invocation_options_array                 1 x 100 objects, 1224 bytes
      ----  ls_chapter                               9 objects, 1224 bytes
      ----  notation_rewriting_machine               30 objects, 1200 bytes
+     ----  markdown_variation                       6 objects, 1200 bytes
      ----  direction_inference_data                 30 objects, 1200 bytes
      ----  JSON_pair_requirement                    37 objects, 1184 bytes
-     ----  markdown_variation                       6 objects, 1152 bytes
      ----  tree_inventory_item                      28 objects, 1120 bytes
      ----  submodule_identity                       34 objects, 1088 bytes
      ----  runtime_kind_structure                   13 objects, 1040 bytes
@@ -300,7 +300,7 @@ Total memory consumption was 168110K = 164 MB
 
 100.0% was used for memory not allocated for objects:
 
-    67.4%  text stream storage                      116183376 bytes in 634003 claims
+    67.4%  text stream storage                      116185408 bytes in 634016 claims
      3.6%  dictionary storage                       6338368 bytes in 8299 claims
      ----  sorting                                  20984 bytes in 2640 claims
      4.1%  source text                              7200000 bytes in 3 claims
@@ -318,5 +318,5 @@ Total memory consumption was 168110K = 164 MB
      ----  code generation workspace for objects    3616 bytes in 19 claims
      0.1%  emitter array storage                    295200 bytes in 2112 claims
 
--134.-6% was overhead - -231756896 bytes = -226325K = -221 MB
+-134.-6% was overhead - -231757024 bytes = -226325K = -221 MB
 

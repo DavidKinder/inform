@@ -7,17 +7,17 @@ To recap from //Textual Inter//: an Inter program is a nested hierarchy of
 packages. Some of those are special |_code| packages which define functions,
 special in several ways:
 
-(*) Their names can be used as values: that's how functions are called. See
+- Their names can be used as values: that's how functions are called. See
 |inv| below.
 
-(*) Their names can optionally have types: see //Data Packages in Textual Inter//
+- Their names can optionally have types: see //Data Packages in Textual Inter//
 for details.
 
-(*) They cannot have subpackages. Conceptually, a code package is a single
+- They cannot have subpackages. Conceptually, a code package is a single
 function body. Packages are not used for "code blocks", and there are no
 nested functions.
 
-(*) They cannot contain |constant|, |variable|, and similar instructions found
+- They cannot contain |constant|, |variable|, and similar instructions found
 in data packages. Instead they can only contain the set of instructions which
 are the subject of this section (and which are allowed only in |_code| packages).
 
@@ -70,16 +70,16 @@ At any point inside a function body (except at the very top level), the
 instruction used is expected to have a given "category", decided by the
 "context" at that point. These categories have names:
 
-(*) |code| context. This means an instruction is expected to do something,
+- |code| context. This means an instruction is expected to do something,
 but not produce a resulting value.
 
-(*) |val| context. This means an instruction is expected to produce a value.
+- |val| context. This means an instruction is expected to produce a value.
 
-(*) |ref| context. This means an instruction is expected to provide a
+- |ref| context. This means an instruction is expected to provide a
 "reference" to some storage in the program. For example, it could indicate
 a global variable, or a particular property of some instance.
 
-(*) |lab| context. This means an instruction is expected to indicate a label
+- |lab| context. This means an instruction is expected to indicate a label
 marking a position in that same function.
 
 In a |code| block, the context is initially |code|. For example:
@@ -247,22 +247,22 @@ example, if:
 =
 then:
 
-(*) a call with no arguments results in |x| and |y| equal to 0 and 0;
-(*) a call with argument 7 results in |x| and |y| equal to 7 and 0;
-(*) a call with arguments 7 and 81 results in |x| and |y| equal to 7 and 81;
-(*) a call with three or more arguments has undefined results and may crash
+- a call with no arguments results in |x| and |y| equal to 0 and 0;
+- a call with argument 7 results in |x| and |y| equal to 7 and 0;
+- a call with arguments 7 and 81 results in |x| and |y| equal to 7 and 81;
+- a call with three or more arguments has undefined results and may crash
 the program altogether.
 
 @h Val, ref, lab and cast.
 We have seen many examples already, but:
 
-(*) |val V| allows us to use any simple value |V| in any |val| context. For
+- |val V| allows us to use any simple value |V| in any |val| context. For
 what is meant by a "simple" value, see //Data Packages in Textual Inter//.
 
-(*) |ref R| allows us to refer to any variable, local or global, in a |ref|
+- |ref R| allows us to refer to any variable, local or global, in a |ref|
 context.
 
-(*) |lab L| allows us to refer to any label declared somewhere in the current
+- |lab L| allows us to refer to any label declared somewhere in the current
 function body, in a |lab| context.
 
 @ The |val| and |ref| instructions both allow optional type markers to be placed,
@@ -369,9 +369,9 @@ native executable via a C compiler like |clang|. Any further code-generators
 are also likely to follow Glulx conventions. So: if you really must use
 assembly language in your Inter code, good advice would be --
 
-(1) Use the Glulx instruction set, for better chances of portability.
+- Use the Glulx instruction set, for better chances of portability.
 
-(2) Only use those opcodes which are also used in the standard Inform kits
+- Only use those opcodes which are also used in the standard Inform kits
 somewhere, since those will probably be implemented.
 
 @ If we look at this example in more detail:
@@ -391,10 +391,10 @@ instruction which allows various oddball syntaxes of Z-machine or Glulx
 assembly to be imitated in Inter. There are only seven possible |assembly|
 instructions. Two are very common:
 
-(*) |assembly stack| is probably the most common, either reading or writing
+- |assembly stack| is probably the most common, either reading or writing
 to the top of the virtual machine's stack.
 
-(*) |assembly store_to| indicates that a storage location follows (either
+- |assembly store_to| indicates that a storage location follows (either
 |assembly stack| or a local or global variable). This is only used in Z-machine
 assembly language; Glulx assembly doesn't have this marker.
 
@@ -403,15 +403,11 @@ and then either return from the current function or make a jump to a label
 (a "branch"), depending on the outcome of the test. By default the instruction
 branches on a successful test. But alternatively it can:
 
-(*) |assembly branch_if_false|.
-
-(*) |assembly return_true_if_true|.
-
-(*) |assembly return_false_if_true|
-
-(*) |assembly return_true_if_false|
-
-(*) |assembly return_false_if_false|
+- |assembly branch_if_false|.
+- |assembly return_true_if_true|.
+- |assembly return_false_if_true|
+- |assembly return_true_if_false|
+- |assembly return_false_if_false|
 
 So for example the Z-machine instruction |@random sp -> i;| compiles to Inter as:
 = (text as Inter)

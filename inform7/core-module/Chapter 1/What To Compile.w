@@ -283,10 +283,10 @@ add-ins such as extensions are the business of Inbuild.)
 If a project is called, say, Wuthering Heights, and is a "bundle" as created
 and compiled by the Inform app, then:
 
-(a) The project path will be |Wuthering Heights.inform|. This looks opaque
+- The project path will be |Wuthering Heights.inform|. This looks opaque
 on MacOS, as if a file, but on all platforms it is in fact a directory.
-(b) Within it is |Wuthering Heights.inform/Build|, the "build folder".
-(c) Alongside it is |Wuthering Heights.materials|. This is also a directory,
+- Within it is |Wuthering Heights.inform/Build|, the "build folder".
+- Alongside it is |Wuthering Heights.materials|. This is also a directory,
 but is openly accessible even on MacOS.
 
 If Inform is working on a single source text file, not a bundle, then the

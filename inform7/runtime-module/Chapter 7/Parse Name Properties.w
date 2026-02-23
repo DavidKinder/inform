@@ -81,10 +81,10 @@ Either way, then, the head and the tail are mostly the same. Here is the head.
 Most of the function lives inside a loop making three passes, with |pass| running
 from 1 to 3. In these passes, we will check:
 
-(1) (words in |name| property) (visible property names) (words in |name| property)
+- (words in |name| property) (visible property names) (words in |name| property)
 (longer grammar) (words in |name| property)
-(2) (visible property names) (longer grammar) (words in |name| property)
-(3) (longer grammar) (words in |name| property)
+- (visible property names) (longer grammar) (words in |name| property)
+- (longer grammar) (words in |name| property)
 
 Whichever is the longest match over these three passes will be the one taken: 
 but note that a match of visible property names alone is rejected unless at least
@@ -647,13 +647,14 @@ void ParseName::consider_visible_properties(gpr_kit *kit, inference_subject *sub
 
 @h Distinguishing visible properties.
 We distinguish two objects P1 and P2 based on the following criteria:
-(1) if any property is currently visible for P1 but not P2 or vice versa,
+
+- if any property is currently visible for P1 but not P2 or vice versa,
 then they are distinguishable;
-(2) if any value property is visible but P1 and P2 have different values for
+- if any value property is visible but P1 and P2 have different values for
 it, then they are distinguishable;
-(3) if any either/or property is visible but P1 has it and P2 hasn't,
+- if any either/or property is visible but P1 has it and P2 hasn't,
 or vice versa, then they are distinguishable;
-(4) and otherwise we disclaim the decision.
+- and otherwise we disclaim the decision.
 
 =
 void ParseName::begin_distinguishing_visible_properties(gpr_kit *kit) {

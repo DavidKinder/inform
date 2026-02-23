@@ -14,18 +14,28 @@
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <script>
 MathJax = {
-	tex: {
-		inlineMath: '$', '$'], ['\\(', '\\)'
+    options: {
+    	skipHtmlTags: {'[-]': ['pre']},
+    	processHtmlClass: 'mathjax_process'
+    },
+	loader: {load: ['[tex]/texhtml']},
+  	tex: {
+		inlineMath: [ ['\\INWEBMATH(', '\\INWEBMATH)'] ],
+    	packages: {'[+]': ['texhtml']},
+    	allowTexHTML: true
 	},
 	svg: {
 		fontCache: 'global'
 	}
 };
 </script>
-<script type="text/javascript" id="MathJax-script" async
-	src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
-</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-svg.js"></script>
 
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -62,35 +72,35 @@ MathJax = {
 
 <ul class="toc"><li><a href="mthmt.html#SP1">&#167;1. Unsigned integer comparison</a></li><li><a href="mthmt.html#SP2">&#167;2. Fully random word</a></li><li><a href="mthmt.html#SP3">&#167;3. Integer roots</a></li><li><a href="mthmt.html#SP4">&#167;4. Real number support</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Unsigned integer comparison.</b>Comparison of integers is normally signed, that is, treating the word as
-a twos-complement signed number, so that <span class="extract"><span class="extract-syntax">$FFFF</span></span> is less than <span class="extract"><span class="extract-syntax">0</span></span>, for
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Unsigned integer comparison.</b>  Comparison of integers is normally signed, that is, treating the word as
+a twos-complement signed number, so that <code>$FFFF</code> is less than <code>0</code>, for
 instance. If we want to construe words as being unsigned integers, or as
 addresses, we need to compare them with the following routine, which returns
-1 if \(x&gt;y\), 0 if \(x=y\) and \(-1\) if \(x&lt;y\).
-</p>
-
+1 if \INWEBMATH(x&gt;y\INWEBMATH), 0 if \INWEBMATH(x=y\INWEBMATH) and \INWEBMATH(-1\INWEBMATH) if \INWEBMATH(x&lt;y\INWEBMATH).</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">UnsignedCompare</span><span class="plain-syntax"> </span><span class="identifier-syntax">x</span><span class="plain-syntax"> </span><span class="identifier-syntax">y</span><span class="plain-syntax"> </span><span class="identifier-syntax">u</span><span class="plain-syntax"> </span><span class="identifier-syntax">v</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">x</span><span class="plain-syntax"> == </span><span class="identifier-syntax">y</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">x</span><span class="plain-syntax"> &lt; </span><span class="constant-syntax">0</span><span class="plain-syntax"> &amp;&amp; </span><span class="identifier-syntax">y</span><span class="plain-syntax"> &gt;= </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">x</span><span class="plain-syntax"> &gt;= </span><span class="constant-syntax">0</span><span class="plain-syntax"> &amp;&amp; </span><span class="identifier-syntax">y</span><span class="plain-syntax"> &lt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> -1;</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">x</span><span class="plain-syntax"> &gt;= </span><span class="constant-syntax">0</span><span class="plain-syntax"> &amp;&amp; </span><span class="identifier-syntax">y</span><span class="plain-syntax"> &lt; </span><span class="constant-syntax">0</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">-1</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">u</span><span class="plain-syntax"> = </span><span class="identifier-syntax">x</span><span class="plain-syntax">&amp;~</span><span class="identifier-syntax">WORD_HIGHBIT</span><span class="plain-syntax">; </span><span class="identifier-syntax">v</span><span class="plain-syntax">= </span><span class="identifier-syntax">y</span><span class="plain-syntax">&amp;~</span><span class="identifier-syntax">WORD_HIGHBIT</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">u</span><span class="plain-syntax"> &gt; </span><span class="identifier-syntax">v</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
-<span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> -1;</span>
+<span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">-1</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Fully random word.</b>This should be our best try at a single word consisting of 16 uniformly
-random bits. <span class="extract"><span class="extract-syntax">random($100)-1</span></span> is a fully random byte.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Fully random word.</b>  This should be our best try at a single word consisting of 16 uniformly
+random bits. <code>random($100)-1</code> is a fully random byte.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">FullyRandomWord</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> (</span><span class="reserved-syntax">random</span><span class="plain-syntax">(</span><span class="constant-syntax">$100</span><span class="plain-syntax">)-1)*</span><span class="constant-syntax">$100</span><span class="plain-syntax"> + (</span><span class="reserved-syntax">random</span><span class="plain-syntax">(</span><span class="constant-syntax">$100</span><span class="plain-syntax">)-1);</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Integer roots.</b>We are unable to provide VM support for taking square or cube roots rapidly:
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Integer roots.</b>  We are unable to provide VM support for taking square or cube roots rapidly:</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">VM_SquareRoot</span><span class="plain-syntax"> </span><span class="identifier-syntax">num</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
@@ -100,9 +110,9 @@ random bits. <span class="extract"><span class="extract-syntax">random($100)-1</
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">0</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">];</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Real number support.</b>These need to exist, but are likely never to be used.
-</p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Real number support.</b>  These need to exist, but are likely never to be used.</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">[ </span><span class="identifier-syntax">REAL_NUMBER_TY_Say</span><span class="plain-syntax"> </span><span class="identifier-syntax">real</span><span class="plain-syntax">; </span><span class="reserved-syntax">print</span><span class="plain-syntax"> </span><span class="identifier-syntax">real</span><span class="plain-syntax">; ];</span>
 

@@ -5,12 +5,12 @@ To recognise certain kind names as familiar built-in ones.
 @ In the Inform source code, we're clearly going to need to refer to some
 kinds explicitly, and we need a way to do that. We adopt two naming conventions:
 
-(i) Kinds are written as |K_source_text_name|, that is, |K_| followed by
+- Kinds are written as |K_source_text_name|, that is, |K_| followed by
 the name of the kind in I7 source text, with spaces made into underscores.
 For instance, |K_number|. These are all |kind *| global variables
 which are initially |NULL|, but which, once set, are never changed.
 
-(ii) Constructors are likewise written as |CON_source_text_name| if they can
+- Constructors are likewise written as |CON_source_text_name| if they can
 be created in source text; or by |CON_TEMPLATE_NAME|, that is, |CON_|
 followed by the constructor's identifier as given in the command
 which created it (but with the |_TY| suffix removed) if not. These are all
@@ -112,7 +112,7 @@ kind *K_version_number = NULL;
 @ And here are two more standard kinds, but which most Inform users don't
 realise are there, because they are omitted from the Kinds index:
 
-(a) |K_rulebook_outcome|. Rulebooks end in success, failure, no outcome, or
+- |K_rulebook_outcome|. Rulebooks end in success, failure, no outcome, or
 possibly one of a range of named alternative outcomes. These all share a
 single namespace, and the names in question share a single kind of value.
 It's not a very elegant system, and we really don't want people storing
@@ -120,7 +120,7 @@ these in variables; we want them to be used only as part of the process of
 receiving the outcome back. So although there's no technical reason why this
 kind shouldn't be used for storage, it's hidden from the user.
 
-(b) |K_understanding| is used to hold the result of a grammar token. An actual
+- |K_understanding| is used to hold the result of a grammar token. An actual
 constant value specification of this kind stores a |command_grammar *| pointer.
 
 = (early code)

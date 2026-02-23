@@ -12,6 +12,11 @@
 <link href="../docs-assets/Navigation.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Fonts.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Base.css" rel="stylesheet" rev="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="../docs-assets/Bigfoot.js"></script>
+<link href="../docs-assets/Bigfoot.css" rel="stylesheet" rev="stylesheet" type="text/css">
 <link href="../docs-assets/Colours.css" rel="stylesheet" rev="stylesheet" type="text/css">
 		
 	</head>
@@ -48,16 +53,7 @@
 
 <ul class="toc"><li><a href="M-iwtg.html#SP1">&#167;1. How the application should install extensions</a></li><li><a href="M-iwtg.html#SP3">&#167;3. The extension census</a></li><li><a href="M-iwtg.html#SP4">&#167;4. What happens in census mode</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. How the application should install extensions.</b>When the Inform 7 application looks at a file chosen by the user to
-be installed, it should look at the first line. (Note that this might have
-any of <span class="extract"><span class="extract-syntax">0a</span></span>, <span class="extract"><span class="extract-syntax">0d</span></span>, <span class="extract"><span class="extract-syntax">0a0d</span></span>, <span class="extract"><span class="extract-syntax">0d0a</span></span>, or Unicode line division as its line
-ending: and that the file might, or might not, begin with a Unicode BOM,
-"byte order marker", code. Characters within the line will be encoded as
-UTF-8, though &mdash; except possibly for some exotic forms of space &mdash; they
-will all be found in the ISO Latin-1 set.) The first line is required to
-have one of the following forms, possibly with white space before or after,
-but definitely without line breaks before:
-</p>
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. How the application should install extensions.</b> </p>
 
 <blockquote>
     <p>Locksmith Extra by Emily Short begins here.</p>
@@ -79,99 +75,101 @@ but definitely without line breaks before:
     <p>Version 2/081121 of Locksmith Extra by Emily Short begins here.</p>
 </blockquote>
 
-<p class="commentary">If the name of the extension finishes with a bracketed clause, that
-should be disregarded. Such clauses are used to specify virtual machine
-requirements, at present, and could conceivably be used for other purposes
-later, so let's reserve them now.
-</p>
-
 <blockquote>
     <p>Version 2 of Glulx Text Effects (for Glulx only) by Emily Short begins here.</p>
 </blockquote>
 
-<p class="commentary">The application should reject (that is, politely refuse to install) any
-purported extension file whose first line does not conform to the above.
-</p>
-
-<p class="commentary">(Note that the inbuild command-line tool can be used to verify that an
+<div class="lsmarkdown">
+<p>When the Inform 7 application looks at a file chosen by the user to
+be installed, it should look at the first line. (Note that this might have
+any of <code>0a</code>, <code>0d</code>, <code>0a0d</code>, <code>0d0a</code>, or Unicode line division as its line
+ending: and that the file might, or might not, begin with a Unicode BOM,
+&quot;byte order marker&quot;, code. Characters within the line will be encoded as
+UTF-8, though -- except possibly for some exotic forms of space -- they
+will all be found in the ISO Latin-1 set.) The first line is required to
+have one of the following forms, possibly with white space before or after,
+but definitely without line breaks before:</p>
+</div>
+<div class="lsmarkdown">
+<p>If the name of the extension finishes with a bracketed clause, that
+should be disregarded. Such clauses are used to specify virtual machine
+requirements, at present, and could conceivably be used for other purposes
+later, so let's reserve them now.</p>
+</div>
+<div class="lsmarkdown">
+<p>The application should reject (that is, politely refuse to install) any
+purported extension file whose first line does not conform to the above.</p>
+<p>(Note that the inbuild command-line tool can be used to verify that an
 extension is properly formatted, and extract its identity and version. See
-the <a href="../inbuild/index.html" class="internal">inbuild</a> manual.)
-</p>
-
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>Ignoring any version number given, the Inform application should then
-store the file in the external extensions area. For instance,
-</p>
-
-<pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">~/Library/Inform/Extensions/Emily Short/Glulx Text Effects</span>
- (OS X)<span class="plain-syntax">My Documents\Inform\Extensions\Emily Short\Glulx Text Effects</span>
- (Windows)Note that the file will probably not have the right name initially, and
+the <a href="../inbuild/index.html" class="internal">inbuild</a> manual.)</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  Ignoring any version number given, the Inform application should then
+store the file in the external extensions area. For instance,</p>
+<p><code>~/Library/Inform/Extensions/Emily Short/Glulx Text Effects</code> (OS X)
+<code>My Documents\Inform\Extensions\Emily Short\Glulx Text Effects</code> (Windows)</p>
+<p>Note that the file will probably not have the right name initially, and
 will need to be renamed as well as moved. (Note the lack of a file
-extension.) The subfolders <span class="extract"><span class="extract-syntax">Inform</span></span>, <span class="extract"><span class="extract-syntax">Extensions</span></span> and <span class="extract"><span class="extract-syntax">Emily Short</span></span> must be
-created if not already present.
-If to install such an extension would result in over-writing an extension
+extension.) The subfolders <code>Inform</code>, <code>Extensions</code> and <code>Emily Short</code> must be
+created if not already present.</p>
+<p>If to install such an extension would result in over-writing an extension
 already present at that filename, the user should be given a warning and
-asked if he wants to proceed.
-However, note that it is not an error to install an extension with
+asked if he wants to proceed.</p>
+<p>However, note that it is not an error to install an extension with
 the same name and author as one in the built-in extensions folder. This
 does not result in overwriting, since the newly installed version will live
-in the external area, not the built-in area.
-An extension may be uninstalled simply by deleting the file: but the
+in the external area, not the built-in area.</p>
+<p>An extension may be uninstalled simply by deleting the file: but the
 application must not allow the user to uninstall any extension from
 the built-in area. We must assume that the latter could be on a read-only
-disc, or could be part of a cryptographically signed application bundle.
-</pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. The extension census.</b>The Inform application should run Inform in "census mode" in order to
+disc, or could be part of a cryptographically signed application bundle.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. The extension census.</b>  The Inform application should run Inform in &quot;census mode&quot; in order to
 keep extension documentation up to date. Inform should be run in census mode
-on three occasions:
-</p>
-
-<ul class="items"><li>(a) when the Inform application starts up;
-</li><li>(b) when the Inform application installs a new extension;
-</li><li>(c) when the Inform application uninstalls an extension.
-</li></ul>
-<p class="commentary">When <span class="extract"><span class="extract-syntax">inform7</span></span> is run in "census mode", it should be run with the command <span class="extract"><span class="extract-syntax">-census</span></span>.
+on three occasions:</p>
+<ul>
+<li>when the Inform application starts up;</li>
+<li>when the Inform application installs a new extension;</li>
+<li>when the Inform application uninstalls an extension.</li>
+</ul>
+<p>When <code>inform7</code> is run in &quot;census mode&quot;, it should be run with the command <code>-census</code>.
 All output from Inform should be ignored, including its return code: ideally,
 not even a fatal error should provoke a reaction from the application. If the
-census doesn't work for some file-system reason, never mind &mdash; it's not
-mission-critical.
-</p>
-
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. What happens in census mode.</b>The census has two purposes: first, to create provisional documentation
+census doesn't work for some file-system reason, never mind -- it's not
+mission-critical.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. What happens in census mode.</b>  The census has two purposes: first, to create provisional documentation
 where needed for new and unused extensions; and second, to create the
 following index files in the external documentation area (not in
-the external extension area):
-</p>
-
+the external extension area):</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    .../</span><span class="identifier-syntax">Extensions</span><span class="plain-syntax">.</span><span class="identifier-syntax">html</span>
 <span class="plain-syntax">    .../</span><span class="identifier-syntax">ExtIndex</span><span class="plain-syntax">.</span><span class="identifier-syntax">html</span>
 </pre>
-<p class="commentary">Documentation for any individual extension is stored at, e.g.,
-</p>
-
+<div class="lsmarkdown">
+<p>Documentation for any individual extension is stored at, e.g.,</p>
+</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    .../</span><span class="identifier-syntax">Extensions</span><span class="plain-syntax">/</span><span class="identifier-syntax">Victoria</span><span class="plain-syntax"> </span><span class="identifier-syntax">Saxe</span><span class="plain-syntax">-</span><span class="identifier-syntax">Coburg</span><span class="plain-syntax">-</span><span class="identifier-syntax">Gotha</span><span class="plain-syntax">/</span><span class="identifier-syntax">Werewolves</span><span class="plain-syntax">.</span><span class="identifier-syntax">html</span>
 </pre>
-<p class="commentary">Inform can generate such a file, for an individual extension, in two ways: (a)
+<div class="lsmarkdown">
+<p>Inform can generate such a file, for an individual extension, in two ways: (a)
 provisionally, with much less detail, and (b) fully. Whenever it
 successfully compiles a work using extension X, it rewrites the
-documentation for X fully, and updates both the two indexing pages.
-</p>
-
-<p class="commentary">When Inform runs in <span class="extract"><span class="extract-syntax">-census</span></span> mode, what it does is to scan for all extensions.
+documentation for X fully, and updates both the two indexing pages.</p>
+<p>When Inform runs in <code>-census</code> mode, what it does is to scan for all extensions.
 If Inform finds a valid extension with no documentation page, it writes a
-provisional one; and again, it updates both the two indexing pages.
-</p>
-
-<p class="commentary">(Inform in fact runs a census on every compilation, as well, so <span class="extract"><span class="extract-syntax">-census</span></span> runs
-do nothing "extra" that a normal run of Inform does not also do. On every
+provisional one; and again, it updates both the two indexing pages.</p>
+<p>(Inform in fact runs a census on every compilation, as well, so <code>-census</code> runs
+do nothing &quot;extra&quot; that a normal run of Inform does not also do. On every
 census, Inform automatically checks for misfiled or broken extensions, and
-places a descriptive report of what's wrong on the <span class="extract"><span class="extract-syntax">Extensions.html</span></span> index
-page &mdash; if people move around or edit extensions by hand, they may run into
-these errors.)
-</p>
-
+places a descriptive report of what's wrong on the <code>Extensions.html</code> index
+page -- if people move around or edit extensions by hand, they may run into
+these errors.)</p>
+</div>
 <nav role="progress"><div class="progresscontainer">
     <ul class="progressbar"><li class="progressprev"><a href="M-cu.html">&#10094;</a></li><li class="progresscurrentchapter">M</li><li class="progresssection"><a href="M-cu.html">cu</a></li><li class="progresscurrent">iwtg</li><li class="progresssection"><a href="M-cifc.html">cifc</a></li><li class="progresssection"><a href="M-rc.html">rc</a></li><li class="progresssection"><a href="M-pm.html">pm</a></li><li class="progresschapter"><a href="1-mn.html">1</a></li><li class="progressnext"><a href="M-cifc.html">&#10095;</a></li></ul></div>
 </nav><!-- End of weave -->

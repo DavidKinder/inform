@@ -56,16 +56,18 @@
 
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Prerequisites.</b>  The inflections module is a part of the Inform compiler toolset. It is
-presented as a literate program or &quot;web&quot;. Before diving in:
-(a) It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.
-(b) The module is written in C, in fact ANSI C99, but this is disguised by the
+presented as a literate program or &quot;web&quot;. Before diving in:</p>
+<ul>
+<li>It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.</li>
+<li>The module is written in C, in fact ANSI C99, but this is disguised by the
 fact that it uses some extension syntaxes provided by the <a href="../inweb/index.html" class="internal">inweb</a> literate
 programming tool, making it a dialect of C called InC. See <a href="../inweb/index.html" class="internal">inweb</a> for
 full details, but essentially: it's C without predeclarations or header files,
-and where functions have names like <code>Tags::add_by_name</code> rather than <code>add_by_name</code>.
-(c) This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
+and where functions have names like <code>Tags::add_by_name</code> rather than <code>add_by_name</code>.</li>
+<li>This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
 uses a module of utility functions called <a href="../foundation/index.html" class="internal">foundation</a>.
-For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.</p>
+For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.</li>
+</ul>
 </div>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Inflections.</b>  Inflections are modifications of words -- usually word endings or beginnings --
@@ -139,17 +141,31 @@ of tries which includes this one), rather than putting it earlier in the same tr
 <p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  Once we have that general inflection machinery, most of what we need to
 do becomes a simple matter of writing wrapper functions for tries, and these
 occupy the rest of <a href="2-tai.html" class="internal">Chapter 2: Simple Inflections</a>.</p>
-<p>(*) <a href="2-ai.html#SP1" class="internal">ArticleInflection::preface_by_article</a> handles the variation of articles:
+<ul>
+<li>
+<p><a href="2-ai.html#SP1" class="internal">ArticleInflection::preface_by_article</a> handles the variation of articles:
 for example, mutating &quot;a&quot; to &quot;an&quot; when it comes before &quot;orange&quot;, thus making
 &quot;an orange&quot; rather than &quot;a orange&quot;.</p>
-<p>(*) <a href="2-ga.html#SP2" class="internal">Grading::make_comparative</a> turns &quot;tall&quot; into &quot;taller&quot;.</p>
-<p>(*) <a href="2-ga.html#SP3" class="internal">Grading::make_superlative</a> turns &quot;tall&quot; into &quot;tallest&quot;.</p>
-<p>(*) <a href="2-ga.html#SP4" class="internal">Grading::make_quiddity</a> turns &quot;tall&quot; into &quot;tallness&quot;.</p>
-<p>(*) <a href="2-pp.html#SP1" class="internal">PastParticiples::pasturise_wording</a> turns &quot;looking away&quot; to &quot;looked away&quot;.</p>
-<p>(*) <a href="2-plr.html#SP3" class="internal">Pluralisation::make</a> produces a series of allowable plurals for a
+</li>
+<li>
+<p><a href="2-ga.html#SP2" class="internal">Grading::make_comparative</a> turns &quot;tall&quot; into &quot;taller&quot;.</p>
+</li>
+<li>
+<p><a href="2-ga.html#SP3" class="internal">Grading::make_superlative</a> turns &quot;tall&quot; into &quot;tallest&quot;.</p>
+</li>
+<li>
+<p><a href="2-ga.html#SP4" class="internal">Grading::make_quiddity</a> turns &quot;tall&quot; into &quot;tallness&quot;.</p>
+</li>
+<li>
+<p><a href="2-pp.html#SP1" class="internal">PastParticiples::pasturise_wording</a> turns &quot;looking away&quot; to &quot;looked away&quot;.</p>
+</li>
+<li>
+<p><a href="2-plr.html#SP3" class="internal">Pluralisation::make</a> produces a series of allowable plurals for a
 word, using a combination of a trie to handle regular pluralisation (for
 English, we use Conway's algorithm) and a dictionary of user-supplied
 exceptions.</p>
+</li>
+</ul>
 </div>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Declensions.</b>  <a href="3-dcl.html" class="internal">Declensions</a> are sets of inflected forms of a noun or adjective according
@@ -174,10 +190,12 @@ These are done with Preform NTs called &lt;noun-declension&gt; and &lt;article-d
 respectively; these are currently the only two &quot;declension NTs&quot;.</p>
 <p>The rule for a &quot;declension NT&quot; is that it must provide a list of possibilities
 in the form either <code>gender table</code> or <code>gender grouper table</code>, where <code>gender</code> is:</p>
-<p>(<em>) the letter <code>m</code> for masculine,
-(</em>) the letter <code>f</code> for feminine,
-(<em>) the letter <code>n</code> for neuter/common,
-(</em>) the asterisk <code>*</code> for &quot;any gender&quot;.</p>
+<ul>
+<li>the letter <code>m</code> for masculine,</li>
+<li>the letter <code>f</code> for feminine,</li>
+<li>the letter <code>n</code> for neuter/common,</li>
+<li>the asterisk <code>*</code> for &quot;any gender&quot;.</li>
+</ul>
 <p>In the two-token form <code>gender table</code>, the <code>table</code> is a nonterminal for
 irregular forms; if the three-token form <code>gender grouper table</code>, the <code>grouper</code>
 is a nonterminal which works out which &quot;group&quot; the word falls into -- groups

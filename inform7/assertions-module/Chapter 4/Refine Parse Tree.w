@@ -4,16 +4,17 @@ To determine which subjects are referred to by noun phrases such as "the
 table" or "a paper cup" found in assertion sentences.
 
 @h How individual nouns are represented after refinement.
-(a) In general, noun phrases in the parse tree divide into "proper" and "common".
+
+- In general, noun phrases in the parse tree divide into "proper" and "common".
 Before refinement they generally have node type |UNPARSED_NOUN_NT|: afterwards,
 either |PROPER_NOUN_NT| or |COMMON_NOUN_NT|.
-(b) A noun phrase node has a "subject" annotation, identifying what if anything
+- A noun phrase node has a "subject" annotation, identifying what if anything
 it refers to. For example, "a door" refers to the kind "door".
-(c) It also has an "evaluation" annotation. For example, "35" evaluates to
+- It also has an "evaluation" annotation. For example, "35" evaluates to
 the number 33, but has no subject.
-(d) If the noun phrase gives a number of items, the |multiplicity| annotation
+- If the noun phrase gives a number of items, the |multiplicity| annotation
 records how many; thus, for "six lorries" it would be 6.
-(e) If the noun phrase describes some properties or relations which must be
+- If the noun phrase describes some properties or relations which must be
 true -- "an open door", say, or "a woman in London" -- these are recorded
 in a |creation_proposition| annotation.
 
@@ -623,8 +624,8 @@ Oddly, it's not the complicated descriptions which give trouble...
 misunderstanding is higher. For one thing, we deliberately ignore a valid
 description in two cases:
 
-(a) Adjective(s) followed by the name of a specific object.
-(b) An indefinite article followed by the name of a specific object.
+- (a) Adjective(s) followed by the name of a specific object.
+- (b) An indefinite article followed by the name of a specific object.
 
 For (a), see the example "Goat-Cheese and Sage Chicken". This contains a
 kettle which can be in several states, described adjectivally, and one of

@@ -28,12 +28,12 @@ only these parts of the compilation flow --
 Used as a stand-alone tool at the command line, however, Inter is more
 flexible and interesting. See the //inter: Manual// and //inter: Reference Card//.
 
-(*) The contents page for the Inter web is here: //inter//.
+- The contents page for the Inter web is here: //inter//.
 
-(*) The command-line interface for Inter as a stand-alone tool is implemented
+- The command-line interface for Inter as a stand-alone tool is implemented
 at //inter: Main//.
 
-(*) The //inter: Manual// contains a full description of the intermediate format
+- The //inter: Manual// contains a full description of the intermediate format
 "Inter", regarded as a language in its own right.
 
 @ The //bytecode// module provides a low-level API for creating Inter code in
@@ -42,11 +42,11 @@ and writing Inter to either binary or text files. This is also where references
 between one tree and another ("plugs" and "sockets") are managed, and where
 "transmigration", moving code from one Inter tree to another, is done.
 
-(*) Contents page of web: //bytecode//.
+- Contents page of web: //bytecode//.
 
-(*) Detailed overview: //bytecode: What This Module Does//.
+- Detailed overview: //bytecode: What This Module Does//.
 
-(*) For details of how binary Inter files are currently formatted, see
+- For details of how binary Inter files are currently formatted, see
 //bytecode: Inter in Binary Files//.
 
 @ The //building// module sits on top of //bytecode// and provides much more
@@ -64,9 +64,9 @@ or IR, and they do. //building// contains the code which converts |inter_schema|
 trees to Inter, a process called "assimilation", and this is the main step in
 building a kit like //BasicInformKit// from its source.
 
-(*) Contents page of web: //building//.
+- Contents page of web: //building//.
 
-(*) Detailed overview: //building: What This Module Does//.
+- Detailed overview: //building: What This Module Does//.
 
 @ The //pipeline// module provides a flexible processing pipeline for performing
 transformations on trees of Inter code. Steps in such pipelines may include
@@ -75,11 +75,11 @@ peephole optimisation, and so on. The design here is intended to make it easy
 for people to tinker, and to add new, experimental processing steps as Inform
 develops.
 
-(*) Contents page of web: //pipeline//.
+- Contents page of web: //pipeline//.
 
-(*) Detailed overview: //pipeline: What This Module Does//.
+- Detailed overview: //pipeline: What This Module Does//.
 
-(*) For documentation of the mini-language used to specify new pipelines, see
+- For documentation of the mini-language used to specify new pipelines, see
 the Inter manual at //inter: Pipelines and Stages//.
 
 @ The //final// module provides for what is usually the final step of a pipeline:
@@ -90,18 +90,18 @@ particular it contains a "vanilla" algorithm for code-generating Inter trees
 to vaguely C-like, procedural languages, and this is used both for C and for
 Inform 6.
 
-(*) Contents page of web: //final//.
+- Contents page of web: //final//.
 
-(*) Detailed overview: //final: What This Module Does//.
+- Detailed overview: //final: What This Module Does//.
 
 @ The //index// module generates the mini-website called the Index for an Inform 7
 project, familiar to all users of the Inform app. Note that this is done from the
 Inter tree alone; all information about the program which is needed to draw up
 the Index is present in the Inter tree in the form of metadata constants.
 
-(*) Contents page of web: //index//.
+- Contents page of web: //index//.
 
-(*) Detailed overview: //index: What This Module Does//.
+- Detailed overview: //index: What This Module Does//.
 
 @ Inter also contains the basic //foundation// library and some //services//
 modules: specifically, //words//, //html// and //arch//.

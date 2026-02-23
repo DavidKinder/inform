@@ -74,16 +74,18 @@ MathJax = {
 
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Prerequisites.</b>  The kinds module is a part of the Inform compiler toolset. It is
-presented as a literate program or &quot;web&quot;. Before diving in:
-(a) It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.
-(b) The module is written in C, in fact ANSI C99, but this is disguised by the
+presented as a literate program or &quot;web&quot;. Before diving in:</p>
+<ul>
+<li>It helps to have some experience of reading webs: see <a href="../inweb/index.html" class="internal">inweb</a> for more.</li>
+<li>The module is written in C, in fact ANSI C99, but this is disguised by the
 fact that it uses some extension syntaxes provided by the <a href="../inweb/index.html" class="internal">inweb</a> literate
 programming tool, making it a dialect of C called InC. See <a href="../inweb/index.html" class="internal">inweb</a> for
 full details, but essentially: it's C without predeclarations or header files,
-and where functions have names like <code>Tags::add_by_name</code> rather than <code>add_by_name</code>.
-(c) This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
+and where functions have names like <code>Tags::add_by_name</code> rather than <code>add_by_name</code>.</li>
+<li>This module uses other modules drawn from the compiler (see <a href="../structure.html" class="internal">structure</a>), and also
 uses a module of utility functions called <a href="../foundation/index.html" class="internal">foundation</a>.
-For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.</p>
+For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.</li>
+</ul>
 </div>
 <p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Kinds, definiteness, and safety.</b> </p>
 
@@ -133,17 +135,25 @@ at best, and liable to crash the compiled program at worst. The compiler
 must therefore reject any requests to do so. That can only be done by
 constant monitoring of their kinds of all values being dealt with.</p>
 <p>Inform is a high-level language designed for ease of use. Accordingly:</p>
-<p>(a) Inform does not trade safety for efficiency, as low-level languages
+<ul>
+<li>
+<p>Inform does not trade safety for efficiency, as low-level languages
 like C do. There are no pointers, no arrays with unchecked boundaries, no
 union kinds, no exceptions, no labels, and no explicit type coercions.</p>
-<p>(b) All values are first-class, whatever their kind, meaning that they can
+</li>
+<li>
+<p>All values are first-class, whatever their kind, meaning that they can
 be passed to phrases, returned by phrases or stored in variables. All
 copies and comparisons are deep: that is, to copy a pointer value
 replicates its entire contents, and to compare two pointer values is to
 examine their complete contents.</p>
-<p>(c) All memory management is automatic. The author of an Inform source text
+</li>
+<li>
+<p>All memory management is automatic. The author of an Inform source text
 never needs to know whether a given value is stored as a word or as a pointer
 to data on the heap. (Indeed, this isn't even shown on the Kinds index page.)</p>
+</li>
+</ul>
 </div>
 <p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b> </p>
 
@@ -194,14 +204,20 @@ strongly typed, and more libertarian ones weakly typed. The other is when
 types are checked, with statically typed languages being checked at compile
 time, dynamically typed languages being checked at run-time. Both strong/weak
 and static/dynamic are really ranges of possibilities.</p>
-<p>(a) Inform is a strongly typed language, in that any source text which
+<ul>
+<li>
+<p>Inform is a strongly typed language, in that any source text which
 produces no Problem messages is guaranteed safe.</p>
-<p>(b) Inform is a hybrid between being statically and dynamically typed. At
+</li>
+<li>
+<p>Inform is a hybrid between being statically and dynamically typed. At
 compile time, Inform determines that the usage is either certainly safe or
 else conditionally safe dependent on specific checks to be made at
 run-time, which it compiles explicit code to carry out. Because of this,
 Problem messages about safety violations can be issued either at compile
 time or at run-time.</p>
+</li>
+</ul>
 </div>
 <div class="lsmarkdown">
 <p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Dimensional analysis.</b>  Inform subjects all calculations with its &quot;quasinumerical&quot; kinds -- basically,
@@ -252,14 +268,16 @@ much like an indefinite article, but it's very rare to need more than two.<sup i
 Phrase definitions in the standard Inform extensions use only K and L.</p>
 <p>The meaning of text like &quot;list of K&quot; depends on context. If K is currently set to,
 say, <code>number</code>, then &quot;list of K&quot; means <code>list of number</code>; if it has no current
-setting, then K remains a placeholder and the result is <code>list of K</code>. Note that:
-(a) The same variable can occur more than once, as in <code>phrase K -&gt; K</code>.
-(b) Variables can be constrained to conform to something, as in <code>arithmetic value of kind K</code>,
-where <code>K</code> remains a placeholder but can only be a kind conforming to <code>arithmetic value</code>.
-(c) If <code>K</code> remains unknown then any kind using <code>K</code> is necessarily indefinite.
-So a variable cannot have the kind <code>list of K</code>, for example.
-(d) A process called &quot;substitution&quot; enables <code>list of K</code> to be transformed to
-<code>list of numbers</code>, or whatever may be. See <a href="2-knd.html#SP20" class="internal">Kinds::substitute</a>.</p>
+setting, then K remains a placeholder and the result is <code>list of K</code>. Note that:</p>
+<ul>
+<li>The same variable can occur more than once, as in <code>phrase K -&gt; K</code>.</li>
+<li>Variables can be constrained to conform to something, as in <code>arithmetic value of kind K</code>,
+where <code>K</code> remains a placeholder but can only be a kind conforming to <code>arithmetic value</code>.</li>
+<li>If <code>K</code> remains unknown then any kind using <code>K</code> is necessarily indefinite.
+So a variable cannot have the kind <code>list of K</code>, for example.</li>
+<li>A process called &quot;substitution&quot; enables <code>list of K</code> to be transformed to
+<code>list of numbers</code>, or whatever may be. See <a href="2-knd.html#SP20" class="internal">Kinds::substitute</a>.</li>
+</ul>
 <li class="footnote" id="fn:3"><p class="inwebfootnote"><sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup>
 Using letters seemed the nearest point of contact with natural
 language conventions. In English, we do say pseudo-algebraic things like
@@ -318,48 +336,78 @@ small trees of <a href="2-knd.html#SP1" class="internal">kind</a> objects -- see
 constructed out of others: thus <code>list of texts</code> is the result of applying the
 &quot;list of ...&quot; construction to the kind <code>text</code>.<sup id="fnred:5"><a href="#fn:5" rel="footnote">1</a></sup> Kinds not constructed from
 other kinds are called &quot;base kinds&quot;. Briefly:</p>
-<p>(*) By convention the <code>NULL</code> pointer means &quot;kind unknown&quot;.</p>
-<p>(*) Commonly needed base kinds, like <code>number</code> or <code>text</code>, have global variables
+<ul>
+<li>
+<p>By convention the <code>NULL</code> pointer means &quot;kind unknown&quot;.</p>
+</li>
+<li>
+<p>Commonly needed base kinds, like <code>number</code> or <code>text</code>, have global variables
 set equal to them, like <code>K_number</code> or <code>K_text</code>. See <a href="2-fk.html" class="internal">Familiar Kinds</a>.</p>
-<p>(*) Kinds can otherwise be made with <a href="2-knd.html#SP6" class="internal">Kinds::base_construction</a>,
+</li>
+<li>
+<p>Kinds can otherwise be made with <a href="2-knd.html#SP6" class="internal">Kinds::base_construction</a>,
 <a href="2-knd.html#SP9" class="internal">Kinds::unary_con</a> or <a href="2-knd.html#SP9" class="internal">Kinds::binary_con</a>. For example,
 <code>list of numbers</code> and <code>relation of numbers to texts</code> can be made by:</p>
+</li>
+</ul>
 </div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="plain-syntax">    </span><span class="function-syntax">Kinds::unary_con</span><span class="plain-syntax">(</span><span class="identifier-syntax">CON_list_of</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_number</span><span class="plain-syntax">)</span>
 <span class="plain-syntax">    </span><span class="function-syntax">Kinds::binary_con</span><span class="plain-syntax">(</span><span class="identifier-syntax">CON_relation</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_number</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_text</span><span class="plain-syntax">)</span>
 </pre>
 <div class="lsmarkdown">
-<p>(*) Kinds for functions are a bit laborious to put together, so <a href="2-knd.html#SP10" class="internal">Kinds::function_kind</a>
+<ul>
+<li>
+<p>Kinds for functions are a bit laborious to put together, so <a href="2-knd.html#SP10" class="internal">Kinds::function_kind</a>
 is a convenience.</p>
-<p>(*) As with kinds, commonly needed constructors, like <code>CON_list_of</code> or
+</li>
+<li>
+<p>As with kinds, commonly needed constructors, like <code>CON_list_of</code> or
 <code>CON_relation</code>, are available as global values. Again see <a href="2-fk.html" class="internal">Familiar Kinds</a>.</p>
-<p>(*) Two different <code>kind *</code> values can represent the same kind, so don't test
+</li>
+<li>
+<p>Two different <code>kind *</code> values can represent the same kind, so don't test
 whether \INWEBMATH(K\INWEBMATH) is the same kind as \INWEBMATH(L\INWEBMATH) by the pointer comparison <code>K == L</code>. Instead
 call <a href="2-knd.html#SP27" class="internal">Kinds::eq</a> or its negation <a href="2-knd.html#SP27" class="internal">Kinds::ne</a>.</p>
-<p>(*) Call <a href="2-knd.html#SP28" class="internal">Kinds::conforms_to</a> to test whether \INWEBMATH(K\INWEBMATH) conforms to \INWEBMATH(L\INWEBMATH). This is
+</li>
+<li>
+<p>Call <a href="2-knd.html#SP28" class="internal">Kinds::conforms_to</a> to test whether \INWEBMATH(K\INWEBMATH) conforms to \INWEBMATH(L\INWEBMATH). This is
 either true or not true. To find a kind able to hold values of either \INWEBMATH(K\INWEBMATH) or \INWEBMATH(L\INWEBMATH),
 call <a href="2-tlok.html#SP7" class="internal">Latticework::join</a>.</p>
-<p>(*) Call <a href="2-knd.html#SP28" class="internal">Kinds::compatible</a> to test whether \INWEBMATH(K\INWEBMATH) is compatible with \INWEBMATH(L\INWEBMATH),
+</li>
+<li>
+<p>Call <a href="2-knd.html#SP28" class="internal">Kinds::compatible</a> to test whether \INWEBMATH(K\INWEBMATH) is compatible with \INWEBMATH(L\INWEBMATH),
 but note that the reply is three-valued: always, sometimes or never.</p>
-<p>(*) Inform makes frequent use of &quot;weakening&quot;, where we deliberately weaken a
+</li>
+<li>
+<p>Inform makes frequent use of &quot;weakening&quot;, where we deliberately weaken a
 kind (i.e., make it less restrictive) by ignoring distinctions between subkinds
 of some \INWEBMATH(W\INWEBMATH). For example, the weakening of <code>list of things</code> with respect to
 <code>object</code> is <code>list of objects</code>. See <a href="2-knd.html#SP21" class="internal">Kinds::weaken</a>.</p>
-<p>(*) An extensive API of functions is provided in <a href="2-uk.html" class="internal">Using Kinds</a> to test whether
+</li>
+<li>
+<p>An extensive API of functions is provided in <a href="2-uk.html" class="internal">Using Kinds</a> to test whether
 given kinds have given properties. The most important is <a href="2-uk.html#SP4" class="internal">Kinds::Behaviour::definite</a>,
 which determines whether \INWEBMATH(K\INWEBMATH) is definite.</p>
-<p>(*) New base kinds can be created either by calling <a href="2-knd.html#SP23" class="internal">Kinds::new_base</a>,<sup id="fnred:6"><a href="#fn:6" rel="footnote">2</a></sup> or in
+</li>
+<li>
+<p>New base kinds can be created either by calling <a href="2-knd.html#SP23" class="internal">Kinds::new_base</a>,<sup id="fnred:6"><a href="#fn:6" rel="footnote">2</a></sup> or in
 the process of reading in &quot;Neptune files&quot;.<sup id="fnred:7"><a href="#fn:7" rel="footnote">3</a></sup> New constructors can only
 be made the latter way. See <a href="4-nf.html#SP1" class="internal">NeptuneFiles::load</a>, which sends individual commands
 to <a href="4-nf.html#SP1" class="internal">NeptuneFiles::read_command</a>, which in turn deals with the low-level code in
 the <a href="4-kc2.html" class="internal">Kind Constructors</a> section.<sup id="fnred:8"><a href="#fn:8" rel="footnote">4</a></sup> See <a href="4-abgtn.html" class="internal">A Brief Guide to Neptune</a> for a
 manual to the syntax.</p>
-<p>(*) It is possible to move kinds within the lattice of kinds, i.e., to change
+</li>
+<li>
+<p>It is possible to move kinds within the lattice of kinds, i.e., to change
 their hierarchical relationship, even after creation. See <a href="2-knd.html#SP24" class="internal">Kinds::make_subkind</a>.
 Inform does this very sparingly and only with kinds of object.<sup id="fnred:9"><a href="#fn:9" rel="footnote">5</a></sup></p>
-<p>(*) Use <a href="3-dmn.html#SP31" class="internal">Kinds::Dimensions::arithmetic_on_kinds</a> to determine what kind, if
+</li>
+<li>
+<p>Use <a href="3-dmn.html#SP31" class="internal">Kinds::Dimensions::arithmetic_on_kinds</a> to determine what kind, if
 any, results from performing an arithmetic operation.</p>
+</li>
+</ul>
 <li class="footnote" id="fn:5"><p class="inwebfootnote"><sup id="fnref:5"><a href="#fn:5" rel="footnote">5</a></sup>
 &quot;List of ...&quot; is what is called a &quot;kind constructor&quot;. This term follows the
 traditional usage of &quot;type constructor&quot;, but note that Haskell and some other

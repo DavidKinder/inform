@@ -14,10 +14,10 @@ the variable $x$ is bound and the variable $y$ is free.
 In any given proposition, each of the 26 variables always satisfies exactly
 one of the following:
 
-(a) it is unused if it is never mentioned as, or in, any term, and is not the
+- it is unused if it is never mentioned as, or in, any term, and is not the
 variable of any quantifier;
-(b) it is bound if it appears as the variable of any |QUANTIFIER_ATOM|;
-(c) it is free if it is used but not bound.
+- it is bound if it appears as the variable of any |QUANTIFIER_ATOM|;
+- it is free if it is used but not bound.
 
 The following shows some examples of operations on variables:
 = (text from Figures/binding.txt as REPL)

@@ -126,14 +126,14 @@ The above idea can be applied equally well to matching text against a
 nonterminal, production or ptoken, so all three have a //nti_constraint//
 object. A NTIC encodes six rules, applying to a word range in three ways:
 
-(a) D for "disjunction", or logical or. One of the words must satisfy this.
-(b) C for "conjunction", or logical and. All of the words must satisfy this.
-(c) F for "first". The first word must satisfy this.
+- D for "disjunction", or logical or. One of the words must satisfy this.
+- C for "conjunction", or logical and. All of the words must satisfy this.
+- F for "first". The first word must satisfy this.
 
 And a rule can apply to the NTI bits in two ways:
 
-(i) W for "weak". A word passes if it has one of these NTI bits.
-(ii) S for "strong". A word passes if it has all of these NTI bits.
+- W for "weak". A word passes if it has one of these NTI bits.
+- S for "strong". A word passes if it has all of these NTI bits.
 
 That makes six combinations in all: DW, DS, CW, CS, FW, and FS.
 
@@ -525,18 +525,19 @@ ptokens.
 	pr->opt.pr_ntic = prt;
 
 @ We're down to atoms, now, and:
-(a) We must ignore an empty ptoken, that is, one which matches text of width
+
+- We must ignore an empty ptoken, that is, one which matches text of width
 0, as some positional internal NTs like <if-start-of-paragraph> do. Such a
 ptoken can't constrain the wording of a match at all.
-(b) For a ptoken which is a non-negated word, the NTIC is that the word
+- For a ptoken which is a non-negated word, the NTIC is that the word
 matching it has to have the current NT's bit. In other words, if |zephyr|
 occurs in the grammar for the NT <wind>, then the atomic NTIC for this word
 where it comes up is just a requirement that the word it matches against must
 have the <wind> bit. (Which the word "zephyr" certainly does, because we
 marked all the words in the <wind> grammar with the <wind> bit already.)
-(c) For a ptoken which is a non-negated use of another NT, the constraint
+- For a ptoken which is a non-negated use of another NT, the constraint
 is just the constraint of that NT.
-(d) Nothing can be deduced from a negated ptoken: for example, all we know
+- Nothing can be deduced from a negated ptoken: for example, all we know
 about the ptoken |^mistral| is that it matches something which is not the
 word "mistral", and that tells us nothing about the bits that it has.
 

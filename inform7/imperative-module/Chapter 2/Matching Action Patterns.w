@@ -270,9 +270,10 @@ that is the only practical way of finding out where the action is taking place.
 
 @ The "...in the presence of X" clause is compiled three different ways, for
 efficiency. Examples of these three cases are:
-(*) "drinking the champagne in the presence of Sabrina";
-(*) "drinking the champagne in the presence of a woman (called the ingenue)";
-(*) "drinking the champagne in the presence of a woman".
+
+- "drinking the champagne in the presence of Sabrina";
+- "drinking the champagne in the presence of a woman (called the ingenue)";
+- "drinking the champagne in the presence of a woman".
 
 @<Test the presence of something@> =
 	parse_node *whom = APClauses::spec(ap, IN_THE_PRESENCE_OF_AP_CLAUSE);
@@ -593,9 +594,10 @@ example, features an action name list with |C == 2|.
 For the frankly oddball way that the runtime variables |noun|, |inp1| and
 |parsed_number| are juggled inside the parser, see //CommandParserKit//. Here
 it's enough to know that
-(a) for EXAMINE BOX, |noun| and |inp1| would be the box, and |parsed_number|
+
+- for EXAMINE BOX, |noun| and |inp1| would be the box, and |parsed_number|
 would have no meaning, but
-(b) for TYPE 246, |inp1| would be 1, |parsed_number| would be 246, and |noun|
+- for TYPE 246, |inp1| would be 1, |parsed_number| would be 246, and |noun|
 would be |nothing|.
 
 @<Compile NOUN_EXISTS_CPMC test@> =

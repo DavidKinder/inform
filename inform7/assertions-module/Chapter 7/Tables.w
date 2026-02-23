@@ -386,9 +386,9 @@ this. What we say is that if the new headline gives both name and number,
 then both must match; if it gives name only, that must match; if it gives
 number only, that must. Suppose that "Table 2 - Trees" already exists. Then:
 
-(a) if "Table 2 - Shrubs" or "Table 3 - Trees" comes along, there's no match;
-(b) if "Table of Trees" comes along, that does match;
-(c) if "Table 2" comes along, so does that.
+- if "Table 2 - Shrubs" or "Table 3 - Trees" comes along, there's no match;
+- if "Table of Trees" comes along, that does match;
+- if "Table 2" comes along, so does that.
 
 @d TABLE_NAMES_MATCH(t1, t2)
 	((t1 != t2) && (Wordings::nonempty(t1->table_name_text)) &&

@@ -5,13 +5,14 @@ An overview of the knowledge module's role and abilities.
 @h Prerequisites.
 The knowledge module is a part of the Inform compiler toolset. It is
 presented as a literate program or "web". Before diving in:
-(a) It helps to have some experience of reading webs: see //inweb// for more.
-(b) The module is written in C, in fact ANSI C99, but this is disguised by the
+
+- It helps to have some experience of reading webs: see //inweb// for more.
+- The module is written in C, in fact ANSI C99, but this is disguised by the
 fact that it uses some extension syntaxes provided by the //inweb// literate
 programming tool, making it a dialect of C called InC. See //inweb// for
 full details, but essentially: it's C without predeclarations or header files,
 and where functions have names like |Tags::add_by_name| rather than just |add_by_name|.
-(c) This module uses other modules drawn from the compiler (see //structure//), and also
+- This module uses other modules drawn from the compiler (see //structure//), and also
 uses a module of utility functions called //foundation//.
 For more, see //foundation: A Brief Guide to Foundation//.
 
@@ -19,29 +20,29 @@ For more, see //foundation: A Brief Guide to Foundation//.
 This module's task is to build the "model world", the initial state of the
 world as it is chosen by an Inform author.[1] This consists of:
 
-(*) Kinds, such as "vehicle", created in source text.
-(*) Instances of kinds, such as a specific lorry in a fictional world being
+- Kinds, such as "vehicle", created in source text.
+- Instances of kinds, such as a specific lorry in a fictional world being
 created with Inform.
-(*) Permanently existing variables, which have kinds and initial values.
-(*) Either-or properties, which individual instances might or might not have:
+- Permanently existing variables, which have kinds and initial values.
+- Either-or properties, which individual instances might or might not have:
 for example, the lorry might be "parked" or "not parked".
-(*) Properties with values, which some instances will have and some will not,
+- Properties with values, which some instances will have and some will not,
 and with differing values: for example, the colour of the lorry might be "yellow".
-(*) Relationships between instances. For example, a specific person might
+- Relationships between instances. For example, a specific person might
 "know how to drive" the yellow lorry, or might not.
 
 But the model does not contain:
 
-(*) Kinds, such as "number", built in to Inform.[2]
-(*) Values, such as the number 176, which exist without anyone getting to
+- Kinds, such as "number", built in to Inform.[2]
+- Values, such as the number 176, which exist without anyone getting to
 choose whether they should exist or not.
-(*) Temporary variables used during phrases or activities, but not existing
+- Temporary variables used during phrases or activities, but not existing
 at the start of play.
-(*) Adjectives such as "even" as applied to numbers, or "empty" as applied
+- Adjectives such as "even" as applied to numbers, or "empty" as applied
 to containers, whose truth or falsity is determined by something other than
 the author's whim. An author cannot choose that 176 is odd, and whether a
 container is empty depends only on whether there is something in it.
-(*) Relationships which are, similarly, determined by an algorithm and not
+- Relationships which are, similarly, determined by an algorithm and not
 by a specific authorial choice. Like it or not, 176 is "greater than" 8.
 
 [1] The term "model" is drawn partly from interactive fiction, but also from

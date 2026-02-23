@@ -115,12 +115,12 @@ the dictionary table, but mid-word) really do not matter.
 @h Keyboard Input.
 The VM must provide three routines for keyboard input:
 
-(a) |VM_KeyChar()| waits for a key to be pressed and then returns the
+- |VM_KeyChar()| waits for a key to be pressed and then returns the
 character chosen as a ZSCII character. Function keys are mapped to unicode
 characters so that Z-Machine and Glulxe key input can be handled the same.
-(b) |VM_KeyDelay(N)| waits up to $N/10$ seconds for a key to be pressed,
+- |VM_KeyDelay(N)| waits up to $N/10$ seconds for a key to be pressed,
 returning the ZSCII character if so, or 0 if not.
-(c) |VM_ReadKeyboard(b, t)| reads a whole newline-terminated command
+- |VM_ReadKeyboard(b, t)| reads a whole newline-terminated command
 into the buffer |b|. If the |t| parser table is specified then it also parses it.
 
 There are elaborations to due with mouse clicks, but this isn't the place

@@ -339,12 +339,13 @@ Our basic method is to compile the proposition from left to right. If there
 are $k$ atoms in $\phi$, then there are $k+1$ positions between atoms,
 counting the start and the end. We maintain the following:
 
-(*) Invariant. Let $\psi$ be any syntactically valid subproposition
+Invariant. Let $\psi$ be any syntactically valid subproposition
 of $\phi$ (that is, a contiguous sequence of atoms from $\psi$ which would
 be a valid proposition in its own right). Then there are before and after
 positions |B| and |A| in the compiled Inter code for searching $\phi$ such that
-(-a) |A| cannot be reached except from |B|, and
-(-b) at execution time, on every occasion |B| is reached, |A| is then reached
+
+- |A| cannot be reached except from |B|, and
+- at execution time, on every occasion |B| is reached, |A| is then reached
 exactly once for each combination of possible substitutions into the
 $\exists$-bound variables of $\psi$ such that $\psi$ is then true.
 
@@ -366,9 +367,10 @@ in $\mu$ and $\nu$, which is exactly the number of combinations in total.
 
 Corollary: If the Invariant holds for subpropositions in each of
 the following forms, then it will hold overall:
-(a) |Exists v|, for some variable $v$, or |Q v IN[ ... IN]|, for some quantifier other than $\exists$.
-(b) |NOT[ ... NOT]|.
-(c) Any single predicate-like atom.
+
+- |Exists v|, for some variable $v$, or |Q v IN[ ... IN]|, for some quantifier other than $\exists$.
+- |NOT[ ... NOT]|.
+- Any single predicate-like atom.
 
 Proof of corollary: All valid subpropositions are concatenations of (a) to (c),
 and we then apply the Lemma inductively.
@@ -378,11 +380,12 @@ cases (a) to (c), we can be sure it will correctly construct code leading
 to the match point |M|.
 
 @ We will make use of four stacks:
-(a) The R-stack, which holds the current "reason": the goal being pursued
+
+- The R-stack, which holds the current "reason": the goal being pursued
 by the Inter code currently being compiled.
-(b) The Q-stack, which holds details of quantifiers being searched on.
-(c) The C-stack, which holds details of callings of variables.
-(d) The L-stack, which records hierarchical levels in the Inter code generated.
+- The Q-stack, which holds details of quantifiers being searched on.
+- The C-stack, which holds details of callings of variables.
+- The L-stack, which records hierarchical levels in the Inter code generated.
 The current stack pointer |L_sp| for this is equivalent to the depth of nesting
 of the Inter code being generated.
 
@@ -832,9 +835,9 @@ given a name.
 @ When does the compiled search code record values into the stash of callings?
 In two situations:
 
-(a) when a domain-search has successfully found a viable case for a quantifier,
+- when a domain-search has successfully found a viable case for a quantifier,
 the values of any variables called in that domain are recorded;
-(b) and otherwise the values of called variables are recorded just before
+- and otherwise the values of called variables are recorded just before
 point |M|, that is, immediately before acting on a successful match.
 
 For example, when reading:
@@ -1512,10 +1515,10 @@ Here the proposition is used to iterate through the members of the domain
 set $\lbrace x\mid \phi(x)\rbrace$. Two local variables exist: |x| and |x_ix|.
 One of the following is true:
 
-(1) The domain set contains only objects, so that |x| is non-zero if it
+- The domain set contains only objects, so that |x| is non-zero if it
 represents a member of that set. In this case |x_ix| may or may not be used,
 and we will not rely on it.
-(2) The domain set contains only values, and then |x| might easily be zero,
+- The domain set contains only values, and then |x| might easily be zero,
 but |x_ix| is always the index within the domain set: 1 if |x| is the first
 value, 2 for the second and so on.
 
@@ -1626,6 +1629,7 @@ optimisations:
 
 (1) "Kind optimisation." If a loop over $v$ is such that $K(v)$ holds in every case,
 where $K$ is a kind, then loop $v$ over $K$ rather than all objects, and
+
 (2) "Parent optimisation." If a loop over $v$ is such that $R(v, t)$ holds in
 every case, then loop over all $v$ such that $R(v, t)$ in cases where $R$ has a
 run-time representation making this quick and easy.

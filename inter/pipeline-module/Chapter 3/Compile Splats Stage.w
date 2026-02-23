@@ -24,9 +24,9 @@ void CompileSplatsStage::create_pipeline_stage(void) {
 
 @ We divide the task up into three traverses:
 
-(1) |PROPERTY_PLM|, |ATTRIBUTE_PLM|, |ROUTINE_PLM|, |STUB_PLM|;
-(2) |DEFAULT_PLM|, |CONSTANT_PLM|, |FAKEACTION_PLM|, |OBJECT_PLM|, |VERB_PLM|, |ARRAY_PLM|;
-(3) |GLOBAL_PLM|.
+- |PROPERTY_PLM|, |ATTRIBUTE_PLM|, |ROUTINE_PLM|, |STUB_PLM|;
+- |DEFAULT_PLM|, |CONSTANT_PLM|, |FAKEACTION_PLM|, |OBJECT_PLM|, |VERB_PLM|, |ARRAY_PLM|;
+- |GLOBAL_PLM|.
 
 =
 int CompileSplatsStage::run(pipeline_step *step) {
@@ -636,9 +636,9 @@ for it already exists; but maybe not, in which case we have to create the
 action. This will be a package at, say, |/main/HypotheticalKit/actions/assim_action_1|
 with three things in it:
 
-(a) an ID, |action_id|;
-(b) the action name, |##ScriptOn|;
-(c) the function to carry out the action, |ScriptOnSub|.
+- an ID, |action_id|;
+- the action name, |##ScriptOn|;
+- the function to carry out the action, |ScriptOnSub|.
 
 @<Ensure that a socket exists for this action name@> =
 	if (Wiring::find_socket(I, value) == NULL) {
@@ -832,10 +832,10 @@ matter of convention rather than a requirement, we will follow it here. So
 our |Example| function would be called at |/main/HypotheticalKit/functions/Example_fn/call|.
 The following makes two packages:
 
-(a) The "outer package", |/main/HypotheticalKit/functions/Example_fn|, which
+- The "outer package", |/main/HypotheticalKit/functions/Example_fn|, which
 holds all resources other than code needed by the function; and within it
 
-(b) The "inner package", |/main/HypotheticalKit/functions/Example_fn/Example|,
+- The "inner package", |/main/HypotheticalKit/functions/Example_fn/Example|,
 which contains the actual code.
 
 These have package types |_function| and |_code| respectively.

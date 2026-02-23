@@ -67,9 +67,9 @@ The Inform application should run Inform in "census mode" in order to
 keep extension documentation up to date. Inform should be run in census mode
 on three occasions:
 
-(a) when the Inform application starts up;
-(b) when the Inform application installs a new extension;
-(c) when the Inform application uninstalls an extension.
+- when the Inform application starts up;
+- when the Inform application installs a new extension;
+- when the Inform application uninstalls an extension.
 
 When |inform7| is run in "census mode", it should be run with the command |-census|.
 All output from Inform should be ignored, including its return code: ideally,

@@ -57,8 +57,8 @@ void ComparativeRelations::initialise(binary_predicate *bp,
 Comparatives can be used in two different senses, which we'll call absolute
 and relative:
 
-(*) "if Geoff is taller than 4 foot 5 inches" is absolute, while
-(*) "if Geoff is taller than Miranda" is relative.
+- "if Geoff is taller than 4 foot 5 inches" is absolute, while
+- "if Geoff is taller than Miranda" is relative.
 
 To allow for these two different usages, we'll typecheck this asymmetrically;
 the left term is typechecked as usual, but the right is more leniently handled.

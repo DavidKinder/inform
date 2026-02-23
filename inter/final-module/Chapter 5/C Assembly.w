@@ -54,9 +54,9 @@ on C, because those kits make quite heavy use of opcodes from Z/Glulx.
 
 We will instead:
 
-(1) Emulate exactly that subset of the Glulx assembly language which is used
+- Emulate exactly that subset of the Glulx assembly language which is used
 by the standard Inform kits, and
-(2) Allow any other opcodes to be externally defined by the user.
+- Allow any other opcodes to be externally defined by the user.
 
 In this way, we obtain both compatibility with the Inform kits, enabling us to
 compile works of IF to C, and also extensibility.
@@ -270,9 +270,10 @@ If the opcode has N operands then the function has N+1 arguments, since the
 first is always the process pointer. 
 
 It may seem to compile slow code if we turn instructions into function calls, but
-(a) assembly is not used very much in Inter code, and then not for time-sensitive
+
+- assembly is not used very much in Inter code, and then not for time-sensitive
 operations, and
-(b) the C compiler receiving the code we generate will almost certainly perform
+- the C compiler receiving the code we generate will almost certainly perform
 inline optimisation to remove most of these calls anyway.
 
 @<Generate a function call@> =

@@ -73,8 +73,8 @@ inter_ti InterPackage::warehouse_ID(inter_package *pack) {
 to each other in a way which exactly matches, except for the root package.
 For all other packages, these two operations are inverse to each other: 
 
-(*) To get from a head node to its package, call //PackageInstruction::at_this_head//.
-(*) To get from a package to its head node, call //InterPackage::head//.
+- To get from a head node to its package, call //PackageInstruction::at_this_head//.
+- To get from a package to its head node, call //InterPackage::head//.
 
 The root package is a very special one-off case -- see //Inter Trees//: it
 does not originate from any package instruction because it represents the
