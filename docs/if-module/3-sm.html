@@ -489,14 +489,8 @@ node using this wording in order to produce better problem messages if need be.<
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP23" class="paragraph-anchor"></a><b>&#167;23. Here.</b> </p>
-
-<blockquote>
-    <p>The washing machine is here. The shirt is in the machine.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>A sentence like &quot;The sonic screwdriver is here.&quot; is not copular, but instead
+<p class="commentary firstcommentary"><a id="SP23" class="paragraph-anchor"></a><b>&#167;23. Here.</b>  A sentence like &quot;The sonic screwdriver is here.&quot; is not copular, but instead
 expresses a relationship -- &quot;here&quot; is not a value but a relation to an
 unstated object. That object is the room we're currently talking about, which
 sounds easy to work out, but isn't: we don't yet know which of the objects
@@ -505,6 +499,10 @@ needs delicate handling, and its own inference type.</p>
 <p>The fact that rooms cannot be &quot;here&quot; is useful, because it means Inform can
 with certainty read</p>
 </div>
+<blockquote>
+    <p>The washing machine is here. The shirt is in the machine.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>as creating a container called &quot;washing machine&quot;, not a room.</p>
 </div>
@@ -619,28 +617,26 @@ that Y is the destination of a map connection -- to see which.</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">puos</span><span class="plain-syntax">) </span><span class="identifier-syntax">NewUseOptions::set</span><span class="plain-syntax">(</span><span class="identifier-syntax">puos</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-sm.html#SP27">&#167;27</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP27_2" class="paragraph-anchor"></a><b>&#167;27.2. </b> </p>
-
-<blockquote>
-    <p>The croquet ball is in the Boxed Set.</p>
-</blockquote>
-
-<blockquote>
-    <p>The Boxed Set is a container. The spoon is on the low table.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>Our main problem in what follows is caused by &quot;in&quot; being so ambiguous,
+<p class="commentary firstcommentary"><a id="SP27_2" class="paragraph-anchor"></a><b>&#167;27.2. </b>  Our main problem in what follows is caused by &quot;in&quot; being so ambiguous,
 or perhaps it might be said that the real problem is that we choose to
 distinguish between rooms and containers on a world-modelling level -- when it
 could well be argued that they are linguistically the same thing.</p>
 <p>It means that Inform is often reading code such as:</p>
 </div>
+<blockquote>
+    <p>The croquet ball is in the Boxed Set.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>and not being sure whether &quot;Boxed Set&quot; is a container or a room.</p>
 <p>In the following determination, we use two sources of information. One is explicit
 data given by the source text or unambiguously implied in it, like so --</p>
 </div>
+<blockquote>
+    <p>The Boxed Set is a container. The spoon is on the low table.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>which tell us the Boxed Set is certainly a container and the table certainly
 a supporter. This information about an object is the &quot;designer choice&quot; about

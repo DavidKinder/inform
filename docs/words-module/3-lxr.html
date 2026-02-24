@@ -61,14 +61,8 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="3-lxr.html#SP6">&#167;6. The lexical structure of source text</a></li><li><a href="3-lxr.html#SP10">&#167;10. What the lexer stores for each word</a></li><li><a href="3-lxr.html#SP16">&#167;16. External lexer states</a></li><li><a href="3-lxr.html#SP17">&#167;17. Definition of punctuation</a></li><li><a href="3-lxr.html#SP18">&#167;18. Definition of indentation</a></li><li><a href="3-lxr.html#SP19">&#167;19. Access functions</a></li><li><a href="3-lxr.html#SP20">&#167;20. Definition of white space</a></li><li><a href="3-lxr.html#SP21">&#167;21. Internal lexer states</a></li><li><a href="3-lxr.html#SP25">&#167;25. Feeding the lexer</a></li><li><a href="3-lxr.html#SP28">&#167;28. Lexing one character at a time</a></li><li><a href="3-lxr.html#SP28_1">&#167;28.1. Dealing with whitespace</a></li><li><a href="3-lxr.html#SP28_5">&#167;28.5. Completing a word</a></li><li><a href="3-lxr.html#SP28_6">&#167;28.6. Entering and leaving literal mode</a></li><li><a href="3-lxr.html#SP28_8">&#167;28.8. Breaking strings up at text substitutions</a></li><li><a href="3-lxr.html#SP30">&#167;30. Splicing</a></li><li><a href="3-lxr.html#SP31">&#167;31. Basic command-line error handler</a></li><li><a href="3-lxr.html#SP32">&#167;32. Logging absolutely everything</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b> </p>
-
-<blockquote>
-    <p>Say "Hello!" with alarm, ... Say "Hello!" With alarm, ...</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>Lexical analysis is the process of reading characters from the source
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  Lexical analysis is the process of reading characters from the source
 text files and forming them into globs which we call &quot;words&quot;: the part of
 Inform which does this is the &quot;lexical analyser&quot;, or lexer for short. The
 algorithms in this chapter are entirely routine, but occasional eye-opening
@@ -80,6 +74,10 @@ will need it later to decide whether punctuation at the end of a quotation
 is meant to end the sentence making the quote, or not. Humans certainly
 read these differently:</p>
 </div>
+<blockquote>
+    <p>Say "Hello!" with alarm, ... Say "Hello!" With alarm, ...</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>And paragraph breaks can also have semantic meanings. A gap between two words
 does not end a sentence, but a paragraph break between two words clearly does.
@@ -117,14 +115,8 @@ currently reading.</p>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="type-syntax">source_location</span><span class="plain-syntax"> </span><span class="identifier-syntax">lexer_position</span><span class="plain-syntax">;</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b> </p>
-
-<blockquote>
-    <p>When to the sessions of sweet silent thought</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>A word can be an English word such as <code>bedspread</code>, or a piece of punctuation
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  A word can be an English word such as <code>bedspread</code>, or a piece of punctuation
 such as <code>!</code>, or a number such as <code>127</code>, or a piece of quoted text of arbitrary
 size such as <code>&quot;I summon up remembrance of things past&quot;</code>.</p>
 <p>The words found are numbered 0, 1, 2, ... in order of being read by
@@ -136,6 +128,10 @@ of a pair of word numbers, usually called <code>w1</code> and <code>w2</code> or
 on that, indicating the text which starts at word <code>w1</code> and finishes
 at <code>w2</code> (including both ends). Thus if the text is</p>
 </div>
+<blockquote>
+    <p>When to the sessions of sweet silent thought</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>then the eight words are numbered 0 to 7 and a reference to <code>w1=2</code>, <code>w2=5</code>
 would mean the sub-text &quot;the sessions of sweet&quot;. The special null value
@@ -181,18 +177,8 @@ characters cause word divisions, or signal literals.</p>
 </div>
 <pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">STANDARD_PUNCTUATION_MARKS</span> <span class="identifier-syntax">U</span><span class="string-syntax">".,:;?!(){}[]"</span><span class="plain-syntax"> </span><span class="comment-syntax">/* Do not add to this list lightly! */</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b> </p>
-
-<blockquote>
-    <p>|Snow White and the [Seven Dwarfs [but not Doc]].|</p>
-</blockquote>
-
-<blockquote>
-    <p>|(- Constant BLOB = (+ the total weight of things in (- selfobj -) +); -)|</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>This seems a good point to describe how best to syntax-colour source
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>  This seems a good point to describe how best to syntax-colour source
 text, something which the user interfaces do on every platform. By
 convention we are sparing with the colours: ordinary word-processing
 is not a kaleidoscopic experience (even when Microsoft Word's impertinent
@@ -236,6 +222,10 @@ inside a comment.) Thus, nested comments are allowed, and the following
 text contains a single comment running from just after &quot;the&quot; through to
 the full stop:</p>
 </div>
+<blockquote>
+    <p>|Snow White and the [Seven Dwarfs [but not Doc]].|</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>(4c) Literal I6 code. Outside of (4a) and (4b), the combination <code>(-</code> begins
 literal I6 matter. This matter continues until the next <code>-)</code> is reached.
@@ -245,6 +235,10 @@ syntax colouring this very much. And the authors of Inform will lose no
 sleep if we miscolour this, for instance, especially if it deters people
 from such horrible coding practices:</p>
 </div>
+<blockquote>
+    <p>|(- Constant BLOB = (+ the total weight of things in (- selfobj -) +); -)|</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>(5) Normal text. Everything else.</p>
 <p>Inform regards all of the Unicode characters <code>0x0009</code>, <code>0x000A</code>, <code>0x000D</code>,
@@ -417,18 +411,8 @@ running.</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">q</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. External lexer states.</b> </p>
-
-<blockquote>
-    <p>say "[The noun] falls onto [the second noun]."</p>
-</blockquote>
-
-<blockquote>
-    <p>say The noun, " falls onto ", the second noun, "."</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>The lexer is a finite state machine at heart. Its current state is the
+<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. External lexer states.</b>  The lexer is a finite state machine at heart. Its current state is the
 collective value of an extensive set of variables, almost all of them
 flags, but with three exceptions this state is used only within the lexer.</p>
 <p>The three exceptional modes are by default both off and by default they
@@ -436,11 +420,19 @@ stay off: the lexer never goes into either mode by itself.</p>
 <p><code>lexer_divide_strings_at_text_substitutions</code> is used by some of the lexical writing-back
 machinery,  when it has been decided to compile something like</p>
 </div>
+<blockquote>
+    <p>say "[The noun] falls onto [the second noun]."</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>In its ordinary mode, with this setting off, the lexer will render this as
 two words, the second being the entire quoted text. But if
 <code>lexer_divide_strings_at_text_substitutions</code> is set then the text is reinterpreted as</p>
 </div>
+<blockquote>
+    <p>say The noun, " falls onto ", the second noun, "."</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>which runs to eleven words, three of them commas (punctuation always counts
 as a word).</p>
@@ -775,14 +767,8 @@ be a bug, and Inform is bug-free, so it follows that it could never happen.</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP27" class="paragraph-anchor"></a><b>&#167;27. </b> </p>
-
-<blockquote>
-    <p>say "[if M is less than 10]0[otherwise]1";</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>The feeder routine is required to send us a triple each time: <code>cr</code>
+<p class="commentary firstcommentary"><a id="SP27" class="paragraph-anchor"></a><b>&#167;27. </b>  The feeder routine is required to send us a triple each time: <code>cr</code>
 must be a valid character (see above) and may not be <code>CH32EOF</code>; <code>last_cr</code> must
 be the previous one or else perhaps <code>CH32EOF</code> at the start of feed;
 while <code>next_cr</code> must be the next or else perhaps <code>CH32EOF</code> at the end of feed.</p>
@@ -795,6 +781,10 @@ alphanumeric characters. This is done so that, for instance, &quot;0.91&quot; do
 not split into three words in the lexer. We do not count square brackets
 here, because if we did, that would cause trouble in parsing</p>
 </div>
+<blockquote>
+    <p>say "[if M is less than 10]0[otherwise]1";</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>where the <code>0]0</code> would go unbroken in <code>lexer_divide_strings_at_text_substitutions</code>
 mode, and therefore the <code>]</code> would remain glued to the preceding text;</p>
@@ -1081,18 +1071,8 @@ workspace.</p>
 <span class="plain-syntax">    </span><a href="3-lxr.html#SP13" class="function-link"><span class="function-syntax">Lexer::ensure_space_up_to</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">lexer_wordcount</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-lxr.html#SP28_5">&#167;28.5</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP28_6" class="paragraph-anchor"></a><b>&#167;28.6. Entering and leaving literal mode.</b> </p>
-
-<blockquote>
-    <p>|( -something|</p>
-</blockquote>
-
-<blockquote>
-    <p>|(- something|</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>After a character has been stored, in ordinary mode, we see if it
+<p class="commentary firstcommentary"><a id="SP28_6" class="paragraph-anchor"></a><b>&#167;28.6. Entering and leaving literal mode.</b>  After a character has been stored, in ordinary mode, we see if it
 provokes us into entering literal mode, by signifying the start of a
 comment, string or passage of verbatim Inform 6.</p>
 <p>In the case of a string, we positively want to keep the opening character
@@ -1102,9 +1082,17 @@ anyhow; as it happens, we keep it for now. But in the case of an I6
 escape we are in danger, because of the auto-spacing around brackets, of
 recording two words</p>
 </div>
+<blockquote>
+    <p>|( -something|</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>when in fact we want to record</p>
 </div>
+<blockquote>
+    <p>|(- something|</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>We do this by adding a hyphen to the previous word (the <code>(</code> word), and by
 throwing away the hyphen from the material of the current word.</p>
@@ -1183,25 +1171,23 @@ finished.</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">lxs_literal_mode</span><span class="plain-syntax"> == </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">) </span><span class="identifier-syntax">c</span><span class="plain-syntax"> = </span><span class="character-syntax">' '</span><span class="plain-syntax">; </span><span class="comment-syntax">/* trigger completion of this word */</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-lxr.html#SP28">&#167;28</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP28_8" class="paragraph-anchor"></a><b>&#167;28.8. Breaking strings up at text substitutions.</b> </p>
-
-<blockquote>
-    <p>"Hello, [greeted person]. Do you make it [supper time]?"</p>
-</blockquote>
-
-<blockquote>
-    <p>|"Hello, " , greeted person , ". Do you make it " , supper time , "?"|</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>When text contains text substitutions, these are ordinarily ignored by the
+<p class="commentary firstcommentary"><a id="SP28_8" class="paragraph-anchor"></a><b>&#167;28.8. Breaking strings up at text substitutions.</b>  When text contains text substitutions, these are ordinarily ignored by the
 lexer, but in <code>lexer_divide_strings_at_text_substitutions</code> mode, we need to
 force strings to end and resume at the two ends of each substitution. For
 instance:</p>
 </div>
+<blockquote>
+    <p>"Hello, [greeted person]. Do you make it [supper time]?"</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>must be split as</p>
 </div>
+<blockquote>
+    <p>|"Hello, " , greeted person , ". Do you make it " , supper time , "?"|</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>where our original single text literal is now three text literals, plus
 eight ordinary words (four of them commas).</p>
@@ -1251,17 +1237,15 @@ spurious space is never fed, and there is no problem.</p>
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-lxr.html#SP28">&#167;28</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP29" class="paragraph-anchor"></a><b>&#167;29. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP29" class="paragraph-anchor"></a><b>&#167;29. </b>  Finally, note that the breaking-up process may result in empty strings
+where square brackets abut each other or the ends of the original string.
+Thus</p>
+</div>
 <blockquote>
     <p>"[The noun] is on the [colour][style] table."</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>Finally, note that the breaking-up process may result in empty strings
-where square brackets abut each other or the ends of the original string.
-Thus</p>
-</div>
 <div class="lsmarkdown">
 <p>is split as: <code>&quot;&quot; , The noun , &quot; is on the &quot; , colour , &quot;&quot; , style , &quot; table.&quot;</code>
 This is not a bug: empty strings are legal. It's for higher-level code to

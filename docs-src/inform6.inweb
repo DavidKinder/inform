@@ -1,5 +1,6 @@
 Title: Navigation page for Inform 6
 Author: Graham Nelson
+Notation: InwebClassic
 
 @ The Inform system of today sometimes uses the Inform system of yesteryear,
 |inform6|, as a final stage of compilation, a stage largely invisible to end

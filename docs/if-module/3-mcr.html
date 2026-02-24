@@ -94,18 +94,8 @@ at an earlier stage in Inform's run, so another two-step is needed:</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">bp</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b> </p>
-
-<blockquote>
-    <p>The Bakery is east of Pudding Lane.</p>
-</blockquote>
-
-<blockquote>
-    <p>The Flour Cellar is below the Bakery.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>When each direction is created, so are corresponding relations and
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  When each direction is created, so are corresponding relations and
 prepositional uses: for example, &quot;northeast&quot; makes &quot;mapping northeast&quot;
 as a relation, and &quot;mapped northeast of&quot; as a prepositional usage.</p>
 <p>The rule is actually that production (a) in &lt;mapping-preposition-construction&gt;
@@ -118,11 +108,19 @@ and outside to do with spatial containment.</p>
 east of&quot; rather than &quot;to be east of&quot;? After all, that seems to be what is
 used in assertions like:</p>
 </div>
+<blockquote>
+    <p>The Bakery is east of Pudding Lane.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>In fact, the assertion parser reads sentences like that by looking out specially
 for direction names plus &quot;of&quot; -- so this is parsed without using the mapping
 predicate for &quot;east&quot;. But it cannot read:</p>
 </div>
+<blockquote>
+    <p>The Flour Cellar is below the Bakery.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>as a direction name plus &quot;of&quot;, since &quot;below&quot; is not the name of the direction
 &quot;down&quot;, and anyway there is no &quot;of&quot;.</p>

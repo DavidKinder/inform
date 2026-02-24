@@ -159,16 +159,14 @@ variable can be set to shadow a spcific instance in this way.</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Representation of single adjectives.</b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Representation of single adjectives.</b>  Individual adjective nodes are made as follows. Note that we append noun
+details to the nodes so that sentences like this one...</p>
+</div>
 <blockquote>
     <p>Scenery is usually fixed in place.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>Individual adjective nodes are made as follows. Note that we append noun
-details to the nodes so that sentences like this one...</p>
-</div>
 <div class="lsmarkdown">
 <p>...can work; here &quot;scenery&quot;, though an adjective, is effectively a common
 noun in disguise. (It's a deficiency of English that a surprising number of
@@ -772,14 +770,8 @@ to-the-point problem messages for badly constructed sentences.</p>
 <span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="4-rpt.html#SP11_8_2_4_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Act on a simple description</span></span><span class="named-paragraph-number">11.8.2.4.1</span></a></span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="4-rpt.html#SP11_8_2">&#167;11.8.2</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP11_8_2_4_1" class="paragraph-anchor"></a><b>&#167;11.8.2.4.1. </b> </p>
-
-<blockquote>
-    <p>Heating Kettle is a scene.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>...it's the shorter phrases where, perversely, the risk of a
+<p class="commentary firstcommentary"><a id="SP11_8_2_4_1" class="paragraph-anchor"></a><b>&#167;11.8.2.4.1. </b>  ...it's the shorter phrases where, perversely, the risk of a
 misunderstanding is higher. For one thing, we deliberately ignore a valid
 description in two cases:</p>
 <ul>
@@ -795,6 +787,10 @@ objects in particular states when setting up the initial state -- the kettle
 either starts out as heating, or it doesn't. Moreover, we don't want to
 misread a line like:</p>
 </div>
+<blockquote>
+    <p>Heating Kettle is a scene.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>(also a sentence from &quot;Goat-Cheese and Sage Chicken&quot;). Because of this and
 similar ambiguities, we ignore the S-parser's recommendation of reading
@@ -816,8 +812,13 @@ sentence.</p>
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="4-rpt.html#SP11_8_2_4">&#167;11.8.2.4</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. About surgeries.</b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. About surgeries.</b>  The rest of this section is taken up with local surgical operations
+performed on the tree in the light of what we can now see.</p>
+<p>&quot;And surgery&quot; is a fiddly operation to correct the parse tree after
+resolution of all the nouns in a phrase which involves both &quot;and&quot; and
+&quot;with&quot; in a particular way. There's no problem with either of these:</p>
+</div>
 <blockquote>
     <p>In the Pitch are a bat and ball with weight 10.</p>
 </blockquote>
@@ -826,20 +827,13 @@ sentence.</p>
     <p>In the Pitch is a sweater with score for finding 5 and description "White wool."</p>
 </blockquote>
 
+<div class="lsmarkdown">
+<p>neither of which is altered by and surgery. The difficulty arises with</p>
+</div>
 <blockquote>
     <p>In the Pitch is an openable and open door with description "The Hut door."</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>The rest of this section is taken up with local surgical operations
-performed on the tree in the light of what we can now see.</p>
-<p>&quot;And surgery&quot; is a fiddly operation to correct the parse tree after
-resolution of all the nouns in a phrase which involves both &quot;and&quot; and
-&quot;with&quot; in a particular way. There's no problem with either of these:</p>
-</div>
-<div class="lsmarkdown">
-<p>neither of which is altered by and surgery. The difficulty arises with</p>
-</div>
 <div class="lsmarkdown">
 <p>which, we notice, has exactly the same grammatical structure as the first of
 the two sentences above, yet a very different meaning, since &quot;openable&quot; is a
@@ -887,15 +881,13 @@ on the back of an envelope. Change at your peril.</p>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. </b>  &quot;With surgery&quot; is a less traumatic operation, motivated by sentences like:</p>
+</div>
 <blockquote>
     <p>In the Pitch is an open container with description "The box of stumps and bails."</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>&quot;With surgery&quot; is a less traumatic operation, motivated by sentences like:</p>
-</div>
 <div class="lsmarkdown">
 <p>The initial parse tree for such a sentence will have two nested <code>WITH_NT</code>
 clauses, which is arguably correct -- &quot;a (container with property open)
@@ -935,17 +927,15 @@ terms of the tree,</p>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. Un-WITH.</b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. Un-WITH.</b>  We may subsequently learn that what appeared to be a property setting was
+actually some other noun phrase containing the word &quot;with&quot; -- a particular
+issue for sentences like:</p>
+</div>
 <blockquote>
     <p>The agreeing with policy action has an object called the hat.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>We may subsequently learn that what appeared to be a property setting was
-actually some other noun phrase containing the word &quot;with&quot; -- a particular
-issue for sentences like:</p>
-</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="type-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Refiner::un_with</span><button class="popup" onclick="togglePopup('usagePopup14')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup14">Usage of <span class="code-font"><span class="function-syntax">Refiner::un_with</span></span>:<br/><a href="4-rpt.html#SP8">&#167;8</a></span></button><span class="plain-syntax">(</span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">p</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> ((</span><span class="identifier-syntax">Node::get_type</span><span class="plain-syntax">(</span><span class="identifier-syntax">p</span><span class="plain-syntax">) == </span><span class="identifier-syntax">WITH_NT</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">p</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">down</span><span class="plain-syntax">) &amp;&amp; (</span><span class="identifier-syntax">p</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">down</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax">)) {</span>

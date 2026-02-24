@@ -332,16 +332,14 @@ or type-checked until compilation.</p>
 <span class="plain-syntax">    </span><span class="identifier-syntax">Node::set_text</span><span class="plain-syntax">(</span><span class="identifier-syntax">p</span><span class="plain-syntax">, </span><span class="identifier-syntax">GET_RW</span><span class="plain-syntax">(</span><span class="function-syntax">&lt;control-structure-phrase&gt;</span><span class="plain-syntax">, </span><span class="constant-syntax">1</span><span class="plain-syntax">));</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-is.html#SP1_1_4">&#167;1.1.4</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP1_1_5" class="paragraph-anchor"></a><b>&#167;1.1.5. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1_1_5" class="paragraph-anchor"></a><b>&#167;1.1.5. </b>  &quot;Comma notation&quot; is when a comma is used in an &quot;if&quot; statement to divide
+off only a single consequential phrase, as in</p>
+</div>
 <blockquote>
     <p>if the hat is worn, try dropping the hat;</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>&quot;Comma notation&quot; is when a comma is used in an &quot;if&quot; statement to divide
-off only a single consequential phrase, as in</p>
-</div>
 <div class="lsmarkdown">
 <p>Such a line occupies a single node in its routine's parse tree, and we need
 to break this up.</p>
@@ -415,15 +413,13 @@ to break this up.</p>
 <span class="plain-syntax">    </span><span class="identifier-syntax">rest_of_defn</span><span class="plain-syntax"> = </span><span class="identifier-syntax">rest_of_defn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-is.html#SP1_1_5_1_1">&#167;1.1.5.1.1</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP1_1_5_1_1_2" class="paragraph-anchor"></a><b>&#167;1.1.5.1.1.2. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1_1_5_1_1_2" class="paragraph-anchor"></a><b>&#167;1.1.5.1.1.2. </b>  An abbreviated otherwise clause looks like this:</p>
+</div>
 <blockquote>
     <p>otherwise award 4 points;</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>An abbreviated otherwise clause looks like this:</p>
-</div>
 <div class="lsmarkdown">
 <p>and we want to split this, too, into distinct nodes.</p>
 </div>
@@ -1459,24 +1455,22 @@ around the contents of any substitution which contains a comma.</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-is.html#SP9_1_1">&#167;9.1.1</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b>  Something devious happens when text following a &quot;say&quot; is found. Double-quoted text
+is literal if it contains no square brackets, but is expanded if it includes text
+substitutions in squares. Thus:</p>
+</div>
 <blockquote>
     <p>"Look, [the noun] said."</p>
 </blockquote>
 
+<div class="lsmarkdown">
+<p>becomes:</p>
+</div>
 <blockquote>
     <p>"Look, ", the noun, " said."</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>Something devious happens when text following a &quot;say&quot; is found. Double-quoted text
-is literal if it contains no square brackets, but is expanded if it includes text
-substitutions in squares. Thus:</p>
-</div>
-<div class="lsmarkdown">
-<p>becomes:</p>
-</div>
 <div class="lsmarkdown">
 <p>This is then re-parsed with the following nonterminal; note that we report any
 problem with misuse of commas -- really, of square brackets -- before handing back

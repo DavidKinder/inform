@@ -433,24 +433,22 @@ clauses are therefore better recognised.</p>
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-rf.html#SP7">&#167;7</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>  Every rule corresponds to a <code>rule</code> structure. If the rule is an anonymous
+one, such as:</p>
+</div>
 <blockquote>
     <p>Instead of jumping: say "Don't."</p>
 </blockquote>
 
-<blockquote>
-    <p>Instead of swimming (this is the avoid water rule): say "Don't."</p>
-</blockquote>
-
-<div class="lsmarkdown">
-<p>Every rule corresponds to a <code>rule</code> structure. If the rule is an anonymous
-one, such as:</p>
-</div>
 <div class="lsmarkdown">
 <p>then we need to call <code>Rules::obtain</code> to create a nameless <code>rule</code> structure
 to be connected to it. But if the phrase has an explicit name:</p>
 </div>
+<blockquote>
+    <p>Instead of swimming (this is the avoid water rule): say "Don't."</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>then we have a predeclared rule called &quot;avoid water rule&quot; already, so we
 connect this existing one to the phrase.</p>

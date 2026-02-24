@@ -276,18 +276,8 @@ prefaced &quot;(of a rulebook)&quot;, &quot;(of an activity)&quot;, and so on.</
 <span class="plain-syntax">    </span><span class="identifier-syntax">Functions::end</span><span class="plain-syntax">(</span><span class="identifier-syntax">save</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-adj.html#SP6">&#167;6</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP6_1_1" class="paragraph-anchor"></a><b>&#167;6.1.1. </b> </p>
-
-<blockquote>
-    <p>Definition: a text is empty if I6 routine |"TEXT\_TY\_Empty"| says so.</p>
-</blockquote>
-
-<blockquote>
-    <p>Definition: a text is empty if it is not |""|.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>The stack frame has just one call parameter: the value \INWEBMATH(x\INWEBMATH) which might, or
+<p class="commentary firstcommentary"><a id="SP6_1_1" class="paragraph-anchor"></a><b>&#167;6.1.1. </b>  The stack frame has just one call parameter: the value \INWEBMATH(x\INWEBMATH) which might, or
 might not, be such that adjective(\INWEBMATH(x\INWEBMATH)) is true. We allow this to be called
 &quot;it&quot;, though it can also have a calling name in some cases (see below).</p>
 <p>Clearly it ought to have the kind which defines the domain -- so it's a rulebook
@@ -297,9 +287,17 @@ being defined only by I6 routines. This is done to avoid compiling very
 inefficient code from the Standard Rules. For instance, the SR reads, in
 slightly simplified form:</p>
 </div>
+<blockquote>
+    <p>Definition: a text is empty if I6 routine |"TEXT\_TY\_Empty"| says so.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>rather than the more obvious:</p>
 </div>
+<blockquote>
+    <p>Definition: a text is empty if it is not |""|.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>Both of these definitions work. But if the routine defining &quot;empty&quot; for text
 is allowed to act on a text variable, Inform needs to compile code which acts

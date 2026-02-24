@@ -216,16 +216,14 @@ value <code>pi</code>.</p>
 <span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">equation</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">***</span><span class="Preform-plain-syntax">                            </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> </span><span class="named-paragraph-container code-font"><a href="7-eqt.html#SP8_1" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Issue PM_EquationMisnumbered problem</span></span><span class="named-paragraph-number">8.1</span></a></span>
 </pre>
 <ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>  The above catches all of the named expressions written out in the
+source text, but not the ones written &quot;inline&quot;, in phrases like</p>
+</div>
 <blockquote>
     <p>let F be given by F = ma;</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>The above catches all of the named expressions written out in the
-source text, but not the ones written &quot;inline&quot;, in phrases like</p>
-</div>
 <div class="lsmarkdown">
 <p>Those equations are created by calling <code>Equations::new</code> direct from the
 S-parser: such equations are called &quot;anonymous&quot;, as they have no name. But in
@@ -312,22 +310,20 @@ We know that this begins with the word &quot;equation&quot;, or we wouldn't be h
 <span class="plain-syntax">    } </span><span class="reserved-syntax">else</span><span class="plain-syntax"> </span><span class="identifier-syntax">internal_error</span><span class="plain-syntax">(</span><span class="string-syntax">"malformed equation sentence"</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="7-eqt.html#SP9">&#167;9</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. </b>  An equation can be referred to by its number, or by its name. Thus</p>
+</div>
 <blockquote>
     <p>Equation 64 - Distribution of Cheese</p>
 </blockquote>
 
+<div class="lsmarkdown">
+<p>could be referred to elsewhere in the text by any of three names:</p>
+</div>
 <blockquote>
     <p>equation 64, Distribution of Cheese, Distribution of Cheese equation</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>An equation can be referred to by its number, or by its name. Thus</p>
-</div>
-<div class="lsmarkdown">
-<p>could be referred to elsewhere in the text by any of three names:</p>
-</div>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-function-syntax">&lt;equation-names-construction&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
 <span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">equation</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">...</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span>
@@ -411,16 +407,14 @@ then type-checking it.</p>
 <span class="plain-syntax">        </span><a href="7-eqt.html#SP28" class="function-link"><span class="function-syntax">Equations::log_equation_node</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">eqn</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">parsed_equation</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. Declaring symbols.</b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. Declaring symbols.</b>  Equations are allowed to end with a &quot;where...&quot; clause, explaining what
+the symbols in it mean. For example:</p>
+</div>
 <blockquote>
     <p>where F is a force, a = 9.801 m/ss, m1 and m2 are masses;</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>Equations are allowed to end with a &quot;where...&quot; clause, explaining what
-the symbols in it mean. For example:</p>
-</div>
 <div class="lsmarkdown">
 <p>At the earlier stages of parsing, we simply split the &quot;where&quot; text away
 using this:</p>
@@ -460,16 +454,14 @@ is expected to declare every symbol occurring in it.</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">result</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. </b>  But the following routine is also used with the &quot;where&quot; text supplied in
+a phrase like so:</p>
+</div>
 <blockquote>
     <p>let F be given by Newton's Second Law, where m = 101kg;</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>But the following routine is also used with the &quot;where&quot; text supplied in
-a phrase like so:</p>
-</div>
 <div class="lsmarkdown">
 <p>In this context the &quot;where&quot; text sets explicit values for symbols occurring
 in the equation; these are temporary settings only and will not change the
@@ -484,16 +476,14 @@ issued.</p>
 <span class="type-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">equation_declared_temporarily</span><span class="plain-syntax"> = </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="type-syntax">int</span><span class="plain-syntax"> </span><span class="identifier-syntax">eq_symbol_wn</span><span class="plain-syntax"> = </span><span class="constant-syntax">-1</span><span class="plain-syntax">;</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP18" class="paragraph-anchor"></a><b>&#167;18. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP18" class="paragraph-anchor"></a><b>&#167;18. </b>  The following grammar is later used to parse the text after &quot;where&quot;. For
+example:</p>
+</div>
 <blockquote>
     <p>F is a force, a = 9.801 m/ss, m1 and m2 are masses</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>The following grammar is later used to parse the text after &quot;where&quot;. For
-example:</p>
-</div>
 <div class="lsmarkdown">
 <p>This is split into four clauses, of which the trickiest is the third, reading
 just &quot;m1&quot;. This abbreviated form is allowed only in permanent declarations
@@ -625,26 +615,24 @@ mass, too.</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP19_1" class="paragraph-anchor"></a><b>&#167;19.1. </b> </p>
-
-<blockquote>
-    <p>The acceleration due to gravity is an acceleration that varies.</p>
-</blockquote>
-
-<blockquote>
-    <p>let F be given by Newton's Second Law, where a = the acceleration due to gravity;</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>Symbols are allowed to be set equal to kinds of value, but only quasinumerical
+<p class="commentary firstcommentary"><a id="SP19_1" class="paragraph-anchor"></a><b>&#167;19.1. </b>  Symbols are allowed to be set equal to kinds of value, but only quasinumerical
 ones; or to quasinumerical constants; or to global variables which contain
 quasinumerical values. The latter are included to make it easier for extensions
 to set up sets of equations for, say, gravity, defining</p>
 </div>
+<blockquote>
+    <p>The acceleration due to gravity is an acceleration that varies.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>and thus letting the extension's user decide how strong gravity is, but
 still using it in equations:</p>
 </div>
+<blockquote>
+    <p>let F be given by Newton's Second Law, where a = the acceleration due to gravity;</p>
+</blockquote>
+
 <p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Find the actual value, or kind of value, which the symbol is to match</span><span class="named-paragraph-number">19.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
@@ -713,16 +701,14 @@ hurly-burly is done, the following is called:</p>
 <span class="plain-syntax">        }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP21" class="paragraph-anchor"></a><b>&#167;21. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP21" class="paragraph-anchor"></a><b>&#167;21. </b>  As we saw, permanent symbol declarations cause <code>Equations::eqn_add_symbol</code> to be called.
+But what about the symbols for an inline equation, like this one?</p>
+</div>
 <blockquote>
     <p>let F be given by F = ma;</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>As we saw, permanent symbol declarations cause <code>Equations::eqn_add_symbol</code> to be called.
-But what about the symbols for an inline equation, like this one?</p>
-</div>
 <div class="lsmarkdown">
 <p>These are not explicitly declared. What happens is that any local variable
 on the current stack frame, whose name could plausibly be that of a symbol,

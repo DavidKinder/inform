@@ -81,18 +81,16 @@ MathJax = {
 
 <ul class="toc"><li><a href="5-cgl.html#SP8">&#167;8. Relevant only for CG_IS_VALUE lines</a></li><li><a href="5-cgl.html#SP9">&#167;9. Conditional lines</a></li><li><a href="5-cgl.html#SP13">&#167;13. Mistakes</a></li><li><a href="5-cgl.html#SP14">&#167;14. Single word optimisation</a></li><li><a href="5-cgl.html#SP15">&#167;15. Slashing the line</a></li><li><a href="5-cgl.html#SP16">&#167;16. Determining the line</a></li><li><a href="5-cgl.html#SP17">&#167;17. Sorting the lines in a grammar</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b> </p>
-
-<blockquote>
-    <p>Understand "remove [things inside] from [something]" as removing it from.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>CG lines can be as simple as single words, to describe an object in the
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  CG lines can be as simple as single words, to describe an object in the
 world model perhaps, or can be longer prototypes of commands to describe
 actions. There are many, many examples in <a href="../standard_rules/cmgr.html" class="internal">Command Grammar (in standard_rules)</a>,
 but for example in:</p>
 </div>
+<blockquote>
+    <p>Understand "remove [things inside] from [something]" as removing it from.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>...the CG line &quot;[things inside] from [something]&quot; is added to the CG for the
 command verb REMOVE. This is a CG line with a <a href="5-dt.html#SP1" class="internal">determination_type</a>
@@ -254,18 +252,16 @@ which is not an object, and we record which value the line refers to here.</p>
 <span class="plain-syntax">    </span><a href="5-dt.html#SP4" class="function-link"><span class="function-syntax">DeterminationTypes::set_single_term</span></a><span class="plain-syntax">(&amp;(</span><span class="identifier-syntax">cgl</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">cgl_type</span><span class="plain-syntax">), </span><span class="identifier-syntax">cgl_value</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. Conditional lines.</b> </p>
-
-<blockquote>
-    <p>Understand "mate" as Fred when asking Fred to do something: ...</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>A few grammar lines take effect only when some circumstance holds: most I7
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. Conditional lines.</b>  A few grammar lines take effect only when some circumstance holds: most I7
 conditions are valid to specify this, with the notation &quot;Understand ... as
 ... when ...&quot;. However, we want to protect new authors from mistakes
 like this:</p>
 </div>
+<blockquote>
+    <p>Understand "mate" as Fred when asking Fred to do something: ...</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>where the condition couldn't test anything useful because it's not yet
 known what the action will be.</p>

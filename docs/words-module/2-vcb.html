@@ -154,26 +154,24 @@ possible meaning as a literal integer, we cache the result: for instance,
 <span class="plain-syntax">    </span><span class="identifier-syntax">STROKE_V</span><span class="plain-syntax">         = </span><a href="2-vcb.html#SP15" class="function-link"><span class="function-syntax">Vocabulary::entry_for_text</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">U</span><span class="string-syntax">"|"</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b> </p>
-
-<blockquote>
-    <p>Daleks conquer and destroy! "Ba-dum." Exterminate, exterminate! "Ba-dum."</p>
-</blockquote>
-
-<blockquote>
-    <p>|ve0| |ve1| |ve2| |ve3| |ve4| |ve5| |ve6| |ve6| |ve4| |ve7|</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>Each distinct word is to have a unique <code>vocabulary_entry</code> structure, and the
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  Each distinct word is to have a unique <code>vocabulary_entry</code> structure, and the
 &quot;identity&quot; at word number <code>wn</code> is to point to the structure for the text
 at that word. Two words are distinct if their lower-case forms are different,
 except that two quoted literal texts are always distinct, even if they have
 the same content. So for instance,</p>
 </div>
+<blockquote>
+    <p>Daleks conquer and destroy! "Ba-dum." Exterminate, exterminate! "Ba-dum."</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>would be identified as</p>
 </div>
+<blockquote>
+    <p>|ve0| |ve1| |ve2| |ve3| |ve4| |ve5| |ve6| |ve6| |ve4| |ve7|</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>where <code>ve4</code> is the common identity of both exclamation marks, and <code>ve6</code>
 that of the two &quot;exterminate&quot;s, even though they have different casings;
@@ -236,14 +234,8 @@ creator, and a debugging logger:</p>
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="string-syntax">"%08x-%w-%08x"</span><span class="plain-syntax">, </span><span class="identifier-syntax">ve</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">hash</span><span class="plain-syntax">, </span><span class="identifier-syntax">ve</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">raw_exemplar</span><span class="plain-syntax">, </span><span class="identifier-syntax">ve</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">flags</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b> </p>
-
-<blockquote>
-    <p>Former Marillion vocalist Fish derived his nickname not from a fish, but from habitual bathing.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>It's perhaps unexpected that a vocabulary entry not only stores a (pointer
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  It's perhaps unexpected that a vocabulary entry not only stores a (pointer
 to) a copy of the text, the &quot;exemplar&quot; (since it is text which is an
 example of this vocabulary being used), but also a separate raw copy of
 the text: raw in the sense of retaining the original form in the source
@@ -251,6 +243,10 @@ files which the word came from. This looks strange because we normally
 identify words on their case-lowered text, not on their raw text. In
 the source material:</p>
 </div>
+<blockquote>
+    <p>Former Marillion vocalist Fish derived his nickname not from a fish, but from habitual bathing.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>words 4, &quot;Fish&quot;, and 11, &quot;fish&quot;, each have the same vocabulary entry
 as identity, even though their raw texts differ. Clearly the ordinary

@@ -114,18 +114,16 @@ effect as each other.</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b> </p>
-
-<blockquote>
-    <p>A container can be stout, standard or fragile (this is its strength property).</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>From a syntax point of view, such sentences come in two forms -- those which
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  From a syntax point of view, such sentences come in two forms -- those which
 give a range of possible named alternative states, and those which create
 named value properties. We'll take the first of those first.</p>
 <p>We are concerned here with the syntax of sentences like</p>
 </div>
+<blockquote>
+    <p>A container can be stout, standard or fragile (this is its strength property).</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>The subject (in this example, &quot;a container&quot;) is required not to match:</p>
 </div>
@@ -221,8 +219,10 @@ good condition&quot;, not &quot;you can come in on one condition&quot;).</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  And the following parses the object noun phrase of a &quot;can be&quot; sentence,
+which might take forms such as:</p>
+</div>
 <blockquote>
     <p>either speedy or sluggish</p>
 </blockquote>
@@ -239,10 +239,6 @@ good condition&quot;, not &quot;you can come in on one condition&quot;).</p>
     <p>allegro, presto, or adagio (this is its speed property)</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>And the following parses the object noun phrase of a &quot;can be&quot; sentence,
-which might take forms such as:</p>
-</div>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-function-syntax">&lt;can-be-sentence-object&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
 <span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">either</span><span class="Preform-plain-syntax"> </span><span class="Preform-function-syntax">&lt;np-alternative-list&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">(</span><span class="Preform-plain-syntax"> </span><span class="Preform-function-syntax">&lt;condition-name&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">)</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">  </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { TRUE, Node::compose(RP[1], RP[2]) }</span>
@@ -294,15 +290,13 @@ which might take forms such as:</p>
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-npr.html#SP5">&#167;5</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP5_3" class="paragraph-anchor"></a><b>&#167;5.3. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5_3" class="paragraph-anchor"></a><b>&#167;5.3. </b>  This allows for natural sentences such as:</p>
+</div>
 <blockquote>
     <p>An animal can be either alive or dead.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>This allows for natural sentences such as:</p>
-</div>
 <div class="lsmarkdown">
 <p>Here &quot;either&quot; has a slight sense of emphasis, implying the exclusivity of the
 two choices -- the lack of a middle way. That's not useful information for us,
@@ -522,33 +516,31 @@ differently as a result.</p>
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-npr.html#SP5">&#167;5</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP5_9" class="paragraph-anchor"></a><b>&#167;5.9. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5_9" class="paragraph-anchor"></a><b>&#167;5.9. </b>  An interesting anomaly in the language here is that when an either/or
+pair is created, like so:</p>
+</div>
 <blockquote>
     <p>A vehicle can be speedy or sluggish.</p>
 </blockquote>
 
-<blockquote>
-    <p>A vehicle can be fabulously racy.</p>
-</blockquote>
-
-<blockquote>
-    <p>A vehicle can be petrol, diesel, electric or hybrid.</p>
-</blockquote>
-
-<div class="lsmarkdown">
-<p>An interesting anomaly in the language here is that when an either/or
-pair is created, like so:</p>
-</div>
 <div class="lsmarkdown">
 <p>the convention is that the first-named term is the more surprising one,
 so that the default is the second. That seems natural, because if there's
 just one named alternative, like this:</p>
 </div>
+<blockquote>
+    <p>A vehicle can be fabulously racy.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>then the default is for this property not to be had. But when there are
 three or more alternatives, like so:</p>
 </div>
+<blockquote>
+    <p>A vehicle can be petrol, diesel, electric or hybrid.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>the default is the first option -- petrol. This accords with the
 convention that the first-created value for an enumerated kind is always

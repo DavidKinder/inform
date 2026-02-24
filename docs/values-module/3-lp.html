@@ -81,16 +81,14 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="3-lp.html#SP8">&#167;8. Creating patterns, tokens and elements</a></li><li><a href="3-lp.html#SP11">&#167;11. Listing LPs</a></li><li><a href="3-lp.html#SP17">&#167;17. Optional break points</a></li><li><a href="3-lp.html#SP18">&#167;18. Matching an LP in the source text</a></li><li><a href="3-lp.html#SP20">&#167;20. Indexing literal patterns for a given kind</a></li><li><a href="3-lp.html#SP23">&#167;23. Printing values in an LP's notation to the index at compile-time</a></li><li><a href="3-lp.html#SP31">&#167;31. I7 phrases to print values in specified ways</a></li><li><a href="3-lp.html#SP32">&#167;32. I7 phrases to pack and unpack the value</a></li><li><a href="3-lp.html#SP33">&#167;33. The kind's list</a></li><li><a href="3-lp.html#SP37">&#167;37. Corresponding kind sanity checking</a></li><li><a href="3-lp.html#SP38">&#167;38. Literal patterns in Preform</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  Literal patterns (LPs) allow an author to create new notations for
+quasi-numerical kinds of value. For example,</p>
+</div>
 <blockquote>
     <p>16:9 specifies an aspect ratio.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>Literal patterns (LPs) allow an author to create new notations for
-quasi-numerical kinds of value. For example,</p>
-</div>
 <div class="lsmarkdown">
 <p>establishes a new notation for writing literals of the kind &quot;aspect ratios&quot;.</p>
 <p>Each kind of value has a linked list of literal notations which can specify
@@ -155,16 +153,14 @@ tokens -- element, fixed <code>:</code>, element.</p>
 <span class="plain-syntax">} </span><span class="type-syntax">literal_pattern</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>The structure literal_pattern is private to this section.</li></ul>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  There are three sorts of token: character, word and element. Each token can
+be a whole word, or only part of a word. For instance, in</p>
+</div>
 <blockquote>
     <p>28kg net specifies a weight.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>There are three sorts of token: character, word and element. Each token can
-be a whole word, or only part of a word. For instance, in</p>
-</div>
 <div class="lsmarkdown">
 <p>we have a sequence of four tokens: an element token, marked as beginning a
 word; a character token <code>k</code>; a character token <code>g</code>; and a word token <code>net</code>,
@@ -246,24 +242,22 @@ The rightmost element \INWEBMATH(e_{n-1}\INWEBMATH) is the least significant num
 <span class="plain-syntax">} </span><span class="type-syntax">literal_pattern_element_value_pair</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>The structure literal_pattern_element_value_set is private to this section.</li><li>The structure literal_pattern_element_value_pair is private to this section.</li></ul>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  For the sake of printing, we can specify which notation is to be used in
+printing a value back. For instance,</p>
+</div>
 <blockquote>
     <p>1 tonne (in tonnes, singular) specifies a mass scaled up by 1000.</p>
 </blockquote>
 
-<blockquote>
-    <p>2 tonnes (in tonnes, plural) specifies a mass scaled up by 1000.</p>
-</blockquote>
-
-<div class="lsmarkdown">
-<p>For the sake of printing, we can specify which notation is to be used in
-printing a value back. For instance,</p>
-</div>
 <div class="lsmarkdown">
 <p>assigns the name &quot;in tonnes&quot; to this notation for writing a mass. There can
 be several notation associated with &quot;in tonnes&quot;:</p>
 </div>
+<blockquote>
+    <p>2 tonnes (in tonnes, plural) specifies a mass scaled up by 1000.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>and hence the linked list of LPs associated with a single &quot;literal pattern
 name&quot;. Moreover, a given kind of value can support multiple named notations;
@@ -1312,18 +1306,16 @@ set.</p>
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-lp.html#SP27">&#167;27</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP27_3" class="paragraph-anchor"></a><b>&#167;27.3. </b> </p>
-
-<blockquote>
-    <p>3/13 specifies a bar. 2/19 specifies a foo.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>We parse the specification text as if it were a constant value, hoping
+<p class="commentary firstcommentary"><a id="SP27_3" class="paragraph-anchor"></a><b>&#167;27.3. </b>  We parse the specification text as if it were a constant value, hoping
 for the result <code>NULL</code> -- so that it doesn't already mean something else.
 During this process, we waive checking of numerical overflows in matching
 an LP: this is done so that</p>
 </div>
+<blockquote>
+    <p>3/13 specifies a bar. 2/19 specifies a foo.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>reports &quot;2/19&quot; as a duplicate using the following problem message, but
 does not throw a problem message as being a bar which is out of range
@@ -1979,8 +1971,13 @@ are declared.</p>
 <span class="plain-syntax">    </span><span class="identifier-syntax">ImperativeSubtrees::accept_all</span><span class="plain-syntax">();</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP31_1" class="paragraph-anchor"></a><b>&#167;31.1. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP31_1" class="paragraph-anchor"></a><b>&#167;31.1. </b>  These text substitutions correspond exactly neither to the LPs nor to the
+names. For instance, &quot;in tonnes&quot; produces a text substitution which takes
+in both the LP for &quot;1 tonne&quot; and for &quot;2 tonnes&quot;, deciding at run-time
+which to use. And on the other hand, &quot;in metric units&quot; may produce text
+substitutions for many different kinds, distinguished by type-checking:</p>
+</div>
 <blockquote>
     <p>To say (val - mass) in metric units: ...</p>
 </blockquote>
@@ -1989,13 +1986,6 @@ are declared.</p>
     <p>To say (val - length) in metric units: ...</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>These text substitutions correspond exactly neither to the LPs nor to the
-names. For instance, &quot;in tonnes&quot; produces a text substitution which takes
-in both the LP for &quot;1 tonne&quot; and for &quot;2 tonnes&quot;, deciding at run-time
-which to use. And on the other hand, &quot;in metric units&quot; may produce text
-substitutions for many different kinds, distinguished by type-checking:</p>
-</div>
 <div class="lsmarkdown">
 <p>The following creates one text substitution for each different kind among
 the LPs under each named possibility.</p>

@@ -158,16 +158,14 @@ unless the rule is local.</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">R</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">compilation_data</span><span class="plain-syntax">.</span><span class="element-syntax">foreign_iname</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  If the author wants to place applicability constraints on a rule defined in
+a kit, like so:</p>
+</div>
 <blockquote>
     <p>The carrying requirements rule does nothing when eating the lollipop.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>If the author wants to place applicability constraints on a rule defined in
-a kit, like so:</p>
-</div>
 <div class="lsmarkdown">
 <p>then how do we accommodate that? We cannot change the foreign function, so
 instead we route execution through a &quot;shell function&quot; to test those

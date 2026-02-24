@@ -1,5 +1,6 @@
 Title: Navigation page for Inbuild
 Author: Graham Nelson
+Notation: InwebClassic
 
 @ Inbuild is Stage 1 of the core Inform compiler, but can also be run as a
 stand-alone tool. See //structure// for the bigger picture: Inbuild handles

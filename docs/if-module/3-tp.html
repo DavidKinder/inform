@@ -171,23 +171,17 @@ is created in English.)</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">start_room</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4_1" class="paragraph-anchor"></a><b>&#167;4.1. </b> </p>
-
-<blockquote>
-    <p>The top prize is an object that varies. The top prize is in the desk drawer.</p>
-</blockquote>
-
-<blockquote>
-    <p>The player is in the Cage.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>As can be seen, as soon as both &quot;yourself&quot; (object) and &quot;player&quot; (variable)
+<p class="commentary firstcommentary"><a id="SP4_1" class="paragraph-anchor"></a><b>&#167;4.1. </b>  As can be seen, as soon as both &quot;yourself&quot; (object) and &quot;player&quot; (variable)
 have been created, they are aliased together. This is a form of tacit pointer
 dereferencing, though authors probably don't think of it that way. A normal
 object variable is like a pointer to an object, rather than an object itself,
 and so the following doesn't make sense:</p>
 </div>
+<blockquote>
+    <p>The top prize is an object that varies. The top prize is in the desk drawer.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>Clearly something goes in the desk drawer, but it's quite ambiguous what: the
 problem is that &quot;top prize&quot; describes some object, but it's not clear which.
@@ -198,6 +192,10 @@ realise that it's a variable at all -- and most of the time it never changes
 its value, of course, but simply remains equal to &quot;yourself&quot; throughout play.
 So we want to allow this sort of thing:</p>
 </div>
+<blockquote>
+    <p>The player is in the Cage.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>even though it has exactly the same problem as the top prize. We get around
 this by treating &quot;player&quot;, in assertions, as if it were its own initial
@@ -212,15 +210,13 @@ aliasing.</p>
 <span class="plain-syntax">    </span><span class="identifier-syntax">NonlocalVariables::set_alias</span><span class="plain-syntax">(</span><span class="identifier-syntax">player_VAR</span><span class="plain-syntax">, </span><span class="identifier-syntax">subj</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-tp.html#SP4">&#167;4</a> and <a href="3-tp.html#SP7">&#167;7</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>  We also, though, want to look out for this sort of thing:</p>
+</div>
 <blockquote>
     <p>The player is Lord Collingwood.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>We also, though, want to look out for this sort of thing:</p>
-</div>
 <div class="lsmarkdown">
 <p>because an assertion like this causes <code>player_character_object</code> to diverge from
 <code>I_yourself</code>; here of course it becomes the Lord Collingwood object.</p>
@@ -237,14 +233,8 @@ aliasing.</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b> </p>
-
-<blockquote>
-    <p>The player is Lord Collingwood. The player carries a spyglass.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>But it gets worse: as well as aliasing, there is bodysnatching. Our problem
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>  But it gets worse: as well as aliasing, there is bodysnatching. Our problem
 is that once the author has written &quot;The player is Lord Collingwood.&quot;, it's
 clear that the &quot;yourself&quot; object shouldn't appear anywhere. But there are
 two problems with that: one, the I6 template code needs it to exist, even if
@@ -253,6 +243,10 @@ it isn't in the model world; and two, we've just aliased &quot;player&quot; to i
 another (the &quot;victim&quot;), so that inferences made about the victim are diverted
 to the snatcher. Thus if the source text reads:</p>
 </div>
+<blockquote>
+    <p>The player is Lord Collingwood. The player carries a spyglass.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>the second sentence goes through two transformations: first, because of
 aliasing, Inform decides to draw an inference about &quot;yourself&quot;, rather

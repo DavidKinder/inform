@@ -61,12 +61,21 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="3-lvs.html#SP1">&#167;1. Four varieties</a></li><li><a href="3-lvs.html#SP2">&#167;2. Like register allocation</a></li><li><a href="3-lvs.html#SP6">&#167;6. Slates</a></li><li><a href="3-lvs.html#SP11">&#167;11. Allocating</a></li><li><a href="3-lvs.html#SP13">&#167;13. Deallocating</a></li><li><a href="3-lvs.html#SP18">&#167;18. Declaration</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Four varieties.</b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Four varieties.</b>  Each stack frame has its own &quot;slate&quot; of local variables, and there are four
+varieties of these. For example, in the definition &quot;...&quot; of:</p>
+</div>
 <blockquote>
     <p>To attract (ferrous item - a thing) with (magnet - a thing), uninsulated: ...</p>
 </blockquote>
 
+<div class="lsmarkdown">
+<p>two locals are &quot;ferrous item&quot; and &quot;magnet&quot;, of type <code>TOKEN_CALL_PARAMETER_LV</code>.
+The presence of &quot;, uninsulated&quot; means that another local is &quot;phrase options&quot;,
+of type <code>OTHER_CALL_PARAMETER_LV</code>, because the bitmap of options chosen is
+passed as an additional call parameter when the phrase is invoked.</p>
+<p>Within the definition, we might have:</p>
+</div>
 <blockquote>
     <p>let Q be the electrical charge;</p>
 </blockquote>
@@ -75,17 +84,6 @@ function togglePopup(material_id) {
     <p>repeat with the item running through things: say "The needle flickers over [the item]."</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>Each stack frame has its own &quot;slate&quot; of local variables, and there are four
-varieties of these. For example, in the definition &quot;...&quot; of:</p>
-</div>
-<div class="lsmarkdown">
-<p>two locals are &quot;ferrous item&quot; and &quot;magnet&quot;, of type <code>TOKEN_CALL_PARAMETER_LV</code>.
-The presence of &quot;, uninsulated&quot; means that another local is &quot;phrase options&quot;,
-of type <code>OTHER_CALL_PARAMETER_LV</code>, because the bitmap of options chosen is
-passed as an additional call parameter when the phrase is invoked.</p>
-<p>Within the definition, we might have:</p>
-</div>
 <div class="lsmarkdown">
 <p>Here &quot;Q&quot; and &quot;item&quot; are both <code>LET_VALUE_LV</code> variables, but whereas &quot;Q&quot; exists
 all through the phrase, &quot;item&quot; exists only inside its own repeat loop: this

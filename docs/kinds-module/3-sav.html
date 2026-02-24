@@ -80,19 +80,17 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="3-sav.html#SP1">&#167;1. Scaling</a></li><li><a href="3-sav.html#SP6">&#167;6. Scaling transformations</a></li><li><a href="3-sav.html#SP10">&#167;10. Logging</a></li><li><a href="3-sav.html#SP11">&#167;11. Definition</a></li><li><a href="3-sav.html#SP14">&#167;14. Enlarging and contracting</a></li><li><a href="3-sav.html#SP15">&#167;15. Using scalings</a></li><li><a href="3-sav.html#SP18">&#167;18. Scaled arithmetic at compile-time</a></li><li><a href="3-sav.html#SP21">&#167;21. Scaled arithmetic at run-time</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Scaling.</b> </p>
-
-<blockquote>
-    <p>Force is a kind of value. 1N specifies a force scaled up by 1000.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>Quasinumerical kinds are sometimes stored using scaled, fixed-point
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Scaling.</b>  Quasinumerical kinds are sometimes stored using scaled, fixed-point
 arithmetic. In general for each named unit \INWEBMATH(U\INWEBMATH) (fundamental or derived) there
 is a positive integer \INWEBMATH(k_U\INWEBMATH) such that the true value \INWEBMATH(v\INWEBMATH) is stored at run-time
 as the I6 integer \INWEBMATH(k_U v\INWEBMATH). We call this the scaled value.</p>
 <p>For example, if the text reads:</p>
 </div>
+<blockquote>
+    <p>Force is a kind of value. 1N specifies a force scaled up by 1000.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>then \INWEBMATH(k = 1000\INWEBMATH) and the value 1N will be stored at run-time as <code>1000</code>;
 forces can thus be calculated to a true value accuracy of at best 0.001N,
@@ -460,17 +458,15 @@ to increase the <code>M</code> values of everything else in the list.</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">rescale_the_others_by_this</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP13_1" class="paragraph-anchor"></a><b>&#167;13.1. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP13_1" class="paragraph-anchor"></a><b>&#167;13.1. </b>  This is the easy case -- there's no list yet, and no benchmark yet. The <code>M</code>
+value will usually therefore be 1, unless the source text explicitly asked
+for it to be something else:</p>
+</div>
 <blockquote>
     <p>1m specifies a length scaled at 10000.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>This is the easy case -- there's no list yet, and no benchmark yet. The <code>M</code>
-value will usually therefore be 1, unless the source text explicitly asked
-for it to be something else:</p>
-</div>
 <div class="lsmarkdown">
 <p>in which case, of course, <code>M</code> is 10000. Since there's no benchmark yet, it
 must be a problem message if the unit is defined scaled up or down from the
@@ -508,15 +504,13 @@ scalings (metric units such as mm, km, etc.) already have their <code>M</code> v
 <span class="plain-syntax">        </span><span class="named-paragraph-container code-font"><a href="3-sav.html#SP13_2_2" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Calculate the multiplier for the LP relative to the benchmark</span></span><span class="named-paragraph-number">13.2.2</span></a></span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-sav.html#SP13">&#167;13</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP13_2_1" class="paragraph-anchor"></a><b>&#167;13.2.1. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP13_2_1" class="paragraph-anchor"></a><b>&#167;13.2.1. </b>  An equivalent unit exactly specifies its <code>M</code>-value. For example:</p>
+</div>
 <blockquote>
     <p>1 pencil specifies a length equivalent to 18cm.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>An equivalent unit exactly specifies its <code>M</code>-value. For example:</p>
-</div>
 <div class="lsmarkdown">
 <p>What happens here is that &quot;18cm&quot; is parsed and turned not into 18, but into
 the &quot;1 cm&quot; scaling applied to 18, and that's the value in our scalar,

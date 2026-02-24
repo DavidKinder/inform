@@ -711,17 +711,15 @@ it binds.)</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">NP_prop</span><span class="plain-syntax">) *</span><span class="identifier-syntax">subject_of_NP</span><span class="plain-syntax"> = </span><a href="4-prp.html#SP28" class="function-link"><span class="function-syntax">Propositions::get_first_cited_term</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">NP_prop</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-sc.html#SP9">&#167;9</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP9_5" class="paragraph-anchor"></a><b>&#167;9.5. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9_5" class="paragraph-anchor"></a><b>&#167;9.5. </b>  When Inform reads a condition so abbreviated that both the subject and
+the verb have been left out, it assumes the verb is &quot;to be&quot; and that the
+subject will be whatever is being worked on. For instance,</p>
+</div>
 <blockquote>
     <p>if an unlocked container, ...</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>When Inform reads a condition so abbreviated that both the subject and
-the verb have been left out, it assumes the verb is &quot;to be&quot; and that the
-subject will be whatever is being worked on. For instance,</p>
-</div>
 <div class="lsmarkdown">
 <p>is read as the verb phrase &quot;is&quot; with <code>ABSENT_SUBJECT_NT</code> as SP
 and &quot;an unlocked container&quot; as OP.</p>

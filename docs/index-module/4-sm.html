@@ -288,14 +288,8 @@ given exit to be locked in place, forbidding it to be distorted.</p>
 <span class="plain-syntax">    </span><span class="identifier-syntax">F</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">fimd</span><span class="plain-syntax">.</span><span class="element-syntax">lock_exits</span><span class="plain-syntax">[</span><span class="identifier-syntax">exit</span><span class="plain-syntax">] = </span><span class="identifier-syntax">T</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. Page directions.</b> </p>
-
-<blockquote>
-    <p>Index map with starboard mapped as east.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>These are any of the 12 standard IF directions (N, NE, NW, S, SE, SW, E, W,
+<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. Page directions.</b>  These are any of the 12 standard IF directions (N, NE, NW, S, SE, SW, E, W,
 U, D, IN, OUT), and are indexed with an number between 0 and 11 inclusive.
 These are so called because they refer to directions on the page on which
 the map will be plotted -- the page direction 6 really means rightwards, not
@@ -308,6 +302,10 @@ won't be shown on the index at all. The initial setup is for the 12 standard
 story directions to correspond exactly to the 12 page directions.</p>
 <p>If we want to show one of the exotic directions, we can use a sentence like:</p>
 </div>
+<blockquote>
+    <p>Index map with starboard mapped as east.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>When we read this, we associate direction object 13, say (the starboard
 direction) with page direction 6:</p>
@@ -617,15 +615,13 @@ position the rooms.)</p>
 <span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="4-sm.html#SP8_1_1_4" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Treat a 1-way connection as 2-way if there are no 2-way connections already</span></span><span class="named-paragraph-number">8.1.1.4</span></a></span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="4-sm.html#SP8_1">&#167;8.1</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP8_1_1_1" class="paragraph-anchor"></a><b>&#167;8.1.1.1. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8_1_1_1" class="paragraph-anchor"></a><b>&#167;8.1.1.1. </b>  What we're looking for here is a configuration like:</p>
+</div>
 <blockquote>
     <p>Alpha is east of Beta. Beta is south of Alpha.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>What we're looking for here is a configuration like:</p>
-</div>
 <div class="lsmarkdown">
 <p>This in fact sets up four connections: A is both S and W of B, and B is both
 N and E of A. A reasonable interpretation is that A lies SW of B, and so we
@@ -1459,14 +1455,8 @@ dividing at one relationship F1-to-T1 or at two, F1-to-T1 and F2-to-T2.</p>
 <span class="plain-syntax">    </span><a href="4-sm.html#SP33" class="function-link"><span class="function-syntax">SpatialMap::destroy_submap</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">Zone2</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="4-sm.html#SP47_1">&#167;47.1</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP47_1_4" class="paragraph-anchor"></a><b>&#167;47.1.4. </b> </p>
-
-<blockquote>
-    <p>X is west of Y. X1 is northeast of X. X2 is northeast of X. Y1 is northwest of Y. Y2 is northwest of Y1.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>The zone-1 rooms are now correctly placed with respect to each other, and
+<p class="commentary firstcommentary"><a id="SP47_1_4" class="paragraph-anchor"></a><b>&#167;47.1.4. </b>  The zone-1 rooms are now correctly placed with respect to each other, and
 vice versa, but we might have a horrendous breakage where the two sets of
 rooms meet. We need to rejoin them, and we do this by stretching the
 F1-to-T1 line segment to that length which minimises the total heat of
@@ -1474,6 +1464,10 @@ the submap. For a single cut, this is clearly the smallest length such
 that there's no collision between old zone-1 and old zone-2 rooms.</p>
 <p>The worst case is a configuration like so:</p>
 </div>
+<blockquote>
+    <p>X is west of Y. X1 is northeast of X. X2 is northeast of X. Y1 is northwest of Y. Y2 is northwest of Y1.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>We've cut between X and Y. To give clearance so that X2 and Y2 do not collide,
 the new length X to Y needs to be 5.</p>
@@ -2148,14 +2142,8 @@ can only be cooled once in a given round.</p>
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="4-sm.html#SP56">&#167;56</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP56_2" class="paragraph-anchor"></a><b>&#167;56.2. </b> </p>
-
-<blockquote>
-    <p>The Exalted Throne is above the Ziggurat. [...] South from the Throne is the Ziggurat.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>An important point here is that we don't re-measure the heat of the exits
+<p class="commentary firstcommentary"><a id="SP56_2" class="paragraph-anchor"></a><b>&#167;56.2. </b>  An important point here is that we don't re-measure the heat of the exits
 after cooling. If we did, we might find that cooling is having no effect, and
 then lock up. We're simply trying to deal with the heat as it looked at the
 start of the process; this means there are at most 12 iterations.</p>
@@ -2163,6 +2151,10 @@ start of the process; this means there are at most 12 iterations.</p>
 to cope better with cases where there are two different exits from R to S.
 This frequently happens in IF maps:</p>
 </div>
+<blockquote>
+    <p>The Exalted Throne is above the Ziggurat. [...] South from the Throne is the Ziggurat.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>Now there are two exits from Z to E: up and north. They cannot simultaneously
 be cooled. The rule we follow is that we never cool an exit if another exit

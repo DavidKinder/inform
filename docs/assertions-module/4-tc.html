@@ -62,20 +62,18 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="4-tc.html#SP1">&#167;1. Creations to match unrecognised names</a></li><li><a href="4-tc.html#SP4">&#167;4. Acting on creations</a></li><li><a href="4-tc.html#SP8">&#167;8. Creations to instantiate</a></li><li><a href="4-tc.html#SP12">&#167;12. The natural language kind</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Creations to match unrecognised names.</b> </p>
-
-<blockquote>
-    <p>Fifi is in the wicker basket.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>The model contains objects, their properties and their relationships, and
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Creations to match unrecognised names.</b>  The model contains objects, their properties and their relationships, and
 this section is where all of the objects are created -- not only world
 objects (like rooms and people) but also named values.</p>
 <p>The model world is initially empty. It grows gradually as sentences are
 read in, or to be more accurate as they are traversed in the first major
 pass through assertions. For example, we reach:</p>
 </div>
+<blockquote>
+    <p>Fifi is in the wicker basket.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>The two sides of the assertion are, respectively, <code>px</code>:</p>
 </div>
@@ -127,17 +125,15 @@ room.&quot;</p>
 <span class="plain-syntax">    </span><a href="4-tc.html#SP4" class="function-link"><span class="function-syntax">Assertions::Creator::noun_creator</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">py</span><span class="plain-syntax">, </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">, </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="4-tc.html#SP1">&#167;1</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP1_2" class="paragraph-anchor"></a><b>&#167;1.2. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1_2" class="paragraph-anchor"></a><b>&#167;1.2. </b>  More generally we need to work out what <code>px</code> tells us about creations in <code>py</code>,
+and vice versa. In particular, in terms of the kind of value involved. For
+example:</p>
+</div>
 <blockquote>
     <p>A man is in the Dining Room. Red is a colour.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>More generally we need to work out what <code>px</code> tells us about creations in <code>py</code>,
-and vice versa. In particular, in terms of the kind of value involved. For
-example:</p>
-</div>
 <div class="lsmarkdown">
 <p>In each case <code>px</code> describes something which will need to be created, but <code>py</code>
 tells us what kind it has: a colour in the second sentence here, but an object
@@ -157,21 +153,15 @@ in <code>py</code>, which (if it exists) we'll call its &quot;governing node&quo
 <span class="plain-syntax">    </span><a href="4-tc.html#SP4" class="function-link"><span class="function-syntax">Assertions::Creator::noun_creator</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">py</span><span class="plain-syntax">, </span><span class="identifier-syntax">kindx</span><span class="plain-syntax">, </span><span class="identifier-syntax">govx</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="4-tc.html#SP1">&#167;1</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP1_2_1" class="paragraph-anchor"></a><b>&#167;1.2.1. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1_2_1" class="paragraph-anchor"></a><b>&#167;1.2.1. </b>  There are two ways to know the kind being expressed. One is that the sentence
+makes unambiguous use of a relation which forces the kinds on each side. For
+example,</p>
+</div>
 <blockquote>
     <p>The ball is on the box.</p>
 </blockquote>
 
-<blockquote>
-    <p>Green is a colour.</p>
-</blockquote>
-
-<div class="lsmarkdown">
-<p>There are two ways to know the kind being expressed. One is that the sentence
-makes unambiguous use of a relation which forces the kinds on each side. For
-example,</p>
-</div>
 <div class="lsmarkdown">
 <p>uses the binary predicate supports, which requires its terms to be
 objects. (In fact it requires them to be a thing and a supporter, but we
@@ -185,6 +175,10 @@ ambiguity between direct and indirect containment, it does not force the
 kind of its second term. So we do so on its behalf.</p>
 <p>The other way to find the kinds is to look at what the two sides explicitly say:</p>
 </div>
+<blockquote>
+    <p>Green is a colour.</p>
+</blockquote>
+
 <p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Work out the kinds of value expressed by each side, and find their governing nodes</span><span class="named-paragraph-number">1.2.1</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
@@ -310,20 +304,18 @@ in the node's subject, so this case is easy.</p>
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="4-tc.html#SP3">&#167;3</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Acting on creations.</b> </p>
-
-<blockquote>
-    <p>[1] Miss Bianca is an animal. [2] Miss Bianca is a number that varies.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>Building and refining the parse tree was a compositional process, in a linguistic
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Acting on creations.</b>  Building and refining the parse tree was a compositional process, in a linguistic
 sense: what you do at any given position depends only on the current phrase and
 its contents, or equivalently, on the current node and its children.</p>
 <p>The creator is not compositional. What it does to the phrase &quot;Miss Bianca&quot;,
 words with no meaning as yet, depends on the rest of the sentence, as these
 two alternatives show:</p>
 </div>
+<blockquote>
+    <p>[1] Miss Bianca is an animal. [2] Miss Bianca is a number that varies.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>Nevertheless, the code has been structured to minimise the extent to which
 information moves across the tree rather than upwards. When <code>Assertions::Creator::noun_creator</code>
@@ -360,27 +352,25 @@ both of which are excised and replaced with <code>COMMON_NOUN_NT</code> or
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="4-tc.html#SP4">&#167;4</a> (twice) and <a href="4-tc.html#SP8">&#167;8</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP4_2" class="paragraph-anchor"></a><b>&#167;4.2. </b> </p>
-
-<blockquote>
-    <p>There is a recurring scene called Expedited Banana Shipment.</p>
-</blockquote>
-
-<blockquote>
-    <p>A man called Peter is in the Dining Room.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>CALLED nodes allow a much more generous range of names to be used -- that's
+<p class="commentary firstcommentary"><a id="SP4_2" class="paragraph-anchor"></a><b>&#167;4.2. </b>  CALLED nodes allow a much more generous range of names to be used -- that's
 the whole point of them. Really they contain the whole language in miniature,
 because a &quot;called&quot; clause can specify not only the name but also its kind,
 some properties which it has, and so forth. For example:</p>
 </div>
+<blockquote>
+    <p>There is a recurring scene called Expedited Banana Shipment.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>Thus the CALLED subtree sometimes has &quot;local&quot; information about what to
 make which overrides any information coming down from the tree above. This
 is important for sentences like:</p>
 </div>
+<blockquote>
+    <p>A man called Peter is in the Dining Room.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>The tree above mandates that a creation in &quot;A man called Peter&quot; has to be
 an object, but we know locally that Peter must further have the kind &quot;man&quot;.</p>
@@ -428,16 +418,14 @@ or adjectives specified in the <code>what_to_make_node</code> side.</p>
 <span class="plain-syntax">        </span><a href="4-pk.html#SP2" class="function-link"><span class="function-syntax">Assertions::PropertyKnowledge::assert_property_list</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">p</span><span class="plain-syntax">, </span><span class="identifier-syntax">what_to_make_node</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">down</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">next</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="4-tc.html#SP4_2">&#167;4.2</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP4_2_2" class="paragraph-anchor"></a><b>&#167;4.2.2. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4_2_2" class="paragraph-anchor"></a><b>&#167;4.2.2. </b>  Ordinarily the use of the definite article doesn't tell us much, but
+consider the following two sentences:</p>
+</div>
 <blockquote>
     <p>There is a man called the Assessor. There is a man called Eric Eve.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>Ordinarily the use of the definite article doesn't tell us much, but
-consider the following two sentences:</p>
-</div>
 <div class="lsmarkdown">
 <p>Clearly &quot;Eric Eve&quot; is a proper name, but &quot;Assessor&quot; is not; the use of
 &quot;the&quot; here was significant. (We only allow proper names for objects, which
@@ -697,24 +685,18 @@ it handles crashes correctly.</p>
 <span class="plain-syntax">        </span><span class="string-syntax">"else."</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="4-tc.html#SP6">&#167;6</a> (12 times).</li></ul>
-<p class="commentary firstcommentary"><a id="SP4_3_1" class="paragraph-anchor"></a><b>&#167;4.3.1. </b> </p>
-
-<blockquote>
-    <p>Malcolm believes Malcolm.</p>
-</blockquote>
-
-<blockquote>
-    <p>Malcolm X believes Malcolm.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>At this point we do something that might look odd: we check to see if the
+<p class="commentary firstcommentary"><a id="SP4_3_1" class="paragraph-anchor"></a><b>&#167;4.3.1. </b>  At this point we do something that might look odd: we check to see if the
 text of the <code>CREATED_NT</code> node is the name of an object already. That seems
 pointless, since <code>CREATED_NT</code> nodes are only made when a name is meaningless.
 But that was a little while ago, before we started to make creations within
 the current sentence.</p>
 <p>This all hangs on the interpretation of sentences like so:</p>
 </div>
+<blockquote>
+    <p>Malcolm believes Malcolm.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>which make the first mentions of &quot;Malcolm&quot;. These are both <code>CREATED_NT</code>
 nodes; the first causes &quot;Malcolm&quot; to be created; and then, when we reach
@@ -723,6 +705,10 @@ need to make a second creation. The two Malcolms are, in fact, references
 to the same object.</p>
 <p>We do insist, however, on the names being given in exactly the same form.</p>
 </div>
+<blockquote>
+    <p>Malcolm X believes Malcolm.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>creates two different objects with different names, even though references
 to abbreviated forms of object names are normally allowed.</p>
@@ -996,16 +982,14 @@ if nothing has already been said:</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Creations to instantiate.</b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Creations to instantiate.</b>  The <code>COMMON_NOUN_NT</code> node sometimes means to talk about things in general,
+sometimes things in particular; consider the two sentences</p>
+</div>
 <blockquote>
     <p>A container is usually open. A container is in the Box Room.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>The <code>COMMON_NOUN_NT</code> node sometimes means to talk about things in general,
-sometimes things in particular; consider the two sentences</p>
-</div>
 <div class="lsmarkdown">
 <p>We cannot easily differentiate these meanings. We will only be able to do so
 by looking carefully at what the assertion does; studying the two sides of the

@@ -108,19 +108,17 @@ is essential, allowing authors to specify how releases are made.</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Episode sentences.</b> </p>
-
-<blockquote>
-    <p>This is episode 2 of "When in Rome".</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>Episode sentences do nothing other than to fill in two pieces of rarely-used
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. Episode sentences.</b>  Episode sentences do nothing other than to fill in two pieces of rarely-used
 bibliographic data (which could just as easily be variables). But two of the
 larger worked examples we were trying Inform out on, in the early days,
 belonged to a sequence called &quot;When in Rome&quot;. So it didn't seem such an
 obscure request at the time.</p>
 </div>
+<blockquote>
+    <p>This is episode 2 of "When in Rome".</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>This handles the special meaning &quot;The story is episode...&quot;.</p>
 </div>
@@ -570,16 +568,14 @@ otherwise it's much the same.</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-bd.html#SP12">&#167;12</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP12_4" class="paragraph-anchor"></a><b>&#167;12.4. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP12_4" class="paragraph-anchor"></a><b>&#167;12.4. </b>  This code is used to work out a good filename for something given a name
+inside Inform. For instance, if a project is called</p>
+</div>
 <blockquote>
     <p>"St. Bartholemew's Fair: Etude for a Push-Me/Pull-You Machine"</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>This code is used to work out a good filename for something given a name
-inside Inform. For instance, if a project is called</p>
-</div>
 <div class="lsmarkdown">
 <p>then what would be a good filename for its released story file?</p>
 <p>In the filename version we must forcibly truncate the text to ensure

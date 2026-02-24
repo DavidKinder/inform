@@ -1,5 +1,6 @@
 Title: Navigation page for Inform7
 Author: Graham Nelson
+Notation: InwebClassic
 
 @ The inform7 tool is the active part of the Inform apps familiar to end users,
 but it can also be run as a command-line tool outside of the app. See the

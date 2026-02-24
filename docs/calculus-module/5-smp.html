@@ -139,18 +139,8 @@ is quite what it seems / I say nothing is nothing.&quot;<a href="#fnref:1" title
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">prop</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b> </p>
-
-<blockquote>
-    <p>[1] the box does not contain nothing</p>
-</blockquote>
-
-<blockquote>
-    <p>[2] nothing does not annoy Peter</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>Formally, if \INWEBMATH(B\INWEBMATH) is a predicate other than equality, and \INWEBMATH(N\INWEBMATH) is the &quot;nothing&quot; constant,
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  Formally, if \INWEBMATH(B\INWEBMATH) is a predicate other than equality, and \INWEBMATH(N\INWEBMATH) is the &quot;nothing&quot; constant,
 $$ \Sigma = \cdots B(t, f_X(f_Y(\cdots(N))))\cdots \quad \longrightarrow \quad \Sigma' = \cdots \not\exists v\in\lbrace v\mid K_1(v)\rbrace: B(t, f_X(f_Y(\cdots(v))))\cdots $$
 where \INWEBMATH(v\INWEBMATH) is unused in \INWEBMATH(\Sigma\INWEBMATH), and -- note the difference in placing --
 $$ \Sigma = \cdots B(f_X(f_Y(\cdots(N))), t)\cdots \quad \longrightarrow \quad \Sigma' = \not\exists v\in\lbrace v\mid K_2(v)\rbrace: \cdots B(f_X(f_Y(\cdots(v))), t)\cdots $$
@@ -158,6 +148,10 @@ where \INWEBMATH(K_1\INWEBMATH) and \INWEBMATH(K_2\INWEBMATH) are the kinds of t
 <p>The difference in where we place the quantifier is important in double-negative
 sentences. Consider these:</p>
 </div>
+<blockquote>
+    <p>[1] the box does not contain nothing</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>which produces \INWEBMATH(\Sigma = \lnot({\it contains}(B, N))\INWEBMATH). Here,
 <code>nothing</code> is part of the object phrase, not the subject phrase, and we need
@@ -168,6 +162,10 @@ although later simplification converts that to \INWEBMATH(\exists x: {\it contai
 just as if the original sentence had been &quot;the box contains something&quot;.
 On the other hand,</p>
 </div>
+<blockquote>
+    <p>[2] nothing does not annoy Peter</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>produces \INWEBMATH(\Sigma = \lnot({\it annoys}(N, P))\INWEBMATH), and now we have
 to quantify as \INWEBMATH(\Sigma' = \not\exists x: \lnot({\it annoys}(x, P))\INWEBMATH).</p>
@@ -202,19 +200,13 @@ are always saying &quot;not for nothing, but...&quot; to mean &quot;it's nothing
 <span class="plain-syntax">        </span><a href="4-ap.html#SP6" class="function-link"><span class="function-syntax">Atoms::QUANTIFIER_new</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">not_exists_quantifier</span><span class="plain-syntax">, </span><span class="identifier-syntax">nv</span><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">));</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-smp.html#SP2">&#167;2</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Use listed-in predicates (deduction).</b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. Use listed-in predicates (deduction).</b>  Suppose the source text reads:</p>
+</div>
 <blockquote>
     <p>if X is a density listed in the Table of Solid Stuff, ...</p>
 </blockquote>
 
-<blockquote>
-    <p>if a crispiness listed in the Table of Salad Stuff is a density listed in the Table of Solid Stuff, ...</p>
-</blockquote>
-
-<div class="lsmarkdown">
-<p>Suppose the source text reads:</p>
-</div>
 <div class="lsmarkdown">
 <p>Inform parses &quot;a density listed in the Table of Solid Stuff&quot; as a single
 specification, with references to the density column and the Solid Stuff
@@ -239,6 +231,10 @@ of the terms of \INWEBMATH(P\INWEBMATH).</p>
 <p>Note that this can act twice on the same predicate, if such terms occur
 twice. For example,</p>
 </div>
+<blockquote>
+    <p>if a crispiness listed in the Table of Salad Stuff is a density listed in the Table of Solid Stuff, ...</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>generates \INWEBMATH({\it is}(L(C_1, T_1), L(C_2, T_2))\INWEBMATH). As it happens, Inform can't
 compile this efficiently and will produce a problem message to say so, but
@@ -1085,16 +1081,14 @@ accordingly.</p>
 <span class="plain-syntax">}</span>
 <span class="plain-syntax">#</span><span class="identifier-syntax">endif</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. Eliminate to have meaning property ownership (fudge).</b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. Eliminate to have meaning property ownership (fudge).</b>  The verb &quot;to have&quot; normally means ownership of a physical thing, but it
+can also arise from text such as</p>
+</div>
 <blockquote>
     <p>the balloon has weight at most 1</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>The verb &quot;to have&quot; normally means ownership of a physical thing, but it
-can also arise from text such as</p>
-</div>
 <div class="lsmarkdown">
 <p>where it's the numerical &quot;weight&quot; property which is owned by the balloon.
 At this stage of simplification, the above has produced
@@ -1186,18 +1180,16 @@ changes made.</p>
 <span class="plain-syntax">}</span>
 <span class="plain-syntax">#</span><span class="identifier-syntax">endif</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP19" class="paragraph-anchor"></a><b>&#167;19. Turn all rooms to everywhere (fudge).</b> </p>
-
-<blockquote>
-    <p>The sky is everywhere.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>This rather special rule handles the consequences of the English word
+<p class="commentary firstcommentary"><a id="SP19" class="paragraph-anchor"></a><b>&#167;19. Turn all rooms to everywhere (fudge).</b>  This rather special rule handles the consequences of the English word
 &quot;everywhere&quot;. Inform reads that as &quot;all rooms&quot;, literally &quot;every where&quot;,
 which is logical but loses the connotation of place -- by &quot;everywhere&quot;, we
 usually mean &quot;in all rooms&quot;, so that the sentence</p>
 </div>
+<blockquote>
+    <p>The sky is everywhere.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>means the sky is in every room, not that the sky is equal to every room.
 Since the literal reading would make no useful sense, Inform fudges the

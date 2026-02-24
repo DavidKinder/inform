@@ -244,24 +244,22 @@ objects, which are really just unions of being a text in quotes or a property na
 <span class="plain-syntax">        </span><span class="string-syntax">"describing a container.'"</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-us.html#SP6">&#167;6</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Object phrases I: Understand explicit grammar.</b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Object phrases I: Understand explicit grammar.</b>  We use three different Preform grammars to parse the object phrase depending on
+the form of the sentence, and this is the commonest, shared by the
+<code>GRAMMAR_UNDERSTAND_FORM</code> and <code>NOTHING_UNDERSTAND_FORM</code>. It handles sentences like:</p>
+</div>
 <blockquote>
     <p>Understand "take [something]" as taking.</p>
 </blockquote>
 
+<div class="lsmarkdown">
+<p>It's not widely known, but the object phrase here can be a list:</p>
+</div>
 <blockquote>
     <p>Understand "broken" as the pot, the shovel or the contract.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>We use three different Preform grammars to parse the object phrase depending on
-the form of the sentence, and this is the commonest, shared by the
-<code>GRAMMAR_UNDERSTAND_FORM</code> and <code>NOTHING_UNDERSTAND_FORM</code>. It handles sentences like:</p>
-</div>
-<div class="lsmarkdown">
-<p>It's not widely known, but the object phrase here can be a list:</p>
-</div>
 <div class="lsmarkdown">
 <p>The nonterminal &lt;understand-sentence-op&gt; returns <code>TRUE</code> or <code>FALSE</code> in its
 integer return value according to whether a when condition is supplied, or not.
@@ -497,15 +495,13 @@ integer result is 0 if no problems were thrown, or -1 if they were.</p>
 <span class="plain-syntax">        </span><span class="string-syntax">"is not allowed - it does not say which number."</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. Object phrases II: Understand the command.</b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. Object phrases II: Understand the command.</b>  The second form of the sentence has an object phrase like so:</p>
+</div>
 <blockquote>
     <p>Understand the command "snatch" as "take".</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>The second form of the sentence has an object phrase like so:</p>
-</div>
 <div class="lsmarkdown">
 <p>Here the grammar is very simple, and the object can't be a list.</p>
 </div>
@@ -548,15 +544,13 @@ integer result is 0 if no problems were thrown, or -1 if they were.</p>
 <span class="plain-syntax">        </span><span class="string-syntax">"a specific grammar for what can be said using the STEAL command.)"</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-us.html#SP12_2">&#167;12.2</a> and <a href="5-us.html#SP15_3">&#167;15.3</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. Object phrases III: Understand the property.</b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. Object phrases III: Understand the property.</b>  The third and final form of the sentence has an object phrase like so:</p>
+</div>
 <blockquote>
     <p>Understand the unbroken property as describing the pot.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>The third and final form of the sentence has an object phrase like so:</p>
-</div>
 <div class="lsmarkdown">
 <p>Once again, the object can't be a list.</p>
 </div>
@@ -829,17 +823,15 @@ it, one at a time, by previous Understand sentences.</p>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP18" class="paragraph-anchor"></a><b>&#167;18. The other way quoted grammar arises.</b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP18" class="paragraph-anchor"></a><b>&#167;18. The other way quoted grammar arises.</b>  This section is primarily about Understand sentences, but Inform also receives
+grammar in some other contexts, such as in a table where one column contains
+conversation topics to be matched, or in the condition:</p>
+</div>
 <blockquote>
     <p>if the player's command matches "room [number]", ...</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>This section is primarily about Understand sentences, but Inform also receives
-grammar in some other contexts, such as in a table where one column contains
-conversation topics to be matched, or in the condition:</p>
-</div>
 <div class="lsmarkdown">
 <p>The quoted text here becomes a constant of the kind <code>K_understanding</code>, and
 when it needs to be compiled, the following function is called. As can be

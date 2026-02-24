@@ -985,18 +985,16 @@ multiple solutions. See test case <code>CountInnerExistential</code>.</p>
 <span class="plain-syntax">        </span><span class="identifier-syntax">EmitCode::inv</span><span class="plain-syntax">(</span><span class="identifier-syntax">BREAK_BIP</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="4-cdp.html#SP3_6_1_1_4">&#167;3.6.1.1.4</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP3_6_1_1_2_8" class="paragraph-anchor"></a><b>&#167;3.6.1.1.2.8. The C-stack.</b> </p>
-
-<blockquote>
-    <p>if a person (called the dupe) is in a dark room (called the lair), ...</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>When a CALLED atom in the proposition gives a name to a variable, we have to
+<p class="commentary firstcommentary"><a id="SP3_6_1_1_2_8" class="paragraph-anchor"></a><b>&#167;3.6.1.1.2.8. The C-stack.</b>  When a CALLED atom in the proposition gives a name to a variable, we have to
 transcribe that to the stash of callings for the benefit of the code
 calling this proposition function. Each time we discover that a term \INWEBMATH(t\INWEBMATH) is
 to be given a name, we stack it up. These are not always variables:</p>
 </div>
+<blockquote>
+    <p>if a person (called the dupe) is in a dark room (called the lair), ...</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>gives names to \INWEBMATH(x\INWEBMATH) (&quot;dupe&quot;) and \INWEBMATH(f_{\it in}(x)\INWEBMATH) (&quot;lair&quot;), because
 simplification has eliminated the variable \INWEBMATH(y\INWEBMATH) which appears to be being
@@ -1011,14 +1009,8 @@ given a name.</p>
 <span class="plain-syntax">    </span><span class="identifier-syntax">C_sp</span><span class="plain-syntax">++;</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="4-cdp.html#SP3_6_1_1_2">&#167;3.6.1.1.2</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP3_6_1_1_5" class="paragraph-anchor"></a><b>&#167;3.6.1.1.5. </b> </p>
-
-<blockquote>
-    <p>if a person (called the dupe) is in a lighted room which is adjacent to exactly one dark room (called the lair), ...</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>When does the compiled search code record values into the stash of callings?
+<p class="commentary firstcommentary"><a id="SP3_6_1_1_5" class="paragraph-anchor"></a><b>&#167;3.6.1.1.5. </b>  When does the compiled search code record values into the stash of callings?
 In two situations:</p>
 <ul>
 <li>when a domain-search has successfully found a viable case for a quantifier,
@@ -1028,6 +1020,10 @@ point <code>M</code>, that is, immediately before acting on a successful match.<
 </ul>
 <p>For example, when reading:</p>
 </div>
+<blockquote>
+    <p>if a person (called the dupe) is in a lighted room which is adjacent to exactly one dark room (called the lair), ...</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>the value of &quot;dupe&quot; is transferred just before <code>M</code>, but the value of &quot;lair&quot;
 is transferred as soon as a dark room is found. The code looks like this:</p>

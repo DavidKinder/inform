@@ -62,8 +62,11 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="3-ul.html#SP1">&#167;1. Parsing</a></li><li><a href="3-ul.html#SP3">&#167;3. Code points</a></li><li><a href="3-ul.html#SP7">&#167;7. Using the Unicode data</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Parsing.</b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Parsing.</b>  The following is called only on excerpts from the source where it is a
+fairly safe bet that a Unicode character is referred to. For example, when
+the player types either of these:</p>
+</div>
 <blockquote>
     <p>"[unicode 321]odz Churchyard"</p>
 </blockquote>
@@ -72,11 +75,6 @@ function togglePopup(material_id) {
     <p>"[unicode Latin capital letter L with stroke]odz Churchyard"</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>The following is called only on excerpts from the source where it is a
-fairly safe bet that a Unicode character is referred to. For example, when
-the player types either of these:</p>
-</div>
 <div class="lsmarkdown">
 <p>...then the text after the word &quot;unicode&quot; is parsed by &lt;s-unicode-character&gt;.</p>
 </div>

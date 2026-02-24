@@ -1,5 +1,6 @@
 Title: Extensions
 Author: Graham Nelson
+Notation: InwebClassic
 
 @ An "extension" is a supplementary piece of Inform 7 source text. Inform
 programs sometimes explicitly ask for these, with sentences like so:

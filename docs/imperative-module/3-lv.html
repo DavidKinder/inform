@@ -540,23 +540,13 @@ making all of them objects.</p>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP23" class="paragraph-anchor"></a><b>&#167;23. Permissible names.</b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP23" class="paragraph-anchor"></a><b>&#167;23. Permissible names.</b>  This is an interesting issue of policy. Suppose the source text says:</p>
+</div>
 <blockquote>
     <p>let the slate be 1;</p>
 </blockquote>
 
-<blockquote>
-    <p>The slate is on the desk.</p>
-</blockquote>
-
-<blockquote>
-    <p>if an infected person can see a healthy person (called random bystander), ...</p>
-</blockquote>
-
-<div class="lsmarkdown">
-<p>This is an interesting issue of policy. Suppose the source text says:</p>
-</div>
 <div class="lsmarkdown">
 <p>and, far away, an object called &quot;the slate&quot; is sitting on a schoolroom desk.
 Do we allow this, thus temporarily changing the meaning of &quot;slate&quot;, or do
@@ -566,6 +556,10 @@ we cause all sorts of things to go wrong with extensions (including not least
 the Standard Rules): because suppose they contain a local called &quot;slate&quot;
 somewhere, and then the unsuspecting user writes</p>
 </div>
+<blockquote>
+    <p>The slate is on the desk.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>Now there's a conflict, and the user will be baffled, never having read the
 extension he's using. So we do allow this, and certain other overloadings
@@ -575,6 +569,10 @@ own namespace.</p>
 often only for the sentence where they're defined -- and because the syntax
 is more explicit. So you can write:</p>
 </div>
+<blockquote>
+    <p>if an infected person can see a healthy person (called random bystander), ...</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>even if &quot;random bystander&quot; might otherwise be a request to randomly generate
 an instance of the kind &quot;bystander&quot;.</p>

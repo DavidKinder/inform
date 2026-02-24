@@ -135,20 +135,18 @@ about the same subject.</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b> </p>
-
-<blockquote>
-    <p>The tally is a number that varies. The tally is the Entire Game.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>Initial values are typechecked twice: once when the assertions machinery
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  Initial values are typechecked twice: once when the assertions machinery
 actually generates them (see <a href="../assertions-module/4-pk.html" class="internal">Property Knowledge (in assertions)</a>) and then
 again at model completion time. This looks wasteful -- why not typecheck them
 just the once, at completion time?</p>
 <p>The reason we don't is that the initial check produces more specific problem
 messages, earlier on. For example, if we have:</p>
 </div>
+<blockquote>
+    <p>The tally is a number that varies. The tally is the Entire Game.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>At model-checking time we would detect this as a problematic comparison
 between &quot;tally&quot; and &quot;Entire Game&quot;, and the problem message will thus be

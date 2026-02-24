@@ -125,15 +125,13 @@ MathJax = {
 <span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;instance-of-object&gt;</span><span class="Preform-plain-syntax">        </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { pass 1 }; if (Instances::of_kind(RP[1], K_direction) == FALSE) return FALSE;</span>
 </pre>
 <ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  The subject noun phrase of sentences like this:</p>
+</div>
 <blockquote>
     <p>Index map with Chamber mapped north of Cave and EPS file.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>The subject noun phrase of sentences like this:</p>
-</div>
 <div class="lsmarkdown">
 <p>is an articled list of subjects (in this case, two of them); each subject
 is parsed with the following grammar, which is almost a mini-language in
@@ -210,8 +208,9 @@ itself.</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">SETTING_IMW</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  Now we parse the setting to be set. For example,</p>
+</div>
 <blockquote>
     <p>title-size of the first room</p>
 </blockquote>
@@ -228,9 +227,6 @@ itself.</p>
     <p>title-size</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>Now we parse the setting to be set. For example,</p>
-</div>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-function-syntax">&lt;map-setting&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
 <span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;map-parameter&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">of</span><span class="Preform-plain-syntax"> </span><span class="Preform-function-syntax">&lt;map-setting-scope&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">  </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { R[2], -, &lt;&lt;inchar32_t:partext&gt;&gt; = RP[1], &lt;&lt;parindex&gt;&gt; = R[1] }</span>
@@ -248,16 +244,14 @@ itself.</p>
 <span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;instance-of-object&gt;</span><span class="Preform-plain-syntax">       </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { INSTANCE_MAP_SCOPE, -, &lt;&lt;instance:iscope&gt;&gt; = RP[1] }</span>
 </pre>
 <ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  The map parameters all have one-word, sometimes hyphenated, names, such
+as the following:</p>
+</div>
 <blockquote>
     <p>vertical-spacing, monochrome, annotation-size</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>The map parameters all have one-word, sometimes hyphenated, names, such
-as the following:</p>
-</div>
 <div class="lsmarkdown">
 <p>For now, at least, these are all in English only.</p>
 </div>

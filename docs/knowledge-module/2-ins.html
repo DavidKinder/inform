@@ -61,26 +61,24 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="2-ins.html#SP5">&#167;5. Name and number</a></li><li><a href="2-ins.html#SP6">&#167;6. Subject and source references</a></li><li><a href="2-ins.html#SP7">&#167;7. Coincidence with property names</a></li><li><a href="2-ins.html#SP10">&#167;10. The kind of an instance</a></li><li><a href="2-ins.html#SP13">&#167;13. Iterating through instances of a kind</a></li><li><a href="2-ins.html#SP14">&#167;14. Instances of grammatical gender</a></li><li><a href="2-ins.html#SP15">&#167;15. Instances specified in Neptune files</a></li><li><a href="2-ins.html#SP16">&#167;16. Logging</a></li><li><a href="2-ins.html#SP17">&#167;17. Writer</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b> </p>
-
-<blockquote>
-    <p>Colour is a kind of value. The colours are red, blue and green.</p>
-</blockquote>
-
-<blockquote>
-    <p>Peter carries a blue ball.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>Instances are named constants giving a finite range of possible values of
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  Instances are named constants giving a finite range of possible values of
 a kind,<sup id="fnred:1"><a href="#fn:1" rel="footnote">1</a></sup> where these are chosen by the author.<sup id="fnred:2"><a href="#fn:2" rel="footnote">2</a></sup> Instances are can have
 properties, and can have inferences drawn about them: see <a href="4-is2.html" class="internal">Instance Subjects</a>.</p>
 <p>Most instances are created by assertions in the source text. For example:</p>
 </div>
+<blockquote>
+    <p>Colour is a kind of value. The colours are red, blue and green.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>creates three instances: &quot;red&quot;, &quot;blue&quot; and &quot;green&quot;, which enumerate the
 possible range of &quot;colour&quot;. Objects are instances too:</p>
 </div>
+<blockquote>
+    <p>Peter carries a blue ball.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>&quot;Peter&quot; and &quot;blue ball&quot; are initially created as instances of the kind &quot;object&quot;,
 but will later be deduced to be of kind &quot;person&quot; and &quot;thing&quot; respectively.
@@ -257,15 +255,13 @@ be done later on: see <a href="../runtime-module/2-ic.html" class="internal">Ins
 <span class="plain-syntax">        </span><span class="identifier-syntax">Wordings::first_wn</span><span class="plain-syntax">(</span><span class="identifier-syntax">Node::get_text</span><span class="plain-syntax">(</span><span class="identifier-syntax">I</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">creating_sentence</span><span class="plain-syntax">)));</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Coincidence with property names.</b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Coincidence with property names.</b>  Suppose, as always, we have:</p>
+</div>
 <blockquote>
     <p>Colour is a kind of value. The colours are red, white and blue. A door has a colour.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>Suppose, as always, we have:</p>
-</div>
 <div class="lsmarkdown">
 <p>The third sentence causes the following to be called, for the kind &quot;colour&quot;
 and the property &quot;colour&quot;, whose names coincide:</p>
@@ -277,19 +273,17 @@ and the property &quot;colour&quot;, whose names coincide:</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">Kinds::eq</span><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">, </span><span class="identifier-syntax">K_grammatical_gender</span><span class="plain-syntax">)) </span><span class="identifier-syntax">P_grammatical_gender</span><span class="plain-syntax"> = </span><span class="identifier-syntax">P</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b> </p>
-
-<blockquote>
-    <p>A vehicle has a colour.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>That causes us to &quot;update adjectival forms&quot; for the property &quot;colour&quot;,
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>  That causes us to &quot;update adjectival forms&quot; for the property &quot;colour&quot;,
 a sort of general round-up to make sure that all of its possible applications
 are covered by suitable adjectives. For instance, &quot;red&quot; must be registered
 as an adjectival constant to cover doors. We will call this again if a further
 use of colour turns up subsequently, e.g., in response to:</p>
 </div>
+<blockquote>
+    <p>A vehicle has a colour.</p>
+</blockquote>
+
 <pre class="displayed-code all-displayed-code code-font">
 <span class="type-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::update_adjectival_forms</span><button class="popup" onclick="togglePopup('usagePopup8')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup8">Usage of <span class="code-font"><span class="function-syntax">Instances::update_adjectival_forms</span></span>:<br/><a href="2-ins.html#SP7">&#167;7</a><br/>The Provision Relation - <a href="3-tpr.html#SP5">&#167;5</a></span></button><span class="plain-syntax">(</span><span class="type-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><a href="3-prp.html#SP16" class="function-link"><span class="function-syntax">Properties::is_either_or</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">P</span><span class="plain-syntax">) == </span><span class="identifier-syntax">TRUE</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax">;</span>
@@ -301,17 +295,15 @@ use of colour turns up subsequently, e.g., in response to:</p>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>  So here is where we need to make &quot;red&quot;, &quot;white&quot; or &quot;blue&quot; adjectives
+specifying colour. And we will also call this if a further instance of colour
+turns up subsequently, e.g., in response to</p>
+</div>
 <blockquote>
     <p>Mauve is a colour.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>So here is where we need to make &quot;red&quot;, &quot;white&quot; or &quot;blue&quot; adjectives
-specifying colour. And we will also call this if a further instance of colour
-turns up subsequently, e.g., in response to</p>
-</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="type-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Instances::register_as_adjectival_constant</span><button class="popup" onclick="togglePopup('usagePopup9')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup9">Usage of <span class="code-font"><span class="function-syntax">Instances::register_as_adjectival_constant</span></span>:<br/><a href="2-ins.html#SP4_3">&#167;4.3</a>, <a href="2-ins.html#SP8">&#167;8</a></span></button><span class="plain-syntax">(</span><span class="type-syntax">instance</span><span class="plain-syntax"> *</span><span class="identifier-syntax">I</span><span class="plain-syntax">, </span><span class="type-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">P</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="type-syntax">property_permission</span><span class="plain-syntax"> *</span><span class="identifier-syntax">pp</span><span class="plain-syntax">;</span>
@@ -321,16 +313,14 @@ turns up subsequently, e.g., in response to</p>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. The kind of an instance.</b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. The kind of an instance.</b>  By this of course we mean the most specific kind to which an instance
+belongs: if we write</p>
+</div>
 <blockquote>
     <p>Kathy is a woman.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>By this of course we mean the most specific kind to which an instance
-belongs: if we write</p>
-</div>
 <div class="lsmarkdown">
 <p>then the Kathy instance is also a person, a thing, an object and a value,
 but when we talk about the kind of Kathy, we mean &quot;woman&quot;.</p>

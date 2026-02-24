@@ -351,16 +351,14 @@ token called &quot;[suitable colour]&quot;.</p>
 <span class="plain-syntax">    </span><span class="identifier-syntax">RTCommandGrammars::set_CG_IS_TOKEN_identifier</span><span class="plain-syntax">(</span><span class="identifier-syntax">cg</span><span class="plain-syntax">, </span><span class="identifier-syntax">Node::get_text</span><span class="plain-syntax">(</span><span class="identifier-syntax">id</span><span class="plain-syntax">));</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. The CG_IS_SUBJECT form.</b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP13" class="paragraph-anchor"></a><b>&#167;13. The CG_IS_SUBJECT form.</b>  Any inference subject can in theory be given a CG, used to parse unusual forms
+of its name. If the source reads:</p>
+</div>
 <blockquote>
     <p>Understand "frog" as the Brazilian leaping toad.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>Any inference subject can in theory be given a CG, used to parse unusual forms
-of its name. If the source reads:</p>
-</div>
 <div class="lsmarkdown">
 <p>then &quot;frog&quot; is added to the CG for the toad's inference subject.</p>
 <p>The toad is of course an object, and in fact although there are many other

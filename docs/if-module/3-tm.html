@@ -590,20 +590,18 @@ significant.</p>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP27" class="paragraph-anchor"></a><b>&#167;27. Door connectivity.</b> </p>
-
-<blockquote>
-    <p>The other side of the iron door is the Black Holding Area.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>We've seen how most of the map is represented, in the <code>exits</code> arrays. The
+<p class="commentary firstcommentary"><a id="SP27" class="paragraph-anchor"></a><b>&#167;27. Door connectivity.</b>  We've seen how most of the map is represented, in the <code>exits</code> arrays. The
 missing information has to do with doors. If east of the Carousel Room is
 the oak door, then <code>Map_Storage</code> reveals only that fact, and not what's on
 the other side of the door. This will eventually be compiled into the
 <code>door_to</code> property for the oak door object.</p>
 <p>We would like to deduce from a sentence like</p>
 </div>
+<blockquote>
+    <p>The other side of the iron door is the Black Holding Area.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>that the &quot;Black Holding Area&quot; is a room; otherwise, if it has no map
 connections, Inform may well think it's just a thing. This is where that
@@ -652,25 +650,23 @@ deduction is made:</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP30" class="paragraph-anchor"></a><b>&#167;30. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP30" class="paragraph-anchor"></a><b>&#167;30. </b>  Consider the sentences:</p>
+</div>
 <blockquote>
     <p>A dead end is a kind of room. The Pitch is a room. East is a dead end.</p>
 </blockquote>
 
-<blockquote>
-    <p>Z is a dead end. East is Z.</p>
-</blockquote>
-
-<div class="lsmarkdown">
-<p>Consider the sentences:</p>
-</div>
 <div class="lsmarkdown">
 <p>Inform would ordinarily read the third sentence as saying that the &quot;east&quot;
 object (a direction) has kind &quot;dead end&quot;, and would throw a problem message.</p>
 <p>What was actually meant, of course, is that a new instance of &quot;dead end&quot;
 exists to the east of the Pitch; in effect, we read it as:</p>
 </div>
+<blockquote>
+    <p>Z is a dead end. East is Z.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>where Z is a newly created and nameless object.</p>
 <p>But we must be careful not to catch &quot;East is a direction&quot; in the same net

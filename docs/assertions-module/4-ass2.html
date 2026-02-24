@@ -90,16 +90,14 @@ create a shoe, and assert a spatial relationship between them.</p>
 pasting of subtrees of the parse tree, which motivates the following
 data structure.</p>
 </div>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  Generalisations are essentially fragments of parse tree stored for later use.
+They handle sentences like</p>
+</div>
 <blockquote>
     <p>In every container is a coin.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>Generalisations are essentially fragments of parse tree stored for later use.
-They handle sentences like</p>
-</div>
 <div class="lsmarkdown">
 <p>which are done by recognising the prototype part (&quot;in every container&quot;) in
 the parse tree and grafting on a duplicate of the assembly part (&quot;a coin&quot;)
@@ -180,23 +178,21 @@ each inference subject:</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">ad</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">named_after_text</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. New generalisations.</b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. New generalisations.</b>  Here a new generalisation is made. The <code>look_for</code> subtree contains the
+<code>EVERY_NT</code> node, but it might be either at the top, as here:</p>
+</div>
 <blockquote>
     <p>Every container is in the Lumber Room.</p>
 </blockquote>
 
+<div class="lsmarkdown">
+<p>or the first child of a <code>RELATIONSHIP_NT</code> node, as here:</p>
+</div>
 <blockquote>
     <p>In every container is a vehicle.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>Here a new generalisation is made. The <code>look_for</code> subtree contains the
-<code>EVERY_NT</code> node, but it might be either at the top, as here:</p>
-</div>
-<div class="lsmarkdown">
-<p>or the first child of a <code>RELATIONSHIP_NT</code> node, as here:</p>
-</div>
 <div class="lsmarkdown">
 <p>In the second case the <code>what_to_make</code> subtree is an <code>COMMON_NOUN_NT</code>, and in the
 first it's a <code>RELATIONSHIP_NT</code> subtree.</p>

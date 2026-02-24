@@ -1,5 +1,6 @@
 Title: Navigation page for Inter
 Author: Graham Nelson
+Notation: InwebClassic
 
 @ Inter is Stages 6 and 7 of the core Inform compiler, but can also be run as a
 stand-alone tool. See //structure// for the bigger picture: Inter handles

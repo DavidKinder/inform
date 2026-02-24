@@ -62,8 +62,10 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="3-dbtr.html#SP4_1">&#167;4.1. Creation</a></li><li><a href="3-dbtr.html#SP4_2">&#167;4.2. Property assignment</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  Tables lie behind the special &quot;defined by&quot; sentence. These come in three
+subtly different versions:</p>
+</div>
 <blockquote>
     <p>(1) Some animals are defined by the Table of Specimens.</p>
 </blockquote>
@@ -76,14 +78,6 @@ function togglePopup(material_id) {
     <p>(3) Some kinds of animal are defined by the Table of Zoology.</p>
 </blockquote>
 
-<blockquote>
-    <p>The okapi is defined by the Table of Short-Necked Giraffes.</p>
-</blockquote>
-
-<div class="lsmarkdown">
-<p>Tables lie behind the special &quot;defined by&quot; sentence. These come in three
-subtly different versions:</p>
-</div>
 <div class="lsmarkdown">
 <p>The subject in (1) is the name of a kind; in (2), it's a description which
 incorporates a kind, but can include relative clauses and adjectives; in (3),
@@ -92,6 +86,10 @@ possibilities, we treat &quot;defined by&quot; sentences as if they were abbrevi
 for a mass of assertion sentences, one for each row of the table. We do
 however reject:</p>
 </div>
+<blockquote>
+    <p>The okapi is defined by the Table of Short-Necked Giraffes.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>where the &quot;okapi&quot; is an existing single animal (or indeed where it's a new
 name, meaning as yet unknown).</p>
@@ -349,20 +347,18 @@ cause a new object instance to be created with that name.</p>
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-dbtr.html#SP4_1_1">&#167;4.1.1</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP4_1_3" class="paragraph-anchor"></a><b>&#167;4.1.3. </b> </p>
-
-<blockquote>
-    <p>Some people on the dais are defined by the Table of Presenters.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>The following code has a curious history: it has evolved backwards from
+<p class="commentary firstcommentary"><a id="SP4_1_3" class="paragraph-anchor"></a><b>&#167;4.1.3. </b>  The following code has a curious history: it has evolved backwards from
 something much higher-level. When definition by tables began, it was a device
 to create new instances -- the names in column 1 would be, say, the instances
 of the kind &quot;colour&quot;. Inform did this by writing propositions to assert their
 existence, in an elegantly high-level way; and all was well. But people also
 wanted things like this:</p>
 </div>
+<blockquote>
+    <p>Some people on the dais are defined by the Table of Presenters.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>and the process of converting that to propositional form, while issuing
 a range of intelligible problem messages if anything went wrong, would end

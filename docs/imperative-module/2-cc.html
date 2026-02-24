@@ -162,18 +162,16 @@ type-checker won't allow these specifications to be compiled anywhere else.</p>
 <span class="plain-syntax">    </span><span class="identifier-syntax">EmitCode::up</span><span class="plain-syntax">();</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-cc.html#SP1">&#167;1</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b> </p>
-
-<blockquote>
-    <p>if a device (called the mechanism) is switched on: ...</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>We need a mechanism for keeping track of the callings made in a condition,
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  We need a mechanism for keeping track of the callings made in a condition,
 and here it is. An issue here is that they generally have a scope extending
 beyond that condition, and can't be left with kind-unsafe (or no) values. For
 example, if:</p>
 </div>
+<blockquote>
+    <p>if a device (called the mechanism) is switched on: ...</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>turns out false, then &quot;mechanism&quot; has to be safely defused to some typesafe value.
 So, then, the model is that if some part of Inform wants to compile a condition

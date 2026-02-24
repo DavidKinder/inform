@@ -1,5 +1,6 @@
 Title: Services and their unit tests
 Author: Graham Nelson
+Notation: InwebClassic
 
 @ The programs in the Inform toolchain need a variety of services beyond those
 provided by our standard library //foundation//. The latter offers basics such

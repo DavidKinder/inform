@@ -272,44 +272,14 @@ is read as if it were &quot;scenery thing&quot;.</p>
 <span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;s-adjective-list&gt;</span><span class="Preform-plain-syntax">  </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { -, SPDesc::add_adjlist(Descriptions::from_proposition(NULL, W), RP[1]) }</span>
 </pre>
 <ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>  So now we test whether an excerpt is a list of adjectives; for example,
+this matches</p>
+</div>
 <blockquote>
     <p>exciting transparent green fixed in place</p>
 </blockquote>
 
-<blockquote>
-    <p>The blue door is open and not transparent.</p>
-</blockquote>
-
-<blockquote>
-    <p>A door is usually not open.</p>
-</blockquote>
-
-<blockquote>
-    <p>exciting not transparent fixed in place</p>
-</blockquote>
-
-<blockquote>
-    <p>a not great green dragon</p>
-</blockquote>
-
-<blockquote>
-    <p>not a great green dragon</p>
-</blockquote>
-
-<blockquote>
-    <p>if Smaug is not a great green dragon, ...</p>
-</blockquote>
-
-<blockquote>
-    <p>A hairless chimp is not a hairy animal.</p>
-</blockquote>
-
-<div class="lsmarkdown">
-<p>So now we test whether an excerpt is a list of adjectives; for example,
-this matches</p>
-</div>
 <div class="lsmarkdown">
 <p>as a list of four adjectives.</p>
 <p>Perhaps surprisingly, the word &quot;not&quot; is allowed in such lists. Since this
@@ -318,6 +288,14 @@ surely doesn't belong to the grammar of nouns and their adjectives. But there
 are several problems with that analysis. Firstly, English does strange things
 with the placing of &quot;not&quot;:</p>
 </div>
+<blockquote>
+    <p>The blue door is open and not transparent.</p>
+</blockquote>
+
+<blockquote>
+    <p>A door is usually not open.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>Note that neither of these sentences places &quot;not&quot; adjacent to the verb, so
 if we're going to say it's part of the verb phrase then this has to be a
@@ -325,6 +303,10 @@ non-contiguous sequence of words able to grab material from possibly distant
 NPs. This isn't easy to go along with. Secondly, we also want to provide a
 way to write the negation of an adjective. For instance,</p>
 </div>
+<blockquote>
+    <p>exciting not transparent fixed in place</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>is valid. Though in this case it would be equivalent to write &quot;opaque&quot; in
 place of &quot;not transparent&quot;, some adjectives do not have named negations.</p>
@@ -333,21 +315,37 @@ article, less controversially, but that then leads to an interesting and
 very arcane de Morgan-law-like point, affecting only a tiny number of
 assertion sentences. If we write:</p>
 </div>
+<blockquote>
+    <p>a not great green dragon</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>Inform considers that &quot;not&quot; applies only to &quot;great&quot;; the dragon is still
 to be green. But if we write</p>
 </div>
+<blockquote>
+    <p>not a great green dragon</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>then Inform requires it to be neither great nor green. It's terrible style
 to write this sort of thing as a description outside of a condition like
 the following:</p>
 </div>
+<blockquote>
+    <p>if Smaug is not a great green dragon, ...</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>and conditions like this are parsed with &quot;is not&quot; as the verb and &quot;great
 green dragon&quot; as the description, with the adjective list being just &quot;great
 green&quot;. So this awkward point about &quot;not a...&quot; only comes in when writing
 assertion sentences like:</p>
 </div>
+<blockquote>
+    <p>A hairless chimp is not a hairy animal.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>(This was submitted as a bug report.) In assertions, Inform has to know for
 definite what the truth is, so it can't afford to read this as saying that
@@ -471,14 +469,8 @@ significance the rest of the time.</p>
 <span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">PM_SpecificCalling_issued_at</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 <span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">PM_PastSubordinate_issued_at</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. </b> </p>
-
-<blockquote>
-    <p>if N is an even 3, ...</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>When they appear in descriptions, these adjectives serve as &quot;qualifiers&quot;:
+<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. </b>  When they appear in descriptions, these adjectives serve as &quot;qualifiers&quot;:
 they qualify their nouns. For example, &quot;open door&quot; consists of &quot;open&quot;,
 a qualifier, followed by &quot;door&quot;, a noun.</p>
 <p>Not every value known to Inform can be qualified as a noun: in fact, very few
@@ -488,6 +480,10 @@ line that adjectives applied to values like 3 will never vary in their
 applicability -- 3 is always odd -- so that it makes no sense to test for
 them with conditions like</p>
 </div>
+<blockquote>
+    <p>if N is an even 3, ...</p>
+</blockquote>
+
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-function-syntax">&lt;s-qualifiable-noun&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
 <span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;k-kind&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">           </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { -, Specifications::from_kind(RP[1]) }; s_adj_domain = RP[1];</span>
@@ -521,18 +517,8 @@ whereas &quot;empty rulebook&quot; will work.</p>
 <span class="plain-syntax">            </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="4-cad.html#SP17">&#167;17</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP18" class="paragraph-anchor"></a><b>&#167;18. Descriptions.</b> </p>
-
-<blockquote>
-    <p>six of the / open / containers / in the Attic</p>
-</blockquote>
-
-<blockquote>
-    <p>something / open / in the Attic</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>Grammatically, a description is a sequence of the following five elements, some
+<p class="commentary firstcommentary"><a id="SP18" class="paragraph-anchor"></a><b>&#167;18. Descriptions.</b>  Grammatically, a description is a sequence of the following five elements, some
 of which are optional:</p>
 <ul>
 <li>
@@ -552,10 +538,18 @@ described above (optional);</p>
 </ul>
 <p>For the most part the sequence must be (a), (b), (c), (d), as in:</p>
 </div>
+<blockquote>
+    <p>six of the / open / containers / in the Attic</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>but the composite words made up from quantifiers and kinds -- something,
 anywhere, everybody, and such -- force us to make an exception to this:</p>
 </div>
+<blockquote>
+    <p>something / open / in the Attic</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>which takes the sequence (a) and (c), (b), (d). We will call words like
 &quot;something&quot; and &quot;everywhere&quot; specifying nouns, since they are both

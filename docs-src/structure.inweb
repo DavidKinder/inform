@@ -1,5 +1,6 @@
 Title: Structure of the Inform 7 compiler
 Author: Graham Nelson
+Notation: InwebClassic
 
 @ The core Inform compiler combines natural-language source text, including
 natural-language extensions, and precompiled "kits" in order to make the
@@ -129,6 +130,7 @@ WEB                 ACTIVE STAGES   INWEB    SERVICES    INBUILD     INFORM7    
 //arch// service        Throughout        -         o           x           x          x
 //html// service        Throughout        -         o           x           x          x
 //foundation// library  Throughout        o         -           x           x          x
+//literate// library    Throughout        o         -           -           -          x
 =
 The executables otherwise contain only a few POSIX or Windows-related functions
 for file and directory handling, and functions from the standard C library.

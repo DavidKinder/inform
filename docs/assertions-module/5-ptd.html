@@ -319,8 +319,12 @@ definitions.</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="string-syntax">"some phrase"</span><span class="plain-syntax">; </span><span class="comment-syntax">/* should never actually be needed */</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. The kind of a definition.</b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. The kind of a definition.</b>  As noted above, phrases can be such that &quot;kind&quot; is meaningless (consider &quot;if&quot;,
+or &quot;now&quot;), but it might be tempting to think that for function-like phrases,
+at least, the kind tells you everything about when they apply. But this isn't
+true. Consider:</p>
+</div>
 <blockquote>
     <p>To barricade (D - a door): ...</p>
 </blockquote>
@@ -329,22 +333,16 @@ definitions.</p>
     <p>To barricade (D - a closed door): ...</p>
 </blockquote>
 
-<blockquote>
-    <p>To juxtapose (name of kind of value K) with (alpha - K) and (beta - K): ...</p>
-</blockquote>
-
-<div class="lsmarkdown">
-<p>As noted above, phrases can be such that &quot;kind&quot; is meaningless (consider &quot;if&quot;,
-or &quot;now&quot;), but it might be tempting to think that for function-like phrases,
-at least, the kind tells you everything about when they apply. But this isn't
-true. Consider:</p>
-</div>
 <div class="lsmarkdown">
 <p>These both have the same kind, <code>phrase door -&gt; nothing</code>, and that's reasonable
 because they're safe to use in the same circumstances. But they will apply
 in different circumstances at run-time.</p>
 <p>A further subtlety comes with phrases like:</p>
 </div>
+<blockquote>
+    <p>To juxtapose (name of kind of value K) with (alpha - K) and (beta - K): ...</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>What's the kind of this? The eventual result of compiling this will be a
 function of kind <code>phrase (V, V) -&gt; nothing</code>, where V is the particular kind
@@ -465,8 +463,11 @@ in the next.</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">phtd1</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">no_tokens</span><span class="plain-syntax"> &lt; </span><span class="identifier-syntax">phtd2</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">no_tokens</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">AFTER_PH</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-ptd.html#SP17">&#167;17</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP17_4" class="paragraph-anchor"></a><b>&#167;17.4. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP17_4" class="paragraph-anchor"></a><b>&#167;17.4. </b>  At this point the two phrases have the same number of words and tokens,
+but the words may be different and/or the tokens in different places.
+We might for example be comparing these two:</p>
+</div>
 <blockquote>
     <p>To grab (the prize - an object) swiftly: ...</p>
 </blockquote>
@@ -475,11 +476,6 @@ in the next.</p>
     <p>To grab at (the rosette - an object): ...</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>At this point the two phrases have the same number of words and tokens,
-but the words may be different and/or the tokens in different places.
-We might for example be comparing these two:</p>
-</div>
 <div class="lsmarkdown">
 <p>We use alphabetical order, placing &quot;grab ZZZZZZ swiftly&quot; after &quot;grab at ZZZZZZ&quot;.</p>
 </div>
@@ -502,8 +498,10 @@ We might for example be comparing these two:</p>
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-ptd.html#SP17">&#167;17</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP17_5" class="paragraph-anchor"></a><b>&#167;17.5. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP17_5" class="paragraph-anchor"></a><b>&#167;17.5. </b>  Now our two phrases have identical wording, and tokens in the same positions,
+but may have different specifications for them. For example:</p>
+</div>
 <blockquote>
     <p>To grab at (the rosette - an object): ...</p>
 </blockquote>
@@ -512,6 +510,10 @@ We might for example be comparing these two:</p>
     <p>To grab at (the rosette - a thing on the table): ...</p>
 </blockquote>
 
+<div class="lsmarkdown">
+<p>We give priority to the second of these, because it's more specific. On
+the other hand these are simply incomparable:</p>
+</div>
 <blockquote>
     <p>To grab at (the rosette - an object): ...</p>
 </blockquote>
@@ -520,14 +522,6 @@ We might for example be comparing these two:</p>
     <p>To grab at (the prime - a number): ...</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>Now our two phrases have identical wording, and tokens in the same positions,
-but may have different specifications for them. For example:</p>
-</div>
-<div class="lsmarkdown">
-<p>We give priority to the second of these, because it's more specific. On
-the other hand these are simply incomparable:</p>
-</div>
 <p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Finally try comparing the to-match specifications of the tokens</span><span class="named-paragraph-number">17.5</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">
@@ -543,8 +537,9 @@ the other hand these are simply incomparable:</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">if</span><span class="plain-syntax"> (</span><span class="identifier-syntax">possibly_superschema</span><span class="plain-syntax">) </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">SUPERSCHEMA_PH</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-ptd.html#SP17">&#167;17</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP17_5_1" class="paragraph-anchor"></a><b>&#167;17.5.1. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP17_5_1" class="paragraph-anchor"></a><b>&#167;17.5.1. </b>  We need to watch out for this sort of thing:</p>
+</div>
 <blockquote>
     <p>To decide what number is my special value: decide on 4.</p>
 </blockquote>
@@ -553,9 +548,6 @@ the other hand these are simply incomparable:</p>
     <p>To decide what person is my special value: decide on the player.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>We need to watch out for this sort of thing:</p>
-</div>
 <div class="lsmarkdown">
 <p>which makes &quot;my special value&quot; of a kind which can't be decided; but
 we can't just compare the return kinds, because that might pick up

@@ -514,16 +514,14 @@ and <code>value_data</code> is <code>NULL</code>, so these are in fact antonyms:
 <span class="plain-syntax">    </span><span class="reserved-syntax">else</span><span class="plain-syntax"> { </span><span class="identifier-syntax">LOG</span><span class="plain-syntax">(</span><span class="string-syntax">"nameless"</span><span class="plain-syntax">); }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP18" class="paragraph-anchor"></a><b>&#167;18. Inter translation requests.</b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP18" class="paragraph-anchor"></a><b>&#167;18. Inter translation requests.</b>  This is the function which is called by the assertion parser in response
+to sentences like:</p>
+</div>
 <blockquote>
     <p>The initial appearance property translates into Inter as "initial".</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>This is the function which is called by the assertion parser in response
-to sentences like:</p>
-</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="type-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Properties::translates</span><span class="plain-syntax">(</span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">, </span><span class="identifier-syntax">parse_node</span><span class="plain-syntax"> *</span><span class="identifier-syntax">p2</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="type-syntax">property</span><span class="plain-syntax"> *</span><span class="identifier-syntax">prn</span><span class="plain-syntax"> = </span><span class="identifier-syntax">NULL</span><span class="plain-syntax">;</span>
@@ -565,24 +563,22 @@ to sentences like:</p>
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-prp.html#SP18">&#167;18</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP18_3" class="paragraph-anchor"></a><b>&#167;18.3. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP18_3" class="paragraph-anchor"></a><b>&#167;18.3. </b>  But there is a kick in the tail, which is that translation can reverse the
+run-time parity of an either/or property. The Standard Rules normally say:</p>
+</div>
 <blockquote>
     <p>The open property translates into Inter as "open".</p>
 </blockquote>
 
-<blockquote>
-    <p>The closed property translates into Inter as "open".</p>
-</blockquote>
-
-<div class="lsmarkdown">
-<p>But there is a kick in the tail, which is that translation can reverse the
-run-time parity of an either/or property. The Standard Rules normally say:</p>
-</div>
 <div class="lsmarkdown">
 <p>This means that information about openness is stored as <code>open</code> within the
 template; an open door has <code>open</code> set, for instance. If we had written:</p>
 </div>
+<blockquote>
+    <p>The closed property translates into Inter as "open".</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>then the relevant data would still have been stored as <code>open</code>, but with the
 opposite sense; an open door would now be one with <code>open</code> cleared.<sup id="fnred:1"><a href="#fn:1" rel="footnote">1</a></sup></p>
@@ -689,18 +685,16 @@ we find it, we compile it and return <code>TRUE</code>; if not we do nothing and
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP22" class="paragraph-anchor"></a><b>&#167;22. Coincidence.</b> </p>
-
-<blockquote>
-    <p>Brightness is a kind of value. The brightnesses are guttering, weak, radiant and blazing. The lantern has a brightness. The lantern is blazing.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>Coincidence of kinds and properties occurs where a kind has the same name
+<p class="commentary firstcommentary"><a id="SP22" class="paragraph-anchor"></a><b>&#167;22. Coincidence.</b>  Coincidence of kinds and properties occurs where a kind has the same name
 exactly as a property, allowing the same name to be used grammatically in
 two different contexts. We say that the kind and the property &quot;coincide&quot;.
 In particular, this happens with conditions:</p>
 </div>
+<blockquote>
+    <p>Brightness is a kind of value. The brightnesses are guttering, weak, radiant and blazing. The lantern has a brightness. The lantern is blazing.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>Here &quot;brightness&quot; becomes the name of a new kind, but &quot;brightness&quot; also
 becomes the name of a property.</p>

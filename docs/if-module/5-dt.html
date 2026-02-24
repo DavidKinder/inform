@@ -59,20 +59,18 @@ function togglePopup(material_id) {
     <ul class="crumbs"><li><a href="../index.html">Home</a></li><li><a href="../inform7n.html">Inform7</a></li><li><a href="index.html">if</a></li><li><a href="index.html#5">Chapter 5: Command Parser</a></li><li><b>Determination Types</b></li></ul></div>
 <p class="purpose">Command grammars, their lines and their tokens may each "determine" up to two values, and here we provide a way to describe the range of those.</p>
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b> </p>
-
-<blockquote>
-    <p>Understand "put [other things] on/onto [something]" as putting it on.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>Determination is the process by which Inform looks at a command grammar,
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  Determination is the process by which Inform looks at a command grammar,
 or a line in one, or a token in one of those lines, and works out what value
 or values this grammar is talking about. Those could be specific values or
 whole kinds, and so we use a specification -- which will always be an rvalue
 or a description -- for each value.</p>
 <p>For example, the grammar line created in:</p>
 </div>
+<blockquote>
+    <p>Understand "put [other things] on/onto [something]" as putting it on.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>has a determination type with two terms, one a description of <code>K_thing</code> with
 multiplicity <code>TRUE</code>, and the other a description of <code>K_thing</code> without.</p>

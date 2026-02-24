@@ -93,22 +93,20 @@ and that they aren't the same as the &quot;and&quot; and &quot;or&quot; used a l
 <span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;s-cond-atomic&gt;</span><span class="Preform-plain-syntax">                     </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { pass 1 }</span>
 </pre>
 <ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  Chronological restrictions include, for instance,</p>
+</div>
 <blockquote>
     <p>if the gate is open for the first time, ...</p>
 </blockquote>
 
+<div class="lsmarkdown">
+<p>where the condition is divided as</p>
+</div>
 <blockquote>
     <p>if the gate is open / for the first time</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>Chronological restrictions include, for instance,</p>
-</div>
-<div class="lsmarkdown">
-<p>where the condition is divided as</p>
-</div>
 <div class="lsmarkdown">
 <p>and &lt;s-cond-atomic&gt; is used to parse the first half. While it's possible
 to express this in Preform grammar, the result doesn't run quickly, so the
@@ -136,29 +134,15 @@ following implements this as a hand-coded nonterminal instead.</p>
 <span class="Preform-plain-syntax">}</span>
 </pre>
 <ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  The syntax for the logical operation &quot;not&quot; is more complicated, because
+it only sometimes work by simply preceding the text with &quot;not&quot;. Consider
+this, for instance:</p>
+</div>
 <blockquote>
     <p>if not we are carrying the torch, ...</p>
 </blockquote>
 
-<blockquote>
-    <p>if examining an open door, ...</p>
-</blockquote>
-
-<blockquote>
-    <p>if examined an open door, ...</p>
-</blockquote>
-
-<blockquote>
-    <p>if we have examined an open door, ...</p>
-</blockquote>
-
-<div class="lsmarkdown">
-<p>The syntax for the logical operation &quot;not&quot; is more complicated, because
-it only sometimes work by simply preceding the text with &quot;not&quot;. Consider
-this, for instance:</p>
-</div>
 <div class="lsmarkdown">
 <p>As a result, we can't handle negation in &lt;s-cond-pure&gt;, and have to
 work into the grammar below on a case by case basis. And where we do allow
@@ -168,13 +152,25 @@ begin with the word &quot;not&quot;.</p>
 <p>As a condition, an action pattern is implicitly considered as a test of
 what the current action is:</p>
 </div>
+<blockquote>
+    <p>if examining an open door, ...</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>This wouldn't work so well for the past tense form:</p>
 </div>
+<blockquote>
+    <p>if examined an open door, ...</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>because it seems too clunky as neither quite active nor passive. Who examined
 the open door? So Inform uses the following version instead:</p>
 </div>
+<blockquote>
+    <p>if we have examined an open door, ...</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>thus adopting the &quot;science we&quot;. Not very elegant, but the alternatives were
 difficult to parse. &quot;We are&quot; is allowed for consistency's sake, but does
@@ -249,17 +245,15 @@ being compiled; all others are out of scope.</p>
 <span class="Preform-plain-syntax">}</span>
 </pre>
 <ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Command phrases.</b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. Command phrases.</b>  The final clutch of nonterminals in the S-grammar handles individual commands,
+written in their semicolon-divided list in the body of a rule or &quot;To...&quot;
+definition. For instance, in the not very sensible rule:</p>
+</div>
 <blockquote>
     <p>Instead of jumping: now the score is 10; say "Greetings!" instead.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>The final clutch of nonterminals in the S-grammar handles individual commands,
-written in their semicolon-divided list in the body of a rule or &quot;To...&quot;
-definition. For instance, in the not very sensible rule:</p>
-</div>
 <div class="lsmarkdown">
 <p>Inform will use &lt;s-command&gt; to parse the text of the two commands in the rule
 body. &lt;s-command&gt; parses the text with little attempt to judge whether the

@@ -188,19 +188,17 @@ may be added.</p>
 <span class="plain-syntax">    </span><a href="5-tmw.html#SP1" class="function-link"><span class="function-syntax">World::ask_plugins_at_stage</span></a><span class="plain-syntax">(</span><span class="constant-syntax">WORLD_STAGE_IV</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4_1" class="paragraph-anchor"></a><b>&#167;4.1. </b> </p>
-
-<blockquote>
-    <p>The cup is in the Yellow Cupboard. The Cupboard is lighted.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>These two checks may seem a little odd. After all, we've been throwing out
+<p class="commentary firstcommentary"><a id="SP4_1" class="paragraph-anchor"></a><b>&#167;4.1. </b>  These two checks may seem a little odd. After all, we've been throwing out
 impossible inferences with problem messages all along, while reading the
 source text. Why not perform these checks then, too?</p>
 <p>The answer is that both depend not only on the subject of the inferences
 made, but also on what that subject inherits from. Suppose we are told:</p>
 </div>
+<blockquote>
+    <p>The cup is in the Yellow Cupboard. The Cupboard is lighted.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>When we make the &quot;lighted&quot; inference, we know for certain what subject
 it's about -- the Yellow Cupboard -- but not where this lives in the
@@ -268,16 +266,14 @@ convenience, and don't have to follow the I7 rules.</p>
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-tmw.html#SP4_2">&#167;4.2</a> (twice).</li></ul>
-<p class="commentary firstcommentary"><a id="SP4_2_1_1" class="paragraph-anchor"></a><b>&#167;4.2.1.1. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4_2_1_1" class="paragraph-anchor"></a><b>&#167;4.2.1.1. </b>  It's never a problem when a vague fact about something general is contradicted
+by a fact about something specific; the problem comes with something like this:</p>
+</div>
 <blockquote>
     <p>A door is always open. The Marble Portal is a closed door.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>It's never a problem when a vague fact about something general is contradicted
-by a fact about something specific; the problem comes with something like this:</p>
-</div>
 <div class="lsmarkdown">
 <p>Here the &quot;wide&quot; property inference, for the &quot;door&quot; kind, is <code>CERTAIN_CE</code>
 rather than <code>LIKELY_CE</code>, and so we can't allow the &quot;narrow&quot; inference,

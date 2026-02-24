@@ -81,19 +81,17 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="2-daq.html#SP1">&#167;1. How these relate</a></li><li><a href="2-daq.html#SP6">&#167;6. Creating a quantifier</a></li><li><a href="2-daq.html#SP9">&#167;9. Acting on quantifiers</a></li><li><a href="2-daq.html#SP12">&#167;12. Creating a determiner</a></li><li><a href="2-daq.html#SP14">&#167;14. Negation</a></li><li><a href="2-daq.html#SP15">&#167;15. Parsing the determiner at the head of a noun phrase</a></li><li><a href="2-daq.html#SP19">&#167;19. The built-in set</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. How these relate.</b> </p>
-
-<blockquote>
-    <p>if most of the doors are open, ...</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>In logic, a &quot;quantifier&quot; appears at the front of a statement which can
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. How these relate.</b>  In logic, a &quot;quantifier&quot; appears at the front of a statement which can
 apply to many cases, and describes the quantity of cases for which the
 statement is true: all of them, some of them, exactly six, and so on.</p>
 <p>When a quantifier is used, it &quot;ranges over a domain&quot;. The domain is the
 set of cases. For instance, in:</p>
 </div>
+<blockquote>
+    <p>if most of the doors are open, ...</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>the &quot;most of&quot; text is parsed into a quantifier written in the debugging
 log as <code>Proportion&gt;50%</code>, and the domain is the set of all doors. We then
@@ -266,20 +264,18 @@ puzzlingly redundant from a traditional logic point of view.</p>
 <span class="plain-syntax">    </span><span class="identifier-syntax">WRITE</span><span class="plain-syntax">(</span><span class="identifier-syntax">quant</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">log_text</span><span class="plain-syntax">, </span><span class="identifier-syntax">parameter</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. Acting on quantifiers.</b> </p>
-
-<blockquote>
-    <p>if most of the closed doors are locked, ...</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>When compiling code to test a proposition which includes a quantifier, we
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. Acting on quantifiers.</b>  When compiling code to test a proposition which includes a quantifier, we
 need to test the cases in the domain set to see how many of them qualify
 and how many do not. These counts are stored in local variables called
 <code>qcy_0</code>, <code>qcn_0</code> and so on: <code>qcn</code> means &quot;quantifier count number&quot; and is
 the size of the domain set, while <code>qcy</code> is the number of &quot;yes&quot; cases.
 Thus if the original source text read:</p>
 </div>
+<blockquote>
+    <p>if most of the closed doors are locked, ...</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p><code>qcy_0</code> will be the number of closed doors which turned out to be locked
 and <code>qcn_0</code> the total number of closed doors. (The indices <code>_0</code>, <code>_1</code>, ...,
@@ -511,24 +507,22 @@ are tried before &quot;all&quot;.)</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">-1</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. </b>  We look for a determiner at the start of a noun phrase; this can sometimes
+be followed by a number. For example,</p>
+</div>
 <blockquote>
     <p>More than three doors</p>
 </blockquote>
 
-<blockquote>
-    <p>three of the doors are open</p>
-</blockquote>
-
-<div class="lsmarkdown">
-<p>We look for a determiner at the start of a noun phrase; this can sometimes
-be followed by a number. For example,</p>
-</div>
 <div class="lsmarkdown">
 <p>matches &quot;more than&quot; from the selection above, then the number &quot;three&quot;.
 It's legal to include &quot;of the&quot;:</p>
 </div>
+<blockquote>
+    <p>three of the doors are open</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>but not &quot;of&quot; on its own: this reduces misunderstandings when objects have
 names like &quot;three of clubs&quot;, meaning a single playing card.</p>
@@ -540,15 +534,13 @@ names like &quot;three of clubs&quot;, meaning a single playing card.</p>
 <span class="Preform-plain-syntax">    </span><span class="Preform-reserved-syntax">...</span><span class="Preform-plain-syntax">           </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { TRUE, - }</span>
 </pre>
 <ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
-<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. </b>  English has an awkward ambiguity here: what does this mean?</p>
+</div>
 <blockquote>
     <p>no one</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>English has an awkward ambiguity here: what does this mean?</p>
-</div>
 <div class="lsmarkdown">
 <p>Inform would normally read this as the determiner &quot;no&quot; followed by the
 number &quot;one&quot;, not realising that &quot;one&quot; is more likely to refer to a
@@ -605,18 +597,8 @@ referring to them. There are four broad families which we take in turn.</p>
 <span class="plain-syntax">    </span><span class="named-paragraph-container code-font"><a href="2-daq.html#SP19_4" class="named-paragraph-link"><span class="named-paragraph"><span class="mathjax_process">Make cardinality quantification determiners</span></span><span class="named-paragraph-number">19.4</span></a></span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP19_1" class="paragraph-anchor"></a><b>&#167;19.1. </b> </p>
-
-<blockquote>
-    <p>A nose is part of every person.</p>
-</blockquote>
-
-<blockquote>
-    <p>if all six doors are open, ...</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>As discussed above, the two traditional quantifiers in logic are &quot;for
+<p class="commentary firstcommentary"><a id="SP19_1" class="paragraph-anchor"></a><b>&#167;19.1. </b>  As discussed above, the two traditional quantifiers in logic are &quot;for
 all&quot; and &quot;there exists&quot;, usually written in mathematical notation as
 \INWEBMATH(\forall\INWEBMATH) and \INWEBMATH(\exists\INWEBMATH), but we also need to create their negation
 quantifiers. So we end up with four: <code>ForAll</code>, <code>NotAll</code>, <code>Exists</code> and
@@ -624,6 +606,10 @@ quantifiers. So we end up with four: <code>ForAll</code>, <code>NotAll</code>, <
 <p>The for-all quantifier can be used in assertions for a slightly oddball
 reason: it's how the source text makes assemblies. For instance,</p>
 </div>
+<blockquote>
+    <p>A nose is part of every person.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>The &quot;every&quot; is parsed as a use of <code>ForAll</code>. Strictly speaking this
 sentence should be read as creating a single nose which would be shared
@@ -636,6 +622,10 @@ part here is simply to authorise <code>ForAll</code> in assertions.)</p>
 in a way which also specifies a cardinality. For instance, the following
 condition:</p>
 </div>
+<blockquote>
+    <p>if all six doors are open, ...</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>is an attempt to use a determiner which Inform does not possess -- &quot;all&quot;
 plus number. We don't allow this because if there happen to be eight doors,
@@ -724,14 +714,8 @@ because it's ambiguous as to whether it means exactly half or half-or-more.</p>
 <span class="plain-syntax">        </span><span class="string-syntax">"used in conditions: true if fewer than half of possibilities work"</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-daq.html#SP19">&#167;19</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP19_4" class="paragraph-anchor"></a><b>&#167;19.4. </b> </p>
-
-<blockquote>
-    <p>Four coins are in the strongbox. Two coins are in the strongbox.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>The usefulness of cardinality quantifiers in logic as applied to
+<p class="commentary firstcommentary"><a id="SP19_4" class="paragraph-anchor"></a><b>&#167;19.4. </b>  The usefulness of cardinality quantifiers in logic as applied to
 linguistics seems to be an observation due to Barwise and Cooper. They are
 a natural generalisation of the for-all and there-exists quantifiers, and
 again come in matched pairs.</p>
@@ -743,6 +727,10 @@ in the strongbox.&quot; is read as containing the <code>Card&gt;=4</code> quanti
 <code>Card=4</code> one. The advantage of this is that two assertions in a row, such
 as</p>
 </div>
+<blockquote>
+    <p>Four coins are in the strongbox. Two coins are in the strongbox.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>can combine to put six coins in the strongbox, rather than having to be
 read as contradictory. (It may look improbable that anyone would ever

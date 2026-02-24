@@ -569,20 +569,18 @@ end actually occurred.)</p>
 <span class="plain-syntax">    </span><a href="2-ec.html#SP3" class="function-link"><span class="function-syntax">EmitCode::up</span></a><span class="plain-syntax">();</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-si.html#SP6">&#167;6</a> (twice).</li></ul>
-<p class="commentary firstcommentary"><a id="SP6_5" class="paragraph-anchor"></a><b>&#167;6.5. </b> </p>
-
-<blockquote>
-    <p>Brisk Quadrille begins when Brisk Quadrille ends untidily.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>In general, the marker count is used to ensure that <code>RTScenes::compile_scene_end_r</code>
+<p class="commentary firstcommentary"><a id="SP6_5" class="paragraph-anchor"></a><b>&#167;6.5. </b>  In general, the marker count is used to ensure that <code>RTScenes::compile_scene_end_r</code>
 never calls itself for a scene it has been called with before on this round.
 This prevents Inform locking up generating infinite amounts of code. However,
 one exception is allowed, in very limited circumstances. Suppose we want to
 make a scene recur, but only if it ends in a particular way. Then we might
 type:</p>
 </div>
+<blockquote>
+    <p>Brisk Quadrille begins when Brisk Quadrille ends untidily.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>This is allowed; it's a case where the &quot;tolerance&quot; below is raised.</p>
 </div>

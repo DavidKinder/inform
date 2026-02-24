@@ -62,18 +62,8 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="3-snt.html#SP1">&#167;1. Sentence breaking</a></li><li><a href="3-snt.html#SP2">&#167;2. Finite state machine</a></li><li><a href="3-snt.html#SP7">&#167;7. Making sentence nodes</a></li><li><a href="3-snt.html#SP8">&#167;8. Unskipped material which is not a heading</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Sentence breaking.</b> </p>
-
-<blockquote>
-    <p>Preamble: phrase 1; phrase 2; ...; phrase N.</p>
-</blockquote>
-
-<blockquote>
-    <p>Instead of eating, say "You really aren't hungry just now."</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>What breaks a sentence? In ordinary English, question marks, exclamation
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Sentence breaking.</b>  What breaks a sentence? In ordinary English, question marks, exclamation
 marks, in some cases ellipses, but mainly full stops. In Inform source text,
 only full stops are used outside quoted text; but we do have to recognise the
 other cases when they occur at the end of quoted matter. Moreover, we
@@ -81,10 +71,18 @@ actually subdivide a little further, because we also want to break up
 rule &quot;sentences&quot; into their subordinate clauses. Thus, going on
 punctuation, we recognise rules as having the following model:</p>
 </div>
+<blockquote>
+    <p>Preamble: phrase 1; phrase 2; ...; phrase N.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>It is even, in certain limited circumstances, possible that a comma can
 divide a sentence:</p>
 </div>
+<blockquote>
+    <p>Instead of eating, say "You really aren't hungry just now."</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>This means that context is important even here, where it might have been
 expected that all we needed to do was to spot the punctuation marks.</p>
@@ -271,10 +269,6 @@ than might have been expected. Some people like to write paragraphs like this:</
 <span class="plain-syntax">        </span><span class="identifier-syntax">say</span><span class="plain-syntax"> </span><span class="string-syntax">"Northward ho!"</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">        </span><span class="identifier-syntax">now</span><span class="plain-syntax"> </span><span class="identifier-syntax">the</span><span class="plain-syntax"> </span><span class="identifier-syntax">compass</span><span class="plain-syntax"> </span><span class="identifier-syntax">points</span><span class="plain-syntax"> </span><span class="identifier-syntax">north</span><span class="plain-syntax">;</span>
 </pre>
-<blockquote>
-    <p>say "Look behind you!";;;;; now the Wug is in the Cave</p>
-</blockquote>
-
 <div class="lsmarkdown">
 <p>And properly speaking that ends with a semicolon then a paragraph break,
 which is a doubled sentence division. But we forgive it as harmless, and
@@ -282,6 +276,10 @@ that forgiveness is provided by the loop arrangement below.</p>
 <p>We also avoid the need for empty sentences, because it is not possible
 for the code below to detect them: thus</p>
 </div>
+<blockquote>
+    <p>say "Look behind you!";;;;; now the Wug is in the Cave</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>is broken as two sentences, not six sentences of which four are empty.
 Perhaps we ought to be stricter, and reject more of these dubious forms,
@@ -399,26 +397,24 @@ before and the word after the current position.</p>
 <span class="plain-syntax">    #</span><span class="identifier-syntax">endif</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-snt.html#SP5_2">&#167;5.2</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP5_2_7" class="paragraph-anchor"></a><b>&#167;5.2.7. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5_2_7" class="paragraph-anchor"></a><b>&#167;5.2.7. </b>  Inform authors habitually use the punctuation in quoted text to end
+sentences, just as other writers of English do. The text</p>
+</div>
 <blockquote>
     <p>"Look out!" The explosion shattered the calm of the hillside.</p>
 </blockquote>
 
-<blockquote>
-    <p>"Of cabbages and kings."\qquad Walrus\qquad "Carroll"</p>
-</blockquote>
-
-<div class="lsmarkdown">
-<p>Inform authors habitually use the punctuation in quoted text to end
-sentences, just as other writers of English do. The text</p>
-</div>
 <div class="lsmarkdown">
 <p>is certainly intended as two sentences, not one.</p>
 <p>An exception is made for table declarations, because a table needs to be formed as
 one long sentence, and it clearly does not abide by the ordinary punctuation
 rules of English. The point is that in the random line of table entries...</p>
 </div>
+<blockquote>
+    <p>"Of cabbages and kings."\qquad Walrus\qquad "Carroll"</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>...the full stop after &quot;kings&quot; has no significance: the semantics of the
 table would be no different if it were not there.</p>
@@ -621,14 +617,8 @@ from an extension, we need to make sure we saw both beginning and end:</p>
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-snt.html#SP5">&#167;5</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Unskipped material which is not a heading.</b> </p>
-
-<blockquote>
-    <p>To look upwards: say "Look out!"; something else.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>Each of the sentences which are to be included is given its own node on the
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Unskipped material which is not a heading.</b>  Each of the sentences which are to be included is given its own node on the
 parse tree, which for the time being is a direct child of the root.
 Sentences are classified by their node types, the main identification
 attached to each unit in the tree.</p>
@@ -647,6 +637,10 @@ the last, which ends with a full stop or paragraph break), each of node type
 </li>
 </ul>
 </div>
+<blockquote>
+    <p>To look upwards: say "Look out!"; something else.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <ul>
 <li>&quot;Structural sentences&quot;. These demarcate the text, call for other text
@@ -655,17 +649,15 @@ or unusual matter to be included, etc.: the types in question are <code>TRACE_NT
 <code>TABLE_NT</code>, <code>EQUATION_NT</code> and <code>BIBLIOGRAPHIC_NT</code>.</li>
 </ul>
 </div>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>  The second sentence in the source text is construed as containing
+bibliographic data if it begins with a quoted piece of text, perhaps with
+substitutions. For instance,</p>
+</div>
 <blockquote>
     <p>"A Dream of Fair to Middling Women" by Samuel Beckett</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>The second sentence in the source text is construed as containing
-bibliographic data if it begins with a quoted piece of text, perhaps with
-substitutions. For instance,</p>
-</div>
 <div class="lsmarkdown">
 <p>This sentence is at the position matched by &lt;if-start-of-source-text&gt;.
 (It may not be the first sentence read, because implied extension inclusion
@@ -719,19 +711,17 @@ sentences and options-file sentences may have been read already.)</p>
 <span class="plain-syntax">    #</span><span class="identifier-syntax">endif</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-snt.html#SP7">&#167;7</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b> </p>
-
-<blockquote>
-    <p>Instead of pushing, dropping, or taking the talisman, say "It is cursed."</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>We make an exception to the exception for the serial comma used in a list of
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b>  We make an exception to the exception for the serial comma used in a list of
 alternatives: thus the comma in &quot;Aeschylus, Sophocles, or Euripides&quot; does
 not trigger this rule. We need this exception because such lists of
 alternatives often occur in rule preambles, where it's the third comma
 which divides rule from preamble:</p>
 </div>
+<blockquote>
+    <p>Instead of pushing, dropping, or taking the talisman, say "It is cursed."</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>The following is used to detect &quot;or&quot; in such lists.</p>
 </div>
@@ -795,20 +785,14 @@ commonest outcome is a SENTENCE node, so that's what we shall assume for now.</p
 <span class="plain-syntax">    </span><a href="2-st.html#SP4" class="function-link"><span class="function-syntax">SyntaxTree::graft_sentence</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">T</span><span class="plain-syntax">, </span><span class="identifier-syntax">new</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-snt.html#SP7_7">&#167;7.7</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP7_7_3" class="paragraph-anchor"></a><b>&#167;7.7.3. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7_7_3" class="paragraph-anchor"></a><b>&#167;7.7.3. </b>  Rules are sequences of phrases with a preamble in front, which we detect by
+its terminating colon. For instance:</p>
+</div>
 <blockquote>
     <p>To look upwards: say "Look out!"; something else.</p>
 </blockquote>
 
-<blockquote>
-    <p>Definition: a supporter is wobbly: if the player is on it, decide yes; decide no.</p>
-</blockquote>
-
-<div class="lsmarkdown">
-<p>Rules are sequences of phrases with a preamble in front, which we detect by
-its terminating colon. For instance:</p>
-</div>
 <div class="lsmarkdown">
 <p>(which arrives at this routine as three separate &quot;sentences&quot;) will produce
 nodes with type <code>IMPERATIVE_NT</code>, <code>INVOCATION_LIST_NT</code> and <code>INVOCATION_LIST_NT</code> respectively.</p>
@@ -817,6 +801,10 @@ mode, not in rule mode, because how can a rule preamble legally occur in
 the middle of another rule? But in fact it can, in two ways. One is the
 officially sanctioned way to make a definition with a complex phrase:</p>
 </div>
+<blockquote>
+    <p>Definition: a supporter is wobbly: if the player is on it, decide yes; decide no.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>This produces four nodes: <code>IMPERATIVE_NT</code>, <code>IMPERATIVE_NT</code>, <code>INVOCATION_LIST_NT</code> and
 <code>INVOCATION_LIST_NT</code> respectively.</p>

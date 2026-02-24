@@ -1,5 +1,6 @@
 Title: Kits
 Author: Graham Nelson
+Notation: InwebClassic
 
 @ Whereas //extensions// are a familiar concept to most Inform users, "kits" are
 not. They provide what can be large bodies of pre-compiled material. As with

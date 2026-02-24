@@ -346,14 +346,8 @@ Our aim here is to determine who will perform the action.</p>
 <span class="plain-syntax">    ==&gt; { </span><span class="constant-syntax">ACTOR_EXP_UNIVERSAL</span><span class="plain-syntax">, </span><span class="identifier-syntax">ap</span><span class="plain-syntax"> };</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="4-pap.html#SP8">&#167;8</a> (10 times).</li></ul>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b> </p>
-
-<blockquote>
-    <p>angry waiting man taking the fish</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>Note that the three present-tense cases all allow the abbreviated form
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>  Note that the three present-tense cases all allow the abbreviated form
 &quot;Raffles taking a jewel&quot; rather than the less likely to be ambiguous &quot;Raffles
 trying taking a jewel&quot;. This is allowed only in <code>PERMIT_TRYING_OMISSION</code> mode,
 and makes use of the following voracious nonterminal to match the actor's
@@ -364,6 +358,10 @@ which is not inside parentheses; but only if the resulting name matches
 match if the text is the name of an instance but the &quot;-ing&quot; word could also be
 read as part of that same name. For example, if we read the text</p>
 </div>
+<blockquote>
+    <p>angry waiting man taking the fish</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>where &quot;angry waiting man&quot; is the name of an individual person, then we don't
 break this after &quot;angry&quot; (with the action &quot;waiting&quot;) even though &quot;angry&quot;
@@ -470,19 +468,17 @@ name; so we needn't spend any further time.</p>
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="4-pap.html#SP11">&#167;11</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. Level Four.</b> </p>
-
-<blockquote>
-    <p>Instead of Raffles taking the box for the second time, try Bunny doing it.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>This level deals only with the pronominal action &quot;doing it&quot;, an anaphora which
+<p class="commentary firstcommentary"><a id="SP12" class="paragraph-anchor"></a><b>&#167;12. Level Four.</b>  This level deals only with the pronominal action &quot;doing it&quot;, an anaphora which
 refers by implication to whatever action pattern was previously discussed before
 this one. Parsing this accurately is a fool's errand, and allowing this syntax
 in Inform was not a good idea, because the potential for confusion is too great.
 That said, it does enable, for example, the cool rule:</p>
 </div>
+<blockquote>
+    <p>Instead of Raffles taking the box for the second time, try Bunny doing it.</p>
+</blockquote>
+
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-function-syntax">&lt;ap-four-pronominal&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
 <span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">doing</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">it</span>

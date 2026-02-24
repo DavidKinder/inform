@@ -550,17 +550,15 @@ referring to their values, and these have different kinds. So:</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">K</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP23" class="paragraph-anchor"></a><b>&#167;23. Creating new base kind constructors.</b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP23" class="paragraph-anchor"></a><b>&#167;23. Creating new base kind constructors.</b>  Inform's whole stock of constructors comes from two routes: this one, from the
+source text, and another we shall see later, from the Kind Interpreter. The
+following is called in response to sentences like:</p>
+</div>
 <blockquote>
     <p>Texture is a kind of value. A musical instrument is a kind of thing.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>Inform's whole stock of constructors comes from two routes: this one, from the
-source text, and another we shall see later, from the Kind Interpreter. The
-following is called in response to sentences like:</p>
-</div>
 <div class="lsmarkdown">
 <p>The word range is the name (&quot;texture&quot;, &quot;musical instrument&quot;), and <code>super</code>
 is the super-kind (&quot;value&quot;, &quot;thing&quot;).</p>

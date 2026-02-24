@@ -1,5 +1,6 @@
 Title: Navigation page for Inpolicy
 Author: Graham Nelson
+Notation: InwebClassic
 
 @ Inpolicy is not part of the main Inform compiler and is not shipped inside the
 Inform apps. Instead, it's used as a stand-alone command-line tool by the

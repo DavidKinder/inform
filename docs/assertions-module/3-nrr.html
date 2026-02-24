@@ -81,15 +81,13 @@ MathJax = {
 
 <ul class="toc"><li><a href="3-nrr.html#SP7">&#167;7. Creation, Stage II</a></li><li><a href="3-nrr.html#SP7_1">&#167;7.1. The parsing phase</a></li><li><a href="3-nrr.html#SP8">&#167;8. The completion phase</a></li><li><a href="3-nrr.html#SP9">&#167;9. Storing relations</a></li><li><a href="3-nrr.html#SP11">&#167;11. Registering names of relations</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  The following reads sentences like:</p>
+</div>
 <blockquote>
     <p>Acquaintance relates people to each other.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>The following reads sentences like:</p>
-</div>
 <div class="lsmarkdown">
 <p>Note that we take at least minimal action on this as soon as we detect it,
 in the pre-pass: this is important because it may affect the classification
@@ -339,27 +337,25 @@ change. So we reject any such misleading syntax.</p>
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-nrr.html#SP2_1">&#167;2.1</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP2_1_5" class="paragraph-anchor"></a><b>&#167;2.1.5. </b> </p>
-
-<blockquote>
-    <p>Acquaintance relates various people (called the greeter) to various people.</p>
-</blockquote>
-
-<blockquote>
-    <p>Divisibility relates a number (called N) to a number (called M) when the remainder after dividing M by N is 0.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>To give a name to one term implies some degree of uniqueness about it.
+<p class="commentary firstcommentary"><a id="SP2_1_5" class="paragraph-anchor"></a><b>&#167;2.1.5. </b>  To give a name to one term implies some degree of uniqueness about it.
 But that only makes sense if there is indeed some uniqueness involved,
 because otherwise it is unclear what the name refers to. Who is &quot;the
 greeter of the Queen of Sheba&quot; given the following definition?</p>
 </div>
+<blockquote>
+    <p>Acquaintance relates various people (called the greeter) to various people.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>Because of that, callings are only allowed in certain circumstances. An
 exception is made -- that is, they are always allowed -- where the relation
 tests a given condition, because then the names identify the terms, e.g.,</p>
 </div>
+<blockquote>
+    <p>Divisibility relates a number (called N) to a number (called M) when the remainder after dividing M by N is 0.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>Here the names &quot;N&quot; and &quot;M&quot; unambiguously refer to the terms being tested
 at this moment, and have no currency beyond that context.</p>
@@ -604,16 +600,14 @@ splitting into cases.</p>
 <span class="plain-syntax">    </span><span class="identifier-syntax">bpr</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">term_details</span><span class="plain-syntax">[0] = </span><span class="identifier-syntax">right_bptd</span><span class="plain-syntax">; </span><span class="identifier-syntax">bpr</span><span class="plain-syntax">-&gt;</span><span class="identifier-syntax">term_details</span><span class="plain-syntax">[1] = </span><span class="identifier-syntax">left_bptd</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-nrr.html#SP7_1">&#167;7.1</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP7_1_2" class="paragraph-anchor"></a><b>&#167;7.1.2. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7_1_2" class="paragraph-anchor"></a><b>&#167;7.1.2. </b>  Callings are used to give names to the terms on each side of the relation,
+e.g.,</p>
+</div>
 <blockquote>
     <p>Lock-fitting relates one thing (called the matching key) to various things.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>Callings are used to give names to the terms on each side of the relation,
-e.g.,</p>
-</div>
 <p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">Detect callings for the terms of the relation</span><span class="named-paragraph-number">7.1.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">

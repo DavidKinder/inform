@@ -95,30 +95,22 @@ which expresses that a condition holds at a different time from the present.</p>
 <p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  <code>TEST_PROPOSITION_NT</code> contains a predicate calculus sentence in the
 <code>proposition</code> field of its SP: there are no arguments.</p>
 </div>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  <code>TEST_PHRASE_OPTION_NT</code> tests the use of a phrase option, and is the
+actual SP parsed for the second usage of the word &quot;thoroughly&quot; in
+the following example:</p>
+</div>
 <blockquote>
     <p>To prognosticate, swiftly or thoroughly: ...; if thoroughly, ...</p>
 </blockquote>
 
 <div class="lsmarkdown">
-<p><code>TEST_PHRASE_OPTION_NT</code> tests the use of a phrase option, and is the
-actual SP parsed for the second usage of the word &quot;thoroughly&quot; in
-the following example:</p>
-</div>
-<div class="lsmarkdown">
 <p>It uses the SP's data field to refer to the option in question: its value is the
 bitmap value of the option, which will usually be \INWEBMATH(2^n\INWEBMATH) where the option
 is the \INWEBMATH(n\INWEBMATH)-th in the list for this phrase, counting upwards from 0.</p>
 </div>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b> </p>
-
-<blockquote>
-    <p>To decide which number is total (P - property) of (D - description):</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p><code>TEST_VALUE_NT</code> tests the value beneath it in a condition context. For
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  <code>TEST_VALUE_NT</code> tests the value beneath it in a condition context. For
 truth state values, this does the obvious thing: <code>true</code> passes and
 <code>false</code> fails. For stored actions or descriptions of actions, the current
 action is tested to see if it matches.</p>
@@ -127,6 +119,10 @@ action is tested to see if it matches.</p>
 make definitions like this one work, we also need to treat descriptions as
 values:</p>
 </div>
+<blockquote>
+    <p>To decide which number is total (P - property) of (D - description):</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>The way this is done is that type-checking a description (say, &quot;closed doors
 in lighted rooms&quot;) against the expectation of finding the kind constructor

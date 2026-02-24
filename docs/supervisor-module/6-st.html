@@ -333,8 +333,14 @@ Inform users: it increases output to the debugging log.)</p>
 <span class="plain-syntax">    </span><span class="identifier-syntax">NodeType::new</span><span class="plain-syntax">(</span><span class="constant-syntax">TRACE_NT</span><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"TRACE_NT"</span><span class="plain-syntax">,                     </span><span class="constant-syntax">0</span><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">,     </span><span class="identifier-syntax">L2_NCAT</span><span class="plain-syntax">, </span><span class="constant-syntax">0</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>  Sentences in the source text are of five categories: dividing sentences,
+which divide up the source into segments; structural sentences, which split
+the source into different forms (standard text, tables, equations, I6 matter,
+and so on); nonstructural sentences, which make grammatical definitions and
+give Inform other more or less direct instructions; rule declarations; and
+regular sentences, those which use the standard verbs. Examples:</p>
+</div>
 <blockquote>
     <p>Volume II [dividing]</p>
 </blockquote>
@@ -355,14 +361,6 @@ Inform users: it increases output to the debugging log.)</p>
     <p>The cushion is on the wooden chair [regular]</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>Sentences in the source text are of five categories: dividing sentences,
-which divide up the source into segments; structural sentences, which split
-the source into different forms (standard text, tables, equations, I6 matter,
-and so on); nonstructural sentences, which make grammatical definitions and
-give Inform other more or less direct instructions; rule declarations; and
-regular sentences, those which use the standard verbs. Examples:</p>
-</div>
 <div class="lsmarkdown">
 <p>Dividing sentences are always read, whereas the others may be skipped in
 sections of source not being included for one reason or another.</p>
@@ -431,19 +429,17 @@ never accidentally match in the main source text.</p>
 <span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">include</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">(-</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">...</span><span class="Preform-plain-syntax">                                 </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { 0, - }; sfsm-&gt;nt = INFORM6CODE_NT;</span>
 </pre>
 <ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
-<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. </b> </p>
-
-<blockquote>
-    <p>Instead of going north, try entering the cage</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>Rules are ordinarily detected by their colon, which divides the header from the
+<p class="commentary firstcommentary"><a id="SP11" class="paragraph-anchor"></a><b>&#167;11. </b>  Rules are ordinarily detected by their colon, which divides the header from the
 rest: colons are not otherwise legal in Inform. But there's an exception. If the
 sentence consists of text matching the following grammar, followed by comma,
 followed by more text, then the comma is read as if it's a colon and the
 sentence becomes a rule. For example:</p>
 </div>
+<blockquote>
+    <p>Instead of going north, try entering the cage</p>
+</blockquote>
+
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-function-syntax">&lt;comma-divisible-sentence&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
 <span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">instead</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">of</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">...</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span>
@@ -485,15 +481,13 @@ or beat.</p>
 </div>
 <pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">DIALOGUE_WARNING_SYNTAX_CALLBACK</span> <a href="5-ps2.html#SP33" class="function-link"><span class="function-syntax">Projects::dialogue_present</span></a>
 </pre>
-<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP15" class="paragraph-anchor"></a><b>&#167;15. </b>  Lastly, this callback is called by <a href="../syntax-module/index.html" class="internal">syntax</a> when it hits a sentence like:</p>
+</div>
 <blockquote>
     <p>Use interactive fiction language element.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>Lastly, this callback is called by <a href="../syntax-module/index.html" class="internal">syntax</a> when it hits a sentence like:</p>
-</div>
 <div class="lsmarkdown">
 <p>This feature of Inform has been withdrawn (it has moved lower down the software
 stack into the new world of kits), so we issue a syntax error.</p>

@@ -78,23 +78,21 @@ function togglePopup(material_id) {
 <span class="plain-syntax">        </span><a href="3-ma.html#SP3" class="function-link"><span class="function-syntax">MeasurementAdjectives::claim_definition</span></a><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  Measurement adjectives are created when we parse a &quot;Definition:&quot; clause for
+a new adjective, and then only when the definition has a particular form:</p>
+</div>
 <blockquote>
     <p>Definition: A container is roomy if its carrying capacity is 10 or more.</p>
 </blockquote>
 
+<div class="lsmarkdown">
+<p>&lt;measurement-adjective-definition&gt; is used to parse the definition part,</p>
+</div>
 <blockquote>
     <p>its carrying capacity is 10 or more</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>Measurement adjectives are created when we parse a &quot;Definition:&quot; clause for
-a new adjective, and then only when the definition has a particular form:</p>
-</div>
-<div class="lsmarkdown">
-<p>&lt;measurement-adjective-definition&gt; is used to parse the definition part,</p>
-</div>
 <div class="lsmarkdown">
 <p>The following grammar is a little sketchy because it's parsed very early in
 Inform's run; stricter rules eventually apply to all those ellipses.</p>
@@ -189,20 +187,14 @@ measurement.</p>
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-ma.html#SP3">&#167;3</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP3_2" class="paragraph-anchor"></a><b>&#167;3.2. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3_2" class="paragraph-anchor"></a><b>&#167;3.2. </b>  Perhaps this is a good point to say why we allow any exact measurements at
+all. After all, if we didn't, a definition like:</p>
+</div>
 <blockquote>
     <p>Definition: a person is handy if his carrying capacity is 7.</p>
 </blockquote>
 
-<blockquote>
-    <p>Peter is a handy person.</p>
-</blockquote>
-
-<div class="lsmarkdown">
-<p>Perhaps this is a good point to say why we allow any exact measurements at
-all. After all, if we didn't, a definition like:</p>
-</div>
 <div class="lsmarkdown">
 <p>...would still work; and &quot;handy&quot; would then be created as a <code>condition_amf</code>
 adjective. So why not let that happen?</p>
@@ -210,6 +202,10 @@ adjective. So why not let that happen?</p>
 at run-time, but can also be asserted true in the model world at compile-time.
 In particular, we could write:</p>
 </div>
+<blockquote>
+    <p>Peter is a handy person.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>This can't be done with general <code>condition_amf</code> adjectives, because conditions
 can't normally be unravelled at compile time.</p>

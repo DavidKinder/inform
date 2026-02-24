@@ -50,7 +50,7 @@
 <div class="breadcrumbs">
     <ul class="crumbs"><li><a href="index.html">Home</a></li><li><b>Navigation page for Inform7</b></li></ul></div>
 <div class="lsmarkdown">
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  @ The inform7 tool is the active part of the Inform apps familiar to end users,
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  The inform7 tool is the active part of the Inform apps familiar to end users,
 but it can also be run as a command-line tool outside of the app. See the</p>
 <ul>
 <li>The contents page for the inform7 web is here: <a href="inform7/index.html" class="internal">inform7</a>.</li>
@@ -61,20 +61,18 @@ at <a href="inform7/1-mn.html" class="internal">Main (in inform7)</a>.</li>
 contains the other two tools in their entirety. See <a href="inbuildn.html" class="internal">inbuildn</a> and
 which are not found elsewhere, and those are the ones described on this page.
 See <a href="structure.html" class="internal">structure</a> for the bigger picture: the modules unique to inform7 perform
-just one simple-looking part of the compilation flow diagram --
-= (hyperlinked text as BoxArt)
-syntax tree</p>
+just one simple-looking part of the compilation flow diagram --</p>
 </div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    |</span>
-<span class="plain-syntax">    |  INFORM7 Stages 2 to 4/5</span>
-<span class="plain-syntax">    |</span>
-<span class="plain-syntax">   \|/</span>
-<span class="plain-syntax">Inter tree</span>
+<span class="plain-syntax">    </span><span class="element-syntax">syntax</span><span class="plain-syntax"> </span><span class="element-syntax">tree</span>
+<span class="plain-syntax">        |</span>
+<span class="plain-syntax">        |  </span><span class="function-syntax">INFORM7</span><span class="plain-syntax"> </span><span class="element-syntax">Stages</span><span class="plain-syntax"> </span><span class="constant-syntax">2</span><span class="plain-syntax"> </span><span class="element-syntax">to</span><span class="plain-syntax"> </span><span class="constant-syntax">4</span><span class="plain-syntax">/5</span>
+<span class="plain-syntax">        |</span>
+<span class="plain-syntax">       \|/</span>
+<span class="plain-syntax">    </span><span class="element-syntax">Inter</span><span class="plain-syntax"> </span><span class="element-syntax">tree</span>
 </pre>
 <div class="lsmarkdown">
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  =</p>
-<p>@ The <a href="core-module/index.html" class="internal">core</a> module is an organiser of what happens during Stages 2 to 5,
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  The <a href="core-module/index.html" class="internal">core</a> module is an organiser of what happens during Stages 2 to 5,
 which involve very many sub-stages. It includes a form of scheduler, queueing
 up individual tasks; it provides general mechanisms for issuing problem messages;
 and also a &quot;plugin&quot; architecture enabling language features to be added. Most
@@ -86,7 +84,9 @@ features to add domain-specific gadgets to that language.</p>
 <li>Contents page of web: <a href="core-module/index.html" class="internal">core</a>.</li>
 <li>Detailed overview: <a href="core-module/P-wtmd.html" class="internal">What This Module Does (in core)</a>.</li>
 </ul>
-<p>@ The <a href="assertions-module/index.html" class="internal">assertions</a> module looks at sentences in the source text outside of
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  The <a href="assertions-module/index.html" class="internal">assertions</a> module looks at sentences in the source text outside of
 rules/phrases: often copular sentences like &quot;X is a number which varies&quot;,
 but also imperative forms like &quot;Understand ... as ...&quot; or rule/phrase headers
 such as &quot;To ...:&quot;.</p>
@@ -94,7 +94,9 @@ such as &quot;To ...:&quot;.</p>
 <li>Contents page of web: <a href="assertions-module/index.html" class="internal">assertions</a>.</li>
 <li>Detailed overview: <a href="assertions-module/P-wtmd.html" class="internal">What This Module Does (in assertions)</a>.</li>
 </ul>
-<p>@ The <a href="values-module/index.html" class="internal">values</a> module parses descriptions of values and their kinds, and
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  The <a href="values-module/index.html" class="internal">values</a> module parses descriptions of values and their kinds, and
 contains in particular the &quot;S-parser&quot; (parsing fragments of the AST called
 &quot;specifications&quot;), and the Inform typechecker, a behemoth of an algorithm
 called &quot;Dash&quot;. Typechecking in Inform is quite unlike that used in most
@@ -105,14 +107,18 @@ considerably in any case.</p>
 <li>Contents page of web: <a href="values-module/index.html" class="internal">values</a>.</li>
 <li>Detailed overview: <a href="values-module/P-wtmd.html" class="internal">What This Module Does (in values)</a>.</li>
 </ul>
-<p>@ The <a href="knowledge-module/index.html" class="internal">knowledge</a> module manages variables, properties, instances and so
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  The <a href="knowledge-module/index.html" class="internal">knowledge</a> module manages variables, properties, instances and so
 forth, and stores knowledge of differing certainty about their values in the
 form of &quot;inferences&quot;.</p>
 <ul>
 <li>Contents page of web: <a href="knowledge-module/index.html" class="internal">knowledge</a>.</li>
 <li>Detailed overview: <a href="knowledge-module/P-wtmd.html" class="internal">What This Module Does (in knowledge)</a>.</li>
 </ul>
-<p>@ The <a href="imperative-module/index.html" class="internal">imperative</a> module is almost a compiler-within-a-compiler, since it
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. </b>  The <a href="imperative-module/index.html" class="internal">imperative</a> module is almost a compiler-within-a-compiler, since it
 parses and generates Inter code from the bodies of phrase and rule definitions.
 More modern compiler-concepts such as closures and generics do make tiny
 appearances here, but really it's an old-school imperative compiler.</p>
@@ -120,7 +126,9 @@ appearances here, but really it's an old-school imperative compiler.</p>
 <li>Contents page of web: <a href="imperative-module/index.html" class="internal">imperative</a>.</li>
 <li>Detailed overview: <a href="imperative-module/P-wtmd.html" class="internal">What This Module Does (in imperative)</a>.</li>
 </ul>
-<p>@ The <a href="runtime-module/index.html" class="internal">runtime</a> module generates Inter code for everything other than
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  The <a href="runtime-module/index.html" class="internal">runtime</a> module generates Inter code for everything other than
 functions. This can be quite elaborate: whereas, say, a global variable in
 Inform is likely to need only a single Inter instruction, something like
 a various-to-various relation may need a large body of Inter arrays,
@@ -137,7 +145,9 @@ for the moment.</p>
 <li>Contents page of web: <a href="runtime-module/index.html" class="internal">runtime</a>.</li>
 <li>Detailed overview: <a href="runtime-module/P-wtmd.html" class="internal">What This Module Does (in runtime)</a>.</li>
 </ul>
-<p>@ The <a href="if-module/index.html" class="internal">if</a> module consists of an extensive suite of features (see |core|
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>  The <a href="if-module/index.html" class="internal">if</a> module consists of an extensive suite of features (see <code>core</code>
 above) to add interactive fiction support to the Basic Inform language.
 Support for scenes, a spatial map, a protagonist character, and so on are
 all to be found here.</p>
@@ -145,14 +155,18 @@ all to be found here.</p>
 <li>Contents page of web: <a href="if-module/index.html" class="internal">if</a>.</li>
 <li>Detailed overview: <a href="if-module/P-wtmd.html" class="internal">What This Module Does (in if)</a>.</li>
 </ul>
-<p>@ The <a href="multimedia-module/index.html" class="internal">multimedia</a> module consists of a few features (see |core| above)
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>  The <a href="multimedia-module/index.html" class="internal">multimedia</a> module consists of a few features (see <code>core</code> above)
 to add images, sound files and external file-handling to the Basic Inform
 language.</p>
 <ul>
 <li>Contents page of web: <a href="multimedia-module/index.html" class="internal">multimedia</a>.</li>
 <li>Detailed overview: <a href="multimedia-module/P-wtmd.html" class="internal">What This Module Does (in multimedia)</a>.</li>
 </ul>
-<p>@ As noted above, inform7 contains many other modules: all of those from
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b>  As noted above, inform7 contains many other modules: all of those from
 together with the ubiquitous <a href="foundation/index.html" class="internal">foundation</a> library.</p>
 </div>
 <!-- End of weave -->

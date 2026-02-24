@@ -1410,15 +1410,13 @@ source file of the project.</p>
 <span class="plain-syntax">    </span><span class="identifier-syntax">DISCARD_TEXT</span><span class="plain-syntax">(</span><span class="identifier-syntax">bracketed</span><span class="plain-syntax">)</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-ps2.html#SP38">&#167;38</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP38_1_1" class="paragraph-anchor"></a><b>&#167;38.1.1. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP38_1_1" class="paragraph-anchor"></a><b>&#167;38.1.1. </b>  A bibliographic sentence can optionally give a language, by use of &quot;(in ...)&quot;:</p>
+</div>
 <blockquote>
     <p>"Bonjour Albertine" by Marcel Proust (in French)</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>A bibliographic sentence can optionally give a language, by use of &quot;(in ...)&quot;:</p>
-</div>
 <div class="lsmarkdown">
 <p>If so, the following writes <code>&quot;Bonjour Albertine&quot; by Marcel Proust</code> to the
 text <code>bibliographic_sentence</code> and <code>in French</code> to the text <code>bracketed</code>. If not,
@@ -1470,22 +1468,20 @@ the whole thing goes into <code>bibliographic_sentence</code> and <code>brackete
 <span class="plain-syntax">        </span><span class="identifier-syntax">Str::delete_last_character</span><span class="plain-syntax">(</span><span class="identifier-syntax">bibliographic_sentence</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-ps2.html#SP38_1">&#167;38.1</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP38_1_2" class="paragraph-anchor"></a><b>&#167;38.1.2. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP38_1_2" class="paragraph-anchor"></a><b>&#167;38.1.2. </b>  The author is sometimes given outside of quotation marks:</p>
+</div>
 <blockquote>
     <p>"The Large Scale Structure of Space-Time" by Lindsay Lohan</p>
 </blockquote>
 
+<div class="lsmarkdown">
+<p>But not always:</p>
+</div>
 <blockquote>
     <p>"Greek Rural Postmen and Their Cancellation Numbers" by "will.i.am"</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>The author is sometimes given outside of quotation marks:</p>
-</div>
-<div class="lsmarkdown">
-<p>But not always:</p>
-</div>
 <p class="commentary"><span class="named-paragraph-container code-font"><span class="named-paragraph-defn">The opening sentence is bibliographic, so scan it</span><span class="named-paragraph-number">38.1.2</span></span> =</p>
 
 <pre class="displayed-code all-displayed-code code-font">

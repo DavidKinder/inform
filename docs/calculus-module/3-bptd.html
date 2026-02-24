@@ -78,18 +78,16 @@ function togglePopup(material_id) {
     <ul class="crumbs"><li><a href="../index.html">Home</a></li><li><a href="../services.html">Services</a></li><li><a href="index.html">calculus</a></li><li><a href="index.html#3">Chapter 3: Binary Predicates</a></li><li><b>Binary Predicate Term Details</b></li></ul></div>
 <p class="purpose">To keep track of requirements on the terms for a binary predicate.</p>
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b> </p>
-
-<blockquote>
-    <p>Harry Smythe wears the tweed waistcoat.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>Different BPs apply to different sorts of terms: for instance, the
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  Different BPs apply to different sorts of terms: for instance, the
 numerical less-than comparison applies to numbers, whereas containment
 applies to things. The two terms need not have the same domain: the
 &quot;wearing&quot; relation, as seen in</p>
 </div>
+<blockquote>
+    <p>Harry Smythe wears the tweed waistcoat.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>is a binary predicate \INWEBMATH(W(x_0, x_1)\INWEBMATH) such that \INWEBMATH(x_0\INWEBMATH) ranges across people
 and \INWEBMATH(x_1\INWEBMATH) ranges across things.</p>
@@ -160,19 +158,17 @@ so that we must fill them in later, using the following:</p>
 <span class="plain-syntax">    </span><span class="identifier-syntax">bptd</span><span class="plain-syntax">-&gt;</span><span class="element-syntax">implies_infs</span><span class="plain-syntax"> = </span><span class="identifier-syntax">TERM_DOMAIN_FROM_KIND_FUNCTION</span><span class="plain-syntax">(</span><span class="identifier-syntax">K</span><span class="plain-syntax">);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b> </p>
-
-<blockquote>
-    <p>Suspicion relates various people to various people.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>Some BPs are such that \INWEBMATH(B(x, y)\INWEBMATH) can be true for more or less any
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  Some BPs are such that \INWEBMATH(B(x, y)\INWEBMATH) can be true for more or less any
 combination of \INWEBMATH(x\INWEBMATH) and \INWEBMATH(y\INWEBMATH). Those can take a lot of storage and it is
 difficult to perform any reasoning about them, because knowing that
 \INWEBMATH(B(x, y)\INWEBMATH) is true doesn't give you any information about \INWEBMATH(B(x, z)\INWEBMATH).
 For instance, the BP created by</p>
 </div>
+<blockquote>
+    <p>Suspicion relates various people to various people.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>is stored at run-time in a bitmap of \INWEBMATH(P^2\INWEBMATH) bits, where \INWEBMATH(P\INWEBMATH) is the number
 of people, and searching it (&quot;if anyone suspects Harry&quot;) requires

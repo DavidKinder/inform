@@ -226,18 +226,16 @@ conjugation to another.</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">for</span><span class="plain-syntax"> (</span><span class="identifier-syntax">k</span><span class="plain-syntax">=0; </span><span class="identifier-syntax">k</span><span class="plain-syntax">&lt;=</span><span class="constant-syntax">MAX_FORM_TYPES</span><span class="plain-syntax">; </span><span class="identifier-syntax">k</span><span class="plain-syntax">++) </span><span class="identifier-syntax">verb_forms</span><span class="plain-syntax">[</span><span class="identifier-syntax">k</span><span class="plain-syntax">] = </span><span class="identifier-syntax">base_text</span><span class="plain-syntax">;</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-vc.html#SP6">&#167;6</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP6_2" class="paragraph-anchor"></a><b>&#167;6.2. </b> </p>
-
-<blockquote>
-    <p>To blend (I blend, he blends, it is blent) ...</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>This feature is provided so that English verb definitions can override the
+<p class="commentary firstcommentary"><a id="SP6_2" class="paragraph-anchor"></a><b>&#167;6.2. </b>  This feature is provided so that English verb definitions can override the
 usual grammatical rules, which enables us to create new irregular verbs.
 For example, Inform will by default make the past participle &quot;blended&quot; out
 of the verb &quot;to blend&quot;, but a definition like</p>
 </div>
+<blockquote>
+    <p>To blend (I blend, he blends, it is blent) ...</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>will cause &quot;blent&quot; to override &quot;blended&quot; in the <code>PAST_PARTICIPLE_FORM_TYPE</code>.
 (Philip Larkin's poem &quot;Church Going&quot; uses &quot;blent&quot;, but I've never seen
@@ -955,16 +953,14 @@ as <code>pattern</code>.</p>
 <span class="plain-syntax">    </span><span class="identifier-syntax">exit</span><span class="plain-syntax">(1);</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. Testing.</b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP16" class="paragraph-anchor"></a><b>&#167;16. Testing.</b>  Similarly, the following helps translators by giving them unit tests for their
+conjugations:</p>
+</div>
 <blockquote>
     <p>Test verb (internal) with appuyer.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>Similarly, the following helps translators by giving them unit tests for their
-conjugations:</p>
-</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="type-syntax">void</span><span class="plain-syntax"> </span><span class="function-syntax">Conjugation::test</span><span class="plain-syntax">(</span><span class="identifier-syntax">OUTPUT_STREAM</span><span class="plain-syntax">, </span><span class="identifier-syntax">wording</span><span class="plain-syntax"> </span><span class="identifier-syntax">W</span><span class="plain-syntax">, </span><span class="identifier-syntax">NATURAL_LANGUAGE_WORDS_TYPE</span><span class="plain-syntax"> *</span><span class="identifier-syntax">nl</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="type-syntax">verb_conjugation</span><span class="plain-syntax"> *</span><span class="identifier-syntax">vc</span><span class="plain-syntax"> = </span><a href="3-vc.html#SP6" class="function-link"><span class="function-syntax">Conjugation::conjugate</span></a><span class="plain-syntax">(</span>

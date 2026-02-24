@@ -210,8 +210,11 @@ tense conditions such as &quot;the jewels have been taken&quot;.</p>
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="4-ap.html#SP6">&#167;6</a> (twice).</li></ul>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  The rest of this section is given over to the Preform grammar for dealing
+with the special meaning &quot;X is an action...&quot;, which creates new action names.
+These can be quite complicated:</p>
+</div>
 <blockquote>
     <p>Inserting it into is an action applying to two things.</p>
 </blockquote>
@@ -220,11 +223,6 @@ tense conditions such as &quot;the jewels have been taken&quot;.</p>
     <p>Verifying the story file is an action out of world and applying to nothing.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>The rest of this section is given over to the Preform grammar for dealing
-with the special meaning &quot;X is an action...&quot;, which creates new action names.
-These can be quite complicated:</p>
-</div>
 <pre class="displayed-code all-displayed-code code-font">
 <span class="type-syntax">int</span><span class="plain-syntax"> </span><span class="function-syntax">ActionsPlugin::make_special_meanings</span><button class="popup" onclick="togglePopup('usagePopup5')"><span class="comment-syntax">?</span><span class="popuptext" id="usagePopup5">Usage of <span class="code-font"><span class="function-syntax">ActionsPlugin::make_special_meanings</span></span>:<br/><a href="4-ap.html#SP1">&#167;1</a></span></button><span class="plain-syntax">(</span><span class="type-syntax">void</span><span class="plain-syntax">) {</span>
 <span class="plain-syntax">    </span><span class="identifier-syntax">SpecialMeanings::declare</span><span class="plain-syntax">(</span><a href="4-ap.html#SP7" class="function-link"><span class="function-syntax">ActionsPlugin::new_action_SMF</span></a><span class="plain-syntax">, </span><span class="identifier-syntax">I</span><span class="string-syntax">"new-action"</span><span class="plain-syntax">, </span><span class="constant-syntax">2</span><span class="plain-syntax">);</span>
@@ -330,17 +328,15 @@ to be created.</p>
 <span class="plain-syntax">    ==&gt; { </span><span class="identifier-syntax">fail</span><span class="plain-syntax"> </span><span class="identifier-syntax">nonterminal</span><span class="plain-syntax"> };</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="4-ap.html#SP9">&#167;9</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP10" class="paragraph-anchor"></a><b>&#167;10. </b>  The object NP is a sequence of &quot;action clauses&quot; which can occur in any order,
+which are allowed but not required to be delimited as a list, and which can
+inconveniently contain the word &quot;and&quot;; not only that, but note that in</p>
+</div>
 <blockquote>
     <p>applying to one thing and one number</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>The object NP is a sequence of &quot;action clauses&quot; which can occur in any order,
-which are allowed but not required to be delimited as a list, and which can
-inconveniently contain the word &quot;and&quot;; not only that, but note that in</p>
-</div>
 <div class="lsmarkdown">
 <p>the initial text &quot;applying to one thing&quot; would be valid as it stands.</p>
 </div>

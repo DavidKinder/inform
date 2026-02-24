@@ -87,14 +87,8 @@ uses a module of utility functions called <a href="../foundation/index.html" cla
 For more, see <a href="../foundation/P-abgtf.html" class="internal">A Brief Guide to Foundation (in foundation)</a>.</li>
 </ul>
 </div>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Kinds, definiteness, and safety.</b> </p>
-
-<blockquote>
-    <p>To display (X - an arithmetic value):</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>To begin, an overview of the type system used by Inform, since this module
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. Kinds, definiteness, and safety.</b>  To begin, an overview of the type system used by Inform, since this module
 is essentially an isolated implementation of it.</p>
 <p>Inform is like most programming languages in that it deals with a rich
 variety of values, that is, individual pieces of data. The number
@@ -114,6 +108,10 @@ ultimate in indefiniteness is the kind <code>value</code>, which expresses only 
 something is a piece of data. Phrase tokens can be indefinite, as this
 example shows:</p>
 </div>
+<blockquote>
+    <p>To display (X - an arithmetic value):</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <ul class="inwebfootnotetexts"><li class="footnote" id="fn:1"><p class="inwebfootnote"><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>
 See for instance definitions in Michael L. Scott, &quot;Programming Language
@@ -155,17 +153,15 @@ to data on the heap. (Indeed, this isn't even shown on the Kinds index page.)</p
 </li>
 </ul>
 </div>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  One caveat: Inform provides low-level features allowing Inter code to be
+injected directly into the compiler's output, bypassing all kind checking.
+For instance:</p>
+</div>
 <blockquote>
     <p>To decide which text is (N - a number) as text: (- {N} -).</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>One caveat: Inform provides low-level features allowing Inter code to be
-injected directly into the compiler's output, bypassing all kind checking.
-For instance:</p>
-</div>
 <div class="lsmarkdown">
 <p>is analogous to a C function like so:</p>
 </div>
@@ -180,17 +176,15 @@ the use of the <code>(char *)</code> cast notation -- is a kind of waiver, where
 author chooses to accept the risk. In a similar way, there are no victims of
 Inform's <code>(-</code> and <code>-)</code> notation, only volunteers.</p>
 </div>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Kinds and knowledge.</b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Kinds and knowledge.</b>  Inform uses the kinds system when building its world model of knowledge, and
+not only to monitor specific computational operations. For example, if the
+source text says:</p>
+</div>
 <blockquote>
     <p>A wheelbarrow is a kind of vehicle. The blue garden barrow is a wheelbarrow.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>Inform uses the kinds system when building its world model of knowledge, and
-not only to monitor specific computational operations. For example, if the
-source text says:</p>
-</div>
 <div class="lsmarkdown">
 <p>then the value &quot;blue garden barrow&quot; has kind <code>wheelbarrow</code>, which is
 within <code>vehicle</code>, within <code>thing</code>, within <code>object</code>. As this example suggests,

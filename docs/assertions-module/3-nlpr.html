@@ -60,18 +60,8 @@ function togglePopup(material_id) {
     <ul class="crumbs"><li><a href="../index.html">Home</a></li><li><a href="../inform7n.html">Inform7</a></li><li><a href="index.html">assertions</a></li><li><a href="index.html#3">Chapter 3: Requests</a></li><li><b>New Literal Pattern Requests</b></li></ul></div>
 <p class="purpose">Special sentences creating new notations for literal values.</p>
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b> </p>
-
-<blockquote>
-    <p>1 tonne (in metric units, in tonnes, singular) specifies a mass scaled up by 1000.</p>
-</blockquote>
-
-<blockquote>
-    <p>A length times a length specifies an area.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>The ability to create new ways to write literal values is one of the best
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  The ability to create new ways to write literal values is one of the best
 features of Inform, but it is complex to parse, and has around 30 problem
 messages associated with it. The <code>:literals</code> set of test cases may be useful
 when tweaking the code below.</p>
@@ -79,9 +69,17 @@ when tweaking the code below.</p>
 uses, but that both are covered below. First, they create literal patterns,
 and the syntax for that can be quite involved:</p>
 </div>
+<blockquote>
+    <p>1 tonne (in metric units, in tonnes, singular) specifies a mass scaled up by 1000.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>Second, they can gives dimensional instructions about kinds:</p>
 </div>
+<blockquote>
+    <p>A length times a length specifies an area.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>This is a slightly unhappy ambiguity, but the potential for confusion is low.
 Nobody who defines a literal pattern with the word &quot;times&quot; in can expect good
@@ -176,16 +174,14 @@ sends that to <a href="../values-module/3-lp.html" class="internal">Literal Patt
 <span class="plain-syntax">}</span>
 </pre>
 <ul class="endnotetexts"><li>The structure lp_specification is private to this section.</li></ul>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  One can define LPs with a list of alternatives, of which the first is the
+&quot;primary alternative&quot; and said to be the &quot;owner&quot; of the rest. For instance:</p>
+</div>
 <blockquote>
     <p>1 tonne (in metric units, in tonnes, singular) or 2 tonnes (in metric units,</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>One can define LPs with a list of alternatives, of which the first is the
-&quot;primary alternative&quot; and said to be the &quot;owner&quot; of the rest. For instance:</p>
-</div>
 <div class="lsmarkdown">
 <p>in tonnes, plural) specifies a mass scale_factor up by 1000.</p>
 <p>Here &quot;1 tonne&quot; is the primary alternative, and it owns &quot;2 tonnes&quot;.</p>
@@ -395,16 +391,14 @@ can't set both scaling and an equivalent, for instance.</p>
 <span class="plain-syntax">            </span><span class="string-syntax">"as created with sentences like 'A weight is a kind of value.'"</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="3-nlpr.html#SP7">&#167;7</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>  Of the optional tails, the only tricky one is the part list, which has the
+following rather extensive grammar. This handles text like:</p>
+</div>
 <blockquote>
     <p>dollars and cents (optional, preamble optional)</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>Of the optional tails, the only tricky one is the part list, which has the
-following rather extensive grammar. This handles text like:</p>
-</div>
 <div class="lsmarkdown">
 <p>The text is a list of part-names, each of which can optionally be followed
 by a bracketed list of up to three options in any order.</p>

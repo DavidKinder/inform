@@ -50,7 +50,7 @@
 <div class="breadcrumbs">
     <ul class="crumbs"><li><a href="index.html">Home</a></li><li><b>Structure of the Inform 7 compiler</b></li></ul></div>
 <div class="lsmarkdown">
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  @ The core Inform compiler combines natural-language source text, including
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  The core Inform compiler combines natural-language source text, including
 natural-language extensions, and precompiled &quot;kits&quot; in order to make the
 instructions for making a playable story. Inform is internally divided into
 Stages, numbered 1 to 7. (These slightly overlap in chronological order, but
@@ -76,59 +76,61 @@ can be in several different formats, and an Index mini-website about it is made.
 For most users of the Inform app, the format will be Inform 6, and further
 command-line tools <a href="inform6.html" class="internal">inform6</a> and <a href="inblorb/index.html" class="internal">inblorb</a> then turn that into a &quot;story
 file&quot; and then a Javascript-running web page; but for some command-line users,
-the format is C and a compiler like |clang| is then used to make an executable.</p>
-<p>@ These seven stages form a single code base but are packaged up into three
+the format is C and a compiler like <code>clang</code> is then used to make an executable.</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  These seven stages form a single code base but are packaged up into three
 command-line tools, not one:</p>
 <ul>
-<li>|inbuild| is Stage 1 as a stand-alone tool: see <a href="inbuildn.html" class="internal">this description</a>.</li>
-<li>|inform7| is Stages 1 to 7 as an all-in-one: see <a href="inform7n.html" class="internal">this description</a>
+<li><code>inbuild</code> is Stage 1 as a stand-alone tool: see <a href="inbuildn.html" class="internal">this description</a>.</li>
+<li><code>inform7</code> is Stages 1 to 7 as an all-in-one: see <a href="inform7n.html" class="internal">this description</a>
 of the part unique to it, Stages 2 to 4.</li>
-<li>|inter| is Stages 5 to 7 as a stand-alone tool: see <a href="intern.html" class="internal">this description</a>.</li>
+<li><code>inter</code> is Stages 5 to 7 as a stand-alone tool: see <a href="intern.html" class="internal">this description</a>.</li>
 </ul>
 <p>All three tools also use a large library of <a href="services.html" class="internal">services</a>: everything from
 inflecting words to simplifying logical propositions.</p>
-<p>@ The flow of data looks like so, with time running downwards on the page:
-= (hyperlinked text as BoxArt)
-kit sources
-(in Inform 6 code)
-|</p>
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  The flow of data looks like so, with time running downwards on the page:</p>
 </div>
 <pre class="displayed-code all-displayed-code code-font">
-<span class="plain-syntax">    | INTER</span>
-<span class="plain-syntax">   \|/</span>
-<span class="plain-syntax">precompiled</span>
-<span class="plain-syntax">Inter trees</span>
-<span class="plain-syntax">    .                main source text    extension source texts</span>
-<span class="plain-syntax">    .                             \           /</span>
-<span class="plain-syntax">    .                              \         /  INFORM7 Stage 1 or INBUILD</span>
-<span class="plain-syntax">    .                               \       /</span>
-<span class="plain-syntax">    .                               \|/   \|/</span>
-<span class="plain-syntax">    .                              syntax tree</span>
-<span class="plain-syntax">    .                                   |</span>
-<span class="plain-syntax">    .                                   |  INFORM7 Stages 2 to 4/5</span>
-<span class="plain-syntax">    .                                   |</span>
-<span class="plain-syntax">    . . . . . . . precompiled          \|/</span>
-<span class="plain-syntax">                  Inter trees      Inter tree</span>
-<span class="plain-syntax">                        \              /</span>
-<span class="plain-syntax">                         \            /  INFORM7 Stage 6 or INTER</span>
-<span class="plain-syntax">                         \|/        \|/</span>
-<span class="plain-syntax">                    single linked Inter tree</span>
-<span class="plain-syntax">                        /       |       \</span>
-<span class="plain-syntax">                       /        |        \   INFORM7 Stage 7 or INTER</span>
-<span class="plain-syntax">                     \|/       \|/       \|/</span>
-<span class="plain-syntax">             Inform 6 code   C code     index mini-website</span>
-<span class="plain-syntax">                      :         :</span>
-<span class="plain-syntax">             INFORM6  :         :  CLANG or GCC</span>
-<span class="plain-syntax">                     \:/       \:/</span>
-<span class="plain-syntax">               story file   executable</span>
-<span class="plain-syntax">                      :</span>
-<span class="plain-syntax">             INBLORB  :</span>
-<span class="plain-syntax">                     \:/</span>
-<span class="plain-syntax">             playable website</span>
+<span class="plain-syntax">    </span><span class="element-syntax">kit</span><span class="plain-syntax"> </span><span class="element-syntax">sources</span>
+<span class="plain-syntax">  (</span><span class="element-syntax">in</span><span class="plain-syntax"> </span><span class="element-syntax">Inform</span><span class="plain-syntax"> </span><span class="constant-syntax">6</span><span class="plain-syntax"> </span><span class="element-syntax">code</span><span class="plain-syntax">)</span>
+<span class="plain-syntax">        |</span>
+<span class="plain-syntax">        | </span><span class="function-syntax">INTER</span>
+<span class="plain-syntax">       \|/</span>
+<span class="plain-syntax">    </span><span class="element-syntax">precompiled</span>
+<span class="plain-syntax">    </span><span class="element-syntax">Inter</span><span class="plain-syntax"> </span><span class="element-syntax">trees</span>
+<span class="plain-syntax">        .                </span><span class="element-syntax">main</span><span class="plain-syntax"> </span><span class="element-syntax">source</span><span class="plain-syntax"> </span><span class="element-syntax">text</span><span class="plain-syntax">    </span><span class="element-syntax">extension</span><span class="plain-syntax"> </span><span class="element-syntax">source</span><span class="plain-syntax"> </span><span class="element-syntax">texts</span>
+<span class="plain-syntax">        .                             \           /</span>
+<span class="plain-syntax">        .                              \         /  </span><span class="function-syntax">INFORM7</span><span class="plain-syntax"> </span><span class="element-syntax">Stage</span><span class="plain-syntax"> </span><span class="constant-syntax">1</span><span class="plain-syntax"> </span><span class="element-syntax">or</span><span class="plain-syntax"> </span><span class="function-syntax">INBUILD</span>
+<span class="plain-syntax">        .                               \       /</span>
+<span class="plain-syntax">        .                               \|/   \|/</span>
+<span class="plain-syntax">        .                              </span><span class="element-syntax">syntax</span><span class="plain-syntax"> </span><span class="element-syntax">tree</span>
+<span class="plain-syntax">        .                                   |</span>
+<span class="plain-syntax">        .                                   |  </span><span class="function-syntax">INFORM7</span><span class="plain-syntax"> </span><span class="element-syntax">Stages</span><span class="plain-syntax"> </span><span class="constant-syntax">2</span><span class="plain-syntax"> </span><span class="element-syntax">to</span><span class="plain-syntax"> </span><span class="constant-syntax">4</span><span class="plain-syntax">/5</span>
+<span class="plain-syntax">        .                                   |</span>
+<span class="plain-syntax">        . . . . . . . </span><span class="element-syntax">precompiled</span><span class="plain-syntax">          \|/</span>
+<span class="plain-syntax">                      </span><span class="element-syntax">Inter</span><span class="plain-syntax"> </span><span class="element-syntax">trees</span><span class="plain-syntax">      </span><span class="element-syntax">Inter</span><span class="plain-syntax"> </span><span class="element-syntax">tree</span>
+<span class="plain-syntax">                            \              /</span>
+<span class="plain-syntax">                             \            /  </span><span class="function-syntax">INFORM7</span><span class="plain-syntax"> </span><span class="element-syntax">Stage</span><span class="plain-syntax"> </span><span class="constant-syntax">6</span><span class="plain-syntax"> </span><span class="element-syntax">or</span><span class="plain-syntax"> </span><span class="function-syntax">INTER</span>
+<span class="plain-syntax">                             \|/        \|/</span>
+<span class="plain-syntax">                        </span><span class="element-syntax">single</span><span class="plain-syntax"> </span><span class="element-syntax">linked</span><span class="plain-syntax"> </span><span class="element-syntax">Inter</span><span class="plain-syntax"> </span><span class="element-syntax">tree</span>
+<span class="plain-syntax">                            /       |       \</span>
+<span class="plain-syntax">                           /        |        \   </span><span class="function-syntax">INFORM7</span><span class="plain-syntax"> </span><span class="element-syntax">Stage</span><span class="plain-syntax"> </span><span class="constant-syntax">7</span><span class="plain-syntax"> </span><span class="element-syntax">or</span><span class="plain-syntax"> </span><span class="function-syntax">INTER</span>
+<span class="plain-syntax">                         \|/       \|/       \|/</span>
+<span class="plain-syntax">                 </span><span class="element-syntax">Inform</span><span class="plain-syntax"> </span><span class="constant-syntax">6</span><span class="plain-syntax"> </span><span class="element-syntax">code</span><span class="plain-syntax">   </span><span class="element-syntax">C</span><span class="plain-syntax"> </span><span class="element-syntax">code</span><span class="plain-syntax">     </span><span class="element-syntax">index</span><span class="plain-syntax"> </span><span class="element-syntax">mini</span><span class="plain-syntax">-</span><span class="element-syntax">website</span>
+<span class="plain-syntax">                          :         :</span>
+<span class="plain-syntax">                 </span><span class="function-syntax">INFORM6</span><span class="plain-syntax">  :         :  </span><span class="function-syntax">CLANG</span><span class="plain-syntax"> </span><span class="element-syntax">or</span><span class="plain-syntax"> </span><span class="function-syntax">GCC</span>
+<span class="plain-syntax">                         \:/       \:/</span>
+<span class="plain-syntax">                   </span><span class="element-syntax">story</span><span class="plain-syntax"> </span><span class="element-syntax">file</span><span class="plain-syntax">   </span><span class="element-syntax">executable</span>
+<span class="plain-syntax">                          :</span>
+<span class="plain-syntax">                 </span><span class="function-syntax">INBLORB</span><span class="plain-syntax">  :</span>
+<span class="plain-syntax">                         \:/</span>
+<span class="plain-syntax">                 </span><span class="element-syntax">playable</span><span class="plain-syntax"> </span><span class="element-syntax">website</span>
 </pre>
 <div class="lsmarkdown">
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  =</p>
-<p>@ The code base is subdivided into &quot;modules&quot;. There are around 30, from five sources:</p>
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  The code base is subdivided into &quot;modules&quot;. There are around 30, from five sources:</p>
 <ul>
 <li>A set of <a href="services.html" class="internal">services</a>, which are libraries of code providing features useful
 to programs dealing with natural language.</li>
@@ -138,11 +140,16 @@ to programs dealing with natural language.</li>
 <li>The <a href="foundation/index.html" class="internal">foundation</a> library for memory-management, string handling and so
 on, which is a module held in the <a href="inweb/index.html" class="internal">inweb</a> repository rather than here.</li>
 </ul>
-<p>@ The full breakdown of the three compiler tools into modules is as follows.
-An |o| means that the tool is the owner of the module in question; a |x| means
+</div>
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. </b>  The full breakdown of the three compiler tools into modules is as follows.
+An <code>o</code> means that the tool is the owner of the module in question; a <code>x</code> means
 that it imports the module from somewhere else.</p>
-<h1>= (hyperlinked text as BoxArt)
-WEB                 ACTIVE STAGES   INWEB    SERVICES    INBUILD     INFORM7     INTER</h1>
+</div>
+<pre class="displayed-code all-displayed-code code-font">
+<span class="function-syntax">WEB</span><span class="plain-syntax">                 </span><span class="function-syntax">ACTIVE</span><span class="plain-syntax"> </span><span class="function-syntax">STAGES</span><span class="plain-syntax">   </span><span class="function-syntax">INWEB</span><span class="plain-syntax">    </span><span class="function-syntax">SERVICES</span><span class="plain-syntax">    </span><span class="function-syntax">INBUILD</span><span class="plain-syntax">     </span><span class="function-syntax">INFORM7</span><span class="plain-syntax">     </span><span class="function-syntax">INTER</span>
+</pre>
+<div class="lsmarkdown">
 <p>The executables otherwise contain only a few POSIX or Windows-related functions
 for file and directory handling, and functions from the standard C library.
 There are, therefore, no external dependencies.</p>

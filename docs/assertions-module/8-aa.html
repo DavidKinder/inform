@@ -145,18 +145,8 @@ memory to keep the sorted list as a second linked list.</p>
 <span class="plain-syntax">    }</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b> </p>
-
-<blockquote>
-    <p>The labrador puppy is an open animal.</p>
-</blockquote>
-
-<blockquote>
-    <p>now the labrador puppy is open;</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>If the source tries to apply the word &quot;open&quot;, say, to a given value or
+<p class="commentary firstcommentary"><a id="SP4" class="paragraph-anchor"></a><b>&#167;4. </b>  If the source tries to apply the word &quot;open&quot;, say, to a given value or
 object \INWEBMATH(X\INWEBMATH), when does that make sense?</p>
 <p>We can only find out by checking every possible meaning of &quot;open&quot; to see
 if it can accommodate the kind of value of \INWEBMATH(X\INWEBMATH). But this time we use weak
@@ -170,10 +160,18 @@ logically impossible outcomes -- we would say that it's acceptable to apply
 that &quot;list of open things&quot; or &quot;something open&quot; are allowed. Source text
 such as:</p>
 </div>
+<blockquote>
+    <p>The labrador puppy is an open animal.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>will successfully parse, but then result in higher-level problem messages.
 The following does compile:</p>
 </div>
+<blockquote>
+    <p>now the labrador puppy is open;</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>but results in a run-time problem message when it executes.</p>
 <p>It makes no difference what order we check the AMs in, so we can use the
@@ -313,16 +311,14 @@ author's source text.)</p>
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="8-aa.html#SP7">&#167;7</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. </b>  With that sorting done, we can begin to use an adjective. Suppose there has
+been an assertion sentence like this:</p>
+</div>
 <blockquote>
     <p>The ormolu clock is fixed in place.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>With that sorting done, we can begin to use an adjective. Suppose there has
-been an assertion sentence like this:</p>
-</div>
 <div class="lsmarkdown">
 <p>&quot;Fixed in place&quot; is identified as an adjective, <code>adj</code>; the &quot;ormulo clock&quot; is
 what it applies to, stored in either <code>infs_to_assert_on</code>. <code>kind_domain</code> is what

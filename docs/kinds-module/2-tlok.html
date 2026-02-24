@@ -238,18 +238,16 @@ function is what tells us that the superkind of <code>man</code> is <code>person
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">K_value</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b> </p>
-
-<blockquote>
-    <p>{ 1, 2.1415, "frog" }</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>Joins are defined above. So are meets, though in practice they are never useful
+<p class="commentary firstcommentary"><a id="SP7" class="paragraph-anchor"></a><b>&#167;7. </b>  Joins are defined above. So are meets, though in practice they are never useful
 to us except as a way of calculating joins: the two are dual to each other as
 they pass through contravariant constructors.</p>
 <p>The main use of this for Inform is to handle literals such as:</p>
 </div>
+<blockquote>
+    <p>{ 1, 2.1415, "frog" }</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>The kind of this is by definition the join of the kinds of the values in the
 list, which as it happens is <code>K_sayable_value</code> -- an indefinite kind, so that
@@ -372,17 +370,15 @@ thing to a function expecting to see a device, run-time code can check whether
 the value passed is indeed a device, and reject the call with a run-time error
 if not.</p>
 </div>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>  Kind checking can happen for many reasons, but the most difficult case
+occurs when matching phrase prototypes. This is difficult because it involves
+kind variables:</p>
+</div>
 <blockquote>
     <p>To add (new entry - K) to (L - list of values of kind K) ...</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>Kind checking can happen for many reasons, but the most difficult case
-occurs when matching phrase prototypes. This is difficult because it involves
-kind variables:</p>
-</div>
 <div class="lsmarkdown">
 <p>This matches &quot;add 23 to U&quot; if &quot;L&quot; is a list of numbers, but not if it
 is a list of times.</p>
@@ -563,18 +559,16 @@ and, of course, &quot;value&quot;.</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="constant-syntax">NEVER_MATCH</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP13_5" class="paragraph-anchor"></a><b>&#167;13.5. </b> </p>
-
-<blockquote>
-    <p>To add (new entry - K) to (L - list of values of kind K) ...</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>Recall that kind variables are identified by a number in the range 1 (&quot;A&quot;)
+<p class="commentary firstcommentary"><a id="SP13_5" class="paragraph-anchor"></a><b>&#167;13.5. </b>  Recall that kind variables are identified by a number in the range 1 (&quot;A&quot;)
 to 26 (&quot;Z&quot;), and that it is also possible to assign them a domain, or a
 &quot;declaration&quot;. This marks that they are free to take on a value, within
 that domain. For example, in</p>
 </div>
+<blockquote>
+    <p>To add (new entry - K) to (L - list of values of kind K) ...</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>the first appearance of <code>K</code> will be an ordinary use of a kind variable,
 whereas the second has the declaration <code>value</code> -- meaning that it can
@@ -600,22 +594,20 @@ more restrictive declaration like <code>arithmetic value</code>.)</p>
 <span class="plain-syntax">    }</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="2-tlok.html#SP13">&#167;13</a> (twice).</li></ul>
-<p class="commentary firstcommentary"><a id="SP13_5_1" class="paragraph-anchor"></a><b>&#167;13.5.1. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP13_5_1" class="paragraph-anchor"></a><b>&#167;13.5.1. </b>  When the specification matcher works on matching text such as</p>
+</div>
 <blockquote>
     <p>add 23 to the scores list;</p>
 </blockquote>
 
+<div class="lsmarkdown">
+<p>it works through the prototype:</p>
+</div>
 <blockquote>
     <p>To add (new entry - K) to (L - list of values of kind K) ...</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>When the specification matcher works on matching text such as</p>
-</div>
-<div class="lsmarkdown">
-<p>it works through the prototype:</p>
-</div>
 <div class="lsmarkdown">
 <p>in two passes. On the first pass, it tries to match the tokens &quot;23&quot; and
 &quot;scores list&quot; against <code>K</code> and <code>list of values of kind K</code> respectively

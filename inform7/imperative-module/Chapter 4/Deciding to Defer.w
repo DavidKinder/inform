@@ -290,8 +290,9 @@ void Deferrals::retrieve_callings_inner(pcalc_prop *prop, int NC, int as_test) {
 	if (as_test) CompileConditions::add_calling(local);
 
 @ The following function can be used when:
-(*) we want to force deferral in all cases, regardless of the proposition, and
-(*) we want to disallow all callings.
+
+- we want to force deferral in all cases, regardless of the proposition, and
+- we want to disallow all callings.
 
 =
 inter_name *Deferrals::function_to_test_description(parse_node *spec) {

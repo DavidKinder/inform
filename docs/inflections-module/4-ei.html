@@ -551,17 +551,15 @@ course.</p>
 <span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">*</span><span class="Preform-plain-syntax">               </span><span class="Preform-constant-syntax">0s</span><span class="Preform-plain-syntax">                </span><span class="Preform-constant-syntax">/*</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">Step</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">13</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">*/</span>
 </pre>
 <ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
-<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. Verb inflections.</b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP14" class="paragraph-anchor"></a><b>&#167;14. Verb inflections.</b>  &quot;Le verbe est l'âme d'une langue&quot; (attributed to Georges Duhamel). And the
+care of the soul is, of course, complicated. For example, the source text can
+say something like this:</p>
+</div>
 <blockquote>
     <p>The verb to flaunt means to wear.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>&quot;Le verbe est l'âme d'une langue&quot; (attributed to Georges Duhamel). And the
-care of the soul is, of course, complicated. For example, the source text can
-say something like this:</p>
-</div>
 <div class="lsmarkdown">
 <p>This tells Inform that a new verb's infinitive is &quot;flaunt&quot;, but not how
 to construct its other parts. We will use Preform grammar not only to
@@ -711,25 +709,15 @@ Inform assertion sentences, but are needed for text substitutions.)</p>
 <span class="Preform-plain-syntax">    </span><span class="Preform-reserved-syntax">...</span><span class="Preform-plain-syntax">             </span><span class="Preform-function-syntax">&lt;regular-verb-conjugation&gt;</span>
 </pre>
 <ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
-<p class="commentary firstcommentary"><a id="SP19" class="paragraph-anchor"></a><b>&#167;19. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP19" class="paragraph-anchor"></a><b>&#167;19. </b>  We will start with two auxiliary verbs, that is, verbs used to construct
+forms of other verbs. The first is &quot;to have&quot;; as we'll see, English uses
+this to construct perfect tenses:</p>
+</div>
 <blockquote>
     <p>Peter has opened the gate. Jane had closed it.</p>
 </blockquote>
 
-<blockquote>
-    <p>I have not taken the lantern.</p>
-</blockquote>
-
-<blockquote>
-    <p>I do not have taken the lantern.</p>
-</blockquote>
-
-<div class="lsmarkdown">
-<p>We will start with two auxiliary verbs, that is, verbs used to construct
-forms of other verbs. The first is &quot;to have&quot;; as we'll see, English uses
-this to construct perfect tenses:</p>
-</div>
 <div class="lsmarkdown">
 <p>&quot;To have&quot; doesn't really mean that anybody possessed anything here, except
 perhaps a history. It's simply used in conjunction with the past participle
@@ -739,9 +727,17 @@ perhaps a history. It's simply used in conjunction with the past participle
 uses &quot;to have&quot; here; it uses a slight variation which differs in the negated
 forms. We write</p>
 </div>
+<blockquote>
+    <p>I have not taken the lantern.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>rather than</p>
 </div>
+<blockquote>
+    <p>I do not have taken the lantern.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>which strictly speaking ought to be correct. Inform handles this by using a
 modified form of &quot;to have&quot;, which we'll call &quot;to auxiliary-have&quot;, which
@@ -770,8 +766,10 @@ for &quot;[have]&quot;.</p>
 <span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;to-have-tabulation&gt;</span>
 </pre>
 <ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
-<p class="commentary firstcommentary"><a id="SP20" class="paragraph-anchor"></a><b>&#167;20. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP20" class="paragraph-anchor"></a><b>&#167;20. </b>  Tabulations give instructions for how to construct 120 possible versions
+of the verb. These are divided up first into active and passive &quot;voices&quot;:</p>
+</div>
 <blockquote>
     <p>Peter carries the lantern. [Active.]</p>
 </blockquote>
@@ -780,6 +778,10 @@ for &quot;[have]&quot;.</p>
     <p>The lantern is carried by Peter. [Passive.]</p>
 </blockquote>
 
+<div class="lsmarkdown">
+<p>This makes two sets of 60. Each set contains five tenses, which in English
+are present (1), past (2), perfect (3), past perfect (4) and future (5).</p>
+</div>
 <blockquote>
     <p>Peter carries the lantern. [1]</p>
 </blockquote>
@@ -800,6 +802,11 @@ for &quot;[have]&quot;.</p>
     <p>Peter will carry the lantern. [5]</p>
 </blockquote>
 
+<div class="lsmarkdown">
+<p>This makes five sets of 12. In each set there are six persons: first person
+singular, second person singular, third person singular, first person plural,
+second person plural, third person plural. We always write them in that order:</p>
+</div>
 <blockquote>
     <p>I carry the lantern. [1PS]</p>
 </blockquote>
@@ -824,6 +831,9 @@ for &quot;[have]&quot;.</p>
     <p>They carry the lantern. [3PP]</p>
 </blockquote>
 
+<div class="lsmarkdown">
+<p>And that makes six sets of 2: the positive sense and the negative.</p>
+</div>
 <blockquote>
     <p>I carry the lantern. [Positive.]</p>
 </blockquote>
@@ -832,22 +842,6 @@ for &quot;[have]&quot;.</p>
     <p>I do not carry the lantern. [Negative]</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>Tabulations give instructions for how to construct 120 possible versions
-of the verb. These are divided up first into active and passive &quot;voices&quot;:</p>
-</div>
-<div class="lsmarkdown">
-<p>This makes two sets of 60. Each set contains five tenses, which in English
-are present (1), past (2), perfect (3), past perfect (4) and future (5).</p>
-</div>
-<div class="lsmarkdown">
-<p>This makes five sets of 12. In each set there are six persons: first person
-singular, second person singular, third person singular, first person plural,
-second person plural, third person plural. We always write them in that order:</p>
-</div>
-<div class="lsmarkdown">
-<p>And that makes six sets of 2: the positive sense and the negative.</p>
-</div>
 <div class="lsmarkdown">
 <p>To sum up, two voices times five tenses times six persons times two senses,
 which makes 120 versions in all.</p>
@@ -933,23 +927,23 @@ step:</p>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-plain-syntax">    </span><span class="Preform-identifier-syntax">p</span><span class="Preform-plain-syntax">      ( </span><span class="Preform-identifier-syntax">be</span><span class="Preform-plain-syntax"> ) </span><span class="Preform-identifier-syntax">done</span><span class="Preform-plain-syntax"> </span><span class="Preform-identifier-syntax">by</span>
 </pre>
-<blockquote>
-    <p>number of things carried by the player (1)</p>
-</blockquote>
-
-<blockquote>
-    <p>number of things which are carried by the player (2)</p>
-</blockquote>
-
 <div class="lsmarkdown">
 <p>The difference is that Inform more efficiently implements the <code>p*</code> version,
 by implementing &quot;done by&quot; as if it were a preposition rather than as part
 of a verb. This parses more quickly and makes English passive forms play
 more nicely with implied uses of &quot;to be&quot;. For example, in</p>
 </div>
+<blockquote>
+    <p>number of things carried by the player (1)</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>Inform has to infer the meaning</p>
 </div>
+<blockquote>
+    <p>number of things which are carried by the player (2)</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>and it can only do this if it recognises &quot;carried by&quot; as being prepositional
 in nature, like &quot;on&quot; or &quot;in&quot;. In other words, if we wrote the <code>p</code> step
@@ -1069,16 +1063,14 @@ as we'll see.)</p>
 <span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">was</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">were</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">was</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">were</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">were</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">were</span>
 </pre>
 <ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
-<p class="commentary firstcommentary"><a id="SP27" class="paragraph-anchor"></a><b>&#167;27. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP27" class="paragraph-anchor"></a><b>&#167;27. </b>  Except for tense formation (Peter &quot;will&quot; take the ball), the most common
+modal verb which can be used in Inform source text is &quot;can&quot;. For example:</p>
+</div>
 <blockquote>
     <p>the number of people who can see the King</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>Except for tense formation (Peter &quot;will&quot; take the ball), the most common
-modal verb which can be used in Inform source text is &quot;can&quot;. For example:</p>
-</div>
 <div class="lsmarkdown">
 <p>This is modal because it makes the seeing only a possibility, not an actuality.
 An awkward thing about modal verbs in English is that they are deficient,
@@ -1110,17 +1102,15 @@ to elide, so we always pronounce it that way and the spelling now follows.</p>
 <span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">a5-</span><span class="Preform-plain-syntax">       </span><span class="Preform-constant-syntax">will</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">not</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">be</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">able</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">to</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">++1</span>
 </pre>
 <ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
-<p class="commentary firstcommentary"><a id="SP28" class="paragraph-anchor"></a><b>&#167;28. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP28" class="paragraph-anchor"></a><b>&#167;28. </b>  Inform has only a simple understanding of what &quot;can&quot; means, so it doesn't
+allow the source text to use &quot;can&quot; in combination with arbitrary verbs.
+Instead, each legal combination has to be declared explicitly:</p>
+</div>
 <blockquote>
     <p>To be able to reach is a verb meaning ...</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>Inform has only a simple understanding of what &quot;can&quot; means, so it doesn't
-allow the source text to use &quot;can&quot; in combination with arbitrary verbs.
-Instead, each legal combination has to be declared explicitly:</p>
-</div>
 <div class="lsmarkdown">
 <p>Inform implements all of this by passing &quot;be able to reach&quot; through the
 same verb-conjugation mechanisms as all other verbs (&quot;take&quot;, &quot;see&quot;, and
@@ -1178,14 +1168,8 @@ being modified should appear in verb form 1, and so on: for example,
 <span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">a5-</span><span class="Preform-plain-syntax">       </span><span class="Preform-constant-syntax">4</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">not</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">++1</span>
 </pre>
 <ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
-<p class="commentary firstcommentary"><a id="SP30" class="paragraph-anchor"></a><b>&#167;30. </b> </p>
-
-<blockquote>
-    <p>You can't go that way.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>That completes our basic kit of verbs nicely. What's left is used only
+<p class="commentary firstcommentary"><a id="SP30" class="paragraph-anchor"></a><b>&#167;30. </b>  That completes our basic kit of verbs nicely. What's left is used only
 for generating text at run-time -- for printing adaptive messages, that is;
 none of these oddball exceptional cases is otherwise used as a verb in
 Inform source text. None of them has any meaning to Inform.</p>
@@ -1199,6 +1183,10 @@ still would mix them incoherently.)</p>
 these contracted forms: otherwise, how could we write classic messages
 like</p>
 </div>
+<blockquote>
+    <p>You can't go that way.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>and have them adapt to other tenses and viewpoints?</p>
 <p>First we'll tackle &quot;to 's&quot;, the contracted form of &quot;to be&quot;: I'm, you're,
@@ -1236,8 +1224,10 @@ dialects -- and we aren't even going to try to cope with that.</p>
 <span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">wasn't</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">weren't</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">wasn't</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">weren't</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">weren't</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">weren't</span>
 </pre>
 <ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
-<p class="commentary firstcommentary"><a id="SP31" class="paragraph-anchor"></a><b>&#167;31. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP31" class="paragraph-anchor"></a><b>&#167;31. </b>  And now &quot;to 've&quot;, the contracted form of &quot;to have&quot;. A subtle dialect
+point here concerns the negated present tense:</p>
+</div>
 <blockquote>
     <p>Sorry, I don't have a clue. [US]</p>
 </blockquote>
@@ -1258,10 +1248,6 @@ dialects -- and we aren't even going to try to cope with that.</p>
     <p>Sorry, I hadn't got a clue. [British]</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>And now &quot;to 've&quot;, the contracted form of &quot;to have&quot;. A subtle dialect
-point here concerns the negated present tense:</p>
-</div>
 <div class="lsmarkdown">
 <p>But the American forms are becoming more common in British English, so we'll
 go with those.</p>
@@ -1325,16 +1311,14 @@ that option here.)</p>
 <span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">haven't</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">been</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">haven't</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">been</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">hasn't</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">been</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">haven't</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">been</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">haven't</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">been</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">haven't</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">been</span>
 </pre>
 <ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
-<p class="commentary firstcommentary"><a id="SP33" class="paragraph-anchor"></a><b>&#167;33. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP33" class="paragraph-anchor"></a><b>&#167;33. </b>  And finally: the contracted informal negatives of various modal verbs which
+it's useful to be able to print, like the &quot;can't&quot; in</p>
+</div>
 <blockquote>
     <p>You can't go that way.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>And finally: the contracted informal negatives of various modal verbs which
-it's useful to be able to print, like the &quot;can't&quot; in</p>
-</div>
 <div class="lsmarkdown">
 <p>English has more modal verbs than one tends to remember, and the definition
 of &quot;modal&quot; itself arguable. This is the best we can do.</p>
@@ -2576,23 +2560,21 @@ when to double the consonant, which again depends on stress.</p>
 <span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">*</span><span class="Preform-plain-syntax">            </span><span class="Preform-constant-syntax">0ed</span>
 </pre>
 <ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
-<p class="commentary firstcommentary"><a id="SP45" class="paragraph-anchor"></a><b>&#167;45. Present to past participles.</b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP45" class="paragraph-anchor"></a><b>&#167;45. Present to past participles.</b>  Sentences like</p>
+</div>
 <blockquote>
     <p>The verb to carry means the carrying relation.</p>
 </blockquote>
 
-<blockquote>
-    <p>Smoothing is an action applying to one thing.</p>
-</blockquote>
-
-<div class="lsmarkdown">
-<p>Sentences like</p>
-</div>
 <div class="lsmarkdown">
 <p>are only one way in which Inform creates new verbs; it also implicitly creates
 verbs when actions are declared:</p>
 </div>
+<blockquote>
+    <p>Smoothing is an action applying to one thing.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>Verbs like this are not stored in anything like the full conjugations above;
 the action knows just two forms of its verb, the present and past participles.

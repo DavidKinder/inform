@@ -79,17 +79,15 @@ nouns, which is slower:</p>
 </pre>
 <pre class="definitions code-font"><span class="definition-keyword">define</span> <span class="identifier-syntax">KIND_FAST_MC</span> <span class="constant-syntax">0x01000000</span><span class="plain-syntax"> </span><span class="comment-syntax">/* number, text, relation, rule, ... */</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP3" class="paragraph-anchor"></a><b>&#167;3. </b>  The K-grammar actually has two modes: normal, and phrase-token-mode. Normal
+mode is aptly named: it's almost always the one we're using. Phrase token
+mode is used only when parsing definitions of phrases, like so:</p>
+</div>
 <blockquote>
     <p>To repeat with (LV - nonexisting K variable) running from (V1 - arithmetic value of kind K) to (V2 - K)</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>The K-grammar actually has two modes: normal, and phrase-token-mode. Normal
-mode is aptly named: it's almost always the one we're using. Phrase token
-mode is used only when parsing definitions of phrases, like so:</p>
-</div>
 <div class="lsmarkdown">
 <p>Here the tokens &quot;nonexisting K variable&quot; and so on are parsed as
 specifications, but in such a way that any kinds mentioned are parsed in

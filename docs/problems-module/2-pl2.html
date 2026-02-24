@@ -61,18 +61,16 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="2-pl2.html#SP4">&#167;4. Problem quotations</a></li><li><a href="2-pl2.html#SP7">&#167;7. Short and long forms</a></li><li><a href="2-pl2.html#SP9">&#167;9. A note on warnings</a></li><li><a href="2-pl2.html#SP10">&#167;10. How problems begin and end</a></li><li><a href="2-pl2.html#SP12">&#167;12. Appending source</a></li><li><a href="2-pl2.html#SP13">&#167;13. Issuing a segment of a problem message</a></li><li><a href="2-pl2.html#SP15">&#167;15. Fatalities</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b> </p>
-
-<blockquote>
-    <p>In Part the First, Chapter 1 - Attic Area:</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>Problem messages begin with an indication of where in the source text the
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  Problem messages begin with an indication of where in the source text the
 problem occurs, in terms of headings and subheadings written in the
 source text, and it is this indication that we consider first. For
 example,</p>
 </div>
+<blockquote>
+    <p>In Part the First, Chapter 1 - Attic Area:</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>There can be up to 10 levels in the hierarchy of headings and
 subheadings, with level 0 the top level and level 9 the lowest.</p>
@@ -113,17 +111,15 @@ code order.</p>
 <span class="plain-syntax">    </span><span class="reserved-syntax">return</span><span class="plain-syntax"> </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">;</span>
 <span class="plain-syntax">}</span>
 </pre>
-<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP2" class="paragraph-anchor"></a><b>&#167;2. </b>  A further refinement is that we remember the last set of headings used
+for an error message, and only mention what has changed about the location.
+Thus we might next print:</p>
+</div>
 <blockquote>
     <p>In Chapter 2 - Cellar Area:</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>A further refinement is that we remember the last set of headings used
-for an error message, and only mention what has changed about the location.
-Thus we might next print:</p>
-</div>
 <div class="lsmarkdown">
 <p>omitting to mention &quot;Part the First&quot; this time, since that part has not
 changed. (And we never print internally made level 0, File, headings.)</p>

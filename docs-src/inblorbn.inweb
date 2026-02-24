@@ -1,5 +1,6 @@
 Title: Navigation page for Inblorb
 Author: Graham Nelson
+Notation: InwebClassic
 
 @ Inblorb is not part of the main Inform compiler. It is shipped inside the
 Inform apps as a stand-alone executable tool, and is used only on "Release"

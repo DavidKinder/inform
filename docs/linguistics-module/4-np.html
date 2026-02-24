@@ -120,19 +120,17 @@ used in a balanced way: thus <code>frogs ( and toads )</code> would match, but
 <span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">there</span><span class="Preform-plain-syntax">               </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { 0, Diagrams::new_DEFECTIVE(W) }</span>
 </pre>
 <ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
-<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Articled nounphrases (NP2).</b> </p>
-
-<blockquote>
-    <p>On the table is a thing called A Town Called Alice.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>Now an initial article becomes an annotation and is removed from the text.
+<p class="commentary firstcommentary"><a id="SP5" class="paragraph-anchor"></a><b>&#167;5. Articled nounphrases (NP2).</b>  Now an initial article becomes an annotation and is removed from the text.
 Note that</p>
 <ul>
 <li>Unexpectedly upper-case articles are left well alone, as in the sentence:</li>
 </ul>
 </div>
+<blockquote>
+    <p>On the table is a thing called A Town Called Alice.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <ul>
 <li>
@@ -409,16 +407,14 @@ text like &quot;smile X-)&quot; will in fact match &lt;np-nonrelative&gt;.</li>
 <span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;np-nonrelative&gt;</span><span class="Preform-plain-syntax">                               </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { pass 1 }</span>
 </pre>
 <ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
-<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP17" class="paragraph-anchor"></a><b>&#167;17. </b>  The tail of with-or-having parses for instance &quot;with carrying capacity 5&quot;
+in the NP</p>
+</div>
 <blockquote>
     <p>a container with carrying capacity 5</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>The tail of with-or-having parses for instance &quot;with carrying capacity 5&quot;
-in the NP</p>
-</div>
 <div class="lsmarkdown">
 <p>This makes use of a nifty feature of Preform: when Preform scans to see how to
 divide the text, it tries &lt;np-with-or-having-tail&gt; in each possible position.
@@ -457,15 +453,13 @@ bogus object called &quot;locking it&quot;.)</p>
 <span class="Preform-plain-syntax">    </span><span class="Preform-constant-syntax">{_,/and}</span><span class="Preform-plain-syntax"> </span><span class="Preform-function-syntax">&lt;np-operand&gt;</span><span class="Preform-plain-syntax">                      </span><span class="Preform-reserved-syntax">==&gt;</span><span class="Preform-plain-syntax"> { Wordings::first_wn(W), RP[1] }</span>
 </pre>
 <ul class="endnotetexts"><li>This is <a href="../words-module/4-ap.html" class="internal">Preform grammar</a>, not regular C code.</li></ul>
-<p class="commentary firstcommentary"><a id="SP19" class="paragraph-anchor"></a><b>&#167;19. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP19" class="paragraph-anchor"></a><b>&#167;19. </b>  Kind phrases are easier:</p>
+</div>
 <blockquote>
     <p>A sedan chair is a kind of vehicle. A weather pattern is a kind.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>Kind phrases are easier:</p>
-</div>
 <div class="lsmarkdown">
 <p>Note that indefinite articles are permitted before the word &quot;kind(s)&quot;,
 but definite articles are not.</p>

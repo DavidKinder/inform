@@ -1410,20 +1410,14 @@ or when a block value is needed, or where we need to match against descriptions
 <span class="plain-syntax">    </span><a href="3-lv.html#SP25" class="function-link"><span class="function-syntax">LocalVariables::set_kind</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">lvar</span><span class="plain-syntax">, </span><span class="identifier-syntax">K</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-cii.html#SP6_5_1_1">&#167;6.5.1.1</a> and <a href="5-cii.html#SP6_5_1_2">&#167;6.5.1.2</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP6_5_2" class="paragraph-anchor"></a><b>&#167;6.5.2. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP6_5_2" class="paragraph-anchor"></a><b>&#167;6.5.2. </b>  Variables created by phrases are by default protected from being changed
+by other phrases. So that, for example, within:</p>
+</div>
 <blockquote>
     <p>repeat with X running from 1 to 5:</p>
 </blockquote>
 
-<blockquote>
-    <p>let Y be 2;</p>
-</blockquote>
-
-<div class="lsmarkdown">
-<p>Variables created by phrases are by default protected from being changed
-by other phrases. So that, for example, within:</p>
-</div>
 <div class="lsmarkdown">
 <p>it's a problem message to say something like &quot;let X be 7&quot;. This protection
 only extends to changes made at the I7 source text level, of course; our own
@@ -1431,6 +1425,10 @@ I6 code can do anything it likes. Protection looks like a good idea,
 especially for loop counters like X, but of course it would make phrases
 like:</p>
 </div>
+<blockquote>
+    <p>let Y be 2;</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>unable to make variables, only constants. So the <code>{-unprotect:...}</code> command
 lifts the protection on the variable named:</p>

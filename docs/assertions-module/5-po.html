@@ -62,14 +62,8 @@ function togglePopup(material_id) {
 
 <ul class="toc"><li><a href="5-po.html#SP1">&#167;1. Introduction</a></li><li><a href="5-po.html#SP2">&#167;2. Creation</a></li><li><a href="5-po.html#SP4">&#167;4. Parsing</a></li><li><a href="5-po.html#SP6">&#167;6. Parsing phrase options in a declaration</a></li><li><a href="5-po.html#SP8">&#167;8. Parsing phrase options in an invocation</a></li></ul><hr class="tocbar">
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Introduction.</b> </p>
-
-<blockquote>
-    <p>let R be the best route from X to Y, using doors;</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>A &quot;phrase option&quot; is a sort of modifier tacked on to an invocation of a
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. Introduction.</b>  A &quot;phrase option&quot; is a sort of modifier tacked on to an invocation of a
 phrase; the only modifiers allowed are those declared in that phrase's
 preamble. Phrase options are an early feature of Inform 7 going back to a
 time when its priority was to enable the paraphrasing of Inform 6 library
@@ -78,6 +72,10 @@ features (such as the bitmap passed as a parameter to the list-printer).</p>
 comma-based syntax used for them, as here. Brackets would have been better;
 it makes phrase options impossible to use for text substitutions.</p>
 </div>
+<blockquote>
+    <p>let R be the best route from X to Y, using doors;</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>I sometimes even regret the existence of phrase options, but it must be
 admitted that they are a clean way to interface to low-level Inform 6 code.
@@ -226,24 +224,22 @@ that the slash between &quot;and&quot; and &quot;or&quot; is part of the word.</
 <span class="plain-syntax">    ==&gt; { </span><span class="identifier-syntax">FALSE</span><span class="plain-syntax">, </span><span class="constant-syntax">-</span><span class="plain-syntax"> };</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="5-po.html#SP7">&#167;7</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Parsing phrase options in an invocation.</b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP8" class="paragraph-anchor"></a><b>&#167;8. Parsing phrase options in an invocation.</b>  At this point, we're looking at the text after the first comma in something
+like:</p>
+</div>
 <blockquote>
     <p>list the contents of the box, as a sentence, with newlines;</p>
 </blockquote>
 
-<blockquote>
-    <p>as a sentence, with newlines</p>
-</blockquote>
-
-<div class="lsmarkdown">
-<p>At this point, we're looking at the text after the first comma in something
-like:</p>
-</div>
 <div class="lsmarkdown">
 <p>The invocation has already been parsed enough that we know the options
 chosen are:</p>
 </div>
+<blockquote>
+    <p>as a sentence, with newlines</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>and the following routine turns that into a bitmap with two bits set, one
 corresponding to each choice.</p>

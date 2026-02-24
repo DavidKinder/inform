@@ -59,25 +59,23 @@ function togglePopup(material_id) {
     <ul class="crumbs"><li><a href="../index.html">Home</a></li><li><a href="../inform7n.html">Inform7</a></li><li><a href="index.html">imperative</a></li><li><a href="index.html#3">Chapter 3: Functions</a></li><li><b>Phrase Requests</b></li></ul></div>
 <p class="purpose">To store and later fill requests to compile To... phrases.</p>
 
-<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b> </p>
-
-<blockquote>
-    <p>To judge (V - a value) against (W - a value): ...</p>
-</blockquote>
-
-<blockquote>
-    <p>judge 2 against "two";</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>&quot;To...&quot; phrases are compiled only when needed, and they can be compiled in
+<p class="commentary firstcommentary"><a id="SP1" class="paragraph-anchor"></a><b>&#167;1. </b>  &quot;To...&quot; phrases are compiled only when needed, and they can be compiled in
 variant forms depending on the kinds of their arguments. Each of those forms
 is compiled as a different function at runtime.<sup id="fnred:1"><a href="#fn:1" rel="footnote">1</a></sup> For example, given the
 definition:</p>
 </div>
+<blockquote>
+    <p>To judge (V - a value) against (W - a value): ...</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>the invocation:</p>
 </div>
+<blockquote>
+    <p>judge 2 against "two";</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>would result in a request to compile a version of &quot;to judge... against...&quot;
 with the kind <code>phrase (number, text) -&gt; nothing</code>.</p>

@@ -297,19 +297,17 @@ parse tree.</p>
 <span class="plain-syntax">    </span><span class="identifier-syntax">E</span><span class="plain-syntax"> = </span><a href="6-inc.html#SP6" class="function-link"><span class="function-syntax">Inclusions::load</span></a><span class="plain-syntax">(</span><span class="identifier-syntax">last_H0</span><span class="plain-syntax">, </span><span class="identifier-syntax">current_sentence</span><span class="plain-syntax">, </span><span class="identifier-syntax">req</span><span class="plain-syntax">, </span><span class="identifier-syntax">for_project</span><span class="plain-syntax">);</span>
 </pre>
 <ul class="endnotetexts"><li>This code is used in <a href="6-inc.html#SP5">&#167;5</a>.</li></ul>
-<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Extension loading.</b> </p>
-
-<blockquote>
-    <p>Include version 3 of Pantomime Sausages by Mr Punch.</p>
-</blockquote>
-
 <div class="lsmarkdown">
-<p>Note that we ignore a request for an extension which has already been
+<p class="commentary firstcommentary"><a id="SP6" class="paragraph-anchor"></a><b>&#167;6. Extension loading.</b>  Note that we ignore a request for an extension which has already been
 loaded, except if the new request ups the ante in terms of the minimum
 version permitted: in which case we need to record that the requirement has
 been tightened. That is, if we previously wanted version 2 of Pantomime
 Sausages by Mr Punch, and loaded it, but then read the sentence</p>
 </div>
+<blockquote>
+    <p>Include version 3 of Pantomime Sausages by Mr Punch.</p>
+</blockquote>
+
 <div class="lsmarkdown">
 <p>then we need to note that the version requirement on PS has been raised to 3.</p>
 </div>
@@ -450,15 +448,13 @@ identified as another.)</p>
 version number is given (if it is), and check that we are not trying to
 use an extension which is marked as not working on the current VM.</p>
 </div>
-<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b> </p>
-
+<div class="lsmarkdown">
+<p class="commentary firstcommentary"><a id="SP9" class="paragraph-anchor"></a><b>&#167;9. </b>  This parses the subject noun-phrase in the sentence</p>
+</div>
 <blockquote>
     <p>Version 3 of Pantomime Sausages by Mr Punch begins here.</p>
 </blockquote>
 
-<div class="lsmarkdown">
-<p>This parses the subject noun-phrase in the sentence</p>
-</div>
 <pre class="Preform-displayed-code all-displayed-code code-font">
 <span class="Preform-function-syntax">&lt;begins-here-sentence-subject&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">::=</span>
 <span class="Preform-plain-syntax">    </span><span class="Preform-function-syntax">&lt;extension-title-and-version&gt;</span><span class="Preform-plain-syntax"> </span><span class="Preform-constant-syntax">by</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">...</span><span class="Preform-plain-syntax"> </span><span class="Preform-reserved-syntax">|</span>
